@@ -1,0 +1,4 @@
+git+https://github.com/ONSdigital/pyblaise.git
+
+behave
+beautifulsoup4
