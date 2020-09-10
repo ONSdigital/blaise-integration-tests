@@ -75,11 +75,11 @@ namespace BlaiseNisraCaseProcessor.Tests.Behaviour.Features
         }
         
         [NUnit.Framework.TestAttribute()]
-        [NUnit.Framework.DescriptionAttribute("There is a Nisra file available")]
-        public virtual void ThereIsANisraFileAvailable()
+        [NUnit.Framework.DescriptionAttribute("There is a Nisra file available in the bucket and the blaise database is empty")]
+        public virtual void ThereIsANisraFileAvailableInTheBucketAndTheBlaiseDatabaseIsEmpty()
         {
             string[] tagsOfScenario = ((string[])(null));
-            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("There is a Nisra file available", null, ((string[])(null)));
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("There is a Nisra file available in the bucket and the blaise database is empty", null, ((string[])(null)));
 #line 6
 this.ScenarioInitialize(scenarioInfo);
 #line hidden
@@ -104,16 +104,19 @@ this.ScenarioInitialize(scenarioInfo);
  testRunner.Given("there is a Nisra file available", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line hidden
 #line 8
- testRunner.And("the file contains \'20\' cases which are \'Complete\' with an outcome of \'110\'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.And("the blaise database is empty", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
 #line 9
- testRunner.And("the file contains \'20\' cases which are \'Partial\' with an outcome of \'120\'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.And("the file contains \'20\' cases which are \'Complete\' with an outcome of \'110\'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
 #line 10
- testRunner.When("the file is processed", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+ testRunner.And("the file contains \'20\' cases which are \'Partial\' with an outcome of \'120\'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
 #line 11
- testRunner.Then("the cases will be imported into blaise", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+ testRunner.When("the file is processed", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line hidden
+#line 12
+ testRunner.Then("\'40\' cases will be imported into blaise", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
             }
             this.ScenarioCleanup();
