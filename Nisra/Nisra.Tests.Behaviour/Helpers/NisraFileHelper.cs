@@ -21,7 +21,7 @@ namespace BlaiseNisraCaseProcessor.Tests.Behaviour.Helpers
 
             _localProcessFolder = ConfigurationManager.AppSettings["LocalProcessFolder"];
 
-            _databaseFileName = ConfigurationManager.AppSettings["DatabaseFileName"];
+            _databaseFileName = $"{ConfigurationManager.AppSettings["InstrumentName"]}.{ConfigurationManager.AppSettings["DatabaseFileNameExt"]}";
         }
 
         public string CreateDatabaseFilesAndFolder()
