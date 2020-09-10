@@ -46,9 +46,7 @@ namespace BlaiseNisraCaseProcessor.Tests.Behaviour.Steps
         [Given(@"the blaise database is empty")]
         public void GivenTheBlaiseDatabaseIsEmpty()
         {
-            var numberOfCasesInBlaise = _caseHelper.GetNumberOfCasesInDatabase();
-
-            Assert.AreEqual(0, numberOfCasesInBlaise);
+            _caseHelper.DeleteCasesInDatabase();
         }
 
 
@@ -59,8 +57,6 @@ namespace BlaiseNisraCaseProcessor.Tests.Behaviour.Steps
 
             _caseHelper.CreateCase(nisraFilePath, numberOfCases,
                 _defaultStatus, _defaultOutcome);
-
-            Assert.IsTrue(true);
         }
 
         [Given(@"the file contains '(.*)' cases which are '(.*)' with an outcome of '(.*)'")]
@@ -70,8 +66,6 @@ namespace BlaiseNisraCaseProcessor.Tests.Behaviour.Steps
             var nisraFilePath = _scenarioContext.Get<string>("nisraFilePath");
 
             _caseHelper.CreateCases(nisraFilePath, numberOfCases, status, outcome);
-
-            Assert.IsTrue(true);
         }
 
 
