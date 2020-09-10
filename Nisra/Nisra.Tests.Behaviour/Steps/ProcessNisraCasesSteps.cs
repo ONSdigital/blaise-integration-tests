@@ -10,21 +10,16 @@ namespace BlaiseNisraCaseProcessor.Tests.Behaviour.Steps
     [Binding]
     public sealed class ProcessNisraCasesSteps
     {
-        // For additional details on SpecFlow step definitions see https://go.specflow.org/doc-stepdef
-
         private readonly ScenarioContext _scenarioContext;
 
         private readonly WebFormStatusType _defaultStatus;
-
         private readonly int _defaultOutcome;
-
-        private readonly CaseHelper _caseHelper;
-
-        private readonly BucketHelper _bucketHelper;
-
-        private readonly PubSubHelper _pubSubHelper;
-
         private readonly string _bucketName;
+
+        private readonly NisraFileHelper _nisraFileHelper;
+        private readonly CaseHelper _caseHelper;
+        private readonly BucketHelper _bucketHelper;
+        private readonly PubSubHelper _pubSubHelper;
 
         public ProcessNisraCasesSteps(ScenarioContext scenarioContext)
         {
@@ -34,6 +29,7 @@ namespace BlaiseNisraCaseProcessor.Tests.Behaviour.Steps
             _defaultStatus = WebFormStatusType.Complete;
             _defaultOutcome = 110;
 
+            _nisraFileHelper = new NisraFileHelper();
             _caseHelper = new CaseHelper();
             _bucketHelper = new BucketHelper();
             _pubSubHelper = new PubSubHelper();
@@ -42,11 +38,19 @@ namespace BlaiseNisraCaseProcessor.Tests.Behaviour.Steps
         [Given(@"there is a Nisra file available")]
         public void GivenThereIsANisraFileAvailable()
         {
-            var nisraFileHelper = new NisraFileHelper();
-            var nisraFilePath = nisraFileHelper.CreateDatabaseFilesAndFolder();
+            var nisraFilePath = _nisraFileHelper.CreateDatabaseFilesAndFolder();
 
             _scenarioContext.Set(nisraFilePath, "nisraFilePath");
         }
+
+        [Given(@"the blaise database is empty")]
+        public void GivenTheBlaiseDatabaseIsEmpty()
+        {
+            var numberOfCasesInBlaise = _caseHelper.GetNumberOfCasesInDatabase();
+
+            Assert.AreEqual(0, numberOfCasesInBlaise);
+        }
+
 
         [Given(@"the file contains '(.*)' cases")]
         public void GivenTheFileContainsCases(int numberOfCases)
@@ -65,8 +69,7 @@ namespace BlaiseNisraCaseProcessor.Tests.Behaviour.Steps
         {
             var nisraFilePath = _scenarioContext.Get<string>("nisraFilePath");
 
-            _caseHelper.CreateCase(nisraFilePath, numberOfCases,
-                status, outcome);
+            _caseHelper.CreateCases(nisraFilePath, numberOfCases, status, outcome);
 
             Assert.IsTrue(true);
         }
@@ -97,11 +100,14 @@ namespace BlaiseNisraCaseProcessor.Tests.Behaviour.Steps
             _pubSubHelper.PublishMessage(@"{ ""action"": ""process""}");
         }
 
-        [Then(@"the cases will be imported into blaise")]
-        public void ThenTheCasesWillBeImportedIntoBlaise()
+        [Then(@"'(.*)' cases will be imported into blaise")]
+        public void ThenCasesWillBeImportedIntoBlaise(int numberOfCases)
         {
+            var numberOfCasesInBlaise = _caseHelper.GetNumberOfCasesInDatabase();
 
+            Assert.AreEqual(numberOfCases, numberOfCasesInBlaise);
         }
+
 
         [AfterScenario]
         public static void CleanUpFiles()

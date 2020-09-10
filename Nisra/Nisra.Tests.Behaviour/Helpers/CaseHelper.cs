@@ -1,4 +1,5 @@
-﻿using Blaise.Nuget.Api;
+﻿using System.Configuration;
+using Blaise.Nuget.Api;
 using Blaise.Nuget.Api.Contracts.Enums;
 using Blaise.Nuget.Api.Contracts.Interfaces;
 using BlaiseNisraCaseProcessor.Tests.Behaviour.Models;
@@ -10,11 +11,15 @@ namespace BlaiseNisraCaseProcessor.Tests.Behaviour.Helpers
         private readonly IBlaiseApi _blaiseApi;
 
         private int _primaryKey;
+        private string _instrumentName;
+        private string _serverPark;
 
         public CaseHelper()
         {
             _blaiseApi = new BlaiseApi();
             _primaryKey = 900000;
+            _instrumentName = ConfigurationManager.AppSettings["InstrumentName"];
+            _serverPark = ConfigurationManager.AppSettings["ServerPark"];
         }
 
         public void CreateCase(string databaseFilePath, int primaryKey, 
@@ -24,7 +29,7 @@ namespace BlaiseNisraCaseProcessor.Tests.Behaviour.Helpers
             _blaiseApi.CreateNewDataRecord(databaseFilePath, caseModel.PrimaryKey, caseModel.CaseData);
         }
 
-        private void CreateCases(string databaseFilePath, int numberOfCases, 
+        public void CreateCases(string databaseFilePath, int numberOfCases, 
             WebFormStatusType status, int outcome)
         {
             for (var i = 0; i < numberOfCases; i++)
@@ -33,6 +38,13 @@ namespace BlaiseNisraCaseProcessor.Tests.Behaviour.Helpers
 
                 CreateCase(databaseFilePath, _primaryKey, status, outcome);
             }
+        }
+
+        public int GetNumberOfCasesInDatabase()
+        {
+            return _blaiseApi.GetNumberOfCases(
+                _blaiseApi.GetDefaultConnectionModel(),
+                _instrumentName, _serverPark);
         }
     }
 }
