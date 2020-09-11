@@ -14,6 +14,7 @@ docker run \
   -e BSM_HOSTNAME=dev-ed-84-bsm.social-surveys.gcp.onsdigital.uk \
   -e LOG_LEVEL=DEBUG \
   behave \
-  /bin/bash -c "cd /data; behave --no-color --no-capture --no-logcapture"
+  /bin/bash -c "cd /data; behave -n 'add a survey'"
 
+#  /bin/bash -c "cd /data; behave --no-color --no-capture --no-logcapture"
 #  /bin/bash -c "cd /data; behave"
