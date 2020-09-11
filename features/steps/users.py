@@ -36,7 +36,6 @@ def step_impl(context, system):
                       data={"username": os.environ["BSM_USERNAME"],
                             "password": os.environ["BSM_PASSWORD"]}
                      )
-#    logger.debug("POST /login [%03i]: '%s'" % (R.status_code, R.text))
     logger.debug("POST /login [%03i]" % R.status_code)
     logger.debug("%s" % R.text)
 
