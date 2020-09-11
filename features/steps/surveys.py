@@ -22,9 +22,7 @@ def step_impl(context):
     # do a get request to get the csrf token
     R = requests.get("https://%s/survey_config/add_survey" % os.environ["BSM_HOSTNAME"],
                      headers={"cookie": context.token})
-    #logger.debug("GET : '%i:%s'" % (R.status_code, R.text))
     logger.debug("GET /survey_config/add_survey [%03i]" % (R.status_code))
-#    logger.debug("%s" % R.text)
 
 
     html = BeautifulSoup(R.text, "html.parser")
@@ -57,7 +55,6 @@ def step_impl(context):
     html = BeautifulSoup(R.text, "html.parser")
     assert len(html) > 0, "HTML response is empty"
 
-#    assert context.survey_name in R.text, "ERR: '%s' not found in reponse" % context.survey_name
-    assert "survey_name_field" in R.text, "ERR: '%s' not found in reponse" % context.survey_name
+    assert context.survey_name in R.text, "ERR: '%s' not found in reponse" % context.survey_name
   else:
     raise NotImplementedException
