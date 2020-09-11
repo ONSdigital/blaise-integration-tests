@@ -29,12 +29,21 @@ def step_impl(context, system):
     context.password = os.environ["BSM_PASSWORD"]
     logger.info("connecting to BSM on '%s' as '%s'" % (
         os.environ["BSM_HOSTNAME"], os.environ["BSM_USERNAME"]))
+
+    R = requests.get("https://%s/login" % os.environ["BSM_HOSTNAME"])
+
     R = requests.post("https://%s/login" % os.environ["BSM_HOSTNAME"],
                       data={"username": os.environ["BSM_USERNAME"],
                             "password": os.environ["BSM_PASSWORD"]}
                      )
-    logger.debug(R)
+#    logger.debug("POST /login [%03i]: '%s'" % (R.status_code, R.text))
+    logger.debug("POST /login [%03i]" % R.status_code)
+    logger.debug("%s" % R.text)
+
+    assert "You need to login to access this page" not in R.text, "ERR: could not login to blaise as '%s'" % context.username
     context.token = R.headers["Set-Cookie"]
+    logger.debug("cookie: '%s'" % context.token)
+
 
   assert context.token is not None, "No token received by login"
 
