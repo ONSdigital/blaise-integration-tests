@@ -1,10 +1,14 @@
-﻿using System.Configuration;
+﻿using System.Collections.Generic;
+using System.Configuration;
+using System.Globalization;
 using Blaise.Nuget.Api;
 using Blaise.Nuget.Api.Contracts.Enums;
 using Blaise.Nuget.Api.Contracts.Interfaces;
 using Blaise.Nuget.Api.Contracts.Models;
+using BlaiseNisraCaseProcessor.Tests.Behaviour.Builders;
+using BlaiseNisraCaseProcessor.Tests.Behaviour.Enums;
 using BlaiseNisraCaseProcessor.Tests.Behaviour.Models;
-using StatNeth.Blaise.API.DataRecord;
+using StatNeth.Blaise.Administer.Package;
 
 namespace BlaiseNisraCaseProcessor.Tests.Behaviour.Helpers
 {
@@ -26,21 +30,35 @@ namespace BlaiseNisraCaseProcessor.Tests.Behaviour.Helpers
             _serverPark = ConfigurationManager.AppSettings["ServerPark"];
         }
 
-        public void CreateCase(string databaseFilePath, int primaryKey, 
-            WebFormStatusType webFormStatusType, int hOut)
+        public void CreateCase(string databaseFilePath, int primaryKey, int outcome, ModeType mode)
         {
-            var caseModel = new CaseModel(primaryKey, webFormStatusType, hOut);
-            _blaiseApi.CreateNewDataRecord(databaseFilePath, caseModel.PrimaryKey, caseModel.CaseData);
+            var caseModel = new CaseModel(primaryKey.ToString(), outcome.ToString(), mode);
+            _blaiseApi.CreateNewDataRecord(databaseFilePath, caseModel.PrimaryKey, caseModel.BuildCaseData());
         }
 
-        public void CreateCases(string databaseFilePath, int numberOfCases, 
-            WebFormStatusType status, int outcome)
+        public void CreateCases(string databaseFilePath, int numberOfCases, int outcome, ModeType mode)
         {
             for (var i = 0; i < numberOfCases; i++)
             {
                 _primaryKey++;
 
-                CreateCase(databaseFilePath, _primaryKey, status, outcome);
+                CreateCase(databaseFilePath, _primaryKey, outcome, mode);
+            }
+        }
+
+        public void CreateCases(string databaseFilePath, IEnumerable<CaseModel> cases)
+        {
+            foreach (var caseModel in cases)
+            {
+                _blaiseApi.CreateNewDataRecord(databaseFilePath, caseModel.PrimaryKey, caseModel.BuildCaseData());
+            }
+        }
+
+        internal void CreateCasesInDatabase(IEnumerable<CaseModel> cases)
+        {
+            foreach (var caseModel in cases)
+            {
+                _blaiseApi.CreateNewDataRecord(_connectionModel, caseModel.PrimaryKey, caseModel.BuildBasicData(), _instrumentName, _serverPark);
             }
         }
 
@@ -49,6 +67,27 @@ namespace BlaiseNisraCaseProcessor.Tests.Behaviour.Helpers
             return _blaiseApi.GetNumberOfCases(_connectionModel, _instrumentName, _serverPark);
         }
 
+        public IEnumerable<CaseModel> GetCasesInDatabase()
+        {
+            var caseModels = new List<CaseModel>();
+
+            var casesInDatabase = _blaiseApi.GetDataSet(_connectionModel, _instrumentName, _serverPark);
+
+            while (!casesInDatabase.EndOfSet)
+            {
+                var caseRecord = casesInDatabase.ActiveRecord;
+
+                var outcome = _blaiseApi.GetFieldValue(caseRecord, FieldNameType.HOut).IntegerValue.ToString(CultureInfo.InvariantCulture);
+                var mode = _blaiseApi.GetFieldValue(caseRecord, FieldNameType.Mode).EnumerationValue;
+
+                caseModels.Add(new CaseModel(_blaiseApi.GetPrimaryKeyValue(caseRecord), outcome, (ModeType)mode));
+                casesInDatabase.MoveNext();
+            }
+
+            return caseModels;
+        }
+
+
         public void DeleteCasesInDatabase()
         {
             var cases = _blaiseApi.GetDataSet(_connectionModel, _instrumentName, _serverPark);
@@ -56,7 +95,7 @@ namespace BlaiseNisraCaseProcessor.Tests.Behaviour.Helpers
             while (!cases.EndOfSet)
             {
                 var primaryKey = _blaiseApi.GetPrimaryKeyValue(cases.ActiveRecord);
-                
+
                 _blaiseApi.RemoveCase(_connectionModel, primaryKey,
                     _instrumentName, _serverPark);
 
