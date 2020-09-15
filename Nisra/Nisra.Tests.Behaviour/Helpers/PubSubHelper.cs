@@ -22,6 +22,7 @@ namespace BlaiseNisraCaseProcessor.Tests.Behaviour.Helpers
 
         public void PublishMessage(string message)
         {
+            
             _queueApi
                 .WithProject(_projectId)
                 .WithTopic(_topicId)
