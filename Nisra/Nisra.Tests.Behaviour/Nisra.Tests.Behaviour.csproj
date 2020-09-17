@@ -292,7 +292,8 @@
     <None Include="Data\FedForwardData.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Include="Features\ProcessNisraCases.feature" />
+    <None Include="Features\LoadTest.feature" />
+    <None Include="Features\ImportNisraCases.feature" />
     <None Include="LibraryFiles\FrameEthnicity.blix">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>

@@ -16,10 +16,11 @@ namespace BlaiseNisraCaseProcessor.Tests.Behaviour.Helpers
         {
             var fileName = Path.GetFileName(filePath);
             var bucket = StorageClient.Create();
+            var bucketFilePath = $"OPN/AutomatedTests/{fileName}";
 
             using (var fileStream = new FileStream(filePath, FileMode.Open, FileAccess.Read, FileShare.ReadWrite))
             {
-                bucket.UploadObject(bucketName, fileName, null, fileStream);
+                bucket.UploadObject(bucketName, bucketFilePath, null, fileStream);
             }
         }
     }

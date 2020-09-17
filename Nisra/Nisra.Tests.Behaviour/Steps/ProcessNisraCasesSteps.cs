@@ -39,38 +39,48 @@ namespace BlaiseNisraCaseProcessor.Tests.Behaviour.Steps
             _pubSubHelper = new PubSubHelper();
         }
 
-        [Given(@"there is a Nisra file available")]
-        public void GivenThereIsANisraFileAvailable()
+        [Given(@"there is a not a Nisra file available")]
+        public void GivenThereIsANotANisraFileAvailable()
+        {
+        }
+
+        [Given(@"there is a Nisra file that contains '(.*)' cases")]
+        public void GivenThereIsANisraFileAvailable(int numberOfCases)
         {
             var nisraFilePath = _nisraFileHelper.CreateDatabaseFilesAndFolder();
+
+            _caseHelper.CreateCases(nisraFilePath, numberOfCases, _defaultOutcome, _defaultMode);
+            UploadNisraFile(nisraFilePath);
 
             _scenarioContext.Set(nisraFilePath, "nisraFilePath");
         }
 
-        [Given(@"the blaise database is empty")]
+        [Given(@"blaise contains no cases")]
         public void GivenTheBlaiseDatabaseIsEmpty()
         {
             _caseHelper.DeleteCasesInDatabase();
         }
 
-
-        [Given(@"the nisra file contains '(.*)' cases")]
-        public void GivenTheFileContainsCases(int numberOfCases)
+        [Given(@"blaise contains '(.*)' cases")]
+        public void GivenBlaiseContainsCases(int numberOfCases)
         {
-            var nisraFilePath = _scenarioContext.Get<string>("nisraFilePath");
-
-            _caseHelper.CreateCases(nisraFilePath, numberOfCases, _defaultOutcome, _defaultMode);
+            _caseHelper.CreateCasesInDatabase(numberOfCases, _defaultOutcome, _defaultMode);
         }
 
-        [Given(@"the nisra file contains the following cases")]
+
+        [Given(@"there is a Nisra file that contains the following cases")]
         public void GivenTheNisraFileContainsCasesToProcess(IEnumerable<CaseModel> cases)
         {
-            var nisraFilePath = _scenarioContext.Get<string>("nisraFilePath");
+            var nisraFilePath = _nisraFileHelper.CreateDatabaseFilesAndFolder();
 
             _caseHelper.CreateCases(nisraFilePath, cases);
+            UploadNisraFile(nisraFilePath);
+
+            _scenarioContext.Set(nisraFilePath, "nisraFilePath");
+
         }
 
-        [Given(@"the blaise database contains the following cases")]
+        [Given(@"blaise contains the following cases")]
         public void GivenTheBlaiseDatabaseAlreadyContainsCases(IEnumerable<CaseModel> cases)
         {
             _caseHelper.DeleteCasesInDatabase();
@@ -79,34 +89,15 @@ namespace BlaiseNisraCaseProcessor.Tests.Behaviour.Steps
         }
 
 
-        [When(@"the nisra file is processed")]
+        [When(@"the nisra process is triggered")]
         public void UploadNisraFileAndTriggerProcess()
         {
-            var nisraFilePath = _scenarioContext.Get<string>("nisraFilePath");
-
-            if (string.IsNullOrWhiteSpace(nisraFilePath))
-            {
-                throw new Exception("The file path to the database is not set");
-            }
-
-            var databaseFilePath = Path.GetDirectoryName(nisraFilePath);
-
-            if (string.IsNullOrWhiteSpace(databaseFilePath))
-            {
-                throw new Exception("The path to the database files does not exist");
-            }
-
-            foreach (var file in Directory.GetFiles(databaseFilePath))
-            {
-                _bucketHelper.UploadToBucket(file, _bucketName);
-            }
-
             _pubSubHelper.PublishMessage(@"{ ""action"": ""process""}");
 
-            Thread.Sleep(30000);
+            Thread.Sleep(60000);
         }
 
-        [When(@"the nisra file is processed every '(.*)' minutes for '(.*)' hour\(s\)")]
+        [When(@"the nisra file is triggered every '(.*)' minutes for '(.*)' hour\(s\)")]
         public void WhenTheNisraFileIsProcessedEveryMinutesForHours(int minutes, int hours)
         {
             var startTime = DateTime.Now;
@@ -123,7 +114,7 @@ namespace BlaiseNisraCaseProcessor.Tests.Behaviour.Steps
             Console.WriteLine("Finished after " + hours + " hour(s)");
         }
         
-        [Then(@"The blaise database will contain '(.*)' cases")]
+        [Then(@"blaise will contain '(.*)' cases")]
         public void ThenCasesWillBeImportedIntoBlaise(int numberOfCases)
         {
             var numberOfCasesInBlaise = _caseHelper.GetNumberOfCasesInDatabase();
@@ -131,7 +122,7 @@ namespace BlaiseNisraCaseProcessor.Tests.Behaviour.Steps
             Assert.AreEqual(numberOfCases, numberOfCasesInBlaise);
         }
 
-        [Then(@"the blaise database will contain the following cases")]
+        [Then(@"blaise will contain the following cases")]
         public void ThenTheBlaiseDatabaseWillContainTheFollowingCases(IEnumerable<CaseModel> cases)
         {
             var numberOfCasesInDatabase = _caseHelper.GetNumberOfCasesInDatabase();
@@ -160,7 +151,6 @@ namespace BlaiseNisraCaseProcessor.Tests.Behaviour.Steps
             }
         }
 
-
         [AfterScenario]
         public static void CleanUpFiles()
         {
@@ -169,6 +159,21 @@ namespace BlaiseNisraCaseProcessor.Tests.Behaviour.Steps
 
             var caseHelper = new CaseHelper();
             caseHelper.DeleteCasesInDatabase();
+        }
+
+        private void UploadNisraFile(string nisraFilePath)
+        {
+            var databaseFilePath = Path.GetDirectoryName(nisraFilePath);
+
+            if (string.IsNullOrWhiteSpace(databaseFilePath))
+            {
+                throw new Exception("The path to the database files does not exist");
+            }
+
+            foreach (var file in Directory.GetFiles(databaseFilePath))
+            {
+                _bucketHelper.UploadToBucket(file, _bucketName);
+            }
         }
     }
 }
