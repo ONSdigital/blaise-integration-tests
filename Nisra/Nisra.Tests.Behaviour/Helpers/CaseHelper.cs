@@ -8,7 +8,6 @@ using Blaise.Nuget.Api.Contracts.Models;
 using BlaiseNisraCaseProcessor.Tests.Behaviour.Builders;
 using BlaiseNisraCaseProcessor.Tests.Behaviour.Enums;
 using BlaiseNisraCaseProcessor.Tests.Behaviour.Models;
-using StatNeth.Blaise.Administer.Package;
 
 namespace BlaiseNisraCaseProcessor.Tests.Behaviour.Helpers
 {
@@ -54,7 +53,16 @@ namespace BlaiseNisraCaseProcessor.Tests.Behaviour.Helpers
             }
         }
 
-        internal void CreateCasesInDatabase(IEnumerable<CaseModel> cases)
+        public void CreateCasesInDatabase(int numberOfCases, int outcome, ModeType mode)
+        {
+            for (var i = 0; i < numberOfCases; i++)
+            {
+                _primaryKey++;
+                var caseModel = new CaseModel($"{_primaryKey}", outcome.ToString(), mode);
+                _blaiseApi.CreateNewDataRecord(_connectionModel, $"{_primaryKey}", caseModel.BuildBasicData(), _instrumentName, _serverPark);
+            }
+        }
+        public void CreateCasesInDatabase(IEnumerable<CaseModel> cases)
         {
             foreach (var caseModel in cases)
             {
