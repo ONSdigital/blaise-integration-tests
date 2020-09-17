@@ -51,6 +51,10 @@ Scenario: There is a Nisra file available that contains cases that already exist
 	| 900017     | 210     | Web  |
 	#scenario 8
 	| 900018     | 0       | Web  |
+	#scenario 9
+	| 900019     | 210     | Web  |
+	#scenario 10
+	| 900020     | 110     | Web  |
 	
 	And blaise contains the following cases
 	| primarykey | outcome | mode |
@@ -80,6 +84,10 @@ Scenario: There is a Nisra file available that contains cases that already exist
 	| 900017     | 542     | Tel  |
 	#scenario 8
 	| 900018     | 310     | Tel  |
+	#scenario 9
+	| 900019     | 562     | Tel  |
+	#scenario 10
+	| 900020     | 561     | Tel  |
 
 	When the nisra process is triggered
 	Then blaise will contain the following cases
@@ -110,5 +118,9 @@ Scenario: There is a Nisra file available that contains cases that already exist
 	| 900017     | 542     | Tel  |
 	#scenario 8
 	| 900018     | 310     | Tel  |
+	#scenario 9
+	| 900019     | 562     | Tel  |
+	#scenario 10
+	| 900020     | 561     | Tel  |
 
 
