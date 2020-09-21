@@ -75,12 +75,14 @@ namespace BlaiseNisraCaseProcessor.Tests.Behaviour.Features
         }
         
         [NUnit.Framework.TestAttribute()]
-        [NUnit.Framework.DescriptionAttribute("There is a Nisra file available in the bucket and the blaise database is empty")]
-        public virtual void ThereIsANisraFileAvailableInTheBucketAndTheBlaiseDatabaseIsEmpty()
+        [NUnit.Framework.DescriptionAttribute("A case in the NISRA file is complete and in Blaise it is complete, we take the NI" +
+            "SRA case")]
+        public virtual void ACaseInTheNISRAFileIsCompleteAndInBlaiseItIsCompleteWeTakeTheNISRACase()
         {
             string[] tagsOfScenario = ((string[])(null));
-            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("There is a Nisra file available in the bucket and the blaise database is empty", null, ((string[])(null)));
-#line 6
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("A case in the NISRA file is complete and in Blaise it is complete, we take the NI" +
+                    "SRA case", null, ((string[])(null)));
+#line 7
 this.ScenarioInitialize(scenarioInfo);
 #line hidden
             bool isScenarioIgnored = default(bool);
@@ -100,20 +102,554 @@ this.ScenarioInitialize(scenarioInfo);
             else
             {
                 this.ScenarioStart();
-#line 7
- testRunner.Given("there is a Nisra file available", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
-#line hidden
 #line 8
- testRunner.And("the nisra file contains \'10\' cases", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.Given("there is a Nisra file that contains a case that is complete", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line hidden
 #line 9
- testRunner.And("the blaise database is empty", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.And("the same case exists in Blaise that is complete", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
 #line 10
  testRunner.When("the nisra file is processed", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line hidden
 #line 11
- testRunner.Then("The blaise database will contain \'10\' cases", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+ testRunner.Then("the existing blaise case is overwritten with the NISRA case", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line hidden
+            }
+            this.ScenarioCleanup();
+        }
+        
+        [NUnit.Framework.TestAttribute()]
+        [NUnit.Framework.DescriptionAttribute("A case in the NISRA file is partially complete and in Blaise it is complete, we k" +
+            "eep the existing blaise case")]
+        public virtual void ACaseInTheNISRAFileIsPartiallyCompleteAndInBlaiseItIsCompleteWeKeepTheExistingBlaiseCase()
+        {
+            string[] tagsOfScenario = ((string[])(null));
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("A case in the NISRA file is partially complete and in Blaise it is complete, we k" +
+                    "eep the existing blaise case", null, ((string[])(null)));
+#line 14
+this.ScenarioInitialize(scenarioInfo);
+#line hidden
+            bool isScenarioIgnored = default(bool);
+            bool isFeatureIgnored = default(bool);
+            if ((tagsOfScenario != null))
+            {
+                isScenarioIgnored = tagsOfScenario.Where(__entry => __entry != null).Where(__entry => String.Equals(__entry, "ignore", StringComparison.CurrentCultureIgnoreCase)).Any();
+            }
+            if ((this._featureTags != null))
+            {
+                isFeatureIgnored = this._featureTags.Where(__entry => __entry != null).Where(__entry => String.Equals(__entry, "ignore", StringComparison.CurrentCultureIgnoreCase)).Any();
+            }
+            if ((isScenarioIgnored || isFeatureIgnored))
+            {
+                testRunner.SkipScenario();
+            }
+            else
+            {
+                this.ScenarioStart();
+#line 15
+ testRunner.Given("there is a Nisra file that contains a case that is partially complete", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+#line hidden
+#line 16
+ testRunner.And("the same case exists in Blaise that is complete", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line hidden
+#line 17
+ testRunner.When("the nisra file is processed", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line hidden
+#line 18
+ testRunner.Then("the existing blaise case is kept", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line hidden
+            }
+            this.ScenarioCleanup();
+        }
+        
+        [NUnit.Framework.TestAttribute()]
+        [NUnit.Framework.DescriptionAttribute("A case in the NISRA file is complete and in Blaise it is partially complete, we t" +
+            "ake the NISRA case")]
+        public virtual void ACaseInTheNISRAFileIsCompleteAndInBlaiseItIsPartiallyCompleteWeTakeTheNISRACase()
+        {
+            string[] tagsOfScenario = ((string[])(null));
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("A case in the NISRA file is complete and in Blaise it is partially complete, we t" +
+                    "ake the NISRA case", null, ((string[])(null)));
+#line 21
+this.ScenarioInitialize(scenarioInfo);
+#line hidden
+            bool isScenarioIgnored = default(bool);
+            bool isFeatureIgnored = default(bool);
+            if ((tagsOfScenario != null))
+            {
+                isScenarioIgnored = tagsOfScenario.Where(__entry => __entry != null).Where(__entry => String.Equals(__entry, "ignore", StringComparison.CurrentCultureIgnoreCase)).Any();
+            }
+            if ((this._featureTags != null))
+            {
+                isFeatureIgnored = this._featureTags.Where(__entry => __entry != null).Where(__entry => String.Equals(__entry, "ignore", StringComparison.CurrentCultureIgnoreCase)).Any();
+            }
+            if ((isScenarioIgnored || isFeatureIgnored))
+            {
+                testRunner.SkipScenario();
+            }
+            else
+            {
+                this.ScenarioStart();
+#line 22
+ testRunner.Given("there is a Nisra file that contains a case that is complete", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+#line hidden
+#line 23
+ testRunner.And("the same case exists in Blaise that is partially complete", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line hidden
+#line 24
+ testRunner.When("the nisra file is processed", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line hidden
+#line 25
+ testRunner.Then("the existing blaise case is overwritten with the NISRA case", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line hidden
+            }
+            this.ScenarioCleanup();
+        }
+        
+        [NUnit.Framework.TestAttribute()]
+        [NUnit.Framework.DescriptionAttribute("A case in the NISRA file is complete and in Blaise it is between the range 210-54" +
+            "2, we take the NISRA case")]
+        [NUnit.Framework.TestCaseAttribute("210", "Partially completed survey", null)]
+        [NUnit.Framework.TestCaseAttribute("310", "Non-contact", null)]
+        [NUnit.Framework.TestCaseAttribute("430", "HQ refusal", null)]
+        [NUnit.Framework.TestCaseAttribute("440", "Person not available", null)]
+        [NUnit.Framework.TestCaseAttribute("460", "Refuses cooperation - hard refusal", null)]
+        [NUnit.Framework.TestCaseAttribute("461", "Refuses cooperation - soft refusal could be contacted again", null)]
+        [NUnit.Framework.TestCaseAttribute("541", "Language difficulties - notified by Head Office", null)]
+        [NUnit.Framework.TestCaseAttribute("542", "Language difficulties - notified to interviewer", null)]
+        public virtual void ACaseInTheNISRAFileIsCompleteAndInBlaiseItIsBetweenTheRange210_542WeTakeTheNISRACase(string existingOutcome, string description, string[] exampleTags)
+        {
+            string[] tagsOfScenario = exampleTags;
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("A case in the NISRA file is complete and in Blaise it is between the range 210-54" +
+                    "2, we take the NISRA case", null, exampleTags);
+#line 28
+this.ScenarioInitialize(scenarioInfo);
+#line hidden
+            bool isScenarioIgnored = default(bool);
+            bool isFeatureIgnored = default(bool);
+            if ((tagsOfScenario != null))
+            {
+                isScenarioIgnored = tagsOfScenario.Where(__entry => __entry != null).Where(__entry => String.Equals(__entry, "ignore", StringComparison.CurrentCultureIgnoreCase)).Any();
+            }
+            if ((this._featureTags != null))
+            {
+                isFeatureIgnored = this._featureTags.Where(__entry => __entry != null).Where(__entry => String.Equals(__entry, "ignore", StringComparison.CurrentCultureIgnoreCase)).Any();
+            }
+            if ((isScenarioIgnored || isFeatureIgnored))
+            {
+                testRunner.SkipScenario();
+            }
+            else
+            {
+                this.ScenarioStart();
+#line 29
+ testRunner.Given("there is a Nisra file that contains a case that is complete", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+#line hidden
+#line 30
+ testRunner.And(string.Format("the same case exists in Blaise with the outcome code \'{0}\'", existingOutcome), ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line hidden
+#line 31
+ testRunner.When("the nisra file is processed", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line hidden
+#line 32
+ testRunner.Then("the existing blaise case is overwritten with the NISRA case", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line hidden
+            }
+            this.ScenarioCleanup();
+        }
+        
+        [NUnit.Framework.TestAttribute()]
+        [NUnit.Framework.DescriptionAttribute("A case in the NISRA file that has not started and in Blaise it is complete, we ke" +
+            "ep the existing blaise case")]
+        public virtual void ACaseInTheNISRAFileThatHasNotStartedAndInBlaiseItIsCompleteWeKeepTheExistingBlaiseCase()
+        {
+            string[] tagsOfScenario = ((string[])(null));
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("A case in the NISRA file that has not started and in Blaise it is complete, we ke" +
+                    "ep the existing blaise case", null, ((string[])(null)));
+#line 45
+this.ScenarioInitialize(scenarioInfo);
+#line hidden
+            bool isScenarioIgnored = default(bool);
+            bool isFeatureIgnored = default(bool);
+            if ((tagsOfScenario != null))
+            {
+                isScenarioIgnored = tagsOfScenario.Where(__entry => __entry != null).Where(__entry => String.Equals(__entry, "ignore", StringComparison.CurrentCultureIgnoreCase)).Any();
+            }
+            if ((this._featureTags != null))
+            {
+                isFeatureIgnored = this._featureTags.Where(__entry => __entry != null).Where(__entry => String.Equals(__entry, "ignore", StringComparison.CurrentCultureIgnoreCase)).Any();
+            }
+            if ((isScenarioIgnored || isFeatureIgnored))
+            {
+                testRunner.SkipScenario();
+            }
+            else
+            {
+                this.ScenarioStart();
+#line 46
+ testRunner.Given("there is a Nisra file that contains a case that has not been started", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+#line hidden
+#line 47
+ testRunner.And("the same case exists in Blaise that is complete", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line hidden
+#line 48
+ testRunner.When("the nisra file is processed", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line hidden
+#line 49
+ testRunner.Then("the existing blaise case is kept", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line hidden
+            }
+            this.ScenarioCleanup();
+        }
+        
+        [NUnit.Framework.TestAttribute()]
+        [NUnit.Framework.DescriptionAttribute("A case in the NISRA file is partially complete and in Blaise it is partially comp" +
+            "lete, we take the NISRA case")]
+        public virtual void ACaseInTheNISRAFileIsPartiallyCompleteAndInBlaiseItIsPartiallyCompleteWeTakeTheNISRACase()
+        {
+            string[] tagsOfScenario = ((string[])(null));
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("A case in the NISRA file is partially complete and in Blaise it is partially comp" +
+                    "lete, we take the NISRA case", null, ((string[])(null)));
+#line 52
+this.ScenarioInitialize(scenarioInfo);
+#line hidden
+            bool isScenarioIgnored = default(bool);
+            bool isFeatureIgnored = default(bool);
+            if ((tagsOfScenario != null))
+            {
+                isScenarioIgnored = tagsOfScenario.Where(__entry => __entry != null).Where(__entry => String.Equals(__entry, "ignore", StringComparison.CurrentCultureIgnoreCase)).Any();
+            }
+            if ((this._featureTags != null))
+            {
+                isFeatureIgnored = this._featureTags.Where(__entry => __entry != null).Where(__entry => String.Equals(__entry, "ignore", StringComparison.CurrentCultureIgnoreCase)).Any();
+            }
+            if ((isScenarioIgnored || isFeatureIgnored))
+            {
+                testRunner.SkipScenario();
+            }
+            else
+            {
+                this.ScenarioStart();
+#line 53
+ testRunner.Given("there is a Nisra file that contains a case that is partially complete", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+#line hidden
+#line 54
+ testRunner.And("the same case exists in Blaise that is partially complete", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line hidden
+#line 55
+ testRunner.When("the nisra file is processed", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line hidden
+#line 56
+ testRunner.Then("the existing blaise case is overwritten with the NISRA case", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line hidden
+            }
+            this.ScenarioCleanup();
+        }
+        
+        [NUnit.Framework.TestAttribute()]
+        [NUnit.Framework.DescriptionAttribute("A case in the NISRA file is partially complete and in Blaise and it is between th" +
+            "e range 310-542, we take the NISRA case")]
+        [NUnit.Framework.TestCaseAttribute("310", "Non-contact", null)]
+        [NUnit.Framework.TestCaseAttribute("430", "HQ refusal", null)]
+        [NUnit.Framework.TestCaseAttribute("440", "Person not available", null)]
+        [NUnit.Framework.TestCaseAttribute("460", "Refuses cooperation - hard refusal", null)]
+        [NUnit.Framework.TestCaseAttribute("461", "Refuses cooperation - soft refusal could be contacted again", null)]
+        [NUnit.Framework.TestCaseAttribute("541", "Language difficulties - notified by Head Office", null)]
+        [NUnit.Framework.TestCaseAttribute("542", "Language difficulties - notified to interviewer", null)]
+        public virtual void ACaseInTheNISRAFileIsPartiallyCompleteAndInBlaiseAndItIsBetweenTheRange310_542WeTakeTheNISRACase(string existingOutcome, string description, string[] exampleTags)
+        {
+            string[] tagsOfScenario = exampleTags;
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("A case in the NISRA file is partially complete and in Blaise and it is between th" +
+                    "e range 310-542, we take the NISRA case", null, exampleTags);
+#line 59
+this.ScenarioInitialize(scenarioInfo);
+#line hidden
+            bool isScenarioIgnored = default(bool);
+            bool isFeatureIgnored = default(bool);
+            if ((tagsOfScenario != null))
+            {
+                isScenarioIgnored = tagsOfScenario.Where(__entry => __entry != null).Where(__entry => String.Equals(__entry, "ignore", StringComparison.CurrentCultureIgnoreCase)).Any();
+            }
+            if ((this._featureTags != null))
+            {
+                isFeatureIgnored = this._featureTags.Where(__entry => __entry != null).Where(__entry => String.Equals(__entry, "ignore", StringComparison.CurrentCultureIgnoreCase)).Any();
+            }
+            if ((isScenarioIgnored || isFeatureIgnored))
+            {
+                testRunner.SkipScenario();
+            }
+            else
+            {
+                this.ScenarioStart();
+#line 60
+ testRunner.Given("there is a Nisra file that contains a case that is complete", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+#line hidden
+#line 61
+ testRunner.And(string.Format("the same case exists in Blaise with the outcome code \'{0}\'", existingOutcome), ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line hidden
+#line 62
+ testRunner.When("the nisra file is processed", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line hidden
+#line 63
+ testRunner.Then("the existing blaise case is overwritten with the NISRA case", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line hidden
+            }
+            this.ScenarioCleanup();
+        }
+        
+        [NUnit.Framework.TestAttribute()]
+        [NUnit.Framework.DescriptionAttribute("A case in the NISRA file that has not started and in Blaise it is non-contact, we" +
+            " keep the existing blaise case")]
+        public virtual void ACaseInTheNISRAFileThatHasNotStartedAndInBlaiseItIsNon_ContactWeKeepTheExistingBlaiseCase()
+        {
+            string[] tagsOfScenario = ((string[])(null));
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("A case in the NISRA file that has not started and in Blaise it is non-contact, we" +
+                    " keep the existing blaise case", null, ((string[])(null)));
+#line 75
+this.ScenarioInitialize(scenarioInfo);
+#line hidden
+            bool isScenarioIgnored = default(bool);
+            bool isFeatureIgnored = default(bool);
+            if ((tagsOfScenario != null))
+            {
+                isScenarioIgnored = tagsOfScenario.Where(__entry => __entry != null).Where(__entry => String.Equals(__entry, "ignore", StringComparison.CurrentCultureIgnoreCase)).Any();
+            }
+            if ((this._featureTags != null))
+            {
+                isFeatureIgnored = this._featureTags.Where(__entry => __entry != null).Where(__entry => String.Equals(__entry, "ignore", StringComparison.CurrentCultureIgnoreCase)).Any();
+            }
+            if ((isScenarioIgnored || isFeatureIgnored))
+            {
+                testRunner.SkipScenario();
+            }
+            else
+            {
+                this.ScenarioStart();
+#line 76
+ testRunner.Given("there is a Nisra file that contains a case that has not been started", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+#line hidden
+#line 77
+ testRunner.And("the same case exists in Blaise with the outcome code \'310\'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line hidden
+#line 78
+ testRunner.When("the nisra file is processed", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line hidden
+#line 79
+ testRunner.Then("the existing blaise case is kept", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line hidden
+            }
+            this.ScenarioCleanup();
+        }
+        
+        [NUnit.Framework.TestAttribute()]
+        [NUnit.Framework.DescriptionAttribute("A case in the NISRA file that is partially complete and in Blaise it marked as re" +
+            "spondent request for data to be deleted, we keep the existing blaise case")]
+        public virtual void ACaseInTheNISRAFileThatIsPartiallyCompleteAndInBlaiseItMarkedAsRespondentRequestForDataToBeDeletedWeKeepTheExistingBlaiseCase()
+        {
+            string[] tagsOfScenario = ((string[])(null));
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("A case in the NISRA file that is partially complete and in Blaise it marked as re" +
+                    "spondent request for data to be deleted, we keep the existing blaise case", null, ((string[])(null)));
+#line 82
+this.ScenarioInitialize(scenarioInfo);
+#line hidden
+            bool isScenarioIgnored = default(bool);
+            bool isFeatureIgnored = default(bool);
+            if ((tagsOfScenario != null))
+            {
+                isScenarioIgnored = tagsOfScenario.Where(__entry => __entry != null).Where(__entry => String.Equals(__entry, "ignore", StringComparison.CurrentCultureIgnoreCase)).Any();
+            }
+            if ((this._featureTags != null))
+            {
+                isFeatureIgnored = this._featureTags.Where(__entry => __entry != null).Where(__entry => String.Equals(__entry, "ignore", StringComparison.CurrentCultureIgnoreCase)).Any();
+            }
+            if ((isScenarioIgnored || isFeatureIgnored))
+            {
+                testRunner.SkipScenario();
+            }
+            else
+            {
+                this.ScenarioStart();
+#line 83
+ testRunner.Given("there is a Nisra file that contains a case that is partially complete", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+#line hidden
+#line 84
+ testRunner.And("the same case exists in Blaise with the outcome code \'562\'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line hidden
+#line 85
+ testRunner.When("the nisra file is processed", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line hidden
+#line 86
+ testRunner.Then("the existing blaise case is kept", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line hidden
+            }
+            this.ScenarioCleanup();
+        }
+        
+        [NUnit.Framework.TestAttribute()]
+        [NUnit.Framework.DescriptionAttribute("A case in the NISRA file that is complete and in Blaise it marked as respondent r" +
+            "equest for data to be deleted, we keep the existing blaise case")]
+        public virtual void ACaseInTheNISRAFileThatIsCompleteAndInBlaiseItMarkedAsRespondentRequestForDataToBeDeletedWeKeepTheExistingBlaiseCase()
+        {
+            string[] tagsOfScenario = ((string[])(null));
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("A case in the NISRA file that is complete and in Blaise it marked as respondent r" +
+                    "equest for data to be deleted, we keep the existing blaise case", null, ((string[])(null)));
+#line 89
+this.ScenarioInitialize(scenarioInfo);
+#line hidden
+            bool isScenarioIgnored = default(bool);
+            bool isFeatureIgnored = default(bool);
+            if ((tagsOfScenario != null))
+            {
+                isScenarioIgnored = tagsOfScenario.Where(__entry => __entry != null).Where(__entry => String.Equals(__entry, "ignore", StringComparison.CurrentCultureIgnoreCase)).Any();
+            }
+            if ((this._featureTags != null))
+            {
+                isFeatureIgnored = this._featureTags.Where(__entry => __entry != null).Where(__entry => String.Equals(__entry, "ignore", StringComparison.CurrentCultureIgnoreCase)).Any();
+            }
+            if ((isScenarioIgnored || isFeatureIgnored))
+            {
+                testRunner.SkipScenario();
+            }
+            else
+            {
+                this.ScenarioStart();
+#line 90
+ testRunner.Given("there is a Nisra file that contains a case that is complete", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+#line hidden
+#line 91
+ testRunner.And("the same case exists in Blaise with the outcome code \'561\'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line hidden
+#line 92
+ testRunner.When("the nisra file is processed", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line hidden
+#line 93
+ testRunner.Then("the existing blaise case is kept", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line hidden
+            }
+            this.ScenarioCleanup();
+        }
+        
+        [NUnit.Framework.TestAttribute()]
+        [NUnit.Framework.DescriptionAttribute("There is a no Nisra file available and Blaise contains no cases")]
+        public virtual void ThereIsANoNisraFileAvailableAndBlaiseContainsNoCases()
+        {
+            string[] tagsOfScenario = ((string[])(null));
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("There is a no Nisra file available and Blaise contains no cases", null, ((string[])(null)));
+#line 96
+this.ScenarioInitialize(scenarioInfo);
+#line hidden
+            bool isScenarioIgnored = default(bool);
+            bool isFeatureIgnored = default(bool);
+            if ((tagsOfScenario != null))
+            {
+                isScenarioIgnored = tagsOfScenario.Where(__entry => __entry != null).Where(__entry => String.Equals(__entry, "ignore", StringComparison.CurrentCultureIgnoreCase)).Any();
+            }
+            if ((this._featureTags != null))
+            {
+                isFeatureIgnored = this._featureTags.Where(__entry => __entry != null).Where(__entry => String.Equals(__entry, "ignore", StringComparison.CurrentCultureIgnoreCase)).Any();
+            }
+            if ((isScenarioIgnored || isFeatureIgnored))
+            {
+                testRunner.SkipScenario();
+            }
+            else
+            {
+                this.ScenarioStart();
+#line 97
+ testRunner.Given("there is a not a Nisra file available", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+#line hidden
+#line 98
+ testRunner.And("blaise contains no cases", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line hidden
+#line 99
+ testRunner.When("the nisra file is processed", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line hidden
+#line 100
+ testRunner.Then("blaise will contain no cases", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line hidden
+            }
+            this.ScenarioCleanup();
+        }
+        
+        [NUnit.Framework.TestAttribute()]
+        [NUnit.Framework.DescriptionAttribute("There is a no Nisra file available and Blaise contains 10 cases")]
+        public virtual void ThereIsANoNisraFileAvailableAndBlaiseContains10Cases()
+        {
+            string[] tagsOfScenario = ((string[])(null));
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("There is a no Nisra file available and Blaise contains 10 cases", null, ((string[])(null)));
+#line 102
+this.ScenarioInitialize(scenarioInfo);
+#line hidden
+            bool isScenarioIgnored = default(bool);
+            bool isFeatureIgnored = default(bool);
+            if ((tagsOfScenario != null))
+            {
+                isScenarioIgnored = tagsOfScenario.Where(__entry => __entry != null).Where(__entry => String.Equals(__entry, "ignore", StringComparison.CurrentCultureIgnoreCase)).Any();
+            }
+            if ((this._featureTags != null))
+            {
+                isFeatureIgnored = this._featureTags.Where(__entry => __entry != null).Where(__entry => String.Equals(__entry, "ignore", StringComparison.CurrentCultureIgnoreCase)).Any();
+            }
+            if ((isScenarioIgnored || isFeatureIgnored))
+            {
+                testRunner.SkipScenario();
+            }
+            else
+            {
+                this.ScenarioStart();
+#line 103
+ testRunner.Given("there is a not a Nisra file available", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+#line hidden
+#line 104
+ testRunner.And("blaise contains \'10\' cases", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line hidden
+#line 105
+ testRunner.When("the nisra file is processed", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line hidden
+#line 106
+ testRunner.Then("blaise will contain \'10\' cases", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line hidden
+            }
+            this.ScenarioCleanup();
+        }
+        
+        [NUnit.Framework.TestAttribute()]
+        [NUnit.Framework.DescriptionAttribute("There is a Nisra file available with 10 cases and Blaise contains no cases")]
+        public virtual void ThereIsANisraFileAvailableWith10CasesAndBlaiseContainsNoCases()
+        {
+            string[] tagsOfScenario = ((string[])(null));
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("There is a Nisra file available with 10 cases and Blaise contains no cases", null, ((string[])(null)));
+#line 108
+this.ScenarioInitialize(scenarioInfo);
+#line hidden
+            bool isScenarioIgnored = default(bool);
+            bool isFeatureIgnored = default(bool);
+            if ((tagsOfScenario != null))
+            {
+                isScenarioIgnored = tagsOfScenario.Where(__entry => __entry != null).Where(__entry => String.Equals(__entry, "ignore", StringComparison.CurrentCultureIgnoreCase)).Any();
+            }
+            if ((this._featureTags != null))
+            {
+                isFeatureIgnored = this._featureTags.Where(__entry => __entry != null).Where(__entry => String.Equals(__entry, "ignore", StringComparison.CurrentCultureIgnoreCase)).Any();
+            }
+            if ((isScenarioIgnored || isFeatureIgnored))
+            {
+                testRunner.SkipScenario();
+            }
+            else
+            {
+                this.ScenarioStart();
+#line 109
+ testRunner.Given("there is a Nisra file that contains \'10\' cases", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+#line hidden
+#line 110
+ testRunner.And("blaise contains no cases", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line hidden
+#line 111
+ testRunner.When("the nisra file is processed", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line hidden
+#line 112
+ testRunner.Then("blaise will contain \'10\' cases", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
             }
             this.ScenarioCleanup();
@@ -121,13 +657,13 @@ this.ScenarioInitialize(scenarioInfo);
         
         [NUnit.Framework.TestAttribute()]
         [NUnit.Framework.DescriptionAttribute("There is a Nisra file available that contains cases that already exists in the bl" +
-            "aise database")]
-        public virtual void ThereIsANisraFileAvailableThatContainsCasesThatAlreadyExistsInTheBlaiseDatabase()
+            "aise database, the cases are updated depending on the outcome codes")]
+        public virtual void ThereIsANisraFileAvailableThatContainsCasesThatAlreadyExistsInTheBlaiseDatabaseTheCasesAreUpdatedDependingOnTheOutcomeCodes()
         {
             string[] tagsOfScenario = ((string[])(null));
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("There is a Nisra file available that contains cases that already exists in the bl" +
-                    "aise database", null, ((string[])(null)));
-#line 13
+                    "aise database, the cases are updated depending on the outcome codes", null, ((string[])(null)));
+#line 115
 this.ScenarioInitialize(scenarioInfo);
 #line hidden
             bool isScenarioIgnored = default(bool);
@@ -147,9 +683,6 @@ this.ScenarioInitialize(scenarioInfo);
             else
             {
                 this.ScenarioStart();
-#line 14
- testRunner.Given("there is a Nisra file available", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
-#line hidden
                 TechTalk.SpecFlow.Table table1 = new TechTalk.SpecFlow.Table(new string[] {
                             "primarykey",
                             "outcome",
@@ -160,7 +693,7 @@ this.ScenarioInitialize(scenarioInfo);
                             "Web"});
                 table1.AddRow(new string[] {
                             "900002",
-                            "120",
+                            "210",
                             "Web"});
                 table1.AddRow(new string[] {
                             "900003",
@@ -170,8 +703,72 @@ this.ScenarioInitialize(scenarioInfo);
                             "900004",
                             "110",
                             "Web"});
-#line 15
- testRunner.And("the nisra file contains the following cases", ((string)(null)), table1, "And ");
+                table1.AddRow(new string[] {
+                            "900005",
+                            "110",
+                            "Web"});
+                table1.AddRow(new string[] {
+                            "900006",
+                            "110",
+                            "Web"});
+                table1.AddRow(new string[] {
+                            "900007",
+                            "110",
+                            "Web"});
+                table1.AddRow(new string[] {
+                            "900008",
+                            "110",
+                            "Web"});
+                table1.AddRow(new string[] {
+                            "900009",
+                            "110",
+                            "Web"});
+                table1.AddRow(new string[] {
+                            "900010",
+                            "0",
+                            "Web"});
+                table1.AddRow(new string[] {
+                            "900011",
+                            "210",
+                            "Web"});
+                table1.AddRow(new string[] {
+                            "900012",
+                            "210",
+                            "Web"});
+                table1.AddRow(new string[] {
+                            "900013",
+                            "210",
+                            "Web"});
+                table1.AddRow(new string[] {
+                            "900014",
+                            "210",
+                            "Web"});
+                table1.AddRow(new string[] {
+                            "900015",
+                            "210",
+                            "Web"});
+                table1.AddRow(new string[] {
+                            "900016",
+                            "210",
+                            "Web"});
+                table1.AddRow(new string[] {
+                            "900017",
+                            "210",
+                            "Web"});
+                table1.AddRow(new string[] {
+                            "900018",
+                            "0",
+                            "Web"});
+                table1.AddRow(new string[] {
+                            "900019",
+                            "210",
+                            "Web"});
+                table1.AddRow(new string[] {
+                            "900020",
+                            "110",
+                            "Web"});
+#line 116
+ testRunner.Given("there is a Nisra file that contains the following cases", ((string)(null)), table1, "Given ");
 #line hidden
                 TechTalk.SpecFlow.Table table2 = new TechTalk.SpecFlow.Table(new string[] {
                             "primarykey",
@@ -179,7 +776,7 @@ this.ScenarioInitialize(scenarioInfo);
                             "mode"});
                 table2.AddRow(new string[] {
                             "900001",
-                            "120",
+                            "110",
                             "Tel"});
                 table2.AddRow(new string[] {
                             "900002",
@@ -187,16 +784,80 @@ this.ScenarioInitialize(scenarioInfo);
                             "Tel"});
                 table2.AddRow(new string[] {
                             "900003",
-                            "120",
+                            "210",
                             "Tel"});
                 table2.AddRow(new string[] {
                             "900004",
-                            "120",
+                            "310",
                             "Tel"});
-#line 21
- testRunner.And("the blaise database contains the following cases", ((string)(null)), table2, "And ");
+                table2.AddRow(new string[] {
+                            "900005",
+                            "430",
+                            "Tel"});
+                table2.AddRow(new string[] {
+                            "900006",
+                            "460",
+                            "Tel"});
+                table2.AddRow(new string[] {
+                            "900007",
+                            "461",
+                            "Tel"});
+                table2.AddRow(new string[] {
+                            "900008",
+                            "541",
+                            "Tel"});
+                table2.AddRow(new string[] {
+                            "900009",
+                            "542",
+                            "Tel"});
+                table2.AddRow(new string[] {
+                            "900010",
+                            "110",
+                            "Tel"});
+                table2.AddRow(new string[] {
+                            "900011",
+                            "210",
+                            "Tel"});
+                table2.AddRow(new string[] {
+                            "900012",
+                            "310",
+                            "Tel"});
+                table2.AddRow(new string[] {
+                            "900013",
+                            "430",
+                            "Tel"});
+                table2.AddRow(new string[] {
+                            "900014",
+                            "460",
+                            "Tel"});
+                table2.AddRow(new string[] {
+                            "900015",
+                            "461",
+                            "Tel"});
+                table2.AddRow(new string[] {
+                            "900016",
+                            "541",
+                            "Tel"});
+                table2.AddRow(new string[] {
+                            "900017",
+                            "542",
+                            "Tel"});
+                table2.AddRow(new string[] {
+                            "900018",
+                            "310",
+                            "Tel"});
+                table2.AddRow(new string[] {
+                            "900019",
+                            "562",
+                            "Tel"});
+                table2.AddRow(new string[] {
+                            "900020",
+                            "561",
+                            "Tel"});
+#line 149
+ testRunner.And("blaise contains the following cases", ((string)(null)), table2, "And ");
 #line hidden
-#line 27
+#line 182
  testRunner.When("the nisra file is processed", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line hidden
                 TechTalk.SpecFlow.Table table3 = new TechTalk.SpecFlow.Table(new string[] {
@@ -219,8 +880,72 @@ this.ScenarioInitialize(scenarioInfo);
                             "900004",
                             "110",
                             "Web"});
-#line 28
- testRunner.Then("the blaise database will contain the following cases", ((string)(null)), table3, "Then ");
+                table3.AddRow(new string[] {
+                            "900005",
+                            "110",
+                            "Web"});
+                table3.AddRow(new string[] {
+                            "900006",
+                            "110",
+                            "Web"});
+                table3.AddRow(new string[] {
+                            "900007",
+                            "110",
+                            "Web"});
+                table3.AddRow(new string[] {
+                            "900008",
+                            "110",
+                            "Web"});
+                table3.AddRow(new string[] {
+                            "900009",
+                            "110",
+                            "Web"});
+                table3.AddRow(new string[] {
+                            "900010",
+                            "110",
+                            "Tel"});
+                table3.AddRow(new string[] {
+                            "900011",
+                            "210",
+                            "Web"});
+                table3.AddRow(new string[] {
+                            "900012",
+                            "310",
+                            "Tel"});
+                table3.AddRow(new string[] {
+                            "900013",
+                            "430",
+                            "Tel"});
+                table3.AddRow(new string[] {
+                            "900014",
+                            "460",
+                            "Tel"});
+                table3.AddRow(new string[] {
+                            "900015",
+                            "461",
+                            "Tel"});
+                table3.AddRow(new string[] {
+                            "900016",
+                            "541",
+                            "Tel"});
+                table3.AddRow(new string[] {
+                            "900017",
+                            "542",
+                            "Tel"});
+                table3.AddRow(new string[] {
+                            "900018",
+                            "310",
+                            "Tel"});
+                table3.AddRow(new string[] {
+                            "900019",
+                            "562",
+                            "Tel"});
+                table3.AddRow(new string[] {
+                            "900020",
+                            "561",
+                            "Tel"});
+#line 183
+ testRunner.Then("blaise will contain the following cases", ((string)(null)), table3, "Then ");
 #line hidden
             }
             this.ScenarioCleanup();
