@@ -29,6 +29,14 @@ namespace BlaiseNisraCaseProcessor.Tests.Behaviour.Helpers
             _serverPark = ConfigurationManager.AppSettings["ServerPark"];
         }
 
+        public int CreateCase(string databaseFilePath, int outcome, ModeType mode)
+        {
+            var caseModel = new CaseModel(_primaryKey.ToString(), outcome.ToString(), mode);
+            _blaiseApi.CreateNewDataRecord(databaseFilePath, caseModel.PrimaryKey, caseModel.BuildCaseData());
+
+            return _primaryKey;
+        }
+
         public void CreateCase(string databaseFilePath, int primaryKey, int outcome, ModeType mode)
         {
             var caseModel = new CaseModel(primaryKey.ToString(), outcome.ToString(), mode);
@@ -58,10 +66,16 @@ namespace BlaiseNisraCaseProcessor.Tests.Behaviour.Helpers
             for (var i = 0; i < numberOfCases; i++)
             {
                 _primaryKey++;
-                var caseModel = new CaseModel($"{_primaryKey}", outcome.ToString(), mode);
-                _blaiseApi.CreateNewDataRecord(_connectionModel, $"{_primaryKey}", caseModel.BuildBasicData(), _instrumentName, _serverPark);
+                CreateCaseInDatabase(_primaryKey, outcome, mode);
             }
         }
+
+        public void CreateCaseInDatabase(int primaryKey, int outcome, ModeType mode)
+        {
+            var caseModel = new CaseModel($"{primaryKey}", outcome.ToString(), mode);
+            _blaiseApi.CreateNewDataRecord(_connectionModel, $"{primaryKey}", caseModel.BuildBasicData(), _instrumentName, _serverPark);
+        }
+
         public void CreateCasesInDatabase(IEnumerable<CaseModel> cases)
         {
             foreach (var caseModel in cases)
@@ -69,7 +83,7 @@ namespace BlaiseNisraCaseProcessor.Tests.Behaviour.Helpers
                 _blaiseApi.CreateNewDataRecord(_connectionModel, caseModel.PrimaryKey, caseModel.BuildBasicData(), _instrumentName, _serverPark);
             }
         }
-
+        
         public int GetNumberOfCasesInDatabase()
         {
             return _blaiseApi.GetNumberOfCases(_connectionModel, _instrumentName, _serverPark);
@@ -95,7 +109,15 @@ namespace BlaiseNisraCaseProcessor.Tests.Behaviour.Helpers
             return caseModels;
         }
 
+        public CaseModel GetCaseInDatabase(int primaryKey)
+        {
+            var blaiseCaseRecord = _blaiseApi.GetDataRecord(_connectionModel, primaryKey.ToString(), _instrumentName, _serverPark);
+            var outcome = _blaiseApi.GetFieldValue(blaiseCaseRecord, FieldNameType.HOut).IntegerValue.ToString(CultureInfo.InvariantCulture);
+            var mode = _blaiseApi.GetFieldValue(blaiseCaseRecord, FieldNameType.Mode).EnumerationValue;
 
+            return new CaseModel(primaryKey.ToString(), outcome, (ModeType)mode);
+        }
+        
         public void DeleteCasesInDatabase()
         {
             var cases = _blaiseApi.GetDataSet(_connectionModel, _instrumentName, _serverPark);
