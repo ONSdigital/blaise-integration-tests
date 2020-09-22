@@ -656,6 +656,53 @@ this.ScenarioInitialize(scenarioInfo);
         }
         
         [NUnit.Framework.TestAttribute()]
+        [NUnit.Framework.DescriptionAttribute("A case in the NISRA file is complete and has no case Id and in Blaise it is compl" +
+            "ete with a case Id, we take the NISRA case and keep the existing case Id")]
+        public virtual void ACaseInTheNISRAFileIsCompleteAndHasNoCaseIdAndInBlaiseItIsCompleteWithACaseIdWeTakeTheNISRACaseAndKeepTheExistingCaseId()
+        {
+            string[] tagsOfScenario = ((string[])(null));
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("A case in the NISRA file is complete and has no case Id and in Blaise it is compl" +
+                    "ete with a case Id, we take the NISRA case and keep the existing case Id", null, ((string[])(null)));
+#line 115
+this.ScenarioInitialize(scenarioInfo);
+#line hidden
+            bool isScenarioIgnored = default(bool);
+            bool isFeatureIgnored = default(bool);
+            if ((tagsOfScenario != null))
+            {
+                isScenarioIgnored = tagsOfScenario.Where(__entry => __entry != null).Where(__entry => String.Equals(__entry, "ignore", StringComparison.CurrentCultureIgnoreCase)).Any();
+            }
+            if ((this._featureTags != null))
+            {
+                isFeatureIgnored = this._featureTags.Where(__entry => __entry != null).Where(__entry => String.Equals(__entry, "ignore", StringComparison.CurrentCultureIgnoreCase)).Any();
+            }
+            if ((isScenarioIgnored || isFeatureIgnored))
+            {
+                testRunner.SkipScenario();
+            }
+            else
+            {
+                this.ScenarioStart();
+#line 116
+ testRunner.Given("there is a Nisra file that contains a case that is complete", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+#line hidden
+#line 117
+ testRunner.And("the same case exists in Blaise that is complete and has a case id of \'30001\'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line hidden
+#line 118
+ testRunner.When("the nisra file is processed", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line hidden
+#line 119
+ testRunner.Then("the existing blaise case is overwritten with the NISRA case", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line hidden
+#line 120
+ testRunner.And("the case has a case id of \'30001\'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line hidden
+            }
+            this.ScenarioCleanup();
+        }
+        
+        [NUnit.Framework.TestAttribute()]
         [NUnit.Framework.DescriptionAttribute("There is a Nisra file available that contains cases that already exists in the bl" +
             "aise database, the cases are updated depending on the outcome codes")]
         public virtual void ThereIsANisraFileAvailableThatContainsCasesThatAlreadyExistsInTheBlaiseDatabaseTheCasesAreUpdatedDependingOnTheOutcomeCodes()
@@ -663,7 +710,7 @@ this.ScenarioInitialize(scenarioInfo);
             string[] tagsOfScenario = ((string[])(null));
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("There is a Nisra file available that contains cases that already exists in the bl" +
                     "aise database, the cases are updated depending on the outcome codes", null, ((string[])(null)));
-#line 115
+#line 123
 this.ScenarioInitialize(scenarioInfo);
 #line hidden
             bool isScenarioIgnored = default(bool);
@@ -686,265 +733,328 @@ this.ScenarioInitialize(scenarioInfo);
                 TechTalk.SpecFlow.Table table1 = new TechTalk.SpecFlow.Table(new string[] {
                             "primarykey",
                             "outcome",
-                            "mode"});
+                            "mode",
+                            "caseid"});
                 table1.AddRow(new string[] {
                             "900001",
                             "110",
-                            "Web"});
+                            "Web",
+                            "0"});
                 table1.AddRow(new string[] {
                             "900002",
                             "210",
-                            "Web"});
+                            "Web",
+                            "0"});
                 table1.AddRow(new string[] {
                             "900003",
                             "110",
-                            "Web"});
+                            "Web",
+                            "0"});
                 table1.AddRow(new string[] {
                             "900004",
                             "110",
-                            "Web"});
+                            "Web",
+                            "0"});
                 table1.AddRow(new string[] {
                             "900005",
                             "110",
-                            "Web"});
+                            "Web",
+                            "0"});
                 table1.AddRow(new string[] {
                             "900006",
                             "110",
-                            "Web"});
+                            "Web",
+                            "0"});
                 table1.AddRow(new string[] {
                             "900007",
                             "110",
-                            "Web"});
+                            "Web",
+                            "0"});
                 table1.AddRow(new string[] {
                             "900008",
                             "110",
-                            "Web"});
+                            "Web",
+                            "0"});
                 table1.AddRow(new string[] {
                             "900009",
                             "110",
-                            "Web"});
+                            "Web",
+                            "0"});
                 table1.AddRow(new string[] {
                             "900010",
                             "0",
-                            "Web"});
+                            "Web",
+                            "0"});
                 table1.AddRow(new string[] {
                             "900011",
                             "210",
-                            "Web"});
+                            "Web",
+                            "0"});
                 table1.AddRow(new string[] {
                             "900012",
                             "210",
-                            "Web"});
+                            "Web",
+                            "0"});
                 table1.AddRow(new string[] {
                             "900013",
                             "210",
-                            "Web"});
+                            "Web",
+                            "0"});
                 table1.AddRow(new string[] {
                             "900014",
                             "210",
-                            "Web"});
+                            "Web",
+                            "0"});
                 table1.AddRow(new string[] {
                             "900015",
                             "210",
-                            "Web"});
+                            "Web",
+                            "0"});
                 table1.AddRow(new string[] {
                             "900016",
                             "210",
-                            "Web"});
+                            "Web",
+                            "0"});
                 table1.AddRow(new string[] {
                             "900017",
                             "210",
-                            "Web"});
+                            "Web",
+                            "0"});
                 table1.AddRow(new string[] {
                             "900018",
                             "0",
-                            "Web"});
+                            "Web",
+                            "0"});
                 table1.AddRow(new string[] {
                             "900019",
                             "210",
-                            "Web"});
+                            "Web",
+                            "0"});
                 table1.AddRow(new string[] {
                             "900020",
                             "110",
-                            "Web"});
-#line 116
+                            "Web",
+                            "0"});
+#line 124
  testRunner.Given("there is a Nisra file that contains the following cases", ((string)(null)), table1, "Given ");
 #line hidden
                 TechTalk.SpecFlow.Table table2 = new TechTalk.SpecFlow.Table(new string[] {
                             "primarykey",
                             "outcome",
-                            "mode"});
+                            "mode",
+                            "caseid"});
                 table2.AddRow(new string[] {
                             "900001",
                             "110",
-                            "Tel"});
+                            "Tel",
+                            "3001"});
                 table2.AddRow(new string[] {
                             "900002",
                             "110",
-                            "Tel"});
+                            "Tel",
+                            "3002"});
                 table2.AddRow(new string[] {
                             "900003",
                             "210",
-                            "Tel"});
+                            "Tel",
+                            "3003"});
                 table2.AddRow(new string[] {
                             "900004",
                             "310",
-                            "Tel"});
+                            "Tel",
+                            "3004"});
                 table2.AddRow(new string[] {
                             "900005",
                             "430",
-                            "Tel"});
+                            "Tel",
+                            "3005"});
                 table2.AddRow(new string[] {
                             "900006",
                             "460",
-                            "Tel"});
+                            "Tel",
+                            "3006"});
                 table2.AddRow(new string[] {
                             "900007",
                             "461",
-                            "Tel"});
+                            "Tel",
+                            "3007"});
                 table2.AddRow(new string[] {
                             "900008",
                             "541",
-                            "Tel"});
+                            "Tel",
+                            "3008"});
                 table2.AddRow(new string[] {
                             "900009",
                             "542",
-                            "Tel"});
+                            "Tel",
+                            "3009"});
                 table2.AddRow(new string[] {
                             "900010",
                             "110",
-                            "Tel"});
+                            "Tel",
+                            "3010"});
                 table2.AddRow(new string[] {
                             "900011",
                             "210",
-                            "Tel"});
+                            "Tel",
+                            "3011"});
                 table2.AddRow(new string[] {
                             "900012",
                             "310",
-                            "Tel"});
+                            "Tel",
+                            "3012"});
                 table2.AddRow(new string[] {
                             "900013",
                             "430",
-                            "Tel"});
+                            "Tel",
+                            "3013"});
                 table2.AddRow(new string[] {
                             "900014",
                             "460",
-                            "Tel"});
+                            "Tel",
+                            "3014"});
                 table2.AddRow(new string[] {
                             "900015",
                             "461",
-                            "Tel"});
+                            "Tel",
+                            "3015"});
                 table2.AddRow(new string[] {
                             "900016",
                             "541",
-                            "Tel"});
+                            "Tel",
+                            "3016"});
                 table2.AddRow(new string[] {
                             "900017",
                             "542",
-                            "Tel"});
+                            "Tel",
+                            "3017"});
                 table2.AddRow(new string[] {
                             "900018",
                             "310",
-                            "Tel"});
+                            "Tel",
+                            "3018"});
                 table2.AddRow(new string[] {
                             "900019",
                             "562",
-                            "Tel"});
+                            "Tel",
+                            "3019"});
                 table2.AddRow(new string[] {
                             "900020",
                             "561",
-                            "Tel"});
-#line 149
+                            "Tel",
+                            "3020"});
+#line 157
  testRunner.And("blaise contains the following cases", ((string)(null)), table2, "And ");
 #line hidden
-#line 182
+#line 190
  testRunner.When("the nisra file is processed", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line hidden
                 TechTalk.SpecFlow.Table table3 = new TechTalk.SpecFlow.Table(new string[] {
                             "primarykey",
                             "outcome",
-                            "mode"});
+                            "mode",
+                            "caseid"});
                 table3.AddRow(new string[] {
                             "900001",
                             "110",
-                            "Web"});
+                            "Web",
+                            "3001"});
                 table3.AddRow(new string[] {
                             "900002",
                             "110",
-                            "Tel"});
+                            "Tel",
+                            "3002"});
                 table3.AddRow(new string[] {
                             "900003",
                             "110",
-                            "Web"});
+                            "Web",
+                            "3003"});
                 table3.AddRow(new string[] {
                             "900004",
                             "110",
-                            "Web"});
+                            "Web",
+                            "3004"});
                 table3.AddRow(new string[] {
                             "900005",
                             "110",
-                            "Web"});
+                            "Web",
+                            "3005"});
                 table3.AddRow(new string[] {
                             "900006",
                             "110",
-                            "Web"});
+                            "Web",
+                            "3006"});
                 table3.AddRow(new string[] {
                             "900007",
                             "110",
-                            "Web"});
+                            "Web",
+                            "3007"});
                 table3.AddRow(new string[] {
                             "900008",
                             "110",
-                            "Web"});
+                            "Web",
+                            "3008"});
                 table3.AddRow(new string[] {
                             "900009",
                             "110",
-                            "Web"});
+                            "Web",
+                            "3009"});
                 table3.AddRow(new string[] {
                             "900010",
                             "110",
-                            "Tel"});
+                            "Tel",
+                            "3010"});
                 table3.AddRow(new string[] {
                             "900011",
                             "210",
-                            "Web"});
+                            "Web",
+                            "3011"});
                 table3.AddRow(new string[] {
                             "900012",
-                            "310",
-                            "Tel"});
+                            "210",
+                            "Web",
+                            "3012"});
                 table3.AddRow(new string[] {
                             "900013",
-                            "430",
-                            "Tel"});
+                            "210",
+                            "Web",
+                            "3013"});
                 table3.AddRow(new string[] {
                             "900014",
-                            "460",
-                            "Tel"});
+                            "210",
+                            "Web",
+                            "3014"});
                 table3.AddRow(new string[] {
                             "900015",
-                            "461",
-                            "Tel"});
+                            "210",
+                            "Web",
+                            "3015"});
                 table3.AddRow(new string[] {
                             "900016",
-                            "541",
-                            "Tel"});
+                            "210",
+                            "Web",
+                            "3016"});
                 table3.AddRow(new string[] {
                             "900017",
-                            "542",
-                            "Tel"});
+                            "210",
+                            "Web",
+                            "3017"});
                 table3.AddRow(new string[] {
                             "900018",
                             "310",
-                            "Tel"});
+                            "Tel",
+                            "3018"});
                 table3.AddRow(new string[] {
                             "900019",
                             "562",
-                            "Tel"});
+                            "Tel",
+                            "3019"});
                 table3.AddRow(new string[] {
                             "900020",
                             "561",
-                            "Tel"});
-#line 183
+                            "Tel",
+                            "3020"});
+#line 191
  testRunner.Then("blaise will contain the following cases", ((string)(null)), table3, "Then ");
 #line hidden
             }

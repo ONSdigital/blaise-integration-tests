@@ -70,9 +70,9 @@ namespace BlaiseNisraCaseProcessor.Tests.Behaviour.Helpers
             }
         }
 
-        public void CreateCaseInDatabase(int primaryKey, int outcome, ModeType mode)
+        public void CreateCaseInDatabase(int primaryKey, int outcome, ModeType mode, string caseId = null)
         {
-            var caseModel = new CaseModel($"{primaryKey}", outcome.ToString(), mode);
+            var caseModel = new CaseModel($"{primaryKey}", outcome.ToString(), mode, caseId);
             _blaiseApi.CreateNewDataRecord(_connectionModel, $"{primaryKey}", caseModel.BuildBasicData(), _instrumentName, _serverPark);
         }
 
@@ -98,11 +98,11 @@ namespace BlaiseNisraCaseProcessor.Tests.Behaviour.Helpers
             while (!casesInDatabase.EndOfSet)
             {
                 var caseRecord = casesInDatabase.ActiveRecord;
-
                 var outcome = _blaiseApi.GetFieldValue(caseRecord, FieldNameType.HOut).IntegerValue.ToString(CultureInfo.InvariantCulture);
                 var mode = _blaiseApi.GetFieldValue(caseRecord, FieldNameType.Mode).EnumerationValue;
+                var caseId = _blaiseApi.GetFieldValue(caseRecord, FieldNameType.CaseId).ValueAsText;
 
-                caseModels.Add(new CaseModel(_blaiseApi.GetPrimaryKeyValue(caseRecord), outcome, (ModeType)mode));
+                caseModels.Add(new CaseModel(_blaiseApi.GetPrimaryKeyValue(caseRecord), outcome, (ModeType)mode, caseId));
                 casesInDatabase.MoveNext();
             }
 
@@ -114,8 +114,9 @@ namespace BlaiseNisraCaseProcessor.Tests.Behaviour.Helpers
             var blaiseCaseRecord = _blaiseApi.GetDataRecord(_connectionModel, primaryKey.ToString(), _instrumentName, _serverPark);
             var outcome = _blaiseApi.GetFieldValue(blaiseCaseRecord, FieldNameType.HOut).IntegerValue.ToString(CultureInfo.InvariantCulture);
             var mode = _blaiseApi.GetFieldValue(blaiseCaseRecord, FieldNameType.Mode).EnumerationValue;
+            var caseId = _blaiseApi.GetFieldValue(blaiseCaseRecord, FieldNameType.CaseId).ValueAsText;
 
-            return new CaseModel(primaryKey.ToString(), outcome, (ModeType)mode);
+            return new CaseModel(primaryKey.ToString(), outcome, (ModeType)mode, caseId);
         }
         
         public void DeleteCasesInDatabase()
