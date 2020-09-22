@@ -4,11 +4,12 @@ namespace BlaiseNisraCaseProcessor.Tests.Behaviour.Models
 {
     public class CaseModel
     {
-        public CaseModel(string primaryKey, string outcome, ModeType mode)
+        public CaseModel(string primaryKey, string outcome, ModeType mode, string caseId = null)
         {
             PrimaryKey = primaryKey;
             Outcome = outcome;
             Mode = mode;
+            CaseId = caseId;
         }
 
         public string PrimaryKey { get; set; }
@@ -16,5 +17,7 @@ namespace BlaiseNisraCaseProcessor.Tests.Behaviour.Models
         public string Outcome { get; set; }
 
         public ModeType Mode { get; set; }
+
+        public string CaseId { get; set; }
     }
 }
