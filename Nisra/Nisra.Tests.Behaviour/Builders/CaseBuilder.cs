@@ -2,6 +2,8 @@
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using Blaise.Nuget.Api.Contracts.Enums;
+using Blaise.Nuget.Api.Contracts.Extensions;
 using BlaiseNisraCaseProcessor.Tests.Behaviour.Models;
 using Newtonsoft.Json;
 
@@ -19,7 +21,6 @@ namespace BlaiseNisraCaseProcessor.Tests.Behaviour.Builders
         public static Dictionary<string, string> BuildBasicData(this CaseModel caseModel)
         {
             var caseData = new Dictionary<string, string>();
-
             return AddCaseModelData(caseData, caseModel);
         }
 
@@ -37,9 +38,10 @@ namespace BlaiseNisraCaseProcessor.Tests.Behaviour.Builders
 
         private static Dictionary<string, string> AddCaseModelData(Dictionary<string, string> caseData, CaseModel caseModel)
         {
-            caseData["QHAdmin.HOut"] = caseModel.Outcome;
+            caseData[FieldNameType.HOut.FullName()] = caseModel.Outcome;
             caseData["serial_number"] = caseModel.PrimaryKey;
-            caseData["Mode"] = ((int)caseModel.Mode).ToString();
+            caseData[FieldNameType.Mode.FullName()] = ((int)caseModel.Mode).ToString();
+            caseData[FieldNameType.CaseId.FullName()] = caseModel.CaseId;
 
             return caseData;
         }

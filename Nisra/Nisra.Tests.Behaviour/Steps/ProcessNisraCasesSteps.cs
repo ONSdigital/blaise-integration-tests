@@ -117,11 +117,21 @@ namespace BlaiseNisraCaseProcessor.Tests.Behaviour.Steps
             GivenTheSameCaseExistsInBlaiseWithTheOutcomeCode(110);
         }
 
+        [Given(@"the same case exists in Blaise that is complete and has a case id of '(.*)'")]
+        public void GivenTheSameCaseExistsInBlaiseThatIsCompleteHasACaseIdOf(string caseId)
+        {
+            var primaryKey = _scenarioContext.Get<int>("primaryKey");
+            _caseHelper.CreateCaseInDatabase(primaryKey, 110, ModeType.Tel, caseId);
+        }
+
+
         [Given(@"the same case exists in Blaise that is partially complete")]
         public void GivenTheSameCaseExistsInBlaiseThatIsPartiallyComplete()
         {
             GivenTheSameCaseExistsInBlaiseWithTheOutcomeCode(210);
         }
+
+
 
         [Given(@"blaise contains '(.*)' cases")]
         public void GivenBlaiseContainsCases(int numberOfCases)
@@ -208,8 +218,12 @@ namespace BlaiseNisraCaseProcessor.Tests.Behaviour.Steps
 
                 Assert.AreEqual(caseRecordExpected.Outcome, caseModel.Outcome, $"expected an outcome of '{caseRecordExpected.Outcome}' for case '{caseModel.PrimaryKey}'," +
                                                                                $"but was '{caseModel.Outcome}'");
+
                 Assert.AreEqual(caseRecordExpected.Mode, caseModel.Mode, $"expected an version of '{caseRecordExpected.Mode}' for case '{caseModel.PrimaryKey}'," +
                                                                                $"but was '{caseModel.Mode}'");
+
+                Assert.AreEqual(caseRecordExpected.CaseId, caseModel.CaseId, $"expected a caseId of '{caseRecordExpected.CaseId}' for case '{caseModel.PrimaryKey}'," +
+                                                                         $"but was '{caseModel.CaseId}'");
             }
         }
 
@@ -222,6 +236,15 @@ namespace BlaiseNisraCaseProcessor.Tests.Behaviour.Steps
             Assert.AreEqual(ModeType.Web, blaiseCase.Mode);
         }
 
+        [Then(@"the case has a case id of '(.*)'")]
+        public void ThenTheCaseHasACaseIdOf(string caseId)
+        {
+            var primaryKey = _scenarioContext.Get<int>("primaryKey");
+            var blaiseCase = _caseHelper.GetCaseInDatabase(primaryKey);
+
+            Assert.AreEqual(caseId, blaiseCase.CaseId);
+        }
+        
         [Then(@"the existing blaise case is kept")]
         public void ThenTheBlaiseCaseIsKept()
         {
@@ -230,9 +253,7 @@ namespace BlaiseNisraCaseProcessor.Tests.Behaviour.Steps
 
             Assert.AreEqual(ModeType.Tel, blaiseCase.Mode);
         }
-
-
-
+        
         [AfterScenario]
         public static void CleanUpFiles()
         {
