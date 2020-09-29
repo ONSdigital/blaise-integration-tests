@@ -20,8 +20,8 @@ namespace Blaise.Api.Tests.Behaviour.Features
     [System.CodeDom.Compiler.GeneratedCodeAttribute("TechTalk.SpecFlow", "3.1.0.0")]
     [System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     [NUnit.Framework.TestFixtureAttribute()]
-    [NUnit.Framework.DescriptionAttribute("As a service I wish to be able to create and manuiplate cases in Blaise")]
-    public partial class AsAServiceIWishToBeAbleToCreateAndManuiplateCasesInBlaiseFeature
+    [NUnit.Framework.DescriptionAttribute("As a service I wish to be able to create and update cases in Blaise")]
+    public partial class AsAServiceIWishToBeAbleToCreateAndUpdateCasesInBlaiseFeature
     {
         
         private TechTalk.SpecFlow.ITestRunner testRunner;
@@ -35,7 +35,7 @@ namespace Blaise.Api.Tests.Behaviour.Features
         public virtual void FeatureSetup()
         {
             testRunner = TechTalk.SpecFlow.TestRunnerManager.GetTestRunner();
-            TechTalk.SpecFlow.FeatureInfo featureInfo = new TechTalk.SpecFlow.FeatureInfo(new System.Globalization.CultureInfo("en-US"), "As a service I wish to be able to create and manuiplate cases in Blaise", "\tIn order to facilitate custom workflows\r\n\tAs a service\r\n\tI want to be able to ma" +
+            TechTalk.SpecFlow.FeatureInfo featureInfo = new TechTalk.SpecFlow.FeatureInfo(new System.Globalization.CultureInfo("en-US"), "As a service I wish to be able to create and update cases in Blaise", "\tIn order to facilitate custom workflows\r\n\tAs a service\r\n\tI want to be able to ma" +
                     "nipulate cases in Blaise", ProgrammingLanguage.CSharp, ((string[])(null)));
             testRunner.OnFeatureStart(featureInfo);
         }
@@ -254,7 +254,7 @@ this.ScenarioInitialize(scenarioInfo);
  testRunner.When("I check to see if the case exists", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line hidden
 #line 37
- testRunner.Then("true is returned", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+ testRunner.Then("the case exists", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
             }
             this.ScenarioCleanup();
@@ -293,7 +293,7 @@ this.ScenarioInitialize(scenarioInfo);
  testRunner.When("I check to see if the case exists", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line hidden
 #line 42
- testRunner.Then("false is returned", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+ testRunner.Then("the case does not exist", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
             }
             this.ScenarioCleanup();

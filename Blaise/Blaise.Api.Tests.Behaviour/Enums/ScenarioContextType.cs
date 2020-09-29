@@ -1,10 +1,12 @@
 ﻿namespace Blaise.Api.Tests.Behaviour.Enums
 {
-    public enum ScenarioContextTypes
+    public enum ScenarioContextType
     {
         CaseModel,
         PrimaryKey,
         Exists,
-        CaseModels
+        CaseModels,
+        FieldValue,
+        User
     }
 }
