@@ -3,7 +3,7 @@ using System.Linq;
 using StatNeth.Blaise.Shared.Collections;
 using TechTalk.SpecFlow;
 
-namespace Blaise.Api.Tests.Behaviour.StepArgumentTransformations
+namespace Blaise.Api.Tests.Behaviour.StepArgumentTransformations.Case
 {
     [Binding]
     public class ProcessNisraCasesStepArgumentTransformations
