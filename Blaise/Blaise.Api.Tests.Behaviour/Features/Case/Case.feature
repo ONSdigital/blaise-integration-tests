@@ -1,4 +1,5 @@
-﻿Feature: As a service I wish to be able to create and manuiplate cases in Blaise
+﻿@case
+Feature: As a service I wish to be able to create and update cases in Blaise
 	In order to facilitate custom workflows
 	As a service
 	I want to be able to manipulate cases in Blaise
@@ -34,12 +35,12 @@ Scenario: Update an existing case in Blaise
 Scenario: Check a case exists in Blaise returns true if the case exists
 	Given a case exists in blaise with the primary key '900000'
 	When I check to see if the case exists 
-	Then true is returned 
+	Then the case exists
 
 Scenario: Check a case exists in Blaise returns false if the case does not exist
 	Given a case does not exist in blaise with the primary key '900000'
 	When I check to see if the case exists
-	Then false is returned 
+	Then the case does not exist
 
 Scenario: Delete an existing case in Blaise
 	Given a case exists in blaise with the primary key '900000'

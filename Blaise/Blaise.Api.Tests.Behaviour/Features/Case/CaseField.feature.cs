@@ -10,7 +10,7 @@
 // ------------------------------------------------------------------------------
 #region Designer generated code
 #pragma warning disable
-namespace Blaise.Api.Tests.Behaviour.Features
+namespace Blaise.Api.Tests.Behaviour.Features.Case
 {
     using TechTalk.SpecFlow;
     using System;
@@ -22,12 +22,14 @@ namespace Blaise.Api.Tests.Behaviour.Features
     [NUnit.Framework.TestFixtureAttribute()]
     [NUnit.Framework.DescriptionAttribute("As a service I wish to be able to retrieve the value of a field in a case to dete" +
         "rmine it\'s status")]
+    [NUnit.Framework.CategoryAttribute("case")]
     public partial class AsAServiceIWishToBeAbleToRetrieveTheValueOfAFieldInACaseToDetermineItsStatusFeature
     {
         
         private TechTalk.SpecFlow.ITestRunner testRunner;
         
-        private string[] _featureTags = ((string[])(null));
+        private string[] _featureTags = new string[] {
+                "case"};
         
 #line 1 "CaseField.feature"
 #line hidden
@@ -38,7 +40,8 @@ namespace Blaise.Api.Tests.Behaviour.Features
             testRunner = TechTalk.SpecFlow.TestRunnerManager.GetTestRunner();
             TechTalk.SpecFlow.FeatureInfo featureInfo = new TechTalk.SpecFlow.FeatureInfo(new System.Globalization.CultureInfo("en-US"), "As a service I wish to be able to retrieve the value of a field in a case to dete" +
                     "rmine it\'s status", "\tIn order to facilitate custom workflows\r\n\tAs a service\r\n\tI want to be able to re" +
-                    "trieve the value of fields in a blaise case", ProgrammingLanguage.CSharp, ((string[])(null)));
+                    "trieve the value of fields in a blaise case", ProgrammingLanguage.CSharp, new string[] {
+                        "case"});
             testRunner.OnFeatureStart(featureInfo);
         }
         
@@ -90,7 +93,7 @@ namespace Blaise.Api.Tests.Behaviour.Features
         {
             string[] tagsOfScenario = exampleTags;
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Get the value of a field in a case", null, exampleTags);
-#line 6
+#line 7
 this.ScenarioInitialize(scenarioInfo);
 #line hidden
             bool isScenarioIgnored = default(bool);
@@ -110,13 +113,13 @@ this.ScenarioInitialize(scenarioInfo);
             else
             {
                 this.ScenarioStart();
-#line 7
+#line 8
  testRunner.Given(string.Format("a case exists in blaise where the field \'{0}\' has a value of \'{1}\'", field, value), ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line hidden
-#line 8
+#line 9
  testRunner.When(string.Format("I retrieve the value of the field \'{0}\'", field), ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line hidden
-#line 9
+#line 10
  testRunner.Then(string.Format("the value should be \'{0}\'", value), ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
             }

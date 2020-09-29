@@ -10,7 +10,7 @@
 // ------------------------------------------------------------------------------
 #region Designer generated code
 #pragma warning disable
-namespace Blaise.Api.Tests.Behaviour.Features
+namespace Blaise.Api.Tests.Behaviour.Features.User
 {
     using TechTalk.SpecFlow;
     using System;
@@ -21,12 +21,14 @@ namespace Blaise.Api.Tests.Behaviour.Features
     [System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     [NUnit.Framework.TestFixtureAttribute()]
     [NUnit.Framework.DescriptionAttribute("As a service I wish to be able to create and update users in Blaise")]
+    [NUnit.Framework.CategoryAttribute("user")]
     public partial class AsAServiceIWishToBeAbleToCreateAndUpdateUsersInBlaiseFeature
     {
         
         private TechTalk.SpecFlow.ITestRunner testRunner;
         
-        private string[] _featureTags = ((string[])(null));
+        private string[] _featureTags = new string[] {
+                "user"};
         
 #line 1 "User.feature"
 #line hidden
@@ -36,7 +38,8 @@ namespace Blaise.Api.Tests.Behaviour.Features
         {
             testRunner = TechTalk.SpecFlow.TestRunnerManager.GetTestRunner();
             TechTalk.SpecFlow.FeatureInfo featureInfo = new TechTalk.SpecFlow.FeatureInfo(new System.Globalization.CultureInfo("en-US"), "As a service I wish to be able to create and update users in Blaise", "\tIn order to facilitate custom workflows\r\n\tAs a service\r\n\tI want to be able to cr" +
-                    "eate and maintain users in Blaise", ProgrammingLanguage.CSharp, ((string[])(null)));
+                    "eate and maintain users in Blaise", ProgrammingLanguage.CSharp, new string[] {
+                        "user"});
             testRunner.OnFeatureStart(featureInfo);
         }
         
@@ -80,7 +83,7 @@ namespace Blaise.Api.Tests.Behaviour.Features
         {
             string[] tagsOfScenario = ((string[])(null));
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Create a new user in Blaise", null, ((string[])(null)));
-#line 6
+#line 7
 this.ScenarioInitialize(scenarioInfo);
 #line hidden
             bool isScenarioIgnored = default(bool);
@@ -100,13 +103,13 @@ this.ScenarioInitialize(scenarioInfo);
             else
             {
                 this.ScenarioStart();
-#line 7
+#line 8
  testRunner.Given("I have a new user I want to add", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line hidden
-#line 8
+#line 9
  testRunner.When("I add the user", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line hidden
-#line 9
+#line 10
  testRunner.Then("the user is successfully added", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
             }
@@ -119,7 +122,7 @@ this.ScenarioInitialize(scenarioInfo);
         {
             string[] tagsOfScenario = ((string[])(null));
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Get an existing user in Blaise", null, ((string[])(null)));
-#line 11
+#line 12
 this.ScenarioInitialize(scenarioInfo);
 #line hidden
             bool isScenarioIgnored = default(bool);
@@ -141,35 +144,35 @@ this.ScenarioInitialize(scenarioInfo);
                 this.ScenarioStart();
                 TechTalk.SpecFlow.Table table8 = new TechTalk.SpecFlow.Table(new string[] {
                             "username",
-                            "role"});
+                            "password",
+                            "role",
+                            "serverparks",
+                            "DefaultServerPark"});
                 table8.AddRow(new string[] {
-                            "test",
-                            "test"});
-#line 12
+                            "user1",
+                            "pass",
+                            "Admin",
+                            "Tel, val, ftf",
+                            "Tel"});
+#line 13
  testRunner.Given("a user exists in blaise", ((string)(null)), table8, "Given ");
 #line hidden
-#line 16
+#line 17
  testRunner.When("I retrieve the user", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line hidden
-                TechTalk.SpecFlow.Table table9 = new TechTalk.SpecFlow.Table(new string[] {
-                            "username",
-                            "role"});
-                table9.AddRow(new string[] {
-                            "test",
-                            "test"});
-#line 17
- testRunner.Then("the correct user is returned", ((string)(null)), table9, "Then ");
+#line 18
+ testRunner.Then("the correct user is returned", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
             }
             this.ScenarioCleanup();
         }
         
         [NUnit.Framework.TestAttribute()]
-        [NUnit.Framework.DescriptionAttribute("Update an existing user in Blaise")]
-        public virtual void UpdateAnExistingUserInBlaise()
+        [NUnit.Framework.DescriptionAttribute("Get an existing user in Blaise2")]
+        public virtual void GetAnExistingUserInBlaise2()
         {
             string[] tagsOfScenario = ((string[])(null));
-            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Update an existing user in Blaise", null, ((string[])(null)));
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Get an existing user in Blaise2", null, ((string[])(null)));
 #line 21
 this.ScenarioInitialize(scenarioInfo);
 #line hidden
@@ -190,44 +193,56 @@ this.ScenarioInitialize(scenarioInfo);
             else
             {
                 this.ScenarioStart();
+#line 22
+ testRunner.Given("a user exists in blaise with the username  \'user1\'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+#line hidden
+#line 23
+ testRunner.And("the the password \'pass\'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line hidden
+#line 24
+ testRunner.And("the the role \'admin\'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line hidden
+                TechTalk.SpecFlow.Table table9 = new TechTalk.SpecFlow.Table(new string[] {
+                            "serverpark"});
+                table9.AddRow(new string[] {
+                            "tel"});
+                table9.AddRow(new string[] {
+                            "val"});
+                table9.AddRow(new string[] {
+                            "f2f"});
+#line 25
+ testRunner.And("the server parks", ((string)(null)), table9, "And ");
+#line hidden
+#line 30
+ testRunner.And("the default server park \'Tel\'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line hidden
+#line 32
+ testRunner.When("I retrieve the user", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line hidden
                 TechTalk.SpecFlow.Table table10 = new TechTalk.SpecFlow.Table(new string[] {
                             "username",
-                            "role"});
+                            "password",
+                            "role",
+                            "DefaultServerPark"});
                 table10.AddRow(new string[] {
-                            "test",
-                            "test"});
-#line 22
- testRunner.Given("a user exists in blaise", ((string)(null)), table10, "Given ");
-#line hidden
-                TechTalk.SpecFlow.Table table11 = new TechTalk.SpecFlow.Table(new string[] {
-                            "username",
-                            "role"});
-                table11.AddRow(new string[] {
-                            "test",
-                            "test2"});
-#line 26
- testRunner.When("I update the user", ((string)(null)), table11, "When ");
-#line hidden
-                TechTalk.SpecFlow.Table table12 = new TechTalk.SpecFlow.Table(new string[] {
-                            "username",
-                            "role"});
-                table12.AddRow(new string[] {
-                            "test",
-                            "test2"});
-#line 30
- testRunner.Then("the user is updated successfully", ((string)(null)), table12, "Then ");
+                            "user1",
+                            "pass",
+                            "Admin",
+                            "Tel"});
+#line 33
+ testRunner.Then("the correct user is returned", ((string)(null)), table10, "Then ");
 #line hidden
             }
             this.ScenarioCleanup();
         }
         
         [NUnit.Framework.TestAttribute()]
-        [NUnit.Framework.DescriptionAttribute("Check that a user exists in blaise returns true if they exist")]
-        public virtual void CheckThatAUserExistsInBlaiseReturnsTrueIfTheyExist()
+        [NUnit.Framework.DescriptionAttribute("Update an existing user in Blaise")]
+        public virtual void UpdateAnExistingUserInBlaise()
         {
             string[] tagsOfScenario = ((string[])(null));
-            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Check that a user exists in blaise returns true if they exist", null, ((string[])(null)));
-#line 34
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Update an existing user in Blaise", null, ((string[])(null)));
+#line 37
 this.ScenarioInitialize(scenarioInfo);
 #line hidden
             bool isScenarioIgnored = default(bool);
@@ -247,13 +262,70 @@ this.ScenarioInitialize(scenarioInfo);
             else
             {
                 this.ScenarioStart();
-#line 35
+                TechTalk.SpecFlow.Table table11 = new TechTalk.SpecFlow.Table(new string[] {
+                            "username",
+                            "role"});
+                table11.AddRow(new string[] {
+                            "test",
+                            "test"});
+#line 38
+ testRunner.Given("a user exists in blaise", ((string)(null)), table11, "Given ");
+#line hidden
+                TechTalk.SpecFlow.Table table12 = new TechTalk.SpecFlow.Table(new string[] {
+                            "username",
+                            "role"});
+                table12.AddRow(new string[] {
+                            "test",
+                            "test2"});
+#line 42
+ testRunner.When("I update the user", ((string)(null)), table12, "When ");
+#line hidden
+                TechTalk.SpecFlow.Table table13 = new TechTalk.SpecFlow.Table(new string[] {
+                            "username",
+                            "role"});
+                table13.AddRow(new string[] {
+                            "test",
+                            "test2"});
+#line 46
+ testRunner.Then("the user is updated successfully", ((string)(null)), table13, "Then ");
+#line hidden
+            }
+            this.ScenarioCleanup();
+        }
+        
+        [NUnit.Framework.TestAttribute()]
+        [NUnit.Framework.DescriptionAttribute("Check that a user exists in blaise returns true if they exist")]
+        public virtual void CheckThatAUserExistsInBlaiseReturnsTrueIfTheyExist()
+        {
+            string[] tagsOfScenario = ((string[])(null));
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Check that a user exists in blaise returns true if they exist", null, ((string[])(null)));
+#line 50
+this.ScenarioInitialize(scenarioInfo);
+#line hidden
+            bool isScenarioIgnored = default(bool);
+            bool isFeatureIgnored = default(bool);
+            if ((tagsOfScenario != null))
+            {
+                isScenarioIgnored = tagsOfScenario.Where(__entry => __entry != null).Where(__entry => String.Equals(__entry, "ignore", StringComparison.CurrentCultureIgnoreCase)).Any();
+            }
+            if ((this._featureTags != null))
+            {
+                isFeatureIgnored = this._featureTags.Where(__entry => __entry != null).Where(__entry => String.Equals(__entry, "ignore", StringComparison.CurrentCultureIgnoreCase)).Any();
+            }
+            if ((isScenarioIgnored || isFeatureIgnored))
+            {
+                testRunner.SkipScenario();
+            }
+            else
+            {
+                this.ScenarioStart();
+#line 51
  testRunner.Given("a user exists in blaise with the user name \'test\'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line hidden
-#line 36
+#line 52
  testRunner.When("I check to see if the user exists", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line hidden
-#line 37
+#line 53
  testRunner.Then("the user exists", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
             }
@@ -266,7 +338,7 @@ this.ScenarioInitialize(scenarioInfo);
         {
             string[] tagsOfScenario = ((string[])(null));
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Check that a user exists in blaise returns false if they do not exist", null, ((string[])(null)));
-#line 40
+#line 56
 this.ScenarioInitialize(scenarioInfo);
 #line hidden
             bool isScenarioIgnored = default(bool);
@@ -286,13 +358,13 @@ this.ScenarioInitialize(scenarioInfo);
             else
             {
                 this.ScenarioStart();
-#line 41
+#line 57
  testRunner.Given("a user does not exist in blaise with the user name \'test\'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line hidden
-#line 42
+#line 58
  testRunner.When("I check to see if the user exists", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line hidden
-#line 43
+#line 59
  testRunner.Then("the user does not exist", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
             }
@@ -305,7 +377,7 @@ this.ScenarioInitialize(scenarioInfo);
         {
             string[] tagsOfScenario = ((string[])(null));
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Change the password of an existing user in Blaise", null, ((string[])(null)));
-#line 46
+#line 62
 this.ScenarioInitialize(scenarioInfo);
 #line hidden
             bool isScenarioIgnored = default(bool);
@@ -325,16 +397,16 @@ this.ScenarioInitialize(scenarioInfo);
             else
             {
                 this.ScenarioStart();
-#line 47
+#line 63
  testRunner.Given("the first number is 50", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line hidden
-#line 48
+#line 64
  testRunner.And("the second number is 70", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
-#line 49
+#line 65
  testRunner.When("the two numbers are added", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line hidden
-#line 50
+#line 66
  testRunner.Then("the result should be 120", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
             }
@@ -347,7 +419,7 @@ this.ScenarioInitialize(scenarioInfo);
         {
             string[] tagsOfScenario = ((string[])(null));
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Delete an existing user in Blaise", null, ((string[])(null)));
-#line 52
+#line 68
 this.ScenarioInitialize(scenarioInfo);
 #line hidden
             bool isScenarioIgnored = default(bool);
@@ -367,13 +439,13 @@ this.ScenarioInitialize(scenarioInfo);
             else
             {
                 this.ScenarioStart();
-#line 53
+#line 69
  testRunner.Given("a user exists in blaise with the user name \'test\'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line hidden
-#line 54
+#line 70
  testRunner.When("I delete the user", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line hidden
-#line 55
+#line 71
  testRunner.Then("the user no longer exists", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
             }
