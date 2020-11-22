@@ -9,7 +9,6 @@ using System.Threading.Tasks;
 
 namespace Blaise.Smoke.Tests.Helpers
 {
-
     public class InstrumentHelper
     {
         private readonly IBlaiseSurveyApi _blaiseSurveyApi;
