@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace Blaise.Smoke.Tests.Pages
@@ -20,6 +21,7 @@ namespace Blaise.Smoke.Tests.Pages
 
         public void loadCase()
         {
+            Thread.Sleep(1000);
             _driver.FindElement(loadCaseButton).Click();
         }
 

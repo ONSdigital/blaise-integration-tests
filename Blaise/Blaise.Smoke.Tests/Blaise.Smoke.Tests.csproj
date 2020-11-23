@@ -212,6 +212,7 @@
     <Compile Include="Helpers\CaseHelper.cs" />
     <Compile Include="Helpers\ConfigurationHelper.cs" />
     <Compile Include="Helpers\InstrumentHelper.cs" />
+    <Compile Include="Helpers\SeleniumHelper.cs" />
     <Compile Include="Helpers\UserHelper.cs" />
     <Compile Include="Models\CaseModel.cs" />
     <Compile Include="Models\UserModel.cs" />
