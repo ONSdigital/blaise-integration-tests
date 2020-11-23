@@ -19,15 +19,15 @@ Scenario: 2 Create cases
 	| 900000     | 110     | 07000 000 00 |
 	| 900001     | 120     | 07000 000 00 |
 
-#Scenario: Create daybatch
-#	Given an instrument is available with a sample case (s)
-#	When I create a daybatch
-#	Then the cases are ready for data capture
-#
-#Scenario: Access case
-#	Given I have a case ready for data capture
-#	When I access the case information
-#	Then I am presented with the data capture screen for the case
+Scenario: Create daybatch
+	Given an instrument is available with a sample case (s)
+	When I create a daybatch
+	Then the cases are ready for data capture
+
+Scenario: Access case
+	Given I have a case ready for data capture
+	When I access the case information
+	Then I am presented with the data capture screen for the case
 
 Scenario: 0 Creating an account for a new user
 	Given I have a new user with the following details

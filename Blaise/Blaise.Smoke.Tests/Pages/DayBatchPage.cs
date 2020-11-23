@@ -21,12 +21,17 @@ namespace Blaise.Smoke.Tests.Pages
             this._driver = driver;
         }
 
-        public string CreateDayBatch()
+        public void CreateDayBatch()
         {
             _driver.FindElement(dayBatchCreateButton).Click();
             Thread.Sleep(2000);
             _driver.FindElement(createButton).Click();
             Thread.Sleep(2000);
+            
+        }
+
+        public string CheckEnteriesInDayBatch()
+        {
             return _driver.FindElement(numberOfEnteries).Text;
         }
 

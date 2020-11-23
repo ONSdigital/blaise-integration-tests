@@ -22,6 +22,7 @@ namespace Blaise.Smoke.Tests.Steps
         private readonly InstrumentHelper _instrumentHelper;
         private readonly CaseHelper _caseHelper;
         private readonly UserHelper _userHelper;
+        private readonly SeleniumHelper _seleniumHelper;
 
         public SmokeTestSteps()
         {
@@ -29,6 +30,7 @@ namespace Blaise.Smoke.Tests.Steps
             _instrumentHelper = new InstrumentHelper();
             _caseHelper = new CaseHelper();
             _userHelper = new UserHelper();
+            _seleniumHelper = new SeleniumHelper();
         }
 
         [Given(@"I have an instrument we wish to use")]
@@ -53,6 +55,25 @@ namespace Blaise.Smoke.Tests.Steps
             userToCreate = userModel;
         }
 
+        [Given(@"an instrument is available with a sample case \(s\)")]
+        public void GivenAnInstrumentIsAvailableWithASampleCaseS()
+        {
+            ScenarioContext.Current.Pending();
+        }
+
+        [Given(@"I have a case ready for data capture")]
+        public void GivenIHaveACaseReadyForDataCapture()
+        {
+            _seleniumHelper.CheckDayBatchEnteries();
+        }
+
+        [When(@"I access the case information")]
+        public void WhenIAccessTheCaseInformation()
+        {
+            _seleniumHelper.LoadCaseInformation();
+        }
+
+
         [When(@"I upload the instrument")]
         public void WhenIUploadTheInstrument()
         {
@@ -71,6 +92,12 @@ namespace Blaise.Smoke.Tests.Steps
             _userHelper.CreateUser(userToCreate);
         }
 
+        [When(@"I create a daybatch")]
+        public void WhenICreateADaybatch()
+        {
+            _seleniumHelper.CreateDayBatch();
+        }
+
         [Then(@"the instrument is available for use")]
         public void ThenTheInstrumentIsAvailableForUse()
         {
@@ -83,11 +110,26 @@ namespace Blaise.Smoke.Tests.Steps
             Assert.IsTrue(_caseHelper.GetCasesFromAnInstrument(_instrumentName, specificCases));
         }
 
+        [Then(@"the cases are ready for data capture")]
+        public void ThenTheCasesAreReadyForDataCapture()
+        {
+            var enteries = _seleniumHelper.CheckDayBatchEnteries();
+            Assert.AreEqual("Showing 1 to 2 of 2 entries", enteries);
+        }
+
+
         [Then(@"The user is created with the following details")]
         public void ThenTheUserIsCreatedWithTheFollowingDetails()
         {
             var user = _userHelper.GetUser(userToCreate.UserName);
             Assert.IsNotNull(user);
         }
+
+        [Then(@"I am presented with the data capture screen for the case")]
+        public void ThenIAmPresentedWithTheDataCaptureScreenForTheCase()
+        {
+            Assert.NotNull(_seleniumHelper.AccessCase());
+        }
+
     }
 }
