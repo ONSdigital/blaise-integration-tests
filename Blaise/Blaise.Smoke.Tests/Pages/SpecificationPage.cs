@@ -1,4 +1,5 @@
-﻿using OpenQA.Selenium;
+﻿using Blaise.Smoke.Tests.Helpers;
+using OpenQA.Selenium;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,6 +12,7 @@ namespace Blaise.Smoke.Tests.Pages
     class SpecificationPage
     {
         private IWebDriver _driver;
+        private ConfigurationHelper _configurationHelper;
 
         private By surveyAccordion = By.XPath("//*[contains(text(), 'Survey Days')]");
         private By editButton = By.Id("btnEditSurveyDays");
@@ -21,6 +23,7 @@ namespace Blaise.Smoke.Tests.Pages
         public SpecificationPage(IWebDriver driver)
         {
             this._driver = driver;
+            this._configurationHelper = new ConfigurationHelper();
         }
 
         public void SetSurveyDay()
@@ -43,7 +46,7 @@ namespace Blaise.Smoke.Tests.Pages
 
         public void GoToPage()
         {
-            _driver.Navigate().GoToUrl("https://server_hostname/Blaise/Specification");
+            _driver.Navigate().GoToUrl(_configurationHelper.SpecificationURL);
         }
 
         public string GetTitle()

@@ -1,4 +1,5 @@
-﻿using OpenQA.Selenium;
+﻿using Blaise.Smoke.Tests.Helpers;
+using OpenQA.Selenium;
 using OpenQA.Selenium.Support.UI;
 using System;
 using System.Collections.Generic;
@@ -12,10 +13,12 @@ namespace Blaise.Smoke.Tests.Pages
     {
         private IWebDriver _driver;
         private WebDriverWait wait;
+        private ConfigurationHelper _configurationHelper;
 
         public LoginPage(IWebDriver driver)
         {
             this._driver = driver;
+            this._configurationHelper = new ConfigurationHelper();
         }
 
         private readonly By usernameBox = By.Id("Username");
@@ -34,7 +37,7 @@ namespace Blaise.Smoke.Tests.Pages
 
         public void GoToPage()
         {
-            _driver.Navigate().GoToUrl("");
+            _driver.Navigate().GoToUrl(_configurationHelper.LoginURL);
         }
     }
 }

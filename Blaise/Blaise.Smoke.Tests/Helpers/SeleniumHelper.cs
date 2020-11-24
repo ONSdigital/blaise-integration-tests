@@ -13,17 +13,20 @@ namespace Blaise.Smoke.Tests.Helpers
     public class SeleniumHelper
     {
         public IWebDriver driver;
+        private ConfigurationHelper _configurationHelper;
 
         public SeleniumHelper()
         {
-            driver = new ChromeDriver("");
+            this._configurationHelper = new ConfigurationHelper();
+
+            driver = new ChromeDriver(_configurationHelper.ChromeDriver);
         }
 
         private void CatiLogin()
         {
             LoginPage loginPage = new LoginPage(driver);
             loginPage.GoToPage();
-            loginPage.CatiLogin("", "");
+            loginPage.CatiLogin(_configurationHelper.CatiUsername, _configurationHelper.CatiPassword);
         }
 
         private void SetSurveyDays()
@@ -49,6 +52,7 @@ namespace Blaise.Smoke.Tests.Helpers
             CatiLogin();
 
             DayBatchPage dayBatchPage = new DayBatchPage(driver);
+            dayBatchPage.GoToPage();
             return dayBatchPage.CheckEnteriesInDayBatch();
         }
 
@@ -58,7 +62,7 @@ namespace Blaise.Smoke.Tests.Helpers
             CaseInfoPage caseInfoPage = new CaseInfoPage(driver);
             caseInfoPage.GoToPage();
             
-            caseInfoPage.loadCase();
+            caseInfoPage.LoadCase();
         }
 
         public string AccessCase()
