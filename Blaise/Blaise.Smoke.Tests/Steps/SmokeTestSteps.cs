@@ -41,7 +41,7 @@ namespace Blaise.Smoke.Tests.Steps
 
         [Given(@"we have a sample set of cases we wish to use")]
         public void GivenWeHaveASampleSetOfCasesWeWishToUse(IEnumerable<CaseModel> cases)
-        {        
+        {
             casesToInstall = cases;
         }
 
@@ -56,9 +56,28 @@ namespace Blaise.Smoke.Tests.Steps
         }
 
         [Given(@"an instrument is available with a sample case \(s\)")]
-        public void GivenAnInstrumentIsAvailableWithASampleCaseS()
+        public void GivenAnInstrumentIsAvailableWithASampleCaseS(IEnumerable<CaseModel> cases)
         {
-            ScenarioContext.Current.Pending();
+            //_instrumentHelper.InstallInstrument(_configurationHelper.InsturmentPath);
+            //foreach (var bCase in cases)
+            //{
+            //    _caseHelper.CreateCasesInAnInstrument(_instrumentName, bCase);
+            //}
+            List<string> ser = new List<string> { "tel" };
+
+            if (_userHelper.GetUser(_configurationHelper.CatiUsername) != null)
+            {
+                _userHelper.RemoveUser(_configurationHelper.CatiUsername);
+            }
+            _userHelper.CreateUser(new UserModel
+            {
+                UserName = _configurationHelper.CatiUsername,
+                Password = _configurationHelper.CatiPassword,
+                ServerParks = ser,
+                DefaultServerPark = "tel",
+                Role = "DST"
+            });
+
         }
 
         [Given(@"I have a case ready for data capture")]
@@ -110,13 +129,12 @@ namespace Blaise.Smoke.Tests.Steps
             Assert.IsTrue(_caseHelper.GetCasesFromAnInstrument(_instrumentName, specificCases));
         }
 
-        [Then(@"the cases are ready for data capture")]
-        public void ThenTheCasesAreReadyForDataCapture()
+        [Then(@"the '(.*)' cases are ready for data capture")]
+        public void ThenTheCasesAreReadyForDataCapture(int numberCases)
         {
             var enteries = _seleniumHelper.CheckDayBatchEnteries();
-            Assert.AreEqual("Showing 1 to 2 of 2 entries", enteries);
+            Assert.AreEqual($"Showing 1 to {numberCases} of {numberCases} entries", enteries);
         }
-
 
         [Then(@"The user is created with the following details")]
         public void ThenTheUserIsCreatedWithTheFollowingDetails()

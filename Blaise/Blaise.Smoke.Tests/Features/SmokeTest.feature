@@ -21,8 +21,11 @@ Scenario: 2 Create cases
 
 Scenario: Create daybatch
 	Given an instrument is available with a sample case (s)
+	| primarykey | outcome | telno        |
+	| 900000     | 110     | 07000 000 00 |
+	| 900001     | 120     | 07000 000 00 |
 	When I create a daybatch
-	Then the cases are ready for data capture
+	Then the '2' cases are ready for data capture
 
 Scenario: Access case
 	Given I have a case ready for data capture
