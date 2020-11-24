@@ -1,4 +1,5 @@
-﻿using OpenQA.Selenium;
+﻿using Blaise.Smoke.Tests.Helpers;
+using OpenQA.Selenium;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,16 +11,18 @@ namespace Blaise.Smoke.Tests.Pages
 {
     class CaseInfoPage
     {
-        private IWebDriver _driver;
+        private readonly IWebDriver _driver;
+        private readonly ConfigurationHelper _configurationHelper;
 
-        private By loadCaseButton = By.XPath("//*[@id='MVCGridTable_CaseInfoGrid']/tbody/tr[1]/td[19]/a");
+        private readonly By loadCaseButton = By.XPath("//*[@id='MVCGridTable_CaseInfoGrid']/tbody/tr[1]/td[19]/a");
 
         public CaseInfoPage(IWebDriver driver)
         {
             this._driver = driver;
+            this._configurationHelper = new ConfigurationHelper();
         }
 
-        public void loadCase()
+        public void LoadCase()
         {
             Thread.Sleep(1000);
             _driver.FindElement(loadCaseButton).Click();
@@ -27,7 +30,7 @@ namespace Blaise.Smoke.Tests.Pages
 
         public void GoToPage()
         {
-            _driver.Navigate().GoToUrl("");
+            _driver.Navigate().GoToUrl(_configurationHelper.CaseInfoURL);
         }
 
         public string GetTitle()

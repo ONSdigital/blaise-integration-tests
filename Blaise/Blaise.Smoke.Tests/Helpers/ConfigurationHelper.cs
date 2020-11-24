@@ -19,6 +19,15 @@ namespace Blaise.Smoke.Tests.Helpers
         public int BlaiseRemoteConnectionPort => GetIntVariable("BlaiseRemoteConnectionPort");
         public int ConnectionExpiresInMinutes => GetIntVariable("ConnectionExpiresInMinutes");
         public string InsturmentPath => GetVariable("InstrumentPath");
+        public string CatiUsername => GetVariable("CatiUsername");
+        public string CatiPassword => GetVariable("CatiPassword");
+        public string LoginURL => GetVariable("LoginURL");
+        public string CaseInfoURL => GetVariable("CaseInfoURL");
+        public string DayBatchURL => GetVariable("DayBatchURL");
+        public string InterviewURL => GetVariable("InterviewURL");
+        public string SpecificationURL => GetVariable("SpecificationURL");
+        public string SurveyURL => GetVariable("SurveyURL");
+        public string ChromeDriver => GetVariable("ChromeDriver");
 
         private static string GetVariable(string variableName)
         {

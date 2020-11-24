@@ -1,4 +1,5 @@
-﻿using OpenQA.Selenium;
+﻿using Blaise.Smoke.Tests.Helpers;
+using OpenQA.Selenium;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,6 +12,7 @@ namespace Blaise.Smoke.Tests.Pages
     class DayBatchPage
     {
         private IWebDriver _driver;
+        private ConfigurationHelper _configurationHelper;
 
         private By dayBatchCreateButton = By.Id("btnCreateDaybatch");
         private By createButton = By.XPath("//input[@value='Create']");
@@ -19,6 +21,7 @@ namespace Blaise.Smoke.Tests.Pages
         public DayBatchPage(IWebDriver driver)
         {
             this._driver = driver;
+            this._configurationHelper = new ConfigurationHelper();
         }
 
         public void CreateDayBatch()
@@ -26,8 +29,7 @@ namespace Blaise.Smoke.Tests.Pages
             _driver.FindElement(dayBatchCreateButton).Click();
             Thread.Sleep(2000);
             _driver.FindElement(createButton).Click();
-            Thread.Sleep(2000);
-            
+            Thread.Sleep(2000);      
         }
 
         public string CheckEnteriesInDayBatch()
@@ -37,7 +39,7 @@ namespace Blaise.Smoke.Tests.Pages
 
         public void GoToPage()
         {
-            _driver.Navigate().GoToUrl("");
+            _driver.Navigate().GoToUrl(_configurationHelper.DayBatchURL);
         }
 
         public string GetTitle()
