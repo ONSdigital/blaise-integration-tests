@@ -17,15 +17,25 @@ namespace Blaise.Tests.Helpers.Instrument
             _blaiseSurveyApi = new BlaiseSurveyApi(_configurationHelper.BuildConnectionModel());           
         }
 
-        public void InstallInstrument(string instrumentPath)
+        public void InstallInstrument(string instrumentPath, SurveyInterviewType surveyConfigurationType)
         {
-            _blaiseSurveyApi.InstallSurvey(_configurationHelper.ServerParkName, instrumentPath);
+            _blaiseSurveyApi.InstallSurvey(_configurationHelper.ServerParkName, instrumentPath, surveyConfigurationType);
         }
 
         public bool SurveyIsInstalledSuccessfully(string instrumentName, int timeoutInSeconds)
         {
            return SurveyExists(instrumentName, timeoutInSeconds) && 
                   SurveyIsActive(instrumentName, timeoutInSeconds);
+        }
+
+        public void UninstallSurvey(string instrumentName)
+        {
+            _blaiseSurveyApi.UninstallSurvey(_configurationHelper.ServerParkName, instrumentName);
+        }
+
+        public SurveyInterviewType GetSurveyInterviewType(string instrumentName)
+        {
+            return _blaiseSurveyApi.GetSurveyInterviewType(instrumentName, _configurationHelper.ServerParkName);
         }
 
         private SurveyStatusType GetSurveyStatus(string instrumentName)
@@ -48,7 +58,6 @@ namespace Blaise.Tests.Helpers.Instrument
                     return false;
                 }
             }
-
             return GetSurveyStatus(instrumentName) == SurveyStatusType.Active;
         }
 
@@ -67,8 +76,9 @@ namespace Blaise.Tests.Helpers.Instrument
                     return false;
                 }
             }
-
             return true;
         }
+
+   
     }
 }

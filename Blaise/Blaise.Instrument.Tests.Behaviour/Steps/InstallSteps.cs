@@ -1,5 +1,6 @@
 ﻿using System.IO;
 using System.Threading;
+using Blaise.Nuget.Api.Contracts.Enums;
 using Blaise.Tests.Helpers.Configuration;
 using Blaise.Tests.Helpers.Instrument;
 using NUnit.Framework;
@@ -33,8 +34,13 @@ namespace Blaise.Instrument.Tests.Behaviour.Steps
         [When(@"I install the instrument into a Blaise environment")]
         public void WhenIInstallTheInstrumentIntoABlaiseEnvironment()
         {
-            var instrumentPackagePath = _scenarioContext.Get<string>("instrumentPackagePath");
-            _instrumentHelper.InstallInstrument(instrumentPackagePath);
+            InstallIntrument();
+        }
+
+        [When(@"I install the instrument into a Blaise environment specifying a Cati configuration")]
+        public void WhenIInstallTheInstrumentIntoABlaiseEnvironmentSpecifyingACatiConfiguration()
+        {
+            InstallIntrument(SurveyInterviewType.Cati);
         }
 
         [Then(@"the instrument is available to use in the Blaise environment")]
@@ -45,5 +51,32 @@ namespace Blaise.Instrument.Tests.Behaviour.Steps
 
             Assert.IsTrue(instrumentHasInstalled);
         }
+
+        [Then(@"the instrument is configured to capture respondents data via Cati")]
+        public void ThenTheInstrumentIsConfiguredToCaptureRespondentsDataViaCati()
+        {
+            var instrumentName = _scenarioContext.Get<string>("instrumentName");
+            var surveyConfiguration = _instrumentHelper.GetSurveyInterviewType(instrumentName);
+            Assert.AreEqual(SurveyInterviewType.Cati, surveyConfiguration);
+        }
+
+        [AfterScenario]
+        public void CleanUp()
+        {
+            UninstallInstrument();
+        }
+
+        private void UninstallInstrument()
+        {
+            var instrumentName = _scenarioContext.Get<string>("instrumentName");
+            _instrumentHelper.UninstallSurvey(instrumentName);
+        }
+
+        private void InstallIntrument(SurveyInterviewType surveyType = SurveyInterviewType.Cati)
+        {
+            var instrumentPackagePath = _scenarioContext.Get<string>("instrumentPackagePath");
+            _instrumentHelper.InstallInstrument(instrumentPackagePath, surveyType);
+        }
+
     }
 }
