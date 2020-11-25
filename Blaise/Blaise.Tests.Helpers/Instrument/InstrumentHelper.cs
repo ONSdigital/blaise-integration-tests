@@ -22,10 +22,10 @@ namespace Blaise.Tests.Helpers.Instrument
             _blaiseSurveyApi.InstallSurvey(_configurationHelper.ServerParkName, instrumentPath);
         }
 
-        public bool CheckInstrumentIsInstalledAndActive(string instrumentName, int timeoutInSeconds)
+        public bool SurveyIsInstalledSuccessfully(string instrumentName, int timeoutInSeconds)
         {
-           return CheckInstrumentIsInstalled(instrumentName, timeoutInSeconds) && 
-                  CheckInstrumentIsActive(instrumentName, timeoutInSeconds);
+           return SurveyExists(instrumentName, timeoutInSeconds) && 
+                  SurveyIsActive(instrumentName, timeoutInSeconds);
         }
 
         private SurveyStatusType GetSurveyStatus(string instrumentName)
@@ -33,7 +33,7 @@ namespace Blaise.Tests.Helpers.Instrument
             return _blaiseSurveyApi.GetSurveyStatus(instrumentName, _configurationHelper.ServerParkName);
         }
 
-        private bool CheckInstrumentIsActive(string instrumentName, int timeoutInSeconds)
+        private bool SurveyIsActive(string instrumentName, int timeoutInSeconds)
         {
             var counter = 0;
             const int maxCount = 10;
@@ -52,7 +52,7 @@ namespace Blaise.Tests.Helpers.Instrument
             return GetSurveyStatus(instrumentName) == SurveyStatusType.Active;
         }
 
-        private bool CheckInstrumentIsInstalled(string instrumentName, int timeoutInSeconds)
+        private bool SurveyExists(string instrumentName, int timeoutInSeconds)
         {
             var counter = 0;
             const int maxCount = 10;
