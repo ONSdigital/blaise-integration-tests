@@ -44,7 +44,7 @@ namespace Blaise.Instrument.Tests.Behaviour.Steps
         public void ThenTheInstrumentIsAvailableToUseInTheBlaiseEnvironment()
         {
             var instrumentName = _scenarioContext.Get<string>("instrumentName");
-            var instrumentHasInstalled = _instrumentHelper.CheckInstrumentIsInstalled(instrumentName, 60);
+            var instrumentHasInstalled = _instrumentHelper.CheckInstrumentIsInstalledAndActive(instrumentName, 60);
 
             Assert.IsTrue(instrumentHasInstalled);
         }
