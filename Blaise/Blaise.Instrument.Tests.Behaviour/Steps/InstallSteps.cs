@@ -44,18 +44,9 @@ namespace Blaise.Instrument.Tests.Behaviour.Steps
         public void ThenTheInstrumentIsAvailableToUseInTheBlaiseEnvironment()
         {
             var instrumentName = _scenarioContext.Get<string>("instrumentName");
-            var count = 0;
-            while (!_instrumentHelper.CheckInstrumentIsInstalled(instrumentName))
-            {
-                Thread.Sleep(6000);
-                count++;
-                if (count == 10)
-                {
-                    Assert.Fail("Instrument has not been installed in a timely manor");
-                    return;
-                }
-            }
-            Assert.Pass();
+            var instrumentHasInstalled = _instrumentHelper.CheckInstrumentIsInstalled(instrumentName, 60);
+
+            Assert.IsTrue(instrumentHasInstalled);
         }
     }
 }
