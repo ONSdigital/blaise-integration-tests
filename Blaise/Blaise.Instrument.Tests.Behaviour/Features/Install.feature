@@ -1,7 +1,7 @@
-﻿Feature: InstallInstrument
-	In order to avoid silly mistakes
-	As a math idiot
-	I want to be told the sum of two numbers
+﻿Feature: Install
+	In order to capture respondents data accurately
+	As a responsible data owner
+	I want to be able to install an instrument with a defined set of questions
 
 @smoke
 Scenario: Install an instrument into a Blaise environment
