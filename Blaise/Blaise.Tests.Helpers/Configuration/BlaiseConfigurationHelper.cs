@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Configuration;
+using System.IO;
 using Blaise.Nuget.Api.Contracts.Models;
 
 namespace Blaise.Tests.Helpers.Configuration
@@ -22,6 +23,11 @@ namespace Blaise.Tests.Helpers.Configuration
                 RemotePort = GetIntVariable("BlaiseRemoteConnectionPort"),
                 ConnectionExpiresInMinutes = GetIntVariable("ConnectionExpiresInMinutes")
             };
+        }
+
+        public string GetInstrumentPackage()
+        {
+            return Path.Combine(InstrumentPath, InstrumentName + InstrumentExtension);
         }
 
         private static string GetVariable(string variableName)

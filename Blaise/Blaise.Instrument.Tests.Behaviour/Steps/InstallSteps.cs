@@ -26,10 +26,7 @@ namespace Blaise.Instrument.Tests.Behaviour.Steps
         [Given(@"I have an instrument I want to use to capture respondents data")]
         public void GivenIHaveAnInstrumentIWantToUseToCaptureRespondentsData()
         {
-            var instrumentPackagePath = Path.Combine(_configurationHelper.InstrumentPath,
-                                                _configurationHelper.InstrumentName, 
-                                                _configurationHelper.InstrumentExtension);
-            _scenarioContext.Set(instrumentPackagePath, "instrumentPackagePath");
+            _scenarioContext.Set(_configurationHelper.GetInstrumentPackage(), "instrumentPackagePath");
             _scenarioContext.Set(_configurationHelper.InstrumentName, "instrumentName");
         }
 
@@ -44,7 +41,7 @@ namespace Blaise.Instrument.Tests.Behaviour.Steps
         public void ThenTheInstrumentIsAvailableToUseInTheBlaiseEnvironment()
         {
             var instrumentName = _scenarioContext.Get<string>("instrumentName");
-            var instrumentHasInstalled = _instrumentHelper.CheckInstrumentIsInstalledAndActive(instrumentName, 60);
+            var instrumentHasInstalled = _instrumentHelper.SurveyIsInstalledSuccessfully(instrumentName, 60);
 
             Assert.IsTrue(instrumentHasInstalled);
         }
