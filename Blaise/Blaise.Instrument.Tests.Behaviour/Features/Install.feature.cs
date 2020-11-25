@@ -10,7 +10,7 @@
 // ------------------------------------------------------------------------------
 #region Designer generated code
 #pragma warning disable
-namespace Blaise.Api.Tests.Behaviour.Features.Case
+namespace Blaise.Instrument.Tests.Behaviour.Features
 {
     using TechTalk.SpecFlow;
     using System;
@@ -20,28 +20,23 @@ namespace Blaise.Api.Tests.Behaviour.Features.Case
     [System.CodeDom.Compiler.GeneratedCodeAttribute("TechTalk.SpecFlow", "3.5.0.0")]
     [System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     [NUnit.Framework.TestFixtureAttribute()]
-    [NUnit.Framework.DescriptionAttribute("As a service I wish to be able to retrieve the value of a field in a case to dete" +
-        "rmine it\'s status")]
-    [NUnit.Framework.CategoryAttribute("case")]
-    public partial class AsAServiceIWishToBeAbleToRetrieveTheValueOfAFieldInACaseToDetermineItsStatusFeature
+    [NUnit.Framework.DescriptionAttribute("InstallInstrument")]
+    public partial class InstallInstrumentFeature
     {
         
         private TechTalk.SpecFlow.ITestRunner testRunner;
         
-        private string[] _featureTags = new string[] {
-                "case"};
+        private string[] _featureTags = ((string[])(null));
         
-#line 1 "CaseField.feature"
+#line 1 "Install.feature"
 #line hidden
         
         [NUnit.Framework.OneTimeSetUpAttribute()]
         public virtual void FeatureSetup()
         {
             testRunner = TechTalk.SpecFlow.TestRunnerManager.GetTestRunner();
-            TechTalk.SpecFlow.FeatureInfo featureInfo = new TechTalk.SpecFlow.FeatureInfo(new System.Globalization.CultureInfo("en-US"), "Features/Case", "As a service I wish to be able to retrieve the value of a field in a case to dete" +
-                    "rmine it\'s status", "\tIn order to facilitate custom workflows\r\n\tAs a service\r\n\tI want to be able to re" +
-                    "trieve the value of fields in a blaise case", ProgrammingLanguage.CSharp, new string[] {
-                        "case"});
+            TechTalk.SpecFlow.FeatureInfo featureInfo = new TechTalk.SpecFlow.FeatureInfo(new System.Globalization.CultureInfo("en-US"), "Features", "InstallInstrument", "\tIn order to avoid silly mistakes\r\n\tAs a math idiot\r\n\tI want to be told the sum o" +
+                    "f two numbers", ProgrammingLanguage.CSharp, ((string[])(null)));
             testRunner.OnFeatureStart(featureInfo);
         }
         
@@ -80,22 +75,14 @@ namespace Blaise.Api.Tests.Behaviour.Features.Case
         }
         
         [NUnit.Framework.TestAttribute()]
-        [NUnit.Framework.DescriptionAttribute("Get the value of a field in a case")]
-        [NUnit.Framework.TestCaseAttribute("CaseId", "1", null)]
-        [NUnit.Framework.TestCaseAttribute("CaseId", "100", null)]
-        [NUnit.Framework.TestCaseAttribute("HOut", "110", null)]
-        [NUnit.Framework.TestCaseAttribute("HOut", "210", null)]
-        [NUnit.Framework.TestCaseAttribute("Completed", "0", null)]
-        [NUnit.Framework.TestCaseAttribute("Completed", "1", null)]
-        [NUnit.Framework.TestCaseAttribute("Processed", "", null)]
-        [NUnit.Framework.TestCaseAttribute("Processed", "1", null)]
-        public virtual void GetTheValueOfAFieldInACase(string field, string value, string[] exampleTags)
+        [NUnit.Framework.DescriptionAttribute("Install an instrument into a Blaise environment")]
+        [NUnit.Framework.CategoryAttribute("smoke")]
+        public virtual void InstallAnInstrumentIntoABlaiseEnvironment()
         {
-            string[] tagsOfScenario = exampleTags;
+            string[] tagsOfScenario = new string[] {
+                    "smoke"};
             System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
-            argumentsOfScenario.Add("field", field);
-            argumentsOfScenario.Add("value", value);
-            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Get the value of a field in a case", null, tagsOfScenario, argumentsOfScenario);
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Install an instrument into a Blaise environment", null, tagsOfScenario, argumentsOfScenario);
 #line 7
 this.ScenarioInitialize(scenarioInfo);
 #line hidden
@@ -117,13 +104,13 @@ this.ScenarioInitialize(scenarioInfo);
             {
                 this.ScenarioStart();
 #line 8
- testRunner.Given(string.Format("a case exists in blaise where the field \'{0}\' has a value of \'{1}\'", field, value), ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+testRunner.Given("I have an instrument we wish to use to capture respondents data", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line hidden
 #line 9
- testRunner.When(string.Format("I retrieve the value of the field \'{0}\'", field), ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+testRunner.When("I install the instrument into a Blaise environment", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line hidden
 #line 10
- testRunner.Then(string.Format("the value should be \'{0}\'", value), ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+testRunner.Then("the instrument is available to use in the Blaise environment", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
             }
             this.ScenarioCleanup();

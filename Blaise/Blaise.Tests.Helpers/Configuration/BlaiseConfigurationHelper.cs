@@ -8,7 +8,9 @@ namespace Blaise.Tests.Helpers.Configuration
     {
         public string ServerParkName => GetVariable("ServerParkName");
         public string InstrumentPath => GetVariable("InstrumentPath");
-      
+        public string InstrumentName => GetVariable("InstrumentName");
+        public string InstrumentExtension => GetVariable("InstrumentExtension");
+
         public ConnectionModel BuildConnectionModel()
         {
             return new ConnectionModel{
