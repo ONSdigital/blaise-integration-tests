@@ -11,8 +11,6 @@ namespace Blaise.Case.Tests.Behaviour.Steps
     [Binding]
     public sealed class CreateSteps
     {
-        // For additional details on SpecFlow step definitions see https://go.specflow.org/doc-stepdef
-
         private readonly InstrumentHelper _instrumentHelper;
         private readonly CaseHelper _caseHelper;
 
@@ -25,7 +23,7 @@ namespace Blaise.Case.Tests.Behaviour.Steps
         [BeforeFeature]
         public static void InstallInstrument()
         {
-            InstrumentHelper.Build().InstallInstrument();
+            InstrumentHelper.CreateInstance().InstallInstrument();
         }
 
         [Given(@"I have an instrument installed on a Blaise environment")]
@@ -83,7 +81,7 @@ namespace Blaise.Case.Tests.Behaviour.Steps
         [AfterFeature]
         public static void UnInstallInstrument()
         {
-            InstrumentHelper.Build().UninstallSurvey();
+            InstrumentHelper.CreateInstance().UninstallSurvey();
         }
     }
 }
