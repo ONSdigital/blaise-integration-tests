@@ -25,7 +25,7 @@ namespace Blaise.Tests.Helpers.Configuration
             };
         }
 
-        public string GetInstrumentPackage()
+        public string InstrumentPackage()
         {
             return Path.Combine(InstrumentPath, InstrumentName + InstrumentExtension);
         }
