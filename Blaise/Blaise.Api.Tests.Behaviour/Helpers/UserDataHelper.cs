@@ -1,5 +1,4 @@
-﻿using System.Configuration;
-using Blaise.Api.Tests.Behaviour.Models;
+﻿using Blaise.Api.Tests.Behaviour.Models;
 using Blaise.Nuget.Api;
 using Blaise.Nuget.Api.Contracts.Interfaces;
 using Blaise.Nuget.Api.Contracts.Models;
