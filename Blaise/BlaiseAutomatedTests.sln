@@ -19,6 +19,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Blaise.Cati.Tests.Behaviour
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Blaise.Tests.Helpers", "Blaise.Tests.Helpers\Blaise.Tests.Helpers.csproj", "{F163D077-61A9-4DA9-AA99-D936EFA0E4CF}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Blaise.Tests.Models", "Blaise.Tests.Models\Blaise.Tests.Models.csproj", "{0C4A5514-FAEB-4833-8A1A-D489A58A3F9B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -113,6 +115,18 @@ Global
 		{F163D077-61A9-4DA9-AA99-D936EFA0E4CF}.Release|x64.Build.0 = Release|Any CPU
 		{F163D077-61A9-4DA9-AA99-D936EFA0E4CF}.Release|x86.ActiveCfg = Release|Any CPU
 		{F163D077-61A9-4DA9-AA99-D936EFA0E4CF}.Release|x86.Build.0 = Release|Any CPU
+		{0C4A5514-FAEB-4833-8A1A-D489A58A3F9B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0C4A5514-FAEB-4833-8A1A-D489A58A3F9B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0C4A5514-FAEB-4833-8A1A-D489A58A3F9B}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{0C4A5514-FAEB-4833-8A1A-D489A58A3F9B}.Debug|x64.Build.0 = Debug|Any CPU
+		{0C4A5514-FAEB-4833-8A1A-D489A58A3F9B}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{0C4A5514-FAEB-4833-8A1A-D489A58A3F9B}.Debug|x86.Build.0 = Debug|Any CPU
+		{0C4A5514-FAEB-4833-8A1A-D489A58A3F9B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0C4A5514-FAEB-4833-8A1A-D489A58A3F9B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0C4A5514-FAEB-4833-8A1A-D489A58A3F9B}.Release|x64.ActiveCfg = Release|Any CPU
+		{0C4A5514-FAEB-4833-8A1A-D489A58A3F9B}.Release|x64.Build.0 = Release|Any CPU
+		{0C4A5514-FAEB-4833-8A1A-D489A58A3F9B}.Release|x86.ActiveCfg = Release|Any CPU
+		{0C4A5514-FAEB-4833-8A1A-D489A58A3F9B}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
