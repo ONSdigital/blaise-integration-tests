@@ -17,15 +17,35 @@ namespace Blaise.Tests.Helpers.Instrument
             _blaiseSurveyApi = new BlaiseSurveyApi(_configurationHelper.BuildConnectionModel());           
         }
 
+        public static InstrumentHelper Build()
+        {
+            return new InstrumentHelper();
+        }
+
+        public void InstallInstrument()
+        {
+            _blaiseSurveyApi.InstallSurvey(_configurationHelper.ServerParkName, _configurationHelper.InstrumentPackage(), SurveyInterviewType.Cati);
+        }
+
         public void InstallInstrument(string instrumentPath, SurveyInterviewType surveyConfigurationType)
         {
             _blaiseSurveyApi.InstallSurvey(_configurationHelper.ServerParkName, instrumentPath, surveyConfigurationType);
         }
 
-        public bool SurveyIsInstalledSuccessfully(string instrumentName, int timeoutInSeconds)
+        public void SurveyHasInstalled()
+        {
+            SurveyHasInstalled(_configurationHelper.InstrumentName, 10);
+        }
+
+        public bool SurveyHasInstalled(string instrumentName, int timeoutInSeconds)
         {
            return SurveyExists(instrumentName, timeoutInSeconds) && 
                   SurveyIsActive(instrumentName, timeoutInSeconds);
+        }
+
+        public void UninstallSurvey()
+        {
+            _blaiseSurveyApi.UninstallSurvey(_configurationHelper.ServerParkName, _configurationHelper.InstrumentName);
         }
 
         public void UninstallSurvey(string instrumentName)
@@ -43,6 +63,7 @@ namespace Blaise.Tests.Helpers.Instrument
             return _blaiseSurveyApi.GetSurveyStatus(instrumentName, _configurationHelper.ServerParkName);
         }
 
+
         private bool SurveyIsActive(string instrumentName, int timeoutInSeconds)
         {
             var counter = 0;
@@ -58,6 +79,7 @@ namespace Blaise.Tests.Helpers.Instrument
                     return false;
                 }
             }
+
             return GetSurveyStatus(instrumentName) == SurveyStatusType.Active;
         }
 
@@ -76,9 +98,8 @@ namespace Blaise.Tests.Helpers.Instrument
                     return false;
                 }
             }
+
             return true;
         }
-
-   
     }
 }
