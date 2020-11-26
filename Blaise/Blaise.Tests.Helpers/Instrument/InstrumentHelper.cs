@@ -17,7 +17,7 @@ namespace Blaise.Tests.Helpers.Instrument
             _blaiseSurveyApi = new BlaiseSurveyApi(_configurationHelper.BuildConnectionModel());           
         }
 
-        public static InstrumentHelper Build()
+        public static InstrumentHelper CreateInstance()
         {
             return new InstrumentHelper();
         }
