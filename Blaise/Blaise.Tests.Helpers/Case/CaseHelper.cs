@@ -14,10 +14,23 @@ namespace Blaise.Tests.Helpers.Case
         private readonly IBlaiseCaseApi _blaiseCaseApi;
         private readonly BlaiseConfigurationHelper _configurationHelper;
 
+        private static CaseHelper _currentInstance;
+
         public CaseHelper()
         {
             _blaiseCaseApi = new BlaiseCaseApi();
             _configurationHelper = new BlaiseConfigurationHelper();
+        }
+
+        public static CaseHelper GetInstance()
+        {
+            return _currentInstance ?? (_currentInstance = new CaseHelper());
+        }
+
+        public void CreateSampleCase()
+        {
+            var caseModel = new CaseModel("9000000", "110", "07000000000");
+            CreateCase(caseModel);
         }
 
         public void CreateCases(IEnumerable<CaseModel> caseModels)

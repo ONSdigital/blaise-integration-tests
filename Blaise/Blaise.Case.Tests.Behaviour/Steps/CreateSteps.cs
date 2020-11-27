@@ -11,31 +11,17 @@ namespace Blaise.Case.Tests.Behaviour.Steps
     [Binding]
     public sealed class CreateSteps
     {
-        private readonly InstrumentHelper _instrumentHelper;
-        private readonly CaseHelper _caseHelper;
-
-        public CreateSteps()
-        {
-            _instrumentHelper = new InstrumentHelper();
-            _caseHelper = new CaseHelper();
-        }
-
         [BeforeFeature]
-        public static void InstallInstrument()
+        public static void InitializeFeature()
         {
-            InstrumentHelper.CreateInstance().InstallInstrument();
+            InstrumentHelper.GetInstance().InstallInstrument();
         }
 
-        [Given(@"I have an instrument installed on a Blaise environment")]
-        public void GivenIHaveAnInstrumentInstalledOnABlaiseEnvironment()
-        {
-            _instrumentHelper.SurveyHasInstalled();
-        }
-        
+        [Given(@"I have created sample cases for the instrument")]
         [When(@"I create sample cases for the instrument")]
         public void WhenICreateACaseForTheInstrument(IEnumerable<CaseModel> caseModels)
         {
-            _caseHelper.CreateCases(caseModels);
+            CaseHelper.GetInstance().CreateCases(caseModels);
         }
 
         [Then(@"the sample cases are available in the Blaise environment")]
@@ -48,7 +34,7 @@ namespace Blaise.Case.Tests.Behaviour.Steps
 
         private void CheckNumberOfCasesMatch(int expectedNumberOfCases)
         {
-            var actualNumberOfCases = _caseHelper.NumberOfCasesInBlaise();
+            var actualNumberOfCases = CaseHelper.GetInstance().NumberOfCasesInBlaise();
             
             if (expectedNumberOfCases != actualNumberOfCases)
             {
@@ -58,7 +44,7 @@ namespace Blaise.Case.Tests.Behaviour.Steps
 
         private void CheckCasesMatch(IEnumerable<CaseModel> expectedCases)
         {
-            var actualCases = _caseHelper.GetCasesInBlaise().ToList();
+            var actualCases = CaseHelper.GetInstance().GetCasesInBlaise().ToList();
             foreach (var expectedCase in expectedCases)
             {
                 var actualCase = actualCases.FirstOrDefault(c => c.PrimaryKey == expectedCase.PrimaryKey);
@@ -73,15 +59,15 @@ namespace Blaise.Case.Tests.Behaviour.Steps
         }
 
         [AfterScenario]
-        public void CleanUp()
+        public void CleanUpScenario()
         {
-            _caseHelper.DeleteCases();
+            CaseHelper.GetInstance().DeleteCases();
         }
 
         [AfterFeature]
-        public static void UnInstallInstrument()
+        public static void CleanUpFeature()
         {
-            InstrumentHelper.CreateInstance().UninstallSurvey();
+            InstrumentHelper.GetInstance().UninstallSurvey();
         }
     }
 }

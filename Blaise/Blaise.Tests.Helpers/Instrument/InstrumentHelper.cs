@@ -11,15 +11,17 @@ namespace Blaise.Tests.Helpers.Instrument
         private readonly IBlaiseSurveyApi _blaiseSurveyApi;
         private readonly BlaiseConfigurationHelper _configurationHelper;
 
+        private static InstrumentHelper _currentInstance;
+
         public InstrumentHelper()
         {
             _configurationHelper = new BlaiseConfigurationHelper();
             _blaiseSurveyApi = new BlaiseSurveyApi(_configurationHelper.BuildConnectionModel());           
         }
 
-        public static InstrumentHelper CreateInstance()
+        public static InstrumentHelper GetInstance()
         {
-            return new InstrumentHelper();
+            return _currentInstance ?? (_currentInstance = new InstrumentHelper());
         }
 
         public void InstallInstrument()
@@ -27,20 +29,15 @@ namespace Blaise.Tests.Helpers.Instrument
             _blaiseSurveyApi.InstallSurvey(_configurationHelper.ServerParkName, _configurationHelper.InstrumentPackage(), SurveyInterviewType.Cati);
         }
 
-        public void InstallInstrument(string instrumentPath, SurveyInterviewType surveyConfigurationType)
+        public void InstallInstrument(SurveyInterviewType surveyConfigurationType)
         {
-            _blaiseSurveyApi.InstallSurvey(_configurationHelper.ServerParkName, instrumentPath, surveyConfigurationType);
+            _blaiseSurveyApi.InstallSurvey(_configurationHelper.ServerParkName, _configurationHelper.InstrumentPackage(), surveyConfigurationType);
         }
 
-        public void SurveyHasInstalled()
+        public bool SurveyHasInstalled(int timeoutInSeconds)
         {
-            SurveyHasInstalled(_configurationHelper.InstrumentName, 10);
-        }
-
-        public bool SurveyHasInstalled(string instrumentName, int timeoutInSeconds)
-        {
-           return SurveyExists(instrumentName, timeoutInSeconds) && 
-                  SurveyIsActive(instrumentName, timeoutInSeconds);
+           return SurveyExists(_configurationHelper.InstrumentName, timeoutInSeconds) && 
+                  SurveyIsActive(_configurationHelper.InstrumentName, timeoutInSeconds);
         }
 
         public void UninstallSurvey()
@@ -48,19 +45,9 @@ namespace Blaise.Tests.Helpers.Instrument
             _blaiseSurveyApi.UninstallSurvey(_configurationHelper.ServerParkName, _configurationHelper.InstrumentName);
         }
 
-        public void UninstallSurvey(string instrumentName)
+        public SurveyInterviewType GetSurveyInterviewType()
         {
-            _blaiseSurveyApi.UninstallSurvey(_configurationHelper.ServerParkName, instrumentName);
-        }
-
-        public SurveyInterviewType GetSurveyInterviewType(string instrumentName)
-        {
-            return _blaiseSurveyApi.GetSurveyInterviewType(instrumentName, _configurationHelper.ServerParkName);
-        }
-
-        private SurveyStatusType GetSurveyStatus(string instrumentName)
-        {
-            return _blaiseSurveyApi.GetSurveyStatus(instrumentName, _configurationHelper.ServerParkName);
+            return _blaiseSurveyApi.GetSurveyInterviewType(_configurationHelper.InstrumentName, _configurationHelper.ServerParkName);
         }
 
 
@@ -81,6 +68,11 @@ namespace Blaise.Tests.Helpers.Instrument
             }
 
             return GetSurveyStatus(instrumentName) == SurveyStatusType.Active;
+        }
+
+        private SurveyStatusType GetSurveyStatus(string instrumentName)
+        {
+            return _blaiseSurveyApi.GetSurveyStatus(instrumentName, _configurationHelper.ServerParkName);
         }
 
         private bool SurveyExists(string instrumentName, int timeoutInSeconds)
