@@ -7,6 +7,13 @@ namespace Blaise.Tests.Helpers.Configuration
 {
     public class BlaiseConfigurationHelper
     {
+        private static BlaiseConfigurationHelper _currentInstance;
+
+        public static BlaiseConfigurationHelper GetInstance()
+        {
+            return _currentInstance ?? (_currentInstance = new BlaiseConfigurationHelper());
+        }
+
         public string ServerParkName => GetVariable("ServerParkName");
         public string InstrumentPath => GetVariable("InstrumentPath");
         public string InstrumentName => GetVariable("InstrumentName");

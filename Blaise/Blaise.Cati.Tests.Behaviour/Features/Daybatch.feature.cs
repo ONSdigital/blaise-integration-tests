@@ -10,7 +10,7 @@
 // ------------------------------------------------------------------------------
 #region Designer generated code
 #pragma warning disable
-namespace Blaise.Case.Tests.Behaviour.Features
+namespace Blaise.Cati.Tests.Behaviour.Features
 {
     using TechTalk.SpecFlow;
     using System;
@@ -20,23 +20,24 @@ namespace Blaise.Case.Tests.Behaviour.Features
     [System.CodeDom.Compiler.GeneratedCodeAttribute("TechTalk.SpecFlow", "3.5.0.0")]
     [System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     [NUnit.Framework.TestFixtureAttribute()]
-    [NUnit.Framework.DescriptionAttribute("Create")]
-    public partial class CreateFeature
+    [NUnit.Framework.DescriptionAttribute("Daybatch")]
+    public partial class DaybatchFeature
     {
         
         private TechTalk.SpecFlow.ITestRunner testRunner;
         
         private string[] _featureTags = ((string[])(null));
         
-#line 1 "Create.feature"
+#line 1 "Daybatch.feature"
 #line hidden
         
         [NUnit.Framework.OneTimeSetUpAttribute()]
         public virtual void FeatureSetup()
         {
             testRunner = TechTalk.SpecFlow.TestRunnerManager.GetTestRunner();
-            TechTalk.SpecFlow.FeatureInfo featureInfo = new TechTalk.SpecFlow.FeatureInfo(new System.Globalization.CultureInfo("en-US"), "Features", "Create", "\tIn order to capture respondents data accurately\r\n\tAs a responsible data owner\r\n\t" +
-                    "I want to be able to create a new case to capture respondents answers", ProgrammingLanguage.CSharp, ((string[])(null)));
+            TechTalk.SpecFlow.FeatureInfo featureInfo = new TechTalk.SpecFlow.FeatureInfo(new System.Globalization.CultureInfo("en-US"), "Features", "Daybatch", "\tIn order to capture respondents data accurately\r\n\tAs a responsible data owner\r\n\t" +
+                    "I want to be able to create a daybatch to schedule the capture of respondents an" +
+                    "swers", ProgrammingLanguage.CSharp, ((string[])(null)));
             testRunner.OnFeatureStart(featureInfo);
         }
         
@@ -75,14 +76,14 @@ namespace Blaise.Case.Tests.Behaviour.Features
         }
         
         [NUnit.Framework.TestAttribute()]
-        [NUnit.Framework.DescriptionAttribute("Create sample cases to capture respondent data")]
+        [NUnit.Framework.DescriptionAttribute("Create a daybatch to schedule the capture respondent data")]
         [NUnit.Framework.CategoryAttribute("smoke")]
-        public virtual void CreateSampleCasesToCaptureRespondentData()
+        public virtual void CreateADaybatchToScheduleTheCaptureRespondentData()
         {
             string[] tagsOfScenario = new string[] {
                     "smoke"};
             System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
-            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Create sample cases to capture respondent data", null, tagsOfScenario, argumentsOfScenario);
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Create a daybatch to schedule the capture respondent data", null, tagsOfScenario, argumentsOfScenario);
 #line 7
 this.ScenarioInitialize(scenarioInfo);
 #line hidden
@@ -115,7 +116,10 @@ this.ScenarioInitialize(scenarioInfo);
                             "110",
                             "07000 000 00"});
 #line 9
- testRunner.When("I create sample cases for the instrument", ((string)(null)), table1, "When ");
+ testRunner.And("I have created sample cases for the instrument", ((string)(null)), table1, "And ");
+#line hidden
+#line 12
+ testRunner.When("I create a daybatch for the instrument for today", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line hidden
                 TechTalk.SpecFlow.Table table2 = new TechTalk.SpecFlow.Table(new string[] {
                             "primarykey",
@@ -125,8 +129,8 @@ this.ScenarioInitialize(scenarioInfo);
                             "900001",
                             "110",
                             "07000 000 00"});
-#line 12
- testRunner.Then("the sample cases are available in the Blaise environment", ((string)(null)), table2, "Then ");
+#line 13
+ testRunner.Then("the sample cases are present on the daybatch entry screen", ((string)(null)), table2, "Then ");
 #line hidden
             }
             this.ScenarioCleanup();
