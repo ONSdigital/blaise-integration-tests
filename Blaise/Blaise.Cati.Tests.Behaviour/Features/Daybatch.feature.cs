@@ -119,7 +119,10 @@ this.ScenarioInitialize(scenarioInfo);
  testRunner.And("I have created sample cases for the instrument", ((string)(null)), table1, "And ");
 #line hidden
 #line 12
- testRunner.When("I create a daybatch for the instrument for today", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+ testRunner.And("I log on to the Cati Dashboard", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line hidden
+#line 13
+ testRunner.When("I create a daybatch for today", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line hidden
                 TechTalk.SpecFlow.Table table2 = new TechTalk.SpecFlow.Table(new string[] {
                             "primarykey",
@@ -129,7 +132,7 @@ this.ScenarioInitialize(scenarioInfo);
                             "900001",
                             "110",
                             "07000 000 00"});
-#line 13
+#line 14
  testRunner.Then("the sample cases are present on the daybatch entry screen", ((string)(null)), table2, "Then ");
 #line hidden
             }
