@@ -14,7 +14,7 @@ namespace Blaise.Instrument.Tests.Behaviour.Steps
         [Given(@"I have an instrument I want to use to capture respondents data")]
         public void GivenIHaveAnInstrumentIWantToUseToCaptureRespondentsData()
         {
-            var instrumentPackage = BlaiseConfigurationHelper.GetInstance().InstrumentPackage();
+            var instrumentPackage = BlaiseConfigurationHelper.InstrumentPackage();
 
             if (string.IsNullOrWhiteSpace(instrumentPackage))
             {
