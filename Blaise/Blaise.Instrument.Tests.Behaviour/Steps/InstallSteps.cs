@@ -11,22 +11,15 @@ namespace Blaise.Instrument.Tests.Behaviour.Steps
     {
         // For additional details on SpecFlow step definitions see https://go.specflow.org/doc-stepdef
 
-        private readonly ScenarioContext _scenarioContext;
-        private readonly BlaiseConfigurationHelper _configurationHelper;
-        private readonly InstrumentHelper _instrumentHelper;
-
-        public InstallSteps(ScenarioContext scenarioContext)
-        {
-            _scenarioContext = scenarioContext;
-            _configurationHelper = new BlaiseConfigurationHelper();
-            _instrumentHelper = new InstrumentHelper();
-        }
-
         [Given(@"I have an instrument I want to use to capture respondents data")]
         public void GivenIHaveAnInstrumentIWantToUseToCaptureRespondentsData()
         {
-            _scenarioContext.Set(_configurationHelper.InstrumentPackage(), "instrumentPackagePath");
-            _scenarioContext.Set(_configurationHelper.InstrumentName, "instrumentName");
+            var instrumentPackage = BlaiseConfigurationHelper.InstrumentPackage();
+
+            if (string.IsNullOrWhiteSpace(instrumentPackage))
+            {
+                Assert.Fail("No instrument package has been configured");
+            }
         }
 
         [When(@"I install the instrument into a Blaise environment")]
@@ -41,39 +34,36 @@ namespace Blaise.Instrument.Tests.Behaviour.Steps
             InstallInstrument(SurveyInterviewType.Cati);
         }
 
+        [Given(@"I have an instrument installed on a Blaise environment")]
         [Then(@"the instrument is available to use in the Blaise environment")]
         public void ThenTheInstrumentIsAvailableToUseInTheBlaiseEnvironment()
         {
-            var instrumentName = _scenarioContext.Get<string>("instrumentName");
-            var instrumentHasInstalled = _instrumentHelper.SurveyHasInstalled(instrumentName, 60);
+            var instrumentHasInstalled = InstrumentHelper.GetInstance().SurveyHasInstalled(60);
 
-            Assert.IsTrue(instrumentHasInstalled);
+            Assert.IsTrue(instrumentHasInstalled, "The instrument has not been installed, or is not active");
         }
 
         [Then(@"the instrument is configured to capture respondents data via Cati")]
         public void ThenTheInstrumentIsConfiguredToCaptureRespondentsDataViaCati()
         {
-            var instrumentName = _scenarioContext.Get<string>("instrumentName");
-            var surveyConfiguration = _instrumentHelper.GetSurveyInterviewType(instrumentName);
+            var surveyConfiguration = InstrumentHelper.GetInstance().GetSurveyInterviewType();
             Assert.AreEqual(SurveyInterviewType.Cati, surveyConfiguration);
         }
 
         [AfterScenario]
-        public void CleanUp()
+        public void CleanUpScenario()
         {
             UninstallInstrument();
         }
 
         private void UninstallInstrument()
         {
-            var instrumentName = _scenarioContext.Get<string>("instrumentName");
-            _instrumentHelper.UninstallSurvey(instrumentName);
+            InstrumentHelper.GetInstance().UninstallSurvey();
         }
 
         private void InstallInstrument(SurveyInterviewType surveyType = SurveyInterviewType.Cati)
         {
-            var instrumentPackagePath = _scenarioContext.Get<string>("instrumentPackagePath");
-            _instrumentHelper.InstallInstrument(instrumentPackagePath, surveyType);
+            InstrumentHelper.GetInstance().InstallInstrument(surveyType);
         }
     }
 }

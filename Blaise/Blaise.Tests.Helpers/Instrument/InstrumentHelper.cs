@@ -9,58 +9,45 @@ namespace Blaise.Tests.Helpers.Instrument
     public class InstrumentHelper
     {
         private readonly IBlaiseSurveyApi _blaiseSurveyApi;
-        private readonly BlaiseConfigurationHelper _configurationHelper;
+
+        private static InstrumentHelper _currentInstance;
 
         public InstrumentHelper()
         {
-            _configurationHelper = new BlaiseConfigurationHelper();
-            _blaiseSurveyApi = new BlaiseSurveyApi(_configurationHelper.BuildConnectionModel());           
+            _blaiseSurveyApi = new BlaiseSurveyApi(BlaiseConfigurationHelper.BuildConnectionModel());           
         }
 
-        public static InstrumentHelper CreateInstance()
+        public static InstrumentHelper GetInstance()
         {
-            return new InstrumentHelper();
+            return _currentInstance ?? (_currentInstance = new InstrumentHelper());
         }
 
         public void InstallInstrument()
         {
-            _blaiseSurveyApi.InstallSurvey(_configurationHelper.ServerParkName, _configurationHelper.InstrumentPackage(), SurveyInterviewType.Cati);
+            _blaiseSurveyApi.InstallSurvey(BlaiseConfigurationHelper.ServerParkName, BlaiseConfigurationHelper.InstrumentPackage(), 
+                SurveyInterviewType.Cati);
         }
 
-        public void InstallInstrument(string instrumentPath, SurveyInterviewType surveyConfigurationType)
+        public void InstallInstrument(SurveyInterviewType surveyConfigurationType)
         {
-            _blaiseSurveyApi.InstallSurvey(_configurationHelper.ServerParkName, instrumentPath, surveyConfigurationType);
+            _blaiseSurveyApi.InstallSurvey(BlaiseConfigurationHelper.ServerParkName, BlaiseConfigurationHelper.InstrumentPackage(), 
+                surveyConfigurationType);
         }
 
-        public void SurveyHasInstalled()
+        public bool SurveyHasInstalled(int timeoutInSeconds)
         {
-            SurveyHasInstalled(_configurationHelper.InstrumentName, 10);
-        }
-
-        public bool SurveyHasInstalled(string instrumentName, int timeoutInSeconds)
-        {
-           return SurveyExists(instrumentName, timeoutInSeconds) && 
-                  SurveyIsActive(instrumentName, timeoutInSeconds);
+           return SurveyExists(BlaiseConfigurationHelper.InstrumentName, timeoutInSeconds) && 
+                  SurveyIsActive(BlaiseConfigurationHelper.InstrumentName, timeoutInSeconds);
         }
 
         public void UninstallSurvey()
         {
-            _blaiseSurveyApi.UninstallSurvey(_configurationHelper.ServerParkName, _configurationHelper.InstrumentName);
+            _blaiseSurveyApi.UninstallSurvey(BlaiseConfigurationHelper.ServerParkName, BlaiseConfigurationHelper.InstrumentName);
         }
 
-        public void UninstallSurvey(string instrumentName)
+        public SurveyInterviewType GetSurveyInterviewType()
         {
-            _blaiseSurveyApi.UninstallSurvey(_configurationHelper.ServerParkName, instrumentName);
-        }
-
-        public SurveyInterviewType GetSurveyInterviewType(string instrumentName)
-        {
-            return _blaiseSurveyApi.GetSurveyInterviewType(instrumentName, _configurationHelper.ServerParkName);
-        }
-
-        private SurveyStatusType GetSurveyStatus(string instrumentName)
-        {
-            return _blaiseSurveyApi.GetSurveyStatus(instrumentName, _configurationHelper.ServerParkName);
+            return _blaiseSurveyApi.GetSurveyInterviewType(BlaiseConfigurationHelper.InstrumentName, BlaiseConfigurationHelper.ServerParkName);
         }
 
 
@@ -83,12 +70,17 @@ namespace Blaise.Tests.Helpers.Instrument
             return GetSurveyStatus(instrumentName) == SurveyStatusType.Active;
         }
 
+        private SurveyStatusType GetSurveyStatus(string instrumentName)
+        {
+            return _blaiseSurveyApi.GetSurveyStatus(instrumentName, BlaiseConfigurationHelper.ServerParkName);
+        }
+
         private bool SurveyExists(string instrumentName, int timeoutInSeconds)
         {
             var counter = 0;
             const int maxCount = 10;
 
-            while (!_blaiseSurveyApi.SurveyExists(instrumentName, _configurationHelper.ServerParkName))
+            while (!_blaiseSurveyApi.SurveyExists(instrumentName, BlaiseConfigurationHelper.ServerParkName))
             {
                 Thread.Sleep(timeoutInSeconds % maxCount);
                 
