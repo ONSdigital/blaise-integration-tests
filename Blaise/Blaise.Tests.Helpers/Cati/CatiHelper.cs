@@ -20,11 +20,16 @@ namespace Blaise.Tests.Helpers.Cati
             return _currentInstance ?? (_currentInstance = new CatiHelper());
         }
 
+        public string CurrentUrl()
+        {
+            return _driver.Url;
+        }
+
         public void LogIntoCati()
         {
             LoginPage loginPage = new LoginPage(_driver);
-            loginPage.GoToPage();
-            loginPage.CatiLogin(CatiConfigurationHelper.CatiUsername, CatiConfigurationHelper.CatiPassword);
+            loginPage.LoadPage();
+            loginPage.LoginToCati(CatiConfigurationHelper.CatiUsername, CatiConfigurationHelper.CatiPassword);
         }
 
         public void CreateDayBatch()
@@ -32,7 +37,7 @@ namespace Blaise.Tests.Helpers.Cati
             SetSurveyDays();
 
             DayBatchPage dayPage = new DayBatchPage(_driver);
-            dayPage.GoToPage();
+            dayPage.LoadPage();
             dayPage.CreateDayBatch();
         }
 
@@ -41,7 +46,7 @@ namespace Blaise.Tests.Helpers.Cati
             LogIntoCati();
 
             DayBatchPage dayBatchPage = new DayBatchPage(_driver);
-            dayBatchPage.GoToPage();
+            dayBatchPage.LoadPage();
             return dayBatchPage.GetDaybatchEntriesText();
         }
 
@@ -49,7 +54,7 @@ namespace Blaise.Tests.Helpers.Cati
         {
             LogIntoCati();
             var caseInformationPage = new CaseInformationPage(_driver);
-            caseInformationPage.GoToPage();
+            caseInformationPage.LoadPage();
 
             caseInformationPage.LoadCase();
         }
@@ -57,14 +62,14 @@ namespace Blaise.Tests.Helpers.Cati
         public string AccessCase()
         {
             var interviewPage = new InterviewPage(_driver);
-            interviewPage.GoToPage();
+            interviewPage.LoadPage();
             return interviewPage.GetSaveAndContinueButton();
         }
 
         private void SetSurveyDays()
         {
             SpecificationPage specPage = new SpecificationPage(_driver);
-            specPage.GoToPage();
+            specPage.LoadPage();
             specPage.SetSurveyDay();
         }
 
