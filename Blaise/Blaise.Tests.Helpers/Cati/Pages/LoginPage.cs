@@ -3,31 +3,21 @@ using OpenQA.Selenium;
 
 namespace Blaise.Tests.Helpers.Cati.Pages
 {
-    public class LoginPage
+    public class LoginPage : BasePage
     {
-        private readonly By _usernameBox = By.Id("Username");
-        private readonly By _passwordBox = By.Id("Password");
-        private readonly By _loginButton = By.XPath("//button[@type='submit']");
+        private readonly string _usernameBoxId = "Username";
+        private readonly string _passwordBoxId = "Password";
+        private readonly string _loginButtonPath = "//button[@type='submit']";
 
-        private readonly IWebDriver _driver;
-
-        public LoginPage(IWebDriver driver)
+        public LoginPage(IWebDriver driver) : base(driver, CatiConfigurationHelper.LoginUrl)
         {
-            _driver = driver;
         }
         
-        public SurveyPage CatiLogin(string username, string password)
+        public void LoginToCati(string username, string password)
         {
-            _driver.FindElement(_usernameBox).SendKeys(username);
-            _driver.FindElement(_passwordBox).SendKeys(password);
-            _driver.FindElement(_loginButton).Click();
-
-            return new SurveyPage(_driver);
-        }
-
-        public void GoToPage()
-        {
-            _driver.Navigate().GoToUrl(CatiConfigurationHelper.LoginUrl);
+            PopulateTextboxById(_usernameBoxId, username);
+            PopulateTextboxById(_passwordBoxId, password);
+            ClickButtonByXPath(_loginButtonPath);
         }
     }
 }

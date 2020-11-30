@@ -4,31 +4,17 @@ using OpenQA.Selenium;
 
 namespace Blaise.Tests.Helpers.Cati.Pages
 {
-    public class CaseInformationPage
+    public class CaseInformationPage : BasePage
     {
-        private readonly By _loadCaseButton = By.XPath("//*[@id='MVCGridTable_CaseInfoGrid']/tbody/tr[1]/td[19]/a");
+        private readonly string _loadCaseButtonPath = @"//*[@id='MVCGridTable_CaseInfoGrid']/tbody/tr[1]/td[19]/a";
 
-        private readonly IWebDriver _driver;
-        public CaseInformationPage(IWebDriver driver)
+        public CaseInformationPage(IWebDriver driver) : base(driver, CatiConfigurationHelper.CaseInfoUrl)
         {
-            _driver = driver;
         }
 
         public void LoadCase()
         {
-            Thread.Sleep(1000);
-
-            _driver.FindElement(_loadCaseButton).Click();
-        }
-
-        public void GoToPage()
-        {
-            _driver.Navigate().GoToUrl(CatiConfigurationHelper.CaseInfoUrl);
-        }
-
-        public string GetTitle()
-        {
-            return _driver.Title;
+            ClickButtonByXPath(_loadCaseButtonPath);
         }
     }
 }
