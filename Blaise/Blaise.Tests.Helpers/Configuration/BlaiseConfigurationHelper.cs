@@ -5,14 +5,14 @@ using Blaise.Nuget.Api.Contracts.Models;
 
 namespace Blaise.Tests.Helpers.Configuration
 {
-    public class BlaiseConfigurationHelper
+    public static class BlaiseConfigurationHelper
     {
-        public string ServerParkName => GetVariable("ServerParkName");
-        public string InstrumentPath => GetVariable("InstrumentPath");
-        public string InstrumentName => GetVariable("InstrumentName");
-        public string InstrumentExtension => GetVariable("InstrumentExtension");
+        public static string ServerParkName => GetVariable("ServerParkName");
+        public static string InstrumentPath => GetVariable("InstrumentPath");
+        public static string InstrumentName => GetVariable("InstrumentName");
+        public static string InstrumentExtension => GetVariable("InstrumentExtension");
 
-        public ConnectionModel BuildConnectionModel()
+        public static ConnectionModel BuildConnectionModel()
         {
             return new ConnectionModel{
                 ServerName = GetVariable("BlaiseServerHostName"),
@@ -25,7 +25,7 @@ namespace Blaise.Tests.Helpers.Configuration
             };
         }
 
-        public string InstrumentPackage()
+        public static string InstrumentPackage()
         {
             return Path.Combine(InstrumentPath, InstrumentName + InstrumentExtension);
         }

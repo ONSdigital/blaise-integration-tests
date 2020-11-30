@@ -12,12 +12,23 @@ namespace Blaise.Tests.Helpers.Case
     public class CaseHelper
     {
         private readonly IBlaiseCaseApi _blaiseCaseApi;
-        private readonly BlaiseConfigurationHelper _configurationHelper;
+
+        private static CaseHelper _currentInstance;
 
         public CaseHelper()
         {
             _blaiseCaseApi = new BlaiseCaseApi();
-            _configurationHelper = new BlaiseConfigurationHelper();
+        }
+
+        public static CaseHelper GetInstance()
+        {
+            return _currentInstance ?? (_currentInstance = new CaseHelper());
+        }
+
+        public void CreateSampleCase()
+        {
+            var caseModel = new CaseModel("9000000", "110", "07000000000");
+            CreateCase(caseModel);
         }
 
         public void CreateCases(IEnumerable<CaseModel> caseModels)
@@ -30,18 +41,21 @@ namespace Blaise.Tests.Helpers.Case
 
         public void CreateCase(CaseModel caseModel)
         {
-            _blaiseCaseApi.CreateNewDataRecord(caseModel.PrimaryKey, caseModel.FieldData(), _configurationHelper.InstrumentName, _configurationHelper.ServerParkName);
+            _blaiseCaseApi.CreateNewDataRecord(caseModel.PrimaryKey, caseModel.FieldData(), BlaiseConfigurationHelper.InstrumentName, 
+                BlaiseConfigurationHelper.ServerParkName);
         }
 
         public void DeleteCases()
         {
-            var cases = _blaiseCaseApi.GetDataSet(_configurationHelper.InstrumentName, _configurationHelper.ServerParkName);
+            var cases = _blaiseCaseApi.GetDataSet(BlaiseConfigurationHelper.InstrumentName, 
+                BlaiseConfigurationHelper.ServerParkName);
 
             while (!cases.EndOfSet)
             {
                 var primaryKey = _blaiseCaseApi.GetPrimaryKeyValue(cases.ActiveRecord);
 
-                _blaiseCaseApi.RemoveCase(primaryKey, _configurationHelper.InstrumentName, _configurationHelper.ServerParkName);
+                _blaiseCaseApi.RemoveCase(primaryKey, BlaiseConfigurationHelper.InstrumentName, 
+                    BlaiseConfigurationHelper.ServerParkName);
 
                 cases.MoveNext();
             }
@@ -49,14 +63,15 @@ namespace Blaise.Tests.Helpers.Case
 
         public int NumberOfCasesInBlaise()
         {
-            return _blaiseCaseApi.GetNumberOfCases(_configurationHelper.InstrumentName,
-                _configurationHelper.ServerParkName);
+            return _blaiseCaseApi.GetNumberOfCases(BlaiseConfigurationHelper.InstrumentName, 
+                BlaiseConfigurationHelper.ServerParkName);
         }
         
         public IEnumerable<CaseModel> GetCasesInBlaise()
         {
             var caseModels = new List<CaseModel>();
-            var casesInDatabase = _blaiseCaseApi.GetDataSet(_configurationHelper.InstrumentName, _configurationHelper.ServerParkName);
+            var casesInDatabase = _blaiseCaseApi.GetDataSet(BlaiseConfigurationHelper.InstrumentName, 
+                BlaiseConfigurationHelper.ServerParkName);
 
             while (!casesInDatabase.EndOfSet)
             {
@@ -66,7 +81,6 @@ namespace Blaise.Tests.Helpers.Case
 
             return caseModels;
         }
-
 
         private CaseModel MapRecordToCaseModel(IDataRecord caseRecord)
         {

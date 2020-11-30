@@ -10,7 +10,7 @@
 // ------------------------------------------------------------------------------
 #region Designer generated code
 #pragma warning disable
-namespace Blaise.Instrument.Tests.Behaviour.Features
+namespace Blaise.Cati.Tests.Behaviour.Features
 {
     using TechTalk.SpecFlow;
     using System;
@@ -20,23 +20,24 @@ namespace Blaise.Instrument.Tests.Behaviour.Features
     [System.CodeDom.Compiler.GeneratedCodeAttribute("TechTalk.SpecFlow", "3.5.0.0")]
     [System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     [NUnit.Framework.TestFixtureAttribute()]
-    [NUnit.Framework.DescriptionAttribute("Install")]
-    public partial class InstallFeature
+    [NUnit.Framework.DescriptionAttribute("Daybatch")]
+    public partial class DaybatchFeature
     {
         
         private TechTalk.SpecFlow.ITestRunner testRunner;
         
         private string[] _featureTags = ((string[])(null));
         
-#line 1 "Install.feature"
+#line 1 "Daybatch.feature"
 #line hidden
         
         [NUnit.Framework.OneTimeSetUpAttribute()]
         public virtual void FeatureSetup()
         {
             testRunner = TechTalk.SpecFlow.TestRunnerManager.GetTestRunner();
-            TechTalk.SpecFlow.FeatureInfo featureInfo = new TechTalk.SpecFlow.FeatureInfo(new System.Globalization.CultureInfo("en-US"), "Features", "Install", "\tIn order to capture respondents data accurately\r\n\tAs a responsible data owner\r\n\t" +
-                    "I want to be able to install an instrument with a defined set of questions", ProgrammingLanguage.CSharp, ((string[])(null)));
+            TechTalk.SpecFlow.FeatureInfo featureInfo = new TechTalk.SpecFlow.FeatureInfo(new System.Globalization.CultureInfo("en-US"), "Features", "Daybatch", "\tIn order to capture respondents data accurately\r\n\tAs a responsible data owner\r\n\t" +
+                    "I want to be able to create a daybatch to schedule the capture of respondents an" +
+                    "swers", ProgrammingLanguage.CSharp, ((string[])(null)));
             testRunner.OnFeatureStart(featureInfo);
         }
         
@@ -75,14 +76,14 @@ namespace Blaise.Instrument.Tests.Behaviour.Features
         }
         
         [NUnit.Framework.TestAttribute()]
-        [NUnit.Framework.DescriptionAttribute("Install an instrument into a Blaise environment")]
+        [NUnit.Framework.DescriptionAttribute("Create a daybatch to schedule the capture respondent data")]
         [NUnit.Framework.CategoryAttribute("smoke")]
-        public virtual void InstallAnInstrumentIntoABlaiseEnvironment()
+        public virtual void CreateADaybatchToScheduleTheCaptureRespondentData()
         {
             string[] tagsOfScenario = new string[] {
                     "smoke"};
             System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
-            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Install an instrument into a Blaise environment", null, tagsOfScenario, argumentsOfScenario);
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Create a daybatch to schedule the capture respondent data", null, tagsOfScenario, argumentsOfScenario);
 #line 7
 this.ScenarioInitialize(scenarioInfo);
 #line hidden
@@ -104,56 +105,35 @@ this.ScenarioInitialize(scenarioInfo);
             {
                 this.ScenarioStart();
 #line 8
- testRunner.Given("I have an instrument I want to use to capture respondents data", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+ testRunner.Given("I have an instrument installed on a Blaise environment", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line hidden
+                TechTalk.SpecFlow.Table table1 = new TechTalk.SpecFlow.Table(new string[] {
+                            "primarykey",
+                            "outcomecode",
+                            "telephoneno"});
+                table1.AddRow(new string[] {
+                            "900001",
+                            "110",
+                            "07000 000 00"});
 #line 9
- testRunner.When("I install the instrument into a Blaise environment", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+ testRunner.And("I have created sample cases for the instrument", ((string)(null)), table1, "And ");
 #line hidden
-#line 10
- testRunner.Then("the instrument is available to use in the Blaise environment", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line 12
+ testRunner.And("I log on to the Cati Dashboard", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
-            }
-            this.ScenarioCleanup();
-        }
-        
-        [NUnit.Framework.TestAttribute()]
-        [NUnit.Framework.DescriptionAttribute("Install an instrument into a Blaise environment using Cati configuration")]
-        [NUnit.Framework.CategoryAttribute("smoke")]
-        public virtual void InstallAnInstrumentIntoABlaiseEnvironmentUsingCatiConfiguration()
-        {
-            string[] tagsOfScenario = new string[] {
-                    "smoke"};
-            System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
-            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Install an instrument into a Blaise environment using Cati configuration", null, tagsOfScenario, argumentsOfScenario);
 #line 13
-this.ScenarioInitialize(scenarioInfo);
+ testRunner.When("I create a daybatch for today", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line hidden
-            bool isScenarioIgnored = default(bool);
-            bool isFeatureIgnored = default(bool);
-            if ((tagsOfScenario != null))
-            {
-                isScenarioIgnored = tagsOfScenario.Where(__entry => __entry != null).Where(__entry => String.Equals(__entry, "ignore", StringComparison.CurrentCultureIgnoreCase)).Any();
-            }
-            if ((this._featureTags != null))
-            {
-                isFeatureIgnored = this._featureTags.Where(__entry => __entry != null).Where(__entry => String.Equals(__entry, "ignore", StringComparison.CurrentCultureIgnoreCase)).Any();
-            }
-            if ((isScenarioIgnored || isFeatureIgnored))
-            {
-                testRunner.SkipScenario();
-            }
-            else
-            {
-                this.ScenarioStart();
+                TechTalk.SpecFlow.Table table2 = new TechTalk.SpecFlow.Table(new string[] {
+                            "primarykey",
+                            "outcomecode",
+                            "telephoneno"});
+                table2.AddRow(new string[] {
+                            "900001",
+                            "110",
+                            "07000 000 00"});
 #line 14
- testRunner.Given("I have an instrument I want to use to capture respondents data", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
-#line hidden
-#line 15
- testRunner.When("I install the instrument into a Blaise environment specifying a Cati configuratio" +
-                        "n", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
-#line hidden
-#line 16
- testRunner.Then("the instrument is configured to capture respondents data via Cati", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+ testRunner.Then("the sample cases are present on the daybatch entry screen", ((string)(null)), table2, "Then ");
 #line hidden
             }
             this.ScenarioCleanup();
