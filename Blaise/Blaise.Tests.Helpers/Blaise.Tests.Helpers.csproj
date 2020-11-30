@@ -49,6 +49,9 @@
     <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <HintPath>..\packages\EntityFramework.6.3.0\lib\net45\EntityFramework.SqlServer.dll</HintPath>
     </Reference>
+    <Reference Include="SeleniumExtras.WaitHelpers, Version=3.11.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\DotNetSeleniumExtras.WaitHelpers.3.11.0\lib\net45\SeleniumExtras.WaitHelpers.dll</HintPath>
+    </Reference>
     <Reference Include="StatNeth.Blaise.API, Version=5.0.0.0, Culture=neutral, PublicKeyToken=ad2ddd432cb2a452, processorArchitecture=MSIL">
       <HintPath>..\packages\StatNeth.Blaise.API.x64.5.7.5\lib\net472\StatNeth.Blaise.API.dll</HintPath>
     </Reference>
@@ -109,12 +112,12 @@
   <ItemGroup>
     <Compile Include="Case\CaseHelper.cs" />
     <Compile Include="Cati\CatiHelper.cs" />
+    <Compile Include="Cati\Pages\BasePage.cs" />
     <Compile Include="Cati\Pages\CaseInformationPage.cs" />
     <Compile Include="Cati\Pages\DayBatchPage.cs" />
     <Compile Include="Cati\Pages\InterviewPage.cs" />
     <Compile Include="Cati\Pages\LoginPage.cs" />
     <Compile Include="Cati\Pages\SpecificationPage.cs" />
-    <Compile Include="Cati\Pages\SurveyPage.cs" />
     <Compile Include="Configuration\CatiConfigurationHelper.cs" />
     <Compile Include="Configuration\BlaiseConfigurationHelper.cs" />
     <Compile Include="Instrument\InstrumentHelper.cs" />

@@ -2,6 +2,7 @@
 using System.Linq;
 using Blaise.Tests.Helpers.Case;
 using Blaise.Tests.Helpers.Cati;
+using Blaise.Tests.Helpers.Configuration;
 using Blaise.Tests.Helpers.Instrument;
 using Blaise.Tests.Models.Case;
 using NUnit.Framework;
@@ -22,9 +23,10 @@ namespace Blaise.Cati.Tests.Behaviour.Steps
         public void GivenILogOnToTheCatiDashboard()
         {
             CatiHelper.GetInstance().LogIntoCati();
+            Assert.AreNotEqual(CatiConfigurationHelper.LoginUrl, CatiHelper.GetInstance().CurrentUrl(),
+                                "Expected to leave the login page");
         }
 
-        
         [When(@"I create a daybatch for today")]
         public void WhenICreateADaybatchForToday()
         {
