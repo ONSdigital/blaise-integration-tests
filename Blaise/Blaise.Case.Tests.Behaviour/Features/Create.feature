@@ -1,4 +1,5 @@
-﻿Feature: Create
+﻿@case
+Feature: Create
 	In order to capture respondents data accurately
 	As a responsible data owner
 	I want to be able to create a new case to capture respondents answers

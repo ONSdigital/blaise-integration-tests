@@ -1,4 +1,5 @@
-﻿Feature: Daybatch
+﻿@cati
+Feature: Daybatch
 	In order to capture respondents data accurately
 	As a responsible data owner
 	I want to be able to create a daybatch to schedule the capture of respondents answers

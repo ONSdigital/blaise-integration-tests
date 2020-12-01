@@ -13,7 +13,7 @@ namespace Blaise.Cati.Tests.Behaviour.Steps
     [Binding]
     public sealed class DaybatchSteps
     {
-        [BeforeFeature]
+        [BeforeFeature("cati")]
         public static void InitializeFeature()
         {
             InstrumentHelper.GetInstance().InstallInstrument();
@@ -41,7 +41,7 @@ namespace Blaise.Cati.Tests.Behaviour.Steps
             Assert.AreEqual($"Showing 1 to {expectedNumberOfCases} of {expectedNumberOfCases} entries", entriesText);
         }
                 
-        [AfterFeature]
+        [AfterFeature("cati")]
         public static void CleanUpFeature()
         {
             CaseHelper.GetInstance().DeleteCases();
