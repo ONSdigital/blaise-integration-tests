@@ -21,12 +21,14 @@ namespace Blaise.Case.Tests.Behaviour.Features
     [System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     [NUnit.Framework.TestFixtureAttribute()]
     [NUnit.Framework.DescriptionAttribute("Create")]
+    [NUnit.Framework.CategoryAttribute("case")]
     public partial class CreateFeature
     {
         
         private TechTalk.SpecFlow.ITestRunner testRunner;
         
-        private string[] _featureTags = ((string[])(null));
+        private string[] _featureTags = new string[] {
+                "case"};
         
 #line 1 "Create.feature"
 #line hidden
@@ -36,7 +38,8 @@ namespace Blaise.Case.Tests.Behaviour.Features
         {
             testRunner = TechTalk.SpecFlow.TestRunnerManager.GetTestRunner();
             TechTalk.SpecFlow.FeatureInfo featureInfo = new TechTalk.SpecFlow.FeatureInfo(new System.Globalization.CultureInfo("en-US"), "Features", "Create", "\tIn order to capture respondents data accurately\r\n\tAs a responsible data owner\r\n\t" +
-                    "I want to be able to create a new case to capture respondents answers", ProgrammingLanguage.CSharp, ((string[])(null)));
+                    "I want to be able to create a new case to capture respondents answers", ProgrammingLanguage.CSharp, new string[] {
+                        "case"});
             testRunner.OnFeatureStart(featureInfo);
         }
         
@@ -83,7 +86,7 @@ namespace Blaise.Case.Tests.Behaviour.Features
                     "smoke"};
             System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Create sample cases to capture respondent data", null, tagsOfScenario, argumentsOfScenario);
-#line 7
+#line 8
 this.ScenarioInitialize(scenarioInfo);
 #line hidden
             bool isScenarioIgnored = default(bool);
@@ -103,7 +106,7 @@ this.ScenarioInitialize(scenarioInfo);
             else
             {
                 this.ScenarioStart();
-#line 8
+#line 9
  testRunner.Given("I have an instrument installed on a Blaise environment", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line hidden
                 TechTalk.SpecFlow.Table table1 = new TechTalk.SpecFlow.Table(new string[] {
@@ -114,7 +117,7 @@ this.ScenarioInitialize(scenarioInfo);
                             "900001",
                             "110",
                             "07000 000 00"});
-#line 9
+#line 10
  testRunner.When("I create sample cases for the instrument", ((string)(null)), table1, "When ");
 #line hidden
                 TechTalk.SpecFlow.Table table2 = new TechTalk.SpecFlow.Table(new string[] {
@@ -125,7 +128,7 @@ this.ScenarioInitialize(scenarioInfo);
                             "900001",
                             "110",
                             "07000 000 00"});
-#line 12
+#line 13
  testRunner.Then("the sample cases are available in the Blaise environment", ((string)(null)), table2, "Then ");
 #line hidden
             }

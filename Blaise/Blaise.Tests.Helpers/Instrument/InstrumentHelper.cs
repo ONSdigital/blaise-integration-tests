@@ -50,7 +50,6 @@ namespace Blaise.Tests.Helpers.Instrument
             return _blaiseSurveyApi.GetSurveyInterviewType(BlaiseConfigurationHelper.InstrumentName, BlaiseConfigurationHelper.ServerParkName);
         }
 
-
         private bool SurveyIsActive(string instrumentName, int timeoutInSeconds)
         {
             var counter = 0;
@@ -66,7 +65,6 @@ namespace Blaise.Tests.Helpers.Instrument
                     return false;
                 }
             }
-
             return GetSurveyStatus(instrumentName) == SurveyStatusType.Active;
         }
 
