@@ -5,19 +5,19 @@ using OpenQA.Selenium.Chrome;
 
 namespace Blaise.Tests.Helpers.Cati
 {
-    public class CatiHelper
+    public class CatiManagementHelper
     {
         private readonly IWebDriver _driver;
-        private static CatiHelper _currentInstance;
+        private static CatiManagementHelper _currentInstance;
 
-        public CatiHelper()
+        public CatiManagementHelper()
         {
             _driver = new ChromeDriver(CatiConfigurationHelper.ChromeDriver);
         }
 
-        public static CatiHelper GetInstance()
+        public static CatiManagementHelper GetInstance()
         {
-            return _currentInstance ?? (_currentInstance = new CatiHelper());
+            return _currentInstance ?? (_currentInstance = new CatiManagementHelper());
         }
 
         public string CurrentUrl()
@@ -25,11 +25,11 @@ namespace Blaise.Tests.Helpers.Cati
             return _driver.Url;
         }
 
-        public void LogIntoCati()
+        public void LogIntoCatiManagementPortal()
         {
             LoginPage loginPage = new LoginPage(_driver);
             loginPage.LoadPage();
-            loginPage.LoginToCati(CatiConfigurationHelper.CatiUsername, CatiConfigurationHelper.CatiPassword);
+            loginPage.LoginToCati(CatiConfigurationHelper.CatiAdminUsername, CatiConfigurationHelper.CatiAdminPassword);
         }
 
         public void CreateDayBatch()
@@ -43,35 +43,18 @@ namespace Blaise.Tests.Helpers.Cati
 
         public string GetDaybatchEntriesText()
         {
-            LogIntoCati();
+            LogIntoCatiManagementPortal();
 
             DayBatchPage dayBatchPage = new DayBatchPage(_driver);
             dayBatchPage.LoadPage();
             return dayBatchPage.GetDaybatchEntriesText();
         }
-
-        public void LoadCaseInformation()
-        {
-            LogIntoCati();
-            var caseInformationPage = new CaseInformationPage(_driver);
-            caseInformationPage.LoadPage();
-
-            caseInformationPage.LoadCase();
-        }
-
-        public string AccessCase()
-        {
-            var interviewPage = new InterviewPage(_driver);
-            interviewPage.LoadPage();
-            return interviewPage.GetSaveAndContinueButton();
-        }
-
+        
         private void SetSurveyDays()
         {
             SpecificationPage specPage = new SpecificationPage(_driver);
             specPage.LoadPage();
             specPage.SetSurveyDay();
         }
-
     }
 }

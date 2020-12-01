@@ -6,15 +6,15 @@ namespace Blaise.Tests.Helpers.Cati.Pages
 {
     public class InterviewPage : BasePage
     {
-        private readonly string _saveContinueButtonId = "q";
+        private readonly string _caseIdPath = "//div[contains(text(), 'Case:')]";
 
         public InterviewPage(IWebDriver driver) : base(driver, CatiConfigurationHelper.InterviewUrl)
         {
         }
 
-        public string GetSaveAndContinueButton()
+        public string GetCaseIdText()
         {
-            return GetElementTextById(_saveContinueButtonId);
+            return GetElementTextByPath(_caseIdPath);
         }
     }
 }

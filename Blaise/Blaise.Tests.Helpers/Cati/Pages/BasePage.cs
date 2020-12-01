@@ -46,6 +46,13 @@ namespace Blaise.Tests.Helpers.Cati.Pages
                 .SendKeys(value);
         }
 
+        protected void PopulateTextboxByName(string elementName, string value)
+        {
+            new WebDriverWait(Browser, TimeSpan.FromSeconds(5))
+                .Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementIsVisible(By.Name(elementName)))
+                .SendKeys(value);
+        }
+
         public void LoadPage()
         {
             Browser.Navigate().GoToUrl(_pageUrl);

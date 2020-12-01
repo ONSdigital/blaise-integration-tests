@@ -22,6 +22,7 @@ namespace Blaise.Instrument.Tests.Behaviour.Steps
             }
         }
 
+        [Given(@"I have an instrument installed on a Blaise environment")]
         [When(@"I install the instrument into a Blaise environment")]
         public void WhenIInstallTheInstrumentIntoABlaiseEnvironment()
         {
@@ -34,7 +35,6 @@ namespace Blaise.Instrument.Tests.Behaviour.Steps
             InstrumentHelper.GetInstance().InstallInstrument(SurveyInterviewType.Cati);
         }
 
-        [Given(@"I have an instrument installed on a Blaise environment")]
         [Then(@"the instrument is available to use in the Blaise environment")]
         public void ThenTheInstrumentIsAvailableToUseInTheBlaiseEnvironment()
         {
