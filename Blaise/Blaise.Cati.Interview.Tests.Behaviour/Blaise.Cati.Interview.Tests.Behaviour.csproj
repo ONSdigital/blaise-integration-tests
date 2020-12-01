@@ -8,11 +8,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{8C927327-27D5-412F-A75E-16688BAECF52}</ProjectGuid>
+    <ProjectGuid>{66B247DA-126A-4663-B82F-BE14A1D2951E}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Blaise.Cati.Tests.Behaviour</RootNamespace>
-    <AssemblyName>Blaise.Cati.Tests.Behaviour</AssemblyName>
+    <RootNamespace>Blaise.Cati.Interview.Tests.Behaviour</RootNamespace>
+    <AssemblyName>Blaise.Cati.Interview.Tests.Behaviour</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>
@@ -57,7 +57,6 @@
       <HintPath>..\packages\System.Buffers.4.4.0\lib\netstandard2.0\System.Buffers.dll</HintPath>
     </Reference>
     <Reference Include="System.Core" />
-    <Reference Include="System.Drawing" />
     <Reference Include="System.Memory, Version=4.0.1.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Memory.4.5.2\lib\netstandard2.0\System.Memory.dll</HintPath>
     </Reference>
@@ -92,29 +91,30 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Steps\DaybatchSteps.cs" />
+    <Compile Include="Steps\AccessCaseSteps.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
-    <None Include="Features\Daybatch.feature" />
+    <None Include="Features\AccessCase.feature" />
     <None Include="packages.config" />
   </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <ProjectReference Include="..\Blaise.Case.Tests.Behaviour\Blaise.Case.Tests.Behaviour.csproj">
       <Project>{06da7415-5466-41ae-9968-9b3e5316bbf6}</Project>
       <Name>Blaise.Case.Tests.Behaviour</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Blaise.Cati.Management.Tests.Behaviour\Blaise.Cati.Management.Tests.Behaviour.csproj">
+      <Project>{8c927327-27d5-412f-a75e-16688baecf52}</Project>
+      <Name>Blaise.Cati.Management.Tests.Behaviour</Name>
     </ProjectReference>
     <ProjectReference Include="..\Blaise.Instrument.Tests.Behaviour\Blaise.Instrument.Tests.Behaviour.csproj">
       <Project>{d0ad65ea-042b-4c3e-b88c-790072543866}</Project>
       <Name>Blaise.Instrument.Tests.Behaviour</Name>
     </ProjectReference>
     <ProjectReference Include="..\Blaise.Tests.Helpers\Blaise.Tests.Helpers.csproj">
-      <Project>{f163d077-61a9-4da9-aa99-d936efa0e4cf}</Project>
+      <Project>{F163D077-61A9-4DA9-AA99-D936EFA0E4CF}</Project>
       <Name>Blaise.Tests.Helpers</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Blaise.Tests.Models\Blaise.Tests.Models.csproj">
-      <Project>{0c4a5514-faeb-4833-8a1a-d489a58a3f9b}</Project>
-      <Name>Blaise.Tests.Models</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

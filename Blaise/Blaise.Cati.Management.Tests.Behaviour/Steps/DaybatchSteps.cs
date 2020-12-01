@@ -8,7 +8,7 @@ using Blaise.Tests.Models.Case;
 using NUnit.Framework;
 using TechTalk.SpecFlow;
 
-namespace Blaise.Cati.Tests.Behaviour.Steps
+namespace Blaise.Cati.Management.Tests.Behaviour.Steps
 {
     [Binding]
     public sealed class DaybatchSteps
@@ -19,24 +19,25 @@ namespace Blaise.Cati.Tests.Behaviour.Steps
             InstrumentHelper.GetInstance().InstallInstrument();
         }
 
-        [Given(@"I log on to the Cati Dashboard")]
+        [Given(@"I log on to Cati as an adminsitrator")]
         public void GivenILogOnToTheCatiDashboard()
         {
-            CatiHelper.GetInstance().LogIntoCati();
-            Assert.AreNotEqual(CatiConfigurationHelper.LoginUrl, CatiHelper.GetInstance().CurrentUrl(),
+            CatiManagementHelper.GetInstance().LogIntoCatiManagementPortal();
+            Assert.AreNotEqual(CatiConfigurationHelper.LoginUrl, CatiManagementHelper.GetInstance().CurrentUrl(),
                                 "Expected to leave the login page");
         }
 
+        [Given(@"I have created a daybatch for today")]
         [When(@"I create a daybatch for today")]
         public void WhenICreateADaybatchForToday()
         {
-            CatiHelper.GetInstance().CreateDayBatch();
+            CatiManagementHelper.GetInstance().CreateDayBatch();
         }
 
         [Then(@"the sample cases are present on the daybatch entry screen")]
         public void ThenTheSampleCasesArePresentOnTheDaybatchEntryScreen(IEnumerable<CaseModel> cases)
         {     
-            var entriesText = CatiHelper.GetInstance().GetDaybatchEntriesText();
+            var entriesText = CatiManagementHelper.GetInstance().GetDaybatchEntriesText();
             var expectedNumberOfCases = cases.Count();
             Assert.AreEqual($"Showing 1 to {expectedNumberOfCases} of {expectedNumberOfCases} entries", entriesText);
         }
