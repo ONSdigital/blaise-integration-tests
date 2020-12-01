@@ -25,13 +25,13 @@ namespace Blaise.Instrument.Tests.Behaviour.Steps
         [When(@"I install the instrument into a Blaise environment")]
         public void WhenIInstallTheInstrumentIntoABlaiseEnvironment()
         {
-            InstallInstrument();
+            InstrumentHelper.GetInstance().InstallInstrument();
         }
 
         [When(@"I install the instrument into a Blaise environment specifying a Cati configuration")]
         public void WhenIInstallTheInstrumentIntoABlaiseEnvironmentSpecifyingACatiConfiguration()
         {
-            InstallInstrument(SurveyInterviewType.Cati);
+            InstrumentHelper.GetInstance().InstallInstrument(SurveyInterviewType.Cati);
         }
 
         [Given(@"I have an instrument installed on a Blaise environment")]
@@ -50,20 +50,10 @@ namespace Blaise.Instrument.Tests.Behaviour.Steps
             Assert.AreEqual(SurveyInterviewType.Cati, surveyConfiguration);
         }
 
-        [AfterScenario]
+        [AfterScenario("Instrument")]
         public void CleanUpScenario()
         {
-            UninstallInstrument();
-        }
-
-        private void UninstallInstrument()
-        {
             InstrumentHelper.GetInstance().UninstallSurvey();
-        }
-
-        private void InstallInstrument(SurveyInterviewType surveyType = SurveyInterviewType.Cati)
-        {
-            InstrumentHelper.GetInstance().InstallInstrument(surveyType);
         }
     }
 }

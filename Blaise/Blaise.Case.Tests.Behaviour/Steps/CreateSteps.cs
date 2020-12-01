@@ -11,7 +11,7 @@ namespace Blaise.Case.Tests.Behaviour.Steps
     [Binding]
     public sealed class CreateSteps
     {
-        [BeforeFeature]
+        [BeforeFeature("case")]
         public static void InitializeFeature()
         {
             InstrumentHelper.GetInstance().InstallInstrument();
@@ -58,13 +58,13 @@ namespace Blaise.Case.Tests.Behaviour.Steps
             }
         }
 
-        [AfterScenario]
+        [AfterScenario("case")]
         public void CleanUpScenario()
         {
             CaseHelper.GetInstance().DeleteCases();
         }
 
-        [AfterFeature]
+        [AfterFeature("case")]
         public static void CleanUpFeature()
         {
             InstrumentHelper.GetInstance().UninstallSurvey();
