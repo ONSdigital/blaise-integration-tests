@@ -25,12 +25,6 @@ namespace Blaise.Tests.Helpers.Case
             return _currentInstance ?? (_currentInstance = new CaseHelper());
         }
 
-        public void CreateSampleCase()
-        {
-            var caseModel = new CaseModel("9000000", "110", "07000000000");
-            CreateCase(caseModel);
-        }
-
         public void CreateCases(IEnumerable<CaseModel> caseModels)
         {
             foreach (var caseModel in caseModels)

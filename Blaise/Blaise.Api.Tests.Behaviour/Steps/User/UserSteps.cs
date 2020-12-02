@@ -1,5 +1,4 @@
-﻿using System.Linq;
-using Blaise.Api.Tests.Behaviour.Builders;
+﻿using Blaise.Api.Tests.Behaviour.Builders;
 using Blaise.Api.Tests.Behaviour.Enums;
 using Blaise.Api.Tests.Behaviour.Helpers;
 using Blaise.Api.Tests.Behaviour.Models;
