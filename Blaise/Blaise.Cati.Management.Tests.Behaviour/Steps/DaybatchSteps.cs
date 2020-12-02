@@ -47,7 +47,7 @@ namespace Blaise.Cati.Management.Tests.Behaviour.Steps
         public static void CleanUpFeature()
         {
             CatiManagementHelper.GetInstance().ClearDayBatchEntries();
-            BrowserHelper.Dispose();
+            BrowserHelper.CloseBrowser();
             CaseHelper.GetInstance().DeleteCases();
             InstrumentHelper.GetInstance().UninstallSurvey();
         }
