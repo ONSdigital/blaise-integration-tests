@@ -1,28 +1,26 @@
-﻿using System.Threading;
-using Blaise.Tests.Helpers.Configuration;
-using OpenQA.Selenium;
+﻿using Blaise.Tests.Helpers.Configuration;
 
 namespace Blaise.Tests.Helpers.Cati.Pages
 {
     public class DayBatchPage : BasePage
     {
-        private readonly string _dayBatchCreateButtonId = "btnCreateDaybatch";
-        private readonly string _createButtonPath = "//input[@value='Create']";
-        private readonly string _numberOfEntriesPath = "//div[contains(text(), 'Showing')]";
+        private const string DayBatchCreateButtonId = "btnCreateDaybatch";
+        private const string CreateButtonPath = "//input[@value='Create']";
+        private const string NumberOfEntriesPath = "//div[contains(text(), 'Showing')]";
 
-        public DayBatchPage(IWebDriver driver) : base(driver, CatiConfigurationHelper.DayBatchUrl)
+        public DayBatchPage() : base(CatiConfigurationHelper.DayBatchUrl)
         {
         }
 
         public void CreateDayBatch()
         {
-            ClickButtonById(_dayBatchCreateButtonId);
-            ClickButtonByXPath(_createButtonPath);
+            ClickButtonById(DayBatchCreateButtonId);
+            ClickButtonByXPath(CreateButtonPath);
         }
 
         public string GetDaybatchEntriesText()
         {
-            return GetElementTextByPath(_numberOfEntriesPath);
+            return GetElementTextByPath(NumberOfEntriesPath);
         }
     }
 }
