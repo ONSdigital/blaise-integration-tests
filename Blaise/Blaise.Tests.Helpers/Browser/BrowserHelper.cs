@@ -19,9 +19,10 @@ namespace Blaise.Tests.Helpers.Browser
 
         public static string CurrentUrl => Browser.Url;
 
-        public static void Dispose()
+        public static void CloseBrowser()
         {
             Browser.Quit();
+            _browser = null;
         }
 
         public static void BrowseTo(string pageUrl)
