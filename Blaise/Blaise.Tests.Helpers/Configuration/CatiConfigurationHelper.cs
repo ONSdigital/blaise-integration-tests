@@ -9,7 +9,6 @@ namespace Blaise.Tests.Helpers.Configuration
         public static string CatiInterviewUsername => GetVariable("CatiInterviewUsername");
         public static string CatiInterviewPassword => GetVariable("CatiInterviewPassword");
         public static string LoginUrl => GetVariable("LoginUrl");
-        public static string CaseInfoUrl => GetVariable("CaseInfoUrl");
         public static string DayBatchUrl => GetVariable("DayBatchUrl");
         public static string InterviewUrl => GetVariable("InterviewUrl");
         public static string SpecificationUrl => GetVariable("SpecificationUrl");

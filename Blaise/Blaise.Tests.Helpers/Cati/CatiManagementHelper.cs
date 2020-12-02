@@ -1,8 +1,5 @@
 ﻿using Blaise.Tests.Helpers.Cati.Pages;
 using Blaise.Tests.Helpers.Configuration;
-using OpenQA.Selenium;
-using OpenQA.Selenium.Chrome;
-using System;
 using Blaise.Tests.Helpers.Browser;
 
 namespace Blaise.Tests.Helpers.Cati
@@ -23,7 +20,7 @@ namespace Blaise.Tests.Helpers.Cati
 
         public void LogIntoCatiManagementPortal()
         {
-            LoginPage loginPage = new LoginPage();
+            var loginPage = new LoginPage();
             loginPage.LoadPage();
             loginPage.LoginToCati(CatiConfigurationHelper.CatiAdminUsername, CatiConfigurationHelper.CatiAdminPassword);
         }
@@ -32,7 +29,7 @@ namespace Blaise.Tests.Helpers.Cati
         {
             SetSurveyDays();
 
-            DayBatchPage dayPage = new DayBatchPage();
+            var dayPage = new DayBatchPage();
             dayPage.LoadPage();
             dayPage.CreateDayBatch();
         }
@@ -41,23 +38,23 @@ namespace Blaise.Tests.Helpers.Cati
         {
             LogIntoCatiManagementPortal();
 
-            DayBatchPage dayBatchPage = new DayBatchPage();
+            var dayBatchPage = new DayBatchPage();
             dayBatchPage.LoadPage();
             return dayBatchPage.GetDaybatchEntriesText();
         }
         
         private void SetSurveyDays()
         {
-            SpecificationPage specPage = new SpecificationPage();
+            var specPage = new SpecificationPage();
             specPage.LoadPage();
             specPage.SetSurveyDay();
         }
 
-        public void ClearDayBatchEnteries()
+        public void ClearDayBatchEntries()
         {
-            SurveyPage surveyPage = new SurveyPage();
+            var surveyPage = new SurveyPage();
             surveyPage.LoadPage();
-            surveyPage.ClearDayBatchEnteries();
+            surveyPage.ClearDayBatchEntries();
         }
     }
 }

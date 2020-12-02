@@ -1,16 +1,12 @@
-﻿using System;
-using Blaise.Tests.Helpers.Browser;
-using Blaise.Tests.Helpers.Configuration;
+﻿using Blaise.Tests.Helpers.Browser;
 using OpenQA.Selenium;
-using OpenQA.Selenium.Chrome;
-using OpenQA.Selenium.Support.UI;
 
 namespace Blaise.Tests.Helpers.Cati.Pages
 {
     public class BasePage
     {
-        public string Title => BrowserHelper.CurrentTitle;
         private readonly string _pageUrl;
+
         public BasePage(string pageUrl)
         {
             _pageUrl = pageUrl;
@@ -28,26 +24,20 @@ namespace Blaise.Tests.Helpers.Cati.Pages
                 .Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementToBeClickable(By.XPath(buttonElementPath))).Click();
         }
 
-        protected string GetElementTextById(string elementId)
-        {
-            return BrowserHelper.Wait
-                .Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementIsVisible(By.Id(elementId))).Text;
-        }
-
         protected string GetElementTextByPath(string elementPath)
         {
             return BrowserHelper.Wait
                 .Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementIsVisible(By.XPath(elementPath))).Text;
         }
 
-        protected void PopulateTextboxById(string elementId, string value)
+        protected void PopulateTextBoxById(string elementId, string value)
         {
             BrowserHelper.Wait
                 .Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementIsVisible(By.Id(elementId)))
                 .SendKeys(value);
         }
 
-        protected void PopulateTextboxByName(string elementName, string value)
+        protected void PopulateTextBoxByName(string elementName, string value)
         {
             BrowserHelper.Wait
                 .Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementIsVisible(By.Name(elementName)))

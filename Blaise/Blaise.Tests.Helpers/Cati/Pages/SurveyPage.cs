@@ -1,30 +1,24 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Blaise.Tests.Helpers.Configuration;
-using OpenQA.Selenium;
+﻿using Blaise.Tests.Helpers.Configuration;
 
 namespace Blaise.Tests.Helpers.Cati.Pages
 {
     public class SurveyPage : BasePage
     {
-        private readonly string _clearCatiDataButtonPath = @"//*[@id='MVCGridTable_SurveysGrid']/tbody/tr/td[9]/a";
-        private readonly string _backupDataButtonId = "chkBackupAll";
-        private readonly string _clearDataButtonId = "chkClearAll";
-        private readonly string _executeButtonPath = "//input[@value='Execute']";
+        private const string ClearCatiDataButtonPath = @"//*[@id='MVCGridTable_SurveysGrid']/tbody/tr/td[9]/a";
+        private const string BackupDataButtonId = "chkBackupAll";
+        private const string ClearDataButtonId = "chkClearAll";
+        private const string ExecuteButtonPath = "//input[@value='Execute']";
 
         public SurveyPage() : base(CatiConfigurationHelper.SurveyUrl)
         {
         }
 
-        public void ClearDayBatchEnteries()
+        public void ClearDayBatchEntries()
         {
-            ClickButtonByXPath(_clearCatiDataButtonPath);
-            ClickButtonById(_backupDataButtonId);
-            ClickButtonById(_clearDataButtonId);
-            ClickButtonByXPath(_executeButtonPath);
+            ClickButtonByXPath(ClearCatiDataButtonPath);
+            ClickButtonById(BackupDataButtonId);
+            ClickButtonById(ClearDataButtonId);
+            ClickButtonByXPath(ExecuteButtonPath);
         }
     }
 }

@@ -114,7 +114,6 @@
     <Compile Include="Case\CaseHelper.cs" />
     <Compile Include="Cati\CatiManagementHelper.cs" />
     <Compile Include="Cati\Pages\BasePage.cs" />
-    <Compile Include="Cati\Pages\CaseInformationPage.cs" />
     <Compile Include="Cati\Pages\DayBatchPage.cs" />
     <Compile Include="Cati\Pages\InterviewLoginPage.cs" />
     <Compile Include="Cati\Pages\InterviewPage.cs" />
