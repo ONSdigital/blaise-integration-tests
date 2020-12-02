@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using Blaise.Tests.Helpers.Browser;
 using Blaise.Tests.Helpers.Case;
 using Blaise.Tests.Helpers.Cati;
 using Blaise.Tests.Helpers.Configuration;
@@ -45,6 +46,8 @@ namespace Blaise.Cati.Management.Tests.Behaviour.Steps
         [AfterFeature("cati")]
         public static void CleanUpFeature()
         {
+            CatiManagementHelper.GetInstance().ClearDayBatchEnteries();
+            BrowserHelper.Dispose();
             CaseHelper.GetInstance().DeleteCases();
             InstrumentHelper.GetInstance().UninstallSurvey();
         }

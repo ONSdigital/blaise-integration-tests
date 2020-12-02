@@ -2,19 +2,15 @@
 using Blaise.Tests.Helpers.Configuration;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
+using System;
+using Blaise.Tests.Helpers.Browser;
 
 namespace Blaise.Tests.Helpers.Cati
 {
     public class CatiManagementHelper
     {
-        private readonly IWebDriver _driver;
         private static CatiManagementHelper _currentInstance;
-
-        public CatiManagementHelper()
-        {
-            _driver = new ChromeDriver(CatiConfigurationHelper.ChromeDriver);
-        }
-
+        
         public static CatiManagementHelper GetInstance()
         {
             return _currentInstance ?? (_currentInstance = new CatiManagementHelper());
@@ -22,12 +18,12 @@ namespace Blaise.Tests.Helpers.Cati
 
         public string CurrentUrl()
         {
-            return _driver.Url;
+            return BrowserHelper.CurrentUrl;
         }
 
         public void LogIntoCatiManagementPortal()
         {
-            LoginPage loginPage = new LoginPage(_driver);
+            LoginPage loginPage = new LoginPage();
             loginPage.LoadPage();
             loginPage.LoginToCati(CatiConfigurationHelper.CatiAdminUsername, CatiConfigurationHelper.CatiAdminPassword);
         }
@@ -36,7 +32,7 @@ namespace Blaise.Tests.Helpers.Cati
         {
             SetSurveyDays();
 
-            DayBatchPage dayPage = new DayBatchPage(_driver);
+            DayBatchPage dayPage = new DayBatchPage();
             dayPage.LoadPage();
             dayPage.CreateDayBatch();
         }
@@ -45,16 +41,23 @@ namespace Blaise.Tests.Helpers.Cati
         {
             LogIntoCatiManagementPortal();
 
-            DayBatchPage dayBatchPage = new DayBatchPage(_driver);
+            DayBatchPage dayBatchPage = new DayBatchPage();
             dayBatchPage.LoadPage();
             return dayBatchPage.GetDaybatchEntriesText();
         }
         
         private void SetSurveyDays()
         {
-            SpecificationPage specPage = new SpecificationPage(_driver);
+            SpecificationPage specPage = new SpecificationPage();
             specPage.LoadPage();
             specPage.SetSurveyDay();
+        }
+
+        public void ClearDayBatchEnteries()
+        {
+            SurveyPage surveyPage = new SurveyPage();
+            surveyPage.LoadPage();
+            surveyPage.ClearDayBatchEnteries();
         }
     }
 }
