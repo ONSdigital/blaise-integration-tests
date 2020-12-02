@@ -10,7 +10,7 @@
 // ------------------------------------------------------------------------------
 #region Designer generated code
 #pragma warning disable
-namespace Blaise.Cati.Tests.Behaviour.Features
+namespace Blaise.Cati.Interview.Tests.Behaviour.Features
 {
     using TechTalk.SpecFlow;
     using System;
@@ -20,24 +20,26 @@ namespace Blaise.Cati.Tests.Behaviour.Features
     [System.CodeDom.Compiler.GeneratedCodeAttribute("TechTalk.SpecFlow", "3.5.0.0")]
     [System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     [NUnit.Framework.TestFixtureAttribute()]
-    [NUnit.Framework.DescriptionAttribute("Daybatch")]
-    public partial class DaybatchFeature
+    [NUnit.Framework.DescriptionAttribute("Access")]
+    [NUnit.Framework.CategoryAttribute("interview")]
+    public partial class AccessFeature
     {
         
         private TechTalk.SpecFlow.ITestRunner testRunner;
         
-        private string[] _featureTags = ((string[])(null));
+        private string[] _featureTags = new string[] {
+                "interview"};
         
-#line 1 "Daybatch.feature"
+#line 1 "AccessCase.feature"
 #line hidden
         
         [NUnit.Framework.OneTimeSetUpAttribute()]
         public virtual void FeatureSetup()
         {
             testRunner = TechTalk.SpecFlow.TestRunnerManager.GetTestRunner();
-            TechTalk.SpecFlow.FeatureInfo featureInfo = new TechTalk.SpecFlow.FeatureInfo(new System.Globalization.CultureInfo("en-US"), "Features", "Daybatch", "\tIn order to capture respondents data accurately\r\n\tAs a responsible data owner\r\n\t" +
-                    "I want to be able to create a daybatch to schedule the capture of respondents an" +
-                    "swers", ProgrammingLanguage.CSharp, ((string[])(null)));
+            TechTalk.SpecFlow.FeatureInfo featureInfo = new TechTalk.SpecFlow.FeatureInfo(new System.Globalization.CultureInfo("en-US"), "Features", "Access", "\tIn order to avoid silly mistakes\r\n\tAs a math idiot\r\n\tI want to be told the sum o" +
+                    "f two numbers", ProgrammingLanguage.CSharp, new string[] {
+                        "interview"});
             testRunner.OnFeatureStart(featureInfo);
         }
         
@@ -76,15 +78,15 @@ namespace Blaise.Cati.Tests.Behaviour.Features
         }
         
         [NUnit.Framework.TestAttribute()]
-        [NUnit.Framework.DescriptionAttribute("Create a daybatch to schedule the capture respondent data")]
+        [NUnit.Framework.DescriptionAttribute("Access case via interview link")]
         [NUnit.Framework.CategoryAttribute("smoke")]
-        public virtual void CreateADaybatchToScheduleTheCaptureRespondentData()
+        public virtual void AccessCaseViaInterviewLink()
         {
             string[] tagsOfScenario = new string[] {
                     "smoke"};
             System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
-            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Create a daybatch to schedule the capture respondent data", null, tagsOfScenario, argumentsOfScenario);
-#line 7
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Access case via interview link", null, tagsOfScenario, argumentsOfScenario);
+#line 8
 this.ScenarioInitialize(scenarioInfo);
 #line hidden
             bool isScenarioIgnored = default(bool);
@@ -104,7 +106,7 @@ this.ScenarioInitialize(scenarioInfo);
             else
             {
                 this.ScenarioStart();
-#line 8
+#line 9
  testRunner.Given("I have an instrument installed on a Blaise environment", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line hidden
                 TechTalk.SpecFlow.Table table1 = new TechTalk.SpecFlow.Table(new string[] {
@@ -115,25 +117,20 @@ this.ScenarioInitialize(scenarioInfo);
                             "900001",
                             "110",
                             "07000 000 00"});
-#line 9
+#line 10
  testRunner.And("I have created sample cases for the instrument", ((string)(null)), table1, "And ");
 #line hidden
-#line 12
- testRunner.And("I log on to the Cati Dashboard", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
-#line hidden
 #line 13
- testRunner.When("I create a daybatch for today", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+ testRunner.And("I log on to Cati as an adminsitrator", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
-                TechTalk.SpecFlow.Table table2 = new TechTalk.SpecFlow.Table(new string[] {
-                            "primarykey",
-                            "outcomecode",
-                            "telephoneno"});
-                table2.AddRow(new string[] {
-                            "900001",
-                            "110",
-                            "07000 000 00"});
 #line 14
- testRunner.Then("the sample cases are present on the daybatch entry screen", ((string)(null)), table2, "Then ");
+ testRunner.And("I have created a daybatch for today", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line hidden
+#line 15
+ testRunner.When("I log on to the Interviewing Portal as an interviewer", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line hidden
+#line 16
+ testRunner.Then("I am able to capture the respondents data for case \'900001\'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
             }
             this.ScenarioCleanup();

@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using Blaise.Tests.Models;
 using Blaise.Tests.Models.Case;
 using TechTalk.SpecFlow;
 using TechTalk.SpecFlow.Assist;

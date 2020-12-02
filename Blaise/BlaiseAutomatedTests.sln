@@ -15,11 +15,13 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Blaise.Instrument.Tests.Beh
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Blaise.Case.Tests.Behaviour", "Blaise.Case.Tests.Behaviour\Blaise.Case.Tests.Behaviour.csproj", "{06DA7415-5466-41AE-9968-9B3E5316BBF6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Blaise.Cati.Tests.Behaviour", "Blaise.Cati.Tests.Behaviour\Blaise.Cati.Tests.Behaviour.csproj", "{8C927327-27D5-412F-A75E-16688BAECF52}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Blaise.Cati.Management.Tests.Behaviour", "Blaise.Cati.Management.Tests.Behaviour\Blaise.Cati.Management.Tests.Behaviour.csproj", "{8C927327-27D5-412F-A75E-16688BAECF52}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Blaise.Tests.Helpers", "Blaise.Tests.Helpers\Blaise.Tests.Helpers.csproj", "{F163D077-61A9-4DA9-AA99-D936EFA0E4CF}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Blaise.Tests.Models", "Blaise.Tests.Models\Blaise.Tests.Models.csproj", "{0C4A5514-FAEB-4833-8A1A-D489A58A3F9B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Blaise.Cati.Interview.Tests.Behaviour", "Blaise.Cati.Interview.Tests.Behaviour\Blaise.Cati.Interview.Tests.Behaviour.csproj", "{66B247DA-126A-4663-B82F-BE14A1D2951E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -127,6 +129,18 @@ Global
 		{0C4A5514-FAEB-4833-8A1A-D489A58A3F9B}.Release|x64.Build.0 = Release|Any CPU
 		{0C4A5514-FAEB-4833-8A1A-D489A58A3F9B}.Release|x86.ActiveCfg = Release|Any CPU
 		{0C4A5514-FAEB-4833-8A1A-D489A58A3F9B}.Release|x86.Build.0 = Release|Any CPU
+		{66B247DA-126A-4663-B82F-BE14A1D2951E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{66B247DA-126A-4663-B82F-BE14A1D2951E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{66B247DA-126A-4663-B82F-BE14A1D2951E}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{66B247DA-126A-4663-B82F-BE14A1D2951E}.Debug|x64.Build.0 = Debug|Any CPU
+		{66B247DA-126A-4663-B82F-BE14A1D2951E}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{66B247DA-126A-4663-B82F-BE14A1D2951E}.Debug|x86.Build.0 = Debug|Any CPU
+		{66B247DA-126A-4663-B82F-BE14A1D2951E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{66B247DA-126A-4663-B82F-BE14A1D2951E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{66B247DA-126A-4663-B82F-BE14A1D2951E}.Release|x64.ActiveCfg = Release|Any CPU
+		{66B247DA-126A-4663-B82F-BE14A1D2951E}.Release|x64.Build.0 = Release|Any CPU
+		{66B247DA-126A-4663-B82F-BE14A1D2951E}.Release|x86.ActiveCfg = Release|Any CPU
+		{66B247DA-126A-4663-B82F-BE14A1D2951E}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

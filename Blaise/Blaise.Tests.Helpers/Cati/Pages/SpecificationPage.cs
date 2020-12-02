@@ -1,29 +1,25 @@
 ﻿using System;
-using System.Threading;
 using Blaise.Tests.Helpers.Configuration;
-using OpenQA.Selenium;
-using OpenQA.Selenium.Support.UI;
-using Unity.Injection;
 
 namespace Blaise.Tests.Helpers.Cati.Pages
 {
     public class SpecificationPage : BasePage
     {
-        private readonly string _surveyAccordionPath = "//*[contains(text(), 'Survey Days')]";
-        private readonly string _editButtonId = "btnEditSurveyDays";
-        private readonly string _todaysDateInCalenderPickerPath = $"//a[text()='{DateTime.Now.Day}']";
-        private readonly string _saveButtonPath = "//input[@value='Save']";
+        private const string SurveyAccordionPath = "//*[contains(text(), 'Survey Days')]";
+        private const string EditButtonId = "btnEditSurveyDays";
+        public readonly string TodaysDateInCalenderPickerPath = $"//a[text()='{DateTime.Now.Day}']";
+        private const string SaveButtonPath = "//input[@value='Save']";
 
-        public SpecificationPage(IWebDriver driver) : base(driver, CatiConfigurationHelper.SpecificationUrl)
+        public SpecificationPage() : base(CatiConfigurationHelper.SpecificationUrl)
         {
         }
 
         public void SetSurveyDay()
         {
-            ClickButtonByXPath(_surveyAccordionPath);
-            ClickButtonById(_editButtonId);
-            ClickButtonByXPath(_todaysDateInCalenderPickerPath);
-            ClickButtonByXPath(_saveButtonPath);
+            ClickButtonByXPath(SurveyAccordionPath);
+            ClickButtonById(EditButtonId);
+            ClickButtonByXPath(TodaysDateInCalenderPickerPath);
+            ClickButtonByXPath(SaveButtonPath);
         }
     }
 }

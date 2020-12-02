@@ -1,20 +1,18 @@
-﻿using System.Threading;
-using Blaise.Tests.Helpers.Configuration;
-using OpenQA.Selenium;
+﻿using Blaise.Tests.Helpers.Configuration;
 
 namespace Blaise.Tests.Helpers.Cati.Pages
 {
     public class InterviewPage : BasePage
     {
-        private readonly string _saveContinueButtonId = "q";
+        private const string CaseIdPath = "//div[contains(text(), 'Case:')]";
 
-        public InterviewPage(IWebDriver driver) : base(driver, CatiConfigurationHelper.InterviewUrl)
+        public InterviewPage() : base(CatiConfigurationHelper.InterviewUrl)
         {
         }
 
-        public string GetSaveAndContinueButton()
+        public string GetCaseIdText()
         {
-            return GetElementTextById(_saveContinueButtonId);
+            return GetElementTextByPath(CaseIdPath);
         }
     }
 }
