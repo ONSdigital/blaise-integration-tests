@@ -14,7 +14,7 @@ namespace Blaise.Tests.Helpers.Cati.Pages
         private readonly string _passwordTextboxName = "password";
         private readonly string _submitButtonPath = "//input[@type='submit']";
 
-        public InterviewLoginPage(IWebDriver driver) : base(driver, CatiConfigurationHelper.InterviewUrl)
+        public InterviewLoginPage() : base(CatiConfigurationHelper.InterviewUrl)
         {
         }
 

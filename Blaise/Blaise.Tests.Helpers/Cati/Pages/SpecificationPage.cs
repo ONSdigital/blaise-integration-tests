@@ -14,7 +14,7 @@ namespace Blaise.Tests.Helpers.Cati.Pages
         private readonly string _todaysDateInCalenderPickerPath = $"//a[text()='{DateTime.Now.Day}']";
         private readonly string _saveButtonPath = "//input[@value='Save']";
 
-        public SpecificationPage(IWebDriver driver) : base(driver, CatiConfigurationHelper.SpecificationUrl)
+        public SpecificationPage() : base(CatiConfigurationHelper.SpecificationUrl)
         {
         }
 

@@ -14,7 +14,6 @@ namespace Blaise.Tests.Helpers.Configuration
         public static string InterviewUrl => GetVariable("InterviewUrl");
         public static string SpecificationUrl => GetVariable("SpecificationUrl");
         public static string SurveyUrl => GetVariable("SurveyUrl");
-        public static string ChromeDriver => GetVariable("ChromeDriver");
         public static string InterviewRole => GetVariable("InterviewRole");
 
         private static string GetVariable(string variableName)

@@ -8,7 +8,7 @@ namespace Blaise.Tests.Helpers.Cati.Pages
     {
         private readonly string _caseIdPath = "//div[contains(text(), 'Case:')]";
 
-        public InterviewPage(IWebDriver driver) : base(driver, CatiConfigurationHelper.InterviewUrl)
+        public InterviewPage() : base(CatiConfigurationHelper.InterviewUrl)
         {
         }
 
