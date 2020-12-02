@@ -3,8 +3,6 @@ using Blaise.Tests.Helpers.Cati.Pages;
 using Blaise.Tests.Helpers.Configuration;
 using Blaise.Tests.Helpers.User;
 using Blaise.Tests.Models.User;
-using OpenQA.Selenium;
-using OpenQA.Selenium.Chrome;
 
 namespace Blaise.Tests.Helpers.Cati
 {

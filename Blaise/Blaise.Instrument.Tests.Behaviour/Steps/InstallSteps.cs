@@ -1,5 +1,4 @@
 ﻿using Blaise.Nuget.Api.Contracts.Enums;
-using Blaise.Tests.Helpers.Cati;
 using Blaise.Tests.Helpers.Configuration;
 using Blaise.Tests.Helpers.Instrument;
 using NUnit.Framework;
