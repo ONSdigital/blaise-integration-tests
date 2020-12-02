@@ -1,5 +1,4 @@
 ﻿using Blaise.Tests.Helpers.Configuration;
-using OpenQA.Selenium;
 
 namespace Blaise.Tests.Helpers.Cati.Pages
 {
@@ -9,7 +8,7 @@ namespace Blaise.Tests.Helpers.Cati.Pages
         private readonly string _passwordBoxId = "Password";
         private readonly string _loginButtonPath = "//button[@type='submit']";
 
-        public LoginPage(IWebDriver driver) : base(driver, CatiConfigurationHelper.LoginUrl)
+        public LoginPage() : base(CatiConfigurationHelper.LoginUrl)
         {
         }
         

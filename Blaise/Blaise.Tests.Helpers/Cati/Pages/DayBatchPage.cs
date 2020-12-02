@@ -10,7 +10,7 @@ namespace Blaise.Tests.Helpers.Cati.Pages
         private readonly string _createButtonPath = "//input[@value='Create']";
         private readonly string _numberOfEntriesPath = "//div[contains(text(), 'Showing')]";
 
-        public DayBatchPage(IWebDriver driver) : base(driver, CatiConfigurationHelper.DayBatchUrl)
+        public DayBatchPage() : base(CatiConfigurationHelper.DayBatchUrl)
         {
         }
 

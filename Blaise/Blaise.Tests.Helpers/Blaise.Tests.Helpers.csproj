@@ -110,6 +110,7 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Browser\BrowserHelper.cs" />
     <Compile Include="Case\CaseHelper.cs" />
     <Compile Include="Cati\CatiManagementHelper.cs" />
     <Compile Include="Cati\Pages\BasePage.cs" />
@@ -119,6 +120,8 @@
     <Compile Include="Cati\Pages\InterviewPage.cs" />
     <Compile Include="Cati\Pages\LoginPage.cs" />
     <Compile Include="Cati\Pages\SpecificationPage.cs" />
+    <Compile Include="Cati\Pages\SurveyPage.cs" />
+    <Compile Include="Configuration\BrowserConfigurationHelper.cs" />
     <Compile Include="Configuration\CatiConfigurationHelper.cs" />
     <Compile Include="Configuration\BlaiseConfigurationHelper.cs" />
     <Compile Include="Instrument\InstrumentHelper.cs" />

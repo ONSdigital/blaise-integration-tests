@@ -1,4 +1,5 @@
-﻿using Blaise.Tests.Helpers.Case;
+﻿using Blaise.Tests.Helpers.Browser;
+using Blaise.Tests.Helpers.Case;
 using Blaise.Tests.Helpers.Cati;
 using Blaise.Tests.Helpers.Instrument;
 using NUnit.Framework;
@@ -31,9 +32,11 @@ namespace Blaise.Cati.Interview.Tests.Behaviour.Steps
         [AfterFeature("interview")]
         public static void CleanUpFeature()
         {
+            CatiManagementHelper.GetInstance().ClearDayBatchEnteries();
+            BrowserHelper.Dispose();
             CatiInterviewHelper.GetInstance().DeleteInterviewUser();
-            //CaseHelper.GetInstance().DeleteCases();
-            //InstrumentHelper.GetInstance().UninstallSurvey();
+            CaseHelper.GetInstance().DeleteCases();
+            InstrumentHelper.GetInstance().UninstallSurvey();
         }
     }
 }
