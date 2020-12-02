@@ -32,7 +32,7 @@ namespace Blaise.Cati.Interview.Tests.Behaviour.Steps
         [AfterFeature("interview")]
         public static void CleanUpFeature()
         {
-            CatiManagementHelper.GetInstance().ClearDayBatchEnteries();
+            CatiManagementHelper.GetInstance().ClearDayBatchEntries();
             BrowserHelper.Dispose();
             CatiInterviewHelper.GetInstance().DeleteInterviewUser();
             CaseHelper.GetInstance().DeleteCases();

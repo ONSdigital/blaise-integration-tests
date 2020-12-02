@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Blaise.Tests.Helpers.Configuration;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
@@ -22,7 +18,6 @@ namespace Blaise.Tests.Helpers.Browser
         public static WebDriverWait Wait => new WebDriverWait(Browser, TimeSpan.FromSeconds(TimeOutInSeconds));
 
         public static string CurrentUrl => Browser.Url;
-        public static string CurrentTitle => Browser.Title;
 
         public static void Dispose()
         {

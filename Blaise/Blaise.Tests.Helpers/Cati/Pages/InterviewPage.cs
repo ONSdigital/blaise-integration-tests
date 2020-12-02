@@ -1,12 +1,10 @@
-﻿using System.Threading;
-using Blaise.Tests.Helpers.Configuration;
-using OpenQA.Selenium;
+﻿using Blaise.Tests.Helpers.Configuration;
 
 namespace Blaise.Tests.Helpers.Cati.Pages
 {
     public class InterviewPage : BasePage
     {
-        private readonly string _caseIdPath = "//div[contains(text(), 'Case:')]";
+        private const string CaseIdPath = "//div[contains(text(), 'Case:')]";
 
         public InterviewPage() : base(CatiConfigurationHelper.InterviewUrl)
         {
@@ -14,7 +12,7 @@ namespace Blaise.Tests.Helpers.Cati.Pages
 
         public string GetCaseIdText()
         {
-            return GetElementTextByPath(_caseIdPath);
+            return GetElementTextByPath(CaseIdPath);
         }
     }
 }
