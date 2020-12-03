@@ -95,9 +95,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
-    <None Include="Features\AccessCase.feature">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
+    <None Include="Features\AccessCase.feature" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup />
