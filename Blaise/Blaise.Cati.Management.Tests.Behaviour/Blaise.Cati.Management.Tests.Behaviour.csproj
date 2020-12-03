@@ -95,9 +95,7 @@
     <Compile Include="Steps\DaybatchSteps.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="app.config">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
+    <None Include="app.config" />
     <None Include="Features\Daybatch.feature">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
