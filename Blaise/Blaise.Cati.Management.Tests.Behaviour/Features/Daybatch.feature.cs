@@ -110,16 +110,16 @@ this.ScenarioInitialize(scenarioInfo);
 #line 9
  testRunner.Given("I have an instrument installed on a Blaise environment", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line hidden
-                TechTalk.SpecFlow.Table table1 = new TechTalk.SpecFlow.Table(new string[] {
+                TechTalk.SpecFlow.Table table5 = new TechTalk.SpecFlow.Table(new string[] {
                             "primarykey",
                             "outcomecode",
                             "telephoneno"});
-                table1.AddRow(new string[] {
+                table5.AddRow(new string[] {
                             "900001",
                             "110",
                             "07000 000 00"});
 #line 10
- testRunner.And("I have created sample cases for the instrument", ((string)(null)), table1, "And ");
+ testRunner.And("I have created sample cases for the instrument", ((string)(null)), table5, "And ");
 #line hidden
 #line 13
  testRunner.And("I log on to Cati as an adminsitrator", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
@@ -127,16 +127,16 @@ this.ScenarioInitialize(scenarioInfo);
 #line 14
  testRunner.When("I create a daybatch for today", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line hidden
-                TechTalk.SpecFlow.Table table2 = new TechTalk.SpecFlow.Table(new string[] {
+                TechTalk.SpecFlow.Table table6 = new TechTalk.SpecFlow.Table(new string[] {
                             "primarykey",
                             "outcomecode",
                             "telephoneno"});
-                table2.AddRow(new string[] {
+                table6.AddRow(new string[] {
                             "900001",
                             "110",
                             "07000 000 00"});
 #line 15
- testRunner.Then("the sample cases are present on the daybatch entry screen", ((string)(null)), table2, "Then ");
+ testRunner.Then("the sample cases are present on the daybatch entry screen", ((string)(null)), table6, "Then ");
 #line hidden
             }
             this.ScenarioCleanup();
