@@ -11,7 +11,7 @@ namespace Blaise.Tests.Helpers.Browser
 
         private static IWebDriver _browser;
 
-        private static IWebDriver Browser => _browser ?? (_browser = new ChromeDriver(BrowserConfigurationHelper.ChromeDriver));
+        private static IWebDriver Browser => _browser ?? (_browser = CreateChromeDriver());
 
         public static int TimeOutInSeconds => BrowserConfigurationHelper.TimeOutInSeconds;
 
@@ -28,6 +28,13 @@ namespace Blaise.Tests.Helpers.Browser
         public static void BrowseTo(string pageUrl)
         {
             Browser.Navigate().GoToUrl(pageUrl);
+        }
+
+        private static ChromeDriver CreateChromeDriver()
+        {
+            var chromeOptions = new ChromeOptions();
+            chromeOptions.AddArgument("headless");
+            return new ChromeDriver(BrowserConfigurationHelper.ChromeDriver, chromeOptions);
         }
     }
 }
