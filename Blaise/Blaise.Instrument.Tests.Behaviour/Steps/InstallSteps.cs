@@ -50,7 +50,7 @@ namespace Blaise.Instrument.Tests.Behaviour.Steps
             Assert.AreEqual(SurveyInterviewType.Cati, surveyConfiguration);
         }
 
-        [AfterScenario("Instrument")]
+        [AfterScenario("instrument")]
         public void CleanUpScenario()
         {
             InstrumentHelper.GetInstance().UninstallSurvey();
