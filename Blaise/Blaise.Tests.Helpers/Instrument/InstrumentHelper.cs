@@ -24,13 +24,13 @@ namespace Blaise.Tests.Helpers.Instrument
 
         public void InstallInstrument()
         {
-            _blaiseSurveyApi.InstallSurvey(BlaiseConfigurationHelper.ServerParkName, BlaiseConfigurationHelper.InstrumentPackage(), 
+            _blaiseSurveyApi.InstallSurvey(BlaiseConfigurationHelper.ServerParkName, BlaiseConfigurationHelper.InstrumentPackage, 
                 SurveyInterviewType.Cati);
         }
 
         public void InstallInstrument(SurveyInterviewType surveyConfigurationType)
         {
-            _blaiseSurveyApi.InstallSurvey(BlaiseConfigurationHelper.ServerParkName, BlaiseConfigurationHelper.InstrumentPackage(), 
+            _blaiseSurveyApi.InstallSurvey(BlaiseConfigurationHelper.ServerParkName, BlaiseConfigurationHelper.InstrumentPackage, 
                 surveyConfigurationType);
         }
 

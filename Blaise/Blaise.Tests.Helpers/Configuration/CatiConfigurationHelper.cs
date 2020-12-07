@@ -1,24 +1,19 @@
-﻿using System.Configuration;
+﻿using System;
 
 namespace Blaise.Tests.Helpers.Configuration
 {
     public static class CatiConfigurationHelper
     {
-        public static string CatiAdminUsername => GetVariable("CatiAdminUsername");
-        public static string CatiAdminPassword => GetVariable("CatiAdminPassword");
-        public static string CatiInterviewUsername => GetVariable("CatiInterviewUsername");
-        public static string CatiInterviewPassword => GetVariable("CatiInterviewPassword");
-        public static string LoginUrl => GetVariable("LoginUrl");
-        public static string DayBatchUrl => GetVariable("DayBatchUrl");
-        public static string InterviewUrl => GetVariable("InterviewUrl");
-        public static string SpecificationUrl => GetVariable("SpecificationUrl");
-        public static string SurveyUrl => GetVariable("SurveyUrl");
-        public static string InterviewRole => GetVariable("InterviewRole");
-
-        private static string GetVariable(string variableName)
-        {
-            var value = ConfigurationManager.AppSettings[variableName];
-            return value;
-        }
+        public static string CatiAdminUsername => BlaiseConfigurationHelper.BuildConnectionModel().UserName;
+        public static string CatiAdminPassword => BlaiseConfigurationHelper.BuildConnectionModel().Password;
+        public static string CatiInterviewUsername => "DSTTestUser";
+        public static string CatiInterviewPassword => $"{Guid.NewGuid()}";
+        public static string InterviewRole => $"DST";
+        public static string CatiBaseUrl => $"https://{BlaiseConfigurationHelper.BuildConnectionModel().ServerName.Replace("client", "web")}";
+        public static string LoginUrl => $"{CatiBaseUrl}/blaise/account/login";
+        public static string DayBatchUrl => $"{CatiBaseUrl}/blaise/daybatch";
+        public static string InterviewUrl => $"{CatiBaseUrl}/{BlaiseConfigurationHelper.InstrumentName}/";
+        public static string SpecificationUrl => $"{CatiBaseUrl}/blaise/specification";
+        public static string SurveyUrl => $"{CatiBaseUrl}/blaise/";
     }
 }

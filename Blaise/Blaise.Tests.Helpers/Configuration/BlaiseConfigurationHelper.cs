@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Configuration;
-using System.IO;
 using Blaise.Nuget.Api.Contracts.Models;
 
 namespace Blaise.Tests.Helpers.Configuration
@@ -10,7 +9,7 @@ namespace Blaise.Tests.Helpers.Configuration
         public static string ServerParkName => GetVariable("ServerParkName");
         public static string InstrumentPath => GetVariable("InstrumentPath");
         public static string InstrumentName => GetVariable("InstrumentName");
-        public static string InstrumentExtension => GetVariable("InstrumentExtension");
+        public static string InstrumentPackage => $"{InstrumentPath}//{InstrumentName}.zip";
 
         public static ConnectionModel BuildConnectionModel()
         {
@@ -25,21 +24,14 @@ namespace Blaise.Tests.Helpers.Configuration
             };
         }
 
-        public static string InstrumentPackage()
-        {
-            return Path.Combine(InstrumentPath, InstrumentName + InstrumentExtension);
-        }
-
         private static string GetVariable(string variableName)
         {
-            var value = ConfigurationManager.AppSettings[variableName];
-            return value;
+            return ConfigurationManager.AppSettings[variableName];
         }
 
         private static int GetIntVariable(string variableName)
         {
-            var value = ConfigurationManager.AppSettings[variableName];
-            return Convert.ToInt32(value);
+            return Convert.ToInt32(ConfigurationManager.AppSettings[variableName]);
         }
     }
 }
