@@ -1,4 +1,5 @@
-﻿using Blaise.Tests.Helpers.Browser;
+﻿using System;
+using Blaise.Tests.Helpers.Browser;
 using Blaise.Tests.Helpers.Case;
 using Blaise.Tests.Helpers.Cati;
 using Blaise.Tests.Helpers.Instrument;
@@ -25,8 +26,19 @@ namespace Blaise.Cati.Interview.Tests.Behaviour.Steps
         [Then(@"I am able to capture the respondents data for case '(.*)'")]
         public void ThenIAmAbleToCaptureTheRespondentsDataForCase(string caseId)
         {
-            var caseIdText = CatiInterviewHelper.GetInstance().GetCaseIdText();
-            Assert.AreEqual($"Case: {caseId}", caseIdText);
+            try
+            {
+                var caseIdText = CatiInterviewHelper.GetInstance().GetCaseIdText();
+                Assert.AreEqual($"Case: {caseId}", caseIdText);
+            }
+            catch (Exception e)
+            {
+                var screenShotFile = BrowserHelper.TakeScreenShot(TestContext.CurrentContext.WorkDirectory,
+                    "CatiInterview");
+
+                TestContext.AddTestAttachment(screenShotFile, "Cati Interview Screen");
+                Assert.Fail($"The test failed to complete - {e.Message}");
+            }
         }
 
         [AfterFeature("interview")]
