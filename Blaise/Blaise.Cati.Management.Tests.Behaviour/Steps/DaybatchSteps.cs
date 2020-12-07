@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Blaise.Tests.Helpers.Browser;
 using Blaise.Tests.Helpers.Case;
@@ -20,27 +21,48 @@ namespace Blaise.Cati.Management.Tests.Behaviour.Steps
             InstrumentHelper.GetInstance().InstallInstrument();
         }
 
-        [Given(@"I log on to Cati as an adminsitrator")]
+        [Given(@"I log on to Cati as an administrator")]
         public void GivenILogOnToTheCatiDashboard()
         {
-            CatiManagementHelper.GetInstance().LogIntoCatiManagementPortal();
-            Assert.AreNotEqual(CatiConfigurationHelper.LoginUrl, CatiManagementHelper.GetInstance().CurrentUrl(),
-                                "Expected to leave the login page");
+            try
+            {
+                CatiManagementHelper.GetInstance().LogIntoCatiManagementPortal();
+                Assert.AreNotEqual(CatiConfigurationHelper.LoginUrl, CatiManagementHelper.GetInstance().CurrentUrl(),
+                    "Expected to leave the login page");
+            }
+            catch (Exception e)
+            {
+                FailWithScreenShot(e);
+            }
         }
 
         [Given(@"I have created a daybatch for today")]
         [When(@"I create a daybatch for today")]
         public void WhenICreateADaybatchForToday()
         {
-            CatiManagementHelper.GetInstance().CreateDayBatch();
+            try
+            {
+                CatiManagementHelper.GetInstance().CreateDayBatch();
+            }
+            catch (Exception e)
+            {
+                FailWithScreenShot(e);
+            }
         }
 
         [Then(@"the sample cases are present on the daybatch entry screen")]
         public void ThenTheSampleCasesArePresentOnTheDaybatchEntryScreen(IEnumerable<CaseModel> cases)
-        {     
-            var entriesText = CatiManagementHelper.GetInstance().GetDaybatchEntriesText();
-            var expectedNumberOfCases = cases.Count();
-            Assert.AreEqual($"Showing 1 to {expectedNumberOfCases} of {expectedNumberOfCases} entries", entriesText);
+        {
+            try
+            {
+                var entriesText = CatiManagementHelper.GetInstance().GetDaybatchEntriesText();
+                var expectedNumberOfCases = cases.Count();
+                Assert.AreEqual($"Showing 1 to {expectedNumberOfCases} of {expectedNumberOfCases} entries", entriesText);
+            }
+            catch (Exception e)
+            {
+                FailWithScreenShot(e);
+            }
         }
                 
         [AfterFeature("cati")]
@@ -50,6 +72,15 @@ namespace Blaise.Cati.Management.Tests.Behaviour.Steps
             BrowserHelper.CloseBrowser();
             CaseHelper.GetInstance().DeleteCases();
             InstrumentHelper.GetInstance().UninstallSurvey();
+        }
+
+        private static void FailWithScreenShot(Exception e)
+        {
+            var screenShotFile = BrowserHelper.TakeScreenShot(TestContext.CurrentContext.WorkDirectory,
+                "CatiInterview.png");
+
+            TestContext.AddTestAttachment(screenShotFile, "Cati Interview Screen");
+            Assert.Fail($"The test failed to complete - {e.Message}");
         }
     }
 }
