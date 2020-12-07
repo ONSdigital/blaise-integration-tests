@@ -26,7 +26,7 @@ namespace Blaise.Cati.Interview.Tests.Behaviour.Steps
             }
             catch (Exception e)
             {
-                FailWithScreenShot(e);
+                FailWithScreenShot(e, "LogOnInterview", "Log onto Interview Screen");
             }
         }
 
@@ -40,7 +40,7 @@ namespace Blaise.Cati.Interview.Tests.Behaviour.Steps
             }
             catch (Exception e)
             {
-                FailWithScreenShot(e);
+                FailWithScreenShot(e, "CaptureData", "Capture respondents data");
             }
         }
 
@@ -54,12 +54,12 @@ namespace Blaise.Cati.Interview.Tests.Behaviour.Steps
             InstrumentHelper.GetInstance().UninstallSurvey();
         }
 
-        private static void FailWithScreenShot(Exception e)
+        private static void FailWithScreenShot(Exception e, string screenShotName, string screenShotDescription)
         {
             var screenShotFile = BrowserHelper.TakeScreenShot(TestContext.CurrentContext.WorkDirectory,
-                "CatiInterview.png");
+                screenShotName);
 
-            TestContext.AddTestAttachment(screenShotFile, "Cati Interview Screen");
+            TestContext.AddTestAttachment(screenShotFile, screenShotDescription);
             Assert.Fail($"The test failed to complete - {e.Message}");
         }
     }

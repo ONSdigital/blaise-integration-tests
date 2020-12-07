@@ -32,7 +32,7 @@ namespace Blaise.Cati.Management.Tests.Behaviour.Steps
             }
             catch (Exception e)
             {
-                FailWithScreenShot(e);
+                FailWithScreenShot(e,"LogOnCati", "Log onto Cati as Admin");
             }
         }
 
@@ -46,7 +46,7 @@ namespace Blaise.Cati.Management.Tests.Behaviour.Steps
             }
             catch (Exception e)
             {
-                FailWithScreenShot(e);
+                FailWithScreenShot(e, "CreateDaybatch", "Create a daybatch for today");
             }
         }
 
@@ -61,7 +61,7 @@ namespace Blaise.Cati.Management.Tests.Behaviour.Steps
             }
             catch (Exception e)
             {
-                FailWithScreenShot(e);
+                FailWithScreenShot(e, "SampleCases", "Daybatch entry screen");
             }
         }
                 
@@ -74,12 +74,12 @@ namespace Blaise.Cati.Management.Tests.Behaviour.Steps
             InstrumentHelper.GetInstance().UninstallSurvey();
         }
 
-        private static void FailWithScreenShot(Exception e)
+        private static void FailWithScreenShot(Exception e, string screenShotName, string screenShotDescription)
         {
             var screenShotFile = BrowserHelper.TakeScreenShot(TestContext.CurrentContext.WorkDirectory,
-                "CatiInterview.png");
+                screenShotName);
 
-            TestContext.AddTestAttachment(screenShotFile, "Cati Interview Screen");
+            TestContext.AddTestAttachment(screenShotFile, screenShotDescription);
             Assert.Fail($"The test failed to complete - {e.Message}");
         }
     }
