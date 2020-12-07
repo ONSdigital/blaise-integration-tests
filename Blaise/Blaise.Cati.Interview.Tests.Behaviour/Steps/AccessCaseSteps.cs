@@ -34,7 +34,7 @@ namespace Blaise.Cati.Interview.Tests.Behaviour.Steps
             catch (Exception e)
             {
                 var screenShotFile = BrowserHelper.TakeScreenShot(TestContext.CurrentContext.WorkDirectory,
-                    "CatiInterview");
+                    "CatiInterview.png");
 
                 TestContext.AddTestAttachment(screenShotFile, "Cati Interview Screen");
                 Assert.Fail($"The test failed to complete - {e.Message}");
