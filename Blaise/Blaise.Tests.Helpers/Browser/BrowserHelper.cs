@@ -1,7 +1,9 @@
 ﻿using System;
+using System.IO;
 using Blaise.Tests.Helpers.Configuration;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
+using OpenQA.Selenium.Support.Extensions;
 using OpenQA.Selenium.Support.UI;
 
 namespace Blaise.Tests.Helpers.Browser
@@ -18,6 +20,15 @@ namespace Blaise.Tests.Helpers.Browser
         public static WebDriverWait Wait => new WebDriverWait(Browser, TimeSpan.FromSeconds(TimeOutInSeconds));
 
         public static string CurrentUrl => Browser.Url;
+
+        public static string TakeScreenShot(string screenShotPath, string screenShotName)
+        {
+            var screenShot = _browser.TakeScreenshot();
+            var screenShotFile = Path.Combine(screenShotPath, screenShotName);
+            screenShot.SaveAsFile(screenShotFile, ScreenshotImageFormat.Png);
+
+            return screenShotFile;
+        }
 
         public static void CloseBrowser()
         {
