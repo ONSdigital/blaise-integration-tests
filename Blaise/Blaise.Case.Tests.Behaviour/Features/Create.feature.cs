@@ -109,27 +109,27 @@ this.ScenarioInitialize(scenarioInfo);
 #line 9
  testRunner.Given("I have an instrument installed on a Blaise environment", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line hidden
-                TechTalk.SpecFlow.Table table3 = new TechTalk.SpecFlow.Table(new string[] {
+                TechTalk.SpecFlow.Table table1 = new TechTalk.SpecFlow.Table(new string[] {
                             "primarykey",
                             "outcomecode",
                             "telephoneno"});
-                table3.AddRow(new string[] {
+                table1.AddRow(new string[] {
                             "900001",
                             "110",
                             "07000 000 00"});
 #line 10
- testRunner.When("I create sample cases for the instrument", ((string)(null)), table3, "When ");
+ testRunner.When("I create sample cases for the instrument", ((string)(null)), table1, "When ");
 #line hidden
-                TechTalk.SpecFlow.Table table4 = new TechTalk.SpecFlow.Table(new string[] {
+                TechTalk.SpecFlow.Table table2 = new TechTalk.SpecFlow.Table(new string[] {
                             "primarykey",
                             "outcomecode",
                             "telephoneno"});
-                table4.AddRow(new string[] {
+                table2.AddRow(new string[] {
                             "900001",
                             "110",
                             "07000 000 00"});
 #line 13
- testRunner.Then("the sample cases are available in the Blaise environment", ((string)(null)), table4, "Then ");
+ testRunner.Then("the sample cases are available in the Blaise environment", ((string)(null)), table2, "Then ");
 #line hidden
             }
             this.ScenarioCleanup();
