@@ -5,6 +5,6 @@
 
 @mytag
 Scenario: Return a list of available questionnaires where there is a single questionnaire
-	Given There is an active questionnaire installed
+	Given I have an instrument installed on a Blaise environment
 	When the API is queried to return all active questionnaires
 	Then details of questionnaire a is returned
