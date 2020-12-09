@@ -81,10 +81,16 @@
     <Compile Include="Steps\QuestionnaireSteps.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="app.config" />
     <None Include="Features\Questionnaire .feature" />
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="..\Blaise.Tests.Helpers\Blaise.Tests.Helpers.csproj">
+      <Project>{F163D077-61A9-4DA9-AA99-D936EFA0E4CF}</Project>
+      <Name>Blaise.Tests.Helpers</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\packages\SpecFlow.3.5.5\build\SpecFlow.targets" Condition="Exists('..\packages\SpecFlow.3.5.5\build\SpecFlow.targets')" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

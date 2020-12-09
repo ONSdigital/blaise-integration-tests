@@ -1,4 +1,5 @@
-﻿using TechTalk.SpecFlow;
+﻿using Blaise.Tests.Helpers.RestApi;
+using TechTalk.SpecFlow;
 
 namespace Blaise.RestApi.Tests.Behaviour.Steps
 {
@@ -6,9 +7,9 @@ namespace Blaise.RestApi.Tests.Behaviour.Steps
     public sealed class QuestionnaireSteps
     {
         [When(@"the API is queried to return all active questionnaires")]
-        public void WhenTheAPIIsQueriedToReturnAllActiveQuestionnaires()
+        public void WhenTheApiIsQueriedToReturnAllActiveQuestionnaires()
         {
-
+           var n = RestApiHelper.GetAllActiveSurveys<Questionnaire>("Questionnaires");
         }
 
     }
