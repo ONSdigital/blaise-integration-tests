@@ -7,6 +7,7 @@ using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
 using Blaise.Tests.Helpers.Configuration;
+using Blaise.Tests.Models;
 using Newtonsoft.Json;
 using StatNeth.Blaise.API.ServerManager;
 
@@ -24,17 +25,17 @@ namespace Blaise.Tests.Helpers.RestApi
 
         public static async Task<List<Questionnaire>> GetAllActiveQuestionnaires()
         {
-            return await GetASync<Questionnaire>("questionnaire").ConfigureAwait(false);
+            return await GetListOfObjectsASync<Questionnaire>("urlForRestApi");
         }
 
-        private static async Task<T> GetASync<T>(string url)
+        private static async Task<List<T>> GetListOfObjectsASync<T>(string url)
         {
             var response = await _httpClient.GetAsync(url);
 
             if (response.StatusCode != HttpStatusCode.OK) return default;
 
             var responseAsJson = await response.Content.ReadAsStringAsync();
-            return JsonConvert.DeserializeObject<T>(responseAsJson);
+            return JsonConvert.DeserializeObject<List<T>>(responseAsJson);
         }
     }
 }
