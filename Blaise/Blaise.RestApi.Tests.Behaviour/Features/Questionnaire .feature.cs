@@ -104,7 +104,7 @@ this.ScenarioInitialize(scenarioInfo);
             {
                 this.ScenarioStart();
 #line 8
- testRunner.Given("There is an active questionnaire \'a\' installed on server park \'x\'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+ testRunner.Given("I have an instrument installed on a Blaise environment", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line hidden
 #line 9
  testRunner.When("the API is queried to return all active questionnaires", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
