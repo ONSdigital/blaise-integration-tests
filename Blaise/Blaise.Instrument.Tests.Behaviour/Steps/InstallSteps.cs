@@ -23,6 +23,7 @@ namespace Blaise.Instrument.Tests.Behaviour.Steps
         }
 
         [Given(@"I have an instrument installed on a Blaise environment")]
+        [Given(@"There is an instrument installed on a Blaise environment")]
         [When(@"I install the instrument into a Blaise environment")]
         public void WhenIInstallTheInstrumentIntoABlaiseEnvironment()
         {

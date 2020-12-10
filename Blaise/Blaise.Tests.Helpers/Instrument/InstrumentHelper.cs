@@ -50,6 +50,18 @@ namespace Blaise.Tests.Helpers.Instrument
             return _blaiseSurveyApi.GetSurveyInterviewType(BlaiseConfigurationHelper.InstrumentName, BlaiseConfigurationHelper.ServerParkName);
         }
 
+        public bool SetSurveyAsActive(int timeoutInSeconds)
+        {
+            _blaiseSurveyApi.ActivateSurvey(BlaiseConfigurationHelper.InstrumentName, BlaiseConfigurationHelper.ServerParkName);
+            return SurveyIsActive(BlaiseConfigurationHelper.InstrumentName, timeoutInSeconds);
+        }
+
+        public bool SetSurveyAsInactive()
+        {
+            _blaiseSurveyApi.DeactivateSurvey(BlaiseConfigurationHelper.InstrumentName, BlaiseConfigurationHelper.ServerParkName);
+            return GetSurveyStatus(BlaiseConfigurationHelper.InstrumentName) == SurveyStatusType.Inactive;
+        }
+
         private bool SurveyIsActive(string instrumentName, int timeoutInSeconds)
         {
             var counter = 0;
@@ -88,7 +100,6 @@ namespace Blaise.Tests.Helpers.Instrument
                     return false;
                 }
             }
-
             return true;
         }
     }
