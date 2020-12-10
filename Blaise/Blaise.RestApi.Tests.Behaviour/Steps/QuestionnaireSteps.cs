@@ -32,6 +32,11 @@ namespace Blaise.RestApi.Tests.Behaviour.Steps
             Assert.IsTrue(surveyIsInactive);
         }
 
+        [Given(@"there are no questionnaires installed")]
+        public void GivenThereAreNoQuestionnairesInstalled()
+        {
+        }
+
         [When(@"the API is queried to return all active questionnaires")]
         public void WhenTheApiIsQueriedToReturnAllActiveQuestionnaires()
         {
@@ -53,5 +58,10 @@ namespace Blaise.RestApi.Tests.Behaviour.Steps
             Assert.AreEqual(0, listOfActiveQuestionnaires.Count);
         }
 
+        [AfterScenario("questionnaires")]
+        public void CleanUpScenario()
+        {
+            InstrumentHelper.GetInstance().UninstallSurvey();
+        }
     }
 }
