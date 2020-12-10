@@ -51,6 +51,7 @@
   <ItemGroup>
     <Compile Include="Case\CaseModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Questionnaire\Questionnaire.cs" />
     <Compile Include="User\UserModel.cs" />
   </ItemGroup>
   <ItemGroup>

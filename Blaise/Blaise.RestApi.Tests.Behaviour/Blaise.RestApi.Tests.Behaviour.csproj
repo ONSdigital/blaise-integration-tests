@@ -90,6 +90,10 @@
       <Project>{F163D077-61A9-4DA9-AA99-D936EFA0E4CF}</Project>
       <Name>Blaise.Tests.Helpers</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Blaise.Tests.Models\Blaise.Tests.Models.csproj">
+      <Project>{0C4A5514-FAEB-4833-8A1A-D489A58A3F9B}</Project>
+      <Name>Blaise.Tests.Models</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\packages\SpecFlow.3.5.5\build\SpecFlow.targets" Condition="Exists('..\packages\SpecFlow.3.5.5\build\SpecFlow.targets')" />
