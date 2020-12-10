@@ -127,6 +127,8 @@
     <Compile Include="Configuration\CatiConfigurationHelper.cs" />
     <Compile Include="Configuration\BlaiseConfigurationHelper.cs" />
     <Compile Include="Configuration\RestApiConfigurationHelper.cs" />
+    <Compile Include="Extensions\ConfigurationExtensions.cs" />
+    <Compile Include="Extensions\ParameterValidationExtensions.cs" />
     <Compile Include="Instrument\InstrumentHelper.cs" />
     <Compile Include="Cati\CatiInterviewHelper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
