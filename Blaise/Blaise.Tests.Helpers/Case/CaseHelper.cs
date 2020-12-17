@@ -35,13 +35,13 @@ namespace Blaise.Tests.Helpers.Case
 
         public void CreateCase(CaseModel caseModel)
         {
-            _blaiseCaseApi.CreateNewDataRecord(caseModel.PrimaryKey, caseModel.FieldData(), BlaiseConfigurationHelper.InstrumentName, 
+            _blaiseCaseApi.CreateCase(caseModel.PrimaryKey, caseModel.FieldData(), BlaiseConfigurationHelper.InstrumentName, 
                 BlaiseConfigurationHelper.ServerParkName);
         }
 
         public void DeleteCases()
         {
-            var cases = _blaiseCaseApi.GetDataSet(BlaiseConfigurationHelper.InstrumentName, 
+            var cases = _blaiseCaseApi.GetCases(BlaiseConfigurationHelper.InstrumentName, 
                 BlaiseConfigurationHelper.ServerParkName);
 
             while (!cases.EndOfSet)
@@ -64,7 +64,7 @@ namespace Blaise.Tests.Helpers.Case
         public IEnumerable<CaseModel> GetCasesInBlaise()
         {
             var caseModels = new List<CaseModel>();
-            var casesInDatabase = _blaiseCaseApi.GetDataSet(BlaiseConfigurationHelper.InstrumentName, 
+            var casesInDatabase = _blaiseCaseApi.GetCases(BlaiseConfigurationHelper.InstrumentName, 
                 BlaiseConfigurationHelper.ServerParkName);
 
             while (!casesInDatabase.EndOfSet)

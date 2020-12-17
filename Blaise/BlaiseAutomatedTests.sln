@@ -15,6 +15,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Blaise.Tests.Models", "Blai
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Blaise.Cati.Interview.Tests.Behaviour", "Blaise.Cati.Interview.Tests.Behaviour\Blaise.Cati.Interview.Tests.Behaviour.csproj", "{66B247DA-126A-4663-B82F-BE14A1D2951E}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Blaise.RestApi.Tests.Behaviour", "Blaise.RestApi.Tests.Behaviour\Blaise.RestApi.Tests.Behaviour.csproj", "{01724F61-D0D3-4378-AD96-C5E027EF2E8E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -97,6 +99,18 @@ Global
 		{66B247DA-126A-4663-B82F-BE14A1D2951E}.Release|x64.Build.0 = Release|Any CPU
 		{66B247DA-126A-4663-B82F-BE14A1D2951E}.Release|x86.ActiveCfg = Release|Any CPU
 		{66B247DA-126A-4663-B82F-BE14A1D2951E}.Release|x86.Build.0 = Release|Any CPU
+		{01724F61-D0D3-4378-AD96-C5E027EF2E8E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{01724F61-D0D3-4378-AD96-C5E027EF2E8E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{01724F61-D0D3-4378-AD96-C5E027EF2E8E}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{01724F61-D0D3-4378-AD96-C5E027EF2E8E}.Debug|x64.Build.0 = Debug|Any CPU
+		{01724F61-D0D3-4378-AD96-C5E027EF2E8E}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{01724F61-D0D3-4378-AD96-C5E027EF2E8E}.Debug|x86.Build.0 = Debug|Any CPU
+		{01724F61-D0D3-4378-AD96-C5E027EF2E8E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{01724F61-D0D3-4378-AD96-C5E027EF2E8E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{01724F61-D0D3-4378-AD96-C5E027EF2E8E}.Release|x64.ActiveCfg = Release|Any CPU
+		{01724F61-D0D3-4378-AD96-C5E027EF2E8E}.Release|x64.Build.0 = Release|Any CPU
+		{01724F61-D0D3-4378-AD96-C5E027EF2E8E}.Release|x86.ActiveCfg = Release|Any CPU
+		{01724F61-D0D3-4378-AD96-C5E027EF2E8E}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
