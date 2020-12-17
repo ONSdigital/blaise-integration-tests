@@ -1,13 +1,13 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Blaise.Nuget.Api.Contracts.Enums;
 
-namespace Blaise.Tests.Models
+namespace Blaise.Tests.Models.Questionnaire
 {
     public class Questionnaire
     {
-        public string QuestionnaireName { get; set; }
+        public string Name { get; set; }
+        public string ServerParkName { get; set; }
+        public DateTime InstallDate { get; set; }
+        public SurveyStatusType Status { get; set; }
     }
 }
