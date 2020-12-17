@@ -16,7 +16,7 @@ namespace Blaise.Tests.Helpers.Configuration
         public static string CatiInterviewUsername => "DSTTestUser";
         public static string CatiInterviewPassword => $"{Password}";
         public static string InterviewRole => $"DST";
-        public static string CatiBaseUrl => $"https://{BlaiseConfigurationHelper.BuildConnectionModel().ServerName.Replace("client", "web")}";
+        public static string CatiBaseUrl => $"{BlaiseConfigurationHelper.BuildConnectionModel().Binding}://{BlaiseConfigurationHelper.BuildConnectionModel().ServerName.Replace("client", "web")}";
         public static string LoginUrl => $"{CatiBaseUrl}/blaise/account/login";
         public static string DayBatchUrl => $"{CatiBaseUrl}/blaise/daybatch";
         public static string InterviewUrl => $"{CatiBaseUrl}/{BlaiseConfigurationHelper.InstrumentName}/";

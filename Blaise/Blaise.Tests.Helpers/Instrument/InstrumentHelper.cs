@@ -14,7 +14,7 @@ namespace Blaise.Tests.Helpers.Instrument
 
         public InstrumentHelper()
         {
-            _blaiseSurveyApi = new BlaiseSurveyApi(BlaiseConfigurationHelper.BuildConnectionModel());           
+            _blaiseSurveyApi = new BlaiseSurveyApi();           
         }
 
         public static InstrumentHelper GetInstance()
@@ -24,14 +24,14 @@ namespace Blaise.Tests.Helpers.Instrument
 
         public void InstallInstrument()
         {
-            _blaiseSurveyApi.InstallSurvey(BlaiseConfigurationHelper.ServerParkName, BlaiseConfigurationHelper.InstrumentPackage, 
-                SurveyInterviewType.Cati);
+            _blaiseSurveyApi.InstallSurvey(BlaiseConfigurationHelper.InstrumentPackage, 
+                SurveyInterviewType.Cati, BlaiseConfigurationHelper.ServerParkName);
         }
 
         public void InstallInstrument(SurveyInterviewType surveyConfigurationType)
         {
-            _blaiseSurveyApi.InstallSurvey(BlaiseConfigurationHelper.ServerParkName, BlaiseConfigurationHelper.InstrumentPackage, 
-                surveyConfigurationType);
+            _blaiseSurveyApi.InstallSurvey(BlaiseConfigurationHelper.InstrumentPackage, 
+                surveyConfigurationType, BlaiseConfigurationHelper.ServerParkName);
         }
 
         public bool SurveyHasInstalled(int timeoutInSeconds)
@@ -42,12 +42,24 @@ namespace Blaise.Tests.Helpers.Instrument
 
         public void UninstallSurvey()
         {
-            _blaiseSurveyApi.UninstallSurvey(BlaiseConfigurationHelper.ServerParkName, BlaiseConfigurationHelper.InstrumentName);
+            _blaiseSurveyApi.UninstallSurvey(BlaiseConfigurationHelper.InstrumentName, BlaiseConfigurationHelper.ServerParkName);
         }
 
         public SurveyInterviewType GetSurveyInterviewType()
         {
             return _blaiseSurveyApi.GetSurveyInterviewType(BlaiseConfigurationHelper.InstrumentName, BlaiseConfigurationHelper.ServerParkName);
+        }
+
+        public bool SetSurveyAsActive(int timeoutInSeconds)
+        {
+            _blaiseSurveyApi.ActivateSurvey(BlaiseConfigurationHelper.InstrumentName, BlaiseConfigurationHelper.ServerParkName);
+            return SurveyIsActive(BlaiseConfigurationHelper.InstrumentName, timeoutInSeconds);
+        }
+
+        public bool SetSurveyAsInactive()
+        {
+            _blaiseSurveyApi.DeactivateSurvey(BlaiseConfigurationHelper.InstrumentName, BlaiseConfigurationHelper.ServerParkName);
+            return GetSurveyStatus(BlaiseConfigurationHelper.InstrumentName) == SurveyStatusType.Inactive;
         }
 
         private bool SurveyIsActive(string instrumentName, int timeoutInSeconds)
@@ -88,7 +100,6 @@ namespace Blaise.Tests.Helpers.Instrument
                     return false;
                 }
             }
-
             return true;
         }
     }
