@@ -6,8 +6,10 @@ using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
+using Blaise.Nuget.Api.Contracts.Enums;
 using Blaise.Tests.Helpers.Configuration;
 using Blaise.Tests.Models;
+using Blaise.Tests.Models.Questionnaire;
 using Newtonsoft.Json;
 using StatNeth.Blaise.API.ServerManager;
 
@@ -16,6 +18,7 @@ namespace Blaise.Tests.Helpers.RestApi
     public class RestApiHelper
     {
         private static HttpClient _httpClient;
+        private static RestApiHelper _currentInstance;
 
         public RestApiHelper()
         {
@@ -23,9 +26,15 @@ namespace Blaise.Tests.Helpers.RestApi
             _httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
         }
 
-        public static async Task<List<Questionnaire>> GetAllActiveQuestionnaires()
+        public static RestApiHelper GetInstance()
         {
-            return await GetListOfObjectsASync<Questionnaire>("urlForRestApi");
+            return _currentInstance ?? (_currentInstance = new RestApiHelper());
+        }
+
+        public async Task<List<Questionnaire>> GetAllActiveQuestionnaires()
+        {
+            var questionnaires = await GetListOfObjectsASync<Questionnaire>(RestApiConfigurationHelper.InstrumentsUrl);
+            return questionnaires != null ? questionnaires.Where(q => q.Status == SurveyStatusType.Active).ToList() : new List<Questionnaire>();
         }
 
         private static async Task<List<T>> GetListOfObjectsASync<T>(string url)

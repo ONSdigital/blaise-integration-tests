@@ -89,6 +89,10 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Blaise.Instrument.Tests.Behaviour\Blaise.Instrument.Tests.Behaviour.csproj">
+      <Project>{d0ad65ea-042b-4c3e-b88c-790072543866}</Project>
+      <Name>Blaise.Instrument.Tests.Behaviour</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Blaise.Tests.Helpers\Blaise.Tests.Helpers.csproj">
       <Project>{F163D077-61A9-4DA9-AA99-D936EFA0E4CF}</Project>
       <Name>Blaise.Tests.Helpers</Name>
@@ -97,6 +101,9 @@
       <Project>{0C4A5514-FAEB-4833-8A1A-D489A58A3F9B}</Project>
       <Name>Blaise.Tests.Models</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Connected Services\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\packages\SpecFlow.3.5.5\build\SpecFlow.targets" Condition="Exists('..\packages\SpecFlow.3.5.5\build\SpecFlow.targets')" />
