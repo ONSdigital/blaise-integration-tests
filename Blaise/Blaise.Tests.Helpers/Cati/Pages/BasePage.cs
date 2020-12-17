@@ -1,4 +1,6 @@
-﻿using Blaise.Tests.Helpers.Browser;
+﻿using System.Collections;
+using System.Collections.Generic;
+using Blaise.Tests.Helpers.Browser;
 using OpenQA.Selenium;
 
 namespace Blaise.Tests.Helpers.Cati.Pages
@@ -42,6 +44,13 @@ namespace Blaise.Tests.Helpers.Cati.Pages
             BrowserHelper.Wait
                 .Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementIsVisible(By.Name(elementName)))
                 .SendKeys(value);
+        }
+
+        protected IList<IWebElement> GetTableContentById(string elementId)
+        {
+            return BrowserHelper.Wait
+                .Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementIsVisible(By.TagName("td")))
+                .FindElements(By.ClassName("table__cell"));
         }
 
         public void LoadPage()
