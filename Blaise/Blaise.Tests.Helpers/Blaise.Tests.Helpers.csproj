@@ -127,12 +127,16 @@
     <Compile Include="Configuration\CatiConfigurationHelper.cs" />
     <Compile Include="Configuration\BlaiseConfigurationHelper.cs" />
     <Compile Include="Configuration\RestApiConfigurationHelper.cs" />
+    <Compile Include="Configuration\TobiConfigurationHelper.cs" />
     <Compile Include="Extensions\ConfigurationExtensions.cs" />
     <Compile Include="Extensions\ParameterValidationExtensions.cs" />
     <Compile Include="Instrument\InstrumentHelper.cs" />
     <Compile Include="Cati\CatiInterviewHelper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RestApi\RestApiHelper.cs" />
+    <Compile Include="Tobi\Pages\HomePage.cs" />
+    <Compile Include="Tobi\Pages\SurveyPage.cs" />
+    <Compile Include="Tobi\TobiHelper.cs" />
     <Compile Include="User\UserHelper.cs" />
   </ItemGroup>
   <ItemGroup />
