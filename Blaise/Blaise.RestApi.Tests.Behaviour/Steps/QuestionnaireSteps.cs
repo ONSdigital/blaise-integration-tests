@@ -1,7 +1,10 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
+using Blaise.Tests.Helpers.Configuration;
 using Blaise.Tests.Helpers.Instrument;
 using Blaise.Tests.Helpers.RestApi;
 using Blaise.Tests.Models;
+using Blaise.Tests.Models.Questionnaire;
 using NUnit.Framework;
 using TechTalk.SpecFlow;
 
@@ -38,9 +41,9 @@ namespace Blaise.RestApi.Tests.Behaviour.Steps
         }
 
         [When(@"the API is queried to return all active questionnaires")]
-        public void WhenTheApiIsQueriedToReturnAllActiveQuestionnaires()
+        public async System.Threading.Tasks.Task WhenTheApiIsQueriedToReturnAllActiveQuestionnairesAsync()
         {
-            var listOfActiveQuestionnaires = RestApiHelper.GetAllActiveQuestionnaires();
+            var listOfActiveQuestionnaires =  await RestApiHelper.GetInstance().GetAllActiveQuestionnaires();
             _scenarioContext.Set(listOfActiveQuestionnaires, ApiResponse);
         }
 
@@ -49,6 +52,7 @@ namespace Blaise.RestApi.Tests.Behaviour.Steps
         {
             var listOfActiveQuestionnaires = _scenarioContext.Get<List<Questionnaire>>(ApiResponse);
             Assert.AreEqual(1, listOfActiveQuestionnaires.Count);
+            Assert.IsTrue(listOfActiveQuestionnaires.Any(q => q.Name == BlaiseConfigurationHelper.InstrumentName));
         }
 
         [Then(@"an empty list is returned")]
