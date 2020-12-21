@@ -39,17 +39,18 @@ namespace Blaise.Tobi.Tests.Behaviour.Steps
         [Given(@"I can view a list of live questionnaires for the survey I am allocated to")]
         public void GivenICanViewAListOfLiveQuestionnairesForTheSurveyIAmAllocatedTo()
         {
-            TobiHelper.GetInstance().LoadSurveyPage();
+            TobiHelper.GetInstance().LoadQuestionnairePagePage();
         }
 
         [Given(@"Another survey is active")]
         public void GivenAnotherSurveyIsActive()
         {
-            //InstrumentHelper.GetInstance().InstallInstrument(BlaiseConfigurationHelper.SecondInstrumentPackage);
+            InstrumentHelper.GetInstance().InstallInstrument(BlaiseConfigurationHelper.SecondInstrumentPackage);
             CatiManagementHelper.GetInstance().LogIntoCatiManagementPortal();
             CatiManagementHelper.GetInstance().CreateDayBatch(BlaiseConfigurationHelper.SecondInstrumentName);
         }
 
+        [Given(@"I have selected a survey")]
         [When(@"I select the survey I am working on")]
         public void WhenISelectTheSurveyIAmWorkingOn()
         {
@@ -64,6 +65,12 @@ namespace Blaise.Tobi.Tests.Behaviour.Steps
             TobiHelper.GetInstance().ClickInterviewButton();
         }
 
+        [When(@"I do not see the questionnaire that I am working on")]
+        public void WhenIDoNotSeeTheQuestionnaireThatIAmWorkingOn()
+        {
+            Assert.AreEqual(TobiConfigurationHelper.SurveyUrl, BrowserHelper.CurrentUrl);
+        }
+        
         [Then(@"I will be able to view all live surveys with questionnaires loaded in Blaise, identified by their three letter acronym \(TLA\), i\.e\. OPN, LMS")]
         public void ThenIWillBeAbleToViewAllLiveSurveysWithQuestionnairesLoadedInBlaiseIdentifiedByTheirThreeLetterAcronym()
         {
@@ -96,5 +103,13 @@ namespace Blaise.Tobi.Tests.Behaviour.Steps
         {
             Assert.IsEmpty(TobiHelper.GetInstance().GetSurveyTableContents());
         }
+
+        [Then(@"I am able to go back to view the list of surveys")]
+        public void ThenIAmAbleToGoBackToViewTheListOfSurveys()
+        {
+            TobiHelper.GetInstance().ClickReturnToSurveyListButton();
+            Assert.AreEqual(TobiConfigurationHelper.TobiUrl, BrowserHelper.CurrentUrl);
+        }
+
     }
 }
