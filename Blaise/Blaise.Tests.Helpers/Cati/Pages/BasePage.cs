@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using Blaise.Tests.Helpers.Browser;
 using OpenQA.Selenium;
+using OpenQA.Selenium.Support.UI;
 
 namespace Blaise.Tests.Helpers.Cati.Pages
 {
@@ -46,11 +47,27 @@ namespace Blaise.Tests.Helpers.Cati.Pages
                 .SendKeys(value);
         }
 
-        protected IList<IWebElement> GetTableContentById(string elementId)
+        protected List<string> GetFirstColumnOfTableFromXPath(string tablePath, string elementId)
         {
-            return BrowserHelper.Wait
-                .Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementIsVisible(By.TagName("td")))
-                .FindElements(By.ClassName("table__cell"));
+            var questionnaires = new List<string>();
+            var elements = BrowserHelper.Wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementIsVisible(By.Id(elementId)))
+                .FindElements(By.XPath(tablePath)).Count;
+
+            for (var i = 1; i < elements + 1; i++)
+            {
+                var colPath = $"{tablePath}[{i}]/td[1]";
+                questionnaires.Add(GetElementTextByPath(colPath));
+            }
+            return questionnaires;
+        }
+
+        protected void SelectDropDownListItem(string dropDownPath, string itemToSelect)
+        {
+            var dropdownList = BrowserHelper.Wait
+                .Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementExists(By.XPath(dropDownPath)))
+                .FindElement(By.XPath(dropDownPath));
+            var selectElement = new SelectElement(dropdownList);
+            selectElement.SelectByText(itemToSelect);
         }
 
         public void LoadPage()

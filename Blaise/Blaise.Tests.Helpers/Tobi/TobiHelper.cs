@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Blaise.Tests.Helpers.Browser;
 using Blaise.Tests.Helpers.Configuration;
 using Blaise.Tests.Helpers.Tobi.Pages;
+using OpenQA.Selenium;
 
 namespace Blaise.Tests.Helpers.Tobi
 {
@@ -24,10 +25,10 @@ namespace Blaise.Tests.Helpers.Tobi
             homePage.LoadPage();
         }
 
-        public string CheckSurveyIsDisplaying()
+        public List<string> GetSurveyTableContents()
         {
             var homePage = new HomePage();
-            return homePage.GetSurveyAcronym();
+            return homePage.GetSurveyAcronyms();
         }
 
         public string ClickLoadQuestionnaire()
@@ -39,8 +40,28 @@ namespace Blaise.Tests.Helpers.Tobi
 
         public string GetFirstQuestionnaireInTable()
         {
-            var surveyPage = new SurveyPage();
-            return surveyPage.CheckQuestionnaireIsWithinSurveyTable();
+            var surveyPage = new QuestionnairePage();
+            return surveyPage.GetTableContent().FirstOrDefault();
+        }
+
+        public void LoadSurveyPage()
+        {
+            var surveyPage = new QuestionnairePage();
+            surveyPage.LoadPage();
+        }
+
+        public string ClickInterviewButton()
+        {
+            var surveyPage = new QuestionnairePage();
+            surveyPage.ClickInterviewButton();
+            return BrowserHelper.CurrentUrl;
+        }
+
+        public List<string> GetQuestionnaireTableContents()
+        {
+            var surveyPage = new QuestionnairePage();
+            var n = surveyPage.GetTableContent();
+            return n;
         }
     }
 }

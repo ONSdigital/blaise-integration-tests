@@ -135,7 +135,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RestApi\RestApiHelper.cs" />
     <Compile Include="Tobi\Pages\HomePage.cs" />
-    <Compile Include="Tobi\Pages\SurveyPage.cs" />
+    <Compile Include="Tobi\Pages\QuestionnairePage.cs" />
     <Compile Include="Tobi\TobiHelper.cs" />
     <Compile Include="User\UserHelper.cs" />
   </ItemGroup>
