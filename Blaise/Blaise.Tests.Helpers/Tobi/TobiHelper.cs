@@ -40,28 +40,33 @@ namespace Blaise.Tests.Helpers.Tobi
 
         public string GetFirstQuestionnaireInTable()
         {
-            var surveyPage = new QuestionnairePage();
-            return surveyPage.GetTableContent().FirstOrDefault();
+            var questionnairePage = new QuestionnairePage();
+            return questionnairePage.GetTableContent().FirstOrDefault();
         }
 
-        public void LoadSurveyPage()
+        public void LoadQuestionnairePagePage()
         {
-            var surveyPage = new QuestionnairePage();
-            surveyPage.LoadPage();
+            var questionnairePage = new QuestionnairePage();
+            questionnairePage.LoadPage();
         }
 
         public string ClickInterviewButton()
         {
-            var surveyPage = new QuestionnairePage();
-            surveyPage.ClickInterviewButton();
+            var questionnairePage = new QuestionnairePage();
+            questionnairePage.ClickInterviewButton();
             return BrowserHelper.CurrentUrl;
         }
 
         public List<string> GetQuestionnaireTableContents()
         {
-            var surveyPage = new QuestionnairePage();
-            var n = surveyPage.GetTableContent();
-            return n;
+            var questionnairePage = new QuestionnairePage();
+            return questionnairePage.GetTableContent();
+        }
+
+        public void ClickReturnToSurveyListButton()
+        {
+            var questionnairePage = new QuestionnairePage();
+            questionnairePage.ClickReturnToSurveyList();
         }
     }
 }
