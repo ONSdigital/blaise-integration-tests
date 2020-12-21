@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Linq;
 using Blaise.Tests.Helpers.Configuration;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
@@ -41,9 +42,9 @@ namespace Blaise.Tests.Helpers.Browser
             Browser.Navigate().GoToUrl(pageUrl);
         }
 
-        public static void SwitchToActiveElement()
+        public static void SwitchToLastOpenedWindow()
         {
-            Browser.SwitchTo().ActiveElement();
+            Browser.SwitchTo().Window(Browser.WindowHandles.Last());
         }
 
         private static ChromeDriver CreateChromeDriver()
