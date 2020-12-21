@@ -4,14 +4,11 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
-using System.Text;
 using System.Threading.Tasks;
 using Blaise.Nuget.Api.Contracts.Enums;
 using Blaise.Tests.Helpers.Configuration;
-using Blaise.Tests.Models;
 using Blaise.Tests.Models.Questionnaire;
 using Newtonsoft.Json;
-using StatNeth.Blaise.API.ServerManager;
 
 namespace Blaise.Tests.Helpers.RestApi
 {

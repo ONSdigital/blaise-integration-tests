@@ -11,9 +11,7 @@ namespace Blaise.Tests.Helpers.Tobi.Pages
         public string QuestionnaireTableId = "instrument-table";
         public string QuestionnaireTableRowsPath = "//*[@id='instrument-table']/tbody/tr";
         public string ReturnSurveyId = "return-to-survey-list";
-        
-        //*[@id="instrument-table"]/tbody/tr[1]/td[1]
-        //*[@id="instrument-table"]/tbody/tr[2]/td[1]
+
         public QuestionnairePage() : base(TobiConfigurationHelper.SurveyUrl)
         {
         }

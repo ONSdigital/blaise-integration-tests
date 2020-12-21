@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using Blaise.Tests.Helpers.Cati.Pages;
 using Blaise.Tests.Helpers.Configuration;
-using OpenQA.Selenium;
 
 namespace Blaise.Tests.Helpers.Tobi.Pages
 {
