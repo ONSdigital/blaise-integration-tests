@@ -21,8 +21,14 @@ Then I am presented with the Blaise log in
 
 Scenario: Do not show expired surveys in TOBI
 Given a survey questionnaire end date has passed
+And Another survey is active
 When I select the survey I am working on
 Then I will not see that questionnaire listed for the survey
+
+Scenario: Do not show survey accroym when all surveys have expired
+Given a survey questionnaire end date has passed 
+When I launch TOBI
+Then I will not see any surveys listed
 
 Scenario: Return to select survey
 Given I have selected a survey

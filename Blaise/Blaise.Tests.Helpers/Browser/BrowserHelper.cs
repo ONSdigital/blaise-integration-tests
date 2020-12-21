@@ -41,6 +41,11 @@ namespace Blaise.Tests.Helpers.Browser
             Browser.Navigate().GoToUrl(pageUrl);
         }
 
+        public static void SwitchToActiveElement()
+        {
+            Browser.SwitchTo().ActiveElement();
+        }
+
         private static ChromeDriver CreateChromeDriver()
         {
             var chromeOptions = new ChromeOptions();
