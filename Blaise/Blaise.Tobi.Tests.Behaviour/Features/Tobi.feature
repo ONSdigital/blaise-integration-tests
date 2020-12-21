@@ -36,6 +36,6 @@ When I do not see the questionnaire that I am working on
 Then I am able to go back to view the list of surveys
 
 Scenario: Accessing questionnaire data entry 
-Given I am a TO Interviewer that has been presented with the Blaise log in
-When I enter my credentials
-Then I am presented with a case in the daybatch of the selected survey
+Given I have selected a survey
+When Click on interview on the questionnaire page
+Then I am taken to the Cati Interview Page

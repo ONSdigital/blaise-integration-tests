@@ -70,7 +70,14 @@ namespace Blaise.Tobi.Tests.Behaviour.Steps
         {
             Assert.AreEqual(TobiConfigurationHelper.SurveyUrl, BrowserHelper.CurrentUrl);
         }
-        
+
+        [When(@"Click on interview on the questionnaire page")]
+        public void WhenClickOnInterviewOnTheQuestionnairePage()
+        {
+            TobiHelper.GetInstance().ClickInterviewButton();
+        }
+
+
         [Then(@"I will be able to view all live surveys with questionnaires loaded in Blaise, identified by their three letter acronym \(TLA\), i\.e\. OPN, LMS")]
         public void ThenIWillBeAbleToViewAllLiveSurveysWithQuestionnairesLoadedInBlaiseIdentifiedByTheirThreeLetterAcronym()
         {
@@ -111,5 +118,10 @@ namespace Blaise.Tobi.Tests.Behaviour.Steps
             Assert.AreEqual(TobiConfigurationHelper.TobiUrl, BrowserHelper.CurrentUrl);
         }
 
+        [Then(@"I am taken to the Cati Interview Page")]
+        public void ThenIAmTakenToTheCatiInterviewPage()
+        {
+            Assert.AreEqual($"{CatiConfigurationHelper.InterviewUrl.ToLower()}login", BrowserHelper.CurrentUrl.ToLower());
+        }
     }
 }

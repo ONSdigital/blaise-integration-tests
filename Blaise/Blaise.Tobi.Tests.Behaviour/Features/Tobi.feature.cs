@@ -350,13 +350,13 @@ this.ScenarioInitialize(scenarioInfo);
             {
                 this.ScenarioStart();
 #line 39
-testRunner.Given("I am a TO Interviewer that has been presented with the Blaise log in", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+testRunner.Given("I have selected a survey", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line hidden
 #line 40
-testRunner.When("I enter my credentials", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+testRunner.When("Click on interview on the questionnaire page", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line hidden
 #line 41
-testRunner.Then("I am presented with a case in the daybatch of the selected survey", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+testRunner.Then("I am taken to the Cati Interview Page", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
             }
             this.ScenarioCleanup();
