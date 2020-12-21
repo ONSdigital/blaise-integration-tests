@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using Blaise.Tests.Helpers.Browser;
 using Blaise.Tests.Helpers.Cati.Pages;
 using Blaise.Tests.Helpers.Configuration;
 
@@ -20,6 +21,7 @@ namespace Blaise.Tests.Helpers.Tobi.Pages
         public void ClickInterviewButton()
         {
             ClickButtonByXPath(InterviewLinkPath);
+            BrowserHelper.SwitchToLastOpenedWindow();
         }
 
         public List<string> GetTableContent()
