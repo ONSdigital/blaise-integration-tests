@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using Blaise.Tests.Helpers.Browser;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Support.UI;
