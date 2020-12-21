@@ -9,6 +9,7 @@ namespace Blaise.Tests.Helpers.Tobi.Pages
         public string InterviewLinkPath = "//*[@id='instrument-table']/tbody/tr/td[3]/a";
         public string QuestionnaireTableId = "instrument-table";
         public string QuestionnaireTableRowsPath = "//*[@id='instrument-table']/tbody/tr";
+        public string ReturnSurveyPath = "//*[@id='main-content']/p[4]/a";
         
         //*[@id="instrument-table"]/tbody/tr[1]/td[1]
         //*[@id="instrument-table"]/tbody/tr[2]/td[1]
@@ -25,6 +26,11 @@ namespace Blaise.Tests.Helpers.Tobi.Pages
         {
             var elements = GetFirstColumnOfTableFromXPath(QuestionnaireTableRowsPath, QuestionnaireTableId);
             return elements;
+        }
+
+        public void ClickReturnToSurveyList()
+        {
+            ClickButtonByXPath(ReturnSurveyPath);
         }
     }
 }
