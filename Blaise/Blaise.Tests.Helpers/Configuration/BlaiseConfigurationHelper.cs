@@ -1,6 +1,4 @@
-﻿using System;
-using System.Configuration;
-using Blaise.Nuget.Api.Contracts.Models;
+﻿using Blaise.Nuget.Api.Contracts.Models;
 using Blaise.Tests.Helpers.Extensions;
 
 namespace Blaise.Tests.Helpers.Configuration

@@ -1,5 +1,4 @@
-﻿using System.Configuration;
-using Blaise.Tests.Helpers.Extensions;
+﻿using Blaise.Tests.Helpers.Extensions;
 
 namespace Blaise.Tests.Helpers.Configuration
 {
