@@ -39,7 +39,7 @@ namespace Blaise.Instrument.Tests.Behaviour.Steps
         [Then(@"the instrument is available to use in the Blaise environment")]
         public void ThenTheInstrumentIsAvailableToUseInTheBlaiseEnvironment()
         {
-            var instrumentHasInstalled = InstrumentHelper.GetInstance().SurveyHasInstalled(60);
+            var instrumentHasInstalled = InstrumentHelper.GetInstance().SurveyHasInstalled(BlaiseConfigurationHelper.InstrumentName,60);
 
             Assert.IsTrue(instrumentHasInstalled, "The instrument has not been installed, or is not active");
         }
