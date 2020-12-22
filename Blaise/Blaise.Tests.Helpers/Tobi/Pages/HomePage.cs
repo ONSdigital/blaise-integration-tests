@@ -9,7 +9,7 @@ namespace Blaise.Tests.Helpers.Tobi.Pages
         public string LaunchQuestionnaireLinkPath = "//*[@id='survey-table']/tbody/tr/td[2]/a";
         public string SurveyTablePath = "//*[@id='survey-table']/tbody/tr";
         public string SurveyTableId = "survey-table";
-        public string NoResultsPath = "//div[contains(text(), 'No active surveys found.')]";
+        public string NoResultsPath = "//p[contains(text(), 'No active surveys found.')]";
 
         public HomePage() : base(TobiConfigurationHelper.TobiUrl)
         {

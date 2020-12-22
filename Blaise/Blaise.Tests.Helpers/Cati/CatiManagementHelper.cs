@@ -25,9 +25,9 @@ namespace Blaise.Tests.Helpers.Cati
             loginPage.LoginToCati(CatiConfigurationHelper.CatiAdminUsername, CatiConfigurationHelper.CatiAdminPassword);
         }
 
-        public void CreateDayBatch(string instrumentName)
+        public void CreateDayBatch()
         {
-            SetSurveyDays(instrumentName);
+            SetSurveyDays();
 
             var dayPage = new DayBatchPage();
             dayPage.LoadPage();
@@ -43,12 +43,12 @@ namespace Blaise.Tests.Helpers.Cati
             return dayBatchPage.GetDaybatchEntriesText();
         }
         
-        public void SetSurveyDays(string instrumentName)
+        public void SetSurveyDays()
         {
             var specPage = new SpecificationPage();
             specPage.LoadPage();
             
-            specPage.SetSurveyDay(instrumentName);
+            specPage.SetSurveyDay();
         }
 
         public void ClearDayBatchEntries()
