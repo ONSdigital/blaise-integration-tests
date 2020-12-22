@@ -33,6 +33,12 @@ namespace Blaise.Tests.Helpers.Tobi
             return BrowserHelper.CurrentUrl;
         }
 
+        public string GetNoSurveysText()
+        {
+            var homepage = new HomePage();
+            return homepage.GetNoSurveysText();
+        }
+
         public string GetFirstQuestionnaireInTable()
         {
             var questionnairePage = new QuestionnairePage();

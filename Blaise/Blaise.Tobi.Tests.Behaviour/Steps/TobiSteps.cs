@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using Blaise.Tests.Helpers.Browser;
 using Blaise.Tests.Helpers.Case;
 using Blaise.Tests.Helpers.Cati;
@@ -7,6 +8,7 @@ using Blaise.Tests.Helpers.Instrument;
 using Blaise.Tests.Helpers.Tobi;
 using Blaise.Tests.Models.Case;
 using NUnit.Framework;
+using StatNeth.Blaise.Runtime.Cati.BusinessLogic.ManagementBlocks;
 using TechTalk.SpecFlow;
 
 namespace Blaise.Tobi.Tests.Behaviour.Steps
@@ -14,13 +16,18 @@ namespace Blaise.Tobi.Tests.Behaviour.Steps
     [Binding]
     public class TobiSteps
     {
-        [BeforeFeature("HappyPath")]
+        [BeforeFeature("tobi")]
         public static void InitializeFeature()
         {
-            InstrumentHelper.GetInstance().InstallInstrument();
-            CaseHelper.GetInstance().CreateCase(new CaseModel("900000", "110", "07000 000 00"));
-            CatiManagementHelper.GetInstance().LogIntoCatiManagementPortal();
-            CatiManagementHelper.GetInstance().CreateDayBatch(BlaiseConfigurationHelper.InstrumentName);
+            //InstrumentHelper.GetInstance().InstallInstrument();
+           // CaseHelper.GetInstance().CreateCase(new CaseModel("900000", "110", "07000 000 00"));
+        }
+
+        [BeforeScenario("HappyPath")]
+        public static void HappyPathScenarios()
+        {
+            DayBatchHelper.GetInstance().SetSurveyDay(BlaiseConfigurationHelper.InstrumentName ,DateTime.Today);
+            DayBatchHelper.GetInstance().CreateDayBatch(BlaiseConfigurationHelper.InstrumentName, DateTime.Today);
         }
 
         [Given(@"I have internet access")]
@@ -45,9 +52,8 @@ namespace Blaise.Tobi.Tests.Behaviour.Steps
         [Given(@"Another survey is active")]
         public void GivenAnotherSurveyIsActive()
         {
-            InstrumentHelper.GetInstance().InstallInstrument(BlaiseConfigurationHelper.SecondInstrumentPackage);
-            CatiManagementHelper.GetInstance().LogIntoCatiManagementPortal();
-            CatiManagementHelper.GetInstance().CreateDayBatch(BlaiseConfigurationHelper.SecondInstrumentName);
+            //InstrumentHelper.GetInstance().InstallInstrument(BlaiseConfigurationHelper.SecondInstrumentPackage);
+            DayBatchHelper.GetInstance().SetSurveyDay(BlaiseConfigurationHelper.SecondInstrumentName, DateTime.Today);
         }
 
         [Given(@"I have selected a survey")]
@@ -71,13 +77,6 @@ namespace Blaise.Tobi.Tests.Behaviour.Steps
             Assert.AreEqual(TobiConfigurationHelper.SurveyUrl, BrowserHelper.CurrentUrl);
         }
 
-        [When(@"Click on interview on the questionnaire page")]
-        public void WhenClickOnInterviewOnTheQuestionnairePage()
-        {
-            TobiHelper.GetInstance().ClickInterviewButton();
-        }
-
-
         [Then(@"I will be able to view all live surveys with questionnaires loaded in Blaise, identified by their three letter acronym \(TLA\), i\.e\. OPN, LMS")]
         public void ThenIWillBeAbleToViewAllLiveSurveysWithQuestionnairesLoadedInBlaiseIdentifiedByTheirThreeLetterAcronym()
         {
@@ -93,8 +92,8 @@ namespace Blaise.Tobi.Tests.Behaviour.Steps
         [Then(@"I am presented with the Blaise log in")]
         public void ThenIAmPresentedWithTheBlaiseLogIn()
         {
-            CatiInterviewHelper.GetInstance().GetCaseIdText();
-            Assert.AreEqual(BrowserHelper.CurrentUrl, CatiConfigurationHelper.LoginUrl);
+            CatiInterviewHelper.GetInstance().LoginButtonIsAvailable();
+            Assert.AreEqual($"{CatiConfigurationHelper.InterviewUrl.ToLower()}login", BrowserHelper.CurrentUrl.ToLower());
         }
 
         [Then(@"I will not see that questionnaire listed for the survey")]
@@ -108,7 +107,7 @@ namespace Blaise.Tobi.Tests.Behaviour.Steps
         [Then(@"I will not see any surveys listed")]
         public void ThenIWillNotSeeAnySurveysListed()
         {
-            Assert.IsEmpty(TobiHelper.GetInstance().GetSurveyTableContents());
+            Assert.AreEqual("No active surveys found." ,TobiHelper.GetInstance().GetNoSurveysText());
         }
 
         [Then(@"I am able to go back to view the list of surveys")]
@@ -118,10 +117,27 @@ namespace Blaise.Tobi.Tests.Behaviour.Steps
             Assert.AreEqual(TobiConfigurationHelper.TobiUrl, BrowserHelper.CurrentUrl);
         }
 
-        [Then(@"I am taken to the Cati Interview Page")]
-        public void ThenIAmTakenToTheCatiInterviewPage()
+        [AfterScenario("SecondSurvey")]
+        public static void CleanUpScenario()
         {
-            Assert.AreEqual($"{CatiConfigurationHelper.InterviewUrl.ToLower()}login", BrowserHelper.CurrentUrl.ToLower());
+            InstrumentHelper.GetInstance().UninstallSurvey(BlaiseConfigurationHelper.SecondInstrumentName, BlaiseConfigurationHelper.ServerParkName);
+            CatiManagementHelper.GetInstance().SetSurveyDays(BlaiseConfigurationHelper.InstrumentName);
+        }
+
+        [AfterScenario("HappyPath1")]
+        public static void CleanUpHappyPath()
+        {
+            CatiManagementHelper.GetInstance().SetSurveyDays(BlaiseConfigurationHelper.InstrumentName);
+        }
+
+        [AfterFeature("tobi1")]
+        public static void CleanUpFeature()
+        {
+            CatiManagementHelper.GetInstance().LogIntoCatiManagementPortal();
+            CatiManagementHelper.GetInstance().ClearDayBatchEntries();
+            BrowserHelper.CloseBrowser();
+            CaseHelper.GetInstance().DeleteCases();
+            InstrumentHelper.GetInstance().UninstallSurvey();
         }
     }
 }
