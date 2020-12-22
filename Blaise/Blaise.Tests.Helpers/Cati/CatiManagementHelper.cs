@@ -43,7 +43,7 @@ namespace Blaise.Tests.Helpers.Cati
             return dayBatchPage.GetDaybatchEntriesText();
         }
         
-        private void SetSurveyDays(string instrumentName)
+        public void SetSurveyDays(string instrumentName)
         {
             var specPage = new SpecificationPage();
             specPage.LoadPage();
