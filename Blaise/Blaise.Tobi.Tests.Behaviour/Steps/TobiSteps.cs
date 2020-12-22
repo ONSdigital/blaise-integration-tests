@@ -19,8 +19,8 @@ namespace Blaise.Tobi.Tests.Behaviour.Steps
         [BeforeFeature("tobi")]
         public static void InitializeFeature()
         {
-            //InstrumentHelper.GetInstance().InstallInstrument();
-           // CaseHelper.GetInstance().CreateCase(new CaseModel("900000", "110", "07000 000 00"));
+            InstrumentHelper.GetInstance().InstallInstrument();
+            CaseHelper.GetInstance().CreateCase(new CaseModel("900000", "110", "07000 000 00"));
         }
 
         [BeforeScenario("HappyPath")]
@@ -52,7 +52,7 @@ namespace Blaise.Tobi.Tests.Behaviour.Steps
         [Given(@"Another survey is active")]
         public void GivenAnotherSurveyIsActive()
         {
-            //InstrumentHelper.GetInstance().InstallInstrument(BlaiseConfigurationHelper.SecondInstrumentPackage);
+            InstrumentHelper.GetInstance().InstallInstrument(BlaiseConfigurationHelper.SecondInstrumentPackage);
             DayBatchHelper.GetInstance().SetSurveyDay(BlaiseConfigurationHelper.SecondInstrumentName, DateTime.Today);
         }
 
@@ -121,13 +121,13 @@ namespace Blaise.Tobi.Tests.Behaviour.Steps
         public static void CleanUpScenario()
         {
             InstrumentHelper.GetInstance().UninstallSurvey(BlaiseConfigurationHelper.SecondInstrumentName, BlaiseConfigurationHelper.ServerParkName);
-            CatiManagementHelper.GetInstance().SetSurveyDays(BlaiseConfigurationHelper.InstrumentName);
         }
 
-        [AfterScenario("HappyPath1")]
+        [AfterScenario("HappyPath")]
         public static void CleanUpHappyPath()
         {
-            CatiManagementHelper.GetInstance().SetSurveyDays(BlaiseConfigurationHelper.InstrumentName);
+            CatiManagementHelper.GetInstance().LogIntoCatiManagementPortal();
+            CatiManagementHelper.GetInstance().SetSurveyDays();
         }
 
         [AfterFeature("tobi1")]

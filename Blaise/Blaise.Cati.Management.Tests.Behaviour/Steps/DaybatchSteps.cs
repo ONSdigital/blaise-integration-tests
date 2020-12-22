@@ -42,7 +42,7 @@ namespace Blaise.Cati.Management.Tests.Behaviour.Steps
         {
             try
             {
-                CatiManagementHelper.GetInstance().CreateDayBatch(BlaiseConfigurationHelper.InstrumentName);
+                CatiManagementHelper.GetInstance().CreateDayBatch();
             }
             catch (Exception e)
             {
