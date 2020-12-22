@@ -18,5 +18,10 @@ namespace Blaise.Tests.Helpers.Cati.Pages
             PopulateTextBoxByName(_passwordTextBoxName, password);
             ClickButtonByXPath(_submitButtonPath);
         }
+
+        public void LoginButtonIsAvailable()
+        {
+            ButtonIsAvailableByPath(_submitButtonPath);
+        }
     }
 }

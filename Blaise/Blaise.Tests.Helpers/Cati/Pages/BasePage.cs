@@ -46,18 +46,13 @@ namespace Blaise.Tests.Helpers.Cati.Pages
                 .SendKeys(value);
         }
 
-        protected List<string> GetFirstColumnOfTableFromXPath(string tablePath, string elementId)
+        protected List<string> GetFirstColumnOfTableFromXPath(string tablePath, string tableId)
         {
-            var questionnaires = new List<string>();
-            var elements = BrowserHelper.Wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementIsVisible(By.Id(elementId)))
-                .FindElements(By.XPath(tablePath)).Count;
+            BrowserHelper.Wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementIsVisible(By.Id(tableId)));
+            var numberOfRows = NumberOfRowsInATable(tablePath);
+            var results = ReadFirstColumnInATable(tablePath, numberOfRows);
 
-            for (var i = 1; i < elements + 1; i++)
-            {
-                var colPath = $"{tablePath}[{i}]/td[1]";
-                questionnaires.Add(GetElementTextByPath(colPath));
-            }
-            return questionnaires;
+            return results;
         }
 
         protected void SelectDropDownListItem(string dropDownPath, string itemToSelect)
@@ -69,9 +64,39 @@ namespace Blaise.Tests.Helpers.Cati.Pages
             selectElement.SelectByText(itemToSelect);
         }
 
+        protected void SuccessToastByClass(string toastSuccessClass)
+        {
+            BrowserHelper.Wait.Until(
+                SeleniumExtras.WaitHelpers.ExpectedConditions.ElementIsVisible(By.ClassName(toastSuccessClass)));
+        }
+
         public void LoadPage()
         {
             BrowserHelper.BrowseTo(_pageUrl);
+        }
+
+        public void ButtonIsAvailableByPath(string submitButtonPath)
+        {
+            BrowserHelper.Wait.Until(
+                SeleniumExtras.WaitHelpers.ExpectedConditions.ElementToBeClickable(By.XPath(submitButtonPath)));
+        }
+
+        private static int NumberOfRowsInATable(string tablePath)
+        {
+            return BrowserHelper.Wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementIsVisible(By.XPath(tablePath)))
+                .FindElements(By.XPath(tablePath)).Count;
+        }
+
+        private List<string> ReadFirstColumnInATable(string tablePath, int numberOfRows)
+        {
+            var questionnaires = new List<string>();
+
+            for (var i = 1; i < numberOfRows + 1; i++)
+            {
+                var colPath = $"{tablePath}[{i}]/td[1]";
+                questionnaires.Add(GetElementTextByPath(colPath));
+            }
+            return questionnaires;
         }
     }
 }
