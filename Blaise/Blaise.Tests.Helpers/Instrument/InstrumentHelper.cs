@@ -28,21 +28,32 @@ namespace Blaise.Tests.Helpers.Instrument
                 SurveyInterviewType.Cati, BlaiseConfigurationHelper.ServerParkName);
         }
 
+        public void InstallInstrument(string instrumentPackage)
+        {
+            _blaiseSurveyApi.InstallSurvey(instrumentPackage,
+                SurveyInterviewType.Cati, BlaiseConfigurationHelper.ServerParkName);
+        }
+
         public void InstallInstrument(SurveyInterviewType surveyConfigurationType)
         {
             _blaiseSurveyApi.InstallSurvey(BlaiseConfigurationHelper.InstrumentPackage, 
                 surveyConfigurationType, BlaiseConfigurationHelper.ServerParkName);
         }
 
-        public bool SurveyHasInstalled(int timeoutInSeconds)
+        public bool SurveyHasInstalled(string instrumentName, int timeoutInSeconds)
         {
-           return SurveyExists(BlaiseConfigurationHelper.InstrumentName, timeoutInSeconds) && 
-                  SurveyIsActive(BlaiseConfigurationHelper.InstrumentName, timeoutInSeconds);
+           return SurveyExists(instrumentName, timeoutInSeconds) && 
+                  SurveyIsActive(instrumentName, timeoutInSeconds);
         }
 
         public void UninstallSurvey()
         {
             _blaiseSurveyApi.UninstallSurvey(BlaiseConfigurationHelper.InstrumentName, BlaiseConfigurationHelper.ServerParkName);
+        }
+
+        public void UninstallSurvey(string instrumentName, string serverParkName)
+        {
+            _blaiseSurveyApi.UninstallSurvey(instrumentName, serverParkName);
         }
 
         public SurveyInterviewType GetSurveyInterviewType()

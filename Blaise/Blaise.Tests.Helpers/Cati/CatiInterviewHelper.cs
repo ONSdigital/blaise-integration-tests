@@ -45,5 +45,11 @@ namespace Blaise.Tests.Helpers.Cati
         {
             UserHelper.GetInstance().RemoveUser(CatiConfigurationHelper.CatiInterviewUsername);
         }
+        
+        public void LoginButtonIsAvailable()
+        {
+            var interviewPage = new InterviewLoginPage();
+            interviewPage.LoginButtonIsAvailable();
+        }
     }
 }

@@ -61,13 +61,13 @@ namespace Blaise.Case.Tests.Behaviour.Steps
         [AfterScenario("case")]
         public void CleanUpScenario()
         {
-            CaseHelper.GetInstance().DeleteCases();
+            //CaseHelper.GetInstance().DeleteCases();
         }
 
         [AfterFeature("case")]
         public static void CleanUpFeature()
         {
-            InstrumentHelper.GetInstance().UninstallSurvey();
+           // InstrumentHelper.GetInstance().UninstallSurvey();
         }
     }
 }

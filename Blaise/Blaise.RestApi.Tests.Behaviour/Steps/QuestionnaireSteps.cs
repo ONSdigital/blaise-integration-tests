@@ -3,7 +3,6 @@ using System.Linq;
 using Blaise.Tests.Helpers.Configuration;
 using Blaise.Tests.Helpers.Instrument;
 using Blaise.Tests.Helpers.RestApi;
-using Blaise.Tests.Models;
 using Blaise.Tests.Models.Questionnaire;
 using NUnit.Framework;
 using TechTalk.SpecFlow;
