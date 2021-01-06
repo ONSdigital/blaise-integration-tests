@@ -5,6 +5,7 @@ Feature: Access
 	I want to be told the sum of two numbers
 
 @smoke
+@regression
 Scenario: Access case via interview link
 	Given I have an questionnaire installed on a Blaise environment
 	And I have created sample cases for the questionnaire
