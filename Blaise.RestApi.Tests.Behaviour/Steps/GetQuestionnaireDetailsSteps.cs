@@ -10,12 +10,12 @@ using TechTalk.SpecFlow;
 namespace Blaise.RestApi.Tests.Behaviour.Steps
 {
     [Binding]
-    public sealed class QuestionnaireSteps
+    public sealed class GetQuestionnaireDetailsSteps
     {
         private readonly ScenarioContext _scenarioContext;
         private const string ApiResponse = "ApiResponse";
 
-        public QuestionnaireSteps(ScenarioContext scenarioContext)
+        public GetQuestionnaireDetailsSteps(ScenarioContext scenarioContext)
         {
             _scenarioContext = scenarioContext;
         }
@@ -46,7 +46,7 @@ namespace Blaise.RestApi.Tests.Behaviour.Steps
             _scenarioContext.Set(listOfActiveQuestionnaires, ApiResponse);
         }
 
-        [Then(@"details of questionnaire a is returned")]
+        [Then(@"the details of the questionnaire is returned")]
         public void ThenDetailsOfQuestionnaireAIsReturned()
         {
             var listOfActiveQuestionnaires = _scenarioContext.Get<List<Questionnaire>>(ApiResponse);
