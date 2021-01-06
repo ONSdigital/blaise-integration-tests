@@ -17,7 +17,7 @@ namespace Blaise.Tests.Behaviour.Steps
             InstrumentHelper.GetInstance().InstallInstrument();
         }
 
-        [Given(@"I have created sample cases for the instrument")]
+        [Given(@"I have created sample cases for the questionnaire")]
         [When(@"I create sample cases for the instrument")]
         public void WhenICreateACaseForTheInstrument(IEnumerable<CaseModel> caseModels)
         {
