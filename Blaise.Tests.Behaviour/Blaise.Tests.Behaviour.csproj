@@ -97,14 +97,14 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Steps\CreateSteps.cs" />
-    <Compile Include="Steps\InstallSteps.cs" />
+    <Compile Include="Steps\CreateCasesSteps.cs" />
+    <Compile Include="Steps\InstallQuestionnaireSteps.cs" />
     <Compile Include="Transforms\CaseStepArgumentTransformations.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
-    <None Include="Features\Create.feature" />
-    <None Include="Features\Install.feature" />
+    <None Include="Features\CreateCases.feature" />
+    <None Include="Features\InstallQuestionnaire.feature" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>

@@ -91,11 +91,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Steps\QuestionnaireSteps.cs" />
+    <Compile Include="Steps\GetQuestionnaireDetailsSteps.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
-    <None Include="Features\Questionnaire .feature" />
+    <None Include="Features\GetQuestionnaireDetails.feature" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
