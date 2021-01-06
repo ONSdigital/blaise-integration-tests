@@ -11,7 +11,7 @@ namespace Blaise.Tests.Behaviour.Steps
     {
         // For additional details on SpecFlow step definitions see https://go.specflow.org/doc-stepdef
 
-        [Given(@"I have an instrument I want to use to capture respondents data")]
+        [Given(@"I have an questionnaire I want to use to capture respondents data")]
         public void GivenIHaveAnInstrumentIWantToUseToCaptureRespondentsData()
         {
             var instrumentPackage = BlaiseConfigurationHelper.InstrumentPackage;
@@ -22,21 +22,21 @@ namespace Blaise.Tests.Behaviour.Steps
             }
         }
 
-        [Given(@"I have an instrument installed on a Blaise environment")]
-        [Given(@"There is an instrument installed on a Blaise environment")]
-        [When(@"I install the instrument into a Blaise environment")]
+        [Given(@"I have an questionnaire installed on a Blaise environment")]
+        [Given(@"There is an questionnaire installed on a Blaise environment")]
+        [When(@"I install the questionnaire into a Blaise environment")]
         public void WhenIInstallTheInstrumentIntoABlaiseEnvironment()
         {
             InstrumentHelper.GetInstance().InstallInstrument();
         }
 
-        [When(@"I install the instrument into a Blaise environment specifying a Cati configuration")]
+        [When(@"I install the questionnaire into a Blaise environment specifying a Cati configuration")]
         public void WhenIInstallTheInstrumentIntoABlaiseEnvironmentSpecifyingACatiConfiguration()
         {
             InstrumentHelper.GetInstance().InstallInstrument(SurveyInterviewType.Cati);
         }
 
-        [Then(@"the instrument is available to use in the Blaise environment")]
+        [Then(@"the questionnaire is available to use in the Blaise environment")]
         public void ThenTheInstrumentIsAvailableToUseInTheBlaiseEnvironment()
         {
             var instrumentHasInstalled = InstrumentHelper.GetInstance().SurveyHasInstalled(BlaiseConfigurationHelper.InstrumentName,60);
@@ -44,14 +44,14 @@ namespace Blaise.Tests.Behaviour.Steps
             Assert.IsTrue(instrumentHasInstalled, "The instrument has not been installed, or is not active");
         }
 
-        [Then(@"the instrument is configured to capture respondents data via Cati")]
+        [Then(@"the questionnaire is configured to capture respondents data via Cati")]
         public void ThenTheInstrumentIsConfiguredToCaptureRespondentsDataViaCati()
         {
             var surveyConfiguration = InstrumentHelper.GetInstance().GetSurveyInterviewType();
             Assert.AreEqual(SurveyInterviewType.Cati, surveyConfiguration);
         }
 
-        [AfterScenario("instrument")]
+        [AfterScenario("questionnaire")]
         public void CleanUpScenario()
         {
             InstrumentHelper.GetInstance().UninstallSurvey();
