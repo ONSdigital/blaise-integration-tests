@@ -11,7 +11,9 @@ namespace Blaise.Tests.Helpers.Configuration
         public static string SecondInstrumentName => ConfigurationExtensions.GetVariable("SecondInstrumentName");
         public static string InstrumentPackage => $"{InstrumentPath}//{InstrumentName}.zip";
         public static string SecondInstrumentPackage => $"{InstrumentPath}//{SecondInstrumentName}.zip";
-        
+        public static string BucketName => ConfigurationExtensions.GetVariable("BLAISE_GCP_BUCKET");
+        public static string InstrumentBucketPath => $"{BucketName}/Deploy";
+
         public static ConnectionModel BuildConnectionModel()
         {
             return new ConnectionModel{
