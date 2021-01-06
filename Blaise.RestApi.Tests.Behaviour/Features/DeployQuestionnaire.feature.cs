@@ -21,12 +21,14 @@ namespace Blaise.RestApi.Tests.Behaviour.Features
     [System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     [NUnit.Framework.TestFixtureAttribute()]
     [NUnit.Framework.DescriptionAttribute("Deploy Questionnaire")]
+    [NUnit.Framework.CategoryAttribute("deploy")]
     public partial class DeployQuestionnaireFeature
     {
         
         private TechTalk.SpecFlow.ITestRunner testRunner;
         
-        private string[] _featureTags = ((string[])(null));
+        private string[] _featureTags = new string[] {
+                "deploy"};
         
 #line 1 "DeployQuestionnaire.feature"
 #line hidden
@@ -36,7 +38,8 @@ namespace Blaise.RestApi.Tests.Behaviour.Features
         {
             testRunner = TechTalk.SpecFlow.TestRunnerManager.GetTestRunner();
             TechTalk.SpecFlow.FeatureInfo featureInfo = new TechTalk.SpecFlow.FeatureInfo(new System.Globalization.CultureInfo("en-US"), "Features", "Deploy Questionnaire", "\tAs a stakeholder\r\n\tI want to be able to deploy a questionnaire to Blaise\r\n\tSo th" +
-                    "at we can capture respondents data", ProgrammingLanguage.CSharp, ((string[])(null)));
+                    "at we can capture respondents data", ProgrammingLanguage.CSharp, new string[] {
+                        "deploy"});
             testRunner.OnFeatureStart(featureInfo);
         }
         
@@ -77,13 +80,15 @@ namespace Blaise.RestApi.Tests.Behaviour.Features
         [NUnit.Framework.TestAttribute()]
         [NUnit.Framework.DescriptionAttribute("Deploy a questionnaire from a file held in a bucket")]
         [NUnit.Framework.CategoryAttribute("smoke")]
+        [NUnit.Framework.CategoryAttribute("regression")]
         public virtual void DeployAQuestionnaireFromAFileHeldInABucket()
         {
             string[] tagsOfScenario = new string[] {
-                    "smoke"};
+                    "smoke",
+                    "regression"};
             System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Deploy a questionnaire from a file held in a bucket", null, tagsOfScenario, argumentsOfScenario);
-#line 7
+#line 9
 this.ScenarioInitialize(scenarioInfo);
 #line hidden
             bool isScenarioIgnored = default(bool);
@@ -103,13 +108,13 @@ this.ScenarioInitialize(scenarioInfo);
             else
             {
                 this.ScenarioStart();
-#line 8
- testRunner.Given("there is an questionnaire available in a bucket", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+#line 10
+ testRunner.Given("there is a questionnaire available in a bucket", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line hidden
-#line 9
+#line 11
  testRunner.When("the API is called to deploy the questionnaire", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line hidden
-#line 10
+#line 12
  testRunner.Then("the questionnaire is available to use in the Blaise environment", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
             }
