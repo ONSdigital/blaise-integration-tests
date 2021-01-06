@@ -108,7 +108,7 @@ this.ScenarioInitialize(scenarioInfo);
             {
                 this.ScenarioStart();
 #line 9
- testRunner.Given("I have an instrument installed on a Blaise environment", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+ testRunner.Given("I have an questionnaire installed on a Blaise environment", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line hidden
                 TechTalk.SpecFlow.Table table2 = new TechTalk.SpecFlow.Table(new string[] {
                             "primarykey",
@@ -119,7 +119,7 @@ this.ScenarioInitialize(scenarioInfo);
                             "110",
                             "07000 000 00"});
 #line 10
- testRunner.And("I have created sample cases for the instrument", ((string)(null)), table2, "And ");
+ testRunner.And("I have created sample cases for the questionnaire", ((string)(null)), table2, "And ");
 #line hidden
 #line 13
  testRunner.And("I log on to Cati as an administrator", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");

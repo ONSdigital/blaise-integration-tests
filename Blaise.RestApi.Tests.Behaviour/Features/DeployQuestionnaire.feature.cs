@@ -10,7 +10,7 @@
 // ------------------------------------------------------------------------------
 #region Designer generated code
 #pragma warning disable
-namespace Blaise.Cati.Tests.Behaviour.Features
+namespace Blaise.RestApi.Tests.Behaviour.Features
 {
     using TechTalk.SpecFlow;
     using System;
@@ -20,26 +20,23 @@ namespace Blaise.Cati.Tests.Behaviour.Features
     [System.CodeDom.Compiler.GeneratedCodeAttribute("TechTalk.SpecFlow", "3.5.0.0")]
     [System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     [NUnit.Framework.TestFixtureAttribute()]
-    [NUnit.Framework.DescriptionAttribute("Access")]
-    [NUnit.Framework.CategoryAttribute("interview")]
-    public partial class AccessFeature
+    [NUnit.Framework.DescriptionAttribute("Deploy Questionnaire")]
+    public partial class DeployQuestionnaireFeature
     {
         
         private TechTalk.SpecFlow.ITestRunner testRunner;
         
-        private string[] _featureTags = new string[] {
-                "interview"};
+        private string[] _featureTags = ((string[])(null));
         
-#line 1 "AccessCase.feature"
+#line 1 "DeployQuestionnaire.feature"
 #line hidden
         
         [NUnit.Framework.OneTimeSetUpAttribute()]
         public virtual void FeatureSetup()
         {
             testRunner = TechTalk.SpecFlow.TestRunnerManager.GetTestRunner();
-            TechTalk.SpecFlow.FeatureInfo featureInfo = new TechTalk.SpecFlow.FeatureInfo(new System.Globalization.CultureInfo("en-US"), "Features", "Access", "\tIn order to avoid silly mistakes\r\n\tAs a math idiot\r\n\tI want to be told the sum o" +
-                    "f two numbers", ProgrammingLanguage.CSharp, new string[] {
-                        "interview"});
+            TechTalk.SpecFlow.FeatureInfo featureInfo = new TechTalk.SpecFlow.FeatureInfo(new System.Globalization.CultureInfo("en-US"), "Features", "Deploy Questionnaire", "\tAs a stakeholder\r\n\tI want to be able to deploy a questionnaire to Blaise\r\n\tSo th" +
+                    "at we can capture respondents data", ProgrammingLanguage.CSharp, ((string[])(null)));
             testRunner.OnFeatureStart(featureInfo);
         }
         
@@ -78,15 +75,15 @@ namespace Blaise.Cati.Tests.Behaviour.Features
         }
         
         [NUnit.Framework.TestAttribute()]
-        [NUnit.Framework.DescriptionAttribute("Access case via interview link")]
+        [NUnit.Framework.DescriptionAttribute("Deploy a questionnaire from a file held in a bucket")]
         [NUnit.Framework.CategoryAttribute("smoke")]
-        public virtual void AccessCaseViaInterviewLink()
+        public virtual void DeployAQuestionnaireFromAFileHeldInABucket()
         {
             string[] tagsOfScenario = new string[] {
                     "smoke"};
             System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
-            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Access case via interview link", null, tagsOfScenario, argumentsOfScenario);
-#line 8
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Deploy a questionnaire from a file held in a bucket", null, tagsOfScenario, argumentsOfScenario);
+#line 7
 this.ScenarioInitialize(scenarioInfo);
 #line hidden
             bool isScenarioIgnored = default(bool);
@@ -106,31 +103,14 @@ this.ScenarioInitialize(scenarioInfo);
             else
             {
                 this.ScenarioStart();
+#line 8
+ testRunner.Given("there is an questionnaire available in a bucket", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+#line hidden
 #line 9
- testRunner.Given("I have an questionnaire installed on a Blaise environment", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+ testRunner.When("the API is called to deploy the questionnaire", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line hidden
-                TechTalk.SpecFlow.Table table1 = new TechTalk.SpecFlow.Table(new string[] {
-                            "primarykey",
-                            "outcomecode",
-                            "telephoneno"});
-                table1.AddRow(new string[] {
-                            "900001",
-                            "110",
-                            "07000 000 00"});
 #line 10
- testRunner.And("I have created sample cases for the questionnaire", ((string)(null)), table1, "And ");
-#line hidden
-#line 13
- testRunner.And("I log on to Cati as an administrator", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
-#line hidden
-#line 14
- testRunner.And("I have created a daybatch for today", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
-#line hidden
-#line 15
- testRunner.When("I log on to the Interviewing Portal as an interviewer", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
-#line hidden
-#line 16
- testRunner.Then("I am able to capture the respondents data for case \'900001\'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+ testRunner.Then("the questionnaire is available to use in the Blaise environment", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
             }
             this.ScenarioCleanup();
