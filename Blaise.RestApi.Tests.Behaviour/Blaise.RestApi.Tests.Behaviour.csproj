@@ -101,6 +101,10 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Blaise.Tests.Behaviour\Blaise.Tests.Behaviour.csproj">
+      <Project>{4602ec60-152e-4b79-b9a5-26f25b1e635b}</Project>
+      <Name>Blaise.Tests.Behaviour</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Blaise.Tests.Helpers\Blaise.Tests.Helpers.csproj">
       <Project>{F163D077-61A9-4DA9-AA99-D936EFA0E4CF}</Project>
       <Name>Blaise.Tests.Helpers</Name>
