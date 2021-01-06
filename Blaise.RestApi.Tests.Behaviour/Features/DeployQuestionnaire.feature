@@ -4,6 +4,7 @@
 	So that we can capture respondents data
 
 @smoke
+@regression
 Scenario: Deploy a questionnaire from a file held in a bucket
 	Given there is an questionnaire available in a bucket
 	When the API is called to deploy the questionnaire

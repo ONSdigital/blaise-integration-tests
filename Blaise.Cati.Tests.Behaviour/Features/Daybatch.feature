@@ -5,6 +5,7 @@ Feature: Daybatch
 	I want to be able to create a daybatch to schedule the capture of respondents answers
 
 @smoke
+@regression
 Scenario: Create a daybatch to schedule the capture respondent data
 	Given I have an questionnaire installed on a Blaise environment
 	And I have created sample cases for the questionnaire
