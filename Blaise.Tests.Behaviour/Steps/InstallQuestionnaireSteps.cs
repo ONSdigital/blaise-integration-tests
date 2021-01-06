@@ -7,7 +7,7 @@ using TechTalk.SpecFlow;
 namespace Blaise.Tests.Behaviour.Steps
 {
     [Binding]
-    public sealed class InstallSteps
+    public sealed class InstallQuestionnaireSteps
     {
         // For additional details on SpecFlow step definitions see https://go.specflow.org/doc-stepdef
 

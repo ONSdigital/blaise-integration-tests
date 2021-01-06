@@ -9,7 +9,7 @@ using TechTalk.SpecFlow;
 namespace Blaise.Tests.Behaviour.Steps
 {
     [Binding]
-    public sealed class CreateSteps
+    public sealed class CreateCasesSteps
     {
         [BeforeFeature("case")]
         public static void InitializeFeature()
