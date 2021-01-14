@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using Blaise.Tests.Helpers.Browser;
 using OpenQA.Selenium;
-using OpenQA.Selenium.Support.UI;
 
 namespace Blaise.Tests.Helpers.Cati.Pages
 {
@@ -32,14 +31,14 @@ namespace Blaise.Tests.Helpers.Cati.Pages
                 .Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementIsVisible(By.XPath(elementPath))).Text;
         }
 
-        protected void PopulateTextBoxById(string elementId, string value)
+        protected void PopulateInputById(string elementId, string value)
         {
             BrowserHelper.Wait
                 .Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementIsVisible(By.Id(elementId)))
                 .SendKeys(value);
         }
 
-        protected void PopulateTextBoxByName(string elementName, string value)
+        protected void PopulateInputByName(string elementName, string value)
         {
             BrowserHelper.Wait
                 .Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementIsVisible(By.Name(elementName)))
@@ -55,19 +54,9 @@ namespace Blaise.Tests.Helpers.Cati.Pages
             return results;
         }
 
-        protected void SelectDropDownListItem(string dropDownPath, string itemToSelect)
+        protected void WaitForPageToChange(string url)
         {
-            var dropdownList = BrowserHelper.Wait
-                .Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementExists(By.XPath(dropDownPath)))
-                .FindElement(By.XPath(dropDownPath));
-            var selectElement = new SelectElement(dropdownList);
-            selectElement.SelectByText(itemToSelect);
-        }
-
-        protected void SuccessToastByClass(string toastSuccessClass)
-        {
-            BrowserHelper.Wait.Until(
-                SeleniumExtras.WaitHelpers.ExpectedConditions.ElementIsVisible(By.ClassName(toastSuccessClass)));
+            BrowserHelper.Wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.UrlMatches(url));
         }
 
         public void LoadPage()
