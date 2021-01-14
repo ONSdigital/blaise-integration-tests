@@ -14,8 +14,8 @@ namespace Blaise.Tests.Helpers.Cati.Pages
         
         public void LoginToCati(string username, string password)
         {
-            PopulateTextBoxById(UsernameBoxId, username);
-            PopulateTextBoxById(PasswordBoxId, password);
+            PopulateInputById(UsernameBoxId, username);
+            PopulateInputById(PasswordBoxId, password);
             ClickButtonByXPath(LoginButtonPath);
         }
     }
