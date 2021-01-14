@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Blaise.Nuget.Api.Api;
 using Blaise.Nuget.Api.Contracts.Interfaces;
 using Blaise.Tests.Helpers.Configuration;
