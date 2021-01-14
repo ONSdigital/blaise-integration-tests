@@ -8,7 +8,6 @@ using Blaise.Tests.Helpers.Instrument;
 using Blaise.Tests.Helpers.Tobi;
 using Blaise.Tests.Models.Case;
 using NUnit.Framework;
-using StatNeth.Blaise.Runtime.Cati.BusinessLogic.ManagementBlocks;
 using TechTalk.SpecFlow;
 
 namespace Blaise.Tobi.Tests.Behaviour.Steps

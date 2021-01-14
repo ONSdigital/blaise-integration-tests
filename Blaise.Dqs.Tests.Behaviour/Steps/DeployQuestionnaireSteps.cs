@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Blaise.Tests.Helpers.Browser;
+﻿using Blaise.Tests.Helpers.Browser;
 using Blaise.Tests.Helpers.Configuration;
 using Blaise.Tests.Helpers.DQS;
 using Blaise.Tests.Helpers.Instrument;
@@ -52,6 +47,7 @@ namespace Blaise.Dqs.Tests.Behaviour.Steps
         {
             DqsHelper.GetInstance().WaitForUploadToComplete();
             var successMessage = DqsHelper.GetInstance().GetUploadMessage();
+            Assert.IsNotNull(successMessage);
         }
 
         [Then(@"the questionnaire is active in blaise")]

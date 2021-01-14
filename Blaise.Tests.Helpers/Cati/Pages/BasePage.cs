@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using Blaise.Tests.Helpers.Browser;
 using OpenQA.Selenium;
-using OpenQA.Selenium.Support.UI;
 
 namespace Blaise.Tests.Helpers.Cati.Pages
 {
@@ -30,12 +29,6 @@ namespace Blaise.Tests.Helpers.Cati.Pages
         {
             return BrowserHelper.Wait
                 .Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementIsVisible(By.XPath(elementPath))).Text;
-        }
-
-        protected string GetElementTextByCss(string elementCssTag)
-        {
-            return BrowserHelper.Wait
-                .Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementIsVisible(By.CssSelector(elementCssTag))).Text;
         }
 
         protected void PopulateInputById(string elementId, string value)
