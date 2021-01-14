@@ -10,7 +10,7 @@ using Blaise.Tests.Models.Case;
 using NUnit.Framework;
 using TechTalk.SpecFlow;
 
-namespace Blaise.Cati.Management.Tests.Behaviour.Steps
+namespace Blaise.Cati.Tests.Behaviour.Steps
 {
     [Binding]
     public sealed class DaybatchSteps

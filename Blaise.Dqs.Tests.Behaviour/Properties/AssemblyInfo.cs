@@ -1,14 +1,15 @@
 ﻿using System.Reflection;
+using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
 // General Information about an assembly is controlled through the following
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("Blaise.Tests.Behaviour")]
+[assembly: AssemblyTitle("Blaise.Qds.Tests.Behaviour")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("Blaise.Tests.Behaviour")]
+[assembly: AssemblyProduct("Blaise.Qds.Tests.Behaviour")]
 [assembly: AssemblyCopyright("Copyright ©  2021")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
@@ -19,7 +20,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("4602ec60-152e-4b79-b9a5-26f25b1e635b")]
+[assembly: Guid("8f5e6f0b-f86a-4cda-a5e3-64482cf17106")]
 
 // Version information for an assembly consists of the following four values:
 //
