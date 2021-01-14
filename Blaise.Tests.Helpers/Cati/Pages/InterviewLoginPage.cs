@@ -14,8 +14,8 @@ namespace Blaise.Tests.Helpers.Cati.Pages
 
         public void LogIntoInterviewPortal(string username, string password)
         {
-            PopulateTextBoxByName(_usernameTextBoxName, username);
-            PopulateTextBoxByName(_passwordTextBoxName, password);
+            PopulateInputByName(_usernameTextBoxName, username);
+            PopulateInputByName(_passwordTextBoxName, password);
             ClickButtonByXPath(_submitButtonPath);
         }
 

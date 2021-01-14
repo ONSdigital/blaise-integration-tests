@@ -130,7 +130,12 @@
     <Compile Include="Configuration\BrowserConfigurationHelper.cs" />
     <Compile Include="Configuration\CatiConfigurationHelper.cs" />
     <Compile Include="Configuration\BlaiseConfigurationHelper.cs" />
+    <Compile Include="Configuration\DqsConfigurationHelper.cs" />
     <Compile Include="Configuration\TobiConfigurationHelper.cs" />
+    <Compile Include="DQS\DqsHelper.cs" />
+    <Compile Include="DQS\Pages\HomePage.cs" />
+    <Compile Include="DQS\Pages\UploadPage.cs" />
+    <Compile Include="DQS\Pages\UploadSummaryPage.cs" />
     <Compile Include="Extensions\ConfigurationExtensions.cs" />
     <Compile Include="Extensions\ParameterValidationExtensions.cs" />
     <Compile Include="Instrument\InstrumentHelper.cs" />
