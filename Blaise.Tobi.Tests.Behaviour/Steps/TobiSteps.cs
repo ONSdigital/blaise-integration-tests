@@ -130,7 +130,7 @@ namespace Blaise.Tobi.Tests.Behaviour.Steps
             CatiManagementHelper.GetInstance().SetSurveyDays();
         }
 
-        [AfterFeature("tobi1")]
+        [AfterFeature("tobi")]
         public static void CleanUpFeature()
         {
             CatiManagementHelper.GetInstance().LogIntoCatiManagementPortal();

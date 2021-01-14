@@ -150,6 +150,9 @@ testRunner.When("I confirm my selection", ((string)(null)), ((TechTalk.SpecFlow.
 #line 14
 testRunner.Then("I am presented with a successful deployment information banner", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
+#line 15
+testRunner.And("the questionnaire is active in blaise", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line hidden
             }
             this.ScenarioCleanup();
         }

@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Blaise.Tests.Helpers.Browser;
 using Blaise.Tests.Helpers.Configuration;
 using Blaise.Tests.Helpers.DQS;
+using Blaise.Tests.Helpers.Instrument;
 using NUnit.Framework;
 using TechTalk.SpecFlow;
 
@@ -53,5 +54,18 @@ namespace Blaise.Dqs.Tests.Behaviour.Steps
             var successMessage = DqsHelper.GetInstance().GetUploadMessage();
         }
 
+        [Then(@"the questionnaire is active in blaise")]
+        public void ThenTheQuestionnaireIsActiveInBlaise()
+        {
+            var instrumentInstalled = InstrumentHelper.GetInstance().SurveyHasInstalled(BlaiseConfigurationHelper.InstrumentName, 60);
+            Assert.IsTrue(instrumentInstalled);
+        }
+
+        [AfterScenario("questionnaire")]
+        public void CleanUpScenario()
+        {
+            BrowserHelper.CloseBrowser();
+            InstrumentHelper.GetInstance().UninstallSurvey();
+        }
     }
 }
