@@ -24,20 +24,26 @@ namespace Blaise.Tests.Helpers.Instrument
 
         public void InstallInstrument()
         {
-            _blaiseSurveyApi.InstallSurvey(BlaiseConfigurationHelper.InstrumentPackage, 
-                SurveyInterviewType.Cati, BlaiseConfigurationHelper.ServerParkName);
+            _blaiseSurveyApi.InstallSurvey(BlaiseConfigurationHelper.InstrumentName, 
+                BlaiseConfigurationHelper.ServerParkName,
+                 BlaiseConfigurationHelper.InstrumentPackage, 
+                SurveyInterviewType.Cati);
         }
 
         public void InstallInstrument(string instrumentPackage)
         {
-            _blaiseSurveyApi.InstallSurvey(instrumentPackage,
-                SurveyInterviewType.Cati, BlaiseConfigurationHelper.ServerParkName);
+            _blaiseSurveyApi.InstallSurvey(BlaiseConfigurationHelper.InstrumentName,
+                BlaiseConfigurationHelper.ServerParkName,
+                BlaiseConfigurationHelper.InstrumentPackage,
+                SurveyInterviewType.Cati);
         }
 
         public void InstallInstrument(SurveyInterviewType surveyConfigurationType)
         {
-            _blaiseSurveyApi.InstallSurvey(BlaiseConfigurationHelper.InstrumentPackage, 
-                surveyConfigurationType, BlaiseConfigurationHelper.ServerParkName);
+            _blaiseSurveyApi.InstallSurvey(BlaiseConfigurationHelper.InstrumentName,
+                BlaiseConfigurationHelper.ServerParkName,
+                BlaiseConfigurationHelper.InstrumentPackage,
+                SurveyInterviewType.Cati);
         }
 
         public bool SurveyHasInstalled(string instrumentName, int timeoutInSeconds)
