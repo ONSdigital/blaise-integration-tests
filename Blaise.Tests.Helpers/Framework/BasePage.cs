@@ -2,7 +2,7 @@
 using Blaise.Tests.Helpers.Browser;
 using OpenQA.Selenium;
 
-namespace Blaise.Tests.Helpers.Cati.Pages
+namespace Blaise.Tests.Helpers.Framework
 {
     public class BasePage
     {
