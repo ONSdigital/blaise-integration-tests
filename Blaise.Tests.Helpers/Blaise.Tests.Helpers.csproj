@@ -178,11 +178,11 @@
     <Compile Include="Configuration\BlaiseConfigurationHelper.cs" />
     <Compile Include="Configuration\DqsConfigurationHelper.cs" />
     <Compile Include="Configuration\TobiConfigurationHelper.cs" />
-    <Compile Include="DQS\DqsHelper.cs" />
-    <Compile Include="DQS\Pages\HomePage.cs" />
-    <Compile Include="DQS\Pages\QuestionnaireExistsPage.cs" />
-    <Compile Include="DQS\Pages\UploadPage.cs" />
-    <Compile Include="DQS\Pages\UploadSummaryPage.cs" />
+    <Compile Include="Dqs\DqsHelper.cs" />
+    <Compile Include="Dqs\Pages\HomePage.cs" />
+    <Compile Include="Dqs\Pages\QuestionnaireExistsPage.cs" />
+    <Compile Include="Dqs\Pages\UploadPage.cs" />
+    <Compile Include="Dqs\Pages\UploadSummaryPage.cs" />
     <Compile Include="Extensions\ConfigurationExtensions.cs" />
     <Compile Include="Extensions\ParameterValidationExtensions.cs" />
     <Compile Include="Instrument\InstrumentHelper.cs" />

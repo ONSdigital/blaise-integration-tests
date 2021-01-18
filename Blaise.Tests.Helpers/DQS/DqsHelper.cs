@@ -1,7 +1,9 @@
 ﻿using Blaise.Tests.Helpers.Configuration;
+using Blaise.Tests.Helpers.Dqs.Pages;
 using Blaise.Tests.Helpers.DQS.Pages;
+using System.Collections.Generic;
 
-namespace Blaise.Tests.Helpers.DQS
+namespace Blaise.Tests.Helpers.Dqs
 {
     public class DqsHelper
     {
@@ -16,6 +18,11 @@ namespace Blaise.Tests.Helpers.DQS
         {
             var homePage = new HomePage();
             homePage.LoadPage();
+        }
+        public List<string> GetQuestionnaireTableContents()
+        {
+            var homePage = new HomePage();
+            return homePage.GetTableContent();
         }
 
         public void ClickDeployQuestionnaire()

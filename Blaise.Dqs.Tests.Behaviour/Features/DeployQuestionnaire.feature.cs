@@ -20,7 +20,7 @@ namespace Blaise.Dqs.Tests.Behaviour.Features
     [System.CodeDom.Compiler.GeneratedCodeAttribute("TechTalk.SpecFlow", "3.5.0.0")]
     [System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     [NUnit.Framework.TestFixtureAttribute()]
-    [NUnit.Framework.DescriptionAttribute("DeployQuestionnaire")]
+    [NUnit.Framework.DescriptionAttribute("Deploy Questionnaire")]
     [NUnit.Framework.CategoryAttribute("questionnaire")]
     public partial class DeployQuestionnaireFeature
     {
@@ -37,8 +37,9 @@ namespace Blaise.Dqs.Tests.Behaviour.Features
         public virtual void FeatureSetup()
         {
             testRunner = TechTalk.SpecFlow.TestRunnerManager.GetTestRunner();
-            TechTalk.SpecFlow.FeatureInfo featureInfo = new TechTalk.SpecFlow.FeatureInfo(new System.Globalization.CultureInfo("en-US"), "Features", "DeployQuestionnaire", "\tIn order to avoid silly mistakes\r\n\tAs a math idiot\r\n\tI want to be told the sum o" +
-                    "f two numbers", ProgrammingLanguage.CSharp, new string[] {
+            TechTalk.SpecFlow.FeatureInfo featureInfo = new TechTalk.SpecFlow.FeatureInfo(new System.Globalization.CultureInfo("en-US"), "Features", "Deploy Questionnaire", "\tAs a Survey Team Research Officer\r\n\tI want to deploy a questionnaire to a Blaise" +
+                    " server in the production environment\r\n\tSo that I can set up a new survey in Bla" +
+                    "ise 5 for Telephone Operations nudge/data collection", ProgrammingLanguage.CSharp, new string[] {
                         "questionnaire"});
             testRunner.OnFeatureStart(featureInfo);
         }
@@ -78,14 +79,16 @@ namespace Blaise.Dqs.Tests.Behaviour.Features
         }
         
         [NUnit.Framework.TestAttribute()]
-        [NUnit.Framework.DescriptionAttribute("Successful log in to Questionnaire Deployment Service")]
+        [NUnit.Framework.DescriptionAttribute("List all questionnaires in Blaise")]
         [NUnit.Framework.CategoryAttribute("Smoke")]
-        public virtual void SuccessfulLogInToQuestionnaireDeploymentService()
+        [NUnit.Framework.CategoryAttribute("LU-7994")]
+        public virtual void ListAllQuestionnairesInBlaise()
         {
             string[] tagsOfScenario = new string[] {
-                    "Smoke"};
+                    "Smoke",
+                    "LU-7994"};
             System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
-            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Successful log in to Questionnaire Deployment Service", null, tagsOfScenario, argumentsOfScenario);
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("List all questionnaires in Blaise", null, tagsOfScenario, argumentsOfScenario);
 #line 8
 this.ScenarioInitialize(scenarioInfo);
 #line hidden
@@ -110,25 +113,33 @@ this.ScenarioInitialize(scenarioInfo);
 testRunner.Given("I have launched the Questionnaire Deployment Service", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line hidden
 #line 10
-testRunner.When("I view the landing page", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+testRunner.And("there are questionnaires installed in Blaise", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
 #line 11
-testRunner.Then("I am presented with an option to deploy a new questionnaire", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+testRunner.When("I view the landing page", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line hidden
+#line 12
+testRunner.Then("I am presented with a list of the questionnaires already deployed to Blaise", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line hidden
+#line 13
+testRunner.And("it is ordered with the most recently deployed at the top", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
             }
             this.ScenarioCleanup();
         }
         
         [NUnit.Framework.TestAttribute()]
-        [NUnit.Framework.DescriptionAttribute("Deploy selected file")]
+        [NUnit.Framework.DescriptionAttribute("Successful log in to Questionnaire Deployment Service")]
         [NUnit.Framework.CategoryAttribute("Smoke")]
-        public virtual void DeploySelectedFile()
+        [NUnit.Framework.CategoryAttribute("LU-7990")]
+        public virtual void SuccessfulLogInToQuestionnaireDeploymentService()
         {
             string[] tagsOfScenario = new string[] {
-                    "Smoke"};
+                    "Smoke",
+                    "LU-7990"};
             System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
-            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Deploy selected file", null, tagsOfScenario, argumentsOfScenario);
-#line 14
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Successful log in to Questionnaire Deployment Service", null, tagsOfScenario, argumentsOfScenario);
+#line 16
 this.ScenarioInitialize(scenarioInfo);
 #line hidden
             bool isScenarioIgnored = default(bool);
@@ -148,17 +159,155 @@ this.ScenarioInitialize(scenarioInfo);
             else
             {
                 this.ScenarioStart();
-#line 15
-testRunner.Given("I have selected the questionnaire package I wish to deploy", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
-#line hidden
-#line 16
-testRunner.When("I confirm my selection", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
-#line hidden
 #line 17
-testRunner.Then("I am presented with a successful deployment information banner", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+testRunner.Given("I have launched the Questionnaire Deployment Service", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line hidden
 #line 18
+testRunner.When("I view the landing page", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line hidden
+#line 19
+testRunner.Then("I am presented with an option to deploy a new questionnaire", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line hidden
+            }
+            this.ScenarioCleanup();
+        }
+        
+        [NUnit.Framework.TestAttribute()]
+        [NUnit.Framework.DescriptionAttribute("Deploy selected file")]
+        [NUnit.Framework.CategoryAttribute("Smoke")]
+        [NUnit.Framework.CategoryAttribute("LU-7990")]
+        public virtual void DeploySelectedFile()
+        {
+            string[] tagsOfScenario = new string[] {
+                    "Smoke",
+                    "LU-7990"};
+            System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Deploy selected file", null, tagsOfScenario, argumentsOfScenario);
+#line 22
+this.ScenarioInitialize(scenarioInfo);
+#line hidden
+            bool isScenarioIgnored = default(bool);
+            bool isFeatureIgnored = default(bool);
+            if ((tagsOfScenario != null))
+            {
+                isScenarioIgnored = tagsOfScenario.Where(__entry => __entry != null).Where(__entry => String.Equals(__entry, "ignore", StringComparison.CurrentCultureIgnoreCase)).Any();
+            }
+            if ((this._featureTags != null))
+            {
+                isFeatureIgnored = this._featureTags.Where(__entry => __entry != null).Where(__entry => String.Equals(__entry, "ignore", StringComparison.CurrentCultureIgnoreCase)).Any();
+            }
+            if ((isScenarioIgnored || isFeatureIgnored))
+            {
+                testRunner.SkipScenario();
+            }
+            else
+            {
+                this.ScenarioStart();
+#line 23
+testRunner.Given("I have selected the questionnaire package I wish to deploy", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+#line hidden
+#line 24
+testRunner.When("I confirm my selection", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line hidden
+#line 25
+testRunner.Then("I am presented with a successful deployment information banner", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line hidden
+#line 26
 testRunner.And("the questionnaire is active in blaise", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line hidden
+            }
+            this.ScenarioCleanup();
+        }
+        
+        [NUnit.Framework.TestAttribute()]
+        [NUnit.Framework.DescriptionAttribute("Questionnaire package already in Blaise")]
+        [NUnit.Framework.CategoryAttribute("Smoke")]
+        [NUnit.Framework.CategoryAttribute("LU-7994")]
+        public virtual void QuestionnairePackageAlreadyInBlaise()
+        {
+            string[] tagsOfScenario = new string[] {
+                    "Smoke",
+                    "LU-7994"};
+            System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Questionnaire package already in Blaise", null, tagsOfScenario, argumentsOfScenario);
+#line 29
+this.ScenarioInitialize(scenarioInfo);
+#line hidden
+            bool isScenarioIgnored = default(bool);
+            bool isFeatureIgnored = default(bool);
+            if ((tagsOfScenario != null))
+            {
+                isScenarioIgnored = tagsOfScenario.Where(__entry => __entry != null).Where(__entry => String.Equals(__entry, "ignore", StringComparison.CurrentCultureIgnoreCase)).Any();
+            }
+            if ((this._featureTags != null))
+            {
+                isFeatureIgnored = this._featureTags.Where(__entry => __entry != null).Where(__entry => String.Equals(__entry, "ignore", StringComparison.CurrentCultureIgnoreCase)).Any();
+            }
+            if ((isScenarioIgnored || isFeatureIgnored))
+            {
+                testRunner.SkipScenario();
+            }
+            else
+            {
+                this.ScenarioStart();
+#line 30
+testRunner.Given("I have selected the questionnaire package I wish to deploy", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+#line hidden
+#line 31
+testRunner.And("the package I have selected already exists in Blaise", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line hidden
+#line 32
+testRunner.When("I confirm my selection", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line hidden
+#line 33
+testRunner.Then("I am presented with questionnaire already exists screen", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line hidden
+            }
+            this.ScenarioCleanup();
+        }
+        
+        [NUnit.Framework.TestAttribute()]
+        [NUnit.Framework.DescriptionAttribute("Back-out of deploying a questionnaire")]
+        [NUnit.Framework.CategoryAttribute("regression")]
+        [NUnit.Framework.CategoryAttribute("LU-7994")]
+        public virtual void Back_OutOfDeployingAQuestionnaire()
+        {
+            string[] tagsOfScenario = new string[] {
+                    "regression",
+                    "LU-7994"};
+            System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Back-out of deploying a questionnaire", null, tagsOfScenario, argumentsOfScenario);
+#line 36
+this.ScenarioInitialize(scenarioInfo);
+#line hidden
+            bool isScenarioIgnored = default(bool);
+            bool isFeatureIgnored = default(bool);
+            if ((tagsOfScenario != null))
+            {
+                isScenarioIgnored = tagsOfScenario.Where(__entry => __entry != null).Where(__entry => String.Equals(__entry, "ignore", StringComparison.CurrentCultureIgnoreCase)).Any();
+            }
+            if ((this._featureTags != null))
+            {
+                isFeatureIgnored = this._featureTags.Where(__entry => __entry != null).Where(__entry => String.Equals(__entry, "ignore", StringComparison.CurrentCultureIgnoreCase)).Any();
+            }
+            if ((isScenarioIgnored || isFeatureIgnored))
+            {
+                testRunner.SkipScenario();
+            }
+            else
+            {
+                this.ScenarioStart();
+#line 37
+testRunner.Given("I have been presented with questionnaire already exists screen", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+#line hidden
+#line 38
+testRunner.When("I select cancel", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line hidden
+#line 39
+testRunner.Then("I am returned to the landing page", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line hidden
+#line 40
+testRunner.And("the questionnaire has not been overwritten", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
             }
             this.ScenarioCleanup();
