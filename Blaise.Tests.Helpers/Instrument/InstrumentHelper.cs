@@ -1,4 +1,5 @@
-﻿using System.Threading;
+﻿using System;
+using System.Threading;
 using Blaise.Nuget.Api.Api;
 using Blaise.Nuget.Api.Contracts.Enums;
 using Blaise.Nuget.Api.Contracts.Interfaces;
@@ -34,7 +35,7 @@ namespace Blaise.Tests.Helpers.Instrument
         {
             _blaiseSurveyApi.InstallSurvey(BlaiseConfigurationHelper.InstrumentName,
                 BlaiseConfigurationHelper.ServerParkName,
-                BlaiseConfigurationHelper.InstrumentPackage,
+                instrumentPackage,
                 SurveyInterviewType.Cati);
         }
 
@@ -43,7 +44,7 @@ namespace Blaise.Tests.Helpers.Instrument
             _blaiseSurveyApi.InstallSurvey(BlaiseConfigurationHelper.InstrumentName,
                 BlaiseConfigurationHelper.ServerParkName,
                 BlaiseConfigurationHelper.InstrumentPackage,
-                SurveyInterviewType.Cati);
+                surveyConfigurationType);
         }
 
         public bool SurveyHasInstalled(string instrumentName, int timeoutInSeconds)
@@ -79,6 +80,11 @@ namespace Blaise.Tests.Helpers.Instrument
             return GetSurveyStatus(BlaiseConfigurationHelper.InstrumentName) == SurveyStatusType.Inactive;
         }
 
+        public bool SurveyExists(string instrumentName)
+        {
+            return _blaiseSurveyApi.SurveyExists(instrumentName, BlaiseConfigurationHelper.ServerParkName);
+        }
+
         private bool SurveyIsActive(string instrumentName, int timeoutInSeconds)
         {
             var counter = 0;
@@ -100,6 +106,13 @@ namespace Blaise.Tests.Helpers.Instrument
         private SurveyStatusType GetSurveyStatus(string instrumentName)
         {
             return _blaiseSurveyApi.GetSurveyStatus(instrumentName, BlaiseConfigurationHelper.ServerParkName);
+        }
+
+        public DateTime GetInstallDate()
+        {
+            var survey = _blaiseSurveyApi.GetSurvey(BlaiseConfigurationHelper.InstrumentName, BlaiseConfigurationHelper.ServerParkName);
+
+            return survey.InstallDate;
         }
 
         private bool SurveyExists(string instrumentName, int timeoutInSeconds)
