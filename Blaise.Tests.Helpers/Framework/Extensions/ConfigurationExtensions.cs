@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Configuration;
 
-namespace Blaise.Tests.Helpers.Extensions
+namespace Blaise.Tests.Helpers.Framework.Extensions
 {
     public class ConfigurationExtensions
     {

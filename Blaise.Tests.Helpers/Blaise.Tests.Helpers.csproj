@@ -166,7 +166,7 @@
     <Compile Include="Browser\BrowserHelper.cs" />
     <Compile Include="Case\CaseHelper.cs" />
     <Compile Include="Cati\CatiManagementHelper.cs" />
-    <Compile Include="Cati\Pages\BasePage.cs" />
+    <Compile Include="Framework\BasePage.cs" />
     <Compile Include="Cati\Pages\DayBatchPage.cs" />
     <Compile Include="Cati\Pages\InterviewLoginPage.cs" />
     <Compile Include="Cati\Pages\InterviewPage.cs" />
@@ -183,8 +183,8 @@
     <Compile Include="Dqs\Pages\QuestionnaireExistsPage.cs" />
     <Compile Include="Dqs\Pages\UploadPage.cs" />
     <Compile Include="Dqs\Pages\UploadSummaryPage.cs" />
-    <Compile Include="Extensions\ConfigurationExtensions.cs" />
-    <Compile Include="Extensions\ParameterValidationExtensions.cs" />
+    <Compile Include="Framework\Extensions\ConfigurationExtensions.cs" />
+    <Compile Include="Framework\Extensions\ParameterValidationExtensions.cs" />
     <Compile Include="Instrument\InstrumentHelper.cs" />
     <Compile Include="Cati\CatiInterviewHelper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

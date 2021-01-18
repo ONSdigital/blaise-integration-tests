@@ -1,8 +1,8 @@
-﻿using Blaise.Tests.Helpers.Cati.Pages;
+﻿using System.Collections.Generic;
 using Blaise.Tests.Helpers.Configuration;
-using System.Collections.Generic;
+using Blaise.Tests.Helpers.Framework;
 
-namespace Blaise.Tests.Helpers.DQS.Pages
+namespace Blaise.Tests.Helpers.Dqs.Pages
 {
     public class HomePage : BasePage
     {
