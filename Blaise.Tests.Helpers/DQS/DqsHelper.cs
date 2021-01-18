@@ -11,7 +11,7 @@ namespace Blaise.Tests.Helpers.DQS
         {
             return _currentInstance ?? (_currentInstance = new DqsHelper());
         }
-
+        
         public void LoadDqsHomePage()
         {
             var homePage = new HomePage();
@@ -28,6 +28,12 @@ namespace Blaise.Tests.Helpers.DQS
         {
             var uploadPage = new UploadPage();
             uploadPage.LoadPage();
+        }
+
+        public void CancelDeploymentOfQuestionnaire()
+        {
+            var surveyExistsPage = new QuestionnaireExistsPage();
+            surveyExistsPage.SelectCancel();
         }
 
         public void SelectQuestionnairePackage()
