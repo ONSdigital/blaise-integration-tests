@@ -1,4 +1,5 @@
-﻿using System.Threading;
+﻿using System;
+using System.Threading;
 using Blaise.Nuget.Api.Api;
 using Blaise.Nuget.Api.Contracts.Enums;
 using Blaise.Nuget.Api.Contracts.Interfaces;
@@ -100,6 +101,13 @@ namespace Blaise.Tests.Helpers.Instrument
         private SurveyStatusType GetSurveyStatus(string instrumentName)
         {
             return _blaiseSurveyApi.GetSurveyStatus(instrumentName, BlaiseConfigurationHelper.ServerParkName);
+        }
+
+        public DateTime GetInstallDate()
+        {
+            var survey = _blaiseSurveyApi.GetSurvey(BlaiseConfigurationHelper.InstrumentName, BlaiseConfigurationHelper.ServerParkName);
+
+            return survey.InstallDate;
         }
 
         private bool SurveyExists(string instrumentName, int timeoutInSeconds)

@@ -1,4 +1,5 @@
-﻿using Blaise.Tests.Helpers.Browser;
+﻿using System;
+using Blaise.Tests.Helpers.Browser;
 using Blaise.Tests.Helpers.Configuration;
 using Blaise.Tests.Helpers.DQS;
 using Blaise.Tests.Helpers.Instrument;
@@ -10,6 +11,15 @@ namespace Blaise.Dqs.Tests.Behaviour.Steps
     [Binding]
     public sealed class DeployQuestionnaireSteps
     {
+        private string _installDate = "InstallDate";
+
+        private readonly ScenarioContext _scenarioContext;
+
+        public DeployQuestionnaireSteps(ScenarioContext scenarioContext)
+        {
+            _scenarioContext = scenarioContext;
+        }
+
         [Given(@"I have launched the Questionnaire Deployment Service")]
         public void GivenIHaveLaunchedTheQuestionnaireDeploymentService()
         {
@@ -24,6 +34,7 @@ namespace Blaise.Dqs.Tests.Behaviour.Steps
         }
 
         [When(@"I view the landing page")]
+        [Then(@"I am returned to the landing page")]
         public void WhenIViewTheLandingPage()
         {
             Assert.AreEqual(DqsConfigurationHelper.DqsUrl, BrowserHelper.CurrentUrl);
@@ -50,6 +61,40 @@ namespace Blaise.Dqs.Tests.Behaviour.Steps
             Assert.IsNotNull(successMessage);
         }
 
+        [Then(@"I am presented with questionnaire already exists screen")]
+        public void ThenIAmPresentedWithQuestionnaireAlreadyExistsScreen()
+        {
+            Assert.AreEqual(DqsConfigurationHelper.QuestionnaireExistsUrl, BrowserHelper.CurrentUrl);
+        }
+
+        [Given(@"I have been presented with questionnaire already exists screen")]
+        public void GivenIHaveBeenPresentedWithQuestionnaireAlreadyExistsScreen()
+        {
+            InstrumentHelper.GetInstance().InstallInstrument();
+            DqsHelper.GetInstance().LoadUploadPage();
+            DqsHelper.GetInstance().SelectQuestionnairePackage();
+
+            Assert.AreEqual(DqsConfigurationHelper.QuestionnaireExistsUrl, BrowserHelper.CurrentUrl);
+
+            _scenarioContext.Set(InstrumentHelper.GetInstance().GetInstallDate(), _installDate);
+        }
+
+        [When(@"I select cancel")]
+        public void WhenISelectCancelDeploymentOfQuestionnaire()
+        {
+            DqsHelper.GetInstance().CancelDeploymentOfQuestionnaire();
+        }
+
+        [Then(@"the questionnaire has not been overwritten")]
+        public void ThenTheQuestionnaireHasNotBeenOverwritten()
+        {
+            var expectedInstallDate = _scenarioContext.Get<DateTime>(_installDate);
+            var actualInstallDate = InstrumentHelper.GetInstance().GetInstallDate();
+
+            Assert.AreEqual(expectedInstallDate, actualInstallDate);
+        }
+
+
         [Then(@"the questionnaire is active in blaise")]
         public void ThenTheQuestionnaireIsActiveInBlaise()
         {
@@ -57,6 +102,12 @@ namespace Blaise.Dqs.Tests.Behaviour.Steps
             Assert.IsTrue(instrumentInstalled);
         }
 
+        [Given(@"the package I have selected already exists in Blaise")]
+        public void GivenThePackageIHaveSelectedAlreadyExistsInBlaise()
+        {
+            InstrumentHelper.GetInstance().InstallInstrument();
+        }
+        
         [AfterScenario("questionnaire")]
         public void CleanUpScenario()
         {

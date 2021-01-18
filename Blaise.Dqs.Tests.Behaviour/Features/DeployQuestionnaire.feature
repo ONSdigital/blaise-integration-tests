@@ -22,10 +22,11 @@ Scenario: Questionnaire package already in Blaise
 Given I have selected the questionnaire package I wish to deploy
 And the package I have selected already exists in Blaise
 When I confirm my selection
-Then I am presented with the options to cancel or overwrite the questionnaire
+Then I am presented with questionnaire already exists screen
 
 @regression @LU-7994
 Scenario: Back-out of deploying a questionnaire
-Given I have been presented with the options: Cancel or Overwrite
+Given I have been presented with questionnaire already exists screen
 When I select cancel
 Then I am returned to the landing page
+And the questionnaire has not been overwritten

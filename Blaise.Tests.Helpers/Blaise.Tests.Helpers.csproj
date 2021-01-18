@@ -180,6 +180,7 @@
     <Compile Include="Configuration\TobiConfigurationHelper.cs" />
     <Compile Include="DQS\DqsHelper.cs" />
     <Compile Include="DQS\Pages\HomePage.cs" />
+    <Compile Include="DQS\Pages\QuestionnaireExistsPage.cs" />
     <Compile Include="DQS\Pages\UploadPage.cs" />
     <Compile Include="DQS\Pages\UploadSummaryPage.cs" />
     <Compile Include="Extensions\ConfigurationExtensions.cs" />
