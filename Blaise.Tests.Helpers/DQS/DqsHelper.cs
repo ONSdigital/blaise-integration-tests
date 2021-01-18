@@ -1,6 +1,5 @@
 ﻿using Blaise.Tests.Helpers.Configuration;
 using Blaise.Tests.Helpers.Dqs.Pages;
-using Blaise.Tests.Helpers.DQS.Pages;
 using System.Collections.Generic;
 
 namespace Blaise.Tests.Helpers.Dqs
