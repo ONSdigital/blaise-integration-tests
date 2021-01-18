@@ -1,8 +1,9 @@
 ﻿using System;
+using System.Linq;
 using Blaise.Tests.Helpers.Browser;
 using Blaise.Tests.Helpers.Configuration;
-using Blaise.Tests.Helpers.DQS;
 using Blaise.Tests.Helpers.Instrument;
+using Blaise.Tests.Helpers.Dqs;
 using NUnit.Framework;
 using TechTalk.SpecFlow;
 
@@ -24,6 +25,19 @@ namespace Blaise.Dqs.Tests.Behaviour.Steps
         public void GivenIHaveLaunchedTheQuestionnaireDeploymentService()
         {
             DqsHelper.GetInstance().LoadDqsHomePage(); 
+        }
+
+        [Given(@"there is a questionnaire installed in Blaise")]
+        public void GivenThereIsAQuestionnaireInstalledInBlaise()
+        {
+            InstrumentHelper.GetInstance().InstallInstrument();
+        }
+
+        [Then(@"I am presented with a list of the questionnaires already deployed to Blaise")]
+        public void ThenIAmPresentedWithAListOfTheQuestionnairesAlreadyDeployedToBlaise()
+        {
+            Assert.AreEqual(BlaiseConfigurationHelper.InstrumentName, 
+                DqsHelper.GetInstance().GetQuestionnaireTableContents().FirstOrDefault());
         }
 
         [Given(@"I have selected the questionnaire package I wish to deploy")]
