@@ -65,5 +65,11 @@ namespace Blaise.Tests.Helpers.Dqs
             var uploadSummaryPage = new UploadSummaryPage();
             return uploadSummaryPage.GetUploadSummaryText();
         }
+
+        public void WaitForQuestionnaireAlreadyExistsPage()
+        {
+            var uploadPage = new UploadPage();
+            uploadPage.WaitForQuestionnaireAlreadyExistsPage();
+        }
     }
 }
