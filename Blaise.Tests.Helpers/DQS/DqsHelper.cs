@@ -42,6 +42,13 @@ namespace Blaise.Tests.Helpers.Dqs
             surveyExistsPage.SelectCancel();
         }
 
+        public void OverwriteQuestionnaire()
+        {
+            var surveyExistsPage = new QuestionnaireExistsPage();
+            surveyExistsPage.SelectOverwrite();
+            surveyExistsPage.SelectSaveButton();
+        }
+
         public void SelectQuestionnairePackage()
         {
             var uploadPage = new UploadPage();
