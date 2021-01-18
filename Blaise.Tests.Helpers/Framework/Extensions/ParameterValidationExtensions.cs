@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Blaise.Tests.Helpers.Extensions
+namespace Blaise.Tests.Helpers.Framework.Extensions
 {
     public static class ParameterValidationExtensions
     {
