@@ -1,7 +1,8 @@
 ﻿using Blaise.Tests.Helpers.Cati.Pages;
 using Blaise.Tests.Helpers.Configuration;
+using Blaise.Tests.Helpers.Framework;
 
-namespace Blaise.Tests.Helpers.DQS.Pages
+namespace Blaise.Tests.Helpers.Dqs.Pages
 {
     public class UploadSummaryPage : BasePage
     {

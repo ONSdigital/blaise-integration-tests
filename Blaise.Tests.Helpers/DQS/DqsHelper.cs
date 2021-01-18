@@ -1,7 +1,8 @@
 ﻿using Blaise.Tests.Helpers.Configuration;
-using Blaise.Tests.Helpers.DQS.Pages;
+using Blaise.Tests.Helpers.Dqs.Pages;
+using System.Collections.Generic;
 
-namespace Blaise.Tests.Helpers.DQS
+namespace Blaise.Tests.Helpers.Dqs
 {
     public class DqsHelper
     {
@@ -11,11 +12,16 @@ namespace Blaise.Tests.Helpers.DQS
         {
             return _currentInstance ?? (_currentInstance = new DqsHelper());
         }
-
+        
         public void LoadDqsHomePage()
         {
             var homePage = new HomePage();
             homePage.LoadPage();
+        }
+        public List<string> GetQuestionnaireTableContents()
+        {
+            var homePage = new HomePage();
+            return homePage.GetTableContent();
         }
 
         public void ClickDeployQuestionnaire()
@@ -28,6 +34,12 @@ namespace Blaise.Tests.Helpers.DQS
         {
             var uploadPage = new UploadPage();
             uploadPage.LoadPage();
+        }
+
+        public void CancelDeploymentOfQuestionnaire()
+        {
+            var surveyExistsPage = new QuestionnaireExistsPage();
+            surveyExistsPage.SelectCancel();
         }
 
         public void SelectQuestionnairePackage()
@@ -52,6 +64,12 @@ namespace Blaise.Tests.Helpers.DQS
         {
             var uploadSummaryPage = new UploadSummaryPage();
             return uploadSummaryPage.GetUploadSummaryText();
+        }
+
+        public void WaitForQuestionnaireAlreadyExistsPage()
+        {
+            var uploadPage = new UploadPage();
+            uploadPage.WaitForQuestionnaireAlreadyExistsPage();
         }
     }
 }
