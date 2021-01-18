@@ -36,8 +36,8 @@ namespace Blaise.Dqs.Tests.Behaviour.Steps
         [Then(@"I am presented with a list of the questionnaires already deployed to Blaise")]
         public void ThenIAmPresentedWithAListOfTheQuestionnairesAlreadyDeployedToBlaise()
         {
-            Assert.AreEqual(BlaiseConfigurationHelper.InstrumentName, 
-                DqsHelper.GetInstance().GetQuestionnaireTableContents().FirstOrDefault());
+            Assert.AreEqual(BlaiseConfigurationHelper.InstrumentName.ToLower(), 
+                DqsHelper.GetInstance().GetQuestionnaireTableContents().FirstOrDefault().ToLower());
         }
 
         [Given(@"I have selected the questionnaire package I wish to deploy")]
@@ -51,7 +51,8 @@ namespace Blaise.Dqs.Tests.Behaviour.Steps
         [Then(@"I am returned to the landing page")]
         public void WhenIViewTheLandingPage()
         {
-            Assert.AreEqual(DqsConfigurationHelper.DqsUrl, BrowserHelper.CurrentUrl);
+            DqsHelper.GetInstance().LoadDqsHomePage();
+            Assert.AreEqual($"{DqsConfigurationHelper.DqsUrl}/", BrowserHelper.CurrentUrl);
         }
 
         [When(@"I confirm my selection")]
@@ -78,7 +79,7 @@ namespace Blaise.Dqs.Tests.Behaviour.Steps
         [Then(@"I am presented with questionnaire already exists screen")]
         public void ThenIAmPresentedWithQuestionnaireAlreadyExistsScreen()
         {
-            Assert.AreEqual(DqsConfigurationHelper.QuestionnaireExistsUrl, BrowserHelper.CurrentUrl);
+            DqsHelper.GetInstance().WaitForQuestionnaireAlreadyExistsPage();
         }
 
         [Given(@"I have been presented with questionnaire already exists screen")]
@@ -87,8 +88,8 @@ namespace Blaise.Dqs.Tests.Behaviour.Steps
             InstrumentHelper.GetInstance().InstallInstrument();
             DqsHelper.GetInstance().LoadUploadPage();
             DqsHelper.GetInstance().SelectQuestionnairePackage();
-
-            Assert.AreEqual(DqsConfigurationHelper.QuestionnaireExistsUrl, BrowserHelper.CurrentUrl);
+            DqsHelper.GetInstance().ConfirmQuestionnaireUpload();
+            DqsHelper.GetInstance().WaitForQuestionnaireAlreadyExistsPage();
 
             _scenarioContext.Set(InstrumentHelper.GetInstance().GetInstallDate(), InstallDate);
         }
@@ -125,7 +126,8 @@ namespace Blaise.Dqs.Tests.Behaviour.Steps
         public void CleanUpScenario()
         {
             BrowserHelper.CloseBrowser();
-            InstrumentHelper.GetInstance().UninstallSurvey();
+            if (InstrumentHelper.GetInstance().SurveyExists(BlaiseConfigurationHelper.InstrumentName))
+                InstrumentHelper.GetInstance().UninstallSurvey();
         }
     }
 }
