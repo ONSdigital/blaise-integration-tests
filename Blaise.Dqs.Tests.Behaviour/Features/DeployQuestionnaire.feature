@@ -4,6 +4,13 @@ Feature: Deploy Questionnaire
 	I want to deploy a questionnaire to a Blaise server in the production environment
 	So that I can set up a new survey in Blaise 5 for Telephone Operations nudge/data collection
 
+@Smoke @LU-7994
+Scenario: List all questionnaires in Blaise
+Given I have launched the Questionnaire Deployment Service
+And there is a questionnaire installed in Blaise
+When I view the landing page
+Then I am presented with a list of the questionnaires already deployed to Blaise
+
 @Smoke @LU-7990
 Scenario: Successful log in to Questionnaire Deployment Service
 Given I have launched the Questionnaire Deployment Service
