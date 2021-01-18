@@ -27,5 +27,10 @@ namespace Blaise.Tests.Helpers.Dqs.Pages
         {
             WaitForPageToChange(DqsConfigurationHelper.UploadSummaryUrl);
         }
+
+        public void WaitForQuestionnaireAlreadyExistsPage()
+        {
+            WaitForPageToChange(DqsConfigurationHelper.QuestionnaireExistsUrl);
+        }
     }
 }

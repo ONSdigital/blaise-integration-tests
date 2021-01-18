@@ -80,6 +80,11 @@ namespace Blaise.Tests.Helpers.Instrument
             return GetSurveyStatus(BlaiseConfigurationHelper.InstrumentName) == SurveyStatusType.Inactive;
         }
 
+        public bool SurveyExists(string instrumentName)
+        {
+            return _blaiseSurveyApi.SurveyExists(instrumentName, BlaiseConfigurationHelper.ServerParkName);
+        }
+
         private bool SurveyIsActive(string instrumentName, int timeoutInSeconds)
         {
             var counter = 0;
