@@ -11,7 +11,7 @@ namespace Blaise.Dqs.Tests.Behaviour.Steps
     [Binding]
     public sealed class DeployQuestionnaireSteps
     {
-        private string _installDate = "InstallDate";
+        private const string InstallDate = "InstallDate";
 
         private readonly ScenarioContext _scenarioContext;
 
@@ -76,7 +76,7 @@ namespace Blaise.Dqs.Tests.Behaviour.Steps
 
             Assert.AreEqual(DqsConfigurationHelper.QuestionnaireExistsUrl, BrowserHelper.CurrentUrl);
 
-            _scenarioContext.Set(InstrumentHelper.GetInstance().GetInstallDate(), _installDate);
+            _scenarioContext.Set(InstrumentHelper.GetInstance().GetInstallDate(), InstallDate);
         }
 
         [When(@"I select cancel")]
@@ -88,13 +88,12 @@ namespace Blaise.Dqs.Tests.Behaviour.Steps
         [Then(@"the questionnaire has not been overwritten")]
         public void ThenTheQuestionnaireHasNotBeenOverwritten()
         {
-            var expectedInstallDate = _scenarioContext.Get<DateTime>(_installDate);
+            var expectedInstallDate = _scenarioContext.Get<DateTime>(InstallDate);
             var actualInstallDate = InstrumentHelper.GetInstance().GetInstallDate();
 
             Assert.AreEqual(expectedInstallDate, actualInstallDate);
         }
-
-
+        
         [Then(@"the questionnaire is active in blaise")]
         public void ThenTheQuestionnaireIsActiveInBlaise()
         {
