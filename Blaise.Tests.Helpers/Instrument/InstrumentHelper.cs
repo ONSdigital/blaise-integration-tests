@@ -35,7 +35,7 @@ namespace Blaise.Tests.Helpers.Instrument
         {
             _blaiseSurveyApi.InstallSurvey(BlaiseConfigurationHelper.InstrumentName,
                 BlaiseConfigurationHelper.ServerParkName,
-                BlaiseConfigurationHelper.InstrumentPackage,
+                instrumentPackage,
                 SurveyInterviewType.Cati);
         }
 
@@ -44,7 +44,7 @@ namespace Blaise.Tests.Helpers.Instrument
             _blaiseSurveyApi.InstallSurvey(BlaiseConfigurationHelper.InstrumentName,
                 BlaiseConfigurationHelper.ServerParkName,
                 BlaiseConfigurationHelper.InstrumentPackage,
-                SurveyInterviewType.Cati);
+                surveyConfigurationType);
         }
 
         public bool SurveyHasInstalled(string instrumentName, int timeoutInSeconds)
