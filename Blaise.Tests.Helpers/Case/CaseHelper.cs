@@ -39,6 +39,13 @@ namespace Blaise.Tests.Helpers.Case
                 BlaiseConfigurationHelper.ServerParkName);
         }
 
+        public void CreateCase()
+        {
+            var caseModel = BuildDefaultCase();
+            _blaiseCaseApi.CreateCase(caseModel.PrimaryKey, caseModel.FieldData(), BlaiseConfigurationHelper.InstrumentName,
+                BlaiseConfigurationHelper.ServerParkName);
+        }
+
         public void DeleteCases()
         {
             var cases = _blaiseCaseApi.GetCases(BlaiseConfigurationHelper.InstrumentName, 
@@ -55,7 +62,7 @@ namespace Blaise.Tests.Helpers.Case
             }
         }
 
-        public int NumberOfCasesInBlaise()
+        public int NumberOfCasesInInstrument()
         {
             return _blaiseCaseApi.GetNumberOfCases(BlaiseConfigurationHelper.InstrumentName, 
                 BlaiseConfigurationHelper.ServerParkName);
@@ -83,6 +90,11 @@ namespace Blaise.Tests.Helpers.Case
             var telephoneNumber = _blaiseCaseApi.GetFieldValue(caseRecord, FieldNameType.TelNo).IntegerValue.ToString(CultureInfo.InvariantCulture);
 
             return new CaseModel(primaryKey, outcomeCode, telephoneNumber);
+        }
+
+        private CaseModel BuildDefaultCase()
+        {
+            return new CaseModel("900000", "110", "07000000000");
         }
     }
 }
