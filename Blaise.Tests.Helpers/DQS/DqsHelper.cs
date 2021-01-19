@@ -42,6 +42,13 @@ namespace Blaise.Tests.Helpers.Dqs
             surveyExistsPage.SelectCancel();
         }
 
+        public void OverwriteQuestionnaire()
+        {
+            var surveyExistsPage = new QuestionnaireExistsPage();
+            surveyExistsPage.SelectOverwrite();
+            surveyExistsPage.SelectSaveButton();
+        }
+
         public void SelectQuestionnairePackage()
         {
             var uploadPage = new UploadPage();
@@ -70,6 +77,24 @@ namespace Blaise.Tests.Helpers.Dqs
         {
             var uploadPage = new UploadPage();
             uploadPage.WaitForQuestionnaireAlreadyExistsPage();
+        }
+
+        public string GetOverwriteMessage()
+        {
+            var cannotOverwritePage = new CannotOverwritePage();
+            return cannotOverwritePage.GetUploadSummaryText();
+        }
+
+        public void ConfirmOverwriteOfQuestionnaire()
+        {
+            var confirmOverwritePage = new ConfirmOverwritePage();
+            confirmOverwritePage.ClickConfirmOverwriteButton();
+        }
+
+        public void ConfirmSelection()
+        {
+            var confirmOverwritePage = new ConfirmOverwritePage();
+            confirmOverwritePage.ClickContinueButton();
         }
     }
 }
