@@ -92,7 +92,7 @@ namespace Blaise.Dqs.Tests.Behaviour.Steps
         [Given(@"the questionnaire does not have data records")]
         public void GivenTheQuestionnaireDoesNotHaveDataRecords()
         {
-            Assert.Equals(0, CaseHelper.GetInstance().NumberOfCasesInInstrument());
+            Assert.AreEqual(0, CaseHelper.GetInstance().NumberOfCasesInInstrument());
         }
 
         [Given(@"I have been presented with questionnaire already exists screen")]
@@ -118,7 +118,14 @@ namespace Blaise.Dqs.Tests.Behaviour.Steps
         {
             DqsHelper.GetInstance().OverwriteQuestionnaire();
         }
-        
+
+        [When(@"confirm my selection")]
+        public void WhenConfirmMySelection()
+        {
+            DqsHelper.GetInstance().ConfirmOverwriteOfQuestionnaire();
+            DqsHelper.GetInstance().ConfirmSelection();
+        }
+
         [Then(@"the questionnaire has not been overwritten")]
         public void ThenTheQuestionnaireHasNotBeenOverwritten()
         {
@@ -131,6 +138,7 @@ namespace Blaise.Dqs.Tests.Behaviour.Steps
         [Then(@"I am presented with a warning that I cannot overwrite the survey")]
         public void ThenIAmPresentedWithAWarningThatICannotOverwriteTheSurvey()
         {
+            Assert.IsNotNull(DqsHelper.GetInstance().GetOverwriteMessage());
             Assert.AreEqual(DqsConfigurationHelper.CannotOverwriteUrl, BrowserHelper.CurrentUrl);
         }
 

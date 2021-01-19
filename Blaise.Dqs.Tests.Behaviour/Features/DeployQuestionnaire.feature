@@ -51,5 +51,6 @@ Scenario: Overwrite a questionnaire that does not have data
 Given I have been presented with questionnaire already exists screen
 And the questionnaire does not have data records
 When I select to overwrite
+And confirm my selection
 Then Then the questionnaire package is deployed and overwrites the existing questionnaire
 

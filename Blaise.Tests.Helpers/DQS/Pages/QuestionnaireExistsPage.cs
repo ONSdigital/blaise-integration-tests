@@ -7,7 +7,7 @@ namespace Blaise.Tests.Helpers.Dqs.Pages
     {
         private readonly string overwriteId = "confirm-overwrite";
         private readonly string cancelId = "cancel-keep";
-        private readonly string saveId = "save-button";
+        private readonly string saveId = "confirm-save";
 
         public QuestionnaireExistsPage() : base(DqsConfigurationHelper.QuestionnaireExistsUrl)
         {
