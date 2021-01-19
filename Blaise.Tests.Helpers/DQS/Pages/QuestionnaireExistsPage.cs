@@ -1,5 +1,4 @@
-﻿using Blaise.Tests.Helpers.Cati.Pages;
-using Blaise.Tests.Helpers.Configuration;
+﻿using Blaise.Tests.Helpers.Configuration;
 using Blaise.Tests.Helpers.Framework;
 
 namespace Blaise.Tests.Helpers.Dqs.Pages
@@ -8,6 +7,7 @@ namespace Blaise.Tests.Helpers.Dqs.Pages
     {
         private readonly string overwriteId = "confirm-overwrite";
         private readonly string cancelId = "cancel-keep";
+        private readonly string saveId = "confirm-save";
 
         public QuestionnaireExistsPage() : base(DqsConfigurationHelper.QuestionnaireExistsUrl)
         {
@@ -21,6 +21,11 @@ namespace Blaise.Tests.Helpers.Dqs.Pages
         public void SelectCancel()
         {
             ClickButtonById(cancelId);
+        }
+
+        public void SelectSaveButton()
+        {
+            ClickButtonById(saveId);
         }
     }
 }

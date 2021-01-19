@@ -34,7 +34,7 @@ namespace Blaise.Tests.Behaviour.Steps
 
         private void CheckNumberOfCasesMatch(int expectedNumberOfCases)
         {
-            var actualNumberOfCases = CaseHelper.GetInstance().NumberOfCasesInBlaise();
+            var actualNumberOfCases = CaseHelper.GetInstance().NumberOfCasesInInstrument();
             
             if (expectedNumberOfCases != actualNumberOfCases)
             {
