@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using Blaise.Tests.Helpers.Browser;
+using Blaise.Tests.Helpers.Case;
 using Blaise.Tests.Helpers.Configuration;
 using Blaise.Tests.Helpers.Instrument;
 using Blaise.Tests.Helpers.Dqs;
@@ -82,6 +83,18 @@ namespace Blaise.Dqs.Tests.Behaviour.Steps
             DqsHelper.GetInstance().WaitForQuestionnaireAlreadyExistsPage();
         }
 
+        [Given(@"the questionnaire has data records")]
+        public void GivenTheQuestionnaireHasDataRecords()
+        {
+           CaseHelper.GetInstance().CreateCase();
+        }
+
+        [Given(@"the questionnaire does not have data records")]
+        public void GivenTheQuestionnaireDoesNotHaveDataRecords()
+        {
+            Assert.AreEqual(0, CaseHelper.GetInstance().NumberOfCasesInInstrument());
+        }
+
         [Given(@"I have been presented with questionnaire already exists screen")]
         public void GivenIHaveBeenPresentedWithQuestionnaireAlreadyExistsScreen()
         {
@@ -94,10 +107,23 @@ namespace Blaise.Dqs.Tests.Behaviour.Steps
             _scenarioContext.Set(InstrumentHelper.GetInstance().GetInstallDate(), InstallDate);
         }
 
-        [When(@"I select cancel")]
+        [When(@"I select to cancel")]
         public void WhenISelectCancelDeploymentOfQuestionnaire()
         {
             DqsHelper.GetInstance().CancelDeploymentOfQuestionnaire();
+        }
+
+        [When(@"I select to overwrite")]
+        public void WhenISelectToOverwrite()
+        {
+            DqsHelper.GetInstance().OverwriteQuestionnaire();
+        }
+
+        [When(@"confirm my selection")]
+        public void WhenConfirmMySelection()
+        {
+            DqsHelper.GetInstance().ConfirmOverwriteOfQuestionnaire();
+            DqsHelper.GetInstance().ConfirmSelection();
         }
 
         [Then(@"the questionnaire has not been overwritten")]
@@ -107,6 +133,24 @@ namespace Blaise.Dqs.Tests.Behaviour.Steps
             var actualInstallDate = InstrumentHelper.GetInstance().GetInstallDate();
 
             Assert.AreEqual(expectedInstallDate, actualInstallDate);
+        }
+
+        [Then(@"I am presented with a warning that I cannot overwrite the survey")]
+        public void ThenIAmPresentedWithAWarningThatICannotOverwriteTheSurvey()
+        {
+            Assert.IsNotNull(DqsHelper.GetInstance().GetOverwriteMessage());
+            Assert.AreEqual(DqsConfigurationHelper.CannotOverwriteUrl, BrowserHelper.CurrentUrl);
+        }
+
+
+        [Then(@"Then the questionnaire package is deployed and overwrites the existing questionnaire")]
+        public void ThenThenTheQuestionnairePackageIsDeployedAndOverwritesTheExistingQuestionnaire()
+        {
+            DqsHelper.GetInstance().WaitForUploadToComplete();
+            var existingInstallDate = _scenarioContext.Get<DateTime>(InstallDate);
+            var newInstallDate = InstrumentHelper.GetInstance().GetInstallDate();
+
+            Assert.IsTrue(newInstallDate > existingInstallDate);
         }
         
         [Then(@"the questionnaire is active in blaise")]

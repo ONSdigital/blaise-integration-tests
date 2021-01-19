@@ -34,6 +34,23 @@ Then I am presented with questionnaire already exists screen
 @regression @LU-7994
 Scenario: Back-out of deploying a questionnaire
 Given I have been presented with questionnaire already exists screen
-When I select cancel
+When I select to cancel
 Then I am returned to the landing page
 And the questionnaire has not been overwritten
+
+@smoke @LU-7992
+Scenario: Overwrite a questionnaire that has data
+Given I have been presented with questionnaire already exists screen
+And the questionnaire has data records
+When I select to overwrite
+Then I am presented with a warning that I cannot overwrite the survey
+And the questionnaire has not been overwritten
+
+@smoke @LU-7992
+Scenario: Overwrite a questionnaire that does not have data
+Given I have been presented with questionnaire already exists screen
+And the questionnaire does not have data records
+When I select to overwrite
+And confirm my selection
+Then Then the questionnaire package is deployed and overwrites the existing questionnaire
+

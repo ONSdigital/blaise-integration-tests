@@ -8,5 +8,7 @@ namespace Blaise.Tests.Helpers.Configuration
         public static string UploadUrl => $"{DqsUrl}/upload";
         public static string UploadSummaryUrl => $"{DqsUrl}/UploadSummary";
         public static string QuestionnaireExistsUrl => $"{UploadUrl}/survey-exists";
+        public static string CannotOverwriteUrl  => $"{UploadUrl}/survey-live";
+        public static string ConfirmOverwriteUrl => $"{UploadUrl}/survey-confirm";
     }
 }
