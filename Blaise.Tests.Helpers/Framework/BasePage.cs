@@ -25,6 +25,12 @@ namespace Blaise.Tests.Helpers.Framework
                 .Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementToBeClickable(By.XPath(buttonElementPath))).Click();
         }
 
+        protected string GetElementTextById(string elementId)
+        {
+            return BrowserHelper.Wait
+                .Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementIsVisible(By.Id(elementId))).Text;
+        }
+
         protected string GetElementTextByPath(string elementPath)
         {
             return BrowserHelper.Wait
@@ -62,6 +68,12 @@ namespace Blaise.Tests.Helpers.Framework
         public void LoadPage()
         {
             BrowserHelper.BrowseTo(_pageUrl);
+        }
+        
+        public void ButtonIsAvailableById(string submitButtonId)
+        {
+            BrowserHelper.Wait.Until(
+                SeleniumExtras.WaitHelpers.ExpectedConditions.ElementToBeClickable(By.Id(submitButtonId)));
         }
 
         public void ButtonIsAvailableByPath(string submitButtonPath)
