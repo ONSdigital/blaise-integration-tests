@@ -168,6 +168,7 @@
     <Compile Include="Cati\CatiManagementHelper.cs" />
     <Compile Include="Dqs\Pages\CannotOverwritePage.cs" />
     <Compile Include="Dqs\Pages\ConfirmOverwritePage.cs" />
+    <Compile Include="Dqs\Pages\DeleteConfirmationPage.cs" />
     <Compile Include="Framework\BasePage.cs" />
     <Compile Include="Cati\Pages\DayBatchPage.cs" />
     <Compile Include="Cati\Pages\InterviewLoginPage.cs" />
