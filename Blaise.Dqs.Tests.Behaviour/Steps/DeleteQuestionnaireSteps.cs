@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Blaise.Tests.Helpers.Browser;
 using Blaise.Tests.Helpers.Case;
 using Blaise.Tests.Helpers.Cati;
 using Blaise.Tests.Helpers.Configuration;
@@ -63,6 +64,13 @@ namespace Blaise.Dqs.Tests.Behaviour.Steps
             Assert.IsFalse(InstrumentHelper.GetInstance().SurveyExists(BlaiseConfigurationHelper.InstrumentName));
         }
 
+        [AfterScenario("delete")]
+        public void CleanUpScenario()
+        {
+            BrowserHelper.CloseBrowser();
+            if (InstrumentHelper.GetInstance().SurveyExists(BlaiseConfigurationHelper.InstrumentName))
+                InstrumentHelper.GetInstance().UninstallSurvey();
+        }
 
     }
 }
