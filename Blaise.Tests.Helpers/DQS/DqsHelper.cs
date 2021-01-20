@@ -1,5 +1,6 @@
 ﻿using Blaise.Tests.Helpers.Configuration;
 using Blaise.Tests.Helpers.Dqs.Pages;
+using System;
 using System.Collections.Generic;
 
 namespace Blaise.Tests.Helpers.Dqs
@@ -21,7 +22,7 @@ namespace Blaise.Tests.Helpers.Dqs
         public List<string> GetQuestionnaireTableContents()
         {
             var homePage = new HomePage();
-            return homePage.GetTableContent();
+            return homePage.GetFirstColumnFromTableContent();
         }
 
         public void ClickDeployQuestionnaire()
@@ -61,6 +62,19 @@ namespace Blaise.Tests.Helpers.Dqs
             uploadPage.SelectContinueButton();
         }
 
+        public void ConfirmDeletionOfQuestionnaire()
+        {
+            var confirmDeletionPage = new DeleteConfirmationPage();
+            confirmDeletionPage.ClickConfirmDeleteQuestionnaireButton();
+            confirmDeletionPage.ClickContinueButton();
+        }
+
+        public string GetTextForDeletion()
+        {
+            var homepage = new HomePage();
+            return homepage.GetDeleteColumnText(BlaiseConfigurationHelper.InstrumentName);
+        }
+
         public void WaitForUploadToComplete()
         {
             var uploadPage = new UploadPage();
@@ -95,6 +109,13 @@ namespace Blaise.Tests.Helpers.Dqs
         {
             var confirmOverwritePage = new ConfirmOverwritePage();
             confirmOverwritePage.ClickContinueButton();
+        }
+
+        public void DeleteQuestionnaire(string instrumentName)
+        {
+            var homePage = new HomePage();
+            homePage.LoadPage();
+            homePage.ClickDeleteButton(instrumentName);
         }
     }
 }
