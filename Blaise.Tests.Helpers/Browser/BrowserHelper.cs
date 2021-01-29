@@ -50,6 +50,7 @@ namespace Blaise.Tests.Helpers.Browser
         private static ChromeDriver CreateChromeDriver()
         {
             var chromeOptions = new ChromeOptions();
+            chromeOptions.AcceptInsecureCertificates = true;
             chromeOptions.AddArgument("headless");
             return new ChromeDriver(BrowserConfigurationHelper.ChromeDriver, chromeOptions);
         }
