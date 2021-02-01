@@ -117,7 +117,7 @@ this.ScenarioInitialize(scenarioInfo);
                             "telephoneno"});
                 table1.AddRow(new string[] {
                             "900001",
-                            "110",
+                            "0",
                             "07000 000 00"});
 #line 11
  testRunner.And("I have created sample cases for the questionnaire", ((string)(null)), table1, "And ");
