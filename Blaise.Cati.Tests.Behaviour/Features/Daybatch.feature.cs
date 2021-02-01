@@ -118,7 +118,7 @@ this.ScenarioInitialize(scenarioInfo);
                             "telephoneno"});
                 table2.AddRow(new string[] {
                             "900001",
-                            "110",
+                            "0",
                             "07000 000 00"});
 #line 11
  testRunner.And("I have created sample cases for the questionnaire", ((string)(null)), table2, "And ");
@@ -135,7 +135,7 @@ this.ScenarioInitialize(scenarioInfo);
                             "telephoneno"});
                 table3.AddRow(new string[] {
                             "900001",
-                            "110",
+                            "0",
                             "07000 000 00"});
 #line 16
  testRunner.Then("the sample cases are present on the daybatch entry screen", ((string)(null)), table3, "Then ");
