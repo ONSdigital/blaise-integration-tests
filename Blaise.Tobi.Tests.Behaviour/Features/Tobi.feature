@@ -4,8 +4,7 @@ Feature: tobi
 	As a math idiot
 	I want to be told the sum of two numbers
 
-@smoke
-@regression
+@smoke @regression
 Scenario: View live survey list in TOBI
 Given I have internet access
 When I launch TOBI
