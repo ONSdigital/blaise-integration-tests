@@ -12,7 +12,7 @@ namespace Blaise.Tests.Helpers.Dqs.Pages
         public string QuestionnaireTableRowsPath = "//*[@id='instrument-table']/tbody/tr";
         public string DeletePlaceholderId = "delete-";
         public string DeleteButtonId = "delete-button-";
-
+        private readonly string summaryDivPath = "//div[contains(@class, 'success panel')]";
 
         public HomePage() : base(DqsConfigurationHelper.DqsUrl)
         {
@@ -42,6 +42,11 @@ namespace Blaise.Tests.Helpers.Dqs.Pages
         public string GetDeleteColumnText(string instrumentName)
         {
             return GetElementTextById(DeletePlaceholderId + instrumentName);
+        }
+
+        public string GetUploadSummaryText()
+        {
+            return GetElementTextByPath(summaryDivPath);
         }
     }
 }
