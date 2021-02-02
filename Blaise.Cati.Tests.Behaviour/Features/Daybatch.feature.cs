@@ -89,7 +89,7 @@ namespace Blaise.Cati.Tests.Behaviour.Features
                     "regression"};
             System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Create a daybatch to schedule the capture respondent data", null, tagsOfScenario, argumentsOfScenario);
-#line 9
+#line 8
 this.ScenarioInitialize(scenarioInfo);
 #line hidden
             bool isScenarioIgnored = default(bool);
@@ -109,7 +109,7 @@ this.ScenarioInitialize(scenarioInfo);
             else
             {
                 this.ScenarioStart();
-#line 10
+#line 9
  testRunner.Given("I have an questionnaire installed on a Blaise environment", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line hidden
                 TechTalk.SpecFlow.Table table2 = new TechTalk.SpecFlow.Table(new string[] {
@@ -118,15 +118,15 @@ this.ScenarioInitialize(scenarioInfo);
                             "telephoneno"});
                 table2.AddRow(new string[] {
                             "900001",
-                            "0",
+                            "",
                             "07000 000 00"});
-#line 11
+#line 10
  testRunner.And("I have created sample cases for the questionnaire", ((string)(null)), table2, "And ");
 #line hidden
-#line 14
+#line 13
  testRunner.And("I log on to Cati as an administrator", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
-#line 15
+#line 14
  testRunner.When("I create a daybatch for today", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line hidden
                 TechTalk.SpecFlow.Table table3 = new TechTalk.SpecFlow.Table(new string[] {
@@ -135,9 +135,9 @@ this.ScenarioInitialize(scenarioInfo);
                             "telephoneno"});
                 table3.AddRow(new string[] {
                             "900001",
-                            "0",
+                            "",
                             "07000 000 00"});
-#line 16
+#line 15
  testRunner.Then("the sample cases are present on the daybatch entry screen", ((string)(null)), table3, "Then ");
 #line hidden
             }
