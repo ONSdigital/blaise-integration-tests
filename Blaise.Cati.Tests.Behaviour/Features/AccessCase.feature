@@ -9,7 +9,7 @@ Scenario: Access case via interview link
 	Given I have an questionnaire installed on a Blaise environment
 	And I have created sample cases for the questionnaire
 		| primarykey | outcomecode | telephoneno  |
-		| 900001     | 0         | 07000 000 00 |
+		| 900001     |             | 07000 000 00 |
 	And I log on to Cati as an administrator
 	And I have created a daybatch for today
 	When I log on to the Interviewing Portal as an interviewer
