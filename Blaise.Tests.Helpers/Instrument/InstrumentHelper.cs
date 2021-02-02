@@ -82,7 +82,14 @@ namespace Blaise.Tests.Helpers.Instrument
 
         public bool SurveyExists(string instrumentName)
         {
-            return _blaiseSurveyApi.SurveyExists(instrumentName, BlaiseConfigurationHelper.ServerParkName);
+            try
+            {
+                return _blaiseSurveyApi.SurveyExists(instrumentName, BlaiseConfigurationHelper.ServerParkName);
+            }
+            catch (Exception)
+            {
+                return false;
+            }
         }
 
         private bool SurveyIsActive(string instrumentName, int timeoutInSeconds)
