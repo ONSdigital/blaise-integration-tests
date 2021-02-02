@@ -25,5 +25,10 @@ namespace Blaise.Tests.Helpers.Dqs.Pages
         {
             ClickButtonById(continueButtonId);
         }
+
+        public void WaitForDeletionToComplete()
+        {
+            WaitForPageToChange(DqsConfigurationHelper.DqsUrl);
+        }
     }
 }
