@@ -38,13 +38,14 @@ When I select to cancel
 Then I am returned to the landing page
 And the questionnaire has not been overwritten
 
-@smoke @LU-7992
-Scenario: Overwrite a questionnaire that has data
-Given I have been presented with questionnaire already exists screen
-And the questionnaire has data records
-When I select to overwrite
-Then I am presented with a warning that I cannot overwrite the survey
-And the questionnaire has not been overwritten
+#Commented out due to Specification changing on data
+#@smoke @LU-7992
+#Scenario: Overwrite a questionnaire that has data
+#Given I have been presented with questionnaire already exists screen
+#And the questionnaire has data records
+#When I select to overwrite
+#Then I am presented with a warning that I cannot overwrite the survey
+#And the questionnaire has not been overwritten
 
 @smoke @LU-7992
 Scenario: Overwrite a questionnaire that does not have data

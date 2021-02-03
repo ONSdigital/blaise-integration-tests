@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using Blaise.Tests.Helpers.Browser;
 using Blaise.Tests.Helpers.Case;
@@ -49,6 +50,7 @@ namespace Blaise.Dqs.Tests.Behaviour.Steps
         public void WhenIConfirmThatIWantToProceed()
         {
             DqsHelper.GetInstance().ConfirmDeletionOfQuestionnaire();
+            DqsHelper.GetInstance().WaitForDeletionToComplete();
         }
 
 
@@ -61,6 +63,7 @@ namespace Blaise.Dqs.Tests.Behaviour.Steps
         [Then(@"the questionnaire is removed from Blaise")]
         public void ThenTheQuestionnaireIsRemovedFromBlaise()
         {
+            DqsHelper.GetInstance().GetDeletionSummary();
             Assert.IsFalse(InstrumentHelper.GetInstance().SurveyExists(BlaiseConfigurationHelper.InstrumentName));
         }
 

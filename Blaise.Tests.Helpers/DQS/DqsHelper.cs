@@ -69,6 +69,12 @@ namespace Blaise.Tests.Helpers.Dqs
             confirmDeletionPage.ClickContinueButton();
         }
 
+        public void WaitForDeletionToComplete()
+        {
+            var confirmDeletionPage = new DeleteConfirmationPage();
+            confirmDeletionPage.WaitForDeletionToComplete();
+        }
+
         public string GetTextForDeletion()
         {
             var homepage = new HomePage();
@@ -116,6 +122,12 @@ namespace Blaise.Tests.Helpers.Dqs
             var homePage = new HomePage();
             homePage.LoadPage();
             homePage.ClickDeleteButton(instrumentName);
+        }
+
+        public string GetDeletionSummary()
+        {
+            var homePage = new HomePage();
+            return homePage.GetUploadSummaryText();
         }
     }
 }
