@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Blaise.Tests.Helpers.Cati.Pages;
 using Blaise.Tests.Helpers.Configuration;
 using Blaise.Tests.Helpers.User;
@@ -33,6 +34,12 @@ namespace Blaise.Tests.Helpers.Cati
                 DefaultServerPark = BlaiseConfigurationHelper.ServerParkName
             };
             UserHelper.GetInstance().CreateUser(interviewUser);
+        }
+
+        public void SetupDayBatchTimeParameters()
+        {
+            var daybatchPage = new DayBatchPage();
+            daybatchPage.ModifyDayBatchEntry();
         }
 
         public string GetCaseIdText()

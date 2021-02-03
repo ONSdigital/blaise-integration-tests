@@ -10,7 +10,9 @@ Scenario: Access case via interview link
 	And I have created sample cases for the questionnaire
 		| primarykey | outcomecode | telephoneno  |
 		| 900001     |             | 07000 000 00 |
+		| 900002     |             | 07000 000 00 |
 	And I log on to Cati as an administrator
 	And I have created a daybatch for today
-	When I log on to the Interviewing Portal as an interviewer
+	When The the time is within the day batch parameters
+	And I log on to the Interviewing Portal as an interviewer
 	Then I am able to capture the respondents data for case '900001'
