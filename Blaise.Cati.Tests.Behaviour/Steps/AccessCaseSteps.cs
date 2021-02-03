@@ -30,6 +30,13 @@ namespace Blaise.Cati.Tests.Behaviour.Steps
             }
         }
 
+        [When(@"The the time is within the day batch parameters")]
+        public void WhenTheTheTimeIsWithinTheDayBatchParameters()
+        {
+            CatiInterviewHelper.GetInstance().SetupDayBatchTimeParameters();
+        }
+
+
         [Then(@"I am able to capture the respondents data for case '(.*)'")]
         public void ThenIAmAbleToCaptureTheRespondentsDataForCase(string caseId)
         {

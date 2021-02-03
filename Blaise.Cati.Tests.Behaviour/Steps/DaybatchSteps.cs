@@ -49,7 +49,7 @@ namespace Blaise.Cati.Tests.Behaviour.Steps
                 FailWithScreenShot(e, "CreateDaybatch", "Create a daybatch for today");
             }
         }
-
+        [When(@"the sample cases are present on the daybatch entry screen")]
         [Then(@"the sample cases are present on the daybatch entry screen")]
         public void ThenTheSampleCasesArePresentOnTheDaybatchEntryScreen(IEnumerable<CaseModel> cases)
         {

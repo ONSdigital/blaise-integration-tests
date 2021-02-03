@@ -119,19 +119,26 @@ this.ScenarioInitialize(scenarioInfo);
                             "900001",
                             "",
                             "07000 000 00"});
+                table1.AddRow(new string[] {
+                            "900002",
+                            "",
+                            "07000 000 00"});
 #line 10
  testRunner.And("I have created sample cases for the questionnaire", ((string)(null)), table1, "And ");
 #line hidden
-#line 13
+#line 14
  testRunner.And("I log on to Cati as an administrator", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
-#line 14
+#line 15
  testRunner.And("I have created a daybatch for today", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
-#line 15
- testRunner.When("I log on to the Interviewing Portal as an interviewer", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
-#line hidden
 #line 16
+ testRunner.When("The the time is within the day batch parameters", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line hidden
+#line 17
+ testRunner.And("I log on to the Interviewing Portal as an interviewer", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line hidden
+#line 18
  testRunner.Then("I am able to capture the respondents data for case \'900001\'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
             }
