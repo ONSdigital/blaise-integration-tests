@@ -9,8 +9,8 @@ namespace Blaise.Tests.Helpers.Configuration
         public static string InstrumentPath => ConfigurationExtensions.GetVariable("InstrumentPath");
         public static string InstrumentName => ConfigurationExtensions.GetVariable("InstrumentName");
         public static string SecondInstrumentName => ConfigurationExtensions.GetVariable("SecondInstrumentName");
-        public static string InstrumentPackage => $"{InstrumentPath}//{InstrumentName}.zip";
-        public static string SecondInstrumentPackage => $"{InstrumentPath}//{SecondInstrumentName}.zip";
+        public static string InstrumentPackage => $"{InstrumentPath}//{InstrumentName}.bpkg";
+        public static string SecondInstrumentPackage => $"{InstrumentPath}//{SecondInstrumentName}.bpkg";
 
         public static ConnectionModel BuildConnectionModel()
         {
