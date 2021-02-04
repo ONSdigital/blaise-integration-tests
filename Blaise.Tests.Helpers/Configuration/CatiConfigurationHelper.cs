@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 
 namespace Blaise.Tests.Helpers.Configuration
 {
@@ -22,5 +23,6 @@ namespace Blaise.Tests.Helpers.Configuration
         public static string InterviewUrl => $"{CatiBaseUrl}/{BlaiseConfigurationHelper.InstrumentName}/";
         public static string SpecificationUrl => $"{CatiBaseUrl}/blaise/specification";
         public static string SurveyUrl => $"{CatiBaseUrl}/blaise/";
+
     }
 }

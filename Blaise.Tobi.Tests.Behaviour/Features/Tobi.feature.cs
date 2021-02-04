@@ -81,11 +81,13 @@ namespace Blaise.Tobi.Tests.Behaviour.Features
         [NUnit.Framework.DescriptionAttribute("View live survey list in TOBI")]
         [NUnit.Framework.CategoryAttribute("smoke")]
         [NUnit.Framework.CategoryAttribute("regression")]
+        [NUnit.Framework.CategoryAttribute("HappyPath")]
         public virtual void ViewLiveSurveyListInTOBI()
         {
             string[] tagsOfScenario = new string[] {
                     "smoke",
-                    "regression"};
+                    "regression",
+                    "HappyPath"};
             System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("View live survey list in TOBI", null, tagsOfScenario, argumentsOfScenario);
 #line 8
@@ -125,10 +127,12 @@ testRunner.Then("I will be able to view all live surveys with questionnaires loa
         [NUnit.Framework.TestAttribute()]
         [NUnit.Framework.DescriptionAttribute("Select survey")]
         [NUnit.Framework.CategoryAttribute("regression")]
+        [NUnit.Framework.CategoryAttribute("HappyPath")]
         public virtual void SelectSurvey()
         {
             string[] tagsOfScenario = new string[] {
-                    "regression"};
+                    "regression",
+                    "HappyPath"};
             System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Select survey", null, tagsOfScenario, argumentsOfScenario);
 #line 14
@@ -168,10 +172,12 @@ testRunner.Then("I am presented with a list of active questionnaires to be worke
         [NUnit.Framework.TestAttribute()]
         [NUnit.Framework.DescriptionAttribute("Select questionnaire")]
         [NUnit.Framework.CategoryAttribute("regression")]
+        [NUnit.Framework.CategoryAttribute("HappyPath")]
         public virtual void SelectQuestionnaire()
         {
             string[] tagsOfScenario = new string[] {
-                    "regression"};
+                    "regression",
+                    "HappyPath"};
             System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Select questionnaire", null, tagsOfScenario, argumentsOfScenario);
 #line 20
@@ -211,10 +217,12 @@ testRunner.Then("I am presented with the Blaise log in", ((string)(null)), ((Tec
         [NUnit.Framework.TestAttribute()]
         [NUnit.Framework.DescriptionAttribute("Return to select survey")]
         [NUnit.Framework.CategoryAttribute("regression")]
+        [NUnit.Framework.CategoryAttribute("HappyPath")]
         public virtual void ReturnToSelectSurvey()
         {
             string[] tagsOfScenario = new string[] {
-                    "regression"};
+                    "regression",
+                    "HappyPath"};
             System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Return to select survey", null, tagsOfScenario, argumentsOfScenario);
 #line 26
@@ -253,10 +261,12 @@ testRunner.Then("I am able to go back to view the list of surveys", ((string)(nu
         [NUnit.Framework.TestAttribute()]
         [NUnit.Framework.DescriptionAttribute("Do not show expired surveys in TOBI")]
         [NUnit.Framework.CategoryAttribute("regression")]
+        [NUnit.Framework.CategoryAttribute("HappyPath")]
         public virtual void DoNotShowExpiredSurveysInTOBI()
         {
             string[] tagsOfScenario = new string[] {
-                    "regression"};
+                    "regression",
+                    "HappyPath"};
             System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Do not show expired surveys in TOBI", null, tagsOfScenario, argumentsOfScenario);
 #line 32
