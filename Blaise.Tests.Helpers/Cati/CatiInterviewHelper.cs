@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading;
 using Blaise.Tests.Helpers.Cati.Pages;
 using Blaise.Tests.Helpers.Configuration;
 using Blaise.Tests.Helpers.User;
@@ -38,6 +39,7 @@ namespace Blaise.Tests.Helpers.Cati
 
         public void SetupDayBatchTimeParameters()
         {
+            Thread.Sleep(3000);
             var daybatchPage = new DayBatchPage();
             daybatchPage.ModifyDayBatchEntry();
         }

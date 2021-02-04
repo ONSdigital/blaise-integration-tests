@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using Blaise.Tests.Helpers.Browser;
 using OpenQA.Selenium;
+using OpenQA.Selenium.Support.UI;
 
 namespace Blaise.Tests.Helpers.Framework
 {
@@ -80,6 +81,12 @@ namespace Blaise.Tests.Helpers.Framework
         {
             BrowserHelper.Wait.Until(
                 SeleniumExtras.WaitHelpers.ExpectedConditions.ElementToBeClickable(By.XPath(submitButtonPath)));
+        }
+
+        public void SelectDropDownValueById(string dropDownId, string value)
+        {
+            var selectList = new SelectElement(BrowserHelper.Wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementExists(By.Id(dropDownId))));
+            selectList.SelectByText(value);
         }
 
         private static int NumberOfRowsInATable(string tablePath)
