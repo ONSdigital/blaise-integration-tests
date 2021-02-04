@@ -10,7 +10,6 @@ Scenario: Access case via interview link
 	And I have created sample cases for the questionnaire
 		| primarykey | outcomecode | telephoneno  |
 		| 900001     |             | 07000 000 00 |
-		| 900002     |             | 07000 000 00 |
 	And I log on to Cati as an administrator
 	And I have created a daybatch for today
 	When The the time is within the day batch parameters
