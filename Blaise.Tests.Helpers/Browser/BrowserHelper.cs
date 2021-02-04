@@ -51,14 +51,9 @@ namespace Blaise.Tests.Helpers.Browser
         {
             var chromeOptions = new ChromeOptions();
             chromeOptions.AcceptInsecureCertificates = true;
+            
             chromeOptions.AddArguments("--headless");
-            chromeOptions.AddArguments("--disable-gpu");
-            chromeOptions.AddArguments("--window-size=1280,800");
-            chromeOptions.AddArguments("--allow-insecure-localhost");
-
-            //specifically this line here :)
-            chromeOptions.AddAdditionalCapability("acceptInsecureCerts", true, true);
-
+            
             return new ChromeDriver(BrowserConfigurationHelper.ChromeDriver, chromeOptions);
         }
     }
