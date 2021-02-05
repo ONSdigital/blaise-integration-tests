@@ -127,12 +127,10 @@ testRunner.Then("I am presented with a list of the questionnaires already deploy
         
         [NUnit.Framework.TestAttribute()]
         [NUnit.Framework.DescriptionAttribute("Successful log in to Questionnaire Deployment Service")]
-        [NUnit.Framework.CategoryAttribute("Smoke")]
         [NUnit.Framework.CategoryAttribute("LU-7990")]
         public virtual void SuccessfulLogInToQuestionnaireDeploymentService()
         {
             string[] tagsOfScenario = new string[] {
-                    "Smoke",
                     "LU-7990"};
             System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Successful log in to Questionnaire Deployment Service", null, tagsOfScenario, argumentsOfScenario);
@@ -218,12 +216,10 @@ testRunner.And("the questionnaire is active in blaise", ((string)(null)), ((Tech
         
         [NUnit.Framework.TestAttribute()]
         [NUnit.Framework.DescriptionAttribute("Questionnaire package already in Blaise")]
-        [NUnit.Framework.CategoryAttribute("Smoke")]
         [NUnit.Framework.CategoryAttribute("LU-7994")]
         public virtual void QuestionnairePackageAlreadyInBlaise()
         {
             string[] tagsOfScenario = new string[] {
-                    "Smoke",
                     "LU-7994"};
             System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Questionnaire package already in Blaise", null, tagsOfScenario, argumentsOfScenario);

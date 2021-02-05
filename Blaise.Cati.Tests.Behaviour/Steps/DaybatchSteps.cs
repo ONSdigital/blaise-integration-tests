@@ -64,8 +64,8 @@ namespace Blaise.Cati.Tests.Behaviour.Steps
             }
         }
                 
-        [AfterFeature("cati")]
-        public static void CleanUpFeature()
+        [AfterScenario("cati")]
+        public void CleanUpFeature()
         {
             CatiManagementHelper.GetInstance().ClearDayBatchEntries();
             BrowserHelper.CloseBrowser();
