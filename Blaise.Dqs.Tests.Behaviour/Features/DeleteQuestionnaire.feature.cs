@@ -79,12 +79,10 @@ namespace Blaise.Dqs.Tests.Behaviour.Features
         
         [NUnit.Framework.TestAttribute()]
         [NUnit.Framework.DescriptionAttribute("Delete questionnaire not available from the list, when survey is live")]
-        [NUnit.Framework.CategoryAttribute("smoke")]
         [NUnit.Framework.CategoryAttribute("LU7996")]
         public virtual void DeleteQuestionnaireNotAvailableFromTheListWhenSurveyIsLive()
         {
             string[] tagsOfScenario = new string[] {
-                    "smoke",
                     "LU7996"};
             System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Delete questionnaire not available from the list, when survey is live", null, tagsOfScenario, argumentsOfScenario);
