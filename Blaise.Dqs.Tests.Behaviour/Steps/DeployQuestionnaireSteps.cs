@@ -25,7 +25,7 @@ namespace Blaise.Dqs.Tests.Behaviour.Steps
         [Given(@"I have launched the Questionnaire Deployment Service")]
         public void GivenIHaveLaunchedTheQuestionnaireDeploymentService()
         {
-            DqsHelper.GetInstance().LoadDqsHomePage(); 
+            DqsHelper.GetInstance().LoadDqsHomePage();
         }
 
         [Given(@"there is a questionnaire installed in Blaise")]
@@ -37,7 +37,7 @@ namespace Blaise.Dqs.Tests.Behaviour.Steps
         [Then(@"I am presented with a list of the questionnaires already deployed to Blaise")]
         public void ThenIAmPresentedWithAListOfTheQuestionnairesAlreadyDeployedToBlaise()
         {
-            Assert.AreEqual(BlaiseConfigurationHelper.InstrumentName.ToLower(), 
+            Assert.AreEqual(BlaiseConfigurationHelper.InstrumentName.ToLower(),
                 DqsHelper.GetInstance().GetQuestionnaireTableContents().FirstOrDefault().ToLower());
         }
 
@@ -61,7 +61,7 @@ namespace Blaise.Dqs.Tests.Behaviour.Steps
         {
             DqsHelper.GetInstance().ConfirmQuestionnaireUpload();
         }
-        
+
         [Then(@"I am presented with an option to deploy a new questionnaire")]
         public void ThenIAmPresentedWithAnOptionToDeployANewQuestionnaire()
         {
@@ -86,8 +86,8 @@ namespace Blaise.Dqs.Tests.Behaviour.Steps
         [Given(@"the questionnaire has data records")]
         public void GivenTheQuestionnaireHasDataRecords()
         {
-           
-           CaseHelper.GetInstance().CreateCase();
+
+            CaseHelper.GetInstance().CreateCase();
         }
 
         [Given(@"the questionnaire does not have data records")]
@@ -130,35 +130,57 @@ namespace Blaise.Dqs.Tests.Behaviour.Steps
         [Then(@"the questionnaire has not been overwritten")]
         public void ThenTheQuestionnaireHasNotBeenOverwritten()
         {
-            var expectedInstallDate = _scenarioContext.Get<DateTime>(InstallDate);
-            var actualInstallDate = InstrumentHelper.GetInstance().GetInstallDate();
+            try
+            {
+                var expectedInstallDate = _scenarioContext.Get<DateTime>(InstallDate);
+                var actualInstallDate = InstrumentHelper.GetInstance().GetInstallDate();
 
-            Assert.AreEqual(expectedInstallDate, actualInstallDate);
+                Assert.AreEqual(expectedInstallDate, actualInstallDate);
+            }
+            catch (Exception e)
+            {
+                FailWithScreenShot(e, "NotOverwritten", "Questionnaire has not been Overwritten");
+            }
         }
 
         [Then(@"I am presented with a warning that I cannot overwrite the survey")]
         public void ThenIAmPresentedWithAWarningThatICannotOverwriteTheSurvey()
         {
-            Assert.IsNotNull(DqsHelper.GetInstance().GetOverwriteMessage());
-            Assert.AreEqual(DqsConfigurationHelper.CannotOverwriteUrl, BrowserHelper.CurrentUrl);
+            try
+            {
+                Assert.IsNotNull(DqsHelper.GetInstance().GetOverwriteMessage());
+                Assert.AreEqual(DqsConfigurationHelper.CannotOverwriteUrl, BrowserHelper.CurrentUrl);
+            }
+            catch (Exception e)
+            {
+                FailWithScreenShot(e, "CannotOverwrite", "Questionnaire Cannot be overwritten");
+            }
         }
 
 
         [Then(@"Then the questionnaire package is deployed and overwrites the existing questionnaire")]
         public void ThenThenTheQuestionnairePackageIsDeployedAndOverwritesTheExistingQuestionnaire()
         {
-            DqsHelper.GetInstance().WaitForUploadToComplete();
-            var existingInstallDate = _scenarioContext.Get<DateTime>(InstallDate);
-            var newInstallDate = InstrumentHelper.GetInstance().GetInstallDate();
+            try
+            {
+                DqsHelper.GetInstance().WaitForUploadToComplete();
+                var existingInstallDate = _scenarioContext.Get<DateTime>(InstallDate);
+                var newInstallDate = InstrumentHelper.GetInstance().GetInstallDate();
 
-            Assert.IsTrue(newInstallDate > existingInstallDate);
+                Assert.IsTrue(newInstallDate > existingInstallDate);
+            }
+            catch (Exception e)
+            {
+                FailWithScreenShot(e, "OverwriteExisting", "Questionnaire has been overwritten");
+            }
+
         }
-        
+
         [Then(@"the questionnaire is active in blaise")]
         public void ThenTheQuestionnaireIsActiveInBlaise()
         {
-            var instrumentInstalled = InstrumentHelper.GetInstance().SurveyHasInstalled(BlaiseConfigurationHelper.InstrumentName, 60);
-            Assert.IsTrue(instrumentInstalled);
+                var instrumentInstalled = InstrumentHelper.GetInstance().SurveyHasInstalled(BlaiseConfigurationHelper.InstrumentName, 60);
+                Assert.IsTrue(instrumentInstalled);
         }
 
         [Given(@"the package I have selected already exists in Blaise")]
@@ -166,13 +188,22 @@ namespace Blaise.Dqs.Tests.Behaviour.Steps
         {
             InstrumentHelper.GetInstance().InstallInstrument();
         }
-        
+
         [AfterScenario("questionnaire")]
         public void CleanUpScenario()
         {
             BrowserHelper.CloseBrowser();
             if (InstrumentHelper.GetInstance().SurveyExists(BlaiseConfigurationHelper.InstrumentName))
                 InstrumentHelper.GetInstance().UninstallSurvey();
+        }
+
+        private static void FailWithScreenShot(Exception e, string screenShotName, string screenShotDescription)
+        {
+            var screenShotFile = BrowserHelper.TakeScreenShot(TestContext.CurrentContext.WorkDirectory,
+                screenShotName);
+
+            TestContext.AddTestAttachment(screenShotFile, screenShotDescription);
+            Assert.Fail($"The test failed to complete - {e.Message}");
         }
     }
 }
