@@ -3,7 +3,7 @@ Feature: DeleteQuestionnaire
 I want to be able to delete a questionnaire from Blaise via the questionnaire list
 So that the system can be cleared of completed surveys
 
-@smoke @LU7996
+@LU7996
 Scenario: Delete questionnaire not available from the list, when survey is live
 Given I have a questionnaire I want to delete 
 And that survey is live

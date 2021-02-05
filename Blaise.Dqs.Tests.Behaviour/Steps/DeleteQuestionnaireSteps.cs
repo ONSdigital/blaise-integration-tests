@@ -57,14 +57,28 @@ namespace Blaise.Dqs.Tests.Behaviour.Steps
         [Then(@"I will not have the option to delete displayed")]
         public void ThenIWillNotHaveTheOptionToDeleteDisplayed()
         {
-            Assert.AreEqual("Questionnaire is live",DqsHelper.GetInstance().GetTextForDeletion());
+            try
+            {
+                Assert.AreEqual("Questionnaire is live", DqsHelper.GetInstance().GetTextForDeletion());
+            }
+            catch (Exception e)
+            {
+                FailWithScreenShot(e, "CantDelete", "Questionnaire Cannot be deleted");
+            }
         }
 
         [Then(@"the questionnaire is removed from Blaise")]
         public void ThenTheQuestionnaireIsRemovedFromBlaise()
         {
-            DqsHelper.GetInstance().GetDeletionSummary();
-            Assert.IsFalse(InstrumentHelper.GetInstance().SurveyExists(BlaiseConfigurationHelper.InstrumentName));
+            try
+            {
+                DqsHelper.GetInstance().GetDeletionSummary();
+                Assert.IsFalse(InstrumentHelper.GetInstance().SurveyExists(BlaiseConfigurationHelper.InstrumentName));
+            }
+            catch (Exception e)
+            {
+                FailWithScreenShot(e, "UninstalledQuestionnaire", "Questionnaire has been Uninstalled from blaise");
+            }
         }
 
         [AfterScenario("delete")]
@@ -73,6 +87,15 @@ namespace Blaise.Dqs.Tests.Behaviour.Steps
             BrowserHelper.CloseBrowser();
             if (InstrumentHelper.GetInstance().SurveyExists(BlaiseConfigurationHelper.InstrumentName))
                 InstrumentHelper.GetInstance().UninstallSurvey();
+        }
+
+        private static void FailWithScreenShot(Exception e, string screenShotName, string screenShotDescription)
+        {
+            var screenShotFile = BrowserHelper.TakeScreenShot(TestContext.CurrentContext.WorkDirectory,
+                screenShotName);
+
+            TestContext.AddTestAttachment(screenShotFile, screenShotDescription);
+            Assert.Fail($"The test failed to complete - {e.Message}");
         }
 
     }
