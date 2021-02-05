@@ -11,7 +11,7 @@ And there is a questionnaire installed in Blaise
 When I view the landing page
 Then I am presented with a list of the questionnaires already deployed to Blaise
 
-@Smoke @LU-7990
+@LU-7990
 Scenario: Successful log in to Questionnaire Deployment Service
 Given I have launched the Questionnaire Deployment Service
 When I view the landing page
@@ -24,7 +24,7 @@ When I confirm my selection
 Then I am presented with a successful deployment information banner
 And the questionnaire is active in blaise
 
-@Smoke @LU-7994
+@LU-7994
 Scenario: Questionnaire package already in Blaise
 Given I have selected the questionnaire package I wish to deploy
 And the package I have selected already exists in Blaise
