@@ -53,7 +53,6 @@ namespace Blaise.Dqs.Tests.Behaviour.Steps
             DqsHelper.GetInstance().WaitForDeletionToComplete();
         }
 
-
         [Then(@"I will not have the option to delete displayed")]
         public void ThenIWillNotHaveTheOptionToDeleteDisplayed()
         {
@@ -72,7 +71,9 @@ namespace Blaise.Dqs.Tests.Behaviour.Steps
         {
             try
             {
-                DqsHelper.GetInstance().GetDeletionSummary();
+                Assert.IsNotNull(DqsHelper.GetInstance().GetDeletionSummary());
+                //Blaise survey is still present after the api call returns deletion is succesfull due to further clean up
+                Thread.Sleep(10000);
                 Assert.IsFalse(InstrumentHelper.GetInstance().SurveyExists(BlaiseConfigurationHelper.InstrumentName));
             }
             catch (Exception e)
