@@ -22,7 +22,9 @@ namespace Blaise.Tests.Helpers.Tobi
 
         public void SetSurveyDay(string instrumentName, DateTime surveyDay)
         {
-            _blaiseCatiApi.SetSurveyDay(instrumentName, BlaiseConfigurationHelper.ServerParkName, surveyDay);
+            var surveydays = _blaiseCatiApi.GetSurveyDays(instrumentName, BlaiseConfigurationHelper.ServerParkName);
+            if (!surveydays.Contains(surveyDay))
+                _blaiseCatiApi.SetSurveyDay(instrumentName, BlaiseConfigurationHelper.ServerParkName, surveyDay);
         }
 
         public void CreateDayBatch(string instrumentName, DateTime dayBatchDate)
