@@ -28,13 +28,6 @@ Given I have selected a survey
 When I do not see the questionnaire that I am working on
 Then I am able to go back to view the list of surveys
 
-@regression @HappyPath
-Scenario: Do not show expired surveys in TOBI
-Given a survey questionnaire end date has passed
-And Another survey is active
-When I select the survey I am working on
-Then I will not see that questionnaire listed for the survey
-
 @regression
 Scenario: Do not show survey accroym when all surveys have expired
 Given a survey questionnaire end date has passed 
