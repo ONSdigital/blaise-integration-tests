@@ -70,6 +70,11 @@ namespace Blaise.Tests.Helpers.Framework
         {
             BrowserHelper.BrowseTo(_pageUrl);
         }
+
+        public void LoadSpecificPage(string url)
+        {
+            BrowserHelper.BrowseTo(url);
+        }
         
         public void ButtonIsAvailableById(string submitButtonId)
         {

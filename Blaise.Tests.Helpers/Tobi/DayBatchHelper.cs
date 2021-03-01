@@ -32,5 +32,12 @@ namespace Blaise.Tests.Helpers.Tobi
             _blaiseCatiApi.CreateDayBatch(instrumentName, BlaiseConfigurationHelper.ServerParkName, dayBatchDate);
         }
 
+        public void RemoveSurveyDays(string instrumentName, DateTime surveyDay)
+        {
+            var surveydays = _blaiseCatiApi.GetSurveyDays(instrumentName, BlaiseConfigurationHelper.ServerParkName);
+            if (surveydays.Contains(surveyDay))
+                _blaiseCatiApi.RemoveSurveyDay(instrumentName, BlaiseConfigurationHelper.ServerParkName, surveyDay);
+
+        }
     }
 }
