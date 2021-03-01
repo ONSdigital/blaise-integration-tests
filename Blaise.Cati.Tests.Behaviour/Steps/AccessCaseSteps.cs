@@ -17,12 +17,19 @@ namespace Blaise.Cati.Tests.Behaviour.Steps
             CatiInterviewHelper.GetInstance().CreateInterviewUser();
         }
 
-        [When(@"I log on to the Interviewing Portal as an interviewer")]
-        public void WhenIAccessTheCaseFromTheCaseInterviewingScreen()
+        [Given(@"I log on to Cati as an interviewer")]
+        public void GivenILogOnToCatiAsAnInterviewer()
+        {
+            CatiManagementHelper.GetInstance().LogIntoCatiManagementPortalAsAnInterviewer();
+        }
+
+
+        [When(@"I click the play button for case '(.*)'")]
+        public void WhenIClickThePlayButtonForCase(string caseId)
         {
             try
             {
-                CatiInterviewHelper.GetInstance().LogIntoInterviewPortal();
+                CatiInterviewHelper.GetInstance().ClickPlayButtonToAccessCase();
             }
             catch (Exception e)
             {
@@ -33,15 +40,22 @@ namespace Blaise.Cati.Tests.Behaviour.Steps
         [When(@"The the time is within the day batch parameters")]
         public void WhenTheTheTimeIsWithinTheDayBatchParameters()
         {
+            CatiInterviewHelper.GetInstance().AddSurveyFilter();
             CatiInterviewHelper.GetInstance().SetupDayBatchTimeParameters();
         }
 
+        [When(@"I Open the cati scheduler as an interviewer")]
+        public void WhenIOpenTheCatiSchedulerAsAnInterviewer()
+        {
+            CatiInterviewHelper.GetInstance().AccessInterviewPortal();
+        }
 
         [Then(@"I am able to capture the respondents data for case '(.*)'")]
         public void ThenIAmAbleToCaptureTheRespondentsDataForCase(string caseId)
         {
             try
             {
+                BrowserHelper.SwitchToLastOpenedWindow();
                 var caseIdText = CatiInterviewHelper.GetInstance().GetCaseIdText();
                 Assert.AreEqual($"Case: {caseId}", caseIdText);
             }
@@ -51,11 +65,16 @@ namespace Blaise.Cati.Tests.Behaviour.Steps
             }
         }
 
+        [AfterScenario("interview")]
+        public void CleanUpScenario()
+        {
+            CatiManagementHelper.GetInstance().ClearDayBatchEntries(false);
+            BrowserHelper.CloseBrowser();         
+        }
+
         [AfterFeature("interview")]
         public static void CleanUpFeature()
         {
-            CatiManagementHelper.GetInstance().ClearDayBatchEntries();
-            BrowserHelper.CloseBrowser();
             CatiInterviewHelper.GetInstance().DeleteInterviewUser();
             CaseHelper.GetInstance().DeleteCases();
             InstrumentHelper.GetInstance().UninstallSurvey();

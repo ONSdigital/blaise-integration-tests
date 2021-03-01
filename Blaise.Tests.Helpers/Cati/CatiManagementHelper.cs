@@ -25,6 +25,13 @@ namespace Blaise.Tests.Helpers.Cati
             loginPage.LoginToCati(CatiConfigurationHelper.CatiAdminUsername, CatiConfigurationHelper.CatiAdminPassword);
         }
 
+        public void LogIntoCatiManagementPortalAsAnInterviewer()
+        {
+            var loginPage = new LoginPage();
+            loginPage.LoadPage();
+            loginPage.LoginToCati(CatiConfigurationHelper.CatiInterviewUsername, CatiConfigurationHelper.CatiInterviewPassword);
+        }
+
         public void CreateDayBatch()
         {
             SetSurveyDays();
@@ -51,10 +58,14 @@ namespace Blaise.Tests.Helpers.Cati
             specPage.SetSurveyDay();
         }
 
-        public void ClearDayBatchEntries()
+        public void ClearDayBatchEntries(bool applyFilter)
         {
             var surveyPage = new SurveyPage();
             surveyPage.LoadPage();
+
+            if(applyFilter)
+                surveyPage.ApplyFilter();
+
             surveyPage.ClearDayBatchEntries();
         }
     }

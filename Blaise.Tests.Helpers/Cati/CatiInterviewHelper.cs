@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Threading;
 using Blaise.Tests.Helpers.Cati.Pages;
 using Blaise.Tests.Helpers.Configuration;
@@ -17,11 +16,18 @@ namespace Blaise.Tests.Helpers.Cati
             return _currentInstance ?? (_currentInstance = new CatiInterviewHelper());
         }
 
-        public void LogIntoInterviewPortal()
+        public void AccessInterviewPortal()
         {
             var interviewLoginPage = new InterviewLoginPage();
             interviewLoginPage.LoadPage();
             interviewLoginPage.LogIntoInterviewPortal(CatiConfigurationHelper.CatiInterviewUsername, CatiConfigurationHelper.CatiInterviewPassword);
+        }
+
+        public void ClickPlayButtonToAccessCase()
+        {
+            var caseInfoPage = new CaseInfoPage();
+            caseInfoPage.LoadPage();
+            caseInfoPage.ClickPlayButton();
         }
 
         public void CreateInterviewUser()
@@ -31,10 +37,16 @@ namespace Blaise.Tests.Helpers.Cati
                 UserName = CatiConfigurationHelper.CatiInterviewUsername,
                 Password = CatiConfigurationHelper.CatiInterviewPassword,
                 Role = CatiConfigurationHelper.InterviewRole,
-                ServerParks = new List<string>{BlaiseConfigurationHelper.ServerParkName},
+                ServerParks = new List<string> { BlaiseConfigurationHelper.ServerParkName },
                 DefaultServerPark = BlaiseConfigurationHelper.ServerParkName
             };
             UserHelper.GetInstance().CreateUser(interviewUser);
+        }
+
+        public void AddSurveyFilter()
+        {
+            var dayBatchPage = new DayBatchPage();
+            dayBatchPage.AddFilters();
         }
 
         public void SetupDayBatchTimeParameters()
@@ -54,7 +66,7 @@ namespace Blaise.Tests.Helpers.Cati
         {
             UserHelper.GetInstance().RemoveUser(CatiConfigurationHelper.CatiInterviewUsername);
         }
-        
+
         public void LoginButtonIsAvailable()
         {
             var interviewPage = new InterviewLoginPage();

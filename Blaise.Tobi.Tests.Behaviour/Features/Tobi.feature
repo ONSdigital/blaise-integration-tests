@@ -27,9 +27,3 @@ Scenario: Return to select survey
 Given I have selected a survey
 When I do not see the questionnaire that I am working on
 Then I am able to go back to view the list of surveys
-
-@regression
-Scenario: Do not show survey accroym when all surveys have expired
-Given a survey questionnaire end date has passed 
-When I launch TOBI
-Then I will not see any surveys listed

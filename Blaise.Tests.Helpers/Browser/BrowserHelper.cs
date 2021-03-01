@@ -52,7 +52,7 @@ namespace Blaise.Tests.Helpers.Browser
             var chromeOptions = new ChromeOptions();
             chromeOptions.AcceptInsecureCertificates = true;
             
-            chromeOptions.AddArguments("--headless");
+            //chromeOptions.AddArguments("--headless");
             
             return new ChromeDriver(BrowserConfigurationHelper.ChromeDriver, chromeOptions);
         }
