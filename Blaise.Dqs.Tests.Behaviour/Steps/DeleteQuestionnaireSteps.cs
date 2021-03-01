@@ -1,12 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading;
-using System.Threading.Tasks;
 using Blaise.Tests.Helpers.Browser;
-using Blaise.Tests.Helpers.Case;
-using Blaise.Tests.Helpers.Cati;
 using Blaise.Tests.Helpers.Configuration;
 using Blaise.Tests.Helpers.Dqs;
 using Blaise.Tests.Helpers.Instrument;

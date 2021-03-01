@@ -1,5 +1,6 @@
 ﻿using Blaise.Tests.Helpers.Configuration;
 using Blaise.Tests.Helpers.Framework;
+using System.Threading;
 
 namespace Blaise.Tests.Helpers.Cati.Pages
 {
@@ -9,6 +10,9 @@ namespace Blaise.Tests.Helpers.Cati.Pages
         private const string BackupDataButtonId = "chkBackupAll";
         private const string ClearDataButtonId = "chkClearAll";
         private const string ExecuteButtonPath = "//input[@value='Execute']";
+        private const string FilterButton = "//*[contains(text(), 'Filters')]";
+        private string SurveyRadioButton = $"//*[normalize-space()='{BlaiseConfigurationHelper.InstrumentName}']";
+        private string ApplyButton = $"//*[contains(text(), 'Apply')]";
 
         public SurveyPage() : base(CatiConfigurationHelper.SurveyUrl)
         {
@@ -20,6 +24,14 @@ namespace Blaise.Tests.Helpers.Cati.Pages
             ClickButtonById(BackupDataButtonId);
             ClickButtonById(ClearDataButtonId);
             ClickButtonByXPath(ExecuteButtonPath);
+        }
+
+        public void ApplyFilter()
+        {
+            Thread.Sleep(5000);
+            ClickButtonByXPath(FilterButton);
+            ClickButtonByXPath(SurveyRadioButton);
+            ClickButtonByXPath(ApplyButton);
         }
     }
 }
