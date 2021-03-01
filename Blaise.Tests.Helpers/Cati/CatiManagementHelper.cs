@@ -46,6 +46,7 @@ namespace Blaise.Tests.Helpers.Cati
             LogIntoCatiManagementPortal();
 
             var dayBatchPage = new DayBatchPage();
+            dayBatchPage.AddFilters();
             dayBatchPage.LoadPage();
             return dayBatchPage.GetDaybatchEntriesText();
         }

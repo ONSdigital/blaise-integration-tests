@@ -26,6 +26,7 @@ namespace Blaise.Tests.Helpers.Cati.Pages
         public void CreateDayBatch()
         {
             ClickButtonById(DayBatchCreateButtonId);
+            Thread.Sleep(2000);
             SelectDropDownValueById(InstrumentDropDownId, BlaiseConfigurationHelper.InstrumentName);
             Thread.Sleep(3000);
             ClickButtonByXPath(CreateButtonPath);
