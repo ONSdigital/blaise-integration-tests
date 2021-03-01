@@ -125,15 +125,13 @@ namespace Blaise.Tobi.Tests.Behaviour.Steps
         [AfterScenario("HappyPath")]
         public static void CleanUpHappyPath()
         {
-            CatiManagementHelper.GetInstance().LogIntoCatiManagementPortal();
-            CatiManagementHelper.GetInstance().SetSurveyDays();
+            DayBatchHelper.GetInstance().RemoveSurveyDays(BlaiseConfigurationHelper.InstrumentName, DateTime.Today);
         }
 
         [AfterFeature("tobi")]
         public static void CleanUpFeature()
         {
-            CatiManagementHelper.GetInstance().LogIntoCatiManagementPortal();
-            CatiManagementHelper.GetInstance().ClearDayBatchEntries();
+            DayBatchHelper.GetInstance().RemoveSurveyDays(BlaiseConfigurationHelper.InstrumentName, DateTime.Today);
             BrowserHelper.CloseBrowser();
             CaseHelper.GetInstance().DeleteCases();
             InstrumentHelper.GetInstance().UninstallSurvey();

@@ -166,6 +166,7 @@
     <Compile Include="Browser\BrowserHelper.cs" />
     <Compile Include="Case\CaseHelper.cs" />
     <Compile Include="Cati\CatiManagementHelper.cs" />
+    <Compile Include="Cati\Pages\CaseInfoPage.cs" />
     <Compile Include="Dqs\Pages\CannotOverwritePage.cs" />
     <Compile Include="Dqs\Pages\ConfirmOverwritePage.cs" />
     <Compile Include="Dqs\Pages\DeleteConfirmationPage.cs" />
