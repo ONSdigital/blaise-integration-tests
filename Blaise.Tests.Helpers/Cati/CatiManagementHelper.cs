@@ -1,13 +1,15 @@
 ﻿using Blaise.Tests.Helpers.Cati.Pages;
 using Blaise.Tests.Helpers.Configuration;
 using Blaise.Tests.Helpers.Browser;
+using Blaise.Tests.Helpers.Tobi;
+using System;
 
 namespace Blaise.Tests.Helpers.Cati
 {
     public class CatiManagementHelper
     {
         private static CatiManagementHelper _currentInstance;
-        
+
         public static CatiManagementHelper GetInstance()
         {
             return _currentInstance ?? (_currentInstance = new CatiManagementHelper());
@@ -53,10 +55,7 @@ namespace Blaise.Tests.Helpers.Cati
         
         public void SetSurveyDays()
         {
-            var specPage = new SpecificationPage();
-            specPage.LoadPage();
-            
-            specPage.SetSurveyDay();
+            DayBatchHelper.GetInstance().SetSurveyDay(BlaiseConfigurationHelper.InstrumentName, DateTime.Now);
         }
 
         public void ClearDayBatchEntries(bool applyFilter)
