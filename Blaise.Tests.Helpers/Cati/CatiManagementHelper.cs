@@ -3,6 +3,7 @@ using Blaise.Tests.Helpers.Configuration;
 using Blaise.Tests.Helpers.Browser;
 using Blaise.Tests.Helpers.Tobi;
 using System;
+using System.Threading;
 
 namespace Blaise.Tests.Helpers.Cati
 {
@@ -48,6 +49,7 @@ namespace Blaise.Tests.Helpers.Cati
             var dayBatchPage = new DayBatchPage();
             dayBatchPage.LoadPage();
             dayBatchPage.ApplyFilters();
+            Thread.Sleep(2000);
             return dayBatchPage.GetDaybatchEntriesText();
         }
         
