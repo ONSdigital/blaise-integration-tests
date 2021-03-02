@@ -54,6 +54,7 @@ namespace Blaise.Cati.Tests.Behaviour.Steps
         {
             try
             {
+                BrowserHelper.SwitchToLastOpenedWindow();
                 var entriesText = CatiManagementHelper.GetInstance().GetDaybatchEntriesText();
                 Assert.IsNotNull(entriesText);
             }
