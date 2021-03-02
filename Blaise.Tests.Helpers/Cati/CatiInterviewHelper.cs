@@ -53,8 +53,8 @@ namespace Blaise.Tests.Helpers.Cati
 
         public void SetupDayBatchTimeParameters()
         {
-            Thread.Sleep(3000);
             var daybatchPage = new DayBatchPage();
+            daybatchPage.LoadPage();
             daybatchPage.ModifyDayBatchEntry();
         }
 
