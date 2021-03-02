@@ -20,6 +20,7 @@ namespace Blaise.Tests.Helpers.Cati.Pages
 
         public void ClearDayBatchEntries()
         {
+            Thread.Sleep(2000);
             ClickButtonByXPath(ClearCatiDataButtonPath);
             ClickButtonById(BackupDataButtonId);
             ClickButtonById(ClearDataButtonId);
