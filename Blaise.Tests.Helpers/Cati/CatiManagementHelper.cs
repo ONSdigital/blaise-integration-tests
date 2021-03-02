@@ -9,7 +9,7 @@ namespace Blaise.Tests.Helpers.Cati
     public class CatiManagementHelper
     {
         private static CatiManagementHelper _currentInstance;
-
+        
         public static CatiManagementHelper GetInstance()
         {
             return _currentInstance ?? (_currentInstance = new CatiManagementHelper());
@@ -38,16 +38,14 @@ namespace Blaise.Tests.Helpers.Cati
         {
             SetSurveyDays();
 
-            var dayPage = new DayBatchPage();
-            dayPage.LoadPage();
-            dayPage.CreateDayBatch();
+            DayBatchHelper.GetInstance().CreateDayBatch(BlaiseConfigurationHelper.InstrumentName, DateTime.Today);
         }
 
         public string GetDaybatchEntriesText()
         {
             LogIntoCatiManagementPortal();
 
-            var dayBatchPage = new DayBatchPage();       
+            var dayBatchPage = new DayBatchPage();
             dayBatchPage.LoadPage();
             dayBatchPage.ApplyFilters();
             return dayBatchPage.GetDaybatchEntriesText();
@@ -55,7 +53,7 @@ namespace Blaise.Tests.Helpers.Cati
         
         public void SetSurveyDays()
         {
-            DayBatchHelper.GetInstance().SetSurveyDay(BlaiseConfigurationHelper.InstrumentName, DateTime.Now);
+            DayBatchHelper.GetInstance().SetSurveyDay(BlaiseConfigurationHelper.InstrumentName, DateTime.Today);
         }
 
         public void ClearDayBatchEntries(bool applyFilter)
