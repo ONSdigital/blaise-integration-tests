@@ -52,6 +52,13 @@ namespace Blaise.Tests.Helpers.Framework
                 .SendKeys(value);
         }
 
+        protected bool CheckIfCheckboxIsCheckedByXPath(string elementName)
+        {
+            return BrowserHelper.Wait
+                .Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementIsVisible(By.XPath(elementName)))
+                .Selected;
+        }
+
         protected List<string> GetFirstColumnOfTableFromXPath(string tablePath, string tableId)
         {
             BrowserHelper.Wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementIsVisible(By.Id(tableId)));

@@ -27,6 +27,7 @@ namespace Blaise.Tests.Helpers.Cati
         {
             var caseInfoPage = new CaseInfoPage();
             caseInfoPage.LoadPage();
+            caseInfoPage.ApplyFilters();
             Thread.Sleep(5000);
             caseInfoPage.ClickPlayButton();
         }
@@ -47,7 +48,7 @@ namespace Blaise.Tests.Helpers.Cati
         public void AddSurveyFilter()
         {
             var dayBatchPage = new DayBatchPage();
-            dayBatchPage.AddFilters();
+            dayBatchPage.ApplyFilters();
         }
 
         public void SetupDayBatchTimeParameters()
