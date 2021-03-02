@@ -3,13 +3,14 @@ using Blaise.Tests.Helpers.Configuration;
 using Blaise.Tests.Helpers.Browser;
 using Blaise.Tests.Helpers.Tobi;
 using System;
+using System.Threading;
 
 namespace Blaise.Tests.Helpers.Cati
 {
     public class CatiManagementHelper
     {
         private static CatiManagementHelper _currentInstance;
-
+        
         public static CatiManagementHelper GetInstance()
         {
             return _currentInstance ?? (_currentInstance = new CatiManagementHelper());
@@ -36,26 +37,28 @@ namespace Blaise.Tests.Helpers.Cati
 
         public void CreateDayBatch()
         {
+            var dayBatchPage = new DayBatchPage();
             SetSurveyDays();
 
-            var dayPage = new DayBatchPage();
-            dayPage.LoadPage();
-            dayPage.CreateDayBatch();
+            DayBatchHelper.GetInstance().CreateDayBatch(BlaiseConfigurationHelper.InstrumentName, DateTime.Today);
+
+            dayBatchPage.LoadPage();
         }
 
         public string GetDaybatchEntriesText()
         {
             LogIntoCatiManagementPortal();
 
-            var dayBatchPage = new DayBatchPage();       
+            var dayBatchPage = new DayBatchPage();
             dayBatchPage.LoadPage();
             dayBatchPage.ApplyFilters();
+            Thread.Sleep(2000);
             return dayBatchPage.GetDaybatchEntriesText();
         }
         
         public void SetSurveyDays()
         {
-            DayBatchHelper.GetInstance().SetSurveyDay(BlaiseConfigurationHelper.InstrumentName, DateTime.Now);
+            DayBatchHelper.GetInstance().SetSurveyDay(BlaiseConfigurationHelper.InstrumentName, DateTime.Today);
         }
 
         public void ClearDayBatchEntries(bool applyFilter)
