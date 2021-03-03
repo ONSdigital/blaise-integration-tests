@@ -6,7 +6,7 @@ Feature: Access
 
 @smoke @regression
 Scenario: Access case via interview link
-	Given I have an questionnaire installed on a Blaise environment
+	Given There is a questionnaire installed on a Blaise environment
 	And I have created sample cases for the questionnaire
 		| primarykey | outcomecode | telephoneno  |
 		| 900001     |             | 07000 000 00 |
