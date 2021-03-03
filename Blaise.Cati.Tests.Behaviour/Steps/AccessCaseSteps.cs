@@ -65,8 +65,8 @@ namespace Blaise.Cati.Tests.Behaviour.Steps
             try
             {
                 BrowserHelper.SwitchToLastOpenedWindow();
-                var caseIdText = CatiInterviewHelper.GetInstance().GetCaseIdText();
-                Assert.AreEqual($"Case: {caseId}", caseIdText);
+                CatiInterviewHelper.GetInstance().WaitForFirstFocusObject();
+                Assert.True(BrowserHelper.CurrentWindowHTML().Contains(caseId));
             }
             catch (Exception e)
             {

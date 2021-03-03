@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Threading;
 using Blaise.Tests.Helpers.Cati.Pages;
 using Blaise.Tests.Helpers.Configuration;
@@ -62,6 +63,12 @@ namespace Blaise.Tests.Helpers.Cati
         {
             var interviewPage = new InterviewPage();
             return interviewPage.GetCaseIdText();
+        }
+
+        public void WaitForFirstFocusObject()
+        {
+            var interviewPage = new InterviewPage();
+            interviewPage.WaitForFirstFocusObject();
         }
 
         public void DeleteInterviewUser()
