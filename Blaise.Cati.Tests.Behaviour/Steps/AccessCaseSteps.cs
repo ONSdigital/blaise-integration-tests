@@ -63,8 +63,6 @@ namespace Blaise.Cati.Tests.Behaviour.Steps
         {
             try
             {
-                Thread.Sleep(3000);
-
                 BrowserHelper.SwitchToLastOpenedWindow();
                 var caseIdText = CatiInterviewHelper.GetInstance().GetCaseIdText();
                 Assert.AreEqual($"Case: {caseId}", caseIdText);
