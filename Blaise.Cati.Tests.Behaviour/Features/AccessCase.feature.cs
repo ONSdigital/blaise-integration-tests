@@ -79,12 +79,10 @@ namespace Blaise.Cati.Tests.Behaviour.Features
         
         [NUnit.Framework.TestAttribute()]
         [NUnit.Framework.DescriptionAttribute("Access case via interview link")]
-        [NUnit.Framework.CategoryAttribute("smoke")]
         [NUnit.Framework.CategoryAttribute("regression")]
         public virtual void AccessCaseViaInterviewLink()
         {
             string[] tagsOfScenario = new string[] {
-                    "smoke",
                     "regression"};
             System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Access case via interview link", null, tagsOfScenario, argumentsOfScenario);
