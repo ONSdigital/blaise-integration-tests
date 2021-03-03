@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Threading;
 using Blaise.Tests.Helpers.Browser;
 using Blaise.Tests.Helpers.Case;
@@ -69,6 +70,10 @@ namespace Blaise.Cati.Tests.Behaviour.Steps
             }
             catch (Exception e)
             {
+                TestContext.WriteLine("Error from Test Context " + BrowserHelper.CurrentWindowHTML());
+                TestContext.Progress.WriteLine("Error from Test Context progress " + BrowserHelper.CurrentWindowHTML());
+                Debug.WriteLine("Error from debug: " + BrowserHelper.CurrentWindowHTML());
+                Console.WriteLine("Error from console: " + BrowserHelper.CurrentWindowHTML());
                 FailWithScreenShot(e, "CaptureData", "Capture respondents data");
             }
         }
