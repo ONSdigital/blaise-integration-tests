@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading;
 using Blaise.Tests.Helpers.Browser;
 using Blaise.Tests.Helpers.Case;
 using Blaise.Tests.Helpers.Cati;
@@ -62,6 +63,8 @@ namespace Blaise.Cati.Tests.Behaviour.Steps
         {
             try
             {
+                Thread.Sleep(3000);
+
                 BrowserHelper.SwitchToLastOpenedWindow();
                 var caseIdText = CatiInterviewHelper.GetInstance().GetCaseIdText();
                 Assert.AreEqual($"Case: {caseId}", caseIdText);
