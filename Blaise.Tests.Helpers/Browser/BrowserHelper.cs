@@ -37,6 +37,11 @@ namespace Blaise.Tests.Helpers.Browser
             _browser = null;
         }
 
+        public static string CurrentWindowHTML()
+        {
+            return Browser.PageSource;
+        }
+
         public static void BrowseTo(string pageUrl)
         {
             Browser.Navigate().GoToUrl(pageUrl);
