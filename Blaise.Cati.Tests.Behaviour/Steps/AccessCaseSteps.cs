@@ -17,7 +17,14 @@ namespace Blaise.Cati.Tests.Behaviour.Steps
         public static void InitializeFeature()
         {
             CatiInterviewHelper.GetInstance().CreateInterviewUser();
+            InstrumentHelper.GetInstance().InstallInstrument();
         }
+
+        [Given(@"There is a questionnaire installed on a Blaise environment")]
+        public void GivenThereIsAQuestionnaireInstalledOnABlaiseEnvironment()
+        {
+        }
+
 
         [Given(@"I log on to Cati as an interviewer")]
         public void GivenILogOnToCatiAsAnInterviewer()
@@ -81,7 +88,7 @@ namespace Blaise.Cati.Tests.Behaviour.Steps
         [AfterScenario("interview")]
         public void CleanUpScenario()
         {
-            CatiManagementHelper.GetInstance().ClearDayBatchEntries(false);
+            CatiManagementHelper.GetInstance().ClearDayBatchEntries();
             BrowserHelper.CloseBrowser();         
         }
 
