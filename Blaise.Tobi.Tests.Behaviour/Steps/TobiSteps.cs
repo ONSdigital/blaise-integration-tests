@@ -19,7 +19,7 @@ namespace Blaise.Tobi.Tests.Behaviour.Steps
         public static void InitializeFeature()
         {
             InstrumentHelper.GetInstance().InstallInstrument();
-            CaseHelper.GetInstance().CreateCase(new CaseModel("900000", "110", "07000 000 00"));
+            CaseHelper.GetInstance().CreateCase(new CaseModel("900001", "110", "07000 000 00"));
         }
 
         [BeforeScenario("HappyPath")]
