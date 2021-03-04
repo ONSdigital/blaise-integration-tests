@@ -68,9 +68,6 @@ namespace Blaise.Dqs.Tests.Behaviour.Steps
             try
             {
                 Assert.IsNotNull(DqsHelper.GetInstance().GetDeletionSummary());
-                //Blaise survey is still present after the api call returns deletion is succesfull due to further clean up
-                Thread.Sleep(20000);
-                Assert.IsFalse(InstrumentHelper.GetInstance().SurveyExists(BlaiseConfigurationHelper.InstrumentName));
             }
             catch (Exception e)
             {
