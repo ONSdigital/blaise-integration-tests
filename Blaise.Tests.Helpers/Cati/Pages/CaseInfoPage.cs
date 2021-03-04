@@ -4,30 +4,23 @@ using System.Threading;
 
 namespace Blaise.Tests.Helpers.Cati.Pages
 {
-    public class SurveyPage : BasePage
+    public class CaseInfoPage : BasePage
     {
-        private const string ClearCatiDataButtonPath = @"//*[@id='MVCGridTable_SurveysGrid']/tbody/tr/td[9]/a";
-        private const string BackupDataButtonId = "chkBackupAll";
-        private const string ClearDataButtonId = "chkClearAll";
-        private const string ExecuteButtonPath = "//input[@value='Execute']";
+        private string PlayButton = "//*[@id='MVCGridTable_CaseInfoGrid']/tbody/tr[1]/td[19]/a/span";
         private const string FilterButton = "//*[contains(text(), 'Filters')]";
         private string SurveyRadioButton = $"//*[normalize-space()='{BlaiseConfigurationHelper.InstrumentName}']";
         private string ApplyButton = $"//*[contains(text(), 'Apply')]";
 
-        public SurveyPage() : base(CatiConfigurationHelper.SurveyUrl)
+        public CaseInfoPage() : base(CatiConfigurationHelper.CaseInfoUrl)
         {
         }
 
-        public void ClearDayBatchEntries()
+        public void ClickPlayButton()
         {
-            Thread.Sleep(2000);
-            ClickButtonByXPath(ClearCatiDataButtonPath);
-            ClickButtonById(BackupDataButtonId);
-            ClickButtonById(ClearDataButtonId);
-            ClickButtonByXPath(ExecuteButtonPath);
+            ClickButtonByXPath(PlayButton);
         }
 
-        public void ApplyFilter()
+        public void ApplyFilters()
         {
             Thread.Sleep(5000);
             ClickButtonByXPath(FilterButton);

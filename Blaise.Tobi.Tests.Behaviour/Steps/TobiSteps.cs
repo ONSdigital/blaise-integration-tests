@@ -19,13 +19,13 @@ namespace Blaise.Tobi.Tests.Behaviour.Steps
         public static void InitializeFeature()
         {
             InstrumentHelper.GetInstance().InstallInstrument();
-            CaseHelper.GetInstance().CreateCase(new CaseModel("900000", "110", "07000 000 00"));
+            CaseHelper.GetInstance().CreateCase(new CaseModel("900001", "110", "07000 000 00"));
         }
 
         [BeforeScenario("HappyPath")]
         public static void HappyPathScenarios()
         {
-            DayBatchHelper.GetInstance().SetSurveyDay(BlaiseConfigurationHelper.InstrumentName ,DateTime.Today);
+            DayBatchHelper.GetInstance().SetSurveyDay(BlaiseConfigurationHelper.InstrumentName, DateTime.Today);
             DayBatchHelper.GetInstance().CreateDayBatch(BlaiseConfigurationHelper.InstrumentName, DateTime.Today);
         }
 
@@ -79,7 +79,15 @@ namespace Blaise.Tobi.Tests.Behaviour.Steps
         [Then(@"I will be able to view all live surveys with questionnaires loaded in Blaise, identified by their three letter acronym \(TLA\), i\.e\. OPN, LMS")]
         public void ThenIWillBeAbleToViewAllLiveSurveysWithQuestionnairesLoadedInBlaiseIdentifiedByTheirThreeLetterAcronym()
         {
-            Assert.AreEqual("OPN", TobiHelper.GetInstance().GetSurveyTableContents().FirstOrDefault());
+            try
+            {
+                Assert.AreEqual("OPN", TobiHelper.GetInstance().GetSurveyTableContents().FirstOrDefault());
+            }
+            catch (Exception e)
+            {
+                TestContext.WriteLine("Error from Test Context " + BrowserHelper.CurrentWindowHTML());
+                FailWithScreenShot(e, "CaptureData", "Capture respondents data");
+            }
         }
 
         [Then(@"I am presented with a list of active questionnaires to be worked on that day for that survey")]
@@ -106,7 +114,7 @@ namespace Blaise.Tobi.Tests.Behaviour.Steps
         [Then(@"I will not see any surveys listed")]
         public void ThenIWillNotSeeAnySurveysListed()
         {
-            Assert.AreEqual("No active surveys found." ,TobiHelper.GetInstance().GetNoSurveysText());
+            Assert.AreEqual("No active surveys found.", TobiHelper.GetInstance().GetNoSurveysText());
         }
 
         [Then(@"I am able to go back to view the list of surveys")]
@@ -125,18 +133,25 @@ namespace Blaise.Tobi.Tests.Behaviour.Steps
         [AfterScenario("HappyPath")]
         public static void CleanUpHappyPath()
         {
-            CatiManagementHelper.GetInstance().LogIntoCatiManagementPortal();
-            CatiManagementHelper.GetInstance().SetSurveyDays();
+            DayBatchHelper.GetInstance().RemoveSurveyDays(BlaiseConfigurationHelper.InstrumentName, DateTime.Today);
         }
 
         [AfterFeature("tobi")]
         public static void CleanUpFeature()
         {
-            CatiManagementHelper.GetInstance().LogIntoCatiManagementPortal();
-            CatiManagementHelper.GetInstance().ClearDayBatchEntries();
+            DayBatchHelper.GetInstance().RemoveSurveyDays(BlaiseConfigurationHelper.InstrumentName, DateTime.Today);
             BrowserHelper.CloseBrowser();
             CaseHelper.GetInstance().DeleteCases();
             InstrumentHelper.GetInstance().UninstallSurvey();
+        }
+
+        private static void FailWithScreenShot(Exception e, string screenShotName, string screenShotDescription)
+        {
+            var screenShotFile = BrowserHelper.TakeScreenShot(TestContext.CurrentContext.WorkDirectory,
+                screenShotName);
+
+            TestContext.AddTestAttachment(screenShotFile, screenShotDescription);
+            Assert.Fail($"The test failed to complete - {e.Message}");
         }
     }
 }

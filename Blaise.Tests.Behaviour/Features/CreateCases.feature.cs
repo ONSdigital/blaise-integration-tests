@@ -119,6 +119,14 @@ this.ScenarioInitialize(scenarioInfo);
                             "900001",
                             "110",
                             "07000 000 00"});
+                table1.AddRow(new string[] {
+                            "900002",
+                            "110",
+                            "07000 000 00"});
+                table1.AddRow(new string[] {
+                            "900003",
+                            "110",
+                            "07000 000 00"});
 #line 11
  testRunner.When("I create sample cases for the instrument", ((string)(null)), table1, "When ");
 #line hidden
@@ -130,7 +138,15 @@ this.ScenarioInitialize(scenarioInfo);
                             "900001",
                             "110",
                             "07000 000 00"});
-#line 14
+                table2.AddRow(new string[] {
+                            "900002",
+                            "110",
+                            "07000 000 00"});
+                table2.AddRow(new string[] {
+                            "900003",
+                            "110",
+                            "07000 000 00"});
+#line 16
  testRunner.Then("the sample cases are available in the Blaise environment", ((string)(null)), table2, "Then ");
 #line hidden
             }
