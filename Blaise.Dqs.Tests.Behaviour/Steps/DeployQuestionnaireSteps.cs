@@ -194,7 +194,10 @@ namespace Blaise.Dqs.Tests.Behaviour.Steps
         {
             BrowserHelper.CloseBrowser();
             if (InstrumentHelper.GetInstance().SurveyExists(BlaiseConfigurationHelper.InstrumentName))
+            {
+                CaseHelper.GetInstance().DeleteCases();
                 InstrumentHelper.GetInstance().UninstallSurvey();
+            }
         }
 
         private static void FailWithScreenShot(Exception e, string screenShotName, string screenShotDescription)
