@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Threading;
 using Blaise.Tests.Helpers.Browser;
+using Blaise.Tests.Helpers.Case;
 using Blaise.Tests.Helpers.Configuration;
 using Blaise.Tests.Helpers.Dqs;
 using Blaise.Tests.Helpers.Instrument;
@@ -82,7 +83,10 @@ namespace Blaise.Dqs.Tests.Behaviour.Steps
         {
             BrowserHelper.CloseBrowser();
             if (InstrumentHelper.GetInstance().SurveyExists(BlaiseConfigurationHelper.InstrumentName))
+            {
+                CaseHelper.GetInstance().DeleteCases();
                 InstrumentHelper.GetInstance().UninstallSurvey();
+            }
         }
 
         private static void FailWithScreenShot(Exception e, string screenShotName, string screenShotDescription)
