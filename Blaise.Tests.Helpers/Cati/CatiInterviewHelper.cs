@@ -17,11 +17,20 @@ namespace Blaise.Tests.Helpers.Cati
             return _currentInstance ?? (_currentInstance = new CatiInterviewHelper());
         }
 
-        public void LogIntoInterviewPortal()
+        public void AccessInterviewPortal()
         {
             var interviewLoginPage = new InterviewLoginPage();
             interviewLoginPage.LoadPage();
             interviewLoginPage.LogIntoInterviewPortal(CatiConfigurationHelper.CatiInterviewUsername, CatiConfigurationHelper.CatiInterviewPassword);
+        }
+
+        public void ClickPlayButtonToAccessCase()
+        {
+            var caseInfoPage = new CaseInfoPage();
+            caseInfoPage.LoadPage();
+            caseInfoPage.ApplyFilters();
+            Thread.Sleep(5000);
+            caseInfoPage.ClickPlayButton();
         }
 
         public void CreateInterviewUser()
@@ -31,16 +40,22 @@ namespace Blaise.Tests.Helpers.Cati
                 UserName = CatiConfigurationHelper.CatiInterviewUsername,
                 Password = CatiConfigurationHelper.CatiInterviewPassword,
                 Role = CatiConfigurationHelper.InterviewRole,
-                ServerParks = new List<string>{BlaiseConfigurationHelper.ServerParkName},
+                ServerParks = new List<string> { BlaiseConfigurationHelper.ServerParkName },
                 DefaultServerPark = BlaiseConfigurationHelper.ServerParkName
             };
             UserHelper.GetInstance().CreateUser(interviewUser);
         }
 
+        public void AddSurveyFilter()
+        {
+            var dayBatchPage = new DayBatchPage();
+            dayBatchPage.ApplyFilters();
+        }
+
         public void SetupDayBatchTimeParameters()
         {
-            Thread.Sleep(3000);
             var daybatchPage = new DayBatchPage();
+            daybatchPage.LoadPage();
             daybatchPage.ModifyDayBatchEntry();
         }
 
@@ -50,11 +65,18 @@ namespace Blaise.Tests.Helpers.Cati
             return interviewPage.GetCaseIdText();
         }
 
+        public void WaitForFirstFocusObject()
+        {
+            var interviewPage = new InterviewPage();
+            interviewPage.WaitForFirstFocusObject();
+            Thread.Sleep(20000);
+        }
+
         public void DeleteInterviewUser()
         {
             UserHelper.GetInstance().RemoveUser(CatiConfigurationHelper.CatiInterviewUsername);
         }
-        
+
         public void LoginButtonIsAvailable()
         {
             var interviewPage = new InterviewLoginPage();
