@@ -20,6 +20,11 @@ namespace Blaise.Tests.Helpers.Cati.Pages
             ClickButtonByXPath(_submitButtonPath);
         }
 
+        public void LoadPageForSpecificCase(string url)
+        {
+            LoadSpecificPage(url);
+        }
+
         public void LoginButtonIsAvailable()
         {
             ButtonIsAvailableByPath(_submitButtonPath);

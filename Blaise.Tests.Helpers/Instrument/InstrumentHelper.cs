@@ -68,18 +68,6 @@ namespace Blaise.Tests.Helpers.Instrument
             return _blaiseSurveyApi.GetSurveyInterviewType(BlaiseConfigurationHelper.InstrumentName, BlaiseConfigurationHelper.ServerParkName);
         }
 
-        public bool SetSurveyAsActive(int timeoutInSeconds)
-        {
-            _blaiseSurveyApi.ActivateSurvey(BlaiseConfigurationHelper.InstrumentName, BlaiseConfigurationHelper.ServerParkName);
-            return SurveyIsActive(BlaiseConfigurationHelper.InstrumentName, timeoutInSeconds);
-        }
-
-        public bool SetSurveyAsInactive()
-        {
-            _blaiseSurveyApi.DeactivateSurvey(BlaiseConfigurationHelper.InstrumentName, BlaiseConfigurationHelper.ServerParkName);
-            return GetSurveyStatus(BlaiseConfigurationHelper.InstrumentName) == SurveyStatusType.Inactive;
-        }
-
         public bool SurveyExists(string instrumentName)
         {
             try

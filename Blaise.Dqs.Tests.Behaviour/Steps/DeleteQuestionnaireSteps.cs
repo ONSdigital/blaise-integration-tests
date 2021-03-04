@@ -1,12 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading;
-using System.Threading.Tasks;
 using Blaise.Tests.Helpers.Browser;
 using Blaise.Tests.Helpers.Case;
-using Blaise.Tests.Helpers.Cati;
 using Blaise.Tests.Helpers.Configuration;
 using Blaise.Tests.Helpers.Dqs;
 using Blaise.Tests.Helpers.Instrument;
@@ -72,9 +68,6 @@ namespace Blaise.Dqs.Tests.Behaviour.Steps
             try
             {
                 Assert.IsNotNull(DqsHelper.GetInstance().GetDeletionSummary());
-                //Blaise survey is still present after the api call returns deletion is succesfull due to further clean up
-                Thread.Sleep(20000);
-                Assert.IsFalse(InstrumentHelper.GetInstance().SurveyExists(BlaiseConfigurationHelper.InstrumentName));
             }
             catch (Exception e)
             {
@@ -87,7 +80,10 @@ namespace Blaise.Dqs.Tests.Behaviour.Steps
         {
             BrowserHelper.CloseBrowser();
             if (InstrumentHelper.GetInstance().SurveyExists(BlaiseConfigurationHelper.InstrumentName))
+            {
+                CaseHelper.GetInstance().DeleteCases();
                 InstrumentHelper.GetInstance().UninstallSurvey();
+            }
         }
 
         private static void FailWithScreenShot(Exception e, string screenShotName, string screenShotDescription)

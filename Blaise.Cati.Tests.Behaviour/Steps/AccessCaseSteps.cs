@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Diagnostics;
+using System.Threading;
 using Blaise.Tests.Helpers.Browser;
 using Blaise.Tests.Helpers.Case;
 using Blaise.Tests.Helpers.Cati;
@@ -15,14 +17,28 @@ namespace Blaise.Cati.Tests.Behaviour.Steps
         public static void InitializeFeature()
         {
             CatiInterviewHelper.GetInstance().CreateInterviewUser();
+            InstrumentHelper.GetInstance().InstallInstrument();
         }
 
-        [When(@"I log on to the Interviewing Portal as an interviewer")]
-        public void WhenIAccessTheCaseFromTheCaseInterviewingScreen()
+        [Given(@"There is a questionnaire installed on a Blaise environment")]
+        public void GivenThereIsAQuestionnaireInstalledOnABlaiseEnvironment()
+        {
+        }
+
+
+        [Given(@"I log on to Cati as an interviewer")]
+        public void GivenILogOnToCatiAsAnInterviewer()
+        {
+            CatiManagementHelper.GetInstance().LogIntoCatiManagementPortalAsAnInterviewer();
+        }
+
+
+        [When(@"I click the play button for case '(.*)'")]
+        public void WhenIClickThePlayButtonForCase(string caseId)
         {
             try
             {
-                CatiInterviewHelper.GetInstance().LogIntoInterviewPortal();
+                CatiInterviewHelper.GetInstance().ClickPlayButtonToAccessCase();
             }
             catch (Exception e)
             {
@@ -33,29 +49,52 @@ namespace Blaise.Cati.Tests.Behaviour.Steps
         [When(@"The the time is within the day batch parameters")]
         public void WhenTheTheTimeIsWithinTheDayBatchParameters()
         {
-            CatiInterviewHelper.GetInstance().SetupDayBatchTimeParameters();
+            try
+            {
+                CatiInterviewHelper.GetInstance().AddSurveyFilter();
+                CatiInterviewHelper.GetInstance().SetupDayBatchTimeParameters();
+            }
+            catch (Exception e)
+            {
+                FailWithScreenShot(e, "SetDayBatchParameters", "Set Daybatch parameters page");
+            }
         }
 
+        [When(@"I Open the cati scheduler as an interviewer")]
+        public void WhenIOpenTheCatiSchedulerAsAnInterviewer()
+        {
+            CatiInterviewHelper.GetInstance().AccessInterviewPortal();
+        }
 
         [Then(@"I am able to capture the respondents data for case '(.*)'")]
         public void ThenIAmAbleToCaptureTheRespondentsDataForCase(string caseId)
         {
             try
             {
-                var caseIdText = CatiInterviewHelper.GetInstance().GetCaseIdText();
-                Assert.AreEqual($"Case: {caseId}", caseIdText);
+                BrowserHelper.SwitchToLastOpenedWindow();
+                CatiInterviewHelper.GetInstance().WaitForFirstFocusObject();
+                Assert.True(BrowserHelper.CurrentWindowHTML().Contains(caseId));
             }
             catch (Exception e)
             {
+                TestContext.WriteLine("Error from Test Context " + BrowserHelper.CurrentWindowHTML());
+                TestContext.Progress.WriteLine("Error from Test Context progress " + BrowserHelper.CurrentWindowHTML());
+                Debug.WriteLine("Error from debug: " + BrowserHelper.CurrentWindowHTML());
+                Console.WriteLine("Error from console: " + BrowserHelper.CurrentWindowHTML());
                 FailWithScreenShot(e, "CaptureData", "Capture respondents data");
             }
+        }
+
+        [AfterScenario("interview")]
+        public void CleanUpScenario()
+        {
+            CatiManagementHelper.GetInstance().ClearDayBatchEntries();
+            BrowserHelper.CloseBrowser();         
         }
 
         [AfterFeature("interview")]
         public static void CleanUpFeature()
         {
-            CatiManagementHelper.GetInstance().ClearDayBatchEntries();
-            BrowserHelper.CloseBrowser();
             CatiInterviewHelper.GetInstance().DeleteInterviewUser();
             CaseHelper.GetInstance().DeleteCases();
             InstrumentHelper.GetInstance().UninstallSurvey();
