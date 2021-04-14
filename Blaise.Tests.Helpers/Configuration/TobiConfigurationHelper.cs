@@ -4,7 +4,7 @@ namespace Blaise.Tests.Helpers.Configuration
 {
     public static class TobiConfigurationHelper
     {
-        public static string TobiUrl => ConfigurationExtensions.GetVariable("ENV_TOBI_URL");
-        public static string SurveyUrl = $"{TobiUrl}/survey/{BlaiseConfigurationHelper.InstrumentName.Substring(0, 3)}";
+        public static string TobiUrl => $"{ConfigurationExtensions.GetVariable("ENV_TOBI_URL")}/";
+        public static string SurveyUrl = $"{TobiUrl}survey/{BlaiseConfigurationHelper.InstrumentName.Substring(0, 3)}";
     }
 }
