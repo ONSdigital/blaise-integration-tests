@@ -72,9 +72,16 @@ namespace Blaise.Dqs.Tests.Behaviour.Steps
         [Then(@"I am presented with a successful deployment information banner")]
         public void ThenIAmPresentedWithASuccessfulDeploymentInformationBanner()
         {
-            DqsHelper.GetInstance().WaitForUploadToComplete();
-            var successMessage = DqsHelper.GetInstance().GetUploadMessage();
-            Assert.IsNotNull(successMessage);
+            try
+            {
+                DqsHelper.GetInstance().WaitForUploadToComplete();
+                var successMessage = DqsHelper.GetInstance().GetUploadMessage();
+                Assert.IsNotNull(successMessage);
+            }
+            catch (Exception e)
+            {
+                FailWithScreenShot(e, "NotOverwritten", "Questionnaire has not been Overwritten");
+            }
         }
 
         [Then(@"I am presented with questionnaire already exists screen")]
@@ -86,7 +93,6 @@ namespace Blaise.Dqs.Tests.Behaviour.Steps
         [Given(@"the questionnaire has data records")]
         public void GivenTheQuestionnaireHasDataRecords()
         {
-
             CaseHelper.GetInstance().CreateCase();
         }
 
@@ -179,8 +185,8 @@ namespace Blaise.Dqs.Tests.Behaviour.Steps
         [Then(@"the questionnaire is active in blaise")]
         public void ThenTheQuestionnaireIsActiveInBlaise()
         {
-                var instrumentInstalled = InstrumentHelper.GetInstance().SurveyHasInstalled(BlaiseConfigurationHelper.InstrumentName, 60);
-                Assert.IsTrue(instrumentInstalled);
+            var instrumentInstalled = InstrumentHelper.GetInstance().SurveyHasInstalled(BlaiseConfigurationHelper.InstrumentName, 60);
+            Assert.IsTrue(instrumentInstalled);
         }
 
         [Given(@"the package I have selected already exists in Blaise")]
