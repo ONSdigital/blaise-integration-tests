@@ -56,8 +56,8 @@ namespace Blaise.Tobi.Tests.Behaviour.Steps
         }
 
         [Given(@"I have selected a survey")]
-        [When(@"I select the survey I am working on")]
-        public void WhenISelectTheSurveyIAmWorkingOn()
+        [When(@"I select the OPN survey I am working on")]
+        public void WhenISelectTheOPNSurveyIAmWorkingOn()
         {
             TobiHelper.GetInstance().LoadTobiHomePage();
             var currentUrl = TobiHelper.GetInstance().ClickLoadQuestionnaire();
@@ -67,7 +67,7 @@ namespace Blaise.Tobi.Tests.Behaviour.Steps
         [When(@"I select a link to interview against the questionnaire with the survey dates I am working on")]
         public void WhenISelectALinkToInterviewAgainstTheQuestionnaireWithTheSurveyDatesIAmWorkingOn()
         {
-            TobiHelper.GetInstance().ClickInterviewButton();
+            TobiHelper.GetInstance().ClickInterviewButton(BlaiseConfigurationHelper.InstrumentName);
         }
 
         [When(@"I do not see the questionnaire that I am working on")]
@@ -81,7 +81,7 @@ namespace Blaise.Tobi.Tests.Behaviour.Steps
         {
             try
             {
-                Assert.AreEqual("OPN", TobiHelper.GetInstance().GetSurveyTableContents().FirstOrDefault());
+                Assert.IsNotNull(TobiHelper.GetInstance().GetSurveyTableContents().Where(s => s.Equals("OPN")));
             }
             catch (Exception e)
             {
@@ -93,7 +93,9 @@ namespace Blaise.Tobi.Tests.Behaviour.Steps
         [Then(@"I am presented with a list of active questionnaires to be worked on that day for that survey")]
         public void ThenIAmPresentedWithAListOfActiveQuestionnairesToBeWorkedOnThatDayForThatSurvey()
         {
-            Assert.AreEqual(BlaiseConfigurationHelper.InstrumentName, TobiHelper.GetInstance().GetFirstQuestionnaireInTable());
+            var activeQuestionnaires = TobiHelper.GetInstance().GetQuestionnaireTableContents();
+
+            Assert.IsNotNull(activeQuestionnaires.Where(q => q.Contains(BlaiseConfigurationHelper.InstrumentName)));
         }
 
         [Then(@"I am presented with the Blaise log in")]
