@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Blaise.Tests.Helpers.Browser;
 using Blaise.Tests.Helpers.Tobi.Pages;
@@ -51,10 +52,10 @@ namespace Blaise.Tests.Helpers.Tobi
             questionnairePage.LoadPage();
         }
 
-        public string ClickInterviewButton()
+        public string ClickInterviewButton(string questionnaire)
         {
             var questionnairePage = new QuestionnairePage();
-            questionnairePage.ClickInterviewButton();
+            questionnairePage.ClickInterviewButton(questionnaire);
             return BrowserHelper.CurrentUrl;
         }
 

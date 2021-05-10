@@ -157,9 +157,7 @@ this.ScenarioInitialize(scenarioInfo);
                 this.ScenarioStart();
 #line 15
 testRunner.Given("I can view a list of surveys on Blaise within TOBI", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
-#line hidden
-#line 16
-testRunner.When("I select the survey I am working on", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#linetestRunner.When("I select the OPN survey I am working on", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line hidden
 #line 17
 testRunner.Then("I am presented with a list of active questionnaires to be worked on that day for " +
