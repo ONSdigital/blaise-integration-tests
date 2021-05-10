@@ -7,7 +7,6 @@ namespace Blaise.Tests.Helpers.Tobi.Pages
 {
     public class QuestionnairePage : BasePage
     {
-        public string InterviewLinkPath = "//*[@id='instrument-table']/tbody/tr/td[3]/a";
         public string QuestionnaireTableId = "instrument-table";
         public string QuestionnaireTableRowsPath = "//*[@id='instrument-table']/tbody/tr";
         public string ReturnSurveyId = "return-to-survey-list";
@@ -16,8 +15,10 @@ namespace Blaise.Tests.Helpers.Tobi.Pages
         {
         }
 
-        public void ClickInterviewButton()
+        public void ClickInterviewButton(string questionnaire)
         {
+            var instrumentIndex = GetTableContent().FindIndex(s => s.Contains(questionnaire)) + 1;
+            var InterviewLinkPath = $"{QuestionnaireTableRowsPath}[{instrumentIndex}]/td[3]/a";
             ClickButtonByXPath(InterviewLinkPath);
             BrowserHelper.SwitchToLastOpenedWindow();
         }
