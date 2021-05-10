@@ -6,7 +6,6 @@ namespace Blaise.Tests.Helpers.Tobi.Pages
 {
     public class HomePage : BasePage
     {
-        public string LaunchQuestionnaireLinkPath = "//*[@id='survey-table']/tbody/tr/td[2]/a";
         public string SurveyTablePath = "//*[@id='survey-table']/tbody/tr";
         public string SurveyTableId = "survey-table";
         public string NoResultsPath = "//p[contains(text(), 'No active surveys found.')]";
@@ -17,6 +16,8 @@ namespace Blaise.Tests.Helpers.Tobi.Pages
 
         public void ClickQuestionnaireButton()
         {
+            var opnIndex = GetSurveyAcronyms().FindIndex(s => s.Contains("OPN")) + 1;
+            var LaunchQuestionnaireLinkPath = $"{SurveyTablePath}[{opnIndex}]/td[2]/a";
             ClickButtonByXPath(LaunchQuestionnaireLinkPath);
         }
 
