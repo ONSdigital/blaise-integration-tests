@@ -5,8 +5,8 @@ namespace Blaise.Tests.Helpers.Dqs.Pages
 {
     public class ConfirmOverwritePage : BasePage
     {
-        private readonly string confirmOverwriteButtonId = "confirm-overwrite";
-        private readonly string continueOverwriteButtonId = "confirm-continue";
+        private const string ConfirmOverwriteButtonId = "confirm-overwrite";
+        private const string ContinueOverwriteButtonId = "confirm-continue";
 
         public ConfirmOverwritePage() : base(DqsConfigurationHelper.ConfirmOverwriteUrl)
         {
@@ -14,12 +14,12 @@ namespace Blaise.Tests.Helpers.Dqs.Pages
 
         public void ClickConfirmOverwriteButton()
         {
-            ClickButtonById(confirmOverwriteButtonId);
+            ClickButtonById(ConfirmOverwriteButtonId);
         }
 
         public void ClickContinueButton()
         {
-            ClickButtonById(continueOverwriteButtonId);
+            ClickButtonById(ContinueOverwriteButtonId);
         }
 }
 }
