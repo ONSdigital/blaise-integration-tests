@@ -5,7 +5,7 @@ namespace Blaise.Tests.Helpers.Dqs.Pages
 {
     public class UploadSummaryPage : BasePage
     {
-        private readonly string summaryDivPath = "//div[contains(@class, 'success panel')]";
+        private const string SummaryDivPath = "//div[contains(@class, 'success panel')]";
 
         public UploadSummaryPage() : base(DqsConfigurationHelper.UploadSummaryUrl)
         {
@@ -13,7 +13,7 @@ namespace Blaise.Tests.Helpers.Dqs.Pages
 
         public string GetUploadSummaryText()
         {
-            return GetElementTextByPath(summaryDivPath);
+            return GetElementTextByPath(SummaryDivPath);
         }
     }
 }
