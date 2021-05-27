@@ -64,7 +64,6 @@ namespace Blaise.Tests.Helpers.Dqs
         public void ConfirmDeletionOfQuestionnaire()
         {
             var confirmDeletionPage = new DeleteConfirmationPage();
-            confirmDeletionPage.ClickConfirmDeleteQuestionnaireButton();
             confirmDeletionPage.ClickContinueButton();
         }
 

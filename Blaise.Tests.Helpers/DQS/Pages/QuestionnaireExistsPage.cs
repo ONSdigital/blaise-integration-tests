@@ -5,9 +5,9 @@ namespace Blaise.Tests.Helpers.Dqs.Pages
 {
     public class QuestionnaireExistsPage : BasePage
     {
-        private readonly string overwriteId = "confirm-overwrite";
-        private readonly string cancelId = "cancel-keep";
-        private readonly string saveId = "confirm-save";
+        private const string OverwriteId = "confirm-overwrite";
+        private const string CancelId = "cancel-keep";
+        private const string SaveId = "confirm-save";
 
         public QuestionnaireExistsPage() : base(DqsConfigurationHelper.QuestionnaireExistsUrl)
         {
@@ -15,17 +15,17 @@ namespace Blaise.Tests.Helpers.Dqs.Pages
         
         public void SelectOverwrite()
         {
-            ClickButtonById(overwriteId);
+            ClickButtonById(OverwriteId);
         }
 
         public void SelectCancel()
         {
-            ClickButtonById(cancelId);
+            ClickButtonById(CancelId);
         }
 
         public void SelectSaveButton()
         {
-            ClickButtonById(saveId);
+            ClickButtonById(SaveId);
         }
     }
 }
