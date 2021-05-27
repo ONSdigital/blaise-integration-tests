@@ -5,7 +5,7 @@ namespace Blaise.Tests.Helpers.Dqs.Pages
 {
     public class CannotOverwritePage : BasePage
     {
-        private readonly string cannotOverwriteDivPath = "//div[contains(@class, 'error panel')]";
+        private const string CannotOverwriteDivPath = "//div[contains(@class, 'error panel')]";
 
         public CannotOverwritePage() : base(DqsConfigurationHelper.CannotOverwriteUrl)
         {
@@ -13,7 +13,7 @@ namespace Blaise.Tests.Helpers.Dqs.Pages
 
         public string GetUploadSummaryText()
         {
-            return GetElementTextByPath(cannotOverwriteDivPath);
+            return GetElementTextByPath(CannotOverwriteDivPath);
         }
     }
 }

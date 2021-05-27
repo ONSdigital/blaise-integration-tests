@@ -5,20 +5,15 @@ namespace Blaise.Tests.Helpers.Dqs.Pages
 {
     public class DeleteConfirmationPage : BasePage
     {
-        private readonly string confirmDeleteRadioButtonId = "confirm-radio-delete";
-        private readonly string continueButtonId = "confirm-delete";
+        private const string ContinueButtonId = "confirm-delete";
+
         public DeleteConfirmationPage() : base(DqsConfigurationHelper.ConfirmDeleteUrl)
         {
         }
 
-        public void ClickConfirmDeleteQuestionnaireButton()
-        {
-            ClickButtonById(confirmDeleteRadioButtonId);
-        }
-
         public void ClickContinueButton()
         {
-            ClickButtonById(continueButtonId);
+            ClickButtonById(ContinueButtonId);
         }
 
         public void WaitForDeletionToComplete()
