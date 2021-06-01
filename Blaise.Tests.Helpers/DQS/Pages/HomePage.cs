@@ -6,12 +6,12 @@ namespace Blaise.Tests.Helpers.Dqs.Pages
 {
     public class HomePage : BasePage
     {
-        private readonly string deployQuestionnaireButtonID = "deploy-questionnaire-link";
+        private const string DeployQuestionnaireButtonId = "deploy-questionnaire-link";
         public string QuestionnaireTableId = "instrument-table";
         public string QuestionnaireTableRowsPath = "//*[@id='instrument-table']/tbody/tr";
         public string DeletePlaceholderId = "delete-";
         public string DeleteButtonId = "delete-button-";
-        private readonly string summaryDivPath = "//div[contains(@class, 'success panel')]";
+        private const string SummaryDivPath = "//div[contains(@class, 'success panel')]";
 
         public HomePage() : base(DqsConfigurationHelper.DqsUrl)
         {
@@ -19,7 +19,7 @@ namespace Blaise.Tests.Helpers.Dqs.Pages
 
         public void ClickDeployAQuestionnaire()
         {
-            ClickButtonById(deployQuestionnaireButtonID);
+            ClickButtonById(DeployQuestionnaireButtonId);
         }
 
         public List<string> GetFirstColumnFromTableContent()
@@ -45,7 +45,7 @@ namespace Blaise.Tests.Helpers.Dqs.Pages
 
         public string GetUploadSummaryText()
         {
-            return GetElementTextByPath(summaryDivPath);
+            return GetElementTextByPath(SummaryDivPath);
         }
     }
 }
