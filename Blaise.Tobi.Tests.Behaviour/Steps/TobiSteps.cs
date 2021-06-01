@@ -93,9 +93,17 @@ namespace Blaise.Tobi.Tests.Behaviour.Steps
         [Then(@"I am presented with a list of active questionnaires to be worked on that day for that survey")]
         public void ThenIAmPresentedWithAListOfActiveQuestionnairesToBeWorkedOnThatDayForThatSurvey()
         {
-            var activeQuestionnaires = TobiHelper.GetInstance().GetQuestionnaireTableContents();
+            try
+            {
+                var activeQuestionnaires = TobiHelper.GetInstance().GetQuestionnaireTableContents();
 
-            Assert.IsNotNull(activeQuestionnaires.Where(q => q.Contains(BlaiseConfigurationHelper.InstrumentName)));
+                Assert.IsNotNull(activeQuestionnaires.Where(q => q.Contains(BlaiseConfigurationHelper.InstrumentName)));
+            }
+            catch (Exception e)
+            {
+                TestContext.WriteLine("Error from Test Context " + BrowserHelper.CurrentWindowHTML());
+                FailWithScreenShot(e, "AccessBlaise", "Interviewer login");
+            }
         }
 
         [Then(@"I am presented with the Blaise log in")]
