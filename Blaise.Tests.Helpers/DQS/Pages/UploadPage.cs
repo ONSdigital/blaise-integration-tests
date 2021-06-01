@@ -5,8 +5,8 @@ namespace Blaise.Tests.Helpers.Dqs.Pages
 {
     public class UploadPage : BasePage
     {
-        private readonly string fileSelectorId = "survey-selector";
-        private readonly string continueButtonId = "continue-deploy-button";
+        private const string FileSelectorId = "survey-selector";
+        private const string ContinueButtonId = "continue-deploy-button";
 
         public UploadPage() : base(DqsConfigurationHelper.UploadUrl)
         {
@@ -14,12 +14,12 @@ namespace Blaise.Tests.Helpers.Dqs.Pages
 
         public void SelectFileToUpload(string instrumentPath)
         {
-            PopulateInputById(fileSelectorId, instrumentPath);
+            PopulateInputById(FileSelectorId, instrumentPath);
         }
 
         public void SelectContinueButton()
         {
-            ClickButtonById(continueButtonId);
+            ClickButtonById(ContinueButtonId);
         }
 
         public void WaitForUploadCompletion()
