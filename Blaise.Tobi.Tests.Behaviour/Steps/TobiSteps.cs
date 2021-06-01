@@ -109,16 +109,33 @@ namespace Blaise.Tobi.Tests.Behaviour.Steps
         [Then(@"I am presented with the Blaise log in")]
         public void ThenIAmPresentedWithTheBlaiseLogIn()
         {
-            CatiInterviewHelper.GetInstance().LoginButtonIsAvailable();
-            Assert.AreEqual($"{CatiConfigurationHelper.InterviewUrl.ToLower()}login", BrowserHelper.CurrentUrl.ToLower());
+            try
+            {
+                CatiInterviewHelper.GetInstance().LoginButtonIsAvailable();
+                Assert.AreEqual($"{CatiConfigurationHelper.InterviewUrl.ToLower()}login", BrowserHelper.CurrentUrl.ToLower());
+            }
+            catch (Exception e)
+            {
+                TestContext.WriteLine("Error from Test Context " + BrowserHelper.CurrentWindowHTML());
+                FailWithScreenShot(e, "BlaiseLogin", "Blaise login");
+            }
         }
 
         [Then(@"I will not see that questionnaire listed for the survey")]
         public void ThenIWillNotSeeThatQuestionnaireListedForTheSurvey()
         {
-            var questionnaireShowing = TobiHelper.GetInstance().GetQuestionnaireTableContents()
-                .Where(s => s.Contains(BlaiseConfigurationHelper.InstrumentName));
-            Assert.IsEmpty(questionnaireShowing);
+            try
+            {
+                var questionnaireShowing = TobiHelper.GetInstance().GetQuestionnaireTableContents()
+                    .Where(s => s.Contains(BlaiseConfigurationHelper.InstrumentName));
+                Assert.IsEmpty(questionnaireShowing);
+            }
+            catch (Exception e)
+            {
+                TestContext.WriteLine("Error from Test Context " + BrowserHelper.CurrentWindowHTML());
+                FailWithScreenShot(e, "NoSurvey", "No survey should exist");
+            }
+
         }
 
         [Then(@"I will not see any surveys listed")]
