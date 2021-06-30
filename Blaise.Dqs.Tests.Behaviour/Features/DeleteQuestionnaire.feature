@@ -10,7 +10,7 @@ And that survey is live
 When I locate that questionnaire in the list
 Then I will not have the option to delete displayed
 
-@smoke @LU7996
+@Smoke @LU7996
 Scenario: Confirm deletion
 Given I select Delete on a questionnaire that is not live
 When I confirm that I want to proceed
