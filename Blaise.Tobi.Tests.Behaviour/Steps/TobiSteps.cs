@@ -56,8 +56,8 @@ namespace Blaise.Tobi.Tests.Behaviour.Steps
         }
 
         [Given(@"I have selected a survey")]
-        [When(@"I select the OPN survey I am working on")]
-        public void WhenISelectTheOPNSurveyIAmWorkingOn()
+        [When(@"I select the DST survey I am working on")]
+        public void WhenISelectTheDSTSurveyIAmWorkingOn()
         {
             TobiHelper.GetInstance().LoadTobiHomePage();
             var currentUrl = TobiHelper.GetInstance().ClickLoadQuestionnaire();
@@ -81,7 +81,7 @@ namespace Blaise.Tobi.Tests.Behaviour.Steps
         {
             try
             {
-                Assert.IsNotNull(TobiHelper.GetInstance().GetSurveyTableContents().Where(s => s.Equals("OPN")));
+                Assert.IsNotNull(TobiHelper.GetInstance().GetSurveyTableContents().Where(s => s.Equals("DST")));
             }
             catch (Exception e)
             {

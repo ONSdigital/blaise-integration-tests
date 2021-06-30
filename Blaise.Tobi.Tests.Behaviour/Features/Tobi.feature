@@ -13,7 +13,7 @@ Then I will be able to view all live surveys with questionnaires loaded in Blais
 @regression @HappyPath
 Scenario: Select survey
 Given I can view a list of surveys on Blaise within TOBI
-When I select the OPN survey I am working on
+When I select the DST survey I am working on
 Then I am presented with a list of active questionnaires to be worked on that day for that survey
 
 @regression @HappyPath
