@@ -16,8 +16,8 @@ namespace Blaise.Tests.Helpers.Tobi.Pages
 
         public void ClickQuestionnaireButton()
         {
-            var opnIndex = GetSurveyAcronyms().FindIndex(s => s.Contains("OPN")) + 1;
-            var LaunchQuestionnaireLinkPath = $"{SurveyTablePath}[{opnIndex}]/td[2]/a";
+            var dstIndex = GetSurveyAcronyms().FindIndex(s => s.Contains("DST")) + 1;
+            var LaunchQuestionnaireLinkPath = $"{SurveyTablePath}[{dstIndex}]/td[2]/a";
             ClickButtonByXPath(LaunchQuestionnaireLinkPath);
         }
 
