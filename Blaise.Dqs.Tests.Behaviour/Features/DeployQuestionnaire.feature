@@ -47,7 +47,7 @@ And the questionnaire has not been overwritten
 #Then I am presented with a warning that I cannot overwrite the survey
 #And the questionnaire has not been overwritten
 
-@smoke @LU-7992
+@Smoke @LU-7992
 Scenario: Overwrite a questionnaire that does not have data
 Given I have been presented with questionnaire already exists screen
 And the questionnaire does not have data records
