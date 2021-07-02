@@ -37,8 +37,8 @@ namespace Blaise.Dqs.Tests.Behaviour.Steps
         [Then(@"I am presented with a list of the questionnaires already deployed to Blaise")]
         public void ThenIAmPresentedWithAListOfTheQuestionnairesAlreadyDeployedToBlaise()
         {
-            Assert.AreEqual(BlaiseConfigurationHelper.InstrumentName.ToLower(),
-                DqsHelper.GetInstance().GetQuestionnaireTableContents().FirstOrDefault().ToLower());
+            var questionnairesInTable = DqsHelper.GetInstance().GetQuestionnaireTableContents();
+            Assert.IsTrue(questionnairesInTable.Any(q => q == BlaiseConfigurationHelper.InstrumentName));
         }
 
         [Given(@"I have selected the questionnaire package I wish to deploy")]
@@ -57,10 +57,77 @@ namespace Blaise.Dqs.Tests.Behaviour.Steps
         }
 
         [When(@"I confirm my selection")]
+        [When(@"I Deploy The Questionnaire")]
         public void WhenIConfirmMySelection()
         {
-            DqsHelper.GetInstance().ConfirmQuestionnaireUpload();
+            try
+            {
+                DqsHelper.GetInstance().ConfirmQuestionnaireUpload();
+            }
+            catch (Exception e)
+            {
+                FailWithScreenShot(e, "NotOverwritten", "Questionnaire has not been Overwritten");
+            }
         }
+
+        [When(@"I dont select a Start date")]
+        public void WhenIdontSelectAStartDate()
+        {
+            try
+            {
+                DqsHelper.GetInstance().SelectNoLiveDate();
+                DqsHelper.GetInstance().ConfirmQuestionnaireUpload();
+            }
+            catch (Exception e)
+            {
+                FailWithScreenShot(e, "NoStartDateSelected", "Cannot select no Start date");
+            }
+        }
+
+        [When(@"I set a start date to today")]
+        public void WhenISetAStartDateTo()
+        {
+            try
+            {
+                var today = DateTime.Now.ToString("dd/MM/yyyy");
+                DqsHelper.GetInstance().SelectYesLiveDate();
+                DqsHelper.GetInstance().SetLiveDate(today);
+                DqsHelper.GetInstance().ConfirmQuestionnaireUpload();
+            }
+            catch (Exception e)
+            {
+                FailWithScreenShot(e, "LiveDateFieldNotSetCorrectly", "Start Date Field Not Set Correctly");
+            }
+        }
+
+        [When(@"The set start date for questionnaire returns today")]
+        public void WhenTheSetStartDateForQuestionnaireReturns()
+        {
+            try
+            {
+                var today = DateTime.Now.ToString("dd/MM/yyyy");
+                Assert.AreEqual($"Start date set to {today}", DqsHelper.GetInstance().GetLivedateSummaryText());
+            }
+            catch (Exception e)
+            {
+                FailWithScreenShot(e, "LiveDateFieldNotSetCorrectly", "Start Date Field Not Set Correctly");
+            }
+        }
+
+
+        [When(@"The set start date for questionnaire returns Start Date Not Specified")]
+        public void WhenTheSetStartDateForQuestionnaireReturnsLiveDateNotSpecified()
+        {
+            try
+            {
+                Assert.AreEqual("Start date not specified", DqsHelper.GetInstance().GetLivedateSummaryText());
+            }
+            catch (Exception e)
+            {
+                FailWithScreenShot(e, "StartDateNotSetCorrectly", "Unable to find start date response");
+            }
+        }
+
 
         [Then(@"I am presented with an option to deploy a new questionnaire")]
         public void ThenIAmPresentedWithAnOptionToDeployANewQuestionnaire()
@@ -109,7 +176,6 @@ namespace Blaise.Dqs.Tests.Behaviour.Steps
             DqsHelper.GetInstance().LoadUploadPage();
             DqsHelper.GetInstance().SelectQuestionnairePackage();
             DqsHelper.GetInstance().ConfirmQuestionnaireUpload();
-            DqsHelper.GetInstance().WaitForQuestionnaireAlreadyExistsPage();
 
             _scenarioContext.Set(InstrumentHelper.GetInstance().GetInstallDate(), InstallDate);
         }
@@ -130,7 +196,7 @@ namespace Blaise.Dqs.Tests.Behaviour.Steps
         public void WhenConfirmMySelection()
         {
             DqsHelper.GetInstance().ConfirmOverwriteOfQuestionnaire();
-            DqsHelper.GetInstance().ConfirmSelection();
+            DqsHelper.GetInstance().ConfirmQuestionnaireUpload();
         }
 
         [Then(@"the questionnaire has not been overwritten")]

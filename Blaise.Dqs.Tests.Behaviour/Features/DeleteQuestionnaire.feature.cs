@@ -124,12 +124,12 @@ testRunner.Then("I will not have the option to delete displayed", ((string)(null
         
         [NUnit.Framework.TestAttribute()]
         [NUnit.Framework.DescriptionAttribute("Confirm deletion")]
-        [NUnit.Framework.CategoryAttribute("smoke")]
+        [NUnit.Framework.CategoryAttribute("Smoke")]
         [NUnit.Framework.CategoryAttribute("LU7996")]
         public virtual void ConfirmDeletion()
         {
             string[] tagsOfScenario = new string[] {
-                    "smoke",
+                    "Smoke",
                     "LU7996"};
             System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Confirm deletion", null, tagsOfScenario, argumentsOfScenario);
