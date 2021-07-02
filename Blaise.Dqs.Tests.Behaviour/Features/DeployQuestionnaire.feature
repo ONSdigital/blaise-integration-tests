@@ -18,18 +18,24 @@ When I view the landing page
 Then I am presented with an option to deploy a new questionnaire
 
 @Smoke @LU-7990
-Scenario: Deploy selected file
+Scenario: Deploy selected file without Start Dates
 Given I have selected the questionnaire package I wish to deploy
 When I confirm my selection
+And I dont select a Start date
+And The set start date for questionnaire returns Start Date Not Specified
+And I Deploy The Questionnaire
 Then I am presented with a successful deployment information banner
 And the questionnaire is active in blaise
 
-@LU-7994
-Scenario: Questionnaire package already in Blaise
+@Smoke @LU-7990
+Scenario: Deploy selected file with live dates
 Given I have selected the questionnaire package I wish to deploy
-And the package I have selected already exists in Blaise
 When I confirm my selection
-Then I am presented with questionnaire already exists screen
+And I set a start date to today
+And The set start date for questionnaire returns today
+And I Deploy The Questionnaire
+Then I am presented with a successful deployment information banner
+And the questionnaire is active in blaise
 
 @regression @LU-7994
 Scenario: Back-out of deploying a questionnaire
@@ -53,5 +59,8 @@ Given I have been presented with questionnaire already exists screen
 And the questionnaire does not have data records
 When I select to overwrite
 And confirm my selection
+And I dont select a Start date
+And The set start date for questionnaire returns Start Date Not Specified
+And I Deploy The Questionnaire
 Then Then the questionnaire package is deployed and overwrites the existing questionnaire
 
