@@ -49,14 +49,14 @@ namespace Blaise.Tests.Helpers.Cati
         public void AddSurveyFilter()
         {
             var dayBatchPage = new DayBatchPage();
+            dayBatchPage.LoadPage();
             dayBatchPage.ApplyFilters();
         }
 
         public void SetupDayBatchTimeParameters()
         {
             var daybatchPage = new DayBatchPage();
-            daybatchPage.LoadPage();
-            AddSurveyFilter();
+            Thread.Sleep(5000);
             daybatchPage.ModifyDayBatchEntry();
         }
 
