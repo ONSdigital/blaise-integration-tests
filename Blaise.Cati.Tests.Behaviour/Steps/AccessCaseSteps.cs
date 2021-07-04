@@ -46,8 +46,8 @@ namespace Blaise.Cati.Tests.Behaviour.Steps
             }
         }
 
-        [When(@"The the time is within the day batch parameters")]
-        public void WhenTheTheTimeIsWithinTheDayBatchParameters()
+        [When(@"The time is within the day batch parameters")]
+        public void WhenTheTimeIsWithinTheDayBatchParameters()
         {
             try
             {
