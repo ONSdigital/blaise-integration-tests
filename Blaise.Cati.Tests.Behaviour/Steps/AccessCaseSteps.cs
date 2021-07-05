@@ -4,6 +4,7 @@ using System.Threading;
 using Blaise.Tests.Helpers.Browser;
 using Blaise.Tests.Helpers.Case;
 using Blaise.Tests.Helpers.Cati;
+using Blaise.Tests.Helpers.Configuration;
 using Blaise.Tests.Helpers.Instrument;
 using NUnit.Framework;
 using TechTalk.SpecFlow;
@@ -18,6 +19,7 @@ namespace Blaise.Cati.Tests.Behaviour.Steps
         {
             CatiInterviewHelper.GetInstance().CreateInterviewUser();
             InstrumentHelper.GetInstance().InstallInstrument();
+            Assert.IsTrue(InstrumentHelper.GetInstance().SurveyHasInstalled(BlaiseConfigurationHelper.InstrumentName, 60));
         }
 
         [Given(@"There is a questionnaire installed on a Blaise environment")]
@@ -46,8 +48,8 @@ namespace Blaise.Cati.Tests.Behaviour.Steps
             }
         }
 
-        [When(@"The the time is within the day batch parameters")]
-        public void WhenTheTheTimeIsWithinTheDayBatchParameters()
+        [When(@"The time is within the day batch parameters")]
+        public void WhenTheTimeIsWithinTheDayBatchParameters()
         {
             try
             {
