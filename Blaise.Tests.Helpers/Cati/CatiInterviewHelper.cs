@@ -56,6 +56,7 @@ namespace Blaise.Tests.Helpers.Cati
         public void SetupDayBatchTimeParameters()
         {
             var daybatchPage = new DayBatchPage();
+            //makes me sad but Blaise refreshes the table dom object after the page has initalised 
             Thread.Sleep(5000);
             daybatchPage.ModifyDayBatchEntry();
         }
