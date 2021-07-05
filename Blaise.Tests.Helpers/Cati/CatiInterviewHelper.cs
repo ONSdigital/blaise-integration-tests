@@ -49,14 +49,15 @@ namespace Blaise.Tests.Helpers.Cati
         public void AddSurveyFilter()
         {
             var dayBatchPage = new DayBatchPage();
+            dayBatchPage.LoadPage();
             dayBatchPage.ApplyFilters();
         }
 
         public void SetupDayBatchTimeParameters()
         {
             var daybatchPage = new DayBatchPage();
-            daybatchPage.LoadPage();
-            AddSurveyFilter();
+            //makes me sad but Blaise refreshes the table dom object after the page has initalised 
+            Thread.Sleep(5000);
             daybatchPage.ModifyDayBatchEntry();
         }
 
