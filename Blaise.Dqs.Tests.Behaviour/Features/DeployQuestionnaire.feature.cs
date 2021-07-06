@@ -328,12 +328,12 @@ testRunner.And("the questionnaire has not been overwritten", ((string)(null)), (
         
         [NUnit.Framework.TestAttribute()]
         [NUnit.Framework.DescriptionAttribute("Overwrite a questionnaire that does not have data")]
-        [NUnit.Framework.CategoryAttribute("Smoke")]
+        [NUnit.Framework.CategoryAttribute("smoke")]
         [NUnit.Framework.CategoryAttribute("LU-7992")]
         public virtual void OverwriteAQuestionnaireThatDoesNotHaveData()
         {
             string[] tagsOfScenario = new string[] {
-                    "Smoke",
+                    "smoke",
                     "LU-7992"};
             System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Overwrite a questionnaire that does not have data", null, tagsOfScenario, argumentsOfScenario);
