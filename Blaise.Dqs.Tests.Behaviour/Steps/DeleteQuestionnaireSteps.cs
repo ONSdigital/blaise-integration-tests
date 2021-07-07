@@ -37,9 +37,17 @@ namespace Blaise.Dqs.Tests.Behaviour.Steps
         [When(@"I locate that questionnaire in the list")]
         public void WhenILocateThatQuestionnaireInTheList()
         {
-            DqsHelper.GetInstance().LoadDqsHomePage();
-            var questionnairesInTable = DqsHelper.GetInstance().GetQuestionnaireTableContents();
-            Assert.IsTrue(questionnairesInTable.Any(q => q == BlaiseConfigurationHelper.InstrumentName));
+            try
+            {
+                DqsHelper.GetInstance().LoadDqsHomePage();
+                var questionnairesInTable = DqsHelper.GetInstance().GetQuestionnaireTableContents();
+                Assert.IsTrue(questionnairesInTable.Any(q => q == BlaiseConfigurationHelper.InstrumentName));
+            }
+            catch (Exception e)
+            {
+                FailWithScreenShot(e, "CantDelete", "Questionnaire Cannot be deleted");
+            }
+
         }
 
         [When(@"I confirm that I want to proceed")]
