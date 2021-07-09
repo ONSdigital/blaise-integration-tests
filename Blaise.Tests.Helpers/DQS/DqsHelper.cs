@@ -1,5 +1,6 @@
 ﻿using Blaise.Tests.Helpers.Configuration;
 using Blaise.Tests.Helpers.Dqs.Pages;
+using System;
 using System.Collections.Generic;
 
 namespace Blaise.Tests.Helpers.Dqs
@@ -18,6 +19,7 @@ namespace Blaise.Tests.Helpers.Dqs
             var homePage = new HomePage();
             homePage.LoadPage();
         }
+
         public List<string> GetQuestionnaireTableContents()
         {
             var homePage = new HomePage();
@@ -38,15 +40,15 @@ namespace Blaise.Tests.Helpers.Dqs
 
         public void CancelDeploymentOfQuestionnaire()
         {
-            var surveyExistsPage = new QuestionnaireExistsPage();
-            surveyExistsPage.SelectCancel();
+            var uploadPage = new UploadPage();
+            uploadPage.SelectCancelButton();
         }
 
         public void OverwriteQuestionnaire()
         {
-            var surveyExistsPage = new QuestionnaireExistsPage();
-            surveyExistsPage.SelectOverwrite();
-            surveyExistsPage.SelectSaveButton();
+            var surveyExistsPage = new UploadPage();
+            surveyExistsPage.SelectContinueOverwriteButton();
+            surveyExistsPage.SelectContinueButton();
         }
 
         public void SelectQuestionnairePackage()
@@ -91,6 +93,12 @@ namespace Blaise.Tests.Helpers.Dqs
             return uploadSummaryPage.GetUploadSummaryText();
         }
 
+        public void SelectNoLiveDate()
+        {
+            var uploadPage = new UploadPage();
+            uploadPage.SelectNoLiveDateButton();
+        }
+
         public void WaitForQuestionnaireAlreadyExistsPage()
         {
             var uploadPage = new UploadPage();
@@ -105,14 +113,9 @@ namespace Blaise.Tests.Helpers.Dqs
 
         public void ConfirmOverwriteOfQuestionnaire()
         {
-            var confirmOverwritePage = new ConfirmOverwritePage();
-            confirmOverwritePage.ClickConfirmOverwriteButton();
-        }
+            var confirmOverwritePage = new UploadPage();
+            confirmOverwritePage.SelectYesLiveDateButton();
 
-        public void ConfirmSelection()
-        {
-            var confirmOverwritePage = new ConfirmOverwritePage();
-            confirmOverwritePage.ClickContinueButton();
         }
 
         public void DeleteQuestionnaire(string instrumentName)
@@ -126,6 +129,24 @@ namespace Blaise.Tests.Helpers.Dqs
         {
             var homePage = new HomePage();
             return homePage.GetUploadSummaryText();
+        }
+
+        public string GetLivedateSummaryText()
+        {
+            var uploadPage = new UploadPage();
+            return uploadPage.GetLiveDateSummaryText();
+        }
+
+        public void SelectYesLiveDate()
+        {
+            var uploadPage = new UploadPage();
+            uploadPage.SelectYesLiveDateButton();
+        }
+
+        public void SetLiveDate(string date)
+        {
+            var uploadPage = new UploadPage();
+            uploadPage.SetLiveDate(date);
         }
     }
 }
