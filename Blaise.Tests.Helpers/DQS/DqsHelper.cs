@@ -148,5 +148,24 @@ namespace Blaise.Tests.Helpers.Dqs
             var uploadPage = new UploadPage();
             uploadPage.SetLiveDate(date);
         }
+
+        public string GetToStartDate()
+        {
+            var instrumentInfoPage = new InstrumentInfoPage();
+            return instrumentInfoPage.GetToStartDate();
+        }
+
+        public void ClickInstrumentInfoButton(string instrumentName)
+        {
+            var homepage = new HomePage();
+            homepage.LoadPage();
+            homepage.ClickInstrumentInfoButton(instrumentName);
+        }
+
+        public void ClickAddStartDate()
+        {
+            var instrumentInfoPage = new InstrumentInfoPage();
+            instrumentInfoPage.AddToStartDate();
+        }
     }
 }
