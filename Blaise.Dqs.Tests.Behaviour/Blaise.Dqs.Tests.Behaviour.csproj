@@ -93,11 +93,13 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Steps\DeleteQuestionnaireSteps.cs" />
     <Compile Include="Steps\DeployQuestionnaireSteps.cs" />
+    <Compile Include="Steps\ToStartDateSteps.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
     <None Include="Features\DeleteQuestionnaire.feature" />
     <None Include="Features\DeployQuestionnaire.feature" />
+    <None Include="Features\ToStartDate.feature" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>

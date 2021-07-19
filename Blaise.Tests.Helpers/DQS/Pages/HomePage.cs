@@ -12,6 +12,7 @@ namespace Blaise.Tests.Helpers.Dqs.Pages
         public string DeletePlaceholderId = "delete-";
         public string DeleteButtonId = "delete-button-";
         private const string SummaryDivPath = "//div[contains(@class, 'success panel')]";
+        public string InfoButtonPlaceholderId = "info-";
 
         public HomePage() : base(DqsConfigurationHelper.DqsUrl)
         {
@@ -46,6 +47,11 @@ namespace Blaise.Tests.Helpers.Dqs.Pages
         public string GetUploadSummaryText()
         {
             return GetElementTextByPath(SummaryDivPath);
+        }
+
+        public void ClickInstrumentInfoButton(string instrumentName)
+        {
+            ClickButtonById(InfoButtonPlaceholderId + instrumentName);
         }
     }
 }
