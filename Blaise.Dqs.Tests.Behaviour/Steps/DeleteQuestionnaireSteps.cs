@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Linq;
-using System.Threading;
 using Blaise.Tests.Helpers.Browser;
 using Blaise.Tests.Helpers.Case;
 using Blaise.Tests.Helpers.Configuration;
@@ -30,8 +29,15 @@ namespace Blaise.Dqs.Tests.Behaviour.Steps
         [Given(@"I select Delete on a questionnaire that is not live")]
         public void GivenISelectDeleteOnAQuestionnaireThatIsNotLive()
         {
-            InstrumentHelper.GetInstance().InstallInstrument();
-            DqsHelper.GetInstance().DeleteQuestionnaire(BlaiseConfigurationHelper.InstrumentName);
+            try
+            {
+                InstrumentHelper.GetInstance().InstallInstrument();
+                DqsHelper.GetInstance().DeleteQuestionnaire(BlaiseConfigurationHelper.InstrumentName);
+            }
+            catch (Exception e)
+            {
+                FailWithScreenShot(e, "CantDelete", "Questionnaire Cannot be deleted");
+            }
         }
 
         [When(@"I locate that questionnaire in the list")]
@@ -53,8 +59,15 @@ namespace Blaise.Dqs.Tests.Behaviour.Steps
         [When(@"I confirm that I want to proceed")]
         public void WhenIConfirmThatIWantToProceed()
         {
-            DqsHelper.GetInstance().ConfirmDeletionOfQuestionnaire();
-            DqsHelper.GetInstance().WaitForDeletionToComplete();
+            try
+            {
+                DqsHelper.GetInstance().ConfirmDeletionOfQuestionnaire();
+                DqsHelper.GetInstance().WaitForDeletionToComplete();
+            }
+            catch (Exception e)
+            {
+                FailWithScreenShot(e, "CantDelete", "Questionnaire Cannot be deleted");
+            }
         }
 
         [Then(@"I will not have the option to delete displayed")]
