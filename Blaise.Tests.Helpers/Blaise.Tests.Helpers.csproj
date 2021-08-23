@@ -168,8 +168,8 @@
     <Compile Include="Cati\CatiManagementHelper.cs" />
     <Compile Include="Cati\Pages\CaseInfoPage.cs" />
     <Compile Include="Dqs\Pages\CannotOverwritePage.cs" />
-    <Compile Include="Dqs\Pages\ConfirmOverwritePage.cs" />
     <Compile Include="Dqs\Pages\DeleteConfirmationPage.cs" />
+    <Compile Include="Dqs\Pages\InstrumentInfoPage.cs" />
     <Compile Include="Framework\BasePage.cs" />
     <Compile Include="Cati\Pages\DayBatchPage.cs" />
     <Compile Include="Cati\Pages\InterviewLoginPage.cs" />
@@ -184,7 +184,6 @@
     <Compile Include="Configuration\TobiConfigurationHelper.cs" />
     <Compile Include="Dqs\DqsHelper.cs" />
     <Compile Include="Dqs\Pages\HomePage.cs" />
-    <Compile Include="Dqs\Pages\QuestionnaireExistsPage.cs" />
     <Compile Include="Dqs\Pages\UploadPage.cs" />
     <Compile Include="Dqs\Pages\UploadSummaryPage.cs" />
     <Compile Include="Framework\Extensions\ConfigurationExtensions.cs" />
