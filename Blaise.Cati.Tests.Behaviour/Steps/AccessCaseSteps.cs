@@ -91,13 +91,13 @@ namespace Blaise.Cati.Tests.Behaviour.Steps
         {
             CatiManagementHelper.GetInstance().ClearDayBatchEntries();
             BrowserHelper.CloseBrowser();
-            CaseHelper.GetInstance().DeleteCases();
         }
 
         [AfterFeature("interview")]
         public static void CleanUpFeature()
         {
             CatiInterviewHelper.GetInstance().DeleteInterviewUser();
+            CaseHelper.GetInstance().DeleteCases();
             InstrumentHelper.GetInstance().UninstallSurvey();
         }
 
