@@ -90,6 +90,7 @@ namespace Blaise.Cati.Tests.Behaviour.Steps
         [AfterScenario("interview")]
         public void CleanUpScenario()
         {
+            CaseHelper.GetInstance().DeleteCases();
             CatiManagementHelper.GetInstance().ClearDayBatchEntries();
             BrowserHelper.CloseBrowser();         
         }
@@ -98,7 +99,6 @@ namespace Blaise.Cati.Tests.Behaviour.Steps
         public static void CleanUpFeature()
         {
             CatiInterviewHelper.GetInstance().DeleteInterviewUser();
-            CaseHelper.GetInstance().DeleteCases();
             InstrumentHelper.GetInstance().UninstallSurvey();
         }
 
