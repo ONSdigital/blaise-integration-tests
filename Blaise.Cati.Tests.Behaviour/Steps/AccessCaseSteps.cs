@@ -90,9 +90,9 @@ namespace Blaise.Cati.Tests.Behaviour.Steps
         [AfterScenario("interview")]
         public void CleanUpScenario()
         {
-            CaseHelper.GetInstance().DeleteCases();
             CatiManagementHelper.GetInstance().ClearDayBatchEntries();
-            BrowserHelper.CloseBrowser();         
+            BrowserHelper.CloseBrowser();
+            CaseHelper.GetInstance().DeleteCases();
         }
 
         [AfterFeature("interview")]
