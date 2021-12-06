@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Diagnostics;
-using System.Threading;
 using Blaise.Tests.Helpers.Browser;
 using Blaise.Tests.Helpers.Case;
 using Blaise.Tests.Helpers.Cati;
@@ -91,7 +90,7 @@ namespace Blaise.Cati.Tests.Behaviour.Steps
         public void CleanUpScenario()
         {
             CatiManagementHelper.GetInstance().ClearDayBatchEntries();
-            BrowserHelper.CloseBrowser();         
+            BrowserHelper.CloseBrowser();
         }
 
         [AfterFeature("interview")]
