@@ -161,6 +161,7 @@ namespace Blaise.Tests.Helpers.Dqs
         public string GetToStartDate()
         {
             var instrumentInfoPage = new InstrumentInfoPage();
+            instrumentInfoPage.LoadPage();
             return instrumentInfoPage.GetToStartDate();
         }
 
@@ -174,6 +175,7 @@ namespace Blaise.Tests.Helpers.Dqs
         public void ClickAddStartDate()
         {
             var instrumentInfoPage = new InstrumentInfoPage();
+            instrumentInfoPage.LoadPage();
             instrumentInfoPage.AddToStartDate();
         }
     }
