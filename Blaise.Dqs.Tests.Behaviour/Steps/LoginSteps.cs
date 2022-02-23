@@ -13,16 +13,16 @@ namespace Blaise.Dqs.Tests.Behaviour.Steps
     {
         // For additional details on SpecFlow step definitions see https://go.specflow.org/doc-stepdef
 
-        private readonly string _userName = $"BDSS-test-user-{Guid.NewGuid()}";
-        private readonly string _password = $"{Guid.NewGuid()}";
+        private static readonly string UserName = $"BDSS-test-user-{Guid.NewGuid()}";
+        private static readonly string Password = $"{Guid.NewGuid()}";
 
         [BeforeTestRun]
-        public void SetupFeature()
+        public static void SetupFeature()
         {
             var userModel = new UserModel
             {
-                UserName = _userName,
-                Password = _password,
+                UserName = UserName,
+                Password = Password,
                 Role = "BDSS",
                 ServerParks = new List<string> { BlaiseConfigurationHelper.ServerParkName },
                 DefaultServerPark = BlaiseConfigurationHelper.ServerParkName
@@ -44,13 +44,13 @@ namespace Blaise.Dqs.Tests.Behaviour.Steps
 
         private void LogInToDqs()
         {
-            DqsHelper.GetInstance().LoginToDqs(_userName, _password);
+            DqsHelper.GetInstance().LoginToDqs(UserName, Password);
         }
 
         [AfterTestRun]
-        public void CleanUp()
+        public static void CleanUp()
         {
-            UserHelper.GetInstance().RemoveUser(_userName);
+            UserHelper.GetInstance().RemoveUser(UserName);
         }
     }
 }
