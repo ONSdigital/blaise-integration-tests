@@ -2,6 +2,10 @@
 Feature: ToStartDate
 	Simple calculator for adding two numbers
 
+Background: 
+	Given I am a BDSS user
+	And I have logged into to DQS
+
 @Smoke
 Scenario: An Instrument has been deployed without a start date and I wish to add one
 	Given An instrument is installed in Blaise
