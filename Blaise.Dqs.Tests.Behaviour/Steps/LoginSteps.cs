@@ -14,15 +14,8 @@ namespace Blaise.Dqs.Tests.Behaviour.Steps
     public sealed class LoginSteps
     {
         // For additional details on SpecFlow step definitions see https://go.specflow.org/doc-stepdef
-
-        private readonly ScenarioContext _scenarioContext;
-
         private static UserModel _userModel;
 
-        public LoginSteps(ScenarioContext scenarioContext)
-        {
-            _scenarioContext = scenarioContext;
-        }
 
         [BeforeFeature]
         public static void InitializeFeature()
