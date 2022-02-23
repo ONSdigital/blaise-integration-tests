@@ -21,12 +21,13 @@ namespace Blaise.Tests.Helpers.Dqs.Pages
             PopulateInputByName(_usernameTextBoxName, username);
             PopulateInputByName(_passwordTextBoxName, password);
             ClickButtonByXPath(_submitButtonPath);
+            ButtonIsAvailableByPath(_signOutButtonPath);
         }
 
         public void LogOutOfDqs()
         {
-
             ClickButtonByXPath(_signOutButtonPath);
+            ButtonIsAvailableByPath(_submitButtonPath);
         }
     }
 }
