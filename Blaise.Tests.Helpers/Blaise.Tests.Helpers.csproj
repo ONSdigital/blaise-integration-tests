@@ -169,6 +169,7 @@
     <Compile Include="Cati\Pages\CaseInfoPage.cs" />
     <Compile Include="Dqs\Pages\CannotOverwritePage.cs" />
     <Compile Include="Dqs\Pages\DeleteConfirmationPage.cs" />
+    <Compile Include="Dqs\Pages\LoginPage.cs" />
     <Compile Include="Dqs\Pages\InstrumentInfoPage.cs" />
     <Compile Include="Framework\BasePage.cs" />
     <Compile Include="Cati\Pages\DayBatchPage.cs" />
