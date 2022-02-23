@@ -8,7 +8,7 @@ namespace Blaise.Tests.Helpers.Dqs.Pages
         private readonly string _usernameTextBoxName = "Username";
         private readonly string _passwordTextBoxName = "Password";
         private readonly string _submitButtonPath = "//button[@type='submit']";
-        private readonly string _signOutButtonPath = "//button[@class='btn--exit']";
+        private readonly string _signOutButtonPath = "//button/span[contains(text(),'Sign out')]";
 
 
         public LoginPage() : base(DqsConfigurationHelper.DqsUrl)
