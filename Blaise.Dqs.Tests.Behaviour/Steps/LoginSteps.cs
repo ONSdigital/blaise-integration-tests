@@ -12,26 +12,22 @@ namespace Blaise.Dqs.Tests.Behaviour.Steps
     public sealed class LoginSteps
     {
         // For additional details on SpecFlow step definitions see https://go.specflow.org/doc-stepdef
-        private readonly ScenarioContext _scenarioContext;
 
-        public LoginSteps(ScenarioContext scenarioContext)
-        {
-            _scenarioContext = scenarioContext;
-        }
+        private readonly string _userName = $"BDSS-test-user-{Guid.NewGuid()}";
+        private readonly string _password = $"{Guid.NewGuid()}";
 
-        [BeforeScenario]
+        [BeforeTestRun]
         public void SetupFeature()
         {
             var userModel = new UserModel
             {
-                UserName = $"BDSS-test-user-{Guid.NewGuid()}",
-                Password = $"{Guid.NewGuid()}",
+                UserName = _userName,
+                Password = _password,
                 Role = "BDSS",
                 ServerParks = new List<string> { BlaiseConfigurationHelper.ServerParkName },
                 DefaultServerPark = BlaiseConfigurationHelper.ServerParkName
             };
 
-            _scenarioContext.Set(userModel, "userModel");
             UserHelper.GetInstance().CreateUser(userModel);
         }
 
@@ -43,27 +39,18 @@ namespace Blaise.Dqs.Tests.Behaviour.Steps
         [Given(@"I have logged into to DQS")]
         public void GivenIHaveLoggedIntoToDqs()
         {
-            var userModel = _scenarioContext.Get<UserModel>("userModel");
-            LogInToDqs(userModel);
+            LogInToDqs();
         }
 
-        private void LogInToDqs(UserModel userModel)
+        private void LogInToDqs()
         {
-            DqsHelper.GetInstance().LoginToDqs(userModel.UserName, userModel.Password);
+            DqsHelper.GetInstance().LoginToDqs(_userName, _password);
         }
 
-        private void LogOutOfDqs()
+        [AfterTestRun]
+        public void CleanUp()
         {
-            DqsHelper.GetInstance().LogOutOfDqs();
-        }
-
-        [AfterScenario]
-        public void CleanUpFeature()
-        {
-            var userModel = _scenarioContext.Get<UserModel>("userModel");
-            UserHelper.GetInstance().RemoveUser(userModel.UserName);
-
-            //LogOutOfDqs();
+            UserHelper.GetInstance().RemoveUser(_userName);
         }
     }
 }
