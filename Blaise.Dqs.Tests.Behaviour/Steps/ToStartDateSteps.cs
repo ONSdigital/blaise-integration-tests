@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Globalization;
-using System.Linq;
-using System.Text;
 using Blaise.Tests.Helpers.Browser;
 using Blaise.Tests.Helpers.Case;
 using Blaise.Tests.Helpers.Configuration;
@@ -17,13 +13,6 @@ namespace Blaise.Dqs.Tests.Behaviour.Steps
     public sealed class ToStartDateSteps
     {
         // For additional details on SpecFlow step definitions see https://go.specflow.org/doc-stepdef
-
-        private readonly ScenarioContext _scenarioContext;
-
-        public ToStartDateSteps(ScenarioContext scenarioContext)
-        {
-            _scenarioContext = scenarioContext;
-        }
 
         [BeforeFeature("ToStartDate")]
         public static void InitializeFeature()
