@@ -1,11 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using Blaise.Tests.Helpers.Browser;
 using Blaise.Tests.Helpers.Configuration;
 using Blaise.Tests.Helpers.Dqs;
 using Blaise.Tests.Helpers.User;
 using Blaise.Tests.Models.User;
-using NUnit.Framework;
 using TechTalk.SpecFlow;
 
 namespace Blaise.Dqs.Tests.Behaviour.Steps
@@ -21,12 +19,12 @@ namespace Blaise.Dqs.Tests.Behaviour.Steps
             _scenarioContext = scenarioContext;
         }
 
-        [BeforeScenario()]
+        [BeforeScenario]
         public void SetupFeature()
         {
             var userModel = new UserModel
             {
-                UserName = $"DQS-{Guid.NewGuid()}",
+                UserName = $"BDSS-test-user-{Guid.NewGuid()}",
                 Password = $"{Guid.NewGuid()}",
                 Role = "BDSS",
                 ServerParks = new List<string> { BlaiseConfigurationHelper.ServerParkName },
@@ -43,7 +41,7 @@ namespace Blaise.Dqs.Tests.Behaviour.Steps
         }
 
         [Given(@"I have logged into to DQS")]
-        public void GivenIHaveLoggedIntoToDQS()
+        public void GivenIHaveLoggedIntoToDqs()
         {
             var userModel = _scenarioContext.Get<UserModel>("userModel");
             LogInToDqs(userModel);
@@ -51,45 +49,21 @@ namespace Blaise.Dqs.Tests.Behaviour.Steps
 
         private void LogInToDqs(UserModel userModel)
         {
-            try
-            {
-                DqsHelper.GetInstance().LoginToDqs(userModel.UserName, userModel.Password);
-            }
-            catch (Exception e)
-            {
-                FailWithScreenShot(e, "LogIntoDqs", "Log into DQS");
-            }
+            DqsHelper.GetInstance().LoginToDqs(userModel.UserName, userModel.Password);
         }
 
         private void LogOutOfDqs()
         {
-            try
-            {
-                DqsHelper.GetInstance().LogOutOfDqs();
-            }
-            catch (Exception e)
-            {
-                FailWithScreenShot(e, "LogOutOfDqs", "Log out of DQS");
-            }
+            DqsHelper.GetInstance().LogOutOfDqs();
         }
-
-        private static void FailWithScreenShot(Exception e, string screenShotName, string screenShotDescription)
-        {
-            var screenShotFile = BrowserHelper.TakeScreenShot(TestContext.CurrentContext.WorkDirectory,
-                screenShotName);
-
-            TestContext.AddTestAttachment(screenShotFile, screenShotDescription);
-            Assert.Fail($"The test failed to complete - {e.Message}");
-        }
-
-
 
         [AfterScenario]
         public void CleanUpFeature()
         {
-            LogOutOfDqs();
             var userModel = _scenarioContext.Get<UserModel>("userModel");
             UserHelper.GetInstance().RemoveUser(userModel.UserName);
+
+            //LogOutOfDqs();
         }
     }
 }
