@@ -23,14 +23,6 @@ namespace Blaise.Tests.Helpers.Dqs
             Thread.Sleep(5000);
         }
 
-        public void LogOutOfDqs()
-        {
-            var loginPage = new LoginPage();
-            loginPage.LoadPage();
-            loginPage.LogOutOfDqs();
-            Thread.Sleep(5000);
-        }
-
         public void LoadDqsHomePage()
         {
             var homePage = new HomePage();
