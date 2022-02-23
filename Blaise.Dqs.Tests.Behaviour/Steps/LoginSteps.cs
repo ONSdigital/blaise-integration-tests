@@ -21,8 +21,8 @@ namespace Blaise.Dqs.Tests.Behaviour.Steps
             _scenarioContext = scenarioContext;
         }
 
-        [Given(@"I am a BDSS user")]
-        public void GivenIAmABdssUser()
+        [BeforeScenario()]
+        public void SetupFeature()
         {
             var userModel = new UserModel
             {
@@ -34,24 +34,45 @@ namespace Blaise.Dqs.Tests.Behaviour.Steps
             };
 
             _scenarioContext.Set(userModel, "userModel");
-
             UserHelper.GetInstance().CreateUser(userModel);
+        }
+
+        [Given(@"I am a BDSS user")]
+        public void GivenIAmABdssUser()
+        {
         }
 
         [Given(@"I have logged into to DQS")]
         public void GivenIHaveLoggedIntoToDQS()
         {
+            var userModel = _scenarioContext.Get<UserModel>("userModel");
+            LogInToDqs(userModel);
+        }
+
+        private void LogInToDqs(UserModel userModel)
+        {
             try
             {
-                var userModel = _scenarioContext.Get<UserModel>("userModel");
                 DqsHelper.GetInstance().LoginToDqs(userModel.UserName, userModel.Password);
             }
             catch (Exception e)
             {
-                FailWithScreenShot(e, "GivenIHaveLoggedIntoToDQS", "Log into DQS");
+                FailWithScreenShot(e, "LogIntoDqs", "Log into DQS");
             }
         }
-        
+
+        private void LogOutOfDqs()
+        {
+            try
+            {
+                DqsHelper.GetInstance().LogOutOfDqs();
+            }
+            catch (Exception e)
+            {
+                FailWithScreenShot(e, "LogOutOfDqs", "Log out of DQS");
+            }
+        }
+
         private static void FailWithScreenShot(Exception e, string screenShotName, string screenShotDescription)
         {
             var screenShotFile = BrowserHelper.TakeScreenShot(TestContext.CurrentContext.WorkDirectory,
@@ -61,10 +82,12 @@ namespace Blaise.Dqs.Tests.Behaviour.Steps
             Assert.Fail($"The test failed to complete - {e.Message}");
         }
 
+
+
         [AfterScenario]
         public void CleanUpFeature()
         {
-            DqsHelper.GetInstance().LogOutOfDqs();
+            LogOutOfDqs();
             var userModel = _scenarioContext.Get<UserModel>("userModel");
             UserHelper.GetInstance().RemoveUser(userModel.UserName);
         }
