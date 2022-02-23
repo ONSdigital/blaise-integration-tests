@@ -1,7 +1,7 @@
 ﻿using Blaise.Tests.Helpers.Configuration;
 using Blaise.Tests.Helpers.Dqs.Pages;
-using System;
 using System.Collections.Generic;
+using System.Threading;
 
 namespace Blaise.Tests.Helpers.Dqs
 {
@@ -13,7 +13,15 @@ namespace Blaise.Tests.Helpers.Dqs
         {
             return _currentInstance ?? (_currentInstance = new DqsHelper());
         }
-        
+
+        public void LoginToDqs(string username, string password)
+        {
+            var loginPage = new LoginPage();
+            loginPage.LoadPage();
+            loginPage.LogIntoDqs(username, password);
+            Thread.Sleep(5000);
+        }
+
         public void LoadDqsHomePage()
         {
             var homePage = new HomePage();
@@ -148,7 +156,6 @@ namespace Blaise.Tests.Helpers.Dqs
             var uploadPage = new UploadPage();
             uploadPage.SetLiveDate(date);
         }
-
         public string GetToStartDate()
         {
             var instrumentInfoPage = new InstrumentInfoPage();

@@ -93,6 +93,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Steps\DeleteQuestionnaireSteps.cs" />
     <Compile Include="Steps\DeployQuestionnaireSteps.cs" />
+    <Compile Include="Steps\LoginSteps.cs" />
     <Compile Include="Steps\ToStartDateSteps.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -106,6 +107,10 @@
     <ProjectReference Include="..\Blaise.Tests.Helpers\Blaise.Tests.Helpers.csproj">
       <Project>{F163D077-61A9-4DA9-AA99-D936EFA0E4CF}</Project>
       <Name>Blaise.Tests.Helpers</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Blaise.Tests.Models\Blaise.Tests.Models.csproj">
+      <Project>{0C4A5514-FAEB-4833-8A1A-D489A58A3F9B}</Project>
+      <Name>Blaise.Tests.Models</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
