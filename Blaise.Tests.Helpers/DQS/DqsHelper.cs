@@ -1,6 +1,7 @@
 ﻿using Blaise.Tests.Helpers.Configuration;
 using Blaise.Tests.Helpers.Dqs.Pages;
 using System.Collections.Generic;
+using System.Threading;
 
 namespace Blaise.Tests.Helpers.Dqs
 {
@@ -18,6 +19,7 @@ namespace Blaise.Tests.Helpers.Dqs
             var loginPage = new LoginPage();
             loginPage.LoadPage();
             loginPage.LogIntoDqs(username, password);
+            Thread.Sleep(5000);
         }
 
         public void LoadDqsHomePage()
