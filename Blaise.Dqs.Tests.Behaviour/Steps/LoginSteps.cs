@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using Blaise.Tests.Helpers.Browser;
 using Blaise.Tests.Helpers.Configuration;
 using Blaise.Tests.Helpers.Dqs;
 using Blaise.Tests.Helpers.User;
 using Blaise.Tests.Models.User;
+using NUnit.Framework;
 using TechTalk.SpecFlow;
 
 namespace Blaise.Dqs.Tests.Behaviour.Steps
@@ -39,7 +41,14 @@ namespace Blaise.Dqs.Tests.Behaviour.Steps
         [Given(@"I have logged into to DQS")]
         public void GivenIHaveLoggedIntoToDqs()
         {
-            LogInToDqs();
+            try
+            {
+                LogInToDqs();
+            }
+            catch
+            {
+                TakeScreenShot("LogInError", "Error logging in");
+            }
         }
 
         private void LogInToDqs()
@@ -51,6 +60,15 @@ namespace Blaise.Dqs.Tests.Behaviour.Steps
         public static void CleanUp()
         {
             UserHelper.GetInstance().RemoveUser(UserName);
+        }
+
+
+        private static void TakeScreenShot(string screenShotName, string screenShotDescription)
+        {
+            var screenShotFile = BrowserHelper.TakeScreenShot(TestContext.CurrentContext.WorkDirectory,
+                screenShotName);
+
+            TestContext.AddTestAttachment(screenShotFile, screenShotDescription);
         }
     }
 }
