@@ -57,19 +57,6 @@ namespace Blaise.Dqs.Tests.Behaviour.Steps
          
         }
 
-        private static void LogOutOfDqs()
-        {
-            try
-            {
-                DqsHelper.GetInstance().LogOutOfToDqs();
-            }
-            catch
-            {
-                TakeScreenShot("LogOutError", "Error logging out");
-            }
-
-        }
-
         [AfterTestRun]
         public static void CleanUpTestRun()
         {

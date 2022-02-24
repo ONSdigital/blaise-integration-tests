@@ -107,7 +107,7 @@ namespace Blaise.Dqs.Tests.Behaviour.Steps
                 if (date == "tomorrow")
                     toStartDate = DateTime.Now.AddDays(1).ToString("dd/MM/yyyy");
                 DqsHelper.GetInstance().ClickInstrumentInfoButton(BlaiseConfigurationHelper.InstrumentName);
-                string toStartDateText = DqsHelper.GetInstance().GetToStartDate();
+                var toStartDateText = DqsHelper.GetInstance().GetToStartDate();
 
                 Assert.IsTrue(toStartDateText.Contains(toStartDate));
             }
@@ -129,6 +129,7 @@ namespace Blaise.Dqs.Tests.Behaviour.Steps
         [AfterScenario("TOStartDate")]
         public void CleanUpScenario()
         {
+            DqsHelper.GetInstance().LogOutOfToDqs();
             BrowserHelper.CloseBrowser();
             if (InstrumentHelper.GetInstance().SurveyExists(BlaiseConfigurationHelper.InstrumentName))
             {

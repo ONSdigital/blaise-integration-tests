@@ -99,6 +99,7 @@ namespace Blaise.Dqs.Tests.Behaviour.Steps
         [AfterScenario("delete")]
         public void CleanUpScenario()
         {
+            DqsHelper.GetInstance().LogOutOfToDqs();
             BrowserHelper.CloseBrowser();
             if (InstrumentHelper.GetInstance().SurveyExists(BlaiseConfigurationHelper.InstrumentName))
             {
