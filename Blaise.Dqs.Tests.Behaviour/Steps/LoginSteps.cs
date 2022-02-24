@@ -70,14 +70,19 @@ namespace Blaise.Dqs.Tests.Behaviour.Steps
 
         }
 
+        [AfterScenario]
+        public void TearDown()
+        {
+            LogOutOfDqs();
+        }
+
         [AfterTestRun]
         public static void CleanUp()
         {
-            LogOutOfDqs();
+
             UserHelper.GetInstance().RemoveUser(UserName);
         }
-
-
+        
         private static void TakeScreenShot(string screenShotName, string screenShotDescription)
         {
             var screenShotFile = BrowserHelper.TakeScreenShot(TestContext.CurrentContext.WorkDirectory,
