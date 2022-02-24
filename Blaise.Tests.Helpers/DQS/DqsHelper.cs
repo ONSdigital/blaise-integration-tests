@@ -14,11 +14,18 @@ namespace Blaise.Tests.Helpers.Dqs
             return _currentInstance ?? (_currentInstance = new DqsHelper());
         }
 
-        public void LoginToDqs(string username, string password)
+        public void LogInToDqs(string username, string password)
         {
             var loginPage = new LoginPage();
             loginPage.LoadPage();
             loginPage.LogIntoDqs(username, password);
+            Thread.Sleep(5000);
+        }
+
+        public void LogOutOfToDqs()
+        {
+            var loginPage = new LoginPage();
+            loginPage.LogOutOfDqs();
             Thread.Sleep(5000);
         }
 

@@ -41,24 +41,39 @@ namespace Blaise.Dqs.Tests.Behaviour.Steps
         [Given(@"I have logged into to DQS")]
         public void GivenIHaveLoggedIntoToDqs()
         {
+            LogInToDqs();
+        }
+
+        private void LogInToDqs()
+        {
             try
             {
-                LogInToDqs();
+                DqsHelper.GetInstance().LogInToDqs(UserName, Password);
             }
             catch
             {
                 TakeScreenShot("LogInError", "Error logging in");
             }
+         
         }
 
-        private void LogInToDqs()
+        private static void LogOutOfDqs()
         {
-            DqsHelper.GetInstance().LoginToDqs(UserName, Password);
+            try
+            {
+                DqsHelper.GetInstance().LogOutOfToDqs();
+            }
+            catch
+            {
+                TakeScreenShot("LogOutError", "Error logging out");
+            }
+
         }
 
         [AfterTestRun]
         public static void CleanUp()
         {
+            LogOutOfDqs();
             UserHelper.GetInstance().RemoveUser(UserName);
         }
 
