@@ -19,7 +19,7 @@ namespace Blaise.Dqs.Tests.Behaviour.Steps
         private static readonly string Password = $"{Guid.NewGuid()}";
 
         [BeforeTestRun]
-        public static void SetupFeature()
+        public static void SetupTestRun()
         {
             var userModel = new UserModel
             {
@@ -70,16 +70,9 @@ namespace Blaise.Dqs.Tests.Behaviour.Steps
 
         }
 
-        [AfterScenario]
-        public void TearDown()
-        {
-            LogOutOfDqs();
-        }
-
         [AfterTestRun]
-        public static void CleanUp()
+        public static void CleanUpTestRun()
         {
-
             UserHelper.GetInstance().RemoveUser(UserName);
         }
         

@@ -14,8 +14,8 @@ namespace Blaise.Dqs.Tests.Behaviour.Steps
     {
         // For additional details on SpecFlow step definitions see https://go.specflow.org/doc-stepdef
 
-        [BeforeFeature("ToStartDate")]
-        public static void InitializeFeature()
+        [BeforeScenario("ToStartDate")]
+        public static void InitializeScenario()
         {
             InstrumentHelper.GetInstance().InstallInstrument();
         }
@@ -129,17 +129,7 @@ namespace Blaise.Dqs.Tests.Behaviour.Steps
         [AfterScenario("TOStartDate")]
         public void CleanUpScenario()
         {
-            DqsHelper.GetInstance().ClickInstrumentInfoButton(BlaiseConfigurationHelper.InstrumentName);
-            DqsHelper.GetInstance().ClickAddStartDate();
-            DqsHelper.GetInstance().SelectNoLiveDate();
-            DqsHelper.GetInstance().ConfirmQuestionnaireUpload();
             BrowserHelper.CloseBrowser();
-            
-        }
-
-        [AfterFeature("ToStartDate")]
-        public static void CleanUpFeature()
-        {
             if (InstrumentHelper.GetInstance().SurveyExists(BlaiseConfigurationHelper.InstrumentName))
             {
                 CaseHelper.GetInstance().DeleteCases();
