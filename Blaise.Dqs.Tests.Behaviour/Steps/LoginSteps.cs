@@ -19,7 +19,7 @@ namespace Blaise.Dqs.Tests.Behaviour.Steps
         private static readonly string Password = $"{Guid.NewGuid()}";
 
         [BeforeTestRun]
-        public static void SetupFeature()
+        public static void SetupTestRun()
         {
             var userModel = new UserModel
             {
@@ -41,28 +41,28 @@ namespace Blaise.Dqs.Tests.Behaviour.Steps
         [Given(@"I have logged into to DQS")]
         public void GivenIHaveLoggedIntoToDqs()
         {
+            LogInToDqs();
+        }
+
+        private void LogInToDqs()
+        {
             try
             {
-                LogInToDqs();
+                DqsHelper.GetInstance().LogInToDqs(UserName, Password);
             }
             catch
             {
                 TakeScreenShot("LogInError", "Error logging in");
             }
-        }
-
-        private void LogInToDqs()
-        {
-            DqsHelper.GetInstance().LoginToDqs(UserName, Password);
+         
         }
 
         [AfterTestRun]
-        public static void CleanUp()
+        public static void CleanUpTestRun()
         {
             UserHelper.GetInstance().RemoveUser(UserName);
         }
-
-
+        
         private static void TakeScreenShot(string screenShotName, string screenShotDescription)
         {
             var screenShotFile = BrowserHelper.TakeScreenShot(TestContext.CurrentContext.WorkDirectory,
