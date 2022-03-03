@@ -9,7 +9,7 @@ namespace Blaise.Tests.Helpers.Cati.Pages
         private string PlayButton = "//*[@id='MVCGridTable_CaseInfoGrid']/tbody/tr[1]/td[19]/a/span";
         private const string FilterButton = "//*[contains(text(), 'Filters')]";
         private string SurveyRadioButton = $"//*[normalize-space()='{BlaiseConfigurationHelper.InstrumentName}']";
-        private string ApplyButton = $"//*[contains(text(), 'Apply')]";
+        private string ApplyButton = "//*[contains(text(), 'Apply')]";
 
         public CaseInfoPage() : base(CatiConfigurationHelper.CaseInfoUrl)
         {

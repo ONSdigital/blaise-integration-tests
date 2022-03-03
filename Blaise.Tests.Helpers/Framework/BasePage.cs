@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using Blaise.Tests.Helpers.Browser;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Support.UI;
@@ -41,8 +40,10 @@ namespace Blaise.Tests.Helpers.Framework
 
         protected void PopulateInputById(string elementId, string value)
         {
-            BrowserHelper.Wait
-                .Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementIsVisible(By.Id(elementId)))
+            BrowserHelper.Wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementIsVisible(By.Id(elementId)))
+                .Clear();
+            
+            BrowserHelper.Wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementIsVisible(By.Id(elementId)))
                 .SendKeys(value);
         }
 
