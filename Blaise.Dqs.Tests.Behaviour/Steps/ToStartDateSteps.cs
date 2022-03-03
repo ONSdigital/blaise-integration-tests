@@ -14,8 +14,8 @@ namespace Blaise.Dqs.Tests.Behaviour.Steps
     {
         // For additional details on SpecFlow step definitions see https://go.specflow.org/doc-stepdef
 
-        [BeforeFeature("ToStartDate")]
-        public static void InitializeFeature()
+        [BeforeScenario("ToStartDate")]
+        public static void InitializeScenario()
         {
             InstrumentHelper.GetInstance().InstallInstrument();
         }
@@ -107,7 +107,7 @@ namespace Blaise.Dqs.Tests.Behaviour.Steps
                 if (date == "tomorrow")
                     toStartDate = DateTime.Now.AddDays(1).ToString("dd/MM/yyyy");
                 DqsHelper.GetInstance().ClickInstrumentInfoButton(BlaiseConfigurationHelper.InstrumentName);
-                string toStartDateText = DqsHelper.GetInstance().GetToStartDate();
+                var toStartDateText = DqsHelper.GetInstance().GetToStartDate();
 
                 Assert.IsTrue(toStartDateText.Contains(toStartDate));
             }
@@ -129,17 +129,8 @@ namespace Blaise.Dqs.Tests.Behaviour.Steps
         [AfterScenario("TOStartDate")]
         public void CleanUpScenario()
         {
-            DqsHelper.GetInstance().ClickInstrumentInfoButton(BlaiseConfigurationHelper.InstrumentName);
-            DqsHelper.GetInstance().ClickAddStartDate();
-            DqsHelper.GetInstance().SelectNoLiveDate();
-            DqsHelper.GetInstance().ConfirmQuestionnaireUpload();
+            DqsHelper.GetInstance().LogOutOfToDqs();
             BrowserHelper.CloseBrowser();
-            
-        }
-
-        [AfterFeature("ToStartDate")]
-        public static void CleanUpFeature()
-        {
             if (InstrumentHelper.GetInstance().SurveyExists(BlaiseConfigurationHelper.InstrumentName))
             {
                 CaseHelper.GetInstance().DeleteCases();

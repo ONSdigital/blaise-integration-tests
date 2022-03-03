@@ -8,6 +8,7 @@ namespace Blaise.Tests.Helpers.Dqs.Pages
         private readonly string _usernameTextBoxName = "Username";
         private readonly string _passwordTextBoxName = "Password";
         private readonly string _submitButtonPath = "//button[@type='submit']";
+        private readonly string _signOutId = "signout-button";
 
         public LoginPage() : base(DqsConfigurationHelper.DqsUrl)
         {
@@ -18,6 +19,11 @@ namespace Blaise.Tests.Helpers.Dqs.Pages
             PopulateInputByName(_usernameTextBoxName, username);
             PopulateInputByName(_passwordTextBoxName, password);
             ClickButtonByXPath(_submitButtonPath);
+        }
+
+        public void LogOutOfDqs()
+        {
+            ClickButtonById(_signOutId);
         }
     }
 }
