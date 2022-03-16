@@ -9,8 +9,6 @@ namespace Blaise.Tests.Helpers.Dqs.Pages
         private const string DeployQuestionnaireButtonId = "deploy-questionnaire-link";
         public string QuestionnaireTableId = "instrument-table";
         public string QuestionnaireTableRowsPath = "//*[@id='instrument-table']/tbody/tr";
-        public string DeletePlaceholderId = "delete-";
-        public string DeleteButtonId = "delete-button-";
         private const string SummaryDivPath = "//div[contains(@class, 'success panel')]";
         public string InfoButtonPlaceholderId = "info-";
         public string FilterId = "filter-by-name";
@@ -29,22 +27,7 @@ namespace Blaise.Tests.Helpers.Dqs.Pages
             var elements = GetFirstColumnOfTableFromXPath(QuestionnaireTableRowsPath, QuestionnaireTableId);
             return elements;
         }
-
-        public void CheckForDeleteButton(string instrumentName)
-        {
-            ButtonIsAvailableById(DeletePlaceholderId + instrumentName);
-        }
-
-        public void ClickDeleteButton(string instrumentName)
-        {
-            ClickButtonById(DeleteButtonId + instrumentName);
-        }
-
-        public string GetDeleteColumnText(string instrumentName)
-        {
-            return GetElementTextById(DeletePlaceholderId + instrumentName);
-        }
-
+        
         public string GetUploadSummaryText()
         {
             return GetElementTextByPath(SummaryDivPath);
