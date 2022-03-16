@@ -85,10 +85,10 @@ namespace Blaise.Tests.Helpers.Framework
             BrowserHelper.BrowseTo(url);
         }
         
-        public void ButtonIsAvailableById(string submitButtonId)
+        public void ButtonIsAvailableById(string buttonId)
         {
             BrowserHelper.Wait.Until(
-                SeleniumExtras.WaitHelpers.ExpectedConditions.ElementToBeClickable(By.Id(submitButtonId)));
+                SeleniumExtras.WaitHelpers.ExpectedConditions.ElementToBeClickable(By.Id(buttonId)));
         }
 
         public void ButtonIsAvailableByPath(string submitButtonPath)

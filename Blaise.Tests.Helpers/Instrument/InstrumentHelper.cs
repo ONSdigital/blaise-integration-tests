@@ -25,9 +25,9 @@ namespace Blaise.Tests.Helpers.Instrument
 
         public void InstallInstrument()
         {
-            _blaiseSurveyApi.InstallSurvey(BlaiseConfigurationHelper.InstrumentName, 
+            _blaiseSurveyApi.InstallSurvey(BlaiseConfigurationHelper.InstrumentName,
                 BlaiseConfigurationHelper.ServerParkName,
-                 BlaiseConfigurationHelper.InstrumentPackage, 
+                 BlaiseConfigurationHelper.InstrumentPackage,
                 SurveyInterviewType.Cati);
         }
 
@@ -78,6 +78,16 @@ namespace Blaise.Tests.Helpers.Instrument
             {
                 return false;
             }
+        }
+
+        public bool SurveyIsActive(string instrumentName, string serverPark)
+        {
+            return _blaiseSurveyApi.GetSurveyStatus(instrumentName, serverPark) == SurveyStatusType.Active;
+        }
+        
+        public void DeactivateSurvey(string instrumentName, string serverParkName)
+        {
+            _blaiseSurveyApi.DeactivateSurvey(instrumentName, serverParkName);
         }
 
         private bool SurveyIsActive(string instrumentName, int timeoutInSeconds)
