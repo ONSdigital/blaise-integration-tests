@@ -19,20 +19,28 @@ namespace Blaise.Dqs.Tests.Behaviour.Steps
         {
             InstrumentHelper.GetInstance().InstallInstrument();
         }
-
-        [Given(@"that survey is live")]
-        public void GivenThatSurveyIsLive()
+        
+        [Given(@"the questionnaire is active")]
+        public void GivenTheQuestionnaireIsActive()
         {
-            DayBatchHelper.GetInstance().SetSurveyDay(BlaiseConfigurationHelper.InstrumentName, DateTime.Today);
+            Assert.IsTrue(InstrumentHelper.GetInstance().SurveyIsActive(BlaiseConfigurationHelper.InstrumentName, BlaiseConfigurationHelper.ServerParkName));
         }
 
-        [Given(@"I select Delete on a questionnaire that is not live")]
+        [Given(@"the questionnaire is not active")]
+        public void GivenTheQuestionnaireIsNotActive()
+        {
+            InstrumentHelper.GetInstance().DeactivateSurvey(BlaiseConfigurationHelper.InstrumentName,
+                BlaiseConfigurationHelper.ServerParkName);
+        }
+
+        [Given(@"I select delete on the questionnaire details page")]
         public void GivenISelectDeleteOnAQuestionnaireThatIsNotLive()
         {
             try
             {
                 InstrumentHelper.GetInstance().InstallInstrument();
                 DqsHelper.GetInstance().DeleteQuestionnaire(BlaiseConfigurationHelper.InstrumentName);
+
             }
             catch (Exception e)
             {
@@ -40,7 +48,7 @@ namespace Blaise.Dqs.Tests.Behaviour.Steps
             }
         }
 
-        [When(@"I locate that questionnaire in the list")]
+        [When(@"I select the questionnaire in the list")]
         public void WhenILocateThatQuestionnaireInTheList()
         {
             try
@@ -48,6 +56,8 @@ namespace Blaise.Dqs.Tests.Behaviour.Steps
                 DqsHelper.GetInstance().LoadDqsHomePage();
                 var questionnairesInTable = DqsHelper.GetInstance().GetQuestionnaireTableContents();
                 Assert.IsTrue(questionnairesInTable.Any(q => q == BlaiseConfigurationHelper.InstrumentName));
+                DqsHelper.GetInstance().ClickInstrumentInfoButton(BlaiseConfigurationHelper.InstrumentName);
+
             }
             catch (Exception e)
             {
@@ -56,6 +66,18 @@ namespace Blaise.Dqs.Tests.Behaviour.Steps
 
         }
 
+        [When(@"I am taken to the questionnaire details page")]
+        public void WhenIAmTakenToTheQuestionnaireDetailsPage()
+        {
+            DqsHelper.GetInstance().WaitForQuestionnaireDetailsPage();
+        }
+
+        [Given(@"I am taken to the delete confirmation screen")]
+        public void GivenIAmPresentedWithTheConfirmationScreen()
+        {
+            DqsHelper.GetInstance().WaitForDeleteQuestionnaireConfirmationPage();
+        }
+        
         [When(@"I confirm that I want to proceed")]
         public void WhenIConfirmThatIWantToProceed()
         {
@@ -70,12 +92,12 @@ namespace Blaise.Dqs.Tests.Behaviour.Steps
             }
         }
 
-        [Then(@"I will not have the option to delete displayed")]
-        public void ThenIWillNotHaveTheOptionToDeleteDisplayed()
+        [Then(@"I will have the option to delete the questionnaire")]
+        public void ThenIWillHaveTheOptionToDeleteTheQuestionnaire()
         {
             try
             {
-                Assert.AreEqual("Questionnaire is live", DqsHelper.GetInstance().GetTextForDeletion());
+                DqsHelper.GetInstance().CanDeleteQuestionnaire();
             }
             catch (Exception e)
             {
