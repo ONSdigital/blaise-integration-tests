@@ -20,5 +20,10 @@ namespace Blaise.Tests.Helpers.Dqs.Pages
         {
             WaitForPageToChange(DqsConfigurationHelper.DqsUrl);
         }
+
+        public void WaitForPageToLoad()
+        {
+            WaitForPageToChange(DqsConfigurationHelper.ConfirmDeleteUrl);
+        }
     }
 }
