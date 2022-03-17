@@ -91,11 +91,10 @@ namespace Blaise.Tests.Helpers.Dqs
             confirmDeletionPage.WaitForDeletionToComplete();
         }
 
-        public string GetTextForDeletion()
+        public void CanDeleteQuestionnaire()
         {
-            var homePage = new HomePage();
-            homePage.FilterInstruments(BlaiseConfigurationHelper.InstrumentName);
-            return homePage.GetDeleteColumnText(BlaiseConfigurationHelper.InstrumentName);
+            var instrumentInfoPage = new InstrumentInfoPage();
+            instrumentInfoPage.CanDeleteQuestionnaire();
         }
 
         public void WaitForUploadToComplete()
@@ -137,10 +136,10 @@ namespace Blaise.Tests.Helpers.Dqs
 
         public void DeleteQuestionnaire(string instrumentName)
         {
-            var homePage = new HomePage();
-            homePage.LoadPage();
-            homePage.FilterInstruments(BlaiseConfigurationHelper.InstrumentName);
-            homePage.ClickDeleteButton(instrumentName);
+            ClickInstrumentInfoButton(instrumentName);
+
+            var instrumentInformationPage = new InstrumentInfoPage();
+            instrumentInformationPage.ClickDeleteButton();
         }
 
         public string GetDeletionSummary()
@@ -185,6 +184,18 @@ namespace Blaise.Tests.Helpers.Dqs
         {
             var instrumentInfoPage = new InstrumentInfoPage();
             instrumentInfoPage.AddToStartDate();
+        }
+
+        public void WaitForQuestionnaireDetailsPage()
+        {
+            var instrumentInfoPage = new InstrumentInfoPage();
+            instrumentInfoPage.WaitForPageToLoad(BlaiseConfigurationHelper.InstrumentName);
+        }
+
+        public void WaitForDeleteQuestionnaireConfirmationPage()
+        {
+            var confirmDeletionPage = new DeleteConfirmationPage();
+            confirmDeletionPage.WaitForPageToLoad();
         }
     }
 }

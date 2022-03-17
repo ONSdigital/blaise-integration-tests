@@ -8,14 +8,23 @@ Background:
 	And I have logged into to DQS
 
 @LU7996
-Scenario: Delete questionnaire not available from the list, when survey is live
+Scenario: Delete questionnaire when it is active
 	Given I have a questionnaire I want to delete 
-	And that survey is live
-	When I locate that questionnaire in the list
-	Then I will not have the option to delete displayed
+	And the questionnaire is active
+	When I select the questionnaire in the list
+	And I am taken to the questionnaire details page
+	Then I will have the option to delete the questionnaire
+
+Scenario: Delete questionnaire when it is not active
+	Given I have a questionnaire I want to delete 
+	And the questionnaire is not active
+	When I select the questionnaire in the list
+	And I am taken to the questionnaire details page
+	Then I will have the option to delete the questionnaire
 
 @Smoke @LU7996
-Scenario: Confirm deletion
-	Given I select Delete on a questionnaire that is not live
+Scenario: Confirm deletion of a questionnaire
+	Given I select delete on the questionnaire details page
+	And I am taken to the delete confirmation screen
 	When I confirm that I want to proceed
 	Then the questionnaire is removed from Blaise
