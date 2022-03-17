@@ -54,7 +54,7 @@ namespace Blaise.Dqs.Tests.Behaviour.Steps
         public void WhenIViewTheLandingPage()
         {
             DqsHelper.GetInstance().LoadDqsHomePage();
-            Assert.AreEqual($"{DqsConfigurationHelper.DqsUrl}", BrowserHelper.CurrentUrl);
+            Assert.AreEqual($"{DqsConfigurationHelper.DqsUrl}/", BrowserHelper.CurrentUrl);
         }
 
         [When(@"I confirm my selection")]
