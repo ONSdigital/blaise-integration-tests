@@ -7,7 +7,7 @@ namespace Blaise.Tests.Helpers.Dqs.Pages
     public class HomePage : BasePage
     {
         private const string DeployQuestionnaireButtonId = "deploy-questionnaire-link";
-        public string QuestionnaireTableId = "instrument-table";
+        public string QuestionnaireTableId = "questionnaire-table";
         public string QuestionnaireTableRowsPath = "//*[@id='questionnaire-table']/tbody/tr";
         private const string SummaryDivPath = "//div[contains(@class, 'success panel')]";
         public string InfoButtonPlaceholderId = "info-";
