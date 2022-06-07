@@ -3,14 +3,14 @@ using Blaise.Tests.Helpers.Framework;
 
 namespace Blaise.Tests.Helpers.Dqs.Pages
 {
-    public class InstrumentInfoPage : BasePage
+    public class QuestionnaireInfoPage : BasePage
     {
         public string ToStartDatePath = "//*[@id=\"main-content\"]/div[2]/div/table/tbody/tr/td[2]";
         public string AddToStartDatePath = "//a[contains(@href,'/questionnaire/start-date')]";
         public string DeleteButtonId = "delete-questionnaire";
 
 
-        public InstrumentInfoPage() : base(DqsConfigurationHelper.DqsUrl)
+        public QuestionnaireInfoPage() : base(DqsConfigurationHelper.DqsUrl)
         {
         }
 
