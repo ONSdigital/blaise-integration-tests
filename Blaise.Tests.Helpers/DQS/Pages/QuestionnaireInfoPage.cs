@@ -24,9 +24,9 @@ namespace Blaise.Tests.Helpers.Dqs.Pages
             ClickButtonByXPath(AddToStartDatePath);
         }
 
-        public void WaitForPageToLoad(string instrumentName)
+        public void WaitForPageToLoad(string questionnaireName)
         {
-            WaitForPageToChange($"{DqsConfigurationHelper.DqsUrl}/questionnaire/{instrumentName}");
+            WaitForPageToChange($"{DqsConfigurationHelper.DqsUrl}/questionnaire/{questionnaireName}");
         }
 
         public void CanDeleteQuestionnaire()
