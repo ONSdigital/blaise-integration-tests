@@ -7,8 +7,8 @@ namespace Blaise.Tests.Helpers.Dqs.Pages
     public class HomePage : BasePage
     {
         private const string DeployQuestionnaireButtonId = "deploy-questionnaire-link";
-        public string QuestionnaireTableId = "instrument-table";
-        public string QuestionnaireTableRowsPath = "//*[@id='instrument-table']/tbody/tr";
+        public string QuestionnaireTableId = "questionnaire-table";
+        public string QuestionnaireTableRowsPath = "//*[@id='questionnaire-table']/tbody/tr";
         private const string SummaryDivPath = "//div[contains(@class, 'success panel')]";
         public string InfoButtonPlaceholderId = "info-";
         public string FilterId = "filter-by-name";
@@ -33,14 +33,14 @@ namespace Blaise.Tests.Helpers.Dqs.Pages
             return GetElementTextByPath(SummaryDivPath);
         }
 
-        public void ClickInstrumentInfoButton(string instrumentName)
+        public void ClickInstrumentInfoButton(string questionnaireName)
         {
-            ClickButtonById(InfoButtonPlaceholderId + instrumentName);
+            ClickButtonById(InfoButtonPlaceholderId + questionnaireName);
         }
 
-        public void FilterInstruments(string instrumentName)
+        public void FilterInstruments(string questionnaireName)
         {
-            PopulateInputById(FilterId, instrumentName);
+            PopulateInputById(FilterId, questionnaireName);
         }
     }
 }
