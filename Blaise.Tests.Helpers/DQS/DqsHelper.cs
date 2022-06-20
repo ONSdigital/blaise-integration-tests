@@ -93,7 +93,7 @@ namespace Blaise.Tests.Helpers.Dqs
 
         public void CanDeleteQuestionnaire()
         {
-            var instrumentInfoPage = new InstrumentInfoPage();
+            var instrumentInfoPage = new QuestionnaireInfoPage();
             instrumentInfoPage.CanDeleteQuestionnaire();
         }
 
@@ -138,7 +138,7 @@ namespace Blaise.Tests.Helpers.Dqs
         {
             ClickInstrumentInfoButton(instrumentName);
 
-            var instrumentInformationPage = new InstrumentInfoPage();
+            var instrumentInformationPage = new QuestionnaireInfoPage();
             instrumentInformationPage.ClickDeleteButton();
         }
 
@@ -168,7 +168,7 @@ namespace Blaise.Tests.Helpers.Dqs
         }
         public string GetToStartDate()
         {
-            var instrumentInfoPage = new InstrumentInfoPage();
+            var instrumentInfoPage = new QuestionnaireInfoPage();
             return instrumentInfoPage.GetToStartDate();
         }
 
@@ -182,13 +182,13 @@ namespace Blaise.Tests.Helpers.Dqs
 
         public void ClickAddStartDate()
         {
-            var instrumentInfoPage = new InstrumentInfoPage();
+            var instrumentInfoPage = new QuestionnaireInfoPage();
             instrumentInfoPage.AddToStartDate();
         }
 
         public void WaitForQuestionnaireDetailsPage()
         {
-            var instrumentInfoPage = new InstrumentInfoPage();
+            var instrumentInfoPage = new QuestionnaireInfoPage();
             instrumentInfoPage.WaitForPageToLoad(BlaiseConfigurationHelper.InstrumentName);
         }
 
