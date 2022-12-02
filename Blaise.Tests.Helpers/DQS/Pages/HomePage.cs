@@ -9,7 +9,7 @@ namespace Blaise.Tests.Helpers.Dqs.Pages
         private const string DeployQuestionnaireButtonId = "deploy-questionnaire-link";
         public string QuestionnaireTableId = "questionnaire-table";
         public string QuestionnaireTableRowsPath = "//*[@id='questionnaire-table']/tbody/tr";
-        private const string SummaryDivPath = "//div[contains(@class, 'success panel')]";
+        private const string SummaryDivPath = "//div[contains(@class, 'success ons-panel')]";
         public string InfoButtonPlaceholderId = "info-";
         public string FilterId = "filter-by-name";
 
