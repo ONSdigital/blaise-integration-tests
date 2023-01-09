@@ -1,6 +1,7 @@
 ﻿using Blaise.Tests.Helpers.Configuration;
 using Blaise.Tests.Helpers.Framework;
 using System.Threading;
+using Blaise.Tests.Helpers.Browser;
 
 namespace Blaise.Tests.Helpers.Cati.Pages
 {
@@ -17,6 +18,7 @@ namespace Blaise.Tests.Helpers.Cati.Pages
 
         public void ClickPlayButton()
         {
+            BrowserHelper.ScrollHorizontalByOffset(500);
             ClickButtonByXPath(PlayButton);
         }
 
