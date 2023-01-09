@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Threading;
 using Blaise.Tests.Helpers.Browser;
 using OpenQA.Selenium;
@@ -24,6 +25,13 @@ namespace Blaise.Tests.Helpers.Framework
 
         protected void ClickButtonByXPath(string buttonElementPath)
         {
+            Thread.Sleep(5000);
+
+            if (!BrowserHelper.ElementExistsByXpath(buttonElementPath))
+            {
+                throw new Exception($"Element '{buttonElementPath}' could not be found");
+            }
+
             BrowserHelper.Wait
                 .Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementToBeClickable(By.XPath(buttonElementPath))).Click();
         }
