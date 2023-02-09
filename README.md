@@ -124,7 +124,17 @@ gcloud compute start-iap-tunnel blaise-gusty-mgmt 8033 --local-host-port=localho
 
 You should now be able to build and run the tests in Visual Studio.
 
+### Things for Mac developers to remember
+
+* When using Chocolatey to install packages, ensure you are running Powershell as Adminstrator:
+	- Search for Powershell in the Start menu
+	- Right click, and select 'Run as administrator'
+* After installing new packages, Visual Studio will need to be restarted before it will recognise new packages
+* Remember to save your files before trying to commit to Git. Pycharm saves automatically. JustSaying!
+
 ### Troubleshooting
+
+## Chocolatey
 
 After installing packages using Chocolatey, if you receive the following error when trying to execute package commands:
 
