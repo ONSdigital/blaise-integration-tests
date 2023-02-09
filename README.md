@@ -85,18 +85,18 @@ You will need to update the `app.config` files with the following values:
 
 ```xml
   <appSettings>
-	  <add key="InstrumentPath" value=" C:\<path-to-store-questionnaire>"/>
-	  <add key="ServerParkName" value="gusty"/>
-	  <add key="InstrumentName" value="DST2111Z"/>
-	  <add key="ENV_BLAISE_SERVER_HOST_NAME" value="localhost"/>
-	  <add key="ENV_BLAISE_ADMIN_USER" value="<blaise-username>"/>
+	  <add key="InstrumentPath" value="C:\<path-to-store-questionnaire>" />
+	  <add key="ServerParkName" value="gusty" />
+	  <add key="InstrumentName" value="DST2111Z" />
+	  <add key="ENV_BLAISE_SERVER_HOST_NAME" value="localhost" />
+	  <add key="ENV_BLAISE_ADMIN_USER" value="<blaise-username>" />
 	  <add key="ENV_BLAISE_ADMIN_PASSWORD" value="<blaise-password>"/>
-	  <add key="ENV_BLAISE_SERVER_BINDING" value="http"/>
-	  <add key="ENV_BLAISE_CONNECTION_PORT" value="8031"/>
-	  <add key="ENV_BLAISE_REMOTE_CONNECTION_PORT" value="8033"/>
-	  <add key="ENV_CONNECTION_EXPIRES_IN_MINUTES" value="90"/>
-	  <add key="ENV_TOBI_URL" value="dev-<sandbox>-tobi.social-surveys.gcp.onsdigital.uk"/>
-	  <add key="ENV_BLAISE_CATI_URL" value="dev-<sandbox>-cati.social-surveys.gcp.onsdigital.uk"/>
+	  <add key="ENV_BLAISE_SERVER_BINDING" value="http" />
+	  <add key="ENV_BLAISE_CONNECTION_PORT" value="8031" />
+	  <add key="ENV_BLAISE_REMOTE_CONNECTION_PORT" value="8033" />
+	  <add key="ENV_CONNECTION_EXPIRES_IN_MINUTES" value="90" />
+	  <add key="ENV_TOBI_URL" value="dev-<sandbox>-tobi.social-surveys.gcp.onsdigital.uk" />
+	  <add key="ENV_BLAISE_CATI_URL" value="dev-<sandbox>-cati.social-surveys.gcp.onsdigital.uk" />
       <add key="ChromeWebDriver" value="C:\<path-to-chromedriver" />
   </appSettings>
 ```
@@ -135,6 +135,7 @@ You should now be able to build and run the tests in Visual Studio.
 	- Right click, and select 'Run as administrator'
 * After installing new packages, Visual Studio will need to be restarted before it will recognise new packages
 * Remember to save your files before trying to commit to Git. Pycharm saves automatically. JustSaying!
+* Trying to find the path to the chromedriver exe? It's in a hidden directory!  Type 'C:\ProgramData' into a file browser, and navigate through chocolatey and lib to find chromedriver. Once you've found it, you can copy the path from the top of the browser - something you can't do on Mac :eyes:
 
 ### Troubleshooting
 
