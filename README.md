@@ -105,14 +105,21 @@ The values you need to substitute in are:
 | `<sandbox>`                     | The short name of your sandbox. e.g. `rr5`.                                                                            |
 | `<path-to-chromedriver>`        | The path to where the `chromedriver.exe` exists. **This does not include `chromedriver.exe` or the trailing slash**.   |
 
-### Create the tunnel
+### Create the tunnels
 
-In PowerShell, run:
+You need to create two (I think) tunnels to the Blaise Management VM.
+
+Open a new PowerShell window and run:
 
 ```powershell
 gcloud compute start-iap-tunnel blaise-gusty-mgmt 8031 --local-host-port=localhost:8031
 ```
 
+Then open second PowerShell window and run:
+
+```powershell
+gcloud compute start-iap-tunnel blaise-gusty-mgmt 8033 --local-host-port=localhost:8033
+```
 ### Run the tests
 
 You should now be able to build and run the tests in Visual Studio.
