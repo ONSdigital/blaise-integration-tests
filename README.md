@@ -128,8 +128,12 @@ You should now be able to build and run the tests in Visual Studio.
 
 After installing packages using Chocolatey, if you receive the following error when trying to execute package commands:
 
+```powershell
 .ps1 is not digitally signed. You cannot run this script on the current system.
+```
 
 You will need to execute the following, per https://caiomsouza.medium.com/fix-for-powershell-script-not-digitally-signed-69f0ed518715:
 
+```powershell
 Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass
+```
