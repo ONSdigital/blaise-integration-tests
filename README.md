@@ -126,7 +126,7 @@ gcloud compute start-iap-tunnel blaise-gusty-mgmt 8033 --local-host-port=localho
 ```
 ### Run the tests
 
-You should now be able to build and run the tests in Visual Studio.
+You should now be able to build (ctrl+shift+B) and run the tests in Visual Studio.
 
 ### Things for Mac developers to remember
 
