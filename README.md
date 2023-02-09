@@ -2,7 +2,7 @@
 [![Build Status](https://dev.azure.com/blaise-gcp/csharp/_apis/build/status/ONSdigital.blaise-automated-tests?branchName=refs%2Fpull%2F7%2Fmerge)](https://dev.azure.com/blaise-gcp/csharp/_build/latest?definitionId=43&branchName=refs%2Fpull%2F7%2Fmerge)
 
 # blaise-automated-tests
-Repository of automated testing processes for the blaise 5 system.
+Repository of automated testing processes for the Blaise 5 system.
 
 ## Running from a local development machine
 
@@ -12,7 +12,7 @@ development machine.
 
 ### Install Tools
 
-You need to following tools installed. **These must be installed on Windows,
+You need the following tools installed. **These must be installed on Windows,
 NOT WSL**.
 
 - Chrome
@@ -123,3 +123,13 @@ gcloud compute start-iap-tunnel blaise-gusty-mgmt 8033 --local-host-port=localho
 ### Run the tests
 
 You should now be able to build and run the tests in Visual Studio.
+
+### Troubleshooting
+
+After installing packages using Chocolatey, if you receive the following error when trying to execute package commands:
+
+.ps1 is not digitally signed. You cannot run this script on the current system.
+
+You will need to execute the following, per https://caiomsouza.medium.com/fix-for-powershell-script-not-digitally-signed-69f0ed518715:
+
+Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass
