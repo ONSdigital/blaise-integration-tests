@@ -66,12 +66,12 @@ The values to need to move across are:
 ### Download the Questionnaire
 
 Assuming that your sandbox has fully deployed, you should be able to download
-the test questionnaire from the `ons-blaise-v2-dev-to1-dqs` bucket.
+the test questionnaire from the `ons-blaise-v2-dev-<sandbox>-dqs` bucket.
 
 The quickest way to do this is use the `gsutil` command:
 
 ```powershell
-gsutil cp gs://ons-blaise-v2-dev-to1-dqs/DST2111Z.bpkg C:\<path-to-store-questionnaire>\
+gsutil cp gs:\\ons-blaise-v2-dev-<sandbox>-dqs\DST2111Z.bpkg C:\<path-to-store-questionnaire>\
 ```
 
 ### Configure the Project
