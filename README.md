@@ -41,6 +41,10 @@ sandbox and add them to your registry.
 To get the values from the VM, you can run the following command and look for
 the `key`/`value` pairs under `metadata.items`.
 
+```powershell
+add le commande here
+```
+
 To edit the registry, you need to open the **Registry Editor**. You can do this
 quickly by tapping the **Windows Key** and then typing `reg` - an icon for the
 Registry Editor should appear. 
