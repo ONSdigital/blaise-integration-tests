@@ -139,7 +139,7 @@ You should now be able to build and run the tests in Visual Studio.
 
 ### Troubleshooting
 
-## Chocolatey
+#### Chocolatey
 
 After installing packages using Chocolatey, if you receive the following error when trying to execute package commands:
 
