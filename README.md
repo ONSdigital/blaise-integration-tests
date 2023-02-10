@@ -17,7 +17,7 @@ NOT WSL**.
 
 - Chrome
 - The gcloud CLI.
-- chromedriver
+- chromedriver (version 108)
 - Visual Studio 2022
 
 An easy way to install tools on Windows is by using
