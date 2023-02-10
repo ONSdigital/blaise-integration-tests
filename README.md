@@ -91,7 +91,7 @@ You will need to update the Blaise.Tests.Behaviour\app.config file with the foll
 	  <add key="InstrumentName" value="DST2111Z" />
 	  <add key="ENV_BLAISE_SERVER_HOST_NAME" value="localhost" />
 	  <add key="ENV_BLAISE_ADMIN_USER" value="<blaise-username>" />
-	  <add key="ENV_BLAISE_ADMIN_PASSWORD" value="<blaise-password>"/>
+	  <add key="ENV_BLAISE_ADMIN_PASSWORD" value="<blaise-password>" />
 	  <add key="ENV_BLAISE_SERVER_BINDING" value="http" />
 	  <add key="ENV_BLAISE_CONNECTION_PORT" value="8031" />
 	  <add key="ENV_BLAISE_REMOTE_CONNECTION_PORT" value="8033" />
