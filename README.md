@@ -96,10 +96,6 @@ You will need to update the Blaise.Tests.Behaviour\app.config file with the foll
 	  <add key="ENV_BLAISE_CONNECTION_PORT" value="8031" />
 	  <add key="ENV_BLAISE_REMOTE_CONNECTION_PORT" value="8033" />
 	  <add key="ENV_CONNECTION_EXPIRES_IN_MINUTES" value="90" />
-	  <add key="ENV_DQS_URL" value="dev-<sandbox>-dqs.social-surveys.gcp.onsdigital.uk" />
-	  <add key="ENV_TOBI_URL" value="dev-<sandbox>-tobi.social-surveys.gcp.onsdigital.uk" />
-	  <add key="ENV_BLAISE_CATI_URL" value="dev-<sandbox>-cati.social-surveys.gcp.onsdigital.uk" />
-      <add key="ChromeWebDriver" value="C:\<path-to-chromedriver" />
   </appSettings>
 ```
 
@@ -113,6 +109,13 @@ And for each app.config, in Solution, in each folder (Cati, DQS, and Tobi) you w
   </appSettings>
 ```
 
+With an additional instrument name for Tobi:
+
+```xml
+  <appSettings>
+	  <add key="SecondInstrumentName" value="DST2111Z" />
+  </appSettings>
+```
 
 The values you need to substitute in are:
 
@@ -124,7 +127,7 @@ The values you need to substitute in are:
 
 ### Create the tunnels
 
-You need to create two (I think) tunnels to the Blaise Management VM.
+You need to create two tunnels to the Blaise Management VM.
 
 Open a new PowerShell window and run:
 
