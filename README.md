@@ -81,7 +81,7 @@ gsutil cp gs:\\ons-blaise-v2-dev-<sandbox>-dqs\DST2111Z.bpkg C:\<path-to-store-q
 Clone this repository on to your laptop and open
 [BlaiseAutomatedTests.sln](./BlaiseAutomatedTests.sln) in Visual Studio.
 
-You will need to update the `app.config` files with the following values:
+You will need to update the Blaise.Tests.Behaviour\app.config file with the following values:
 
 ```xml
   <appSettings>
@@ -95,11 +95,23 @@ You will need to update the `app.config` files with the following values:
 	  <add key="ENV_BLAISE_CONNECTION_PORT" value="8031" />
 	  <add key="ENV_BLAISE_REMOTE_CONNECTION_PORT" value="8033" />
 	  <add key="ENV_CONNECTION_EXPIRES_IN_MINUTES" value="90" />
+	  <add key="ENV_DQS_URL" value="dev-<sandbox>-dqs.social-surveys.gcp.onsdigital.uk" />
 	  <add key="ENV_TOBI_URL" value="dev-<sandbox>-tobi.social-surveys.gcp.onsdigital.uk" />
 	  <add key="ENV_BLAISE_CATI_URL" value="dev-<sandbox>-cati.social-surveys.gcp.onsdigital.uk" />
       <add key="ChromeWebDriver" value="C:\<path-to-chromedriver" />
   </appSettings>
 ```
+
+And for each app.config, in Solution, in each folder (Cati, DQS, and Tobi) you will need to add the relevant URLs to the following values:
+
+```xml
+  <appSettings>
+	  <add key="ENV_DQS_URL" value="dev-<sandbox>-dqs.social-surveys.gcp.onsdigital.uk" />
+	  <add key="ENV_TOBI_URL" value="dev-<sandbox>-tobi.social-surveys.gcp.onsdigital.uk" />
+	  <add key="ENV_BLAISE_CATI_URL" value="dev-<sandbox>-cati.social-surveys.gcp.onsdigital.uk" />
+  </appSettings>
+```
+
 
 The values you need to substitute in are:
 
