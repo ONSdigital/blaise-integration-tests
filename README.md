@@ -19,13 +19,14 @@ NOT WSL**.
 - The gcloud CLI.
 - chromedriver (version 108)
 - Visual Studio 2022
+- jq
 
 An easy way to install tools on Windows is by using
 [Chocolatey](https://chocolatey.org/).
 
 ### Log in to GCP
 
-In PowerShell, run:
+In PowerShell, run the following where <your-project-name> would be something like ons-blaise-v2-dev-<sandbox>:
 
 ```powershell
 gcloud auth login
@@ -42,7 +43,7 @@ To get the values from the VM, you can run the following command and look for
 the `key`/`value` pairs under `metadata.items`.
 
 ```powershell
-add le commande here
+gcloud compute instances describe blaise-gusty-mgmt --format json | jq -r '.metadata.items | map(select(.key == "BLAISE_CLOUDSQL_PW")) | .[] .value'
 ```
 
 To edit the registry, you need to open the **Registry Editor**. You can do this
@@ -138,13 +139,15 @@ gcloud compute start-iap-tunnel blaise-gusty-mgmt 8033 --local-host-port=localho
 ```
 ### Run the tests
 
-You should now be able to build (ctrl+shift+B) and run the tests in Visual Studio.
+To run a specific test, for example Cati, right-click the Solution from the folder, select Set as Startup Project, and then build the Solution (ctrl+shift+B).
+
+Open a Test Explorer window from View, right-click a test, and select Run.
 
 ### Things for Mac developers to remember
 
 * When using Chocolatey to install packages, ensure you are running Powershell as Adminstrator:
 	- Search for Powershell in the Start menu
-	- Right click, and select 'Run as administrator'
+	- Right-click, and select 'Run as administrator'
 * After installing new packages, Visual Studio will need to be restarted before it will recognise new packages
 * Remember to save your files before trying to commit to Git. Pycharm saves automatically. JustSaying!
 * Trying to find the path to the chromedriver exe? It's in a hidden directory!  Type 'C:\ProgramData' into a file browser, and navigate through chocolatey and lib to find chromedriver. Once you've found it, you can copy the path from the top of the browser - something you can't do on Mac :eyes:
@@ -166,3 +169,13 @@ Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass
 ```
 
 This will need to be done for every new terminal.
+
+#### Tests
+
+If the Test Explorer window fails to display any tests, try the following:
+
+* Select Clean Solution from the Build menu, and then Rebuild Solution
+* Closing and re-opening the Test Explorer window
+
+If you see any error messages in the Output window about missing DLLs, ask Al about Consolidating and Installing packages, and then update this section with the instructions because I can't remember what I did!?
+ 
