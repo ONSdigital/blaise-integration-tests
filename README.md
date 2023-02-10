@@ -152,3 +152,5 @@ You will need to execute the following, per https://caiomsouza.medium.com/fix-fo
 ```powershell
 Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass
 ```
+
+This will need to be done for every new terminal.
