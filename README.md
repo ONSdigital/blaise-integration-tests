@@ -103,8 +103,8 @@ And for each app.config, in Solution, in each folder (Cati, DQS, and Tobi) you w
 
 ```xml
   <appSettings>
-	  <add key="ENV_DQS_URL" value="dev-<sandbox>-dqs.social-surveys.gcp.onsdigital.uk" />
-	  <add key="ENV_TOBI_URL" value="dev-<sandbox>-tobi.social-surveys.gcp.onsdigital.uk" />
+	  <add key="ENV_DQS_URL" value="https://dev-<sandbox>-dqs.social-surveys.gcp.onsdigital.uk" />
+	  <add key="ENV_TOBI_URL" value="https://dev-<sandbox>-tobi.social-surveys.gcp.onsdigital.uk" />
 	  <add key="ENV_BLAISE_CATI_URL" value="dev-<sandbox>-cati.social-surveys.gcp.onsdigital.uk" />
   </appSettings>
 ```
