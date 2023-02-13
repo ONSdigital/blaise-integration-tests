@@ -95,7 +95,7 @@ You will need to update the `app.config` files with the following values:
 	  <add key="ENV_BLAISE_CONNECTION_PORT" value="8031" />
 	  <add key="ENV_BLAISE_REMOTE_CONNECTION_PORT" value="8033" />
 	  <add key="ENV_CONNECTION_EXPIRES_IN_MINUTES" value="90" />
-	  <add key="ENV_TOBI_URL" value="dev-<sandbox>-tobi.social-surveys.gcp.onsdigital.uk" />
+	  <add key="ENV_TOBI_URL" value="https://dev-<sandbox>-tobi.social-surveys.gcp.onsdigital.uk" />
 	  <add key="ENV_BLAISE_CATI_URL" value="dev-<sandbox>-cati.social-surveys.gcp.onsdigital.uk" />
       <add key="ChromeWebDriver" value="C:\<path-to-chromedriver" />
   </appSettings>
