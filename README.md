@@ -86,6 +86,7 @@ You will need to update the Blaise.Tests.Behaviour\app.config file with the foll
 
 ```xml
   <appSettings>
+	  <add key="UninstallSurveyTimeOutInSeconds" value="5" />
 	  <add key="InstrumentPath" value="C:\<path-to-store-questionnaire>" />
 	  <add key="ServerParkName" value="gusty" />
 	  <add key="InstrumentName" value="DST2111Z" />
