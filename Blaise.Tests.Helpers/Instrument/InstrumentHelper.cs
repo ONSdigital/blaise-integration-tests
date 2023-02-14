@@ -15,7 +15,7 @@ namespace Blaise.Tests.Helpers.Instrument
 
         public InstrumentHelper()
         {
-            _blaiseSurveyApi = new BlaiseSurveyApi();           
+            _blaiseSurveyApi = new BlaiseSurveyApi();
         }
 
         public static InstrumentHelper GetInstance()
@@ -23,34 +23,98 @@ namespace Blaise.Tests.Helpers.Instrument
             return _currentInstance ?? (_currentInstance = new InstrumentHelper());
         }
 
-        public void InstallInstrument()
+        public SurveyStatusType GetQuestionnaireStatus()
         {
-            _blaiseSurveyApi.InstallSurvey(BlaiseConfigurationHelper.InstrumentName,
-                BlaiseConfigurationHelper.ServerParkName,
-                 BlaiseConfigurationHelper.InstrumentPackage,
-                SurveyInterviewType.Cati);
+            return _blaiseSurveyApi.GetSurveyStatus(BlaiseConfigurationHelper.InstrumentName,
+                BlaiseConfigurationHelper.ServerParkName);
         }
 
-        public void InstallInstrument(string instrumentPackage)
+        private bool DoesSurveyExists(string instrumentName = "")
         {
-            _blaiseSurveyApi.InstallSurvey(BlaiseConfigurationHelper.InstrumentName,
-                BlaiseConfigurationHelper.ServerParkName,
-                instrumentPackage,
-                SurveyInterviewType.Cati);
+            try
+            {
+                return _blaiseSurveyApi.SurveyExists(!string.IsNullOrEmpty(instrumentName) ? instrumentName : BlaiseConfigurationHelper.InstrumentName,
+                    BlaiseConfigurationHelper.ServerParkName);
+            }
+            catch (Nuget.Api.Contracts.Exceptions.DataNotFoundException)
+            {
+                return false;
+            }
         }
+
+        private bool CheckForErroneousSurvey(string instrumentName = "")
+        {
+            if (_blaiseSurveyApi.GetSurveyStatus(!string.IsNullOrEmpty(instrumentName) ? instrumentName : BlaiseConfigurationHelper.InstrumentName,
+                                                    BlaiseConfigurationHelper.ServerParkName) == SurveyStatusType.Erroneous)
+            {
+                throw new Exception($"ERROR: The DST2111Z questionnaire has failed to delete, current status {Enum.GetName(typeof(SurveyStatusType), SurveyStatusType.Erroneous)} You will probably need to restart Blaise to delete it.");
+            }
+
+            return false;
+        }
+
+        public void InstallInstrument(string instrumentPackage = "")
+        {
+            if (DoesSurveyExists(BlaiseConfigurationHelper.InstrumentName))
+            {
+                _blaiseSurveyApi.UninstallSurvey(BlaiseConfigurationHelper.InstrumentName,
+                    BlaiseConfigurationHelper.ServerParkName);
+                Thread.Sleep(int.Parse(BlaiseConfigurationHelper.UninstallSurveyTimeOutInSeconds) * 1000);
+            }
+
+            if (!DoesSurveyExists(BlaiseConfigurationHelper.InstrumentName))
+            {
+                _blaiseSurveyApi.InstallSurvey(BlaiseConfigurationHelper.InstrumentName,
+                    BlaiseConfigurationHelper.ServerParkName,
+                    !string.IsNullOrEmpty(instrumentPackage) ? instrumentPackage : BlaiseConfigurationHelper.InstrumentPackage,
+                    SurveyInterviewType.Cati);
+
+                CheckForErroneousSurvey(BlaiseConfigurationHelper.InstrumentName);
+            }
+            else
+            {
+                //The uninstall failed
+                throw new Exception($"Error trying to uninstall questionnaire {BlaiseConfigurationHelper.InstrumentName}");
+            }
+        }
+
+        /*   public void InstallInstrument(string instrumentPackage)
+           {
+               _blaiseSurveyApi.InstallSurvey(BlaiseConfigurationHelper.InstrumentName,
+                   BlaiseConfigurationHelper.ServerParkName,
+                   instrumentPackage,
+                   SurveyInterviewType.Cati);
+           }*/
 
         public void InstallInstrument(SurveyInterviewType surveyConfigurationType)
         {
-            _blaiseSurveyApi.InstallSurvey(BlaiseConfigurationHelper.InstrumentName,
+            if (DoesSurveyExists(BlaiseConfigurationHelper.InstrumentName))
+            {
+                _blaiseSurveyApi.UninstallSurvey(BlaiseConfigurationHelper.InstrumentName,
+                    BlaiseConfigurationHelper.ServerParkName);
+                Thread.Sleep(int.Parse(BlaiseConfigurationHelper.UninstallSurveyTimeOutInSeconds) * 1000);
+            }
+
+            if (!DoesSurveyExists(BlaiseConfigurationHelper.InstrumentName))
+            {
+                _blaiseSurveyApi.InstallSurvey(BlaiseConfigurationHelper.InstrumentName,
                 BlaiseConfigurationHelper.ServerParkName,
                 BlaiseConfigurationHelper.InstrumentPackage,
                 surveyConfigurationType);
+
+                CheckForErroneousSurvey(BlaiseConfigurationHelper.InstrumentName);
+            }
+            else
+            {
+                //The uninstall failed
+                throw new Exception($"Error trying to uninstall questionnaire {BlaiseConfigurationHelper.InstrumentName}");
+            }
         }
 
         public bool SurveyHasInstalled(string instrumentName, int timeoutInSeconds)
         {
-           return SurveyExists(instrumentName, timeoutInSeconds) && 
-                  SurveyIsActive(instrumentName, timeoutInSeconds);
+            return SurveyExists(instrumentName, timeoutInSeconds) &&
+                   SurveyIsActive(instrumentName, timeoutInSeconds);
         }
 
         public void UninstallSurvey()
@@ -84,7 +148,7 @@ namespace Blaise.Tests.Helpers.Instrument
         {
             return _blaiseSurveyApi.GetSurveyStatus(instrumentName, serverPark) == SurveyStatusType.Active;
         }
-        
+
         public void DeactivateSurvey(string instrumentName, string serverParkName)
         {
             _blaiseSurveyApi.DeactivateSurvey(instrumentName, serverParkName);
@@ -128,7 +192,7 @@ namespace Blaise.Tests.Helpers.Instrument
             while (!_blaiseSurveyApi.SurveyExists(instrumentName, BlaiseConfigurationHelper.ServerParkName))
             {
                 Thread.Sleep(timeoutInSeconds % maxCount);
-                
+
                 counter++;
                 if (counter == maxCount)
                 {
