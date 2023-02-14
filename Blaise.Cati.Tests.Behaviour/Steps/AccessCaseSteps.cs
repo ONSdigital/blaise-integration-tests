@@ -16,9 +16,19 @@ namespace Blaise.Cati.Tests.Behaviour.Steps
         [BeforeFeature("interview")]
         public static void InitializeFeature()
         {
-            CatiInterviewHelper.GetInstance().CreateInterviewUser();
-            InstrumentHelper.GetInstance().InstallInstrument();
-            Assert.IsTrue(InstrumentHelper.GetInstance().SurveyHasInstalled(BlaiseConfigurationHelper.InstrumentName, 60));
+            try
+            {
+                CatiInterviewHelper.GetInstance().CreateInterviewUser();
+                InstrumentHelper.GetInstance().InstallInstrument();
+                Assert.IsTrue(InstrumentHelper.GetInstance()
+                    .SurveyHasInstalled(BlaiseConfigurationHelper.InstrumentName, 60));
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine($"Error from debug: {ex.Message}");
+                Console.WriteLine($"Error from console: {ex.Message}");
+                Assert.Fail($"The test failed to complete - {ex.Message}");
+            }
         }
 
         [Given(@"There is a questionnaire installed on a Blaise environment")]

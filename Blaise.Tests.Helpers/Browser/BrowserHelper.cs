@@ -69,9 +69,11 @@ namespace Blaise.Tests.Helpers.Browser
 
         private static ChromeDriver CreateChromeDriver()
         {
-            var chromeOptions = new ChromeOptions();
-            chromeOptions.AcceptInsecureCertificates = true;
-            
+            var chromeOptions = new ChromeOptions
+            {
+                AcceptInsecureCertificates = true
+            };
+
             //chromeOptions.AddArguments("headless");
             chromeOptions.AddArguments("start-maximized");
 
