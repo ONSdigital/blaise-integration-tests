@@ -78,14 +78,6 @@ namespace Blaise.Tests.Helpers.Instrument
             }
         }
 
-        /*   public void InstallInstrument(string instrumentPackage)
-           {
-               _blaiseSurveyApi.InstallSurvey(BlaiseConfigurationHelper.InstrumentName,
-                   BlaiseConfigurationHelper.ServerParkName,
-                   instrumentPackage,
-                   SurveyInterviewType.Cati);
-           }*/
-
         public void InstallInstrument(SurveyInterviewType surveyConfigurationType)
         {
             if (DoesSurveyExists(BlaiseConfigurationHelper.InstrumentName))
