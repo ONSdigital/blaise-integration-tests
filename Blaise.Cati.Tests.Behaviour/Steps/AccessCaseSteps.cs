@@ -25,9 +25,9 @@ namespace Blaise.Cati.Tests.Behaviour.Steps
             }
             catch (Exception ex)
             {
-                Debug.WriteLine($"Error from debug: {ex.Message}");
-                Console.WriteLine($"Error from console: {ex.Message}");
-                Assert.Fail($"The test failed to complete - {ex.Message}");
+                Debug.WriteLine($"Error from debug: {ex.Message}, inner exception: {{ex.InnerException?.Message}}\"");
+                Console.WriteLine($"Error from console: {ex.Message}, inner exception: {{ex.InnerException?.Message}}\"");
+                Assert.Fail($"The test failed to complete - {ex.Message}, inner exception: {ex.InnerException?.Message}");
             }
         }
 
