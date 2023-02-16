@@ -157,7 +157,7 @@ gcloud compute start-iap-tunnel blaise-gusty-mgmt 8033 --local-host-port=localho
 
 ### Run the tests
 
-To run a specific test, for example Cati, right-click the Solution from the folder, select Set as Startup Project. 
+To run a specific test, for example Cati, right-click the Solution from the folder, and select Set as Startup Project. 
 
 You will need to build the Solution once (ctrl+shift+B), and everytime versions are updated you will need to Clean the Solution (under the Build menu) and Rebuild.
 
