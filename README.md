@@ -174,6 +174,10 @@ Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass
 
 This will need to be done for every new terminal.
 
+---
+
+If your tests are failing due to conflicting versions, install the correct version directly from the websternet, and replace the exe in the chocolatey lib with the latest installed exe.
+
 #### Tests
 
 If the Test Explorer window fails to display any tests, try the following:
