@@ -24,6 +24,7 @@ namespace Blaise.Tests.Helpers.Framework
 
         protected void ClickButtonByXPath(string buttonElementPath)
         {
+            Thread.Sleep(2000);
             BrowserHelper.Wait
                 .Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementToBeClickable(By.XPath(buttonElementPath))).Click();
         }
