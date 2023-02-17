@@ -4,6 +4,7 @@ using System.Linq;
 using Blaise.Tests.Helpers.Configuration;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
+using OpenQA.Selenium.Interactions;
 using OpenQA.Selenium.Support.Extensions;
 using OpenQA.Selenium.Support.UI;
 
@@ -21,6 +22,20 @@ namespace Blaise.Tests.Helpers.Browser
         public static WebDriverWait Wait => new WebDriverWait(Browser, TimeSpan.FromSeconds(TimeOutInSeconds));
 
         public static string CurrentUrl => Browser.Url;
+
+        public static bool ElementExistsByXpath(string xPath)
+        {
+            return Browser.FindElements(By.XPath(xPath)).Count > 0;
+        }
+
+        public static void ScrollHorizontalByOffset(int offset)
+        {
+            var actions = new Actions(Browser);
+
+            actions.MoveByOffset(offset, 0);
+
+            actions.Perform();
+        }
 
         public static string TakeScreenShot(string screenShotPath, string screenShotName)
         {
@@ -54,9 +69,11 @@ namespace Blaise.Tests.Helpers.Browser
 
         private static ChromeDriver CreateChromeDriver()
         {
-            var chromeOptions = new ChromeOptions();
-            chromeOptions.AcceptInsecureCertificates = true;
-            
+            var chromeOptions = new ChromeOptions
+            {
+                AcceptInsecureCertificates = true
+            };
+
             //chromeOptions.AddArguments("headless");
             chromeOptions.AddArguments("start-maximized");
 
