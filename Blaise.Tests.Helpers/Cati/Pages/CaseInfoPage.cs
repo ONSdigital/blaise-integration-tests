@@ -30,6 +30,7 @@ namespace Blaise.Tests.Helpers.Cati.Pages
                 ClickButtonByXPath(SurveyRadioButton);
                 ClickButtonByXPath(ApplyButton);
             }
+            ClickButtonByXPath(FilterButton);
         }
     }
 }
