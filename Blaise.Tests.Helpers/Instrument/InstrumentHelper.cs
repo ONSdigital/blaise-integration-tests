@@ -73,8 +73,11 @@ namespace Blaise.Tests.Helpers.Instrument
             }
             else
             {
-                //The uninstall failed
-                throw new Exception($"Error trying to uninstall questionnaire {BlaiseConfigurationHelper.InstrumentName}");
+                if (!CheckForErroneousSurvey(BlaiseConfigurationHelper.InstrumentName))
+                {
+                    //The uninstall failed
+                    throw new Exception($"Error trying to uninstall questionnaire {BlaiseConfigurationHelper.InstrumentName}");
+                }
             }
         }
 
