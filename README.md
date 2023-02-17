@@ -24,6 +24,19 @@ NOT WSL**.
 An easy way to install tools on Windows is by using
 [Chocolatey](https://chocolatey.org/).
 
+You will also need to install NumPy to increase the IAP TCP upload bandwidth (and therefore reduce timeouts:
+
+Open a PowerShell window and run:
+
+Windows:
+```powershell
+start (gcloud info --format="value(basic.python_location)") "-m pip install numpy"
+```
+
+Linux:
+```powershell
+$(gcloud info --format="value(basic.python_location)") -m pip install numpy```
+
 ### Log in to GCP
 
 In PowerShell, run the following where <your-project-name> would be something like ons-blaise-v2-dev-<sandbox>:
@@ -136,14 +149,17 @@ Open a new PowerShell window and run:
 gcloud compute start-iap-tunnel blaise-gusty-mgmt 8031 --local-host-port=localhost:8031
 ```
 
-Then open second PowerShell window and run:
+Then open a second PowerShell window and run:
 
 ```powershell
 gcloud compute start-iap-tunnel blaise-gusty-mgmt 8033 --local-host-port=localhost:8033
 ```
+
 ### Run the tests
 
-To run a specific test, for example Cati, right-click the Solution from the folder, select Set as Startup Project, and then build the Solution (ctrl+shift+B).
+To run a specific test, for example Cati, right-click the Solution from the folder, and select Set as Startup Project. 
+
+You will need to build the Solution once (ctrl+shift+B), and everytime versions are updated you will need to Clean the Solution (under the Build menu) and Rebuild.
 
 Open a Test Explorer window from View, right-click a test, and select Run.
 
@@ -173,6 +189,10 @@ Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass
 ```
 
 This will need to be done for every new terminal.
+
+---
+
+If your tests are failing due to conflicting versions, install the correct version directly from the websternet, and replace the exe in the chocolatey lib with the latest installed exe.
 
 #### Tests
 
