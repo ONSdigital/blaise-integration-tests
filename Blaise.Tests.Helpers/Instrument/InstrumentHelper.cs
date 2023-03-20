@@ -1,9 +1,10 @@
-﻿using System;
-using System.Threading;
-using Blaise.Nuget.Api.Api;
+﻿using Blaise.Nuget.Api.Api;
 using Blaise.Nuget.Api.Contracts.Enums;
 using Blaise.Nuget.Api.Contracts.Interfaces;
 using Blaise.Tests.Helpers.Configuration;
+using System;
+using System.Net.Http;
+using System.Threading;
 
 namespace Blaise.Tests.Helpers.Instrument
 {
@@ -33,10 +34,15 @@ namespace Blaise.Tests.Helpers.Instrument
         {
             try
             {
-                return _blaiseSurveyApi.SurveyExists(!string.IsNullOrEmpty(instrumentName) ? instrumentName : BlaiseConfigurationHelper.InstrumentName,
+                return _blaiseSurveyApi.SurveyExists(
+                    !string.IsNullOrEmpty(instrumentName) ? instrumentName : BlaiseConfigurationHelper.InstrumentName,
                     BlaiseConfigurationHelper.ServerParkName);
             }
             catch (Nuget.Api.Contracts.Exceptions.DataNotFoundException)
+            {
+                return false;
+            }
+            catch (Exception)
             {
                 return false;
             }
@@ -44,13 +50,8 @@ namespace Blaise.Tests.Helpers.Instrument
 
         private bool CheckForErroneousSurvey(string instrumentName = "")
         {
-            if (_blaiseSurveyApi.GetSurveyStatus(!string.IsNullOrEmpty(instrumentName) ? instrumentName : BlaiseConfigurationHelper.InstrumentName,
-                                                    BlaiseConfigurationHelper.ServerParkName) == SurveyStatusType.Erroneous)
-            {
-                throw new Exception($"ERROR: The DST2111Z questionnaire has failed to delete, current status {Enum.GetName(typeof(SurveyStatusType), SurveyStatusType.Erroneous)} You will probably need to restart Blaise to delete it.");
-            }
-
-            return false;
+            return _blaiseSurveyApi.GetSurveyStatus(!string.IsNullOrEmpty(instrumentName) ? instrumentName : BlaiseConfigurationHelper.InstrumentName,
+                BlaiseConfigurationHelper.ServerParkName) == SurveyStatusType.Erroneous;
         }
 
         public void InstallInstrument(string instrumentPackage = "")
@@ -59,25 +60,29 @@ namespace Blaise.Tests.Helpers.Instrument
             {
                 _blaiseSurveyApi.UninstallSurvey(BlaiseConfigurationHelper.InstrumentName,
                     BlaiseConfigurationHelper.ServerParkName);
-                Thread.Sleep(int.Parse(BlaiseConfigurationHelper.UninstallSurveyTimeOutInSeconds) * 1000);
+                Thread.Sleep(
+                    TimeSpan.FromSeconds(int.Parse(BlaiseConfigurationHelper.UninstallSurveyTimeOutInSeconds)));
             }
 
-            if (!DoesSurveyExists(BlaiseConfigurationHelper.InstrumentName))
+            try
             {
-                _blaiseSurveyApi.InstallSurvey(BlaiseConfigurationHelper.InstrumentName,
+                _blaiseSurveyApi.InstallSurvey(
+                    BlaiseConfigurationHelper.InstrumentName,
                     BlaiseConfigurationHelper.ServerParkName,
-                    !string.IsNullOrEmpty(instrumentPackage) ? instrumentPackage : BlaiseConfigurationHelper.InstrumentPackage,
-                    SurveyInterviewType.Cati);
-
-                CheckForErroneousSurvey(BlaiseConfigurationHelper.InstrumentName);
+                    BlaiseConfigurationHelper.InstrumentPackage,
+                    SurveyInterviewType.Cati
+                );
             }
-            else
+            catch (HttpRequestException ex) when (ex.Message.Contains("Bad Request"))
             {
-                if (!CheckForErroneousSurvey(BlaiseConfigurationHelper.InstrumentName))
-                {
-                    //The uninstall failed
-                    throw new Exception($"Error trying to uninstall questionnaire {BlaiseConfigurationHelper.InstrumentName}");
-                }
+                throw new Exception(
+                    $"Error trying to install questionnaire {BlaiseConfigurationHelper.InstrumentName}. {ex.Message}");
+            }
+
+            if (CheckForErroneousSurvey(BlaiseConfigurationHelper.InstrumentName))
+            {
+                throw new Exception(
+                    $"Error: {BlaiseConfigurationHelper.InstrumentName} is Erroneous.  You will probably need to restart Blaise to delete it.");
             }
         }
 

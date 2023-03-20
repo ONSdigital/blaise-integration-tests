@@ -1,9 +1,11 @@
-﻿using System.Collections.Generic;
-using System.Threading;
+﻿using Blaise.Tests.Helpers.Browser;
 using Blaise.Tests.Helpers.Cati.Pages;
 using Blaise.Tests.Helpers.Configuration;
 using Blaise.Tests.Helpers.User;
 using Blaise.Tests.Models.User;
+using System;
+using System.Collections.Generic;
+using System.Threading;
 
 namespace Blaise.Tests.Helpers.Cati
 {
@@ -55,7 +57,7 @@ namespace Blaise.Tests.Helpers.Cati
         public void SetupDayBatchTimeParameters()
         {
             var daybatchPage = new DayBatchPage();
-            //makes me sad but Blaise refreshes the table dom object after the page has initalised 
+            //Makes me sad but Blaise refreshes the table dom object after the page has initialised 
             Thread.Sleep(5000);
             daybatchPage.ModifyDayBatchEntry();
         }
@@ -70,7 +72,6 @@ namespace Blaise.Tests.Helpers.Cati
         {
             var interviewPage = new InterviewPage();
             interviewPage.WaitForFirstFocusObject();
-            Thread.Sleep(20000);
         }
 
         public void DeleteInterviewUser()
@@ -82,6 +83,26 @@ namespace Blaise.Tests.Helpers.Cati
         {
             var interviewPage = new InterviewLoginPage();
             interviewPage.LoginButtonIsAvailable();
+        }
+
+        public void WaitForCaseToLoad(string caseId)
+        {
+            // Define the maximum time to wait for the case to load
+            var maxWaitTime = TimeSpan.FromSeconds(30);
+            var startTime = DateTime.Now;
+
+            // Wait for the case to load by checking the HTML of the current window
+            while (!BrowserHelper.CurrentWindowHTML().Contains(caseId))
+            {
+                // If the maximum wait time is exceeded, throw an exception
+                if (DateTime.Now - startTime > maxWaitTime)
+                {
+                    throw new TimeoutException($"Timed out waiting for case {caseId} to load.");
+                }
+
+                // Wait for a short time before checking again
+                Thread.Sleep(500);
+            }
         }
     }
 }

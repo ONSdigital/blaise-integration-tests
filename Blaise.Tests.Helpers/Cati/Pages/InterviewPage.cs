@@ -1,6 +1,7 @@
-﻿using Blaise.Tests.Helpers.Configuration;
+﻿using Blaise.Tests.Helpers.Browser;
+using Blaise.Tests.Helpers.Configuration;
 using Blaise.Tests.Helpers.Framework;
-using System;
+using OpenQA.Selenium;
 
 namespace Blaise.Tests.Helpers.Cati.Pages
 {
@@ -15,6 +16,7 @@ namespace Blaise.Tests.Helpers.Cati.Pages
 
         public string GetCaseIdText()
         {
+            BrowserHelper.WaitForElement(By.XPath(CaseIdPath));
             return GetElementTextByPath(CaseIdPath);
         }
 

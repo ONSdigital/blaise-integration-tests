@@ -1,12 +1,14 @@
-﻿using System;
-using System.IO;
-using System.Linq;
-using Blaise.Tests.Helpers.Configuration;
+﻿using Blaise.Tests.Helpers.Configuration;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
 using OpenQA.Selenium.Interactions;
 using OpenQA.Selenium.Support.Extensions;
 using OpenQA.Selenium.Support.UI;
+using SeleniumExtras.WaitHelpers;
+using System;
+using System.IO;
+using System.Linq;
+// ReSharper disable InconsistentNaming
 
 namespace Blaise.Tests.Helpers.Browser
 {
@@ -54,17 +56,20 @@ namespace Blaise.Tests.Helpers.Browser
 
         public static string CurrentWindowHTML()
         {
-            return Browser.PageSource;
+            return _browser.PageSource;
         }
 
         public static void BrowseTo(string pageUrl)
         {
             Browser.Navigate().GoToUrl(pageUrl);
+            WaitForUrlToMatch(pageUrl);
         }
 
         public static void SwitchToLastOpenedWindow()
         {
-            Browser.SwitchTo().Window(Browser.WindowHandles.Last());
+            var wait = new WebDriverWait(_browser, TimeSpan.FromSeconds(600));
+            wait.Until(driver => driver.SwitchTo().Window(Browser.WindowHandles.Last()));
+            WaitForUrlToMatch(_browser.Url);
         }
 
         private static ChromeDriver CreateChromeDriver()
@@ -74,10 +79,107 @@ namespace Blaise.Tests.Helpers.Browser
                 AcceptInsecureCertificates = true
             };
 
-            //chromeOptions.AddArguments("headless");
             chromeOptions.AddArguments("start-maximized");
 
             return new ChromeDriver(BrowserConfigurationHelper.ChromeDriver, chromeOptions);
+        }
+
+        public static IWebElement WaitForElement(By by, bool checkIfClickable = false, int maxAttempts = 50)
+        {
+            IWebElement element = null;
+            var attempts = 0;
+
+            while (element == null && attempts < maxAttempts)
+            {
+                try
+                {
+                    element = _browser.FindElement(by);
+                }
+                catch (NoSuchElementException)
+                {
+                    // Element not found - continue polling
+                }
+
+                if (element == null || !IsElementVisible(element))
+                {
+                    System.Threading.Thread.Sleep(500);
+                }
+                else if (!checkIfClickable || IsElementClickable(element))
+                {
+                    break;
+                }
+                attempts++;
+            }
+
+            if (element == null)
+            {
+                //Log this error
+                throw new NoSuchElementException($"Could not find element by {by} after {maxAttempts} attempts.");
+            }
+
+            return element;
+        }
+
+        private static bool IsElementVisible(IWebElement element)
+        {
+            return element.Displayed && element.Enabled;
+        }
+
+        private static bool IsElementClickable(IWebElement element)
+        {
+            try
+            {
+                if (IsElementVisible(element))
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+            catch (WebDriverException wdException)
+            {
+                if (wdException.Message.Contains("Element is not clickable"))
+                {
+                    return false;
+                }
+                else
+                {
+                    throw new Exception($"Error occurred while clicking element: {wdException.Message}");
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception($"Error occurred while clicking element: {ex.Message}");
+            }
+        }
+        public static void WaitForUrlToMatch(string url, int timeoutInSeconds = 1200 /*up to 20 minutes*/, double pollingIntervalInSeconds = 0.5)
+        {
+            try
+            {
+                var wait = new WebDriverWait(_browser, TimeSpan.FromSeconds(timeoutInSeconds))
+                {
+                    PollingInterval = TimeSpan.FromSeconds(pollingIntervalInSeconds)
+                };
+                wait.Until(ExpectedConditions.UrlMatches(url));
+            }
+            catch (WebDriverTimeoutException wdTOException)
+            {
+                throw new Exception($"Timed out waiting for URL to match: {url} Exception: {wdTOException}");
+            }
+            catch (NoSuchElementException nseException)
+            {
+                throw new Exception($"Error occurred while waiting for URL to match: {url} Exception: {nseException.Message}");
+            }
+            catch (WebDriverException wdException)
+            {
+                throw new Exception($"Error occurred while waiting for URL to match: {url} Exception:  {wdException.Message}");
+            }
+            catch (Exception ex)
+            {
+                throw new Exception($"Error occurred while waiting for URL to match: {url} Exception: {ex.Message}");
+            }
         }
     }
 }

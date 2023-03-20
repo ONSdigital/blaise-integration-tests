@@ -2,6 +2,7 @@
 using Blaise.Nuget.Api.Contracts.Interfaces;
 using Blaise.Tests.Models.User;
 using StatNeth.Blaise.API.ServerManager;
+using System;
 
 namespace Blaise.Tests.Helpers.User
 {
@@ -33,12 +34,19 @@ namespace Blaise.Tests.Helpers.User
 
                 _blaiseUserApi.AddUser(userModel.UserName, userModel.Password,
                    userModel.Role, userModel.ServerParks, userModel.DefaultServerPark);
-            }    
+            }
         }
 
         public void RemoveUser(string userName)
         {
-            _blaiseUserApi.RemoveUser(userName);
+            try
+            {
+                _blaiseUserApi.RemoveUser(userName);
+            }
+            catch (Exception)
+            {
+                /*Ignored as this won't affect the tests*/
+            }
         }
 
         public IUser GetUser(string userName)
@@ -47,7 +55,7 @@ namespace Blaise.Tests.Helpers.User
             {
                 return _blaiseUserApi.GetUser(userName);
             }
-            catch (System.Exception)
+            catch (Exception)
             {
                 return null;
             }

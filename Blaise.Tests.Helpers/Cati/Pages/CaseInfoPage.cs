@@ -1,11 +1,14 @@
 ﻿using Blaise.Tests.Helpers.Configuration;
 using Blaise.Tests.Helpers.Framework;
 using System.Threading;
+// ReSharper disable InconsistentNaming
+// ReSharper disable FieldCanBeMadeReadOnly.Local
 
 namespace Blaise.Tests.Helpers.Cati.Pages
 {
     public class CaseInfoPage : BasePage
     {
+        // ReSharper disable once ConvertToConstant.Local
         private string PlayButton = "//*[@id='MVCGridTable_CaseInfoGrid']/tbody/tr[1]/td[19]/a/span";
         private const string FilterButton = "//*[contains(text(), 'Filters')]";
         private string SurveyRadioButton = $"//*[normalize-space()='{BlaiseConfigurationHelper.InstrumentName}']";

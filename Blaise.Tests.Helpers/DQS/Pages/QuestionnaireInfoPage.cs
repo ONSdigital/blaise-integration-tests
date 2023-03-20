@@ -9,7 +9,6 @@ namespace Blaise.Tests.Helpers.Dqs.Pages
         public string AddToStartDatePath = "//a[contains(@href,'/questionnaire/start-date')]";
         public string DeleteButtonId = "delete-questionnaire";
 
-
         public QuestionnaireInfoPage() : base(DqsConfigurationHelper.DqsUrl)
         {
         }

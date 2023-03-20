@@ -1,8 +1,8 @@
-﻿using System.Collections.Generic;
-using System.Threading;
-using Blaise.Tests.Helpers.Browser;
+﻿using Blaise.Tests.Helpers.Browser;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Support.UI;
+using System.Collections.Generic;
+using System.Threading;
 
 namespace Blaise.Tests.Helpers.Framework
 {
@@ -24,30 +24,23 @@ namespace Blaise.Tests.Helpers.Framework
 
         protected void ClickButtonByXPath(string buttonElementPath)
         {
-            Thread.Sleep(2000);
-            BrowserHelper.Wait
-                .Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementToBeClickable(By.XPath(buttonElementPath))).Click();
+            BrowserHelper.WaitForElement(By.XPath(buttonElementPath), true).Click();
         }
 
         protected string GetElementTextById(string elementId)
         {
-            return BrowserHelper.Wait
-                .Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementIsVisible(By.Id(elementId))).Text;
+            return BrowserHelper.WaitForElement(By.Id(elementId)).Text;
         }
 
         protected string GetElementTextByPath(string elementPath)
         {
-            return BrowserHelper.Wait
-                .Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementIsVisible(By.XPath(elementPath))).Text;
+            return BrowserHelper.WaitForElement(By.XPath(elementPath)).Text;
         }
 
         protected void PopulateInputById(string elementId, string value)
         {
-            BrowserHelper.Wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementIsVisible(By.Id(elementId)))
-                .Clear();
-            
-            BrowserHelper.Wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementIsVisible(By.Id(elementId)))
-                .SendKeys(value);
+            BrowserHelper.WaitForElement(By.Id(elementId)).Clear();
+            BrowserHelper.WaitForElement(By.Id(elementId)).SendKeys(value);
         }
 
         protected void PopulateInputByName(string elementName, string value)
@@ -75,7 +68,7 @@ namespace Blaise.Tests.Helpers.Framework
 
         protected void WaitForPageToChange(string url)
         {
-            BrowserHelper.Wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.UrlMatches(url));
+            BrowserHelper.WaitForUrlToMatch(url);
         }
 
         public void LoadPage()
@@ -87,7 +80,7 @@ namespace Blaise.Tests.Helpers.Framework
         {
             BrowserHelper.BrowseTo(url);
         }
-        
+
         public void ButtonIsAvailableById(string buttonId)
         {
             BrowserHelper.Wait.Until(

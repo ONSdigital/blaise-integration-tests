@@ -1,12 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using Blaise.Tests.Helpers.Browser;
+﻿using Blaise.Tests.Helpers.Browser;
 using Blaise.Tests.Helpers.Case;
 using Blaise.Tests.Helpers.Cati;
 using Blaise.Tests.Helpers.Configuration;
 using Blaise.Tests.Helpers.Instrument;
 using Blaise.Tests.Models.Case;
 using NUnit.Framework;
+using System;
+using System.Collections.Generic;
 using TechTalk.SpecFlow;
 
 namespace Blaise.Cati.Tests.Behaviour.Steps
@@ -18,6 +18,8 @@ namespace Blaise.Cati.Tests.Behaviour.Steps
         public static void InitializeFeature()
         {
             InstrumentHelper.GetInstance().InstallInstrument();
+            Assert.IsTrue(InstrumentHelper.GetInstance()
+                .SurveyHasInstalled(BlaiseConfigurationHelper.InstrumentName, 60));
         }
 
         [Given(@"I log on to Cati as an administrator")]
@@ -31,7 +33,7 @@ namespace Blaise.Cati.Tests.Behaviour.Steps
             }
             catch (Exception e)
             {
-                FailWithScreenShot(e,"LogOnCati", "Log onto Cati as Admin");
+                FailWithScreenShot(e, "LogOnCati", "Log onto Cati as Admin");
             }
         }
 
@@ -62,7 +64,7 @@ namespace Blaise.Cati.Tests.Behaviour.Steps
                 FailWithScreenShot(e, "SampleCases", "Daybatch entry screen");
             }
         }
-                
+
         [AfterScenario("cati")]
         public void CleanUpFeature()
         {

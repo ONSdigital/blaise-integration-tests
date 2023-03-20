@@ -10,12 +10,13 @@ namespace Blaise.Tests.Helpers.Configuration
         public static string InstrumentPath => ConfigurationExtensions.GetVariable("InstrumentPath");
         public static string InstrumentName => ConfigurationExtensions.GetVariable("InstrumentName");
         public static string SecondInstrumentName => ConfigurationExtensions.GetVariable("SecondInstrumentName");
-        public static string InstrumentPackage => $"{InstrumentPath}//{InstrumentName}.bpkg";
-        public static string SecondInstrumentPackage => $"{InstrumentPath}//{SecondInstrumentName}.bpkg";
+        public static string InstrumentPackage => $@"{InstrumentPath}\{InstrumentName}.bpkg";
+        public static string SecondInstrumentPackage => $@"{InstrumentPath}\{SecondInstrumentName}.bpkg";
 
         public static ConnectionModel BuildConnectionModel()
         {
-            return new ConnectionModel{
+            return new ConnectionModel
+            {
                 ServerName = ConfigurationExtensions.GetVariable("ENV_BLAISE_SERVER_HOST_NAME"),
                 UserName = ConfigurationExtensions.GetVariable("ENV_BLAISE_ADMIN_USER"),
                 Password = ConfigurationExtensions.GetVariable("ENV_BLAISE_ADMIN_PASSWORD"),

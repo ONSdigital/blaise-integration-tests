@@ -1,5 +1,6 @@
 ﻿using Blaise.Tests.Helpers.Configuration;
 using Blaise.Tests.Helpers.Framework;
+using System.Threading;
 
 namespace Blaise.Tests.Helpers.Dqs.Pages
 {
@@ -19,6 +20,7 @@ namespace Blaise.Tests.Helpers.Dqs.Pages
             PopulateInputByName(_usernameTextBoxName, username);
             PopulateInputByName(_passwordTextBoxName, password);
             ClickButtonByXPath(_submitButtonPath);
+            Thread.Sleep(2000); /*needed to allow UI to catch up*/
         }
 
         public void LogOutOfDqs()

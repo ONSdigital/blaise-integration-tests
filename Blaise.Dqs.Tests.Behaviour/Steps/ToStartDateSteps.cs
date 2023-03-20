@@ -1,11 +1,12 @@
-﻿using System;
-using Blaise.Tests.Helpers.Browser;
+﻿using Blaise.Tests.Helpers.Browser;
 using Blaise.Tests.Helpers.Case;
 using Blaise.Tests.Helpers.Configuration;
 using Blaise.Tests.Helpers.Dqs;
 using Blaise.Tests.Helpers.Instrument;
 using NUnit.Framework;
+using System;
 using TechTalk.SpecFlow;
+// ReSharper disable InconsistentNaming
 
 namespace Blaise.Dqs.Tests.Behaviour.Steps
 {

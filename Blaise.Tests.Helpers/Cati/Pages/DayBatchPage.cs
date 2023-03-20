@@ -1,6 +1,8 @@
 ﻿using Blaise.Tests.Helpers.Configuration;
 using Blaise.Tests.Helpers.Framework;
 using System.Threading;
+// ReSharper disable FieldCanBeMadeReadOnly.Local
+// ReSharper disable InconsistentNaming
 
 namespace Blaise.Tests.Helpers.Cati.Pages
 {

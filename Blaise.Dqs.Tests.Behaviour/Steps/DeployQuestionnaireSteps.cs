@@ -1,12 +1,11 @@
-﻿using System;
-using System.Linq;
-using System.Threading;
-using Blaise.Tests.Helpers.Browser;
+﻿using Blaise.Tests.Helpers.Browser;
 using Blaise.Tests.Helpers.Case;
 using Blaise.Tests.Helpers.Configuration;
-using Blaise.Tests.Helpers.Instrument;
 using Blaise.Tests.Helpers.Dqs;
+using Blaise.Tests.Helpers.Instrument;
 using NUnit.Framework;
+using System;
+using System.Linq;
 using TechTalk.SpecFlow;
 
 namespace Blaise.Dqs.Tests.Behaviour.Steps
@@ -93,7 +92,6 @@ namespace Blaise.Dqs.Tests.Behaviour.Steps
                 var today = DateTime.Now.ToString("dd/MM/yyyy");
                 DqsHelper.GetInstance().SelectYesLiveDate();
                 DqsHelper.GetInstance().SetLiveDate(today);
-                Thread.Sleep(5000);
                 DqsHelper.GetInstance().ConfirmQuestionnaireUpload();
             }
             catch (Exception e)
@@ -222,12 +220,13 @@ namespace Blaise.Dqs.Tests.Behaviour.Steps
         {
             try
             {
-                Assert.IsNotNull(DqsHelper.GetInstance().GetOverwriteMessage());
+                var overwriteMessage = DqsHelper.GetInstance().GetOverwriteMessage();
+                Assert.IsNotNull(overwriteMessage);
                 Assert.AreEqual(DqsConfigurationHelper.CannotOverwriteUrl, BrowserHelper.CurrentUrl);
             }
             catch (Exception e)
             {
-                FailWithScreenShot(e, "CannotOverwrite", "Questionnaire Cannot be overwritten");
+                FailWithScreenShot(e, "CannotOverwrite", "Questionnaire cannot be overwritten");
             }
         }
 
@@ -243,11 +242,14 @@ namespace Blaise.Dqs.Tests.Behaviour.Steps
 
                 Assert.IsTrue(newInstallDate > existingInstallDate);
             }
+            catch (TimeoutException e)
+            {
+                FailWithScreenShot(e, "UploadTimeout", "The upload took too long");
+            }
             catch (Exception e)
             {
                 FailWithScreenShot(e, "OverwriteExisting", "Questionnaire has been overwritten");
             }
-
         }
 
         [Then(@"the questionnaire is active in blaise")]

@@ -1,6 +1,6 @@
-﻿using Blaise.Tests.Helpers.Cati.Pages;
+﻿using Blaise.Tests.Helpers.Browser;
+using Blaise.Tests.Helpers.Cati.Pages;
 using Blaise.Tests.Helpers.Configuration;
-using Blaise.Tests.Helpers.Browser;
 using Blaise.Tests.Helpers.Tobi;
 using System;
 using System.Threading;
@@ -37,6 +37,9 @@ namespace Blaise.Tests.Helpers.Cati
 
         public void CreateDayBatch()
         {
+            DayBatchHelper.GetInstance().RemoveSurveyDays(BlaiseConfigurationHelper.InstrumentName, DateTime.Today);
+            ClearDayBatchEntries();
+
             SetSurveyDays();
 
             DayBatchHelper.GetInstance().CreateDayBatch(BlaiseConfigurationHelper.InstrumentName, DateTime.Today);
