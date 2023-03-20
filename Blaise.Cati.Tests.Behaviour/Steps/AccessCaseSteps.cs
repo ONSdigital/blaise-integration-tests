@@ -107,7 +107,6 @@ namespace Blaise.Cati.Tests.Behaviour.Steps
         public static void CleanUpFeature()
         {
             CatiInterviewHelper.GetInstance().DeleteInterviewUser();
-            CaseHelper.GetInstance().DeleteCases();
             InstrumentHelper.GetInstance().UninstallSurvey();
         }
 
