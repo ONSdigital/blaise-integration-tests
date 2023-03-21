@@ -21,6 +21,7 @@ namespace Blaise.Tests.Behaviour.Steps
         [When(@"I create sample cases for the instrument")]
         public void WhenICreateACaseForTheInstrument(IEnumerable<CaseModel> caseModels)
         {
+            CaseHelper.GetInstance().DeleteCases();
             CaseHelper.GetInstance().CreateCases(caseModels);
         }
 
