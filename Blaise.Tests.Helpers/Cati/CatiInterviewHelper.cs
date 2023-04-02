@@ -1,9 +1,9 @@
-﻿using System.Collections.Generic;
-using System.Threading;
-using Blaise.Tests.Helpers.Cati.Pages;
+﻿using Blaise.Tests.Helpers.Cati.Pages;
 using Blaise.Tests.Helpers.Configuration;
 using Blaise.Tests.Helpers.User;
 using Blaise.Tests.Models.User;
+using System.Collections.Generic;
+using System.Threading;
 
 namespace Blaise.Tests.Helpers.Cati
 {
@@ -28,7 +28,7 @@ namespace Blaise.Tests.Helpers.Cati
             var caseInfoPage = new CaseInfoPage();
             caseInfoPage.LoadPage();
             caseInfoPage.ApplyFilters();
-            Thread.Sleep(5000);
+            Thread.Sleep(2000);
             caseInfoPage.ClickPlayButton();
         }
 
@@ -70,7 +70,7 @@ namespace Blaise.Tests.Helpers.Cati
         {
             var interviewPage = new InterviewPage();
             interviewPage.WaitForFirstFocusObject();
-            Thread.Sleep(20000);
+            //Thread.Sleep(20000);
         }
 
         public void DeleteInterviewUser()

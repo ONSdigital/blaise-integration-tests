@@ -1,8 +1,7 @@
-﻿using System.Collections.Generic;
-using System.Threading;
-using Blaise.Tests.Helpers.Browser;
+﻿using Blaise.Tests.Helpers.Browser;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Support.UI;
+using System.Collections.Generic;
 
 namespace Blaise.Tests.Helpers.Framework
 {
@@ -17,35 +16,37 @@ namespace Blaise.Tests.Helpers.Framework
 
         protected void ClickButtonById(string buttonElementId)
         {
-            Thread.Sleep(2000);
+            // BrowserHelper.FindElement(By.XPath(buttonElementId)).Click();
+
             BrowserHelper.Wait
                 .Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementToBeClickable(By.Id(buttonElementId))).Click();
         }
 
         protected void ClickButtonByXPath(string buttonElementPath)
         {
-            Thread.Sleep(2000);
             BrowserHelper.Wait
                 .Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementToBeClickable(By.XPath(buttonElementPath))).Click();
         }
 
         protected string GetElementTextById(string elementId)
         {
-            return BrowserHelper.Wait
-                .Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementIsVisible(By.Id(elementId))).Text;
+            return BrowserHelper.FindElement(By.Id(elementId)).Text;
+
+            //return BrowserHelper.Wait
+            //    .Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementIsVisible(By.Id(elementId))).Text;
         }
 
         protected string GetElementTextByPath(string elementPath)
         {
             return BrowserHelper.Wait
-                .Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementIsVisible(By.XPath(elementPath))).Text;
+                 .Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementIsVisible(By.XPath(elementPath))).Text;
         }
 
         protected void PopulateInputById(string elementId, string value)
         {
             BrowserHelper.Wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementIsVisible(By.Id(elementId)))
                 .Clear();
-            
+
             BrowserHelper.Wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementIsVisible(By.Id(elementId)))
                 .SendKeys(value);
         }
@@ -87,7 +88,7 @@ namespace Blaise.Tests.Helpers.Framework
         {
             BrowserHelper.BrowseTo(url);
         }
-        
+
         public void ButtonIsAvailableById(string buttonId)
         {
             BrowserHelper.Wait.Until(
