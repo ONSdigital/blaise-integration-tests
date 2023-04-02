@@ -16,8 +16,6 @@ namespace Blaise.Tests.Helpers.Framework
 
         protected void ClickButtonById(string buttonElementId)
         {
-            // BrowserHelper.FindElement(By.XPath(buttonElementId)).Click();
-
             BrowserHelper.Wait
                 .Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementToBeClickable(By.Id(buttonElementId))).Click();
         }
@@ -31,9 +29,6 @@ namespace Blaise.Tests.Helpers.Framework
         protected string GetElementTextById(string elementId)
         {
             return BrowserHelper.FindElement(By.Id(elementId)).Text;
-
-            //return BrowserHelper.Wait
-            //    .Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementIsVisible(By.Id(elementId))).Text;
         }
 
         protected string GetElementTextByPath(string elementPath)
