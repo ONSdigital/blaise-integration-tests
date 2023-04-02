@@ -21,7 +21,6 @@ namespace Blaise.Tests.Helpers.Cati.Pages
 
         public void ApplyFilters()
         {
-            //Thread.Sleep(5000);
             ClickButtonByXPath(FilterButton);
             var filterButtonText = GetElementTextByPath(FilterButton);
             if (filterButtonText != "Filters (active)")

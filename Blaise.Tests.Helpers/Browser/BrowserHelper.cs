@@ -102,15 +102,15 @@ namespace Blaise.Tests.Helpers.Browser
             }
             catch (NoSuchElementException ex)
             {
-                //  throw new NoSuchElementException($"Unable to find element with selector '{by}' after waiting for {timeoutInSeconds} seconds", ex);
+                throw new NoSuchElementException($"Unable to find element with selector '{by}' after waiting for {timeoutInSeconds} seconds", ex);
             }
             catch (TimeoutException ex)
             {
-                //  throw new TimeoutException($"Timed out after waiting for {timeoutInSeconds} seconds to find element with selector '{by}'", ex);
+                throw new TimeoutException($"Timed out after waiting for {timeoutInSeconds} seconds to find element with selector '{by}'", ex);
             }
             catch (Exception ex)
             {
-                //  throw new Exception($"An error occurred while finding element with selector '{by}'", ex);
+                throw new Exception($"An error occurred while finding element with selector '{by}'", ex);
             }
 
             return null;

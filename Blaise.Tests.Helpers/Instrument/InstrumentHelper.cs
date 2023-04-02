@@ -89,10 +89,10 @@ namespace Blaise.Tests.Helpers.Instrument
             {
                 throw;
             }
-            //catch (Exception)
-            //{
-            //    throw;
-            //}
+            catch (Exception)
+            {
+                throw;
+            }
         }
 
         public void InstallInstrument(SurveyInterviewType surveyConfigurationType)
