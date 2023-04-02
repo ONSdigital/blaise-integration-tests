@@ -1,10 +1,10 @@
-﻿using System;
-using Blaise.Tests.Helpers.Browser;
+﻿using Blaise.Tests.Helpers.Browser;
 using Blaise.Tests.Helpers.Case;
 using Blaise.Tests.Helpers.Configuration;
 using Blaise.Tests.Helpers.Dqs;
 using Blaise.Tests.Helpers.Instrument;
 using NUnit.Framework;
+using System;
 using TechTalk.SpecFlow;
 
 namespace Blaise.Dqs.Tests.Behaviour.Steps
@@ -32,7 +32,7 @@ namespace Blaise.Dqs.Tests.Behaviour.Steps
             try
             {
                 DqsHelper.GetInstance().ClickInstrumentInfoButton(BlaiseConfigurationHelper.InstrumentName);
-                string toStartDateText = DqsHelper.GetInstance().GetToStartDate();
+                var toStartDateText = DqsHelper.GetInstance().GetToStartDate();
 
                 Assert.AreEqual("No start date specified, using survey days", toStartDateText);
             }
