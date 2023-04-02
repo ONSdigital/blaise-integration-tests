@@ -70,7 +70,6 @@ namespace Blaise.Tests.Helpers.Cati
         {
             var interviewPage = new InterviewPage();
             interviewPage.WaitForFirstFocusObject();
-            //Thread.Sleep(20000);
         }
 
         public void DeleteInterviewUser()
