@@ -28,7 +28,8 @@ namespace Blaise.Tests.Helpers.Framework
 
         protected string GetElementTextById(string elementId)
         {
-            return BrowserHelper.FindElement(By.Id(elementId)).Text;
+            var element = BrowserHelper.FindElement(By.Id(elementId));
+            return element != null ? element.Text : "";
         }
 
         protected string GetElementTextByPath(string elementPath)
