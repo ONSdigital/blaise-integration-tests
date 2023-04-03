@@ -1,7 +1,7 @@
-﻿using System;
-using Blaise.Nuget.Api.Api;
+﻿using Blaise.Nuget.Api.Api;
 using Blaise.Nuget.Api.Contracts.Interfaces;
 using Blaise.Tests.Helpers.Configuration;
+using System;
 
 namespace Blaise.Tests.Helpers.Tobi
 {
