@@ -65,7 +65,7 @@ namespace Blaise.Tests.Helpers.Case
                     }
                     catch (Exception)
                     {
-                        /*Ignored*/
+                        /*Ignored - better to implement ILogger*/
                     }
 
                     cases.MoveNext();
@@ -73,7 +73,7 @@ namespace Blaise.Tests.Helpers.Case
             }
             catch (Exception)
             {
-                /*Ignored*/
+                /*Ignored - better to implement ILogger*/
             }
         }
 
@@ -86,6 +86,7 @@ namespace Blaise.Tests.Helpers.Case
             }
             catch (Exception)
             {
+                //Could be improved by implementing ILogger
                 return 0;
             }
         }
