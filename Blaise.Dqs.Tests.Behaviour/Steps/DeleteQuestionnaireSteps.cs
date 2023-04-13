@@ -1,12 +1,11 @@
-﻿using System;
-using System.Linq;
-using Blaise.Tests.Helpers.Browser;
+﻿using Blaise.Tests.Helpers.Browser;
 using Blaise.Tests.Helpers.Case;
 using Blaise.Tests.Helpers.Configuration;
 using Blaise.Tests.Helpers.Dqs;
 using Blaise.Tests.Helpers.Instrument;
-using Blaise.Tests.Helpers.Tobi;
 using NUnit.Framework;
+using System;
+using System.Linq;
 using TechTalk.SpecFlow;
 
 namespace Blaise.Dqs.Tests.Behaviour.Steps
@@ -19,7 +18,7 @@ namespace Blaise.Dqs.Tests.Behaviour.Steps
         {
             InstrumentHelper.GetInstance().InstallInstrument();
         }
-        
+
         [Given(@"the questionnaire is active")]
         public void GivenTheQuestionnaireIsActive()
         {
@@ -77,7 +76,7 @@ namespace Blaise.Dqs.Tests.Behaviour.Steps
         {
             DqsHelper.GetInstance().WaitForDeleteQuestionnaireConfirmationPage();
         }
-        
+
         [When(@"I confirm that I want to proceed")]
         public void WhenIConfirmThatIWantToProceed()
         {
@@ -125,8 +124,11 @@ namespace Blaise.Dqs.Tests.Behaviour.Steps
             BrowserHelper.CloseBrowser();
             if (InstrumentHelper.GetInstance().SurveyExists(BlaiseConfigurationHelper.InstrumentName))
             {
-                CaseHelper.GetInstance().DeleteCases();
-                InstrumentHelper.GetInstance().UninstallSurvey();
+                var caseHelper = CaseHelper.GetInstance();
+                caseHelper?.DeleteCases();
+
+                var instrumentHelper = InstrumentHelper.GetInstance();
+                instrumentHelper?.UninstallSurvey();
             }
         }
 

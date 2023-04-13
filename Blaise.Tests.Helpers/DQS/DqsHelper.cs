@@ -26,7 +26,6 @@ namespace Blaise.Tests.Helpers.Dqs
         {
             var loginPage = new LoginPage();
             loginPage.LogOutOfDqs();
-            Thread.Sleep(5000);
         }
 
         public void LoadDqsHomePage()
