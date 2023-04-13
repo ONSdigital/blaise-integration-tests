@@ -1,12 +1,12 @@
-﻿using System;
-using System.IO;
-using System.Linq;
-using Blaise.Tests.Helpers.Configuration;
+﻿using Blaise.Tests.Helpers.Configuration;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
 using OpenQA.Selenium.Interactions;
 using OpenQA.Selenium.Support.Extensions;
 using OpenQA.Selenium.Support.UI;
+using System;
+using System.IO;
+using System.Linq;
 
 namespace Blaise.Tests.Helpers.Browser
 {
@@ -78,6 +78,67 @@ namespace Blaise.Tests.Helpers.Browser
             chromeOptions.AddArguments("start-maximized");
 
             return new ChromeDriver(BrowserConfigurationHelper.ChromeDriver, chromeOptions);
+        }
+
+        public static IWebElement FindElement(By by, int timeoutInSeconds = 20, int pollingIntervalInMilliseconds = 500)
+        {
+            var timeout = TimeSpan.FromSeconds(timeoutInSeconds);
+            var pollingInterval = TimeSpan.FromMilliseconds(pollingIntervalInMilliseconds);
+
+            try
+            {
+                var wait = new DefaultWait<IWebDriver>(_browser)
+                {
+                    Timeout = timeout,
+                    PollingInterval = pollingInterval,
+                    Message = $"Timed out after {timeoutInSeconds} seconds while waiting for element with selector '{by}'"
+                };
+
+                return wait.Until(d =>
+                {
+                    var element = d.FindElement(by);
+                    return (element.Displayed && element.Enabled) ? element : null;
+                });
+            }
+            catch (NoSuchElementException ex)
+            {
+                throw new NoSuchElementException($"Unable to find element with selector '{by}' after waiting for {timeoutInSeconds} seconds", ex);
+            }
+            catch (TimeoutException ex)
+            {
+                throw new TimeoutException($"Timed out after waiting for {timeoutInSeconds} seconds to find element with selector '{by}'", ex);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception($"An error occurred while finding element with selector '{by}'", ex);
+            }
+
+            return null;
+        }
+
+        public static void WaitForUrlToMatch(string expectedUrl, int timeoutInSeconds = 10, int pollingIntervalInMilliseconds = 500)
+        {
+            var timeout = TimeSpan.FromSeconds(timeoutInSeconds);
+            var pollingInterval = TimeSpan.FromMilliseconds(pollingIntervalInMilliseconds);
+            var wait = new DefaultWait<IWebDriver>(_browser)
+            {
+                Timeout = timeout,
+                PollingInterval = pollingInterval,
+                Message = $"Timed out after {timeoutInSeconds} seconds while waiting for URL to match '{expectedUrl}'"
+            };
+
+            try
+            {
+                wait.Until(d => d.Url.Contains(expectedUrl));
+            }
+            catch (WebDriverTimeoutException ex)
+            {
+                throw new WebDriverTimeoutException($"Timed out after {timeoutInSeconds} seconds while waiting for URL to match '{expectedUrl}'", ex);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception($"An error occurred while waiting for URL to match '{expectedUrl}'", ex);
+            }
         }
     }
 }
