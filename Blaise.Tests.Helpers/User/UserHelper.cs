@@ -2,6 +2,8 @@
 using Blaise.Nuget.Api.Contracts.Interfaces;
 using Blaise.Tests.Models.User;
 using StatNeth.Blaise.API.ServerManager;
+using System;
+using System.Net;
 
 namespace Blaise.Tests.Helpers.User
 {
@@ -33,12 +35,25 @@ namespace Blaise.Tests.Helpers.User
 
                 _blaiseUserApi.AddUser(userModel.UserName, userModel.Password,
                    userModel.Role, userModel.ServerParks, userModel.DefaultServerPark);
-            }    
+            }
         }
 
         public void RemoveUser(string userName)
         {
-            _blaiseUserApi.RemoveUser(userName);
+            try
+            {
+                _blaiseUserApi.RemoveUser(userName);
+            }
+            catch (WebException ex) when (ex.Message.Contains("Bad Request"))
+            {
+                // The remote server returned an unexpected response: (400) Bad Request.
+                // These are not thrown as if the user cannot be removed it will not affect the system
+            }
+            catch (Exception)
+            {
+                // Handle other exceptions.
+                // These are not thrown as if the user cannot be removed it will not affect the system
+            }
         }
 
         public IUser GetUser(string userName)

@@ -1,11 +1,12 @@
-﻿using System.Collections.Generic;
-using System.Globalization;
-using Blaise.Nuget.Api.Api;
+﻿using Blaise.Nuget.Api.Api;
 using Blaise.Nuget.Api.Contracts.Enums;
 using Blaise.Nuget.Api.Contracts.Interfaces;
 using Blaise.Tests.Helpers.Configuration;
 using Blaise.Tests.Models.Case;
 using StatNeth.Blaise.API.DataRecord;
+using System;
+using System.Collections.Generic;
+using System.Globalization;
 
 namespace Blaise.Tests.Helpers.Case
 {
@@ -35,7 +36,7 @@ namespace Blaise.Tests.Helpers.Case
 
         public void CreateCase(CaseModel caseModel)
         {
-            _blaiseCaseApi.CreateCase(caseModel.PrimaryKey, caseModel.FieldData(), BlaiseConfigurationHelper.InstrumentName, 
+            _blaiseCaseApi.CreateCase(caseModel.PrimaryKey, caseModel.FieldData(), BlaiseConfigurationHelper.InstrumentName,
                 BlaiseConfigurationHelper.ServerParkName);
         }
 
@@ -48,30 +49,52 @@ namespace Blaise.Tests.Helpers.Case
 
         public void DeleteCases()
         {
-            var cases = _blaiseCaseApi.GetCases(BlaiseConfigurationHelper.InstrumentName, 
-                BlaiseConfigurationHelper.ServerParkName);
-
-            while (!cases.EndOfSet)
+            try
             {
-                var primaryKey = _blaiseCaseApi.GetPrimaryKeyValue(cases.ActiveRecord);
-
-                _blaiseCaseApi.RemoveCase(primaryKey, BlaiseConfigurationHelper.InstrumentName, 
+                var cases = _blaiseCaseApi.GetCases(BlaiseConfigurationHelper.InstrumentName,
                     BlaiseConfigurationHelper.ServerParkName);
 
-                cases.MoveNext();
+                while (!cases.EndOfSet)
+                {
+                    try
+                    {
+                        var primaryKey = _blaiseCaseApi.GetPrimaryKeyValue(cases.ActiveRecord);
+
+                        _blaiseCaseApi.RemoveCase(primaryKey, BlaiseConfigurationHelper.InstrumentName,
+                            BlaiseConfigurationHelper.ServerParkName);
+                    }
+                    catch (Exception)
+                    {
+                        /*Ignored - better to implement ILogger*/
+                    }
+
+                    cases.MoveNext();
+                }
+            }
+            catch (Exception)
+            {
+                /*Ignored - better to implement ILogger*/
             }
         }
 
         public int NumberOfCasesInInstrument()
         {
-            return _blaiseCaseApi.GetNumberOfCases(BlaiseConfigurationHelper.InstrumentName, 
-                BlaiseConfigurationHelper.ServerParkName);
+            try
+            {
+                return _blaiseCaseApi.GetNumberOfCases(BlaiseConfigurationHelper.InstrumentName,
+                    BlaiseConfigurationHelper.ServerParkName);
+            }
+            catch (Exception)
+            {
+                //Could be improved by implementing ILogger
+                return 0;
+            }
         }
-        
+
         public IEnumerable<CaseModel> GetCasesInBlaise()
         {
             var caseModels = new List<CaseModel>();
-            var casesInDatabase = _blaiseCaseApi.GetCases(BlaiseConfigurationHelper.InstrumentName, 
+            var casesInDatabase = _blaiseCaseApi.GetCases(BlaiseConfigurationHelper.InstrumentName,
                 BlaiseConfigurationHelper.ServerParkName);
 
             while (!casesInDatabase.EndOfSet)

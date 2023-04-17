@@ -1,11 +1,11 @@
-﻿using System;
-using System.Diagnostics;
-using Blaise.Tests.Helpers.Browser;
-using Blaise.Tests.Helpers.Case;
+﻿using Blaise.Tests.Helpers.Browser;
 using Blaise.Tests.Helpers.Cati;
 using Blaise.Tests.Helpers.Configuration;
 using Blaise.Tests.Helpers.Instrument;
 using NUnit.Framework;
+using System;
+using System.Diagnostics;
+using System.Threading;
 using TechTalk.SpecFlow;
 
 namespace Blaise.Cati.Tests.Behaviour.Steps
@@ -84,6 +84,7 @@ namespace Blaise.Cati.Tests.Behaviour.Steps
             {
                 BrowserHelper.SwitchToLastOpenedWindow();
                 CatiInterviewHelper.GetInstance().WaitForFirstFocusObject();
+                Thread.Sleep(3000); /*ui needs time*/
                 Assert.True(BrowserHelper.CurrentWindowHTML().Contains(caseId));
             }
             catch (Exception e)
