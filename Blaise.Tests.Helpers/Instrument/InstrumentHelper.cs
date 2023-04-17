@@ -1,9 +1,9 @@
-﻿using System;
-using System.Threading;
-using Blaise.Nuget.Api.Api;
+﻿using Blaise.Nuget.Api.Api;
 using Blaise.Nuget.Api.Contracts.Enums;
 using Blaise.Nuget.Api.Contracts.Interfaces;
 using Blaise.Tests.Helpers.Configuration;
+using System;
+using System.Threading;
 
 namespace Blaise.Tests.Helpers.Instrument
 {
@@ -55,29 +55,43 @@ namespace Blaise.Tests.Helpers.Instrument
 
         public void InstallInstrument(string instrumentPackage = "")
         {
-            if (DoesSurveyExists(BlaiseConfigurationHelper.InstrumentName))
+            try
             {
-                _blaiseSurveyApi.UninstallSurvey(BlaiseConfigurationHelper.InstrumentName,
-                    BlaiseConfigurationHelper.ServerParkName);
-                Thread.Sleep(int.Parse(BlaiseConfigurationHelper.UninstallSurveyTimeOutInSeconds) * 1000);
-            }
-
-            if (!DoesSurveyExists(BlaiseConfigurationHelper.InstrumentName))
-            {
-                _blaiseSurveyApi.InstallSurvey(BlaiseConfigurationHelper.InstrumentName,
-                    BlaiseConfigurationHelper.ServerParkName,
-                    !string.IsNullOrEmpty(instrumentPackage) ? instrumentPackage : BlaiseConfigurationHelper.InstrumentPackage,
-                    SurveyInterviewType.Cati);
-
-                CheckForErroneousSurvey(BlaiseConfigurationHelper.InstrumentName);
-            }
-            else
-            {
-                if (!CheckForErroneousSurvey(BlaiseConfigurationHelper.InstrumentName))
+                if (DoesSurveyExists(BlaiseConfigurationHelper.InstrumentName))
                 {
-                    //The uninstall failed
-                    throw new Exception($"Error trying to uninstall questionnaire {BlaiseConfigurationHelper.InstrumentName}");
+                    _blaiseSurveyApi.UninstallSurvey(BlaiseConfigurationHelper.InstrumentName,
+                        BlaiseConfigurationHelper.ServerParkName);
+                    Thread.Sleep(int.Parse(BlaiseConfigurationHelper.UninstallSurveyTimeOutInSeconds) * 1000);
                 }
+
+                if (!DoesSurveyExists(BlaiseConfigurationHelper.InstrumentName))
+                {
+                    _blaiseSurveyApi.InstallSurvey(BlaiseConfigurationHelper.InstrumentName,
+                        BlaiseConfigurationHelper.ServerParkName,
+                        !string.IsNullOrEmpty(instrumentPackage)
+                            ? instrumentPackage
+                            : BlaiseConfigurationHelper.InstrumentPackage,
+                        SurveyInterviewType.Cati);
+
+                    CheckForErroneousSurvey(BlaiseConfigurationHelper.InstrumentName);
+                }
+                else
+                {
+                    if (!CheckForErroneousSurvey(BlaiseConfigurationHelper.InstrumentName))
+                    {
+                        //The uninstall failed
+                        throw new Exception(
+                            $"Error trying to uninstall questionnaire {BlaiseConfigurationHelper.InstrumentName}");
+                    }
+                }
+            }
+            catch (System.ApplicationException e) when (e.Message.Contains("Bad Request"))
+            {
+                throw;
+            }
+            catch (Exception)
+            {
+                throw;
             }
         }
 
