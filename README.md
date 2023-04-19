@@ -4,6 +4,17 @@
 # blaise-automated-tests
 Repository of automated testing processes for the Blaise 5 system.
 
+# Test Questionnaires
+
+Many of the scenarios in this repository upload a test questionnaire into
+the environment it is testing. To run them, you need to provide the
+questionnaire as a `.bpkg` file. There are currently two options to choose from:
+
+| Questionnaire | Description |
+|---------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| `DST2111Z`    | This is the questionnaire which is currently used in the pipelines. It is fairly large and can take a while to upload.                                                                |
+| `DST2304Z`    | This is `DST2111Z` without the pages being built and an empty SOC database. This is significantly reduced in size and recommended to use when running the tests from your dev laptop. |
+
 ## Running from a local development machine
 
 To develop these tests, the quickest way is to run them locally with them

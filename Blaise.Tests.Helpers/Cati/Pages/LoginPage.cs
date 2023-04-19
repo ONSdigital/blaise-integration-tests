@@ -15,9 +15,15 @@ namespace Blaise.Tests.Helpers.Cati.Pages
         
         public void LoginToCati(string username, string password)
         {
+            WaitUntilLoginPageHasLoaded();
             PopulateInputById(UsernameBoxId, username);
             PopulateInputById(PasswordBoxId, password);
             ClickButtonByXPath(LoginButtonPath);
+        }
+
+        public void WaitUntilLoginPageHasLoaded()
+        {
+            WaitForElementByXpath(LoginButtonPath);
         }
     }
 }

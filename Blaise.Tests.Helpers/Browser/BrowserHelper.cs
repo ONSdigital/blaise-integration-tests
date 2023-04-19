@@ -80,6 +80,16 @@ namespace Blaise.Tests.Helpers.Browser
             return new ChromeDriver(BrowserConfigurationHelper.ChromeDriver, chromeOptions);
         }
 
+        public static void WaitForTextInHTML(string text)
+        {
+            Wait.Until(driver => CurrentWindowHTML().Contains(text));
+        }
+
+        public static void WaitForElementByXpath(string xPath, int timeoutInSeconds = 20)
+        {
+            FindElement(By.XPath(xPath), timeoutInSeconds);
+        }
+
         public static IWebElement FindElement(By by, int timeoutInSeconds = 20, int pollingIntervalInMilliseconds = 500)
         {
             var timeout = TimeSpan.FromSeconds(timeoutInSeconds);
@@ -93,6 +103,7 @@ namespace Blaise.Tests.Helpers.Browser
                     PollingInterval = pollingInterval,
                     Message = $"Timed out after {timeoutInSeconds} seconds while waiting for element with selector '{by}'"
                 };
+                wait.IgnoreExceptionTypes(typeof(NoSuchElementException));
 
                 return wait.Until(d =>
                 {
@@ -100,20 +111,18 @@ namespace Blaise.Tests.Helpers.Browser
                     return (element.Displayed && element.Enabled) ? element : null;
                 });
             }
-            catch (NoSuchElementException ex)
-            {
-                throw new NoSuchElementException($"Unable to find element with selector '{by}' after waiting for {timeoutInSeconds} seconds", ex);
-            }
-            catch (TimeoutException ex)
+            catch (WebDriverTimeoutException ex)
             {
                 throw new TimeoutException($"Timed out after waiting for {timeoutInSeconds} seconds to find element with selector '{by}'", ex);
             }
             catch (Exception ex)
             {
-                throw new Exception($"An error occurred while finding element with selector '{by}'", ex);
+                throw new Exception(
+                    $"An error occurred while finding element with selector '{by}'. "
+                    + $"Exception: {ex.GetType().Name}, Message: {ex.Message}",
+                    ex
+                );
             }
-
-            return null;
         }
 
         public static void WaitForUrlToMatch(string expectedUrl, int timeoutInSeconds = 10, int pollingIntervalInMilliseconds = 500)
