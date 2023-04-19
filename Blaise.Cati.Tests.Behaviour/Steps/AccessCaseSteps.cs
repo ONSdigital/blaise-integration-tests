@@ -84,8 +84,7 @@ namespace Blaise.Cati.Tests.Behaviour.Steps
             {
                 BrowserHelper.SwitchToLastOpenedWindow();
                 CatiInterviewHelper.GetInstance().WaitForFirstFocusObject();
-                Thread.Sleep(3000); /*ui needs time*/
-                Assert.True(BrowserHelper.CurrentWindowHTML().Contains(caseId));
+                BrowserHelper.WaitForTextInHTML(caseId);
             }
             catch (Exception e)
             {

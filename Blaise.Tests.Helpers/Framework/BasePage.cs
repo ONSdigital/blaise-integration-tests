@@ -75,6 +75,11 @@ namespace Blaise.Tests.Helpers.Framework
             BrowserHelper.Wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.UrlMatches(url));
         }
 
+        protected void WaitForElementByXpath(string xPath, int timeoutInSeconds = 20)
+        {
+            BrowserHelper.WaitForElementByXpath(xPath, timeoutInSeconds);
+        }
+
         public void LoadPage()
         {
             BrowserHelper.BrowseTo(_pageUrl);
