@@ -51,7 +51,7 @@ namespace Blaise.Tobi.Tests.Behaviour.Steps
         [Given(@"Another survey is active")]
         public void GivenAnotherSurveyIsActive()
         {
-            InstrumentHelper.GetInstance().InstallInstrument(BlaiseConfigurationHelper.SecondInstrumentPackage);
+            InstrumentHelper.GetInstance().InstallInstrument(BlaiseConfigurationHelper.SecondInstrumentName);
             DayBatchHelper.GetInstance().SetSurveyDay(BlaiseConfigurationHelper.SecondInstrumentName, DateTime.Today);
         }
 
