@@ -51,9 +51,10 @@ namespace Blaise.Cati.Tests.Behaviour.Steps
             {
                 CatiInterviewHelper.GetInstance().ClickPlayButtonToAccessCase();
             }
-            catch (Exception e)
+            catch
             {
-                FailWithScreenShot(e, "LogOnInterview", "Log onto Interview Screen");
+                SaveScreenShot("LogOnInterview", "Log onto Interview Screen");
+                throw;
             }
         }
 
@@ -65,9 +66,10 @@ namespace Blaise.Cati.Tests.Behaviour.Steps
                 CatiInterviewHelper.GetInstance().AddSurveyFilter();
                 CatiInterviewHelper.GetInstance().SetupDayBatchTimeParameters();
             }
-            catch (Exception e)
+            catch
             {
-                FailWithScreenShot(e, "SetDayBatchParameters", "Set Daybatch parameters page");
+                SaveScreenShot("SetDayBatchParameters", "Set Daybatch parameters page");
+                throw;
             }
         }
 
@@ -86,13 +88,14 @@ namespace Blaise.Cati.Tests.Behaviour.Steps
                 CatiInterviewHelper.GetInstance().WaitForFirstFocusObject();
                 BrowserHelper.WaitForTextInHTML(caseId);
             }
-            catch (Exception e)
+            catch
             {
                 TestContext.WriteLine("Error from Test Context " + BrowserHelper.CurrentWindowHTML());
                 TestContext.Progress.WriteLine("Error from Test Context progress " + BrowserHelper.CurrentWindowHTML());
                 Debug.WriteLine("Error from debug: " + BrowserHelper.CurrentWindowHTML());
                 Console.WriteLine("Error from console: " + BrowserHelper.CurrentWindowHTML());
-                FailWithScreenShot(e, "CaptureData", "Capture respondents data");
+                SaveScreenShot("CaptureData", "Capture respondents data");
+                throw;
             }
         }
 
@@ -110,13 +113,12 @@ namespace Blaise.Cati.Tests.Behaviour.Steps
             InstrumentHelper.GetInstance().UninstallSurvey();
         }
 
-        private static void FailWithScreenShot(Exception e, string screenShotName, string screenShotDescription)
+        private static void SaveScreenShot(string screenShotName, string screenShotDescription)
         {
             var screenShotFile = BrowserHelper.TakeScreenShot(TestContext.CurrentContext.WorkDirectory,
                 screenShotName);
 
             TestContext.AddTestAttachment(screenShotFile, screenShotDescription);
-            Assert.Fail($"The test failed to complete - {e.Message}");
         }
     }
 }
