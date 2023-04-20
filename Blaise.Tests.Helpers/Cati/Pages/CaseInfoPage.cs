@@ -1,5 +1,7 @@
 ﻿using Blaise.Tests.Helpers.Configuration;
 using Blaise.Tests.Helpers.Framework;
+using OpenQA.Selenium;
+using System;
 
 namespace Blaise.Tests.Helpers.Cati.Pages
 {
@@ -13,6 +15,11 @@ namespace Blaise.Tests.Helpers.Cati.Pages
 
         public CaseInfoPage() : base(CatiConfigurationHelper.CaseInfoUrl)
         {
+        }
+
+        protected override Func<IWebDriver, bool> PageHasLoaded()
+        {
+            return BodyContainsText("Showing");
         }
 
         public void ClickPlayButton()
@@ -35,6 +42,11 @@ namespace Blaise.Tests.Helpers.Cati.Pages
         public void WaitUntilFirstCaseIs(string caseId)
         {
             WaitUntilElementByXPathContainsText(CaseIDCell, caseId);
+        }
+
+        public bool FirstCaseIsPlayable()
+        {
+            return ElementIsClickable(By.XPath(PlayButton));
         }
     }
 }
