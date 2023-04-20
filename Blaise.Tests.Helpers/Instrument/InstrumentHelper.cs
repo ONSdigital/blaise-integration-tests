@@ -29,12 +29,11 @@ namespace Blaise.Tests.Helpers.Instrument
                 BlaiseConfigurationHelper.ServerParkName);
         }
 
-        private bool DoesSurveyExists(string instrumentName = "")
+        private bool DoesSurveyExists(string instrumentName)
         {
             try
             {
-                return _blaiseSurveyApi.SurveyExists(!string.IsNullOrEmpty(instrumentName) ? instrumentName : BlaiseConfigurationHelper.InstrumentName,
-                    BlaiseConfigurationHelper.ServerParkName);
+                return _blaiseSurveyApi.SurveyExists(instrumentName, BlaiseConfigurationHelper.ServerParkName);
             }
             catch (Nuget.Api.Contracts.Exceptions.DataNotFoundException)
             {
@@ -42,82 +41,47 @@ namespace Blaise.Tests.Helpers.Instrument
             }
         }
 
-        private bool CheckForErroneousSurvey(string instrumentName = "")
+        private void CheckForErroneousSurvey(string instrumentName)
         {
-            if (_blaiseSurveyApi.GetSurveyStatus(!string.IsNullOrEmpty(instrumentName) ? instrumentName : BlaiseConfigurationHelper.InstrumentName,
-                                                    BlaiseConfigurationHelper.ServerParkName) == SurveyStatusType.Erroneous)
+            if (_blaiseSurveyApi.GetSurveyStatus(instrumentName, BlaiseConfigurationHelper.ServerParkName) == SurveyStatusType.Erroneous)
             {
-                throw new Exception($"ERROR: The DST2111Z questionnaire has failed to delete, current status {Enum.GetName(typeof(SurveyStatusType), SurveyStatusType.Erroneous)} You will probably need to restart Blaise to delete it.");
-            }
-
-            return false;
-        }
-
-        public void InstallInstrument(string instrumentPackage = "")
-        {
-            try
-            {
-                if (DoesSurveyExists(BlaiseConfigurationHelper.InstrumentName))
-                {
-                    _blaiseSurveyApi.UninstallSurvey(BlaiseConfigurationHelper.InstrumentName,
-                        BlaiseConfigurationHelper.ServerParkName);
-                    Thread.Sleep(int.Parse(BlaiseConfigurationHelper.UninstallSurveyTimeOutInSeconds) * 1000);
-                }
-
-                if (!DoesSurveyExists(BlaiseConfigurationHelper.InstrumentName))
-                {
-                    _blaiseSurveyApi.InstallSurvey(BlaiseConfigurationHelper.InstrumentName,
-                        BlaiseConfigurationHelper.ServerParkName,
-                        !string.IsNullOrEmpty(instrumentPackage)
-                            ? instrumentPackage
-                            : BlaiseConfigurationHelper.InstrumentPackage,
-                        SurveyInterviewType.Cati);
-
-                    CheckForErroneousSurvey(BlaiseConfigurationHelper.InstrumentName);
-                }
-                else
-                {
-                    if (!CheckForErroneousSurvey(BlaiseConfigurationHelper.InstrumentName))
-                    {
-                        //The uninstall failed
-                        throw new Exception(
-                            $"Error trying to uninstall questionnaire {BlaiseConfigurationHelper.InstrumentName}");
-                    }
-                }
-            }
-            catch (System.ApplicationException e) when (e.Message.Contains("Bad Request"))
-            {
-                throw;
-            }
-            catch (Exception)
-            {
-                throw;
+                throw new Exception($"ERROR: The {instrumentName} questionnaire has failed to delete, current status {Enum.GetName(typeof(SurveyStatusType), SurveyStatusType.Erroneous)} You will probably need to restart Blaise to delete it.");
             }
         }
 
-        public void InstallInstrument(SurveyInterviewType surveyConfigurationType)
+        public static string InstrumentPackagePath(string instrumentPath, string instrumentName)
         {
-            if (DoesSurveyExists(BlaiseConfigurationHelper.InstrumentName))
+            return $"{instrumentPath}//{instrumentName}.bpkg";
+        }
+
+        public void InstallInstrument()
+        {
+            InstallInstrument(BlaiseConfigurationHelper.InstrumentName);
+        }
+
+        public void InstallInstrument(string instrumentName)
+        {
+            var instrumentPackage = InstrumentPackagePath(BlaiseConfigurationHelper.InstrumentPath, instrumentName);
+
+            if (DoesSurveyExists(instrumentName))
             {
-                _blaiseSurveyApi.UninstallSurvey(BlaiseConfigurationHelper.InstrumentName,
+                _blaiseSurveyApi.UninstallSurvey(instrumentName,
                     BlaiseConfigurationHelper.ServerParkName);
                 Thread.Sleep(int.Parse(BlaiseConfigurationHelper.UninstallSurveyTimeOutInSeconds) * 1000);
             }
 
-            if (!DoesSurveyExists(BlaiseConfigurationHelper.InstrumentName))
+            if (DoesSurveyExists(instrumentName))
             {
-                _blaiseSurveyApi.InstallSurvey(BlaiseConfigurationHelper.InstrumentName,
-                BlaiseConfigurationHelper.ServerParkName,
-                BlaiseConfigurationHelper.InstrumentPackage,
-                surveyConfigurationType);
+                CheckForErroneousSurvey(instrumentName);
+                throw new Exception( $"Error trying to uninstall questionnaire {instrumentName}");
+            }
 
-                CheckForErroneousSurvey(BlaiseConfigurationHelper.InstrumentName);
-            }
-            else
-            {
-                //The uninstall failed
-                throw new Exception($"Error trying to uninstall questionnaire {BlaiseConfigurationHelper.InstrumentName}");
-            }
+            _blaiseSurveyApi.InstallSurvey(instrumentName,
+                BlaiseConfigurationHelper.ServerParkName,
+                instrumentPackage,
+                SurveyInterviewType.Cati);
+
+            CheckForErroneousSurvey(instrumentName);
         }
 
         public bool SurveyHasInstalled(string instrumentName, int timeoutInSeconds)
