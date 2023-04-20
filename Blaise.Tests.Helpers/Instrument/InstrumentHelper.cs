@@ -95,31 +95,6 @@ namespace Blaise.Tests.Helpers.Instrument
             }
         }
 
-        public void InstallInstrument(SurveyInterviewType surveyConfigurationType)
-        {
-            if (DoesSurveyExists(BlaiseConfigurationHelper.InstrumentName))
-            {
-                _blaiseSurveyApi.UninstallSurvey(BlaiseConfigurationHelper.InstrumentName,
-                    BlaiseConfigurationHelper.ServerParkName);
-                Thread.Sleep(int.Parse(BlaiseConfigurationHelper.UninstallSurveyTimeOutInSeconds) * 1000);
-            }
-
-            if (!DoesSurveyExists(BlaiseConfigurationHelper.InstrumentName))
-            {
-                _blaiseSurveyApi.InstallSurvey(BlaiseConfigurationHelper.InstrumentName,
-                BlaiseConfigurationHelper.ServerParkName,
-                BlaiseConfigurationHelper.InstrumentPackage,
-                surveyConfigurationType);
-
-                CheckForErroneousSurvey(BlaiseConfigurationHelper.InstrumentName);
-            }
-            else
-            {
-                //The uninstall failed
-                throw new Exception($"Error trying to uninstall questionnaire {BlaiseConfigurationHelper.InstrumentName}");
-            }
-        }
-
         public bool SurveyHasInstalled(string instrumentName, int timeoutInSeconds)
         {
             return SurveyExists(instrumentName, timeoutInSeconds) &&
