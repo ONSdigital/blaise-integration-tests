@@ -23,12 +23,12 @@ namespace Blaise.Tests.Helpers.Cati
             interviewLoginPage.LogIntoInterviewPortal(CatiConfigurationHelper.CatiInterviewUsername, CatiConfigurationHelper.CatiInterviewPassword);
         }
 
-        public void ClickPlayButtonToAccessCase()
+        public void ClickPlayButtonToAccessCase(string caseId)
         {
             var caseInfoPage = new CaseInfoPage();
             caseInfoPage.LoadPage();
             caseInfoPage.ApplyFilters();
-            Thread.Sleep(2000);
+            caseInfoPage.WaitUntilFirstCaseIs(caseId);
             caseInfoPage.ClickPlayButton();
         }
 

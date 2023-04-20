@@ -41,6 +41,16 @@ namespace Blaise.Tests.Helpers.Framework
                  .Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementIsVisible(By.XPath(elementPath))).Text;
         }
 
+        protected void WaitUntilElementByXPathContainsText(string elementPath, string text)
+        {
+            BrowserHelper
+                .Wait($"Timed out in WaitUntilXPathContainsText(\"{elementPath}\", \"{text}\")")
+                .Until(driver => {
+                    var element = driver.FindElement(By.XPath(elementPath));
+                    return SeleniumExtras.WaitHelpers.ExpectedConditions.TextToBePresentInElement(element, text)(driver);
+                });
+        }
+
         protected void PopulateInputById(string elementId, string value)
         {
             BrowserHelper
@@ -88,9 +98,9 @@ namespace Blaise.Tests.Helpers.Framework
                 .Until(SeleniumExtras.WaitHelpers.ExpectedConditions.UrlMatches(url));
         }
 
-        protected void WaitForElementByXpath(string xPath, int timeoutInSeconds = 20)
+        protected void WaitForElementByXpath(string xPath)
         {
-            BrowserHelper.WaitForElementByXpath(xPath, timeoutInSeconds);
+            BrowserHelper.WaitForElementByXpath(xPath);
         }
 
         public void LoadPage()
