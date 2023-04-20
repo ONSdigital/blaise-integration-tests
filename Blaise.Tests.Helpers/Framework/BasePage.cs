@@ -16,13 +16,15 @@ namespace Blaise.Tests.Helpers.Framework
 
         protected void ClickButtonById(string buttonElementId)
         {
-            BrowserHelper.Wait
+            BrowserHelper
+                .Wait($"Timed out in ClickButtonById(\"{buttonElementId}\")")
                 .Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementToBeClickable(By.Id(buttonElementId))).Click();
         }
 
         protected void ClickButtonByXPath(string buttonElementPath)
         {
-            BrowserHelper.Wait
+            BrowserHelper
+                .Wait($"Timed out in ClickButtonByXPath(\"{buttonElementPath}\")")
                 .Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementToBeClickable(By.XPath(buttonElementPath))).Click();
         }
 
@@ -34,36 +36,45 @@ namespace Blaise.Tests.Helpers.Framework
 
         protected string GetElementTextByPath(string elementPath)
         {
-            return BrowserHelper.Wait
+            return BrowserHelper
+                 .Wait($"Timed out in GetElementTextByPath(\"{elementPath}\")")
                  .Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementIsVisible(By.XPath(elementPath))).Text;
         }
 
         protected void PopulateInputById(string elementId, string value)
         {
-            BrowserHelper.Wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementIsVisible(By.Id(elementId)))
+            BrowserHelper
+                .Wait($"Timed out in PopulateInputById(\"{elementId}\", \"{value}\")")
+                .Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementIsVisible(By.Id(elementId)))
                 .Clear();
 
-            BrowserHelper.Wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementIsVisible(By.Id(elementId)))
+            BrowserHelper
+                .Wait($"Timed out in PopulateInputById(\"{elementId}\", \"{value}\")")
+                .Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementIsVisible(By.Id(elementId)))
                 .SendKeys(value);
         }
 
         protected void PopulateInputByName(string elementName, string value)
         {
-            BrowserHelper.Wait
+            BrowserHelper
+                .Wait($"Timed out in PopulateInputByName(\"{elementName}\", \"{value}\")")
                 .Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementIsVisible(By.Name(elementName)))
                 .SendKeys(value);
         }
 
         protected bool CheckIfCheckboxIsCheckedByXPath(string elementName)
         {
-            return BrowserHelper.Wait
+            return BrowserHelper
+                .Wait($"Timed out in CheckIfCheckboxIsCheckedByXPath(\"{elementName}\")")
                 .Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementIsVisible(By.XPath(elementName)))
                 .Selected;
         }
 
         protected List<string> GetFirstColumnOfTableFromXPath(string tablePath, string tableId)
         {
-            BrowserHelper.Wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementIsVisible(By.Id(tableId)));
+            BrowserHelper
+                .Wait($"Timed out in GetFirstColumnOfTableFromXPath(\"{tablePath}\", \"{tableId}\")")
+                .Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementIsVisible(By.Id(tableId)));
             var numberOfRows = NumberOfRowsInATable(tablePath);
             var results = ReadFirstColumnInATable(tablePath, numberOfRows);
 
@@ -72,7 +83,9 @@ namespace Blaise.Tests.Helpers.Framework
 
         protected void WaitForPageToChange(string url)
         {
-            BrowserHelper.Wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.UrlMatches(url));
+            BrowserHelper
+                .Wait($"Timed out in WaitForPageToChange(\"{url}\")")
+                .Until(SeleniumExtras.WaitHelpers.ExpectedConditions.UrlMatches(url));
         }
 
         protected void WaitForElementByXpath(string xPath, int timeoutInSeconds = 20)
@@ -92,25 +105,32 @@ namespace Blaise.Tests.Helpers.Framework
 
         public void ButtonIsAvailableById(string buttonId)
         {
-            BrowserHelper.Wait.Until(
-                SeleniumExtras.WaitHelpers.ExpectedConditions.ElementToBeClickable(By.Id(buttonId)));
+            BrowserHelper
+                .Wait($"Timed out in ButtonIsAvailableById(\"{buttonId}\")")
+                .Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementToBeClickable(By.Id(buttonId)));
         }
 
         public void ButtonIsAvailableByPath(string submitButtonPath)
         {
-            BrowserHelper.Wait.Until(
-                SeleniumExtras.WaitHelpers.ExpectedConditions.ElementToBeClickable(By.XPath(submitButtonPath)));
+            BrowserHelper
+                .Wait($"Timed out in ButtonIsAvailableByPath(\"{submitButtonPath}\")")
+                .Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementToBeClickable(By.XPath(submitButtonPath)));
         }
 
         public void SelectDropDownValueById(string dropDownId, string value)
         {
-            var selectList = new SelectElement(BrowserHelper.Wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementExists(By.Id(dropDownId))));
+            var selectList = new SelectElement(
+                BrowserHelper
+                .Wait($"Timed out in SelectDropDownValueById(\"{dropDownId}\", \"{value}\")")
+                .Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementExists(By.Id(dropDownId))));
             selectList.SelectByText(value);
         }
 
         private static int NumberOfRowsInATable(string tablePath)
         {
-            return BrowserHelper.Wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementIsVisible(By.XPath(tablePath)))
+            return BrowserHelper
+                .Wait($"Timed out in NumberOfRowsInATable(\"{tablePath}\")")
+                .Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementIsVisible(By.XPath(tablePath)))
                 .FindElements(By.XPath(tablePath)).Count;
         }
 

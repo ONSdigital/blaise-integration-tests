@@ -19,9 +19,15 @@ namespace Blaise.Tests.Helpers.Browser
 
         public static int TimeOutInSeconds => BrowserConfigurationHelper.TimeOutInSeconds;
 
-        public static WebDriverWait Wait => new WebDriverWait(Browser, TimeSpan.FromSeconds(TimeOutInSeconds));
-
         public static string CurrentUrl => Browser.Url;
+
+        public static WebDriverWait Wait(string message)
+        {
+            return new WebDriverWait(Browser, TimeSpan.FromSeconds(TimeOutInSeconds))
+            {
+                Message = message
+            };
+        }
 
         public static bool ElementExistsByXpath(string xPath)
         {
@@ -82,7 +88,8 @@ namespace Blaise.Tests.Helpers.Browser
 
         public static void WaitForTextInHTML(string text)
         {
-            Wait.Until(driver => CurrentWindowHTML().Contains(text));
+            Wait($"Timed out in WaitForTextInHTML(\"{text}\")")
+                .Until(driver => CurrentWindowHTML().Contains(text));
         }
 
         public static void WaitForElementByXpath(string xPath, int timeoutInSeconds = 20)
