@@ -92,44 +92,15 @@ namespace Blaise.Tests.Helpers.Browser
                 .Until(driver => CurrentWindowHTML().Contains(text));
         }
 
-        public static void WaitForElementByXpath(string xPath, int timeoutInSeconds = 20)
+        public static void WaitForElementByXpath(string xPath)
         {
-            FindElement(By.XPath(xPath), timeoutInSeconds);
+            FindElement(By.XPath(xPath));
         }
 
-        public static IWebElement FindElement(By by, int timeoutInSeconds = 20, int pollingIntervalInMilliseconds = 500)
+        public static IWebElement FindElement(By by)
         {
-            var timeout = TimeSpan.FromSeconds(timeoutInSeconds);
-            var pollingInterval = TimeSpan.FromMilliseconds(pollingIntervalInMilliseconds);
-
-            try
-            {
-                var wait = new DefaultWait<IWebDriver>(_browser)
-                {
-                    Timeout = timeout,
-                    PollingInterval = pollingInterval,
-                    Message = $"Timed out after {timeoutInSeconds} seconds while waiting for element with selector '{by}'"
-                };
-                wait.IgnoreExceptionTypes(typeof(NoSuchElementException));
-
-                return wait.Until(d =>
-                {
-                    var element = d.FindElement(by);
-                    return (element.Displayed && element.Enabled) ? element : null;
-                });
-            }
-            catch (WebDriverTimeoutException ex)
-            {
-                throw new TimeoutException($"Timed out after waiting for {timeoutInSeconds} seconds to find element with selector '{by}'", ex);
-            }
-            catch (Exception ex)
-            {
-                throw new Exception(
-                    $"An error occurred while finding element with selector '{by}'. "
-                    + $"Exception: {ex.GetType().Name}, Message: {ex.Message}",
-                    ex
-                );
-            }
+            return Wait($"Timed out in FindElement({by})'")
+                .Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementIsVisible(by));
         }
 
         public static void WaitForUrlToMatch(string expectedUrl, int timeoutInSeconds = 10, int pollingIntervalInMilliseconds = 500)
