@@ -126,7 +126,7 @@ namespace Blaise.Dqs.Tests.Behaviour.Steps
             Assert.Fail($"The test failed to complete - {e.Message}");
         }
 
-        [AfterScenario("TOStartDate")]
+        [AfterScenario("ToStartDate")]
         public void CleanUpScenario()
         {
             DqsHelper.GetInstance().LogOutOfToDqs();
