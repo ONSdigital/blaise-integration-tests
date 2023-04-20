@@ -103,6 +103,18 @@ namespace Blaise.Tests.Helpers.Browser
                 .Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementIsVisible(by));
         }
 
+        public static bool ElementIsClickable(By by)
+        {
+            try
+            {
+                return Browser.FindElement(by).Displayed;
+            }
+            catch (NoSuchElementException)
+            {
+                return false;
+            }
+        }
+
         public static void WaitForUrlToMatch(string expectedUrl, int timeoutInSeconds = 10, int pollingIntervalInMilliseconds = 500)
         {
             var timeout = TimeSpan.FromSeconds(timeoutInSeconds);
