@@ -5,7 +5,6 @@ using Blaise.Tests.Helpers.Instrument;
 using NUnit.Framework;
 using System;
 using System.Diagnostics;
-using System.Threading;
 using TechTalk.SpecFlow;
 
 namespace Blaise.Cati.Tests.Behaviour.Steps
