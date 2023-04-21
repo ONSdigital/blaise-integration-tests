@@ -31,6 +31,7 @@ namespace Blaise.Tests.Helpers.Cati
             do {
                 caseInfoPage.LoadPage();
                 caseInfoPage.ApplyFilters();
+                caseInfoPage.WaitUntilFirstCaseQuestionnaireIs(BlaiseConfigurationHelper.InstrumentName);
                 caseInfoPage.WaitUntilFirstCaseIs(caseId);
 
                 attempts++;
