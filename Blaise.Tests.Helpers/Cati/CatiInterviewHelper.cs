@@ -1,7 +1,9 @@
-﻿using Blaise.Tests.Helpers.Cati.Pages;
+﻿using Blaise.Tests.Helpers.Browser;
+using Blaise.Tests.Helpers.Cati.Pages;
 using Blaise.Tests.Helpers.Configuration;
 using Blaise.Tests.Helpers.User;
 using Blaise.Tests.Models.User;
+using System;
 using System.Collections.Generic;
 using System.Threading;
 
@@ -23,13 +25,37 @@ namespace Blaise.Tests.Helpers.Cati
             interviewLoginPage.LogIntoInterviewPortal(CatiConfigurationHelper.CatiInterviewUsername, CatiConfigurationHelper.CatiInterviewPassword);
         }
 
-        public void ClickPlayButtonToAccessCase()
+        public void ClickPlayButtonToAccessCase(string caseId)
         {
             var caseInfoPage = new CaseInfoPage();
-            caseInfoPage.LoadPage();
-            caseInfoPage.ApplyFilters();
-            Thread.Sleep(2000);
-            caseInfoPage.ClickPlayButton();
+
+            var attempts = 0;
+            do {
+                caseInfoPage.LoadPage();
+                caseInfoPage.ApplyFilters();
+                caseInfoPage.WaitUntilFirstCaseQuestionnaireIs(BlaiseConfigurationHelper.InstrumentName);
+                caseInfoPage.WaitUntilFirstCaseIs(caseId);
+
+                attempts++;
+                if (attempts > 5)
+                {
+                    throw new Exception("Giving up after 5 attempts waiting for play button");
+                }
+            } while (!caseInfoPage.FirstCaseIsPlayable());
+
+            var numberOfWindows = BrowserHelper.GetNumberOfWindows();
+            
+            attempts = 0;
+            while (BrowserHelper.GetNumberOfWindows() == numberOfWindows)
+            {
+                caseInfoPage.ClickPlayButton();
+                Thread.Sleep(250);
+                attempts++;
+                if (attempts > 10)
+                {
+                    throw new Exception("Timed out waiting for new window to open.");
+                }
+            }
         }
 
         public void CreateInterviewUser()

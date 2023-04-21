@@ -68,6 +68,12 @@ namespace Blaise.Tests.Helpers.Browser
             Browser.Navigate().GoToUrl(pageUrl);
         }
 
+
+        public static int GetNumberOfWindows()
+        {
+            return Browser.WindowHandles.Count;
+        }
+
         public static void SwitchToLastOpenedWindow()
         {
             Browser.SwitchTo().Window(Browser.WindowHandles.Last());
@@ -92,43 +98,26 @@ namespace Blaise.Tests.Helpers.Browser
                 .Until(driver => CurrentWindowHTML().Contains(text));
         }
 
-        public static void WaitForElementByXpath(string xPath, int timeoutInSeconds = 20)
+        public static void WaitForElementByXpath(string xPath)
         {
-            FindElement(By.XPath(xPath), timeoutInSeconds);
+            FindElement(By.XPath(xPath));
         }
 
-        public static IWebElement FindElement(By by, int timeoutInSeconds = 20, int pollingIntervalInMilliseconds = 500)
+        public static IWebElement FindElement(By by)
         {
-            var timeout = TimeSpan.FromSeconds(timeoutInSeconds);
-            var pollingInterval = TimeSpan.FromMilliseconds(pollingIntervalInMilliseconds);
+            return Wait($"Timed out in FindElement({by})'")
+                .Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementIsVisible(by));
+        }
 
+        public static bool ElementIsDisplayed(By by)
+        {
             try
             {
-                var wait = new DefaultWait<IWebDriver>(_browser)
-                {
-                    Timeout = timeout,
-                    PollingInterval = pollingInterval,
-                    Message = $"Timed out after {timeoutInSeconds} seconds while waiting for element with selector '{by}'"
-                };
-                wait.IgnoreExceptionTypes(typeof(NoSuchElementException));
-
-                return wait.Until(d =>
-                {
-                    var element = d.FindElement(by);
-                    return (element.Displayed && element.Enabled) ? element : null;
-                });
+                return Browser.FindElement(by).Displayed;
             }
-            catch (WebDriverTimeoutException ex)
+            catch (NoSuchElementException)
             {
-                throw new TimeoutException($"Timed out after waiting for {timeoutInSeconds} seconds to find element with selector '{by}'", ex);
-            }
-            catch (Exception ex)
-            {
-                throw new Exception(
-                    $"An error occurred while finding element with selector '{by}'. "
-                    + $"Exception: {ex.GetType().Name}, Message: {ex.Message}",
-                    ex
-                );
+                return false;
             }
         }
 
