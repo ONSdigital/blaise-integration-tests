@@ -46,13 +46,13 @@ namespace Blaise.Tests.Helpers.Framework
         {
             try
             {
-                BrowserHelper
-                    .Wait($"Timed out in WaitUntilXPathContainsText(\"{elementPath}\", \"{text}\")")
-                    .Until(driver =>
-                    {
-                        var element = driver.FindElement(By.XPath(elementPath));
-                        return SeleniumExtras.WaitHelpers.ExpectedConditions.TextToBePresentInElement(element, text)(driver);
-                    });
+                var wait = BrowserHelper.Wait(
+                    $"Timed out in WaitUntilXPathContainsText(\"{elementPath}\", \"{text}\")");
+                wait.Until(driver =>
+                {
+                    var element = driver.FindElement(By.XPath(elementPath));
+                    return SeleniumExtras.WaitHelpers.ExpectedConditions.TextToBePresentInElement(element, text)(driver);
+                });
             }
             catch (WebDriverTimeoutException ex)
             {
