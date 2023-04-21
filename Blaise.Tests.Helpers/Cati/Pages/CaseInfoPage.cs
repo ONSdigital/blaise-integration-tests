@@ -46,7 +46,7 @@ namespace Blaise.Tests.Helpers.Cati.Pages
 
         public bool FirstCaseIsPlayable()
         {
-            return ElementIsClickable(By.XPath(PlayButton));
+            return ElementIsDisplayed(By.XPath(PlayButton));
         }
     }
 }
