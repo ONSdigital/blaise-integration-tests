@@ -68,6 +68,12 @@ namespace Blaise.Tests.Helpers.Browser
             Browser.Navigate().GoToUrl(pageUrl);
         }
 
+
+        public static int GetNumberOfWindows()
+        {
+            return Browser.WindowHandles.Count;
+        }
+
         public static void SwitchToLastOpenedWindow()
         {
             Browser.SwitchTo().Window(Browser.WindowHandles.Last());
