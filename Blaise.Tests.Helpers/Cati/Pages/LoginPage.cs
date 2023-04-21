@@ -1,5 +1,7 @@
 ﻿using Blaise.Tests.Helpers.Configuration;
 using Blaise.Tests.Helpers.Framework;
+using OpenQA.Selenium;
+using System;
 
 namespace Blaise.Tests.Helpers.Cati.Pages
 {
@@ -12,18 +14,17 @@ namespace Blaise.Tests.Helpers.Cati.Pages
         public LoginPage() : base(CatiConfigurationHelper.LoginUrl)
         {
         }
-        
+
+        protected override Func<IWebDriver, bool> PageHasLoaded()
+        {
+            return driver => driver.FindElement(By.XPath(LoginButtonPath)) != null;
+        }
+
         public void LoginToCati(string username, string password)
         {
-            WaitUntilLoginPageHasLoaded();
             PopulateInputById(UsernameBoxId, username);
             PopulateInputById(PasswordBoxId, password);
             ClickButtonByXPath(LoginButtonPath);
-        }
-
-        public void WaitUntilLoginPageHasLoaded()
-        {
-            WaitForElementByXpath(LoginButtonPath);
         }
     }
 }
