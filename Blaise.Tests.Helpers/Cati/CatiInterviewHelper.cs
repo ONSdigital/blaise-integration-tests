@@ -39,19 +39,16 @@ namespace Blaise.Tests.Helpers.Cati
                 attempts++;
                 if (attempts > 5)
                 {
-                    throw new System.Exception("Giving up after 5 attempts waiting for play button");
+                    throw new Exception("Giving up after 5 attempts waiting for play button");
                 }
             } while (!caseInfoPage.FirstCaseIsPlayable());
 
-            
-
             var numberOfWindows = BrowserHelper.GetNumberOfWindows();
             
-            caseInfoPage.ClickPlayButton();
-
             attempts = 0;
             while (BrowserHelper.GetNumberOfWindows() == numberOfWindows)
             {
+                caseInfoPage.ClickPlayButton();
                 Thread.Sleep(250);
                 attempts++;
                 if (attempts > 10)
