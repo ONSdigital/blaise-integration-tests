@@ -26,9 +26,21 @@ namespace Blaise.Tests.Helpers.Cati
         public void ClickPlayButtonToAccessCase(string caseId)
         {
             var caseInfoPage = new CaseInfoPage();
-            caseInfoPage.LoadPage();
-            caseInfoPage.ApplyFilters();
-            caseInfoPage.WaitUntilFirstCaseIs(caseId);
+
+            var attempts = 0;
+            do {
+                caseInfoPage.LoadPage();
+                caseInfoPage.ApplyFilters();
+                caseInfoPage.WaitUntilFirstCaseQuestionnaireIs(BlaiseConfigurationHelper.InstrumentName);
+                caseInfoPage.WaitUntilFirstCaseIs(caseId);
+
+                attempts++;
+                if (attempts > 5)
+                {
+                    throw new System.Exception("Giving up after 5 attempts waiting for play button");
+                }
+            } while (!caseInfoPage.FirstCaseIsPlayable());
+
             caseInfoPage.ClickPlayButton();
         }
 
