@@ -1,6 +1,7 @@
 ﻿using Blaise.Tests.Helpers.Browser;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Support.UI;
+using System;
 using System.Collections.Generic;
 
 namespace Blaise.Tests.Helpers.Framework
@@ -39,6 +40,25 @@ namespace Blaise.Tests.Helpers.Framework
             return BrowserHelper
                  .Wait($"Timed out in GetElementTextByPath(\"{elementPath}\")")
                  .Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementIsVisible(By.XPath(elementPath))).Text;
+        }
+
+        protected void WaitUntilElementByXPathContainsText(string elementPath, string text)
+        {
+            try
+            {
+                BrowserHelper
+                    .Wait($"Timed out in WaitUntilXPathContainsText(\"{elementPath}\", \"{text}\")")
+                    .Until(driver =>
+                    {
+                        var element = driver.FindElement(By.XPath(elementPath));
+                        return SeleniumExtras.WaitHelpers.ExpectedConditions.TextToBePresentInElement(element, text)(driver);
+                    });
+            }
+            catch (WebDriverTimeoutException ex)
+            {
+                var element = BrowserHelper.FindElement(By.XPath(elementPath));
+                throw new WebDriverTimeoutException($"{ex.Message} (element currently contains \"{element.Text}\")", ex);
+            }
         }
 
         protected void PopulateInputById(string elementId, string value)
@@ -88,14 +108,32 @@ namespace Blaise.Tests.Helpers.Framework
                 .Until(SeleniumExtras.WaitHelpers.ExpectedConditions.UrlMatches(url));
         }
 
-        protected void WaitForElementByXpath(string xPath, int timeoutInSeconds = 20)
+        protected static bool ElementIsDisplayed(By by)
         {
-            BrowserHelper.WaitForElementByXpath(xPath, timeoutInSeconds);
+            return BrowserHelper.ElementIsDisplayed(by);
+        }
+
+        protected static Func<IWebDriver, bool> BodyContainsText(string text)
+        {
+            return driver =>
+            {
+                var body = driver.FindElement(By.TagName("body"));
+
+                return SeleniumExtras.WaitHelpers.ExpectedConditions.TextToBePresentInElement(body, text)(driver);
+            };
+        }
+
+        protected virtual Func<IWebDriver, bool> PageHasLoaded()
+        {
+            return driver => true;
         }
 
         public void LoadPage()
         {
             BrowserHelper.BrowseTo(_pageUrl);
+            BrowserHelper
+                .Wait($"Timed out waiting for page {_pageUrl} to load")
+                .Until(PageHasLoaded());
         }
 
         public void LoadSpecificPage(string url)

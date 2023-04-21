@@ -1,5 +1,7 @@
 ﻿using Blaise.Tests.Helpers.Configuration;
 using Blaise.Tests.Helpers.Framework;
+using OpenQA.Selenium;
+using System;
 using System.Threading;
 
 namespace Blaise.Tests.Helpers.Cati.Pages
@@ -18,6 +20,11 @@ namespace Blaise.Tests.Helpers.Cati.Pages
         {
         }
 
+        protected override Func<IWebDriver, bool> PageHasLoaded()
+        {
+            return BodyContainsText("Showing");
+        }
+
         public void ClearDayBatchEntries()
         {
             Thread.Sleep(2000);
@@ -29,7 +36,6 @@ namespace Blaise.Tests.Helpers.Cati.Pages
 
         public void ApplyFilter()
         {
-            Thread.Sleep(5000);
             ClickButtonByXPath(FilterButton);
             var filterButtonText = GetElementTextByPath(FilterButton);
             if (filterButtonText != "Filters (active)")

@@ -49,7 +49,7 @@ namespace Blaise.Cati.Tests.Behaviour.Steps
         {
             try
             {
-                CatiInterviewHelper.GetInstance().ClickPlayButtonToAccessCase();
+                CatiInterviewHelper.GetInstance().ClickPlayButtonToAccessCase(caseId);
             }
             catch
             {
