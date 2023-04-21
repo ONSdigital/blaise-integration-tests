@@ -1,7 +1,6 @@
 ﻿using Blaise.Tests.Helpers.Configuration;
 using Blaise.Tests.Helpers.Dqs.Pages;
 using System.Collections.Generic;
-using System.Threading;
 
 namespace Blaise.Tests.Helpers.Dqs
 {
