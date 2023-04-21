@@ -108,12 +108,12 @@ namespace Blaise.Tests.Helpers.Framework
                 .Until(SeleniumExtras.WaitHelpers.ExpectedConditions.UrlMatches(url));
         }
 
-        protected static bool ElementIsClickable(By by)
+        protected static bool ElementIsDisplayed(By by)
         {
-            return BrowserHelper.ElementIsClickable(by);
+            return BrowserHelper.ElementIsDisplayed(by);
         }
 
-        protected static Func<IWebDriver, bool> BodyContainsText( string text)
+        protected static Func<IWebDriver, bool> BodyContainsText(string text)
         {
             return driver =>
             {
