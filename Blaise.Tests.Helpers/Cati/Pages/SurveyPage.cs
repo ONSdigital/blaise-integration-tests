@@ -3,6 +3,7 @@ using Blaise.Tests.Helpers.Framework;
 using OpenQA.Selenium;
 using System;
 using System.Threading;
+// ReSharper disable InconsistentNaming
 
 namespace Blaise.Tests.Helpers.Cati.Pages
 {
@@ -13,8 +14,8 @@ namespace Blaise.Tests.Helpers.Cati.Pages
         private const string ClearDataButtonId = "chkClearAll";
         private const string ExecuteButtonPath = "//input[@value='Execute']";
         private const string FilterButton = "//*[contains(text(), 'Filters')]";
-        private string SurveyRadioButton = $"//*[normalize-space()='{BlaiseConfigurationHelper.InstrumentName}']";
-        private string ApplyButton = $"//*[contains(text(), 'Apply')]";
+        private readonly string SurveyRadioButton = $"//*[normalize-space()='{BlaiseConfigurationHelper.InstrumentName}']";
+        private const string ApplyButton = "//*[contains(text(), 'Apply')]";
 
         public SurveyPage() : base(CatiConfigurationHelper.SurveyUrl)
         {
