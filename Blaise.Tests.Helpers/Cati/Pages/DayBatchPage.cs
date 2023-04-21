@@ -1,6 +1,7 @@
 ﻿using Blaise.Tests.Helpers.Configuration;
 using Blaise.Tests.Helpers.Framework;
 using System.Threading;
+// ReSharper disable InconsistentNaming
 
 namespace Blaise.Tests.Helpers.Cati.Pages
 {
@@ -8,15 +9,15 @@ namespace Blaise.Tests.Helpers.Cati.Pages
     {
         private const string DayBatchCreateButtonId = "btnCreateDaybatch";
         private const string CreateButtonPath = "//input[@value='Create']";
-        private string DayBatchEntry = $"//table[@id='MVCGridTable_DaybatchGrid']//td[preceding-sibling::td='{BlaiseConfigurationHelper.InstrumentName}']";
-        private string ModifyEntryPath = $"//table[@id='MVCGridTable_DaybatchGrid']//td[preceding-sibling::td='{BlaiseConfigurationHelper.InstrumentName}']/a";
+        private readonly string DayBatchEntry = $"//table[@id='MVCGridTable_DaybatchGrid']//td[preceding-sibling::td='{BlaiseConfigurationHelper.InstrumentName}']";
+        private readonly string ModifyEntryPath = $"//table[@id='MVCGridTable_DaybatchGrid']//td[preceding-sibling::td='{BlaiseConfigurationHelper.InstrumentName}']/a";
         private const string StartTimeId = "NewStartTimeAmPm";
         private const string EndTimeId = "NewEndTimeAmPm";
         private const string UpdateButtonPath = "//input[@value='Update']";
         private const string InstrumentDropDownId = "InstrumentId";
         private const string FilterButton = "//*[contains(text(), 'Filters')]";
-        private string SurveyRadioButton = $"//*[normalize-space()='{BlaiseConfigurationHelper.InstrumentName}']";
-        private string ApplyButton = $"//*[contains(text(), 'Apply')]";
+        private readonly string SurveyRadioButton = $"//*[normalize-space()='{BlaiseConfigurationHelper.InstrumentName}']";
+        private const string ApplyButton = "//*[contains(text(), 'Apply')]";
 
 
         public DayBatchPage() : base(CatiConfigurationHelper.DayBatchUrl)
