@@ -103,7 +103,7 @@ namespace Blaise.Tests.Helpers.Browser
                 .Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementIsVisible(by));
         }
 
-        public static bool ElementIsClickable(By by)
+        public static bool ElementIsDisplayed(By by)
         {
             try
             {
