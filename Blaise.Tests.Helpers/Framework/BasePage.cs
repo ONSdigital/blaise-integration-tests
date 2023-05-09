@@ -17,9 +17,13 @@ namespace Blaise.Tests.Helpers.Framework
 
         protected void ClickButtonById(string buttonElementId)
         {
-            BrowserHelper
+            var button = BrowserHelper
                 .Wait($"Timed out in ClickButtonById(\"{buttonElementId}\")")
-                .Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementToBeClickable(By.Id(buttonElementId))).Click();
+                .Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementToBeClickable(By.Id(buttonElementId)));
+
+            BrowserHelper.ScrollIntoView(button);
+
+            button.Click();
         }
 
         protected void ClickButtonByXPath(string buttonElementPath)
