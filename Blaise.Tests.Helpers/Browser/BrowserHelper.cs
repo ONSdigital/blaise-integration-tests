@@ -43,6 +43,11 @@ namespace Blaise.Tests.Helpers.Browser
             actions.Perform();
         }
 
+        public static void ScrollIntoView(IWebElement element)
+        {
+            Browser.ExecuteJavaScript("arguments[0].scrollIntoView(true);", element);
+        }
+
         public static string TakeScreenShot(string screenShotPath, string screenShotName)
         {
             var screenShot = _browser.TakeScreenshot();
