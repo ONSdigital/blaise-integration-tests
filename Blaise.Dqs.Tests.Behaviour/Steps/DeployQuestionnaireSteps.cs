@@ -241,13 +241,12 @@ namespace Blaise.Dqs.Tests.Behaviour.Steps
                 var existingInstallDate = _scenarioContext.Get<DateTime>(InstallDate);
                 var newInstallDate = InstrumentHelper.GetInstance().GetInstallDate();
 
-                Assert.IsTrue(newInstallDate > existingInstallDate);
+                Assert.Greater(newInstallDate, existingInstallDate);
             }
             catch (Exception e)
             {
                 FailWithScreenShot(e, "OverwriteExisting", "Questionnaire has been overwritten");
             }
-
         }
 
         [Then(@"the questionnaire is active in blaise")]
