@@ -20,7 +20,7 @@ namespace Blaise.Tests.Helpers.Configuration
         public static string CatiBaseUrl => $"https://{ConfigurationExtensions.GetVariable("ENV_BLAISE_CATI_URL")}";
         public static string LoginUrl => $"{CatiBaseUrl}/blaise/account/login";
         public static string DayBatchUrl => $"{CatiBaseUrl}/blaise/daybatch";
-        public static string InterviewUrl => $"{CatiBaseUrl}/{BlaiseConfigurationHelper.InstrumentName}/";
+        public static string InterviewUrl => $"{CatiBaseUrl}/{BlaiseConfigurationHelper.InstrumentName}?LayoutSet=CATI-Interviewer_Large";
         public static string SpecificationUrl => $"{CatiBaseUrl}/blaise/specification";
         public static string SurveyUrl => $"{CatiBaseUrl}/blaise/";
         public static string CaseUrl => $"{CatiBaseUrl}//Blaise/CaseInfo/StartSurvey?url={CatiBaseUrl}/{BlaiseConfigurationHelper.InstrumentName}/&rp.KeyValue=";
