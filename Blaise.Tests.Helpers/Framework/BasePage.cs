@@ -15,6 +15,11 @@ namespace Blaise.Tests.Helpers.Framework
             _pageUrl = pageUrl;
         }
 
+        public BasePage(string pageUrl, string pageUrlParameter)
+        {            
+            _pageUrl = $"{pageUrl}?{pageUrlParameter}";
+        }
+
         protected void ClickButtonById(string buttonElementId)
         {
             var button = BrowserHelper

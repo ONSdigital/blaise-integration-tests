@@ -10,7 +10,6 @@ namespace Blaise.Tests.Helpers.Configuration
         public static string ServerParkName => ConfigurationExtensions.GetVariable("ServerParkName");
         public static string InstrumentPath => ConfigurationExtensions.GetVariable("InstrumentPath");
         public static string InstrumentName => ConfigurationExtensions.GetVariable("InstrumentName");
-        public static string SecondInstrumentName => ConfigurationExtensions.GetVariable("SecondInstrumentName");
         public static string InstrumentPackage => InstrumentHelper.InstrumentPackagePath(InstrumentPath, InstrumentName);
 
         public static ConnectionModel BuildConnectionModel()
