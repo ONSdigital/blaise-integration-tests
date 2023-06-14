@@ -48,13 +48,6 @@ namespace Blaise.Tobi.Tests.Behaviour.Steps
             TobiHelper.GetInstance().LoadQuestionnairePagePage();
         }
 
-        [Given(@"Another survey is active")]
-        public void GivenAnotherSurveyIsActive()
-        {
-            InstrumentHelper.GetInstance().InstallInstrument(BlaiseConfigurationHelper.SecondInstrumentName);
-            DayBatchHelper.GetInstance().SetSurveyDay(BlaiseConfigurationHelper.SecondInstrumentName, DateTime.Today);
-        }
-
         [Given(@"I have selected a survey")]
         [When(@"I select the DST survey I am working on")]
         public void WhenISelectTheDSTSurveyIAmWorkingOn()
@@ -112,7 +105,7 @@ namespace Blaise.Tobi.Tests.Behaviour.Steps
             try
             {
                 CatiInterviewHelper.GetInstance().LoginButtonIsAvailable();
-                Assert.AreEqual($"{CatiConfigurationHelper.InterviewUrl.ToLower()}login", BrowserHelper.CurrentUrl.ToLower());
+                Assert.AreEqual($"{CatiConfigurationHelper.InterviewUrl.ToLower()}/login", BrowserHelper.CurrentUrl.ToLower());
             }
             catch (Exception e)
             {
@@ -149,12 +142,6 @@ namespace Blaise.Tobi.Tests.Behaviour.Steps
         {
             TobiHelper.GetInstance().ClickReturnToSurveyListButton();
             Assert.AreEqual(TobiConfigurationHelper.TobiUrl, BrowserHelper.CurrentUrl);
-        }
-
-        [AfterScenario("SecondSurvey")]
-        public static void CleanUpScenario()
-        {
-            InstrumentHelper.GetInstance().UninstallSurvey(BlaiseConfigurationHelper.SecondInstrumentName, BlaiseConfigurationHelper.ServerParkName);
         }
 
         [AfterScenario("HappyPath")]
