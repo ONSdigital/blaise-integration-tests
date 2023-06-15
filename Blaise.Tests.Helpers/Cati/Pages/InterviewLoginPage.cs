@@ -9,7 +9,7 @@ namespace Blaise.Tests.Helpers.Cati.Pages
         private readonly string _passwordTextBoxName = "password";
         private readonly string _submitButtonPath = "//input[@type='submit']";
 
-        public InterviewLoginPage() : base(CatiConfigurationHelper.InterviewUrl)
+        public InterviewLoginPage() : base(CatiConfigurationHelper.InterviewUrl, "LayoutSet=CATI-Interviewer_Large")
         {
         }
 
