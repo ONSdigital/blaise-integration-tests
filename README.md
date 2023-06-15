@@ -1,216 +1,146 @@
-# Current Status (Badge)
-[![Build Status](https://dev.azure.com/blaise-gcp/csharp/_apis/build/status/ONSdigital.blaise-automated-tests?branchName=refs%2Fpull%2F7%2Fmerge)](https://dev.azure.com/blaise-gcp/csharp/_build/latest?definitionId=43&branchName=refs%2Fpull%2F7%2Fmerge)
+![Build Status](https://dev.azure.com/blaise-gcp/csharp/_apis/build/status/ONSdigital.blaise-automated-tests?branchName=main)
 
-# blaise-automated-tests
-Repository of automated testing processes for the Blaise 5 system.
+# Blaise Automated Tests
 
-# Test Questionnaires
+This repository holds the automated integration tests for the ONS Blaise 5 ecosystem, which are executed from the Concourse pipelines during the deployment of various services.
 
-Many of the scenarios in this repository upload a test questionnaire into
-the environment it is testing. To run them, you need to provide the
-questionnaire as a `.bpkg` file. There are currently two options to choose from:
+The Concourse pipeline triggers an Azure DevOps pipeline via an HTTP request, which runs the tests using hosted Azure DevOps agents.
 
-| Questionnaire | Description |
-|---------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| `DST2111Z`    | This is the questionnaire which is currently used in the pipelines. It is fairly large and can take a while to upload.                                                                |
-| `DST2304Z`    | This is `DST2111Z` without the pages being built and an empty SOC database. This is significantly reduced in size and recommended to use when running the tests from your dev laptop. |
+The code is also built and hosted in Azure DevOps through a Concourse pipeline that calls another Azure DevOps pipeline.
 
-## Running from a local development machine
+The tests use Selenium to interact with various UIs and are written in C# to leverage the Blaise NuGet package for communicating with Blaise.
 
-To develop these tests, the quickest way is to run them locally with them
-running against your sandbox. To do this you will need to be using a Windows
-development machine.
+# Local setup
 
-### Install Tools
+As Blaise currently only provide a .NET Framework NuGet API, you'll need to be running Windows.
 
-You need the following tools installed. **These must be installed on Windows,
-NOT WSL**.
+It is advisable to run the tests locally and connect them to your sandbox environment.
 
-- Chrome
-- The gcloud CLI.
-- chromedriver (version 108)
-- Visual Studio 2022
-- jq
+## Install tools
 
-An easy way to install tools on Windows is by using
-[Chocolatey](https://chocolatey.org/).
+You'll need the following tools installed:
 
-You will also need to install NumPy to increase the IAP TCP upload bandwidth (and therefore reduce timeouts:
+- Visual Studio
+- gcloud CLI
+- ChromeDriver
 
-Open a PowerShell window and run:
+You may want to consider using the Windows package manager [Chocolatey](https://chocolatey.org/) to install these tools.
 
-Windows:
-```powershell
-start (gcloud info --format="value(basic.python_location)") "-m pip install numpy"
+## Setup Blaise license
+
+To run the tests, you need to have a valid license for the local version of Blaise. The tests use the Blaise NuGet API, which verifies the license status.
+
+You can find the license information in the metadata of the `blaise-gusty-mgmt` VM.
+
+To register the license, you have two options:
+
+- Install Blaise and follow the registration steps
+- Add the registration details directly to the Windows registry
+
+To add the details to the Windows registry, you can create a reg file with the following content:
+
+```
+Windows Registry Editor Version 5.00
+
+[HKEY_LOCAL_MACHINE\SOFTWARE\StatNeth\Blaise\5.0]
+"Licensee"=""
+"LicenseKey"=""
+"ActivationCode"=""
 ```
 
-Linux:
-```powershell
-$(gcloud info --format="value(basic.python_location)") -m pip install numpy```
+## Download test questionnaire
 
-### Log in to GCP
+Most of the tests need a .bpkg file, which is a Blaise package containing a questionnaire instrument. The tests will prepare the testing environment by deploying the test questionnaire to it.
 
-In PowerShell, run the following where <your-project-name> would be something like ons-blaise-v2-dev-<sandbox>:
+You can download the latest test questionnaire from [Confluence](https://confluence.ons.gov.uk/display/QSS/Blaise+5+Questionnaire+Instrument+Artefacts) or the [Blaise shared GCP storage bucket](https://console.cloud.google.com/storage/browser?project=ons-blaise-v2-shared).
 
-```powershell
-gcloud auth login
-gcloud config set project <your-project-name>
-```
+## Configure the solution
 
-### Set up the Blaise License
+[Add our Azure DevOps artifacts feed to Visual Studio.](https://confluence.ons.gov.uk/display/QSS/How-to+connect+to+our+private+NuGet+package+source)
 
-You will need to add a Blaise License key to your development machine. To do
-this, you will need to get the values from the `blaise-gusty-mgmt` VM in your
-sandbox and add them to your registry.
+Git clone down this repository and open the solution file `BlaiseAutomatedTests.sln` in Visual Studio.
 
-To get the values from the VM, you can run the following command and look for
-the `key`/`value` pairs under `metadata.items`.
-
-```powershell
-gcloud compute instances describe blaise-gusty-mgmt --format json | jq -r '.metadata.items | map(select(.key == "BLAISE_CLOUDSQL_PW")) | .[] .value'
-```
-
-To edit the registry, you need to open the **Registry Editor**. You can do this
-quickly by tapping the **Windows Key** and then typing `reg` - an icon for the
-Registry Editor should appear. 
-
-The value will need to go the the following location in the registry to add the
-values. If the location doesn't exist, you'll need to create it by
-right-clicking on relevant _folders_ and choosing **New -> Key**.
-
-Location: `HKEY_LOCAL_MACHINE\SOFTWARE\StatNeth\Blaise\5.0`
-
-The values to need to move across are:
-
-| VM Environment Variable | Registry (String Value) |
-|-------------------------|-------------------------|
-| `BLAISE_LICENSEE`       | `Licensee`              |
-| `BLAISE_ACTIVATIONCODE` | `ActivationCode`        |
-| `BLAISE_SERIALNUMBER`   | `LicenseKey`            |
-
-### Download the Questionnaire
-
-Assuming that your sandbox has fully deployed, you should be able to download
-the test questionnaire from the `ons-blaise-v2-dev-<sandbox>-dqs` bucket.
-
-The quickest way to do this is use the `gsutil` command:
-
-```powershell
-gsutil cp gs:\\ons-blaise-v2-dev-<sandbox>-dqs\DST2111Z.bpkg C:\<path-to-store-questionnaire>\
-```
-
-### Configure the Project
-
-**IMPORTANT: Ensure you have [added the NuGet source on your computer](https://confluence.ons.gov.uk/display/QSS/How-to+update+the+StatNeth+Blaise+API+NuGet+package)**
-
-Clone this repository on to your laptop and open
-[BlaiseAutomatedTests.sln](./BlaiseAutomatedTests.sln) in Visual Studio.
-
-You will need to update the Blaise.Tests.Behaviour\app.config file with the following values:
+Depending on the tests your running, substitute the environment variable values in the `app.config` files with the following:
 
 ```xml
   <appSettings>
 	  <add key="UninstallSurveyTimeOutInSeconds" value="5" />
-	  <add key="InstrumentPath" value="C:\<path-to-store-questionnaire>" />
+	  <add key="InstrumentPath" value="C:\<test-questionnaire-path>\" />
 	  <add key="ServerParkName" value="gusty" />
-	  <add key="InstrumentName" value="DST2111Z" />
+	  <add key="InstrumentName" value="DST2304Z" />
 	  <add key="ENV_BLAISE_SERVER_HOST_NAME" value="localhost" />
 	  <add key="ENV_BLAISE_ADMIN_USER" value="<blaise-username>" />
 	  <add key="ENV_BLAISE_ADMIN_PASSWORD" value="<blaise-password>" />
 	  <add key="ENV_BLAISE_SERVER_BINDING" value="http" />
 	  <add key="ENV_BLAISE_CONNECTION_PORT" value="8031" />
 	  <add key="ENV_BLAISE_REMOTE_CONNECTION_PORT" value="8033" />
-	  <add key="ENV_CONNECTION_EXPIRES_IN_MINUTES" value="90" />
-  </appSettings>
-```
-
-And for each app.config, in Solution, in each folder (Cati, DQS, and Tobi) you will need to add the relevant URLs to the following values:
-
-```xml
-  <appSettings>
+	  <add key="ENV_CONNECTION_EXPIRES_IN_MINUTES" value="60" />
+	  <add key="ChromeWebDriver" value="C:\<chrome-driver-path>\" />
 	  <add key="ENV_DQS_URL" value="https://dev-<sandbox>-dqs.social-surveys.gcp.onsdigital.uk" />
 	  <add key="ENV_TOBI_URL" value="https://dev-<sandbox>-tobi.social-surveys.gcp.onsdigital.uk" />
-	  <add key="ENV_BLAISE_CATI_URL" value="dev-<sandbox>-cati.social-surveys.gcp.onsdigital.uk" />
+	  <add key="ENV_BLAISE_CATI_URL" value="https://dev-<sandbox>-cati.social-surveys.gcp.onsdigital.uk" />
   </appSettings>
 ```
 
-With an additional instrument name for Tobi:
+Placeholder | Description
+--- | ---
+`<test-questionnaire-path>` | Local path to the test questionnaire instrument package file.
+`<blaise-username>`         | From the `blaise-gusty-mgmt` VM `ENV_BLAISE_ADMIN_USER` environment variable.
+`<blaise-password>`         | From the `blaise-gusty-mgmt` VM `ENV_BLAISE_ADMIN_PASSWORD` environment variable.
+`<sandbox>`                 | The short name of your sandbox environment. e.g. `rr5`.
+`<chrome-driver-path>`      | Local path to the Chrome driver executable file.
 
-```xml
-  <appSettings>
-	  <add key="SecondInstrumentName" value="DST2111Z" />
-  </appSettings>
+:rotating_light: **IMPORTANT: DO NOT COMMIT APP.CONFIG FILES WITH ACTUAL VALUES!** :rotating_light:
+
+Build the solution via the Visual Studio `Build` menu.
+
+## Create tunnels to Blaise management VM
+
+If you have Blaise installed locally, you'll need to stop the `BlaiseServices5` service from running.
+
+Authenticate the gcloud CLI:
+
+```
+gcloud auth login
 ```
 
-The values you need to substitute in are:
+Set gcloud to your sandbox environment project:
 
-| `<path-to-store-questionnaire>` | When ever path you used to download the questionnaire to. **This does not include the filename or a trailling slash**. |
-| `<blaise-username>`             | From the `blaise-gusty-mgmt` VM `ENV_BLAISE_ADMIN_USER` environment variable.                                          |
-| `<blaise-password>`             | From the `blaise-gusty-mgmt` VM `ENV_BLAISE_ADMIN_PASSWORD` environment variable.                                      |
-| `<sandbox>`                     | The short name of your sandbox. e.g. `rr5`.                                                                            |
-| `<path-to-chromedriver>`        | The path to where the `chromedriver.exe` exists. **This does not include `chromedriver.exe` or the trailing slash**.   |
+```
+gcloud config set project ons-blaise-v2-dev-<sandbox>
+```
 
-### Create the tunnels
+Open a tunnel for port 8031 to the Blaise management VM in your sandbox environment:
 
-You need to create two tunnels to the Blaise Management VM.
-
-Open a new PowerShell window and run:
-
-```powershell
+```
 gcloud compute start-iap-tunnel blaise-gusty-mgmt 8031 --local-host-port=localhost:8031
 ```
 
-Then open a second PowerShell window and run:
+In a separate instance, open a tunnel for port 8033 to the Blaise management VM in your sandbox environment:
 
-```powershell
+```
 gcloud compute start-iap-tunnel blaise-gusty-mgmt 8033 --local-host-port=localhost:8033
 ```
 
-### Run the tests
+## Run the tests
 
-To run a specific test, for example Cati, right-click the Solution from the folder, and select Set as Startup Project. 
+Open `Test Explorer` from the Visual Studio `View` menu.
 
-You will need to build the Solution once (ctrl+shift+B), and everytime versions are updated you will need to Clean the Solution (under the Build menu) and Rebuild.
+Run all the tests or specific tests using the play buttons.
 
-Open a Test Explorer window from View, right-click a test, and select Run.
 
-### Things for Mac developers to remember
+# Troubleshooting
 
-* When using Chocolatey to install packages, ensure you are running Powershell as Adminstrator:
-	- Search for Powershell in the Start menu
-	- Right-click, and select 'Run as administrator'
-* After installing new packages, Visual Studio will need to be restarted before it will recognise new packages
-* Remember to save your files before trying to commit to Git. Pycharm saves automatically. JustSaying!
-* Trying to find the path to the chromedriver exe? It's in a hidden directory!  Type 'C:\ProgramData' into a file browser, and navigate through chocolatey and lib to find chromedriver. Once you've found it, you can copy the path from the top of the browser - something you can't do on Mac :eyes:
+If the Test Explorer window doesn't show any tests, clean and rebuild the solution via the Visual Studio `Build` menu.
 
-### Troubleshooting
+When using Chocolatey to install packages, ensure you are running your Command Prompt or PowerShell instance as administrator.
 
-#### Chocolatey
+Trying to find the path to chromedriver.exe? Chocolatey should put it in `C:\tools\selenium\` by default.
 
-After installing packages using Chocolatey, if you receive the following error when trying to execute package commands:
+If you get a `.ps1 is not digitally signed` message when trying to use packages installed by Chocolatey in PowerShell, run the following:
 
-```powershell
-.ps1 is not digitally signed. You cannot run this script on the current system.
 ```
-
-You will need to execute the following, per https://caiomsouza.medium.com/fix-for-powershell-script-not-digitally-signed-69f0ed518715:
-
-```powershell
 Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass
 ```
 
-This will need to be done for every new terminal.
-
----
-
-If your tests are failing due to conflicting versions, install the correct version directly from the websternet, and replace the exe in the chocolatey lib with the latest installed exe.
-
-#### Tests
-
-If the Test Explorer window fails to display any tests, try the following:
-
-* Select Clean Solution from the Build menu, and then Rebuild Solution
-* Closing and re-opening the Test Explorer window
-
-If you see any error messages in the Output window about missing DLLs, ask Al about Consolidating and Installing packages, and then update this section with the instructions because I can't remember what I did!?
- 
+This will need to be run for every PowerShell instance.
