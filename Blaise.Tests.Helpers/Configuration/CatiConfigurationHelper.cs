@@ -24,7 +24,7 @@ namespace Blaise.Tests.Helpers.Configuration
                 string baseUrl = ConfigurationExtensions.GetVariable("ENV_BLAISE_CATI_URL");
                 if (!baseUrl.StartsWith("http://") && !baseUrl.StartsWith("https://"))
                 {
-                    baseUrl = "http://" + baseUrl;
+                    baseUrl = "https://" + baseUrl;
                 }
 
                 return baseUrl;
