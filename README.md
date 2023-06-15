@@ -10,13 +10,13 @@ The code is also built and hosted in Azure DevOps through a Concourse pipeline t
 
 The tests use Selenium to interact with various UIs and are written in C# to leverage the Blaise NuGet package for communicating with Blaise.
 
-## Local setup
+# Local setup
 
 As Blaise currently only provide a .NET Framework NuGet API, you'll need to be running Windows.
 
 It is advisable to run the tests locally and connect them to your sandbox environment.
 
-### Install tools
+## Install tools
 
 You'll need the following tools installed:
 
@@ -26,7 +26,7 @@ You'll need the following tools installed:
 
 You may want to consider using the Windows package manager [Chocolatey](https://chocolatey.org/) to install these tools.
 
-### Setup Blaise license
+## Setup Blaise license
 
 To run the tests, you need to have a valid license for the local version of Blaise. The tests use the Blaise NuGet API, which verifies the license status.
 
@@ -48,19 +48,19 @@ Windows Registry Editor Version 5.00
 "ActivationCode"=""
 ```
 
-### Download test questionnaire
+## Download test questionnaire
 
 Most of the tests need a .bpkg file, which is a Blaise package containing a questionnaire instrument. The tests will prepare the testing environment by deploying the test questionnaire to it.
 
 You can download the latest test questionnaire from [Confluence](https://confluence.ons.gov.uk/display/QSS/Blaise+5+Questionnaire+Instrument+Artefacts) or the [Blaise shared GCP storage bucket](https://console.cloud.google.com/storage/browser?project=ons-blaise-v2-shared).
 
-### Configure the solution
+## Configure the solution
 
 [Add our Azure DevOps artifacts feed to Visual Studio.](https://confluence.ons.gov.uk/display/QSS/How-to+connect+to+our+private+NuGet+package+source)
 
 Git clone down this repository and open the solution file `BlaiseAutomatedTests.sln` in Visual Studio.
 
-Depending on the tests your running, substitute the values in the `app.config` files with the following:
+Depending on the tests your running, substitute the environment variable values in the `app.config` files with the following:
 
 ```xml
   <appSettings>
@@ -82,19 +82,19 @@ Depending on the tests your running, substitute the values in the `app.config` f
   </appSettings>
 ```
 
-Placeholder clarification:
+Placeholder | Description
+--- | ---
+`<test-questionnaire-path>` | Local path to the test questionnaire instrument package file.
+`<blaise-username>`         | From the `blaise-gusty-mgmt` VM `ENV_BLAISE_ADMIN_USER` environment variable.
+`<blaise-password>`         | From the `blaise-gusty-mgmt` VM `ENV_BLAISE_ADMIN_PASSWORD` environment variable.
+`<sandbox>`                 | The short name of your sandbox environment. e.g. `rr5`.
+`<chrome-driver-path>`      | Local path to the Chrome driver executable file.
 
-| `<test-questionnaire-path>` | Local path to the test questionnaire instrument package file.                     |
-| `<blaise-username>`         | From the `blaise-gusty-mgmt` VM `ENV_BLAISE_ADMIN_USER` environment variable.     |
-| `<blaise-password>`         | From the `blaise-gusty-mgmt` VM `ENV_BLAISE_ADMIN_PASSWORD` environment variable. |
-| `<sandbox>`                 | The short name of your sandbox environment. e.g. `rr5`.                           |
-| `<chrome-driver-path>`      | Local path to the Chrome driver executable file.                                  |
-
-**IMPORTANT: DO NOT COMMIT APP.CONFIG FILES WITH ACTUAL VALUES**
+:rotating_light: **IMPORTANT: DO NOT COMMIT APP.CONFIG FILES WITH ACTUAL VALUES!** :rotating_light:
 
 Build the solution via the Visual Studio `Build` menu.
 
-### Create tunnels to Blaise management VM
+## Create tunnels to Blaise management VM
 
 If you have Blaise installed locally, you'll need to stop the `BlaiseServices5` service from running.
 
@@ -122,14 +122,14 @@ In a separate instance, open a tunnel for port 8033 to the Blaise management VM 
 gcloud compute start-iap-tunnel blaise-gusty-mgmt 8033 --local-host-port=localhost:8033
 ```
 
-### Run the tests
+## Run the tests
 
 Open `Test Explorer` from the Visual Studio `View` menu.
 
 Run all the tests or specific tests using the play buttons.
 
 
-## Troubleshooting
+# Troubleshooting
 
 If the Test Explorer window doesn't show any tests, clean and rebuild the solution via the Visual Studio `Build` menu.
 
