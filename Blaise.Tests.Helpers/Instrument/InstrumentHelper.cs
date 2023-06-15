@@ -45,7 +45,7 @@ namespace Blaise.Tests.Helpers.Instrument
         {
             if (_blaiseSurveyApi.GetSurveyStatus(instrumentName, BlaiseConfigurationHelper.ServerParkName) == SurveyStatusType.Erroneous)
             {
-                throw new Exception($"ERROR: The {instrumentName} questionnaire has failed to delete, current status {Enum.GetName(typeof(SurveyStatusType), SurveyStatusType.Erroneous)} You will probably need to restart Blaise to delete it.");
+                throw new Exception($"ERROR: The {instrumentName} questionnaire has failed to be uninstalled, status: {Enum.GetName(typeof(SurveyStatusType), SurveyStatusType.Erroneous)}. Blaise has probably got a lock on the questionnaire files and the Blaise service will likely need to be restarted on the Blaise management VM.");
             }
         }
 
