@@ -29,6 +29,40 @@ namespace Blaise.Tests.Helpers.Browser
             };
         }
 
+        public static void ClosePreviousTab()
+        {
+            if (_browser == null) return;
+
+            var tabs = _browser.WindowHandles;
+            if (tabs.Count > 1)
+            {
+                _browser.SwitchTo().Window(tabs[0]);
+                _browser.Close();
+                _browser.SwitchTo().Window(tabs[1]);
+            }
+        }
+
+        public static void ClearSessionData()
+        {
+            if (_browser == null) return;
+
+            _browser.Manage().Cookies.DeleteAllCookies();
+
+            // Wait for the cookies to be cleared
+            var wait = new WebDriverWait(_browser, TimeSpan.FromSeconds(10));
+            wait.Until(driver => driver.Manage().Cookies.AllCookies.Count == 0);
+
+            // Clear local storage
+            var jsExecutor = (IJavaScriptExecutor)_browser;
+            jsExecutor.ExecuteScript("window.localStorage.clear();");
+
+            // Clear session storage
+            jsExecutor.ExecuteScript("window.sessionStorage.clear();");
+
+            // Close the WebDriver
+            _browser.Quit();
+        }
+
         public static bool ElementExistsByXpath(string xPath)
         {
             return Browser.FindElements(By.XPath(xPath)).Count > 0;
