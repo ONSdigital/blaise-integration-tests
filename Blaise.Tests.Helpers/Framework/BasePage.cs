@@ -16,7 +16,7 @@ namespace Blaise.Tests.Helpers.Framework
         }
 
         public BasePage(string pageUrl, string pageUrlParameter)
-        {            
+        {
             _pageUrl = $"{pageUrl}?{pageUrlParameter}";
         }
 
@@ -85,18 +85,7 @@ namespace Blaise.Tests.Helpers.Framework
 
         protected void PopulateInputByName(string elementName, string value)
         {
-            BrowserHelper
-                .Wait($"Timed out in PopulateInputByName(\"{elementName}\", \"{value}\")")
-                .Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementIsVisible(By.Name(elementName)))
-                .SendKeys(value);
-        }
-
-        protected bool CheckIfCheckboxIsCheckedByXPath(string elementName)
-        {
-            return BrowserHelper
-                .Wait($"Timed out in CheckIfCheckboxIsCheckedByXPath(\"{elementName}\")")
-                .Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementIsVisible(By.XPath(elementName)))
-                .Selected;
+            BrowserHelper.PopulateInputByName(elementName, value);
         }
 
         protected List<string> GetFirstColumnOfTableFromXPath(string tablePath, string tableId)
@@ -112,9 +101,12 @@ namespace Blaise.Tests.Helpers.Framework
 
         protected void WaitForPageToChange(string url)
         {
-            BrowserHelper
-                .Wait($"Timed out in WaitForPageToChange(\"{url}\")")
-                .Until(SeleniumExtras.WaitHelpers.ExpectedConditions.UrlMatches(url));
+            //Are we currently on the required page
+            if (!BrowserHelper.GetCurrentUrl().Equals(url, StringComparison.CurrentCultureIgnoreCase))
+            {
+                BrowserHelper.Wait($"Timed out in WaitForPageToChange(\"{url}\")")
+                    .Until(SeleniumExtras.WaitHelpers.ExpectedConditions.UrlMatches(url));
+            }
         }
 
         protected static bool ElementIsDisplayed(By by)

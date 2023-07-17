@@ -1,4 +1,5 @@
 ﻿using Blaise.Nuget.Api.Contracts.Enums;
+using Blaise.Tests.Helpers.Browser;
 using Blaise.Tests.Helpers.Configuration;
 using Blaise.Tests.Helpers.Instrument;
 using NUnit.Framework;
@@ -39,7 +40,7 @@ namespace Blaise.Tests.Behaviour.Steps
         [Then(@"the questionnaire is available to use in the Blaise environment")]
         public void ThenTheInstrumentIsAvailableToUseInTheBlaiseEnvironment()
         {
-            var instrumentHasInstalled = InstrumentHelper.GetInstance().SurveyHasInstalled(BlaiseConfigurationHelper.InstrumentName,60);
+            var instrumentHasInstalled = InstrumentHelper.GetInstance().SurveyHasInstalled(BlaiseConfigurationHelper.InstrumentName, 60);
 
             Assert.IsTrue(instrumentHasInstalled, "The instrument has not been installed, or is not active");
         }
@@ -55,6 +56,12 @@ namespace Blaise.Tests.Behaviour.Steps
         public void CleanUpScenario()
         {
             InstrumentHelper.GetInstance().UninstallSurvey();
+        }
+
+        [AfterTestRun]
+        public static void CleanUpTestRun()
+        {
+            BrowserHelper.ClearSessionData();
         }
     }
 }

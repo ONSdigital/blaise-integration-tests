@@ -68,9 +68,9 @@ namespace Blaise.Cati.Tests.Behaviour.Steps
         public void CleanUpFeature()
         {
             CatiManagementHelper.GetInstance().ClearDayBatchEntries();
-            BrowserHelper.CloseBrowser();
             CaseHelper.GetInstance().DeleteCases();
             InstrumentHelper.GetInstance().UninstallSurvey();
+            BrowserHelper.ClearSessionData();
         }
 
         private static void FailWithScreenShot(Exception e, string screenShotName, string screenShotDescription)
