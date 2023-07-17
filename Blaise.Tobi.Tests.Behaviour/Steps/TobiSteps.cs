@@ -144,12 +144,6 @@ namespace Blaise.Tobi.Tests.Behaviour.Steps
             Assert.AreEqual(TobiConfigurationHelper.TobiUrl, BrowserHelper.CurrentUrl);
         }
 
-        //[AfterScenario("HappyPath")]
-        //public static void CleanUpHappyPath()
-        //{
-        //    DayBatchHelper.GetInstance().RemoveSurveyDays(BlaiseConfigurationHelper.InstrumentName, DateTime.Today);
-        //}
-
         [AfterFeature("tobi")]
         public static void CleanUpFeature()
         {

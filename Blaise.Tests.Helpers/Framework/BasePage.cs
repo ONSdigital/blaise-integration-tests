@@ -85,11 +85,6 @@ namespace Blaise.Tests.Helpers.Framework
 
         protected void PopulateInputByName(string elementName, string value)
         {
-            /* BrowserHelper
-                 .Wait($"Timed out in PopulateInputByName(\"{elementName}\", \"{value}\")")
-                 .Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementIsVisible(By.Name(elementName)))
-             .SendKeys(value);*/
-
             BrowserHelper.PopulateInputByName(elementName, value);
         }
 
