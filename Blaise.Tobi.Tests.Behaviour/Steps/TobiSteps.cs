@@ -1,6 +1,4 @@
-﻿using System;
-using System.Linq;
-using Blaise.Tests.Helpers.Browser;
+﻿using Blaise.Tests.Helpers.Browser;
 using Blaise.Tests.Helpers.Case;
 using Blaise.Tests.Helpers.Cati;
 using Blaise.Tests.Helpers.Configuration;
@@ -8,6 +6,8 @@ using Blaise.Tests.Helpers.Instrument;
 using Blaise.Tests.Helpers.Tobi;
 using Blaise.Tests.Models.Case;
 using NUnit.Framework;
+using System;
+using System.Linq;
 using TechTalk.SpecFlow;
 
 namespace Blaise.Tobi.Tests.Behaviour.Steps
@@ -144,19 +144,19 @@ namespace Blaise.Tobi.Tests.Behaviour.Steps
             Assert.AreEqual(TobiConfigurationHelper.TobiUrl, BrowserHelper.CurrentUrl);
         }
 
-        [AfterScenario("HappyPath")]
-        public static void CleanUpHappyPath()
-        {
-            DayBatchHelper.GetInstance().RemoveSurveyDays(BlaiseConfigurationHelper.InstrumentName, DateTime.Today);
-        }
-
         [AfterFeature("tobi")]
         public static void CleanUpFeature()
         {
             DayBatchHelper.GetInstance().RemoveSurveyDays(BlaiseConfigurationHelper.InstrumentName, DateTime.Today);
-            BrowserHelper.CloseBrowser();
+            BrowserHelper.ClosePreviousTab();
             CaseHelper.GetInstance().DeleteCases();
             InstrumentHelper.GetInstance().UninstallSurvey();
+        }
+
+        [AfterTestRun]
+        public static void CleanUpTestRun()
+        {
+            BrowserHelper.ClearSessionData();
         }
 
         private static void FailWithScreenShot(Exception e, string screenShotName, string screenShotDescription)
