@@ -29,6 +29,11 @@ namespace Blaise.Tests.Helpers.Browser
             };
         }
 
+        public static string GetCurrentUrl()
+        {
+            return _browser.Url;
+        }
+
         public static void ClosePreviousTab()
         {
             if (_browser == null) return;
@@ -39,6 +44,24 @@ namespace Blaise.Tests.Helpers.Browser
                 _browser.SwitchTo().Window(tabs[0]);
                 _browser.Close();
                 _browser.SwitchTo().Window(tabs[1]);
+            }
+        }
+
+        public static void PopulateInputByName(string elementName, string value)
+        {
+            var wait = new WebDriverWait(_browser, TimeSpan.FromSeconds(TimeOutInSeconds));
+            var element = wait.Until(ExpectedConditions.ElementIsVisible(By.Name(elementName)));
+
+            try
+            {
+                // Enter the value into the element
+                element.SendKeys(value);
+            }
+            catch (StaleElementReferenceException)
+            {
+                // Element has become stale, re-find the element and retry sending keys
+                element = wait.Until(ExpectedConditions.ElementIsVisible(By.Name(elementName)));
+                element.SendKeys(value);
             }
         }
 
