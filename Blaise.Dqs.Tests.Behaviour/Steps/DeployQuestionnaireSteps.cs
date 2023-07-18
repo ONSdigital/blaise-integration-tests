@@ -1,12 +1,12 @@
-﻿using System;
-using System.Linq;
-using System.Threading;
-using Blaise.Tests.Helpers.Browser;
+﻿using Blaise.Tests.Helpers.Browser;
 using Blaise.Tests.Helpers.Case;
 using Blaise.Tests.Helpers.Configuration;
-using Blaise.Tests.Helpers.Instrument;
 using Blaise.Tests.Helpers.Dqs;
+using Blaise.Tests.Helpers.Instrument;
 using NUnit.Framework;
+using System;
+using System.Linq;
+using System.Threading;
 using TechTalk.SpecFlow;
 
 namespace Blaise.Dqs.Tests.Behaviour.Steps
@@ -266,12 +266,12 @@ namespace Blaise.Dqs.Tests.Behaviour.Steps
         public void CleanUpScenario()
         {
             DqsHelper.GetInstance().LogOutOfToDqs();
-            BrowserHelper.CloseBrowser();
             if (InstrumentHelper.GetInstance().SurveyExists(BlaiseConfigurationHelper.InstrumentName))
             {
                 CaseHelper.GetInstance().DeleteCases();
                 InstrumentHelper.GetInstance().UninstallSurvey();
             }
+            BrowserHelper.ClosePreviousTab();
         }
 
         private static void FailWithScreenShot(Exception e, string screenShotName, string screenShotDescription)
