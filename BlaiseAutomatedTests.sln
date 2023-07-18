@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.29403.142
+# Visual Studio Version 17
+VisualStudioVersion = 17.6.33829.357
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Blaise.Tests.Helpers", "Blaise.Tests.Helpers\Blaise.Tests.Helpers.csproj", "{F163D077-61A9-4DA9-AA99-D936EFA0E4CF}"
 EndProject
