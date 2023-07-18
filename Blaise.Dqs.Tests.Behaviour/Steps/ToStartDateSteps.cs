@@ -130,12 +130,12 @@ namespace Blaise.Dqs.Tests.Behaviour.Steps
         public void CleanUpScenario()
         {
             DqsHelper.GetInstance().LogOutOfToDqs();
-            BrowserHelper.CloseBrowser();
             if (InstrumentHelper.GetInstance().SurveyExists(BlaiseConfigurationHelper.InstrumentName))
             {
                 CaseHelper.GetInstance().DeleteCases();
                 InstrumentHelper.GetInstance().UninstallSurvey();
             }
+            BrowserHelper.ClosePreviousTab();
         }
     }
 }

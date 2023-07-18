@@ -102,7 +102,7 @@ namespace Blaise.Cati.Tests.Behaviour.Steps
         public void CleanUpScenario()
         {
             CatiManagementHelper.GetInstance().ClearDayBatchEntries();
-            BrowserHelper.CloseBrowser();
+            BrowserHelper.ClosePreviousTab();
         }
 
         [AfterFeature("interview")]
@@ -110,6 +110,12 @@ namespace Blaise.Cati.Tests.Behaviour.Steps
         {
             CatiInterviewHelper.GetInstance().DeleteInterviewUser();
             InstrumentHelper.GetInstance().UninstallSurvey();
+        }
+
+        [AfterTestRun]
+        public static void AfterTestRun()
+        {
+            BrowserHelper.ClearSessionData();
         }
 
         private static void SaveScreenShot(string screenShotName, string screenShotDescription)
