@@ -121,7 +121,6 @@ namespace Blaise.Dqs.Tests.Behaviour.Steps
         public void CleanUpScenario()
         {
             DqsHelper.GetInstance().LogOutOfToDqs();
-            BrowserHelper.CloseBrowser();
             if (InstrumentHelper.GetInstance().SurveyExists(BlaiseConfigurationHelper.InstrumentName))
             {
                 var caseHelper = CaseHelper.GetInstance();
@@ -130,6 +129,7 @@ namespace Blaise.Dqs.Tests.Behaviour.Steps
                 var instrumentHelper = InstrumentHelper.GetInstance();
                 instrumentHelper?.UninstallSurvey();
             }
+            BrowserHelper.ClosePreviousTab();
         }
 
         private static void FailWithScreenShot(Exception e, string screenShotName, string screenShotDescription)
