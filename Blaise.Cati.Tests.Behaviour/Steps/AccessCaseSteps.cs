@@ -12,6 +12,13 @@ namespace Blaise.Cati.Tests.Behaviour.Steps
     [Binding]
     public sealed class AccessCaseSteps
     {
+        private readonly ScenarioContext _scenarioContext;
+        public AccessCaseSteps(ScenarioContext scenarioContext)
+        {
+            _scenarioContext = scenarioContext;
+        }
+
+
         [BeforeFeature("interview")]
         public static void InitializeFeature()
         {
@@ -91,14 +98,16 @@ namespace Blaise.Cati.Tests.Behaviour.Steps
         [AfterScenario("interview")]
         public void OnError()
         {
-            if (ScenarioContext.Current.TestError != null)
+            if (_scenarioContext.TestError != null)
             {
                 var screenShotFile = BrowserHelper.TakeScreenShot(TestContext.CurrentContext.WorkDirectory,
-                    ScenarioContext.Current.StepContext.StepInfo.Text);
+                    _scenarioContext.StepContext.StepInfo.Text);
                
-                TestContext.AddTestAttachment(screenShotFile, ScenarioContext.Current.StepContext.StepInfo.Text);
+                TestContext.AddTestAttachment(screenShotFile, _scenarioContext.StepContext.StepInfo.Text);
+                
+                var htmlFIle = BrowserHelper.CurrentWindowHTML();
 
-                var htmlFIle = BrowserHelper.CurrentWindowHTML
+                TestContext.Write(htmlFIle);
             } 
         }
 
