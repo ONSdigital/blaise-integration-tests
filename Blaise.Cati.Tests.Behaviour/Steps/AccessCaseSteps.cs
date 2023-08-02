@@ -46,30 +46,14 @@ namespace Blaise.Cati.Tests.Behaviour.Steps
         [When(@"I click the play button for case '(.*)'")]
         public void WhenIClickThePlayButtonForCase(string caseId)
         {
-            try
-            {
-                CatiInterviewHelper.GetInstance().ClickPlayButtonToAccessCase(caseId);
-            }
-            catch
-            {
-                SaveScreenShot("LogOnInterview", "Log onto Interview Screen");
-                throw;
-            }
+            CatiInterviewHelper.GetInstance().ClickPlayButtonToAccessCase(caseId);
         }
 
         [When(@"The time is within the day batch parameters")]
         public void WhenTheTimeIsWithinTheDayBatchParameters()
         {
-            try
-            {
-                CatiInterviewHelper.GetInstance().AddSurveyFilter();
-                CatiInterviewHelper.GetInstance().SetupDayBatchTimeParameters();
-            }
-            catch
-            {
-                SaveScreenShot("SetDayBatchParameters", "Set Daybatch parameters page");
-                throw;
-            }
+            CatiInterviewHelper.GetInstance().AddSurveyFilter();
+            CatiInterviewHelper.GetInstance().SetupDayBatchTimeParameters();
         }
 
         [When(@"I Open the cati scheduler as an interviewer")]
@@ -93,7 +77,6 @@ namespace Blaise.Cati.Tests.Behaviour.Steps
                 TestContext.Progress.WriteLine("Error from Test Context progress " + BrowserHelper.CurrentWindowHTML());
                 Debug.WriteLine("Error from debug: " + BrowserHelper.CurrentWindowHTML());
                 Console.WriteLine("Error from console: " + BrowserHelper.CurrentWindowHTML());
-                SaveScreenShot("CaptureData", "Capture respondents data");
                 throw;
             }
         }
@@ -103,6 +86,20 @@ namespace Blaise.Cati.Tests.Behaviour.Steps
         {
             CatiManagementHelper.GetInstance().ClearDayBatchEntries();
             BrowserHelper.ClosePreviousTab();
+        }
+        
+        [AfterScenario("interview")]
+        public void OnError()
+        {
+            if (ScenarioContext.Current.TestError != null)
+            {
+                var screenShotFile = BrowserHelper.TakeScreenShot(TestContext.CurrentContext.WorkDirectory,
+                    ScenarioContext.Current.StepContext.StepInfo.Text);
+               
+                TestContext.AddTestAttachment(screenShotFile, ScenarioContext.Current.StepContext.StepInfo.Text);
+
+                var htmlFIle = BrowserHelper.CurrentWindowHTML
+            } 
         }
 
         [AfterFeature("interview")]
@@ -116,14 +113,6 @@ namespace Blaise.Cati.Tests.Behaviour.Steps
         public static void AfterTestRun()
         {
             BrowserHelper.ClearSessionData();
-        }
-
-        private static void SaveScreenShot(string screenShotName, string screenShotDescription)
-        {
-            var screenShotFile = BrowserHelper.TakeScreenShot(TestContext.CurrentContext.WorkDirectory,
-                screenShotName);
-
-            TestContext.AddTestAttachment(screenShotFile, screenShotDescription);
         }
     }
 }
