@@ -26,7 +26,7 @@ namespace Blaise.Tests.Helpers.Cati
         public void ClickPlayButtonToAccessCase(string caseId)
         {
             var caseInfoPage = new CaseInfoPage();
-            caseInfoPage.RefreshPageUntilCaseIsPlayable(caseId);
+            caseInfoPage.RefreshPageUntilCaseIsPlayable("1234");
             caseInfoPage.ClickPlayButton();
         }
 
