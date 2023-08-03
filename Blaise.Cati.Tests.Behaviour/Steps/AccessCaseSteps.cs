@@ -95,7 +95,7 @@ namespace Blaise.Cati.Tests.Behaviour.Steps
             BrowserHelper.ClosePreviousTab();
         }
         
-        [AfterScenario("interview")]
+        [AfterFeature("interview")]
         public void OnError()
         {
             if (_scenarioContext.TestError != null)
