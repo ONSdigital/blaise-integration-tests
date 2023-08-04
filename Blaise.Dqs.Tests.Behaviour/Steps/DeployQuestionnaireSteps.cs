@@ -61,73 +61,38 @@ namespace Blaise.Dqs.Tests.Behaviour.Steps
         [When(@"I Deploy The Questionnaire")]
         public void WhenIConfirmMySelection()
         {
-            try
-            {
-                DqsHelper.GetInstance().ConfirmQuestionnaireUpload();
-            }
-            catch (Exception e)
-            {
-                FailWithScreenShot(e, "NotOverwritten", "Questionnaire has not been Overwritten");
-            }
+            DqsHelper.GetInstance().ConfirmQuestionnaireUpload();
         }
 
         [When(@"I dont select a Start date")]
         public void WhenIdontSelectAStartDate()
         {
-            try
-            {
-                DqsHelper.GetInstance().SelectNoLiveDate();
-                DqsHelper.GetInstance().ConfirmQuestionnaireUpload();
-            }
-            catch (Exception e)
-            {
-                FailWithScreenShot(e, "NoStartDateSelected", "Cannot select no Start date");
-            }
+            DqsHelper.GetInstance().SelectNoLiveDate();
+            DqsHelper.GetInstance().ConfirmQuestionnaireUpload();
         }
 
         [When(@"I set a start date to today")]
         public void WhenISetAStartDateTo()
         {
-            try
-            {
-                var today = DateTime.Now.ToString("dd/MM/yyyy");
-                DqsHelper.GetInstance().SelectYesLiveDate();
-                DqsHelper.GetInstance().SetLiveDate(today);
-                Thread.Sleep(5000);
-                DqsHelper.GetInstance().ConfirmQuestionnaireUpload();
-            }
-            catch (Exception e)
-            {
-                FailWithScreenShot(e, "LiveDateFieldNotSetCorrectly", "Start Date Field Not Set Correctly");
-            }
+            var today = DateTime.Now.ToString("dd/MM/yyyy");
+            DqsHelper.GetInstance().SelectYesLiveDate();
+            DqsHelper.GetInstance().SetLiveDate(today);
+            Thread.Sleep(5000);
+            DqsHelper.GetInstance().ConfirmQuestionnaireUpload();
         }
 
         [When(@"The set start date for questionnaire returns today")]
         public void WhenTheSetStartDateForQuestionnaireReturns()
         {
-            try
-            {
-                var today = DateTime.Now.ToString("dd/MM/yyyy");
-                Assert.AreEqual($"Start date set to {today}", DqsHelper.GetInstance().GetLivedateSummaryText());
-            }
-            catch (Exception e)
-            {
-                FailWithScreenShot(e, "LiveDateFieldNotSetCorrectly", "Start Date Field Not Set Correctly");
-            }
+            var today = DateTime.Now.ToString("dd/MM/yyyy");
+            Assert.AreEqual($"Start date set to {today}", DqsHelper.GetInstance().GetLivedateSummaryText());
         }
 
 
         [When(@"The set start date for questionnaire returns Start Date Not Specified")]
         public void WhenTheSetStartDateForQuestionnaireReturnsLiveDateNotSpecified()
         {
-            try
-            {
-                Assert.AreEqual("Start date not specified", DqsHelper.GetInstance().GetLivedateSummaryText());
-            }
-            catch (Exception e)
-            {
-                FailWithScreenShot(e, "StartDateNotSetCorrectly", "Unable to find start date response");
-            }
+            Assert.AreEqual("Start date not specified", DqsHelper.GetInstance().GetLivedateSummaryText());
         }
 
 
@@ -141,16 +106,9 @@ namespace Blaise.Dqs.Tests.Behaviour.Steps
         [Then(@"I am presented with a successful deployment information banner")]
         public void ThenIAmPresentedWithASuccessfulDeploymentInformationBanner()
         {
-            try
-            {
-                DqsHelper.GetInstance().WaitForUploadToComplete();
-                var successMessage = DqsHelper.GetInstance().GetUploadMessage();
-                Assert.IsNotNull(successMessage);
-            }
-            catch (Exception e)
-            {
-                FailWithScreenShot(e, "NotOverwritten", "Questionnaire has not been Overwritten");
-            }
+            DqsHelper.GetInstance().WaitForUploadToComplete();
+            var successMessage = DqsHelper.GetInstance().GetUploadMessage();
+            Assert.IsNotNull(successMessage);
         }
 
         [Then(@"I am presented with questionnaire already exists screen")]
@@ -204,49 +162,28 @@ namespace Blaise.Dqs.Tests.Behaviour.Steps
         [Then(@"the questionnaire has not been overwritten")]
         public void ThenTheQuestionnaireHasNotBeenOverwritten()
         {
-            try
-            {
-                var expectedInstallDate = _scenarioContext.Get<DateTime>(InstallDate);
-                var actualInstallDate = InstrumentHelper.GetInstance().GetInstallDate();
+            var expectedInstallDate = _scenarioContext.Get<DateTime>(InstallDate);
+            var actualInstallDate = InstrumentHelper.GetInstance().GetInstallDate();
 
-                Assert.AreEqual(expectedInstallDate, actualInstallDate);
-            }
-            catch (Exception e)
-            {
-                FailWithScreenShot(e, "NotOverwritten", "Questionnaire has not been Overwritten");
-            }
+            Assert.AreEqual(expectedInstallDate, actualInstallDate);
         }
 
         [Then(@"I am presented with a warning that I cannot overwrite the survey")]
         public void ThenIAmPresentedWithAWarningThatICannotOverwriteTheSurvey()
         {
-            try
-            {
-                Assert.IsNotNull(DqsHelper.GetInstance().GetOverwriteMessage());
-                Assert.AreEqual(DqsConfigurationHelper.CannotOverwriteUrl, BrowserHelper.CurrentUrl);
-            }
-            catch (Exception e)
-            {
-                FailWithScreenShot(e, "CannotOverwrite", "Questionnaire Cannot be overwritten");
-            }
+            Assert.IsNotNull(DqsHelper.GetInstance().GetOverwriteMessage());
+            Assert.AreEqual(DqsConfigurationHelper.CannotOverwriteUrl, BrowserHelper.CurrentUrl);
         }
 
 
         [Then(@"Then the questionnaire package is deployed and overwrites the existing questionnaire")]
         public void ThenThenTheQuestionnairePackageIsDeployedAndOverwritesTheExistingQuestionnaire()
         {
-            try
-            {
-                DqsHelper.GetInstance().WaitForUploadToComplete();
-                var existingInstallDate = _scenarioContext.Get<DateTime>(InstallDate);
-                var newInstallDate = InstrumentHelper.GetInstance().GetInstallDate();
+            DqsHelper.GetInstance().WaitForUploadToComplete();
+            var existingInstallDate = _scenarioContext.Get<DateTime>(InstallDate);
+            var newInstallDate = InstrumentHelper.GetInstance().GetInstallDate();
 
-                Assert.Greater(newInstallDate, existingInstallDate);
-            }
-            catch (Exception e)
-            {
-                FailWithScreenShot(e, "OverwriteExisting", "Questionnaire has been overwritten");
-            }
+            Assert.Greater(newInstallDate, existingInstallDate);
         }
 
         [Then(@"the questionnaire is active in blaise")]
@@ -274,13 +211,17 @@ namespace Blaise.Dqs.Tests.Behaviour.Steps
             BrowserHelper.ClosePreviousTab();
         }
 
-        private static void FailWithScreenShot(Exception e, string screenShotName, string screenShotDescription)
+        [AfterStep]
+        public void OnError()
         {
-            var screenShotFile = BrowserHelper.TakeScreenShot(TestContext.CurrentContext.WorkDirectory,
-                screenShotName);
-
-            TestContext.AddTestAttachment(screenShotFile, screenShotDescription);
-            Assert.Fail($"The test failed to complete - {e.Message}");
+            if (_scenarioContext.TestError != null)
+            {
+                var screenShotFile = BrowserHelper.TakeScreenShot(TestContext.CurrentContext.WorkDirectory,
+                    _scenarioContext.StepContext.StepInfo.Text);
+                TestContext.AddTestAttachment(screenShotFile, _scenarioContext.StepContext.StepInfo.Text);
+                var htmlFile = BrowserHelper.CurrentWindowHTML();
+                TestContext.WriteLine(htmlFile);
+            }
         }
     }
 }
