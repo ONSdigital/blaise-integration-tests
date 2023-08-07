@@ -4,7 +4,6 @@ using Blaise.Tests.Helpers.Configuration;
 using Blaise.Tests.Helpers.Dqs;
 using Blaise.Tests.Helpers.Instrument;
 using NUnit.Framework;
-using System;
 using System.Linq;
 using TechTalk.SpecFlow;
 
@@ -13,6 +12,7 @@ namespace Blaise.Dqs.Tests.Behaviour.Steps
     [Binding]
     public class DeleteQuestionnaireSteps
     {
+
         [Given(@"I have a questionnaire I want to delete")]
         public void GivenIHaveTheNameOfAQuestionnaireIWantToDeleteAndThatSurveyIsLive()
         {
