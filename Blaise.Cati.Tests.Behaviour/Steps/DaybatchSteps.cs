@@ -23,45 +23,24 @@ namespace Blaise.Cati.Tests.Behaviour.Steps
         [Given(@"I log on to Cati as an administrator")]
         public void GivenILogOnToTheCatiDashboard()
         {
-            try
-            {
-                CatiManagementHelper.GetInstance().LogIntoCatiManagementPortal();
-                Assert.AreNotEqual(CatiConfigurationHelper.LoginUrl, CatiManagementHelper.GetInstance().CurrentUrl(),
-                    "Expected to leave the login page");
-            }
-            catch (Exception e)
-            {
-                FailWithScreenShot(e, "LogOnCati", "Log onto Cati as Admin");
-            }
+            CatiManagementHelper.GetInstance().LogIntoCatiManagementPortal();
+            Assert.AreNotEqual(CatiConfigurationHelper.LoginUrl, CatiManagementHelper.GetInstance().CurrentUrl(),
+                "Expected to leave the login page");
         }
 
         [Given(@"I have created a daybatch for today")]
         [When(@"I create a daybatch for today")]
         public void WhenICreateADaybatchForToday()
         {
-            try
-            {
-                CatiManagementHelper.GetInstance().ClearDayBatchEntries();
-                CatiManagementHelper.GetInstance().CreateDayBatch();
-            }
-            catch (Exception e)
-            {
-                FailWithScreenShot(e, "CreateDaybatch", "Create a daybatch for today");
-            }
+            CatiManagementHelper.GetInstance().ClearDayBatchEntries();
+            CatiManagementHelper.GetInstance().CreateDayBatch();
         }
         [When(@"the sample cases are present on the daybatch entry screen")]
         [Then(@"the sample cases are present on the daybatch entry screen")]
         public void ThenTheSampleCasesArePresentOnTheDaybatchEntryScreen(IEnumerable<CaseModel> cases)
         {
-            try
-            {
-                var entriesText = CatiManagementHelper.GetInstance().GetDaybatchEntriesText();
-                Assert.IsNotNull(entriesText);
-            }
-            catch (Exception e)
-            {
-                FailWithScreenShot(e, "SampleCases", "Daybatch entry screen");
-            }
+            var entriesText = CatiManagementHelper.GetInstance().GetDaybatchEntriesText();
+            Assert.IsNotNull(entriesText);
         }
 
         [AfterScenario("cati")]
@@ -71,15 +50,6 @@ namespace Blaise.Cati.Tests.Behaviour.Steps
             CaseHelper.GetInstance().DeleteCases();
             InstrumentHelper.GetInstance().UninstallSurvey();
             BrowserHelper.ClearSessionData();
-        }
-
-        private static void FailWithScreenShot(Exception e, string screenShotName, string screenShotDescription)
-        {
-            var screenShotFile = BrowserHelper.TakeScreenShot(TestContext.CurrentContext.WorkDirectory,
-                screenShotName);
-
-            TestContext.AddTestAttachment(screenShotFile, screenShotDescription);
-            Assert.Fail($"The test failed to complete - {e.Message}");
         }
     }
 }

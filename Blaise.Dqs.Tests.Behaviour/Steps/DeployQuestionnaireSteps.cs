@@ -211,17 +211,5 @@ namespace Blaise.Dqs.Tests.Behaviour.Steps
             BrowserHelper.ClosePreviousTab();
         }
 
-        [AfterStep]
-        public void OnError()
-        {
-            if (_scenarioContext.TestError != null)
-            {
-                var screenShotFile = BrowserHelper.TakeScreenShot(TestContext.CurrentContext.WorkDirectory,
-                    _scenarioContext.StepContext.StepInfo.Text);
-                TestContext.AddTestAttachment(screenShotFile, _scenarioContext.StepContext.StepInfo.Text);
-                var htmlFile = BrowserHelper.CurrentWindowHTML();
-                TestContext.WriteLine(htmlFile);
-            }
-        }
     }
 }

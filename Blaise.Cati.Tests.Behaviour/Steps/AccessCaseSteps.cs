@@ -94,22 +94,6 @@ namespace Blaise.Cati.Tests.Behaviour.Steps
             CatiManagementHelper.GetInstance().ClearDayBatchEntries();
             BrowserHelper.ClosePreviousTab();
         }
-        
-        [AfterFeature("interview")]
-        public void OnError()
-        {
-            if (_scenarioContext.TestError != null)
-            {
-                var screenShotFile = BrowserHelper.TakeScreenShot(TestContext.CurrentContext.WorkDirectory,
-                    _scenarioContext.StepContext.StepInfo.Text);
-               
-                TestContext.AddTestAttachment(screenShotFile, _scenarioContext.StepContext.StepInfo.Text);
-                
-                var htmlFIle = BrowserHelper.CurrentWindowHTML();
-
-                TestContext.Write(htmlFIle);
-            } 
-        }
 
         [AfterFeature("interview")]
         public static void CleanUpFeature()

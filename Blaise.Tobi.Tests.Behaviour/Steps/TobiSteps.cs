@@ -72,63 +72,31 @@ namespace Blaise.Tobi.Tests.Behaviour.Steps
         [Then(@"I will be able to view all live surveys with questionnaires loaded in Blaise, identified by their three letter acronym \(TLA\), i\.e\. OPN, LMS")]
         public void ThenIWillBeAbleToViewAllLiveSurveysWithQuestionnairesLoadedInBlaiseIdentifiedByTheirThreeLetterAcronym()
         {
-            try
-            {
-                Assert.IsNotNull(TobiHelper.GetInstance().GetSurveyTableContents().Where(s => s.Equals("DST")));
-            }
-            catch (Exception e)
-            {
-                TestContext.WriteLine("Error from Test Context " + BrowserHelper.CurrentWindowHTML());
-                FailWithScreenShot(e, "CaptureData", "Capture respondents data");
-            }
+            Assert.IsNotNull(TobiHelper.GetInstance().GetSurveyTableContents().Where(s => s.Equals("DST")));   
         }
 
         [Then(@"I am presented with a list of active questionnaires to be worked on that day for that survey")]
         public void ThenIAmPresentedWithAListOfActiveQuestionnairesToBeWorkedOnThatDayForThatSurvey()
         {
-            try
-            {
-                var activeQuestionnaires = TobiHelper.GetInstance().GetQuestionnaireTableContents();
-
-                Assert.IsNotNull(activeQuestionnaires.Where(q => q.Contains(BlaiseConfigurationHelper.InstrumentName)));
-            }
-            catch (Exception e)
-            {
-                TestContext.WriteLine("Error from Test Context " + BrowserHelper.CurrentWindowHTML());
-                FailWithScreenShot(e, "AccessBlaise", "Interviewer login");
-            }
+            var activeQuestionnaires = TobiHelper.GetInstance().GetQuestionnaireTableContents();
+            Assert.IsNotNull(activeQuestionnaires.Where(q => q.Contains(BlaiseConfigurationHelper.InstrumentName)));
+            
         }
 
         [Then(@"I am presented with the Blaise log in")]
         public void ThenIAmPresentedWithTheBlaiseLogIn()
         {
-            try
-            {
-                CatiInterviewHelper.GetInstance().LoginButtonIsAvailable();
-                Assert.AreEqual($"{CatiConfigurationHelper.InterviewUrl.ToLower()}/login", BrowserHelper.CurrentUrl.ToLower());
-            }
-            catch (Exception e)
-            {
-                TestContext.WriteLine("Error from Test Context " + BrowserHelper.CurrentWindowHTML());
-                FailWithScreenShot(e, "BlaiseLogin", "Blaise login");
-            }
+            CatiInterviewHelper.GetInstance().LoginButtonIsAvailable();
+            Assert.AreEqual($"{CatiConfigurationHelper.InterviewUrl.ToLower()}/login", BrowserHelper.CurrentUrl.ToLower());   
         }
 
         [Then(@"I will not see that questionnaire listed for the survey")]
         public void ThenIWillNotSeeThatQuestionnaireListedForTheSurvey()
         {
-            try
-            {
-                var questionnaireShowing = TobiHelper.GetInstance().GetQuestionnaireTableContents()
-                    .Where(s => s.Contains(BlaiseConfigurationHelper.InstrumentName));
-                Assert.IsEmpty(questionnaireShowing);
-            }
-            catch (Exception e)
-            {
-                TestContext.WriteLine("Error from Test Context " + BrowserHelper.CurrentWindowHTML());
-                FailWithScreenShot(e, "NoSurvey", "No survey should exist");
-            }
-
+            
+            var questionnaireShowing = TobiHelper.GetInstance().GetQuestionnaireTableContents()
+                .Where(s => s.Contains(BlaiseConfigurationHelper.InstrumentName));
+            Assert.IsEmpty(questionnaireShowing);
         }
 
         [Then(@"I will not see any surveys listed")]
@@ -159,13 +127,5 @@ namespace Blaise.Tobi.Tests.Behaviour.Steps
             BrowserHelper.ClearSessionData();
         }
 
-        private static void FailWithScreenShot(Exception e, string screenShotName, string screenShotDescription)
-        {
-            var screenShotFile = BrowserHelper.TakeScreenShot(TestContext.CurrentContext.WorkDirectory,
-                screenShotName);
-
-            TestContext.AddTestAttachment(screenShotFile, screenShotDescription);
-            Assert.Fail($"The test failed to complete - {e.Message}");
-        }
     }
 }
