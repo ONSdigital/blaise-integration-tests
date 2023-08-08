@@ -1,5 +1,6 @@
 ﻿using Blaise.Tests.Helpers.Browser;
 using NUnit.Framework;
+using System.IO;
 using TechTalk.SpecFlow;
 
 namespace Blaise.Tests.Helpers.ErrorHandler
@@ -22,8 +23,9 @@ namespace Blaise.Tests.Helpers.ErrorHandler
                 var screenShotFile = BrowserHelper.TakeScreenShot(TestContext.CurrentContext.WorkDirectory,
                     _scenarioContext.StepContext.StepInfo.Text);
                 TestContext.AddTestAttachment(screenShotFile, _scenarioContext.StepContext.StepInfo.Text);
+
                 var htmlFile = BrowserHelper.CurrentWindowHTML();
-                TestContext.WriteLine(htmlFile);
+                File.WriteAllText(TestContext.CurrentContext.WorkDirectory+".html", htmlFile);
             }
         }
     }

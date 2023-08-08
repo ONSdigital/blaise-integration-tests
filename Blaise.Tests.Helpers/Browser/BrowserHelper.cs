@@ -122,7 +122,7 @@ namespace Blaise.Tests.Helpers.Browser
 
         public static string CurrentWindowHTML()
         {
-            return Browser.PageSource;
+            return _browser.PageSource;
         }
 
         public static void BrowseTo(string pageUrl)
