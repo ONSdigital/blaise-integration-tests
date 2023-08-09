@@ -5,11 +5,9 @@ using OpenQA.Selenium.Chrome;
 using OpenQA.Selenium.Interactions;
 using OpenQA.Selenium.Support.Extensions;
 using OpenQA.Selenium.Support.UI;
-using Org.BouncyCastle.Crypto.Tls;
 using System;
 using System.IO;
 using System.Linq;
-using System.Security.Authentication.ExtendedProtection;
 using TechTalk.SpecFlow;
 
 namespace Blaise.Tests.Helpers.Browser
@@ -121,10 +119,10 @@ namespace Blaise.Tests.Helpers.Browser
         public static void OnError(NUnit.Framework.TestContext testContext, ScenarioContext scenarioContext)
         {
             var screenShotFile = TakeScreenShot(testContext.WorkDirectory,
-                    scenarioContext.StepContext.StepInfo.Text);
+                    $@"{scenarioContext.StepContext.StepInfo.Text}");
             TestContext.AddTestAttachment(screenShotFile, scenarioContext.StepContext.StepInfo.Text);
 
-            File.WriteAllText(testContext.WorkDirectory + ".html", CurrentWindowHTML());
+            File.WriteAllText($@"{testContext.WorkDirectory}\{Path.GetFileNameWithoutExtension(screenShotFile)}.html", CurrentWindowHTML());
         }
 
         public static void CloseBrowser()
