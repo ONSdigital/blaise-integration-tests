@@ -53,7 +53,6 @@ namespace Blaise.Cati.Tests.Behaviour.Steps
         [When(@"I click the play button for case '(.*)'")]
         public void WhenIClickThePlayButtonForCase(string caseId)
         {
-            throw new Exception("Timed out waiting for new window to open.");
             CatiInterviewHelper.GetInstance().ClickPlayButtonToAccessCase(caseId);
         }
 
