@@ -20,12 +20,7 @@ namespace Blaise.Tests.Helpers.ErrorHandler
         {
             if (_scenarioContext.TestError != null)
             {
-                var screenShotFile = BrowserHelper.TakeScreenShot(TestContext.CurrentContext.WorkDirectory,
-                    _scenarioContext.StepContext.StepInfo.Text);
-                TestContext.AddTestAttachment(screenShotFile, _scenarioContext.StepContext.StepInfo.Text);
-
-                var htmlFile = BrowserHelper.CurrentWindowHTML();
-                File.WriteAllText(TestContext.CurrentContext.WorkDirectory + ".html", htmlFile);
+                BrowserHelper.OnError(TestContext.CurrentContext, _scenarioContext);
             }
         }
     }
