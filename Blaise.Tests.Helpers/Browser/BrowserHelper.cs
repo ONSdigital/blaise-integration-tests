@@ -123,6 +123,7 @@ namespace Blaise.Tests.Helpers.Browser
             TestContext.AddTestAttachment(screenShotFile, scenarioContext.StepContext.StepInfo.Text);
 
             File.WriteAllText($@"{testContext.WorkDirectory}\{Path.GetFileNameWithoutExtension(screenShotFile)}.html", CurrentWindowHTML());
+            TestContext.AddTestAttachment($@"{testContext.WorkDirectory}\{Path.GetFileNameWithoutExtension(screenShotFile)}.html", "Windows HTML");
         }
 
         public static void CloseBrowser()
