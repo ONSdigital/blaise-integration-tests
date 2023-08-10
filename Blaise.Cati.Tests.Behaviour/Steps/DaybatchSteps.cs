@@ -5,7 +5,6 @@ using Blaise.Tests.Helpers.Configuration;
 using Blaise.Tests.Helpers.Instrument;
 using Blaise.Tests.Models.Case;
 using NUnit.Framework;
-using System;
 using System.Collections.Generic;
 using TechTalk.SpecFlow;
 
@@ -14,9 +13,19 @@ namespace Blaise.Cati.Tests.Behaviour.Steps
     [Binding]
     public sealed class DaybatchSteps
     {
+        private static ScenarioContext _scenarioContext;
+        public DaybatchSteps(ScenarioContext scenarioContext)
+        {
+            _scenarioContext = scenarioContext;
+        }
+
         [BeforeFeature("cati")]
         public static void InitializeFeature()
         {
+            if (_scenarioContext.TestError == null)
+                return;
+
+
             InstrumentHelper.GetInstance().InstallInstrument();
         }
 
