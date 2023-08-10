@@ -27,6 +27,10 @@ namespace Blaise.Tests.Helpers.ErrorHandler
                 }
                 catch (Exception)
                 {
+                    throw;
+                }
+                finally
+                {
                     Environment.Exit(1); /*Force tests to stop as we have errored*/
                 }
             }
