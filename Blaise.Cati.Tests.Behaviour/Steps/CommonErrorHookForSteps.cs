@@ -27,7 +27,7 @@ namespace Blaise.Tests.Helpers.ErrorHandler
                 }
                 catch (Exception)
                 {
-                    throw;
+                    Assert.Fail(this._scenarioContext.TestError.Message);
                 }
                 finally
                 {
