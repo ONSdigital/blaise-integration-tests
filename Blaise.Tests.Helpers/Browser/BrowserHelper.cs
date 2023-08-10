@@ -118,7 +118,7 @@ namespace Blaise.Tests.Helpers.Browser
 
         public static void OnError(NUnit.Framework.TestContext testContext, ScenarioContext scenarioContext)
         {
-            if (scenarioContext.ContainsKey("Error") || scenarioContext.ContainsValue(scenarioContext.StepContext.StepInfo.Text))
+            if (scenarioContext.ContainsKey("Error"))
                 return;
 
             var screenShotFile = TakeScreenShot(testContext.WorkDirectory,
@@ -132,7 +132,7 @@ namespace Blaise.Tests.Helpers.Browser
             scenarioContext.Add("Error", scenarioContext.TestError.Message);
             scenarioContext.ScenarioContainer.RegisterInstanceAs(scenarioContext.TestError);
 
-            throw new Exception(scenarioContext.StepContext.StepInfo.Text);
+            Assert.Fail(scenarioContext.StepContext.StepInfo.Text);
         }
 
         public static void CloseAllWindows()
