@@ -118,12 +118,31 @@ namespace Blaise.Tests.Helpers.Browser
 
         public static void OnError(NUnit.Framework.TestContext testContext, ScenarioContext scenarioContext)
         {
+            if (scenarioContext.ContainsKey("Error") || scenarioContext.ContainsValue(scenarioContext.StepContext.StepInfo.Text))
+                return;
+
             var screenShotFile = TakeScreenShot(testContext.WorkDirectory,
                     $@"{scenarioContext.StepContext.StepInfo.Text}");
             TestContext.AddTestAttachment(screenShotFile, scenarioContext.StepContext.StepInfo.Text);
 
             File.WriteAllText($@"{testContext.WorkDirectory}\{Path.GetFileNameWithoutExtension(screenShotFile)}.html", CurrentWindowHTML());
             TestContext.AddTestAttachment($@"{testContext.WorkDirectory}\{Path.GetFileNameWithoutExtension(screenShotFile)}.html", "Windows HTML");
+
+            //Record existing error
+            scenarioContext.Add("Error", scenarioContext.TestError.Message);
+            scenarioContext.ScenarioContainer.RegisterInstanceAs(scenarioContext.TestError);
+        }
+
+        public static void CloseAllWindows()
+        {
+            var windowHandles = _browser.WindowHandles;
+
+            // Close each window
+            foreach (var handle in windowHandles)
+            {
+                _browser.SwitchTo().Window(handle);
+                _browser.Close();
+            }
         }
 
         public static void CloseBrowser()

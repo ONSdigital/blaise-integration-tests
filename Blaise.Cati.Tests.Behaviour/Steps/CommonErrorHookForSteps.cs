@@ -1,10 +1,11 @@
 ﻿using Blaise.Tests.Helpers.Browser;
 using NUnit.Framework;
-using System.IO;
 using TechTalk.SpecFlow;
 
 namespace Blaise.Tests.Helpers.ErrorHandler
 {
+    using System;
+
     [Binding]
     public sealed class CommonErrorHookForSteps
     {
@@ -21,6 +22,7 @@ namespace Blaise.Tests.Helpers.ErrorHandler
             if (_scenarioContext.TestError != null)
             {
                 BrowserHelper.OnError(TestContext.CurrentContext, _scenarioContext);
+                Environment.Exit(1); /*Force tests to stop as we have errored*/
             }
         }
     }
