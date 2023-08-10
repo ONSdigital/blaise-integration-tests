@@ -1,6 +1,6 @@
 ﻿using Blaise.Tests.Helpers.Browser;
 using NUnit.Framework;
-using System.IO;
+using System;
 using TechTalk.SpecFlow;
 
 namespace Blaise.Tests.Helpers.ErrorHandler
@@ -21,6 +21,7 @@ namespace Blaise.Tests.Helpers.ErrorHandler
             if (_scenarioContext.TestError != null)
             {
                 BrowserHelper.OnError(TestContext.CurrentContext, _scenarioContext);
+                throw new Exception(_scenarioContext.TestError.Message);
             }
         }
     }
