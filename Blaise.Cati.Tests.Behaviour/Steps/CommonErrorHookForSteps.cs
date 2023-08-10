@@ -21,8 +21,14 @@ namespace Blaise.Tests.Helpers.ErrorHandler
         {
             if (_scenarioContext.TestError != null)
             {
-                BrowserHelper.OnError(TestContext.CurrentContext, _scenarioContext);
-                Environment.Exit(1); /*Force tests to stop as we have errored*/
+                try
+                {
+                    BrowserHelper.OnError(TestContext.CurrentContext, _scenarioContext);
+                }
+                catch (Exception)
+                {
+                    Environment.Exit(1); /*Force tests to stop as we have errored*/
+                }
             }
         }
     }

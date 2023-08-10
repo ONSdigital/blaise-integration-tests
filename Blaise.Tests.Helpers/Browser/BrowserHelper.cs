@@ -131,6 +131,8 @@ namespace Blaise.Tests.Helpers.Browser
             //Record existing error
             scenarioContext.Add("Error", scenarioContext.TestError.Message);
             scenarioContext.ScenarioContainer.RegisterInstanceAs(scenarioContext.TestError);
+
+            throw new Exception(scenarioContext.StepContext.StepInfo.Text);
         }
 
         public static void CloseAllWindows()
