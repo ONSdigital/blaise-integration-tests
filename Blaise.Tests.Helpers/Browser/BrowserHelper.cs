@@ -118,7 +118,7 @@ namespace Blaise.Tests.Helpers.Browser
 
         public static void OnError(NUnit.Framework.TestContext testContext, ScenarioContext scenarioContext)
         {
-            if (scenarioContext.ContainsKey("Error"))
+            if (scenarioContext.ContainsValue(scenarioContext.StepContext.StepInfo.Text))
                 return;
 
             var screenShotFile = TakeScreenShot(testContext.WorkDirectory,
@@ -129,6 +129,7 @@ namespace Blaise.Tests.Helpers.Browser
             TestContext.AddTestAttachment($@"{testContext.WorkDirectory}\{Path.GetFileNameWithoutExtension(screenShotFile)}.html", "Windows HTML");
 
             //Record existing error
+            scenarioContext.Remove("Error");
             scenarioContext.Add("Error", scenarioContext.TestError.Message);
             scenarioContext.ScenarioContainer.RegisterInstanceAs(scenarioContext.TestError);
         }
