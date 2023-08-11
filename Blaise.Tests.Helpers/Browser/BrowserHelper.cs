@@ -134,18 +134,6 @@ namespace Blaise.Tests.Helpers.Browser
             scenarioContext.ScenarioContainer.RegisterInstanceAs(scenarioContext.TestError);
         }
 
-        public static void CloseAllWindows()
-        {
-            var windowHandles = _browser.WindowHandles;
-
-            // Close each window
-            foreach (var handle in windowHandles)
-            {
-                _browser.SwitchTo().Window(handle);
-                _browser.Close();
-            }
-        }
-
         public static void CloseBrowser()
         {
             Browser.Quit();
