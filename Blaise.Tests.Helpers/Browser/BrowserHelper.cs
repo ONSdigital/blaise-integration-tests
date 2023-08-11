@@ -1,4 +1,5 @@
 ﻿using Blaise.Tests.Helpers.Configuration;
+using NUnit.Framework;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
 using OpenQA.Selenium.Interactions;
@@ -7,6 +8,7 @@ using OpenQA.Selenium.Support.UI;
 using System;
 using System.IO;
 using System.Linq;
+using TechTalk.SpecFlow;
 
 namespace Blaise.Tests.Helpers.Browser
 {
@@ -114,6 +116,24 @@ namespace Blaise.Tests.Helpers.Browser
             return screenShotFile;
         }
 
+        public static void OnError(NUnit.Framework.TestContext testContext, ScenarioContext scenarioContext)
+        {
+            if (scenarioContext.ContainsValue(scenarioContext.StepContext.StepInfo.Text))
+                return;
+
+            var screenShotFile = TakeScreenShot(testContext.WorkDirectory,
+                    $@"{scenarioContext.StepContext.StepInfo.Text}");
+            TestContext.AddTestAttachment(screenShotFile, scenarioContext.StepContext.StepInfo.Text);
+
+            File.WriteAllText($@"{testContext.WorkDirectory}\{Path.GetFileNameWithoutExtension(screenShotFile)}.html", CurrentWindowHTML());
+            TestContext.AddTestAttachment($@"{testContext.WorkDirectory}\{Path.GetFileNameWithoutExtension(screenShotFile)}.html", "Windows HTML");
+
+            //Record existing error
+            scenarioContext.Remove("Error");
+            scenarioContext.Add("Error", scenarioContext.TestError.Message);
+            scenarioContext.ScenarioContainer.RegisterInstanceAs(scenarioContext.TestError);
+        }
+
         public static void CloseBrowser()
         {
             Browser.Quit();
@@ -122,7 +142,7 @@ namespace Blaise.Tests.Helpers.Browser
 
         public static string CurrentWindowHTML()
         {
-            return Browser.PageSource;
+            return _browser.PageSource;
         }
 
         public static void BrowseTo(string pageUrl)
