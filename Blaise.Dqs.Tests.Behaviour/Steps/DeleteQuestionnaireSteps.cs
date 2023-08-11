@@ -4,7 +4,6 @@ using Blaise.Tests.Helpers.Configuration;
 using Blaise.Tests.Helpers.Dqs;
 using Blaise.Tests.Helpers.Instrument;
 using NUnit.Framework;
-using System;
 using System.Linq;
 using TechTalk.SpecFlow;
 
@@ -13,6 +12,7 @@ namespace Blaise.Dqs.Tests.Behaviour.Steps
     [Binding]
     public class DeleteQuestionnaireSteps
     {
+
         [Given(@"I have a questionnaire I want to delete")]
         public void GivenIHaveTheNameOfAQuestionnaireIWantToDeleteAndThatSurveyIsLive()
         {
@@ -35,34 +35,17 @@ namespace Blaise.Dqs.Tests.Behaviour.Steps
         [Given(@"I select delete on the questionnaire details page")]
         public void GivenISelectDeleteOnAQuestionnaireThatIsNotLive()
         {
-            try
-            {
-                InstrumentHelper.GetInstance().InstallInstrument();
-                DqsHelper.GetInstance().DeleteQuestionnaire(BlaiseConfigurationHelper.InstrumentName);
-
-            }
-            catch (Exception e)
-            {
-                FailWithScreenShot(e, "CantDelete", "Questionnaire Cannot be deleted");
-            }
+            InstrumentHelper.GetInstance().InstallInstrument();
+            DqsHelper.GetInstance().DeleteQuestionnaire(BlaiseConfigurationHelper.InstrumentName);
         }
 
         [When(@"I select the questionnaire in the list")]
         public void WhenILocateThatQuestionnaireInTheList()
         {
-            try
-            {
-                DqsHelper.GetInstance().LoadDqsHomePage();
-                var questionnairesInTable = DqsHelper.GetInstance().GetQuestionnaireTableContents();
-                Assert.IsTrue(questionnairesInTable.Any(q => q == BlaiseConfigurationHelper.InstrumentName));
-                DqsHelper.GetInstance().ClickInstrumentInfoButton(BlaiseConfigurationHelper.InstrumentName);
-
-            }
-            catch (Exception e)
-            {
-                FailWithScreenShot(e, "CantDelete", "Questionnaire Cannot be deleted");
-            }
-
+            DqsHelper.GetInstance().LoadDqsHomePage();
+            var questionnairesInTable = DqsHelper.GetInstance().GetQuestionnaireTableContents();
+            Assert.IsTrue(questionnairesInTable.Any(q => q == BlaiseConfigurationHelper.InstrumentName));
+            DqsHelper.GetInstance().ClickInstrumentInfoButton(BlaiseConfigurationHelper.InstrumentName);
         }
 
         [When(@"I am taken to the questionnaire details page")]
@@ -80,41 +63,20 @@ namespace Blaise.Dqs.Tests.Behaviour.Steps
         [When(@"I confirm that I want to proceed")]
         public void WhenIConfirmThatIWantToProceed()
         {
-            try
-            {
-                DqsHelper.GetInstance().ConfirmDeletionOfQuestionnaire();
-                DqsHelper.GetInstance().WaitForDeletionToComplete();
-            }
-            catch (Exception e)
-            {
-                FailWithScreenShot(e, "CantDelete", "Questionnaire Cannot be deleted");
-            }
+            DqsHelper.GetInstance().ConfirmDeletionOfQuestionnaire();
+            DqsHelper.GetInstance().WaitForDeletionToComplete();
         }
 
         [Then(@"I will have the option to delete the questionnaire")]
         public void ThenIWillHaveTheOptionToDeleteTheQuestionnaire()
         {
-            try
-            {
-                DqsHelper.GetInstance().CanDeleteQuestionnaire();
-            }
-            catch (Exception e)
-            {
-                FailWithScreenShot(e, "CantDelete", "Questionnaire Cannot be deleted");
-            }
+            DqsHelper.GetInstance().CanDeleteQuestionnaire(); 
         }
 
         [Then(@"the questionnaire is removed from Blaise")]
         public void ThenTheQuestionnaireIsRemovedFromBlaise()
         {
-            try
-            {
-                Assert.IsNotNull(DqsHelper.GetInstance().GetDeletionSummary());
-            }
-            catch (Exception e)
-            {
-                FailWithScreenShot(e, "UninstalledQuestionnaire", "Questionnaire has been Uninstalled from blaise");
-            }
+            Assert.IsNotNull(DqsHelper.GetInstance().GetDeletionSummary());
         }
 
         [AfterScenario("delete")]
@@ -130,15 +92,6 @@ namespace Blaise.Dqs.Tests.Behaviour.Steps
                 instrumentHelper?.UninstallSurvey();
             }
             BrowserHelper.ClosePreviousTab();
-        }
-
-        private static void FailWithScreenShot(Exception e, string screenShotName, string screenShotDescription)
-        {
-            var screenShotFile = BrowserHelper.TakeScreenShot(TestContext.CurrentContext.WorkDirectory,
-                screenShotName);
-
-            TestContext.AddTestAttachment(screenShotFile, screenShotDescription);
-            Assert.Fail($"The test failed to complete - {e.Message}");
         }
 
     }

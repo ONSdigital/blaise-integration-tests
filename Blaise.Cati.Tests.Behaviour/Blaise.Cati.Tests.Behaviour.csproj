@@ -95,6 +95,7 @@
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Steps\AccessCaseSteps.cs" />
+    <Compile Include="Steps\CommonErrorHookForSteps.cs" />
     <Compile Include="Steps\DaybatchSteps.cs" />
   </ItemGroup>
   <ItemGroup>
