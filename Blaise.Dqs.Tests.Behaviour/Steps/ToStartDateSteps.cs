@@ -29,101 +29,58 @@ namespace Blaise.Dqs.Tests.Behaviour.Steps
         [Then(@"The TO start date should not be set")]
         public void GivenTheInstrumentHasNoTOStartDate()
         {
-            try
-            {
-                DqsHelper.GetInstance().ClickInstrumentInfoButton(BlaiseConfigurationHelper.InstrumentName);
-                var toStartDateText = DqsHelper.GetInstance().GetToStartDate();
+            DqsHelper.GetInstance().ClickInstrumentInfoButton(BlaiseConfigurationHelper.InstrumentName);
+            var toStartDateText = DqsHelper.GetInstance().GetToStartDate();
 
-                Assert.AreEqual("No start date specified, using survey days", toStartDateText);
-            }
-            catch (Exception e)
-            {
-                FailWithScreenShot(e, "GettingTOStartDate", "Getting the to start date");
-            }
+            Assert.AreEqual("No start date specified, using survey days", toStartDateText);
         }
 
         [Given(@"The instrument has a start date of '(.*)'")]
         [When(@"I change the TO start date to '(.*)'")]
         public void GivenTheInstrumentHasAStartDateOf(string date)
         {
-            try
-            {
-                DqsHelper.GetInstance().ClickInstrumentInfoButton(BlaiseConfigurationHelper.InstrumentName);
-                var toStartDate = DateTime.Now.ToString("dd/MM/yyyy");
-                if (date == "tomorrow")
-                    toStartDate = DateTime.Now.AddDays(1).ToString("dd/MM/yyyy");
-                DqsHelper.GetInstance().ClickAddStartDate();
-                DqsHelper.GetInstance().SelectYesLiveDate();
-                DqsHelper.GetInstance().SetLiveDate(toStartDate);
-                DqsHelper.GetInstance().ConfirmQuestionnaireUpload();
-            }
-            catch (Exception e)
-            {
-                FailWithScreenShot(e, "AddingTOStartDate", "Adding the to start date");
-            }
+            DqsHelper.GetInstance().ClickInstrumentInfoButton(BlaiseConfigurationHelper.InstrumentName);
+            var toStartDate = DateTime.Now.ToString("dd/MM/yyyy");
+            if (date == "tomorrow")
+                toStartDate = DateTime.Now.AddDays(1).ToString("dd/MM/yyyy");
+            DqsHelper.GetInstance().ClickAddStartDate();
+            DqsHelper.GetInstance().SelectYesLiveDate();
+            DqsHelper.GetInstance().SetLiveDate(toStartDate);
+            DqsHelper.GetInstance().ConfirmQuestionnaireUpload();
+            
         }
 
         [When(@"I add a TO start date of '(.*)'")]
         public void WhenIAddATOStartDateOf(string date)
         {
-            try
-            {
-                var toStartDate = DateTime.Now.ToString("dd/MM/yyyy");
-                if (date == "tomorrow")
-                    toStartDate = DateTime.Now.AddDays(1).ToString("dd/MM/yyyy");
-                DqsHelper.GetInstance().ClickAddStartDate();
-                DqsHelper.GetInstance().SelectYesLiveDate();
-                DqsHelper.GetInstance().SetLiveDate(toStartDate);
-                DqsHelper.GetInstance().ConfirmQuestionnaireUpload();
-            }
-            catch (Exception e)
-            {
-                FailWithScreenShot(e, "AddingTOStartDate", "Adding the to start date");
-            }
+            var toStartDate = DateTime.Now.ToString("dd/MM/yyyy");
+            if (date == "tomorrow")
+                toStartDate = DateTime.Now.AddDays(1).ToString("dd/MM/yyyy");
+            DqsHelper.GetInstance().ClickAddStartDate();
+            DqsHelper.GetInstance().SelectYesLiveDate();
+            DqsHelper.GetInstance().SetLiveDate(toStartDate);
+            DqsHelper.GetInstance().ConfirmQuestionnaireUpload(); 
         }
 
         [When(@"I change the TO start date to no TO start date")]
         public void WhenIChangeTheTOStartDateToNoTOStartDate()
         {
-            try
-            {
-                DqsHelper.GetInstance().ClickInstrumentInfoButton(BlaiseConfigurationHelper.InstrumentName);
-                DqsHelper.GetInstance().ClickAddStartDate();
-                DqsHelper.GetInstance().SelectNoLiveDate();
-                DqsHelper.GetInstance().ConfirmQuestionnaireUpload();
-            }
-            catch (Exception e)
-            {
-                FailWithScreenShot(e, "RemoveStartDate", "Removing the to start date");
-            }
+            DqsHelper.GetInstance().ClickInstrumentInfoButton(BlaiseConfigurationHelper.InstrumentName);
+            DqsHelper.GetInstance().ClickAddStartDate();
+            DqsHelper.GetInstance().SelectNoLiveDate();
+            DqsHelper.GetInstance().ConfirmQuestionnaireUpload();
         }
 
         [Then(@"The TO start date for '(.*)' is stored against the instrument")]
         public void ThenTheTOStartDateForIsStoredAgainstTheInstrument(string date)
         {
-            try
-            {
-                var toStartDate = DateTime.Now.ToString("dd/MM/yyyy");
-                if (date == "tomorrow")
-                    toStartDate = DateTime.Now.AddDays(1).ToString("dd/MM/yyyy");
-                DqsHelper.GetInstance().ClickInstrumentInfoButton(BlaiseConfigurationHelper.InstrumentName);
-                var toStartDateText = DqsHelper.GetInstance().GetToStartDate();
+            var toStartDate = DateTime.Now.ToString("dd/MM/yyyy");
+            if (date == "tomorrow")
+                toStartDate = DateTime.Now.AddDays(1).ToString("dd/MM/yyyy");
+            DqsHelper.GetInstance().ClickInstrumentInfoButton(BlaiseConfigurationHelper.InstrumentName);
+            var toStartDateText = DqsHelper.GetInstance().GetToStartDate();
 
-                Assert.IsTrue(toStartDateText.Contains(toStartDate));
-            }
-            catch (Exception e)
-            {
-                FailWithScreenShot(e, "GettingTOStartDate", "Getting the to start date");
-            }
-        }
-
-        private static void FailWithScreenShot(Exception e, string screenShotName, string screenShotDescription)
-        {
-            var screenShotFile = BrowserHelper.TakeScreenShot(TestContext.CurrentContext.WorkDirectory,
-                screenShotName);
-
-            TestContext.AddTestAttachment(screenShotFile, screenShotDescription);
-            Assert.Fail($"The test failed to complete - {e.Message}");
+            Assert.IsTrue(toStartDateText.Contains(toStartDate));
         }
 
         [AfterScenario("ToStartDate")]

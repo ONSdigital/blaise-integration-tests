@@ -173,6 +173,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Steps\CommonErrorHookForSteps.cs" />
     <Compile Include="Steps\CreateCasesSteps.cs" />
     <Compile Include="Steps\InstallQuestionnaireSteps.cs" />
     <Compile Include="Transforms\CaseStepArgumentTransformations.cs" />
