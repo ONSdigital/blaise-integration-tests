@@ -5,7 +5,7 @@ namespace Blaise.Tests.Helpers.Dqs.Pages
 {
     public class DeleteConfirmationPage : BasePage
     {
-        private const string ContinueButtonId = "confirm-delete";
+        private const string ContinueButtonId = "confirm-delete-fake";
 
         public DeleteConfirmationPage() : base(DqsConfigurationHelper.ConfirmDeleteUrl)
         {
