@@ -104,7 +104,7 @@ namespace Blaise.Cati.Tests.Behaviour.Steps
 
         [AfterTestRun]
         public static void AfterTestRun()
-        { }
+        { 
             BrowserHelper.ClearSessionData();
         }
     }
