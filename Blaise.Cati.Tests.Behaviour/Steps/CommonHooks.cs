@@ -1,4 +1,5 @@
 ﻿using Blaise.Tests.Helpers.Browser;
+using Blaise.Tests.Helpers.Instrument;
 using NUnit.Framework;
 using TechTalk.SpecFlow;
 
@@ -7,14 +8,22 @@ namespace Blaise.Tests.Helpers.ErrorHandler
     using System;
 
     [Binding]
-    public sealed class CommonErrorHookForSteps
+    public sealed class CommonHooks
     {
         private readonly ScenarioContext _scenarioContext;
 
-        public CommonErrorHookForSteps(ScenarioContext scenarioContext)
+
+        public CommonHooks(ScenarioContext scenarioContext)
         {
             _scenarioContext = scenarioContext;
         }
+
+        [BeforeTestRun]
+        public static void CheckForErroneousInstrument()
+        {
+            InstrumentHelper.GetInstance().CheckForErroneousInstrument("DST2304Z");
+        }
+
 
         [AfterStep]
         public void OnError()
