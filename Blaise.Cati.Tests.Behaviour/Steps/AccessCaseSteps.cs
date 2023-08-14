@@ -66,7 +66,6 @@ namespace Blaise.Cati.Tests.Behaviour.Steps
         [When(@"I Open the cati scheduler as an interviewer")]
         public void WhenIOpenTheCatiSchedulerAsAnInterviewer()
         {
-            Console.WriteLine("Does this trigger a new build and create a PR?");
             CatiInterviewHelper.GetInstance().AccessInterviewPortal();
         }
 
