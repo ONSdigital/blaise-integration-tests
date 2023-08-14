@@ -53,7 +53,6 @@ namespace Blaise.Cati.Tests.Behaviour.Steps
         [When(@"I click the play button for case '(.*)'")]
         public void WhenIClickThePlayButtonForCase(string caseId)
         {
-            Console.WriteLine("Does this trigger a new build and create a PR?");
             CatiInterviewHelper.GetInstance().ClickPlayButtonToAccessCase(caseId);
         }
 
@@ -106,6 +105,7 @@ namespace Blaise.Cati.Tests.Behaviour.Steps
         [AfterTestRun]
         public static void AfterTestRun()
         {
+            Console.WriteLine("Does this trigger a new build and create a PR?");
             BrowserHelper.ClearSessionData();
         }
     }
