@@ -46,7 +46,7 @@ namespace Blaise.Cati.Tests.Behaviour.Steps
         [Given(@"I log on to Cati as an interviewer")]
         public void GivenILogOnToCatiAsAnInterviewer()
         {
-            Console.WriteLine("Testing automated GitHub PR RED";
+            Console.WriteLine("Testing automated GitHub PR GREEN With TOBI");
             CatiManagementHelper.GetInstance().LogIntoCatiManagementPortalAsAnInterviewer();
         }
 
