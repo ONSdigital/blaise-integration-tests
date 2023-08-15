@@ -1,4 +1,5 @@
 ﻿using Blaise.Tests.Helpers.Browser;
+using Blaise.Tests.Helpers.Configuration;
 using Blaise.Tests.Helpers.Instrument;
 using NUnit.Framework;
 using System.IO;
@@ -20,7 +21,7 @@ namespace Blaise.Tests.Helpers.ErrorHandler
         [BeforeTestRun]
         public static void CheckForErroneousInstrument()
         {
-            InstrumentHelper.GetInstance().CheckForErroneousInstrument("DST2304Z");
+            InstrumentHelper.GetInstance().CheckForErroneousInstrument(BlaiseConfigurationHelper.InstrumentName);
         }
 
 
