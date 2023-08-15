@@ -41,11 +41,19 @@ namespace Blaise.Tests.Helpers.Instrument
             }
         }
 
-        private void CheckForErroneousSurvey(string instrumentName)
+        public void CheckIfInstrumentIsErroneous(string instrumentName)
         {
             if (_blaiseSurveyApi.GetSurveyStatus(instrumentName, BlaiseConfigurationHelper.ServerParkName) == SurveyStatusType.Erroneous)
             {
-                throw new Exception($"ERROR: The {instrumentName} questionnaire has failed to be uninstalled, status: {Enum.GetName(typeof(SurveyStatusType), SurveyStatusType.Erroneous)}. Blaise has probably got a lock on the questionnaire files and the Blaise service will likely need to be restarted on the Blaise management VM.");
+                throw new Exception($"ERROR: The {instrumentName} questionnaire has failed with the following status: {Enum.GetName(typeof(SurveyStatusType), SurveyStatusType.Erroneous)}. Blaise has probably got a lock on the questionnaire files and the Blaise service will likely need to be restarted on the Blaise management VM.");
+            }
+        }
+
+        public void CheckForErroneousInstrument(string instrumentName)
+        {
+            if (DoesSurveyExists(instrumentName))
+            {
+                CheckIfInstrumentIsErroneous(instrumentName);
             }
         }
 
@@ -72,8 +80,7 @@ namespace Blaise.Tests.Helpers.Instrument
 
             if (DoesSurveyExists(instrumentName))
             {
-                CheckForErroneousSurvey(instrumentName);
-                throw new Exception( $"Error trying to uninstall questionnaire {instrumentName}");
+                CheckIfInstrumentIsErroneous(instrumentName);
             }
 
             _blaiseSurveyApi.InstallSurvey(instrumentName,
@@ -81,7 +88,7 @@ namespace Blaise.Tests.Helpers.Instrument
                 instrumentPackage,
                 SurveyInterviewType.Cati);
 
-            CheckForErroneousSurvey(instrumentName);
+            CheckIfInstrumentIsErroneous(instrumentName);
         }
 
         public bool SurveyHasInstalled(string instrumentName, int timeoutInSeconds)
