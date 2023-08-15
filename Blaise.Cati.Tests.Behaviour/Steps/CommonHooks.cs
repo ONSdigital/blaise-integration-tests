@@ -2,11 +2,11 @@
 using Blaise.Tests.Helpers.Instrument;
 using NUnit.Framework;
 using TechTalk.SpecFlow;
+using Blaise.Tests.Helpers.Configuration;
+using System;
 
 namespace Blaise.Tests.Helpers.ErrorHandler
 {
-    using System;
-
     [Binding]
     public sealed class CommonHooks
     {
@@ -21,7 +21,7 @@ namespace Blaise.Tests.Helpers.ErrorHandler
         [BeforeTestRun]
         public static void CheckForErroneousInstrument()
         {
-            InstrumentHelper.GetInstance().CheckForErroneousInstrument("DST2304Z");
+            InstrumentHelper.GetInstance().CheckForErroneousInstrument(BlaiseConfigurationHelper.InstrumentName);
         }
 
 
