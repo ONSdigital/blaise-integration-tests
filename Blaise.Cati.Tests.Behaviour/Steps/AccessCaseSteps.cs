@@ -46,7 +46,7 @@ namespace Blaise.Cati.Tests.Behaviour.Steps
         [Given(@"I log on to Cati as an interviewer")]
         public void GivenILogOnToCatiAsAnInterviewer()
         {
-            Console.WriteLine("Testing automated GitHub PR 1");
+            Console.WriteLine("Testing automated GitHub PR 1")
             CatiManagementHelper.GetInstance().LogIntoCatiManagementPortalAsAnInterviewer();
         }
 
@@ -105,7 +105,7 @@ namespace Blaise.Cati.Tests.Behaviour.Steps
 
         [AfterTestRun]
         public static void AfterTestRun()
-        { 
+        {
             BrowserHelper.ClearSessionData();
         }
     }
