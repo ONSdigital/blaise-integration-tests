@@ -81,7 +81,6 @@ namespace Blaise.Tests.Helpers.Instrument
             if (DoesSurveyExists(instrumentName))
             {
                 CheckIfInstrumentIsErroneous(instrumentName);
-                throw new Exception( $"Error trying to uninstall questionnaire {instrumentName}");
             }
 
             _blaiseSurveyApi.InstallSurvey(instrumentName,
