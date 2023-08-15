@@ -17,7 +17,7 @@ namespace Blaise.Tests.Helpers.ErrorHandler
         }
 
 
-        [BeforeFeature]
+        [BeforeTestRun]
         public static void CheckForErroneousInstrument()
         {
             InstrumentHelper.GetInstance().CheckForErroneousInstrument("DST2304Z");
