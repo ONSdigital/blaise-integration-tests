@@ -49,7 +49,7 @@ namespace Blaise.Tests.Behaviour.Steps
         public void ThenTheInstrumentIsConfiguredToCaptureRespondentsDataViaCati()
         {
             var surveyConfiguration = InstrumentHelper.GetInstance().GetSurveyInterviewType();
-            Assert.AreEqual(SurveyInterviewType.Cati, surveyConfiguration);
+            Assert.AreEqual(QuestionnaireInterviewType.Cati, surveyConfiguration);
         }
 
         [AfterScenario("instrument")]
