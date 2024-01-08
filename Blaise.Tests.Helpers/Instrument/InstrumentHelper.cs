@@ -9,13 +9,13 @@ namespace Blaise.Tests.Helpers.Instrument
 {
     public class InstrumentHelper
     {
-        private readonly IBlaiseSurveyApi _blaiseSurveyApi;
+        private readonly IBlaiseQuestionnaireApi _blaiseQuestionnaireApi;
 
         private static InstrumentHelper _currentInstance;
 
         public InstrumentHelper()
         {
-            _blaiseSurveyApi = new BlaiseSurveyApi();
+            _blaiseQuestionnaireApi = new BlaiseQuestionnaireApi();
         }
 
         public static InstrumentHelper GetInstance()
@@ -23,9 +23,9 @@ namespace Blaise.Tests.Helpers.Instrument
             return _currentInstance ?? (_currentInstance = new InstrumentHelper());
         }
 
-        public SurveyStatusType GetQuestionnaireStatus()
+        public QuestionnaireStatusType GetQuestionnaireStatus()
         {
-            return _blaiseSurveyApi.GetSurveyStatus(BlaiseConfigurationHelper.InstrumentName,
+            return _blaiseQuestionnaireApi.GetQuestionnaireStatus(BlaiseConfigurationHelper.InstrumentName,
                 BlaiseConfigurationHelper.ServerParkName);
         }
 
@@ -33,7 +33,7 @@ namespace Blaise.Tests.Helpers.Instrument
         {
             try
             {
-                return _blaiseSurveyApi.SurveyExists(instrumentName, BlaiseConfigurationHelper.ServerParkName);
+                return _blaiseQuestionnaireApi.QuestionnaireExists(instrumentName, BlaiseConfigurationHelper.ServerParkName);
             }
             catch (Nuget.Api.Contracts.Exceptions.DataNotFoundException)
             {
@@ -43,9 +43,9 @@ namespace Blaise.Tests.Helpers.Instrument
 
         public void CheckIfInstrumentIsErroneous(string instrumentName)
         {
-            if (_blaiseSurveyApi.GetSurveyStatus(instrumentName, BlaiseConfigurationHelper.ServerParkName) == SurveyStatusType.Erroneous)
+            if (_blaiseQuestionnaireApi.GetQuestionnaireStatus(instrumentName, BlaiseConfigurationHelper.ServerParkName) == QuestionnaireStatusType.Erroneous)
             {
-                throw new Exception($"ERROR: The {instrumentName} questionnaire has failed with the following status: {Enum.GetName(typeof(SurveyStatusType), SurveyStatusType.Erroneous)}. Blaise has probably got a lock on the questionnaire files and the Blaise service will likely need to be restarted on the Blaise management VM.");
+                throw new Exception($"ERROR: The {instrumentName} questionnaire has failed with the following status: {Enum.GetName(typeof(QuestionnaireStatusType), QuestionnaireStatusType.Erroneous)}. Blaise has probably got a lock on the questionnaire files and the Blaise service will likely need to be restarted on the Blaise management VM.");
             }
         }
 
@@ -73,7 +73,7 @@ namespace Blaise.Tests.Helpers.Instrument
 
             if (DoesSurveyExists(instrumentName))
             {
-                _blaiseSurveyApi.UninstallSurvey(instrumentName,
+                _blaiseQuestionnaireApi.UninstallQuestionnaire(instrumentName,
                     BlaiseConfigurationHelper.ServerParkName);
                 Thread.Sleep(int.Parse(BlaiseConfigurationHelper.UninstallSurveyTimeOutInSeconds) * 1000);
             }
@@ -83,10 +83,10 @@ namespace Blaise.Tests.Helpers.Instrument
                 CheckIfInstrumentIsErroneous(instrumentName);
             }
 
-            _blaiseSurveyApi.InstallSurvey(instrumentName,
+            _blaiseQuestionnaireApi.InstallQuestionnaire(instrumentName,
                 BlaiseConfigurationHelper.ServerParkName,
                 instrumentPackage,
-                SurveyInterviewType.Cati);
+                QuestionnaireInterviewType.Cati);
 
             CheckIfInstrumentIsErroneous(instrumentName);
         }
@@ -99,24 +99,24 @@ namespace Blaise.Tests.Helpers.Instrument
 
         public void UninstallSurvey()
         {
-            _blaiseSurveyApi.UninstallSurvey(BlaiseConfigurationHelper.InstrumentName, BlaiseConfigurationHelper.ServerParkName);
+            _blaiseQuestionnaireApi.UninstallQuestionnaire(BlaiseConfigurationHelper.InstrumentName, BlaiseConfigurationHelper.ServerParkName);
         }
 
         public void UninstallSurvey(string instrumentName, string serverParkName)
         {
-            _blaiseSurveyApi.UninstallSurvey(instrumentName, serverParkName);
+            _blaiseQuestionnaireApi.UninstallQuestionnaire(instrumentName, serverParkName);
         }
 
-        public SurveyInterviewType GetSurveyInterviewType()
+        public QuestionnaireInterviewType GetSurveyInterviewType()
         {
-            return _blaiseSurveyApi.GetSurveyInterviewType(BlaiseConfigurationHelper.InstrumentName, BlaiseConfigurationHelper.ServerParkName);
+            return _blaiseQuestionnaireApi.GetQuestionnaireInterviewType(BlaiseConfigurationHelper.InstrumentName, BlaiseConfigurationHelper.ServerParkName);
         }
 
         public bool SurveyExists(string instrumentName)
         {
             try
             {
-                return _blaiseSurveyApi.SurveyExists(instrumentName, BlaiseConfigurationHelper.ServerParkName);
+                return _blaiseQuestionnaireApi.QuestionnaireExists(instrumentName, BlaiseConfigurationHelper.ServerParkName);
             }
             catch (Exception)
             {
@@ -126,12 +126,12 @@ namespace Blaise.Tests.Helpers.Instrument
 
         public bool SurveyIsActive(string instrumentName, string serverPark)
         {
-            return _blaiseSurveyApi.GetSurveyStatus(instrumentName, serverPark) == SurveyStatusType.Active;
+            return _blaiseQuestionnaireApi.GetQuestionnaireStatus(instrumentName, serverPark) == QuestionnaireStatusType.Active;
         }
 
         public void DeactivateSurvey(string instrumentName, string serverParkName)
         {
-            _blaiseSurveyApi.DeactivateSurvey(instrumentName, serverParkName);
+            _blaiseQuestionnaireApi.DeactivateQuestionnaire(instrumentName, serverParkName);
         }
 
         private bool SurveyIsActive(string instrumentName, int timeoutInSeconds)
@@ -139,7 +139,7 @@ namespace Blaise.Tests.Helpers.Instrument
             var counter = 0;
             const int maxCount = 10;
 
-            while (GetSurveyStatus(instrumentName) == SurveyStatusType.Installing)
+            while (GetSurveyStatus(instrumentName) == QuestionnaireStatusType.Installing)
             {
                 Thread.Sleep(timeoutInSeconds % maxCount);
 
@@ -149,17 +149,17 @@ namespace Blaise.Tests.Helpers.Instrument
                     return false;
                 }
             }
-            return GetSurveyStatus(instrumentName) == SurveyStatusType.Active;
+            return GetSurveyStatus(instrumentName) == QuestionnaireStatusType.Active;
         }
 
-        private SurveyStatusType GetSurveyStatus(string instrumentName)
+        private QuestionnaireStatusType GetSurveyStatus(string instrumentName)
         {
-            return _blaiseSurveyApi.GetSurveyStatus(instrumentName, BlaiseConfigurationHelper.ServerParkName);
+            return _blaiseQuestionnaireApi.GetQuestionnaireStatus(instrumentName, BlaiseConfigurationHelper.ServerParkName);
         }
 
         public DateTime GetInstallDate()
         {
-            var survey = _blaiseSurveyApi.GetSurvey(BlaiseConfigurationHelper.InstrumentName, BlaiseConfigurationHelper.ServerParkName);
+            var survey = _blaiseQuestionnaireApi.GetQuestionnaire(BlaiseConfigurationHelper.InstrumentName, BlaiseConfigurationHelper.ServerParkName);
 
             return survey.InstallDate;
         }
@@ -169,7 +169,7 @@ namespace Blaise.Tests.Helpers.Instrument
             var counter = 0;
             const int maxCount = 10;
 
-            while (!_blaiseSurveyApi.SurveyExists(instrumentName, BlaiseConfigurationHelper.ServerParkName))
+            while (!_blaiseQuestionnaireApi.QuestionnaireExists(instrumentName, BlaiseConfigurationHelper.ServerParkName))
             {
                 Thread.Sleep(timeoutInSeconds % maxCount);
 
