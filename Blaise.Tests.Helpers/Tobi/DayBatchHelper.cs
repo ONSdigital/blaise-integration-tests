@@ -29,7 +29,7 @@ namespace Blaise.Tests.Helpers.Tobi
 
         public void CreateDayBatch(string instrumentName, DateTime dayBatchDate)
         {
-            _blaiseCatiApi.CreateDayBatch(instrumentName, BlaiseConfigurationHelper.ServerParkName, dayBatchDate);
+            _blaiseCatiApi.CreateDayBatch(instrumentName, BlaiseConfigurationHelper.ServerParkName, dayBatchDate, true);
         }
 
         public void RemoveSurveyDays(string instrumentName, DateTime surveyDay)
