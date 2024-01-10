@@ -60,6 +60,11 @@ namespace Blaise.Tests.Helpers.Instrument
         {
             var instrumentPackage = InstrumentPackagePath(BlaiseConfigurationHelper.InstrumentPath, instrumentName);
 
+            if (SurveyExists(instrumentName))
+            {
+                CheckIfInstrumentIsErroneous(instrumentName);
+            }
+
             _blaiseQuestionnaireApi.InstallQuestionnaire(instrumentName,
                 BlaiseConfigurationHelper.ServerParkName,
                 instrumentPackage,
