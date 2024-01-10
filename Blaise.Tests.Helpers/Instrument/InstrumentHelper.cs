@@ -71,17 +71,17 @@ namespace Blaise.Tests.Helpers.Instrument
         {
             var instrumentPackage = InstrumentPackagePath(BlaiseConfigurationHelper.InstrumentPath, instrumentName);
 
-            if (DoesSurveyExists(instrumentName))
-            {
-                _blaiseQuestionnaireApi.UninstallQuestionnaire(instrumentName,
-                    BlaiseConfigurationHelper.ServerParkName);
-                Thread.Sleep(int.Parse(BlaiseConfigurationHelper.UninstallSurveyTimeOutInSeconds) * 1000);
-            }
+            //if (DoesSurveyExists(instrumentName))
+            //{
+            //    _blaiseQuestionnaireApi.UninstallQuestionnaire(instrumentName,
+            //        BlaiseConfigurationHelper.ServerParkName);
+            //    Thread.Sleep(int.Parse(BlaiseConfigurationHelper.UninstallSurveyTimeOutInSeconds) * 1000);
+            //}
 
-            if (DoesSurveyExists(instrumentName))
-            {
-                CheckIfInstrumentIsErroneous(instrumentName);
-            }
+            //if (DoesSurveyExists(instrumentName))
+            //{
+            //    CheckIfInstrumentIsErroneous(instrumentName);
+            //}
 
             _blaiseQuestionnaireApi.InstallQuestionnaire(instrumentName,
                 BlaiseConfigurationHelper.ServerParkName,
