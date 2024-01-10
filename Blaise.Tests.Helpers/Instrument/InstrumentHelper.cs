@@ -1,5 +1,6 @@
 ﻿using Blaise.Nuget.Api.Api;
 using Blaise.Nuget.Api.Contracts.Enums;
+using Blaise.Nuget.Api.Contracts.Exceptions;
 using Blaise.Nuget.Api.Contracts.Interfaces;
 using Blaise.Tests.Helpers.Configuration;
 using System;
@@ -29,18 +30,6 @@ namespace Blaise.Tests.Helpers.Instrument
                 BlaiseConfigurationHelper.ServerParkName);
         }
 
-        private bool DoesSurveyExists(string instrumentName)
-        {
-            try
-            {
-                return _blaiseQuestionnaireApi.QuestionnaireExists(instrumentName, BlaiseConfigurationHelper.ServerParkName);
-            }
-            catch (Nuget.Api.Contracts.Exceptions.DataNotFoundException)
-            {
-                return false;
-            }
-        }
-
         public void CheckIfInstrumentIsErroneous(string instrumentName)
         {
             if (_blaiseQuestionnaireApi.GetQuestionnaireStatus(instrumentName, BlaiseConfigurationHelper.ServerParkName) == QuestionnaireStatusType.Erroneous)
@@ -51,7 +40,7 @@ namespace Blaise.Tests.Helpers.Instrument
 
         public void CheckForErroneousInstrument(string instrumentName)
         {
-            if (DoesSurveyExists(instrumentName))
+            if (SurveyExists(instrumentName))
             {
                 CheckIfInstrumentIsErroneous(instrumentName);
             }
