@@ -1,9 +1,9 @@
 ﻿using Blaise.Nuget.Api.Api;
 using Blaise.Nuget.Api.Contracts.Enums;
-using Blaise.Nuget.Api.Contracts.Exceptions;
 using Blaise.Nuget.Api.Contracts.Interfaces;
 using Blaise.Tests.Helpers.Configuration;
 using System;
+using System.Diagnostics;
 using System.Threading;
 
 namespace Blaise.Tests.Helpers.Instrument
@@ -32,7 +32,7 @@ namespace Blaise.Tests.Helpers.Instrument
 
         public void CheckIfInstrumentIsErroneous(string instrumentName)
         {
-            if (_blaiseQuestionnaireApi.GetQuestionnaireStatus(instrumentName, BlaiseConfigurationHelper.ServerParkName) == QuestionnaireStatusType.Erroneous)
+            if (GetQuestionnaireStatus() == QuestionnaireStatusType.Erroneous)
             {
                 throw new Exception($"ERROR: The {instrumentName} questionnaire has failed with the following status: {Enum.GetName(typeof(QuestionnaireStatusType), QuestionnaireStatusType.Erroneous)}. Blaise has probably got a lock on the questionnaire files and the Blaise service will likely need to be restarted on the Blaise management VM.");
             }
@@ -86,6 +86,10 @@ namespace Blaise.Tests.Helpers.Instrument
 
         public void UninstallSurvey()
         {
+            Console.WriteLine($"CWL InstrumentHelper: Removing questionnaire {BlaiseConfigurationHelper.InstrumentName}");
+            Debug.WriteLine($"DWL InstrumentHelper: Removing questionnaire {BlaiseConfigurationHelper.InstrumentName}");
+            Trace.WriteLine($"TWL InstrumentHelper: Removing questionnaire {BlaiseConfigurationHelper.InstrumentName}");
+
             _blaiseQuestionnaireApi.UninstallQuestionnaire(BlaiseConfigurationHelper.InstrumentName, BlaiseConfigurationHelper.ServerParkName);
 
             if (!SurveyHasUninstalled(BlaiseConfigurationHelper.InstrumentName, 60000))
