@@ -112,7 +112,11 @@ namespace Blaise.Tests.Helpers.Instrument
 
         public QuestionnaireInterviewType GetSurveyInterviewType()
         {
-            return _blaiseQuestionnaireApi.GetQuestionnaireInterviewType(BlaiseConfigurationHelper.InstrumentName, BlaiseConfigurationHelper.ServerParkName);
+            var questionnaireInterviewerType = _blaiseQuestionnaireApi.GetQuestionnaireInterviewType(BlaiseConfigurationHelper.InstrumentName, BlaiseConfigurationHelper.ServerParkName);
+
+            Console.WriteLine($"InstrumentHelper GetSurveyInterviewType: Questionnaire {BlaiseConfigurationHelper.InstrumentName} has the interviewer type of {questionnaireInterviewerType}");
+
+            return questionnaireInterviewerType;
         }
 
         public bool SurveyExists(string instrumentName)
