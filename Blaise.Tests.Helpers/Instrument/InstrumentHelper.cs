@@ -79,11 +79,19 @@ namespace Blaise.Tests.Helpers.Instrument
                    SurveyIsActive(instrumentName, timeoutInSeconds);
         }
 
+        public bool SurveyHasUninstalled(string instrumentName, int timeoutInSeconds)
+        {
+            return SurveyNoLongerExists(instrumentName, timeoutInSeconds);
+        }
+
         public void UninstallSurvey()
         {
             _blaiseQuestionnaireApi.UninstallQuestionnaire(BlaiseConfigurationHelper.InstrumentName, BlaiseConfigurationHelper.ServerParkName);
 
-            Thread.Sleep(20000); //TODO: temp test
+            if (!SurveyHasUninstalled(BlaiseConfigurationHelper.InstrumentName, 60000))
+            {
+                CheckIfInstrumentIsErroneous(BlaiseConfigurationHelper.InstrumentName);
+            }
         }
 
         public QuestionnaireInterviewType GetSurveyInterviewType()
@@ -149,6 +157,24 @@ namespace Blaise.Tests.Helpers.Instrument
             const int maxCount = 10;
 
             while (!_blaiseQuestionnaireApi.QuestionnaireExists(instrumentName, BlaiseConfigurationHelper.ServerParkName))
+            {
+                Thread.Sleep(timeoutInSeconds % maxCount);
+
+                counter++;
+                if (counter == maxCount)
+                {
+                    return false;
+                }
+            }
+            return true;
+        }
+
+        private bool SurveyNoLongerExists(string instrumentName, int timeoutInSeconds)
+        {
+            var counter = 0;
+            const int maxCount = 10;
+
+            while (_blaiseQuestionnaireApi.QuestionnaireExists(instrumentName, BlaiseConfigurationHelper.ServerParkName))
             {
                 Thread.Sleep(timeoutInSeconds % maxCount);
 
