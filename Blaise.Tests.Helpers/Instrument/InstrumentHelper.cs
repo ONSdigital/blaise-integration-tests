@@ -82,11 +82,8 @@ namespace Blaise.Tests.Helpers.Instrument
         public void UninstallSurvey()
         {
             _blaiseQuestionnaireApi.UninstallQuestionnaire(BlaiseConfigurationHelper.InstrumentName, BlaiseConfigurationHelper.ServerParkName);
-        }
 
-        public void UninstallSurvey(string instrumentName, string serverParkName)
-        {
-            _blaiseQuestionnaireApi.UninstallQuestionnaire(instrumentName, serverParkName);
+            Thread.Sleep(20000); //TODO: temp test
         }
 
         public QuestionnaireInterviewType GetSurveyInterviewType()
