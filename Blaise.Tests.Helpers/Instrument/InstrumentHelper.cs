@@ -4,6 +4,7 @@ using Blaise.Nuget.Api.Contracts.Interfaces;
 using Blaise.Tests.Helpers.Configuration;
 using System;
 using System.Threading;
+using Blaise.Nuget.Api.Contracts.Exceptions;
 
 namespace Blaise.Tests.Helpers.Instrument
 {
@@ -31,13 +32,21 @@ namespace Blaise.Tests.Helpers.Instrument
 
         public void CheckIfInstrumentIsErroneous(string instrumentName)
         {
-            var questionnaireStatus = GetQuestionnaireStatus();
-            if (questionnaireStatus == QuestionnaireStatusType.Erroneous)
+            try
             {
-                throw new Exception($"ERROR: The {instrumentName} questionnaire has failed with the following status: {Enum.GetName(typeof(QuestionnaireStatusType), QuestionnaireStatusType.Erroneous)}. Blaise has probably got a lock on the questionnaire files and the Blaise service will likely need to be restarted on the Blaise management VM.");
-            }
+                var questionnaireStatus = GetQuestionnaireStatus();
 
-            Console.WriteLine($"InstrumentHelper CheckIfInstrumentIsErroneous :Questionnaire {BlaiseConfigurationHelper.InstrumentName} is not erroneous, it is in the state {questionnaireStatus}");
+                if (questionnaireStatus == QuestionnaireStatusType.Erroneous)
+                {
+                    throw new Exception($"ERROR: The {instrumentName} questionnaire has failed with the following status: {Enum.GetName(typeof(QuestionnaireStatusType), QuestionnaireStatusType.Erroneous)}. Blaise has probably got a lock on the questionnaire files and the Blaise service will likely need to be restarted on the Blaise management VM.");
+                }
+
+                Console.WriteLine($"InstrumentHelper CheckIfInstrumentIsErroneous :Questionnaire {BlaiseConfigurationHelper.InstrumentName} is not erroneous, it is in the state {questionnaireStatus}");
+            }
+            catch (DataNotFoundException)
+            {
+                Console.WriteLine($"InstrumentHelper CheckIfInstrumentIsErroneous :Questionnaire {BlaiseConfigurationHelper.InstrumentName} does not exist");
+            }
         }
 
         public void CheckForErroneousInstrument(string instrumentName)
@@ -47,6 +56,7 @@ namespace Blaise.Tests.Helpers.Instrument
             if (SurveyExists(instrumentName))
             {
                 CheckIfInstrumentIsErroneous(instrumentName);
+                return;
             }
 
             Console.WriteLine($"InstrumentHelper CheckForErroneousInstrument: Questionnaire {BlaiseConfigurationHelper.InstrumentName} is not installed");
@@ -134,7 +144,7 @@ namespace Blaise.Tests.Helpers.Instrument
 
             while (GetSurveyStatus(instrumentName) == QuestionnaireStatusType.Installing)
             {
-                Thread.Sleep(timeoutInSeconds % maxCount);
+                Thread.Sleep(timeoutInSeconds / maxCount);
 
                 counter++;
                 if (counter == maxCount)
@@ -165,8 +175,8 @@ namespace Blaise.Tests.Helpers.Instrument
 
             while (!_blaiseQuestionnaireApi.QuestionnaireExists(instrumentName, BlaiseConfigurationHelper.ServerParkName))
             {
-                Console.WriteLine($"InstrumentHelper SurveyExists: Sleep {counter} for {timeoutInSeconds % maxCount} seconds");
-                Thread.Sleep(timeoutInSeconds % maxCount);
+                Console.WriteLine($"InstrumentHelper SurveyExists: Sleep {counter} for {timeoutInSeconds / maxCount} seconds");
+                Thread.Sleep(timeoutInSeconds / maxCount);
 
                 counter++;
                 if (counter == maxCount)
@@ -188,8 +198,8 @@ namespace Blaise.Tests.Helpers.Instrument
 
             while (_blaiseQuestionnaireApi.QuestionnaireExists(instrumentName, BlaiseConfigurationHelper.ServerParkName))
             {
-                Console.WriteLine($"InstrumentHelper SurveyNoLongerExists: Sleep {counter} for {timeoutInSeconds % maxCount} seconds");
-                Thread.Sleep(timeoutInSeconds % maxCount);
+                Console.WriteLine($"InstrumentHelper SurveyNoLongerExists: Sleep {counter} for {timeoutInSeconds / maxCount} seconds");
+                Thread.Sleep(timeoutInSeconds / maxCount);
 
                 counter++;
                 if (counter == maxCount)
