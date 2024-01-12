@@ -4,7 +4,7 @@ Feature: Create Cases
 	As a responsible data owner
 	I want to be able to create a new case to capture respondents answers
 
-@smoke
+#@smoke
 @regression
 Scenario: Create sample cases to capture respondent data
 	Given I have an questionnaire installed on a Blaise environment
