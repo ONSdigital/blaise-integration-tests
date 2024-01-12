@@ -112,7 +112,7 @@ namespace Blaise.Tests.Helpers.Browser
         {
             var screenShot = _browser.TakeScreenshot();
             var screenShotFile = Path.Combine(screenShotPath, $"{screenShotName}.png");
-            screenShot.SaveAsFile(screenShotFile, ScreenshotImageFormat.Png);
+            screenShot.SaveAsFile(screenShotFile);
 
             return screenShotFile;
         }
