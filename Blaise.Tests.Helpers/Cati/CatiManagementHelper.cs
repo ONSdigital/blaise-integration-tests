@@ -37,8 +37,10 @@ namespace Blaise.Tests.Helpers.Cati
 
         public void CreateDayBatch()
         {
+            Console.WriteLine($"CatiManagementHelper CreateDayBatch: Create survey days for Questionnaire {BlaiseConfigurationHelper.InstrumentName}");
             SetSurveyDays();
 
+            Console.WriteLine($"CatiManagementHelper CreateDayBatch: Create daybatch for Questionnaire {BlaiseConfigurationHelper.InstrumentName}");
             DayBatchHelper.GetInstance().CreateDayBatch(BlaiseConfigurationHelper.InstrumentName, DateTime.Today);
         }
 
