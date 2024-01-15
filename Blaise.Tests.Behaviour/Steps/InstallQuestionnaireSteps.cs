@@ -52,10 +52,17 @@ namespace Blaise.Tests.Behaviour.Steps
             Assert.AreEqual(QuestionnaireInterviewType.Cati, questionnaireInterviewType);
         }
 
+        [Then(@"the questionnaire is configured for strict interviewing")]
+        public void ThenTheQuestionnaireIsConfiguredForStrictInterviewing()
+        {
+            var questionnaireDataEntryType = InstrumentHelper.GetInstance().GetSurveyDataEntryType();
+            Assert.AreEqual(QuestionnaireDataEntryType.StrictInterviewing, questionnaireDataEntryType);
+        }
+
         [AfterScenario("instrument")]
         public void CleanUpScenario()
         {
-            //InstrumentHelper.GetInstance().UninstallSurvey();
+            InstrumentHelper.GetInstance().UninstallSurvey();
         }
 
         [AfterTestRun]

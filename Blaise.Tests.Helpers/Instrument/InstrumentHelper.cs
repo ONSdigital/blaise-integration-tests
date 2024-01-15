@@ -5,6 +5,9 @@ using Blaise.Tests.Helpers.Configuration;
 using System;
 using System.Threading;
 using Blaise.Nuget.Api.Contracts.Exceptions;
+using Blaise.Nuget.Api.Contracts.Models;
+using Blaise.Nuget.Api.Contracts.Extensions;
+using StatNeth.Blaise.API.ServerManager;
 
 namespace Blaise.Tests.Helpers.Instrument
 {
@@ -80,10 +83,19 @@ namespace Blaise.Tests.Helpers.Instrument
             CheckForErroneousInstrument(instrumentName);
 
             Console.WriteLine($"InstrumentHelper InstallInstrument: install Questionnaire {BlaiseConfigurationHelper.InstrumentName}");
+
+            var installOptions = new InstallOptions
+            {
+                DataEntrySettingsName = QuestionnaireDataEntryType.StrictInterviewing.ToString(),
+                InitialAppLayoutSetGroupName = QuestionnaireInterviewType.Cati.FullName(),
+                LayoutSetGroupName = QuestionnaireInterviewType.Cati.FullName(),
+                OverwriteMode = DataOverwriteMode.Always,                
+            };
+
             _blaiseQuestionnaireApi.InstallQuestionnaire(instrumentName,
                 BlaiseConfigurationHelper.ServerParkName,
                 instrumentPackage,
-                QuestionnaireInterviewType.Cati);
+                installOptions);
 
             CheckForErroneousInstrument(instrumentName);
         }
@@ -112,11 +124,24 @@ namespace Blaise.Tests.Helpers.Instrument
 
         public QuestionnaireInterviewType GetSurveyInterviewType()
         {
-            var questionnaireInterviewerType = _blaiseQuestionnaireApi.GetQuestionnaireInterviewType(BlaiseConfigurationHelper.InstrumentName, BlaiseConfigurationHelper.ServerParkName);
+            var questionnaireConfigurationModel = _blaiseQuestionnaireApi.GetQuestionnaireConfigurationModel(BlaiseConfigurationHelper.InstrumentName, BlaiseConfigurationHelper.ServerParkName);
+
+            var questionnaireInterviewerType = questionnaireConfigurationModel.QuestionnaireInterviewType;
 
             Console.WriteLine($"InstrumentHelper GetSurveyInterviewType: Questionnaire {BlaiseConfigurationHelper.InstrumentName} has the interviewer type of {questionnaireInterviewerType}");
 
             return questionnaireInterviewerType;
+        }
+
+        public QuestionnaireDataEntryType GetSurveyDataEntryType()
+        {
+            var questionnaireConfigurationModel = _blaiseQuestionnaireApi.GetQuestionnaireConfigurationModel(BlaiseConfigurationHelper.InstrumentName, BlaiseConfigurationHelper.ServerParkName);
+
+            var questionnaireDataEntryType = questionnaireConfigurationModel.QuestionnaireDataEntryType;
+
+            Console.WriteLine($"InstrumentHelper GetSurveyDataEntryType: Questionnaire {BlaiseConfigurationHelper.InstrumentName} has the data entry type of {questionnaireDataEntryType}");
+
+            return questionnaireDataEntryType;
         }
 
         public bool SurveyExists(string instrumentName)

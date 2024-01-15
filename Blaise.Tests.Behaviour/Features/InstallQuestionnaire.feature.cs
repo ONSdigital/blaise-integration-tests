@@ -139,6 +139,9 @@ this.ScenarioInitialize(scenarioInfo);
 #line 19
  testRunner.Then("the questionnaire is configured to capture respondents data via Cati", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
+#line 20
+ testRunner.And("the questionnaire is configured for strict interviewing", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line hidden
             }
             this.ScenarioCleanup();
         }

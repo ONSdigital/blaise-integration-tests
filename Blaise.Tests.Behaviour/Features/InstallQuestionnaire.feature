@@ -17,3 +17,4 @@ Scenario: Install an instrument into a Blaise environment using Cati configurati
 	Given I have an questionnaire I want to use to capture respondents data
 	When I install the questionnaire into a Blaise environment specifying a Cati configuration
 	Then the questionnaire is configured to capture respondents data via Cati
+	And the questionnaire is configured for strict interviewing
