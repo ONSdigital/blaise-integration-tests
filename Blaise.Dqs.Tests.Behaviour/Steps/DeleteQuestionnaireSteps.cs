@@ -88,8 +88,7 @@ namespace Blaise.Dqs.Tests.Behaviour.Steps
                 var caseHelper = CaseHelper.GetInstance();
                 caseHelper?.DeleteCases();
 
-                var instrumentHelper = InstrumentHelper.GetInstance();
-                instrumentHelper?.UninstallSurvey();
+                InstrumentHelper.GetInstance().UninstallSurvey();
             }
             BrowserHelper.ClosePreviousTab();
         }
