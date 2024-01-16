@@ -5,6 +5,7 @@ using OpenQA.Selenium.Chrome;
 using OpenQA.Selenium.Interactions;
 using OpenQA.Selenium.Support.Extensions;
 using OpenQA.Selenium.Support.UI;
+using SeleniumExtras.WaitHelpers;
 using System;
 using System.IO;
 using System.Linq;
@@ -111,7 +112,7 @@ namespace Blaise.Tests.Helpers.Browser
         {
             var screenShot = _browser.TakeScreenshot();
             var screenShotFile = Path.Combine(screenShotPath, $"{screenShotName}.png");
-            screenShot.SaveAsFile(screenShotFile, ScreenshotImageFormat.Png);
+            screenShot.SaveAsFile(screenShotFile);
 
             return screenShotFile;
         }
