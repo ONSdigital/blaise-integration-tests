@@ -78,10 +78,12 @@ namespace Blaise.Tests.Behaviour.Features
         
         [NUnit.Framework.TestAttribute()]
         [NUnit.Framework.DescriptionAttribute("Create sample cases to capture respondent data")]
+        [NUnit.Framework.CategoryAttribute("smoke")]
         [NUnit.Framework.CategoryAttribute("regression")]
         public void CreateSampleCasesToCaptureRespondentData()
         {
             string[] tagsOfScenario = new string[] {
+                    "smoke",
                     "regression"};
             System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Create sample cases to capture respondent data", null, tagsOfScenario, argumentsOfScenario, featureTags);

@@ -62,7 +62,7 @@ namespace Blaise.Tests.Behaviour.Steps
         [AfterScenario("instrument")]
         public void CleanUpScenario()
         {
-            //InstrumentHelper.GetInstance().UninstallSurvey();
+            InstrumentHelper.GetInstance().UninstallSurvey();
         }
 
         [AfterTestRun]

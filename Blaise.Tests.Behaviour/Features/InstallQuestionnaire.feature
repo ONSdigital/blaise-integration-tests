@@ -4,7 +4,7 @@ Feature: Install Questionnaire
 	As a responsible data owner
 	I want to be able to install an instrument with a defined set of questions
 
-#@smoke
+@smoke
 @regression
 Scenario: Install an instrument into a Blaise environment
 	Given I have an questionnaire I want to use to capture respondents data
