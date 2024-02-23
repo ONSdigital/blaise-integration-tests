@@ -35,6 +35,8 @@ namespace Blaise.Tests.Helpers.Instrument
 
         public void CheckIfInstrumentIsErroneous(string instrumentName)
         {
+            Console.WriteLine($"InstrumentHelper CheckForErroneousInstrument: Check to see if questionnaire {BlaiseConfigurationHelper.InstrumentName} has become erroneous");
+            
             try
             {
                 var questionnaireStatus = GetQuestionnaireStatus();
@@ -65,17 +67,13 @@ namespace Blaise.Tests.Helpers.Instrument
         public void InstallInstrument(string instrumentName)
         {
             Console.WriteLine($"InstrumentHelper InstallInstrument: Questionnaire {BlaiseConfigurationHelper.InstrumentName} is about to be installed");
-            var instrumentPackage = InstrumentPackagePath(BlaiseConfigurationHelper.InstrumentPath, instrumentName);
-
-            Console.WriteLine($"InstrumentHelper CheckForErroneousInstrument: Check to see if questionnaire {BlaiseConfigurationHelper.InstrumentName} has become erroneous");
+            var instrumentPackage = InstrumentPackagePath(BlaiseConfigurationHelper.InstrumentPath, instrumentName);                      
 
             if (SurveyExists(instrumentName))
             {
                 CheckIfInstrumentIsErroneous(instrumentName);
                 return;
             }
-
-            Console.WriteLine($"InstrumentHelper CheckForErroneousInstrument: Questionnaire {BlaiseConfigurationHelper.InstrumentName} is not installed");
 
             Console.WriteLine($"InstrumentHelper InstallInstrument: install Questionnaire {BlaiseConfigurationHelper.InstrumentName}");
 
