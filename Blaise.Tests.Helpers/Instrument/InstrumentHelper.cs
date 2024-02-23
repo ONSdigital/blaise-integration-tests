@@ -52,19 +52,6 @@ namespace Blaise.Tests.Helpers.Instrument
             }
         }
 
-        public void CheckForErroneousInstrument(string instrumentName)
-        {
-            Console.WriteLine($"InstrumentHelper CheckForErroneousInstrument: Check to see if questionnaire {BlaiseConfigurationHelper.InstrumentName} has become erroneous");
-
-            if (SurveyExists(instrumentName))
-            {
-                CheckIfInstrumentIsErroneous(instrumentName);
-                return;
-            }
-
-            Console.WriteLine($"InstrumentHelper CheckForErroneousInstrument: Questionnaire {BlaiseConfigurationHelper.InstrumentName} is not installed");
-        }
-
         public static string InstrumentPackagePath(string instrumentPath, string instrumentName)
         {
             return $"{instrumentPath}//{instrumentName}.bpkg";
@@ -80,7 +67,15 @@ namespace Blaise.Tests.Helpers.Instrument
             Console.WriteLine($"InstrumentHelper InstallInstrument: Questionnaire {BlaiseConfigurationHelper.InstrumentName} is about to be installed");
             var instrumentPackage = InstrumentPackagePath(BlaiseConfigurationHelper.InstrumentPath, instrumentName);
 
-            CheckForErroneousInstrument(instrumentName);
+            Console.WriteLine($"InstrumentHelper CheckForErroneousInstrument: Check to see if questionnaire {BlaiseConfigurationHelper.InstrumentName} has become erroneous");
+
+            if (SurveyExists(instrumentName))
+            {
+                CheckIfInstrumentIsErroneous(instrumentName);
+                return;
+            }
+
+            Console.WriteLine($"InstrumentHelper CheckForErroneousInstrument: Questionnaire {BlaiseConfigurationHelper.InstrumentName} is not installed");
 
             Console.WriteLine($"InstrumentHelper InstallInstrument: install Questionnaire {BlaiseConfigurationHelper.InstrumentName}");
 
@@ -97,7 +92,10 @@ namespace Blaise.Tests.Helpers.Instrument
                 instrumentPackage,
                 installOptions);
 
-            CheckForErroneousInstrument(instrumentName);
+            if (SurveyExists(instrumentName))
+            {
+                CheckIfInstrumentIsErroneous(instrumentName);
+            }
         }
 
         public bool SurveyHasInstalled(string instrumentName, int timeoutInSeconds)
@@ -114,6 +112,7 @@ namespace Blaise.Tests.Helpers.Instrument
         public void UninstallSurvey()
         {
             Console.WriteLine($"InstrumentHelper UninstallSurvey: Removing questionnaire {BlaiseConfigurationHelper.InstrumentName}");
+            
             _blaiseQuestionnaireApi.UninstallQuestionnaire(BlaiseConfigurationHelper.InstrumentName, BlaiseConfigurationHelper.ServerParkName);
 
             if (!SurveyHasUninstalled(BlaiseConfigurationHelper.InstrumentName, 10000))
