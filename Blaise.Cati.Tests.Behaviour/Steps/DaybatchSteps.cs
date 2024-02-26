@@ -22,7 +22,7 @@ namespace Blaise.Cati.Tests.Behaviour.Steps
         [BeforeFeature("cati")]
         public static void InitializeFeature()
         {
-            if (_scenarioContext.TestError == null)
+            if (_scenarioContext?.TestError == null)
                 return;
 
 

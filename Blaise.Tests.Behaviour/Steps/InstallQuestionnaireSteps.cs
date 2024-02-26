@@ -63,11 +63,6 @@ namespace Blaise.Tests.Behaviour.Steps
         public void CleanUpScenario()
         {
             InstrumentHelper.GetInstance().UninstallSurvey();
-        }
-
-        [AfterTestRun]
-        public static void CleanUpTestRun()
-        {
             BrowserHelper.ClearSessionData();
         }
     }
