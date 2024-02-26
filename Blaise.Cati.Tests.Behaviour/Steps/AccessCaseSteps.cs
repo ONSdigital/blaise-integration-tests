@@ -100,11 +100,6 @@ namespace Blaise.Cati.Tests.Behaviour.Steps
         {
             CatiInterviewHelper.GetInstance().DeleteInterviewUser();
             InstrumentHelper.GetInstance().UninstallSurvey();
-        }
-
-        [AfterTestRun]
-        public static void AfterTestRun()
-        {
             BrowserHelper.ClearSessionData();
         }
     }
