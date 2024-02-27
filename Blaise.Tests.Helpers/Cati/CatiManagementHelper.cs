@@ -62,10 +62,16 @@ namespace Blaise.Tests.Helpers.Cati
 
         public void ClearDayBatchEntries()
         {
+            Console.WriteLine($"CatiManagementHelper ClearDayBatchEntries: Clearing daybatch entries for Questionnaire {BlaiseConfigurationHelper.InstrumentName}");
             var surveyPage = new SurveyPage();
+
+            Console.WriteLine("CatiManagementHelper ClearDayBatchEntries: LoadPage");
             surveyPage.LoadPage();
+
+            Console.WriteLine("CatiManagementHelper ClearDayBatchEntries: ApplyFilter");
             surveyPage.ApplyFilter();
 
+            Console.WriteLine("CatiManagementHelper ClearDayBatchEntries: ClearDayBatchEntries");
             surveyPage.ClearDayBatchEntries();
         }
     }
