@@ -72,7 +72,7 @@ namespace Blaise.Tests.Helpers.Instrument
 
         public void InstallInstrument()
         {
-            InstallInstrument(BlaiseConfigurationHelper.InstrumentName);
+            //InstallInstrument(BlaiseConfigurationHelper.InstrumentName);
         }
 
         public void InstallInstrument(string instrumentName)
@@ -118,12 +118,12 @@ namespace Blaise.Tests.Helpers.Instrument
         {
             Console.WriteLine($"InstrumentHelper UninstallSurvey: Removing questionnaire {BlaiseConfigurationHelper.InstrumentName}");
             
-            _blaiseQuestionnaireApi.UninstallQuestionnaire(BlaiseConfigurationHelper.InstrumentName, BlaiseConfigurationHelper.ServerParkName);
+            /*_blaiseQuestionnaireApi.UninstallQuestionnaire(BlaiseConfigurationHelper.InstrumentName, BlaiseConfigurationHelper.ServerParkName);
 
             if (!SurveyHasUninstalled(BlaiseConfigurationHelper.InstrumentName, 10000))
             {
                 CheckIfInstrumentIsErroneous(BlaiseConfigurationHelper.InstrumentName);
-            }
+            }*/
         }
 
         public QuestionnaireInterviewType GetSurveyInterviewType()
