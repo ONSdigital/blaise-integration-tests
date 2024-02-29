@@ -1,4 +1,5 @@
 ﻿using Blaise.Tests.Helpers.Browser;
+using Blaise.Tests.Helpers.Case;
 using Blaise.Tests.Helpers.Cati;
 using Blaise.Tests.Helpers.Configuration;
 using Blaise.Tests.Helpers.Instrument;
@@ -71,9 +72,10 @@ namespace Blaise.Cati.Tests.Behaviour.Steps
         [AfterFeature("interview")]
         public static void CleanUpFeature()
         {
+            CaseHelper.GetInstance().DeleteCases();
+            InstrumentHelper.GetInstance().UninstallSurvey();
             CatiInterviewHelper.GetInstance().DeleteAdminUser();
             CatiInterviewHelper.GetInstance().DeleteInterviewUser();
-            InstrumentHelper.GetInstance().UninstallSurvey();
             BrowserHelper.ClearSessionData();
         }
     }

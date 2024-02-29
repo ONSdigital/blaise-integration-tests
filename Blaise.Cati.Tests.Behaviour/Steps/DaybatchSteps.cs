@@ -44,12 +44,12 @@ namespace Blaise.Cati.Tests.Behaviour.Steps
         }
 
         [AfterFeature("cati")]
-        public void CleanUpFeature()
+        public static void CleanUpFeature()
         {
-            CatiManagementHelper.GetInstance().ClearDayBatchEntries();
-            CatiInterviewHelper.GetInstance().DeleteAdminUser();
             CaseHelper.GetInstance().DeleteCases();
             InstrumentHelper.GetInstance().UninstallSurvey();
+            CatiManagementHelper.GetInstance().ClearDayBatchEntries();
+            CatiInterviewHelper.GetInstance().DeleteAdminUser();
             BrowserHelper.ClearSessionData();
         }
     }
