@@ -27,15 +27,15 @@ namespace Blaise.Cati.Tests.Behaviour.Steps
 
             try
             {
-                CatiInterviewHelper.GetInstance().CreateAdminUser();
-                CatiInterviewHelper.GetInstance().CreateInterviewUser();
                 InstrumentHelper.GetInstance().InstallInstrument();
                 Assert.IsTrue(InstrumentHelper.GetInstance()
-                    .SurveyHasInstalled(BlaiseConfigurationHelper.InstrumentName, 60));
+                    .SurveyHasInstalled(BlaiseConfigurationHelper.InstrumentName, 20));
+
+                CatiInterviewHelper.GetInstance().CreateAdminUser();
+                CatiInterviewHelper.GetInstance().CreateInterviewUser();
             }
             catch (Exception ex)
             {
-                Debug.WriteLine($"Error from debug: {ex.Message}, inner exception: {{ex.InnerException?.Message}}\"");
                 Console.WriteLine($"Error from console: {ex.Message}, inner exception: {{ex.InnerException?.Message}}\"");
                 Assert.Fail($"The test failed to complete - {ex.Message}, inner exception: {ex.InnerException?.Message}");
             }
