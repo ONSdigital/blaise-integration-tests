@@ -4,7 +4,6 @@ using Blaise.Nuget.Api.Contracts.Interfaces;
 using Blaise.Tests.Helpers.Configuration;
 using Blaise.Tests.Models.Case;
 using StatNeth.Blaise.API.DataRecord;
-using System;
 using System.Collections.Generic;
 using System.Globalization;
 
@@ -55,16 +54,8 @@ namespace Blaise.Tests.Helpers.Case
 
         public int NumberOfCasesInInstrument()
         {
-            try
-            {
-                return _blaiseCaseApi.GetNumberOfCases(BlaiseConfigurationHelper.InstrumentName,
-                    BlaiseConfigurationHelper.ServerParkName);
-            }
-            catch (Exception)
-            {
-                //Could be improved by implementing ILogger
-                return 0;
-            }
+            return _blaiseCaseApi.GetNumberOfCases(BlaiseConfigurationHelper.InstrumentName,
+                BlaiseConfigurationHelper.ServerParkName);
         }
 
         public IEnumerable<CaseModel> GetCasesInBlaise()
