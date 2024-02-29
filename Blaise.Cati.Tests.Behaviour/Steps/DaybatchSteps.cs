@@ -17,16 +17,8 @@ namespace Blaise.Cati.Tests.Behaviour.Steps
         [BeforeFeature("cati")]
         public static void InitializeFeature()
         {
-            try
-            {
-                InstrumentHelper.GetInstance().InstallInstrument();
-                CatiInterviewHelper.GetInstance().CreateAdminUser();
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine($"Error from console: {ex.Message}, inner exception: {{ex.InnerException?.Message}}\"");
-                Assert.Fail($"The test failed to complete - {ex.Message}, inner exception: {ex.InnerException?.Message}");
-            }
+            InstrumentHelper.GetInstance().InstallInstrument();
+            CatiInterviewHelper.GetInstance().CreateAdminUser();
         }
 
         [Given(@"I log on to Cati as an administrator")]
