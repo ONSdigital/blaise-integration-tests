@@ -104,6 +104,7 @@
     <Compile Include="Steps\AccessCaseSteps.cs" />
     <Compile Include="Steps\CommonHooks.cs" />
     <Compile Include="Steps\DaybatchSteps.cs" />
+    <Compile Include="Transforms\CaseStepArgumentTransformations.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
