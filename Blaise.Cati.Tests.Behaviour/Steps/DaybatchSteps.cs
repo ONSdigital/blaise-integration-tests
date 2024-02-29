@@ -14,18 +14,9 @@ namespace Blaise.Cati.Tests.Behaviour.Steps
     [Binding]
     public sealed class DaybatchSteps
     {
-        private static ScenarioContext _scenarioContext;
-        public DaybatchSteps(ScenarioContext scenarioContext)
-        {
-            _scenarioContext = scenarioContext;
-        }
-
         [BeforeFeature("cati")]
         public static void InitializeFeature()
         {
-            if (_scenarioContext?.TestError == null)
-                return;
-
             try
             {
                 InstrumentHelper.GetInstance().InstallInstrument();

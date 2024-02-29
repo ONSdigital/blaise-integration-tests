@@ -12,19 +12,9 @@ namespace Blaise.Cati.Tests.Behaviour.Steps
     [Binding]
     public sealed class AccessCaseSteps
     {
-        private static ScenarioContext _scenarioContext;
-        public AccessCaseSteps(ScenarioContext scenarioContext)
-        {
-            _scenarioContext = scenarioContext;
-        }
-
-
         [BeforeFeature("interview")]
         public static void InitializeFeature()
         {
-            if (_scenarioContext?.TestError == null)
-                return;
-
             try
             {
                 InstrumentHelper.GetInstance().InstallInstrument();
