@@ -30,6 +30,19 @@ namespace Blaise.Tests.Helpers.Cati
             caseInfoPage.ClickPlayButton();
         }
 
+        public void CreateAdminUser()
+        {
+            var adminUser = new UserModel
+            {
+                UserName = CatiConfigurationHelper.CatiAdminUsername,
+                Password = CatiConfigurationHelper.CatiAdminPassword,
+                Role = CatiConfigurationHelper.AdminRole,
+                ServerParks = new List<string> { BlaiseConfigurationHelper.ServerParkName },
+                DefaultServerPark = BlaiseConfigurationHelper.ServerParkName
+            };
+            UserHelper.GetInstance().CreateUser(adminUser);
+        }
+
         public void CreateInterviewUser()
         {
             var interviewUser = new UserModel
@@ -68,6 +81,11 @@ namespace Blaise.Tests.Helpers.Cati
         {
             var interviewPage = new InterviewPage();
             interviewPage.WaitForFirstFocusObject();
+        }
+
+        public void DeleteAdminUser()
+        {
+            UserHelper.GetInstance().RemoveUser(CatiConfigurationHelper.CatiAdminUsername);
         }
 
         public void DeleteInterviewUser()

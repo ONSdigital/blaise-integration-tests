@@ -24,6 +24,7 @@ namespace Blaise.Cati.Tests.Behaviour.Steps
         {
             try
             {
+                CatiInterviewHelper.GetInstance().CreateAdminUser();
                 CatiInterviewHelper.GetInstance().CreateInterviewUser();
                 InstrumentHelper.GetInstance().InstallInstrument();
                 Assert.IsTrue(InstrumentHelper.GetInstance()
@@ -98,6 +99,7 @@ namespace Blaise.Cati.Tests.Behaviour.Steps
         [AfterFeature("interview")]
         public static void CleanUpFeature()
         {
+            CatiInterviewHelper.GetInstance().DeleteAdminUser();
             CatiInterviewHelper.GetInstance().DeleteInterviewUser();
             InstrumentHelper.GetInstance().UninstallSurvey();
             BrowserHelper.ClearSessionData();
