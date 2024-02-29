@@ -4,7 +4,7 @@ Feature: Access
 	As a math idiot
 	I want to be told the sum of two numbers
 
-@regression
+@smoke @regression
 Scenario: Access case via interview link
 	Given There is a questionnaire installed on a Blaise environment
 	And I have created sample cases for the questionnaire
