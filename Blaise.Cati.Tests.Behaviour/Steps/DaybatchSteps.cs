@@ -28,11 +28,7 @@ namespace Blaise.Cati.Tests.Behaviour.Steps
 
             try
             {
-
                 InstrumentHelper.GetInstance().InstallInstrument();
-                Assert.IsTrue(InstrumentHelper.GetInstance()
-                .SurveyHasInstalled(BlaiseConfigurationHelper.InstrumentName, 20));
-
                 CatiInterviewHelper.GetInstance().CreateAdminUser();
             }
             catch (Exception ex)

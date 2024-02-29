@@ -28,8 +28,6 @@ namespace Blaise.Cati.Tests.Behaviour.Steps
             try
             {
                 InstrumentHelper.GetInstance().InstallInstrument();
-                Assert.IsTrue(InstrumentHelper.GetInstance()
-                    .SurveyHasInstalled(BlaiseConfigurationHelper.InstrumentName, 20));
 
                 CatiInterviewHelper.GetInstance().CreateAdminUser();
                 CatiInterviewHelper.GetInstance().CreateInterviewUser();
@@ -44,6 +42,8 @@ namespace Blaise.Cati.Tests.Behaviour.Steps
         [Given(@"There is a questionnaire installed on a Blaise environment")]
         public void GivenThereIsAQuestionnaireInstalledOnABlaiseEnvironment()
         {
+            Assert.IsTrue(InstrumentHelper.GetInstance()
+                .SurveyHasInstalled(BlaiseConfigurationHelper.InstrumentName, 20));
         }
 
 
