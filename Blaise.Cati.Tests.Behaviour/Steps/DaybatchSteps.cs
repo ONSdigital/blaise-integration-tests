@@ -5,7 +5,9 @@ using Blaise.Tests.Helpers.Configuration;
 using Blaise.Tests.Helpers.Instrument;
 using Blaise.Tests.Models.Case;
 using NUnit.Framework;
+using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using TechTalk.SpecFlow;
 
 namespace Blaise.Cati.Tests.Behaviour.Steps
@@ -25,8 +27,19 @@ namespace Blaise.Cati.Tests.Behaviour.Steps
             if (_scenarioContext?.TestError == null)
                 return;
 
-            CatiInterviewHelper.GetInstance().CreateAdminUser();
-            InstrumentHelper.GetInstance().InstallInstrument();
+            try
+            {
+                CatiInterviewHelper.GetInstance().CreateAdminUser();
+                InstrumentHelper.GetInstance().InstallInstrument();
+                Assert.IsTrue(InstrumentHelper.GetInstance()
+                .SurveyHasInstalled(BlaiseConfigurationHelper.InstrumentName, 60));
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine($"Error from debug: {ex.Message}, inner exception: {{ex.InnerException?.Message}}\"");
+                Console.WriteLine($"Error from console: {ex.Message}, inner exception: {{ex.InnerException?.Message}}\"");
+                Assert.Fail($"The test failed to complete - {ex.Message}, inner exception: {ex.InnerException?.Message}");
+            }
         }
 
         [Given(@"I log on to Cati as an administrator")]

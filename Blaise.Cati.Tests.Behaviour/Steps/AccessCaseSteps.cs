@@ -12,7 +12,7 @@ namespace Blaise.Cati.Tests.Behaviour.Steps
     [Binding]
     public sealed class AccessCaseSteps
     {
-        private readonly ScenarioContext _scenarioContext;
+        private static ScenarioContext _scenarioContext;
         public AccessCaseSteps(ScenarioContext scenarioContext)
         {
             _scenarioContext = scenarioContext;
@@ -22,6 +22,9 @@ namespace Blaise.Cati.Tests.Behaviour.Steps
         [BeforeFeature("interview")]
         public static void InitializeFeature()
         {
+            if (_scenarioContext?.TestError == null)
+                return;
+
             try
             {
                 CatiInterviewHelper.GetInstance().CreateAdminUser();
