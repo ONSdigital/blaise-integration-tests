@@ -1,9 +1,10 @@
 ﻿using Blaise.Tests.Helpers.Browser;
-using Blaise.Tests.Helpers.Instrument;
 using NUnit.Framework;
 using TechTalk.SpecFlow;
-using Blaise.Tests.Helpers.Configuration;
 using System;
+using Blaise.Tests.Helpers.Case;
+using System.Collections.Generic;
+using Blaise.Tests.Models.Case;
 
 namespace Blaise.Tests.Helpers.ErrorHandler
 {
@@ -18,12 +19,12 @@ namespace Blaise.Tests.Helpers.ErrorHandler
             _scenarioContext = scenarioContext;
         }
 
-        [BeforeTestRun]
-        public static void CheckForErroneousInstrument()
+        [Given(@"I have created sample cases for the questionnaire")]
+        public void WhenICreateACaseForTheInstrument(IEnumerable<CaseModel> caseModels)
         {
-            InstrumentHelper.GetInstance().CheckForErroneousInstrument(BlaiseConfigurationHelper.InstrumentName);
+            CaseHelper.GetInstance().DeleteCases();
+            CaseHelper.GetInstance().CreateCases(caseModels);
         }
-
 
         [AfterStep]
         public void OnError()

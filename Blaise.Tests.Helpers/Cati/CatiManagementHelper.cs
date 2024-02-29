@@ -4,6 +4,7 @@ using Blaise.Tests.Helpers.Browser;
 using Blaise.Tests.Helpers.Tobi;
 using System;
 using System.Threading;
+using NUnit.Framework;
 
 namespace Blaise.Tests.Helpers.Cati
 {
@@ -23,16 +24,33 @@ namespace Blaise.Tests.Helpers.Cati
 
         public void LogIntoCatiManagementPortal()
         {
-            var loginPage = new LoginPage();
-            loginPage.LoadPage();
-            loginPage.LoginToCati(CatiConfigurationHelper.CatiAdminUsername, CatiConfigurationHelper.CatiAdminPassword);
+            try
+            {
+                var loginPage = new LoginPage();
+                loginPage.LoadPage();
+                loginPage.LoginToCati(CatiConfigurationHelper.CatiAdminUsername, CatiConfigurationHelper.CatiAdminPassword);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"LogIntoCatiManagementPortal: {ex.Message}, inner exception: {{ex.InnerException?.Message}}\"");
+                Assert.Fail($"The test failed to complete - {ex.Message}, inner exception: {ex.InnerException?.Message}");
+            }
+
         }
 
         public void LogIntoCatiManagementPortalAsAnInterviewer()
         {
-            var loginPage = new LoginPage();
-            loginPage.LoadPage();
-            loginPage.LoginToCati(CatiConfigurationHelper.CatiInterviewUsername, CatiConfigurationHelper.CatiInterviewPassword);
+            try
+            {
+                var loginPage = new LoginPage();
+                loginPage.LoadPage();
+                loginPage.LoginToCati(CatiConfigurationHelper.CatiInterviewUsername, CatiConfigurationHelper.CatiInterviewPassword);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"LogIntoCatiManagementPortalAsAnInterviewer: {ex.Message}, inner exception: {{ex.InnerException?.Message}}\"");
+                Assert.Fail($"The test failed to complete - {ex.Message}, inner exception: {ex.InnerException?.Message}");
+            }
         }
 
         public void CreateDayBatch()
