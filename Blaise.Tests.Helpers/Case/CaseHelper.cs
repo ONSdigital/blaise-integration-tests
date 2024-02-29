@@ -49,32 +49,8 @@ namespace Blaise.Tests.Helpers.Case
 
         public void DeleteCases()
         {
-            try
-            {
-                var cases = _blaiseCaseApi.GetCases(BlaiseConfigurationHelper.InstrumentName,
+            _blaiseCaseApi.RemoveCases(BlaiseConfigurationHelper.InstrumentName,
                     BlaiseConfigurationHelper.ServerParkName);
-
-                while (!cases.EndOfSet)
-                {
-                    try
-                    {
-                        var primaryKey = _blaiseCaseApi.GetPrimaryKeyValue(cases.ActiveRecord);
-
-                        _blaiseCaseApi.RemoveCase(primaryKey, BlaiseConfigurationHelper.InstrumentName,
-                            BlaiseConfigurationHelper.ServerParkName);
-                    }
-                    catch (Exception)
-                    {
-                        /*Ignored - better to implement ILogger*/
-                    }
-
-                    cases.MoveNext();
-                }
-            }
-            catch (Exception)
-            {
-                /*Ignored - better to implement ILogger*/
-            }
         }
 
         public int NumberOfCasesInInstrument()

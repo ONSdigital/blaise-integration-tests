@@ -129,12 +129,10 @@ this.ScenarioInitialize(scenarioInfo);
         
         [NUnit.Framework.TestAttribute()]
         [NUnit.Framework.DescriptionAttribute("Access case via Scheduler")]
-        [NUnit.Framework.CategoryAttribute("smoke")]
         [NUnit.Framework.CategoryAttribute("regression")]
         public void AccessCaseViaScheduler()
         {
             string[] tagsOfScenario = new string[] {
-                    "smoke",
                     "regression"};
             System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Access case via Scheduler", null, tagsOfScenario, argumentsOfScenario, featureTags);
