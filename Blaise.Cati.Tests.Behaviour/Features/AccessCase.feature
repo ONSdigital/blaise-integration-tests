@@ -15,7 +15,7 @@ Scenario: Access case via interview link
 	When I click the play button for case '9000001'
 	Then I am able to capture the respondents data for case '9000001'
 
-@smoke @regression
+@regression
 Scenario: Access case via Scheduler
 	Given There is a questionnaire installed on a Blaise environment
 	And I have created sample cases for the questionnaire
