@@ -17,7 +17,7 @@ namespace Blaise.Cati.Tests.Behaviour.Steps
         public static void InitializeFeature()
         {
             InstrumentHelper.GetInstance().InstallInstrument();
-            CatiInterviewHelper.GetInstance().CreateAdminUser();
+            CatiManagementHelper.GetInstance().CreateAdminUser();
         }
 
         [Given(@"I log on to Cati as an administrator")]

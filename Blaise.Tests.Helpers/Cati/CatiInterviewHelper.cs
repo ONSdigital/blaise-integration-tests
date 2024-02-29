@@ -35,24 +35,9 @@ namespace Blaise.Tests.Helpers.Cati
             Console.WriteLine($"Accessed to access the case '{caseId}'");
         }
 
-        public void CreateAdminUser()
-        {
-            Console.WriteLine($"Creating admin user '{CatiConfigurationHelper.CatiAdminUsername}'");
-            var adminUser = new UserModel
-            {
-                UserName = CatiConfigurationHelper.CatiAdminUsername,
-                Password = CatiConfigurationHelper.CatiAdminPassword,
-                Role = CatiConfigurationHelper.AdminRole,
-                ServerParks = new List<string> { BlaiseConfigurationHelper.ServerParkName },
-                DefaultServerPark = BlaiseConfigurationHelper.ServerParkName
-            };
-            UserHelper.GetInstance().CreateUser(adminUser);
-            Console.WriteLine($"Created admin user '{CatiConfigurationHelper.CatiAdminUsername}'");
-        }
-
         public void CreateInterviewUser()
         {
-            Console.WriteLine($"Creating interviewer user '{CatiConfigurationHelper.CatiInterviewUsername}'");
+            Console.WriteLine($"CatiInterviewHelper: Creating interviewer user '{CatiConfigurationHelper.CatiInterviewUsername}'");
             var interviewUser = new UserModel
             {
                 UserName = CatiConfigurationHelper.CatiInterviewUsername,
@@ -62,7 +47,7 @@ namespace Blaise.Tests.Helpers.Cati
                 DefaultServerPark = BlaiseConfigurationHelper.ServerParkName
             };
             UserHelper.GetInstance().CreateUser(interviewUser);
-            Console.WriteLine($"Created interviewer user '{CatiConfigurationHelper.CatiInterviewUsername}'");
+            Console.WriteLine($"CatiInterviewHelper: Created interviewer user '{CatiConfigurationHelper.CatiInterviewUsername}'");
         }
 
         public void AddSurveyFilter()

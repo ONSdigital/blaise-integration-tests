@@ -15,7 +15,7 @@ namespace Blaise.Cati.Tests.Behaviour.Steps
         {
             InstrumentHelper.GetInstance().InstallInstrument();
 
-            CatiInterviewHelper.GetInstance().CreateAdminUser();
+            CatiManagementHelper.GetInstance().CreateAdminUser();
             CatiInterviewHelper.GetInstance().CreateInterviewUser();
         }
 

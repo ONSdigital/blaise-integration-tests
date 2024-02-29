@@ -4,6 +4,9 @@ using Blaise.Tests.Helpers.Browser;
 using Blaise.Tests.Helpers.Tobi;
 using System;
 using System.Threading;
+using Blaise.Tests.Helpers.User;
+using Blaise.Tests.Models.User;
+using System.Collections.Generic;
 
 namespace Blaise.Tests.Helpers.Cati
 {
@@ -19,6 +22,21 @@ namespace Blaise.Tests.Helpers.Cati
         public string CurrentUrl()
         {
             return BrowserHelper.CurrentUrl;
+        }
+
+        public void CreateAdminUser()
+        {
+            Console.WriteLine($"CatiManagementHelper: Creating admin user '{CatiConfigurationHelper.CatiAdminUsername}'");
+            var adminUser = new UserModel
+            {
+                UserName = CatiConfigurationHelper.CatiAdminUsername,
+                Password = CatiConfigurationHelper.CatiAdminPassword,
+                Role = CatiConfigurationHelper.AdminRole,
+                ServerParks = new List<string> { BlaiseConfigurationHelper.ServerParkName },
+                DefaultServerPark = BlaiseConfigurationHelper.ServerParkName
+            };
+            UserHelper.GetInstance().CreateUser(adminUser);
+            Console.WriteLine($"CatiManagementHelper: Created admin user '{CatiConfigurationHelper.CatiAdminUsername}'");
         }
 
         public void LogIntoCatiManagementPortal()
@@ -37,10 +55,10 @@ namespace Blaise.Tests.Helpers.Cati
 
         public void CreateDayBatch()
         {
-            Console.WriteLine($"CatiManagementHelper CreateDayBatch: Create survey days for Questionnaire {BlaiseConfigurationHelper.InstrumentName}");
+            Console.WriteLine($"CatiManagementHelper: CreateDayBatch: Create survey days for Questionnaire {BlaiseConfigurationHelper.InstrumentName}");
             SetSurveyDays();
 
-            Console.WriteLine($"CatiManagementHelper CreateDayBatch: Create daybatch for Questionnaire {BlaiseConfigurationHelper.InstrumentName}");
+            Console.WriteLine($"CatiManagementHelper: CreateDayBatch: Create daybatch for Questionnaire {BlaiseConfigurationHelper.InstrumentName}");
             DayBatchHelper.GetInstance().CreateDayBatch(BlaiseConfigurationHelper.InstrumentName, DateTime.Today);
         }
 
