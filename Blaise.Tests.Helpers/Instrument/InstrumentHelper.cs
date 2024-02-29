@@ -120,7 +120,7 @@ namespace Blaise.Tests.Helpers.Instrument
             
             _blaiseQuestionnaireApi.UninstallQuestionnaire(BlaiseConfigurationHelper.InstrumentName, BlaiseConfigurationHelper.ServerParkName);
 
-            if (!SurveyHasUninstalled(BlaiseConfigurationHelper.InstrumentName, 10000))
+            if (!SurveyHasUninstalled(BlaiseConfigurationHelper.InstrumentName, 10))
             {
                 CheckIfInstrumentIsErroneous(BlaiseConfigurationHelper.InstrumentName);
             }
@@ -232,7 +232,7 @@ namespace Blaise.Tests.Helpers.Instrument
             while (_blaiseQuestionnaireApi.QuestionnaireExists(instrumentName, BlaiseConfigurationHelper.ServerParkName))
             {
                 Console.WriteLine($"InstrumentHelper SurveyNoLongerExists: Sleep {counter} for {timeoutInSeconds / maxCount} seconds");
-                Thread.Sleep(timeoutInSeconds / maxCount);
+                Thread.Sleep(timeoutInSeconds * 1000 / maxCount);
 
                 counter++;
                 if (counter == maxCount)
