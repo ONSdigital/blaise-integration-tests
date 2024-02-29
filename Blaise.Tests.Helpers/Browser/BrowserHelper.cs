@@ -86,6 +86,8 @@ namespace Blaise.Tests.Helpers.Browser
 
             // Close the WebDriver
             _browser.Quit();
+            _browser.Dispose();
+            _browser = null;
         }
 
         public static bool ElementExistsByXpath(string xPath)
@@ -136,7 +138,8 @@ namespace Blaise.Tests.Helpers.Browser
 
         public static void CloseBrowser()
         {
-            Browser.Quit();
+            _browser.Quit();
+            _browser.Dispose();
             _browser = null;
         }
 
