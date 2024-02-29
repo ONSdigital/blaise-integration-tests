@@ -5,7 +5,6 @@ using Blaise.Tests.Helpers.Configuration;
 using Blaise.Tests.Helpers.Instrument;
 using Blaise.Tests.Models.Case;
 using NUnit.Framework;
-using System;
 using System.Collections.Generic;
 using TechTalk.SpecFlow;
 
