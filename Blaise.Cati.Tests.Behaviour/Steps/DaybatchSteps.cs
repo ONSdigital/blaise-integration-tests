@@ -43,7 +43,7 @@ namespace Blaise.Cati.Tests.Behaviour.Steps
             Assert.IsNotNull(entriesText);
         }
 
-        [AfterScenario("cati")]
+        [AfterFeature("cati")]
         public void CleanUpFeature()
         {
             CatiManagementHelper.GetInstance().ClearDayBatchEntries();
