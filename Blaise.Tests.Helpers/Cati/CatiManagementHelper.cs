@@ -3,7 +3,10 @@ using Blaise.Tests.Helpers.Configuration;
 using Blaise.Tests.Helpers.Browser;
 using Blaise.Tests.Helpers.Tobi;
 using System;
+using System.Collections.Generic;
 using System.Threading;
+using Blaise.Tests.Helpers.User;
+using Blaise.Tests.Models.User;
 
 namespace Blaise.Tests.Helpers.Cati
 {
@@ -19,6 +22,19 @@ namespace Blaise.Tests.Helpers.Cati
         public string CurrentUrl()
         {
             return BrowserHelper.CurrentUrl;
+        }
+
+        public void CreateAdminUser()
+        {
+            var adminUser = new UserModel
+            {
+                UserName = CatiConfigurationHelper.CatiAdminUsername,
+                Password = CatiConfigurationHelper.CatiAdminPassword,
+                Role = CatiConfigurationHelper.AdminRole,
+                ServerParks = new List<string> { BlaiseConfigurationHelper.ServerParkName },
+                DefaultServerPark = BlaiseConfigurationHelper.ServerParkName
+            };
+            UserHelper.GetInstance().CreateUser(adminUser);
         }
 
         public void LogIntoCatiManagementPortal()
@@ -56,6 +72,11 @@ namespace Blaise.Tests.Helpers.Cati
         public void SetSurveyDays()
         {
             DayBatchHelper.GetInstance().SetSurveyDay(BlaiseConfigurationHelper.InstrumentName, DateTime.Today);
+        }
+
+        public void DeleteAdminUser()
+        {
+            UserHelper.GetInstance().RemoveUser(CatiConfigurationHelper.CatiAdminUsername);
         }
 
         public void ClearDayBatchEntries()
