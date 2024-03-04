@@ -25,7 +25,7 @@ namespace Blaise.Cati.Tests.Behaviour.Steps
             if (_scenarioContext.TestError == null)
                 return;
 
-
+            CatiManagementHelper.GetInstance().CreateAdminUser();
             InstrumentHelper.GetInstance().InstallInstrument();
         }
 
@@ -56,6 +56,7 @@ namespace Blaise.Cati.Tests.Behaviour.Steps
         public void CleanUpFeature()
         {
             CatiManagementHelper.GetInstance().ClearDayBatchEntries();
+            CatiManagementHelper.GetInstance().DeleteAdminUser();
             CaseHelper.GetInstance().DeleteCases();
             InstrumentHelper.GetInstance().UninstallSurvey();
             BrowserHelper.ClearSessionData();
