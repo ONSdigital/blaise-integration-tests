@@ -5,17 +5,20 @@ namespace Blaise.Tests.Helpers.Configuration
 {
     public static class CatiConfigurationHelper
     {
-        private static readonly Guid Password;
+        private static readonly Guid AdminPassword;
+        private static readonly Guid InterviewerPassword;
 
         static CatiConfigurationHelper()
         {
-            Password = Guid.NewGuid();
+            AdminPassword = Guid.NewGuid();
+            InterviewerPassword = Guid.NewGuid();
         }
 
-        public static string CatiAdminUsername => BlaiseConfigurationHelper.BuildConnectionModel().UserName;
-        public static string CatiAdminPassword => BlaiseConfigurationHelper.BuildConnectionModel().Password;
+        public static string CatiAdminUsername => "DSTAdminUser";
+        public static string CatiAdminPassword => $"{AdminPassword}";
+        public static string AdminRole => $"DST";
         public static string CatiInterviewUsername => "DSTTestUser";
-        public static string CatiInterviewPassword => $"{Password}";
+        public static string CatiInterviewPassword => $"{InterviewerPassword}";
         public static string InterviewRole => $"DST";
         public static string CatiBaseUrl
         {
