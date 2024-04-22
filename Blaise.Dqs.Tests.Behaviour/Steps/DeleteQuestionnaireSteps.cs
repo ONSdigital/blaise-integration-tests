@@ -35,7 +35,6 @@ namespace Blaise.Dqs.Tests.Behaviour.Steps
         [Given(@"I select delete on the questionnaire details page")]
         public void GivenISelectDeleteOnAQuestionnaireThatIsNotLive()
         {
-            InstrumentHelper.GetInstance().InstallInstrument();
             DqsHelper.GetInstance().DeleteQuestionnaire(BlaiseConfigurationHelper.InstrumentName);
         }
 
