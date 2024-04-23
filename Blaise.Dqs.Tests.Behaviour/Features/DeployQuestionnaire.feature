@@ -8,7 +8,7 @@ Background:
 	Given I am a BDSS user
 	And I have logged into to DQS
 
-#Smoke @LU-7994
+@Smoke @LU-7994
 Scenario: List all questionnaires in Blaise
 	Given I have launched the Questionnaire Deployment Service
 	And there is a questionnaire installed in Blaise
@@ -21,7 +21,7 @@ Scenario: Successful log in to Questionnaire Deployment Service
 	When I view the landing page
 	Then I am presented with an option to deploy a new questionnaire
 
-#Smoke @LU-7990
+@Smoke @LU-7990
 Scenario: Deploy selected file without Start Dates
 	Given I have selected the questionnaire package I wish to deploy
 	When I confirm my selection
@@ -31,7 +31,7 @@ Scenario: Deploy selected file without Start Dates
 	Then I am presented with a successful deployment information banner
 	And the questionnaire is active in blaise
 
-#Smoke @LU-7990
+@Smoke @LU-7990
 Scenario: Deploy selected file with live dates
 	Given I have selected the questionnaire package I wish to deploy
 	When I confirm my selection
@@ -48,7 +48,7 @@ Scenario: Back-out of deploying a questionnaire
 	Then I am returned to the landing page
 	And the questionnaire has not been overwritten
 
-#Smoke @LU-7992
+@Smoke @LU-7992
 Scenario: Overwrite a questionnaire that does not have data
 	Given I have been presented with questionnaire already exists screen
 	And the questionnaire does not have data records
