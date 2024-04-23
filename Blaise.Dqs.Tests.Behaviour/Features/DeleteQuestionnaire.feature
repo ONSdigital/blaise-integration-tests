@@ -7,8 +7,7 @@ Background:
 	Given I am a BDSS user
 	And I have logged into to DQS
 
-@Smoke 
-@LU7996
+@Smoke @LU7996
 Scenario: Delete questionnaire when it is active
 	Given I have a questionnaire I want to delete 
 	And the questionnaire is active

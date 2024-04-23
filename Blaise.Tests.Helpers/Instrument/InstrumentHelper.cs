@@ -30,7 +30,7 @@ namespace Blaise.Tests.Helpers.Instrument
                 BlaiseConfigurationHelper.ServerParkName);
         }
 
-/*        public void CheckIfInstrumentIsErroneous(string instrumentName)
+        public void CheckIfInstrumentIsErroneous(string instrumentName)
         {
             try
             {
@@ -47,9 +47,9 @@ namespace Blaise.Tests.Helpers.Instrument
             {
                 Console.WriteLine($"InstrumentHelper CheckIfInstrumentIsErroneous :Questionnaire {BlaiseConfigurationHelper.InstrumentName} does not exist");
             }
-        }*/
+        }
 
-/*        public void CheckForErroneousInstrument(string instrumentName)
+        public void CheckForErroneousInstrument(string instrumentName)
         {
             Console.WriteLine($"InstrumentHelper CheckForErroneousInstrument: Check to see if questionnaire {BlaiseConfigurationHelper.InstrumentName} has become erroneous");
 
@@ -60,7 +60,7 @@ namespace Blaise.Tests.Helpers.Instrument
             }
 
             Console.WriteLine($"InstrumentHelper CheckForErroneousInstrument: Questionnaire {BlaiseConfigurationHelper.InstrumentName} is not installed");
-        }*/
+        }
 
         public static string InstrumentPackagePath(string instrumentPath, string instrumentName)
         {
@@ -104,10 +104,10 @@ namespace Blaise.Tests.Helpers.Instrument
             Console.WriteLine($"InstrumentHelper UninstallSurvey: Removing questionnaire {BlaiseConfigurationHelper.InstrumentName}");
             _blaiseQuestionnaireApi.UninstallQuestionnaire(BlaiseConfigurationHelper.InstrumentName, BlaiseConfigurationHelper.ServerParkName);
 
-/*            if (!SurveyHasUninstalled(BlaiseConfigurationHelper.InstrumentName, 120))
+           if (!SurveyHasUninstalled(BlaiseConfigurationHelper.InstrumentName, 120))
             {
                 CheckIfInstrumentIsErroneous(BlaiseConfigurationHelper.InstrumentName);
-            }*/
+            }
         }
 
         public QuestionnaireInterviewType GetSurveyInterviewType()
