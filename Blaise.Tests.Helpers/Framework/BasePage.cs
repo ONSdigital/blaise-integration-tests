@@ -23,7 +23,6 @@ namespace Blaise.Tests.Helpers.Framework
 
         protected void ClickButtonById(string buttonElementId)
         {
-            Thread.Sleep(5000);
             BrowserHelper
                 .Wait($"Timed out in ClickButtonById(\"{buttonElementId}\")")
                 .Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementToBeClickable(By.Id(buttonElementId))).Click();
