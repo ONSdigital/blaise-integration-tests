@@ -3,6 +3,7 @@ using OpenQA.Selenium;
 using OpenQA.Selenium.Support.UI;
 using System;
 using System.Collections.Generic;
+using System.Threading;
 
 namespace Blaise.Tests.Helpers.Framework
 {
@@ -22,6 +23,7 @@ namespace Blaise.Tests.Helpers.Framework
 
         protected void ClickButtonById(string buttonElementId)
         {
+            Thread.Sleep(5000);
             BrowserHelper
                 .Wait($"Timed out in ClickButtonById(\"{buttonElementId}\")")
                 .Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementToBeClickable(By.Id(buttonElementId))).Click();
