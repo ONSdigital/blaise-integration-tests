@@ -3,6 +3,7 @@ using OpenQA.Selenium;
 using OpenQA.Selenium.Support.UI;
 using System;
 using System.Collections.Generic;
+using System.Threading;
 
 namespace Blaise.Tests.Helpers.Framework
 {
@@ -22,13 +23,9 @@ namespace Blaise.Tests.Helpers.Framework
 
         protected void ClickButtonById(string buttonElementId)
         {
-            var button = BrowserHelper
+            BrowserHelper
                 .Wait($"Timed out in ClickButtonById(\"{buttonElementId}\")")
-                .Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementToBeClickable(By.Id(buttonElementId)));
-
-            BrowserHelper.ScrollIntoView(button);
-
-            button.Click();
+                .Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementToBeClickable(By.Id(buttonElementId))).Click();
         }
 
         protected void ClickButtonByXPath(string buttonElementPath)

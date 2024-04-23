@@ -104,7 +104,7 @@ namespace Blaise.Tests.Helpers.Instrument
             Console.WriteLine($"InstrumentHelper UninstallSurvey: Removing questionnaire {BlaiseConfigurationHelper.InstrumentName}");
             _blaiseQuestionnaireApi.UninstallQuestionnaire(BlaiseConfigurationHelper.InstrumentName, BlaiseConfigurationHelper.ServerParkName);
 
-            if (!SurveyHasUninstalled(BlaiseConfigurationHelper.InstrumentName, 60))
+            if (!SurveyHasUninstalled(BlaiseConfigurationHelper.InstrumentName, 120))
             {
                 CheckIfInstrumentIsErroneous(BlaiseConfigurationHelper.InstrumentName);
             }
