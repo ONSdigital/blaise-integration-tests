@@ -175,6 +175,7 @@ namespace Blaise.Tests.Helpers.Dqs
             homePage.LoadPage();
             homePage.FilterInstruments(BlaiseConfigurationHelper.InstrumentName);
             homePage.ClickInstrumentInfoButton(instrumentName);
+            WaitForQuestionnaireDetailsPage();
         }
 
         public void ClickAddStartDate()
