@@ -136,6 +136,7 @@ namespace Blaise.Tests.Helpers.Dqs
         {
             ClickInstrumentInfoButton(instrumentName);
             var instrumentInformationPage = new QuestionnaireInfoPage();
+            Thread.Sleep(5000);
             instrumentInformationPage.ClickDeleteButton();
         }
 
