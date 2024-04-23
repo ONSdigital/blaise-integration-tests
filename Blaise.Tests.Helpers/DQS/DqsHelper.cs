@@ -135,11 +135,8 @@ namespace Blaise.Tests.Helpers.Dqs
         public void DeleteQuestionnaire(string instrumentName)
         {
             ClickInstrumentInfoButton(instrumentName);
-            Thread.Sleep(5000);
             var instrumentInformationPage = new QuestionnaireInfoPage();
             instrumentInformationPage.ClickDeleteButton();
-            WaitForQuestionnaireDetailsPage();
-            Thread.Sleep(5000);
         }
 
         public string GetDeletionSummary()
