@@ -15,7 +15,7 @@ Scenario: List all questionnaires in Blaise
 	When I view the landing page
 	Then I am presented with a list of the questionnaires already deployed to Blaise
 
-@LU-7990
+@Smoke @LU-7990 
 Scenario: Successful log in to Questionnaire Deployment Service
 	Given I have launched the Questionnaire Deployment Service
 	When I view the landing page
