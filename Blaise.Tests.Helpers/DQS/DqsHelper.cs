@@ -137,6 +137,7 @@ namespace Blaise.Tests.Helpers.Dqs
 
             var instrumentInformationPage = new QuestionnaireInfoPage();
             instrumentInformationPage.ClickDeleteButton();
+            WaitForQuestionnaireDetailsPage();
         }
 
         public string GetDeletionSummary()
@@ -175,7 +176,6 @@ namespace Blaise.Tests.Helpers.Dqs
             homePage.LoadPage();
             homePage.FilterInstruments(BlaiseConfigurationHelper.InstrumentName);
             homePage.ClickInstrumentInfoButton(instrumentName);
-            WaitForQuestionnaireDetailsPage();
         }
 
         public void ClickAddStartDate()
