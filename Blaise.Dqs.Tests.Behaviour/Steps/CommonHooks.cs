@@ -13,7 +13,7 @@ namespace Blaise.Dqs.Tests.Behaviour.Steps
         {
             _scenarioContext = scenarioContext;
         }
-        
+
         [AfterStep]
         public void OnError()
         {
