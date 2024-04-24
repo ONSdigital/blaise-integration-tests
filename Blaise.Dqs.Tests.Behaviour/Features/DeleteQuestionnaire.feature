@@ -7,6 +7,7 @@ Background:
 	Given I am a BDSS user
 	And I have logged into to DQS
 
+@Smoke 
 @LU7996
 Scenario: Delete questionnaire when it is active
 	Given I have a questionnaire I want to delete 
@@ -15,6 +16,7 @@ Scenario: Delete questionnaire when it is active
 	And I am taken to the questionnaire details page
 	Then I will have the option to delete the questionnaire
 
+@Smoke 
 Scenario: Delete questionnaire when it is not active
 	Given I have a questionnaire I want to delete 
 	And the questionnaire is not active
