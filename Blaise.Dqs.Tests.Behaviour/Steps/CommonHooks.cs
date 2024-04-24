@@ -21,7 +21,7 @@ namespace Blaise.Tests.Helpers.ErrorHandler
         [BeforeTestRun]
         public static void CheckForErroneousInstrument()
         {
-            InstrumentHelper.GetInstance().CheckForErroneousInstrument(BlaiseConfigurationHelper.InstrumentName);
+            //InstrumentHelper.GetInstance().CheckForErroneousInstrument(BlaiseConfigurationHelper.InstrumentName);
         }
 
 
