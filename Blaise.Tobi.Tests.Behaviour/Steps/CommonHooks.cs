@@ -1,11 +1,9 @@
-﻿using Blaise.Tests.Helpers.Browser;
-using Blaise.Tests.Helpers.Configuration;
-using Blaise.Tests.Helpers.Instrument;
+﻿using System;
+using Blaise.Tests.Helpers.Browser;
 using NUnit.Framework;
-using System;
 using TechTalk.SpecFlow;
 
-namespace Blaise.Tests.Helpers.ErrorHandler
+namespace Blaise.Tobi.Tests.Behaviour.Steps
 {
     [Binding]
     public sealed class CommonHooks
@@ -16,13 +14,6 @@ namespace Blaise.Tests.Helpers.ErrorHandler
         {
             _scenarioContext = scenarioContext;
         }
-
-        [BeforeTestRun]
-        public static void CheckForErroneousInstrument()
-        {
-            //InstrumentHelper.GetInstance().CheckForErroneousInstrument(BlaiseConfigurationHelper.InstrumentName);
-        }
-
 
         [AfterStep]
         public void OnError()

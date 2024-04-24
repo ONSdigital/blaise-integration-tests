@@ -16,13 +16,6 @@ namespace Blaise.Cati.Tests.Behaviour.Steps
             _scenarioContext = scenarioContext;
         }
 
-        [BeforeTestRun]
-        public static void CheckForErroneousInstrument()
-        {
-            //InstrumentHelper.GetInstance().CheckForErroneousInstrument(BlaiseConfigurationHelper.InstrumentName);
-        }
-
-
         [AfterStep]
         public void OnError()
         {
