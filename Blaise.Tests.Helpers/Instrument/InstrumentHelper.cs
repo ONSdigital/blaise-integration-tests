@@ -49,20 +49,7 @@ namespace Blaise.Tests.Helpers.Instrument
                 Console.WriteLine($"InstrumentHelper CheckIfInstrumentIsErroneous :Questionnaire {instrumentName} does not exist");
             }
         }
-
-        public void CheckForErroneousInstrument(string instrumentName)
-        {
-            Console.WriteLine($"InstrumentHelper CheckForErroneousInstrument: Check to see if questionnaire {BlaiseConfigurationHelper.InstrumentName} has become erroneous");
-
-            if (SurveyExists(instrumentName))
-            {
-                CheckIfInstrumentIsErroneous(instrumentName);
-                return;
-            }
-
-            Console.WriteLine($"InstrumentHelper CheckForErroneousInstrument: Questionnaire {BlaiseConfigurationHelper.InstrumentName} is not installed");
-        }
-
+        
         public static string InstrumentPackagePath(string instrumentPath, string instrumentName)
         {
             return $"{instrumentPath}//{instrumentName}.bpkg";
@@ -78,15 +65,11 @@ namespace Blaise.Tests.Helpers.Instrument
             Console.WriteLine($"InstrumentHelper InstallInstrument: Questionnaire {BlaiseConfigurationHelper.InstrumentName} is about to be installed");
             var instrumentPackage = InstrumentPackagePath(BlaiseConfigurationHelper.InstrumentPath, instrumentName);
 
-            //CheckForErroneousInstrument(instrumentName);
-
             Console.WriteLine($"InstrumentHelper InstallInstrument: install Questionnaire {BlaiseConfigurationHelper.InstrumentName}");
             _blaiseQuestionnaireApi.InstallQuestionnaire(instrumentName,
                 BlaiseConfigurationHelper.ServerParkName,
                 instrumentPackage,
                 QuestionnaireInterviewType.Cati);
-
-            //CheckForErroneousInstrument(instrumentName);
         }
 
         public bool SurveyHasInstalled(string instrumentName, int timeoutInSeconds)
