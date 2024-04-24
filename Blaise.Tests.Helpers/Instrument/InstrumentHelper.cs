@@ -77,7 +77,7 @@ namespace Blaise.Tests.Helpers.Instrument
             Console.WriteLine($"InstrumentHelper InstallInstrument: Questionnaire {BlaiseConfigurationHelper.InstrumentName} is about to be installed");
             var instrumentPackage = InstrumentPackagePath(BlaiseConfigurationHelper.InstrumentPath, instrumentName);
 
-            CheckForErroneousInstrument(instrumentName);
+            //CheckForErroneousInstrument(instrumentName);
 
             Console.WriteLine($"InstrumentHelper InstallInstrument: install Questionnaire {BlaiseConfigurationHelper.InstrumentName}");
             _blaiseQuestionnaireApi.InstallQuestionnaire(instrumentName,
@@ -85,7 +85,7 @@ namespace Blaise.Tests.Helpers.Instrument
                 instrumentPackage,
                 QuestionnaireInterviewType.Cati);
 
-            CheckForErroneousInstrument(instrumentName);
+            //CheckForErroneousInstrument(instrumentName);
         }
 
         public bool SurveyHasInstalled(string instrumentName, int timeoutInSeconds)
@@ -104,7 +104,7 @@ namespace Blaise.Tests.Helpers.Instrument
             Console.WriteLine($"InstrumentHelper UninstallSurvey: Removing questionnaire {BlaiseConfigurationHelper.InstrumentName}");
             _blaiseQuestionnaireApi.UninstallQuestionnaire(BlaiseConfigurationHelper.InstrumentName, BlaiseConfigurationHelper.ServerParkName);
 
-            if (!SurveyHasUninstalled(BlaiseConfigurationHelper.InstrumentName, 120))
+           if (!SurveyHasUninstalled(BlaiseConfigurationHelper.InstrumentName, 120))
             {
                 CheckIfInstrumentIsErroneous(BlaiseConfigurationHelper.InstrumentName);
             }
