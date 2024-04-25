@@ -24,7 +24,8 @@ Scenario: Delete questionnaire when it is not active
 
 @Smoke @LU7996
 Scenario: Confirm deletion of a questionnaire
-	Given I select delete on the questionnaire details page
+	Given I have a questionnaire I want to delete 
+	And I select delete on the questionnaire details page
 	And I am taken to the delete confirmation screen
 	When I confirm that I want to proceed
 	Then the questionnaire is removed from Blaise
