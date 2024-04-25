@@ -1,4 +1,5 @@
-﻿using Blaise.Tests.Helpers.Browser;
+﻿using System;
+using Blaise.Tests.Helpers.Browser;
 using Blaise.Tests.Helpers.Case;
 using Blaise.Tests.Helpers.Configuration;
 using Blaise.Tests.Helpers.Dqs;
@@ -35,8 +36,15 @@ namespace Blaise.Dqs.Tests.Behaviour.Steps
         [Given(@"I select delete on the questionnaire details page")]
         public void GivenISelectDeleteOnAQuestionnaireThatIsNotLive()
         {
-            InstrumentHelper.GetInstance().InstallInstrument();
-            DqsHelper.GetInstance().DeleteQuestionnaire(BlaiseConfigurationHelper.InstrumentName);
+            try
+            {
+                DqsHelper.GetInstance().DeleteQuestionnaire(BlaiseConfigurationHelper.InstrumentName);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine($" select delete on the questionnaire details page failed {e}");
+                throw;
+            }
         }
 
         [When(@"I select the questionnaire in the list")]
