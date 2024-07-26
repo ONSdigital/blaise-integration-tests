@@ -79,7 +79,7 @@ namespace Blaise.Tests.Helpers.Instrument
 
         public bool SurveyHasInstalled(string instrumentName, int timeoutInSeconds)
         {
-            return CheckQuestionnaireInstalled(instrumentName) &&
+            return SurveyExists(instrumentName) &&
                    SurveyIsActive(instrumentName, timeoutInSeconds);
         }
 
@@ -104,7 +104,7 @@ namespace Blaise.Tests.Helpers.Instrument
             return _blaiseQuestionnaireApi.GetQuestionnaireInterviewType(BlaiseConfigurationHelper.InstrumentName, BlaiseConfigurationHelper.ServerParkName);
         }
 
-        public bool CheckQuestionnaireInstalled(string instrumentName)
+        public bool SurveyExists(string instrumentName)
         {
             try
             {
@@ -156,22 +156,22 @@ namespace Blaise.Tests.Helpers.Instrument
             return survey.InstallDate;
         }
 
-        private bool CheckQuestionnaireInstalled(string instrumentName)
+        private bool SurveyExists(string instrumentName)
         {
-            Console.WriteLine($"InstrumentHelper CheckQuestionnaireInstalled: Checking questionnaire {BlaiseConfigurationHelper.InstrumentName} has been installed...");
+            Console.WriteLine($"InstrumentHelper SurveyExists: Checking questionnaire {BlaiseConfigurationHelper.InstrumentName} has been installed...");
             const int maxAttempts = 10;
             const int waitTimeInSeconds = 10;
             for (int attempt = 1; attempt <= maxAttempts; attempt++)
             {
                 if (_blaiseQuestionnaireApi.QuestionnaireExists(instrumentName, BlaiseConfigurationHelper.ServerParkName))
                 {
-                    Console.WriteLine($"InstrumentHelper CheckQuestionnaireInstalled: Questionnaire {BlaiseConfigurationHelper.InstrumentName} has been installed");
+                    Console.WriteLine($"InstrumentHelper SurveyExists: Questionnaire {BlaiseConfigurationHelper.InstrumentName} has been installed");
                     return true;
                 }
-                Console.WriteLine($"InstrumentHelper CheckQuestionnaireInstalled: Attempt {attempt}/{maxAttempts}. Questionnaire not found. Waiting for {waitTimeInSeconds} seconds before next check...");
+                Console.WriteLine($"InstrumentHelper SurveyExists: Attempt {attempt}/{maxAttempts}. Questionnaire not found. Waiting for {waitTimeInSeconds} seconds before next check...");
                 Thread.Sleep(waitTimeInSeconds * 1000);
             }
-            Console.WriteLine($"InstrumentHelper CheckQuestionnaireInstalled: Timeout reached after {maxAttempts * waitTimeInSeconds} seconds. Questionnaire {instrumentName} not found");
+            Console.WriteLine($"InstrumentHelper SurveyExists: Timeout reached after {maxAttempts * waitTimeInSeconds} seconds. Questionnaire {instrumentName} not found");
             return false;
         }
 
