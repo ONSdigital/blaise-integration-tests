@@ -28,13 +28,13 @@ namespace Blaise.Tests.Behaviour.Steps
         [When(@"I install the questionnaire into a Blaise environment")]
         public void WhenIInstallTheInstrumentIntoABlaiseEnvironment()
         {
-            InstrumentHelper.GetInstance().InstallQuestionnaire();
+            InstrumentHelper.GetInstance().InstallInstrument();
         }
 
         [When(@"I install the questionnaire into a Blaise environment specifying a Cati configuration")]
         public void WhenIInstallTheInstrumentIntoABlaiseEnvironmentSpecifyingACatiConfiguration()
         {
-            InstrumentHelper.GetInstance().InstallQuestionnaire();
+            InstrumentHelper.GetInstance().InstallInstrument();
         }
 
         [Then(@"the questionnaire is available to use in the Blaise environment")]
