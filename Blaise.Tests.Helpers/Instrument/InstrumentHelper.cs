@@ -156,30 +156,27 @@ namespace Blaise.Tests.Helpers.Instrument
             return survey.InstallDate;
         }
 
-        private bool SurveyExists(string instrumentName)
+        private bool SurveyExists(string instrumentName, int timeoutInSeconds)
         {
             Console.WriteLine($"InstrumentHelper SurveyExists: Checking questionnaire {BlaiseConfigurationHelper.InstrumentName} has been installed...");
-            const int maxAttempts = 10;
-            const int waitTimeInSeconds = 10;
+            var counter = 0;
+            const int maxCount = 10;
 
-
-
-            for (int attempt = 1; attempt <= maxAttempts; attempt++)
+            while (!_blaiseQuestionnaireApi.QuestionnaireExists(instrumentName, BlaiseConfigurationHelper.ServerParkName))
             {
-                if (_blaiseQuestionnaireApi.QuestionnaireExists(instrumentName, BlaiseConfigurationHelper.ServerParkName))
+                Console.WriteLine($"InstrumentHelper SurveyExists: Sleep {counter} for {timeoutInSeconds / maxCount} seconds");
+                Thread.Sleep((timeoutInSeconds * 1000) / maxCount);
+
+                counter++;
+                if (counter == maxCount)
                 {
-                    Console.WriteLine($"InstrumentHelper SurveyExists: Questionnaire {BlaiseConfigurationHelper.InstrumentName} has been installed");
-                    return true;
+                    Console.WriteLine("InstrumentHelper SurveyExists: Timed out");
+                    return false;
                 }
-                Console.WriteLine($"InstrumentHelper SurveyExists: Attempt {attempt}/{maxAttempts}. Questionnaire not found. Waiting for {waitTimeInSeconds} seconds before next check...");
-                Thread.Sleep(waitTimeInSeconds * 1000);
             }
-            Console.WriteLine($"InstrumentHelper SurveyExists: Timeout reached after {maxAttempts * waitTimeInSeconds} seconds. Questionnaire {instrumentName} not found");
-            return false;
+            Console.WriteLine($"InstrumentHelper SurveyExists: Questionnaire {BlaiseConfigurationHelper.InstrumentName} has been installed");
 
-
-
-
+            return true;
         }
 
         private bool SurveyNoLongerExists(string instrumentName, int timeoutInSeconds)
