@@ -91,7 +91,7 @@ namespace Blaise.Dqs.Tests.Behaviour.Steps
         public void CleanUpScenario()
         {
             DqsHelper.GetInstance().LogOutOfToDqs();
-            if (InstrumentHelper.GetInstance().CheckQuestionnaireInstalled(BlaiseConfigurationHelper.InstrumentName))
+            if (InstrumentHelper.GetInstance().SurveyExists(BlaiseConfigurationHelper.InstrumentName))
             {
                 var caseHelper = CaseHelper.GetInstance();
                 caseHelper?.DeleteCases();
