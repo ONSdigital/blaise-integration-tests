@@ -17,7 +17,7 @@ namespace Blaise.Dqs.Tests.Behaviour.Steps
         [Given(@"I have a questionnaire I want to delete")]
         public void GivenIHaveTheNameOfAQuestionnaireIWantToDeleteAndThatSurveyIsLive()
         {
-            InstrumentHelper.GetInstance().InstallInstrument();
+            InstrumentHelper.GetInstance().InstallQuestionnaire();
         }
 
         [Given(@"the questionnaire is active")]
@@ -91,7 +91,7 @@ namespace Blaise.Dqs.Tests.Behaviour.Steps
         public void CleanUpScenario()
         {
             DqsHelper.GetInstance().LogOutOfToDqs();
-            if (InstrumentHelper.GetInstance().SurveyExists(BlaiseConfigurationHelper.InstrumentName))
+            if (InstrumentHelper.GetInstance().CheckQuestionnaireInstalled(BlaiseConfigurationHelper.InstrumentName))
             {
                 var caseHelper = CaseHelper.GetInstance();
                 caseHelper?.DeleteCases();

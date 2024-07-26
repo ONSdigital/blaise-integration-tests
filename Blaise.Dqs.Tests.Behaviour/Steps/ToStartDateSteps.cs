@@ -17,7 +17,7 @@ namespace Blaise.Dqs.Tests.Behaviour.Steps
         [BeforeScenario("ToStartDate")]
         public static void InitializeScenario()
         {
-            InstrumentHelper.GetInstance().InstallInstrument();
+            InstrumentHelper.GetInstance().InstallQuestionnaire();
         }
 
         [Given(@"An instrument is installed in Blaise")]
@@ -87,7 +87,7 @@ namespace Blaise.Dqs.Tests.Behaviour.Steps
         public void CleanUpScenario()
         {
             DqsHelper.GetInstance().LogOutOfToDqs();
-            if (InstrumentHelper.GetInstance().SurveyExists(BlaiseConfigurationHelper.InstrumentName))
+            if (InstrumentHelper.GetInstance().CheckQuestionnaireInstalled(BlaiseConfigurationHelper.InstrumentName))
             {
                 CaseHelper.GetInstance().DeleteCases();
                 InstrumentHelper.GetInstance().UninstallSurvey();
