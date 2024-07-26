@@ -18,7 +18,7 @@ namespace Blaise.Tobi.Tests.Behaviour.Steps
         [BeforeFeature("tobi")]
         public static void InitializeFeature()
         {
-            InstrumentHelper.GetInstance().InstallInstrument();
+            InstrumentHelper.GetInstance().InstallQuestionnaire();
             CaseHelper.GetInstance().CreateCase(new CaseModel("900001", "110", "07000 000 00"));
         }
 
