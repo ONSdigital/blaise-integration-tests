@@ -17,7 +17,7 @@ namespace Blaise.Dqs.Tests.Behaviour.Steps
         [Given(@"I have a questionnaire I want to delete")]
         public void GivenIHaveTheNameOfAQuestionnaireIWantToDeleteAndThatSurveyIsLive()
         {
-            InstrumentHelper.GetInstance().InstallQuestionnaire();
+            InstrumentHelper.GetInstance().InstallInstrument();
         }
 
         [Given(@"the questionnaire is active")]

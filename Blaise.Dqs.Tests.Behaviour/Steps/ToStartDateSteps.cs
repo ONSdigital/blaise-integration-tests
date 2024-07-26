@@ -17,7 +17,7 @@ namespace Blaise.Dqs.Tests.Behaviour.Steps
         [BeforeScenario("ToStartDate")]
         public static void InitializeScenario()
         {
-            InstrumentHelper.GetInstance().InstallQuestionnaire();
+            InstrumentHelper.GetInstance().InstallInstrument();
         }
 
         [Given(@"An instrument is installed in Blaise")]

@@ -32,7 +32,7 @@ namespace Blaise.Dqs.Tests.Behaviour.Steps
         [Given(@"there is a questionnaire installed in Blaise")]
         public void GivenThereIsAQuestionnaireInstalledInBlaise()
         {
-            InstrumentHelper.GetInstance().InstallQuestionnaire();
+            InstrumentHelper.GetInstance().InstallInstrument();
         }
 
         [Then(@"I am presented with a list of the questionnaires already deployed to Blaise")]
@@ -132,7 +132,7 @@ namespace Blaise.Dqs.Tests.Behaviour.Steps
         [Given(@"I have been presented with questionnaire already exists screen")]
         public void GivenIHaveBeenPresentedWithQuestionnaireAlreadyExistsScreen()
         {
-            InstrumentHelper.GetInstance().InstallQuestionnaire();
+            InstrumentHelper.GetInstance().InstallInstrument();
             DqsHelper.GetInstance().LoadUploadPage();
             DqsHelper.GetInstance().SelectQuestionnairePackage();
             DqsHelper.GetInstance().ConfirmQuestionnaireUpload();
@@ -196,7 +196,7 @@ namespace Blaise.Dqs.Tests.Behaviour.Steps
         [Given(@"the package I have selected already exists in Blaise")]
         public void GivenThePackageIHaveSelectedAlreadyExistsInBlaise()
         {
-            InstrumentHelper.GetInstance().InstallQuestionnaire();
+            InstrumentHelper.GetInstance().InstallInstrument();
         }
 
         [AfterScenario("questionnaire")]
