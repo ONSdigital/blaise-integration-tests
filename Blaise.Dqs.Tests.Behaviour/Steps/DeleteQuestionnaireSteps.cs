@@ -23,13 +23,13 @@ namespace Blaise.Dqs.Tests.Behaviour.Steps
         [Given(@"the questionnaire is active")]
         public void GivenTheQuestionnaireIsActive()
         {
-            Assert.IsTrue(QuestionnaireHelper.GetInstance().SurveyIsActive(BlaiseConfigurationHelper.InstrumentName, BlaiseConfigurationHelper.ServerParkName));
+            Assert.IsTrue(QuestionnaireHelper.GetInstance().SurveyIsActive(BlaiseConfigurationHelper.QuestionnaireName, BlaiseConfigurationHelper.ServerParkName));
         }
 
         [Given(@"the questionnaire is not active")]
         public void GivenTheQuestionnaireIsNotActive()
         {
-            QuestionnaireHelper.GetInstance().DeactivateSurvey(BlaiseConfigurationHelper.InstrumentName,
+            QuestionnaireHelper.GetInstance().DeactivateSurvey(BlaiseConfigurationHelper.QuestionnaireName,
                 BlaiseConfigurationHelper.ServerParkName);
         }
 
@@ -38,7 +38,7 @@ namespace Blaise.Dqs.Tests.Behaviour.Steps
         {
             try
             {
-                DqsHelper.GetInstance().DeleteQuestionnaire(BlaiseConfigurationHelper.InstrumentName);
+                DqsHelper.GetInstance().DeleteQuestionnaire(BlaiseConfigurationHelper.QuestionnaireName);
             }
             catch (Exception e)
             {
@@ -52,8 +52,8 @@ namespace Blaise.Dqs.Tests.Behaviour.Steps
         {
             DqsHelper.GetInstance().LoadDqsHomePage();
             var questionnairesInTable = DqsHelper.GetInstance().GetQuestionnaireTableContents();
-            Assert.IsTrue(questionnairesInTable.Any(q => q == BlaiseConfigurationHelper.InstrumentName));
-            DqsHelper.GetInstance().ClickInstrumentInfoButton(BlaiseConfigurationHelper.InstrumentName);
+            Assert.IsTrue(questionnairesInTable.Any(q => q == BlaiseConfigurationHelper.QuestionnaireName));
+            DqsHelper.GetInstance().ClickInstrumentInfoButton(BlaiseConfigurationHelper.QuestionnaireName);
         }
 
         [When(@"I am taken to the questionnaire details page")]
@@ -91,7 +91,7 @@ namespace Blaise.Dqs.Tests.Behaviour.Steps
         public void CleanUpScenario()
         {
             DqsHelper.GetInstance().LogOutOfToDqs();
-            if (QuestionnaireHelper.GetInstance().SurveyExists(BlaiseConfigurationHelper.InstrumentName))
+            if (QuestionnaireHelper.GetInstance().SurveyExists(BlaiseConfigurationHelper.QuestionnaireName))
             {
                 var caseHelper = CaseHelper.GetInstance();
                 caseHelper?.DeleteCases();

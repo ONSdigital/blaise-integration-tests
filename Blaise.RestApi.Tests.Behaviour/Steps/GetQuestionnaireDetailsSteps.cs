@@ -51,7 +51,7 @@ namespace Blaise.RestApi.Tests.Behaviour.Steps
         {
             var listOfActiveQuestionnaires = _scenarioContext.Get<List<Questionnaire>>(ApiResponse);
             Assert.AreEqual(1, listOfActiveQuestionnaires.Count);
-            Assert.IsTrue(listOfActiveQuestionnaires.Any(q => q.Name == BlaiseConfigurationHelper.InstrumentName));
+            Assert.IsTrue(listOfActiveQuestionnaires.Any(q => q.Name == BlaiseConfigurationHelper.QuestionnaireName));
         }
 
         [Then(@"an empty list is returned")]

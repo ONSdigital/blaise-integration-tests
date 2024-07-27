@@ -26,7 +26,7 @@ namespace Blaise.Tests.Helpers.Questionnaire
 
         public QuestionnaireStatusType GetQuestionnaireStatus()
         {
-            return _blaiseQuestionnaireApi.GetQuestionnaireStatus(BlaiseConfigurationHelper.InstrumentName,
+            return _blaiseQuestionnaireApi.GetQuestionnaireStatus(BlaiseConfigurationHelper.QuestionnaireName,
                 BlaiseConfigurationHelper.ServerParkName);
         }
 
@@ -64,12 +64,12 @@ namespace Blaise.Tests.Helpers.Questionnaire
 
         public void InstallQuestionnaire()
         {
-            InstallQuestionnaire(BlaiseConfigurationHelper.InstrumentName);
+            InstallQuestionnaire(BlaiseConfigurationHelper.QuestionnaireName);
         }
 
         public void InstallQuestionnaire(string instrumentName)
         {
-            Console.WriteLine($"QuestionnaireHelper InstallQuestionnaire: Installing questionnaire {BlaiseConfigurationHelper.InstrumentName}...");
+            Console.WriteLine($"QuestionnaireHelper InstallQuestionnaire: Installing questionnaire {BlaiseConfigurationHelper.QuestionnaireName}...");
             var instrumentPackage = InstrumentPackagePath(BlaiseConfigurationHelper.InstrumentPath, instrumentName);
             _blaiseQuestionnaireApi.InstallQuestionnaire(instrumentName,
                 BlaiseConfigurationHelper.ServerParkName,
@@ -90,18 +90,18 @@ namespace Blaise.Tests.Helpers.Questionnaire
 
         public void UninstallSurvey()
         {
-            Console.WriteLine($"QuestionnaireHelper UninstallSurvey: Removing questionnaire {BlaiseConfigurationHelper.InstrumentName}...");
-            _blaiseQuestionnaireApi.UninstallQuestionnaire(BlaiseConfigurationHelper.InstrumentName, BlaiseConfigurationHelper.ServerParkName);
+            Console.WriteLine($"QuestionnaireHelper UninstallSurvey: Removing questionnaire {BlaiseConfigurationHelper.QuestionnaireName}...");
+            _blaiseQuestionnaireApi.UninstallQuestionnaire(BlaiseConfigurationHelper.QuestionnaireName, BlaiseConfigurationHelper.ServerParkName);
 
-           if (!SurveyHasUninstalled(BlaiseConfigurationHelper.InstrumentName, 180))
+           if (!SurveyHasUninstalled(BlaiseConfigurationHelper.QuestionnaireName, 180))
             {
-                CheckIfInstrumentIsErroneous(BlaiseConfigurationHelper.InstrumentName);
+                CheckIfInstrumentIsErroneous(BlaiseConfigurationHelper.QuestionnaireName);
             }
         }
 
         public QuestionnaireInterviewType GetSurveyInterviewType()
         {
-            return _blaiseQuestionnaireApi.GetQuestionnaireInterviewType(BlaiseConfigurationHelper.InstrumentName, BlaiseConfigurationHelper.ServerParkName);
+            return _blaiseQuestionnaireApi.GetQuestionnaireInterviewType(BlaiseConfigurationHelper.QuestionnaireName, BlaiseConfigurationHelper.ServerParkName);
         }
 
         public bool SurveyExists(string instrumentName)
@@ -151,14 +151,14 @@ namespace Blaise.Tests.Helpers.Questionnaire
 
         public DateTime GetInstallDate()
         {
-            var survey = _blaiseQuestionnaireApi.GetQuestionnaire(BlaiseConfigurationHelper.InstrumentName, BlaiseConfigurationHelper.ServerParkName);
+            var survey = _blaiseQuestionnaireApi.GetQuestionnaire(BlaiseConfigurationHelper.QuestionnaireName, BlaiseConfigurationHelper.ServerParkName);
 
             return survey.InstallDate;
         }
 
         private bool SurveyExists(string instrumentName, int timeoutInSeconds)
         {
-            Console.WriteLine($"QuestionnaireHelper SurveyExists: Checking questionnaire {BlaiseConfigurationHelper.InstrumentName} has been installed...");
+            Console.WriteLine($"QuestionnaireHelper SurveyExists: Checking questionnaire {BlaiseConfigurationHelper.QuestionnaireName} has been installed...");
             var counter = 0;
             const int maxCount = 10;
 
@@ -174,14 +174,14 @@ namespace Blaise.Tests.Helpers.Questionnaire
                     return false;
                 }
             }
-            Console.WriteLine($"QuestionnaireHelper SurveyExists: Questionnaire {BlaiseConfigurationHelper.InstrumentName} has been installed");
+            Console.WriteLine($"QuestionnaireHelper SurveyExists: Questionnaire {BlaiseConfigurationHelper.QuestionnaireName} has been installed");
 
             return true;
         }
 
         private bool SurveyNoLongerExists(string instrumentName, int timeoutInSeconds)
         {
-            Console.WriteLine($"QuestionnaireHelper SurveyNoLongerExists: Checking questionnaire {BlaiseConfigurationHelper.InstrumentName} has been removed");
+            Console.WriteLine($"QuestionnaireHelper SurveyNoLongerExists: Checking questionnaire {BlaiseConfigurationHelper.QuestionnaireName} has been removed");
             var counter = 0;
             const int maxCount = 10;
 
@@ -198,7 +198,7 @@ namespace Blaise.Tests.Helpers.Questionnaire
                 }
             }
 
-            Console.WriteLine($"QuestionnaireHelper SurveyNoLongerExists: Questionnaire {BlaiseConfigurationHelper.InstrumentName} has been removed");
+            Console.WriteLine($"QuestionnaireHelper SurveyNoLongerExists: Questionnaire {BlaiseConfigurationHelper.QuestionnaireName} has been removed");
             return true;
         }
     }

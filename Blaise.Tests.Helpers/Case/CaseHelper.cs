@@ -36,14 +36,14 @@ namespace Blaise.Tests.Helpers.Case
 
         public void CreateCase(CaseModel caseModel)
         {
-            _blaiseCaseApi.CreateCase(caseModel.PrimaryKey, caseModel.FieldData(), BlaiseConfigurationHelper.InstrumentName,
+            _blaiseCaseApi.CreateCase(caseModel.PrimaryKey, caseModel.FieldData(), BlaiseConfigurationHelper.QuestionnaireName,
                 BlaiseConfigurationHelper.ServerParkName);
         }
 
         public void CreateCase()
         {
             var caseModel = BuildDefaultCase();
-            _blaiseCaseApi.CreateCase(caseModel.PrimaryKey, caseModel.FieldData(), BlaiseConfigurationHelper.InstrumentName,
+            _blaiseCaseApi.CreateCase(caseModel.PrimaryKey, caseModel.FieldData(), BlaiseConfigurationHelper.QuestionnaireName,
                 BlaiseConfigurationHelper.ServerParkName);
         }
 
@@ -51,7 +51,7 @@ namespace Blaise.Tests.Helpers.Case
         {
             try
             {
-                var cases = _blaiseCaseApi.GetCases(BlaiseConfigurationHelper.InstrumentName,
+                var cases = _blaiseCaseApi.GetCases(BlaiseConfigurationHelper.QuestionnaireName,
                     BlaiseConfigurationHelper.ServerParkName);
 
                 while (!cases.EndOfSet)
@@ -60,7 +60,7 @@ namespace Blaise.Tests.Helpers.Case
                     {
                         var primaryKey = _blaiseCaseApi.GetPrimaryKeyValue(cases.ActiveRecord);
 
-                        _blaiseCaseApi.RemoveCase(primaryKey, BlaiseConfigurationHelper.InstrumentName,
+                        _blaiseCaseApi.RemoveCase(primaryKey, BlaiseConfigurationHelper.QuestionnaireName,
                             BlaiseConfigurationHelper.ServerParkName);
                     }
                     catch (Exception)
@@ -81,7 +81,7 @@ namespace Blaise.Tests.Helpers.Case
         {
             try
             {
-                return _blaiseCaseApi.GetNumberOfCases(BlaiseConfigurationHelper.InstrumentName,
+                return _blaiseCaseApi.GetNumberOfCases(BlaiseConfigurationHelper.QuestionnaireName,
                     BlaiseConfigurationHelper.ServerParkName);
             }
             catch (Exception)
@@ -94,7 +94,7 @@ namespace Blaise.Tests.Helpers.Case
         public IEnumerable<CaseModel> GetCasesInBlaise()
         {
             var caseModels = new List<CaseModel>();
-            var casesInDatabase = _blaiseCaseApi.GetCases(BlaiseConfigurationHelper.InstrumentName,
+            var casesInDatabase = _blaiseCaseApi.GetCases(BlaiseConfigurationHelper.QuestionnaireName,
                 BlaiseConfigurationHelper.ServerParkName);
 
             while (!casesInDatabase.EndOfSet)
