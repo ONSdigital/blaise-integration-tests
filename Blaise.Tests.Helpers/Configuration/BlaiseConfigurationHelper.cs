@@ -9,7 +9,7 @@ namespace Blaise.Tests.Helpers.Configuration
         public static string UninstallSurveyTimeOutInSeconds => ConfigurationExtensions.GetVariable("UninstallSurveyTimeOutInSeconds");
         public static string ServerParkName => ConfigurationExtensions.GetVariable("ServerParkName");
         public static string InstrumentPath => ConfigurationExtensions.GetVariable("InstrumentPath");
-        public static string InstrumentName => ConfigurationExtensions.GetVariable("InstrumentName");
+        public static string QuestionnaireName => ConfigurationExtensions.GetVariable("InstrumentName");
         public static string InstrumentPackage => QuestionnaireHelper.InstrumentPackagePath(InstrumentPath, InstrumentName);
 
         public static ConnectionModel BuildConnectionModel()

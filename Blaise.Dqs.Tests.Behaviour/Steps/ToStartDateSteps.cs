@@ -29,7 +29,7 @@ namespace Blaise.Dqs.Tests.Behaviour.Steps
         [Then(@"The TO start date should not be set")]
         public void GivenTheInstrumentHasNoTOStartDate()
         {
-            DqsHelper.GetInstance().ClickInstrumentInfoButton(BlaiseConfigurationHelper.InstrumentName);
+            DqsHelper.GetInstance().ClickInstrumentInfoButton(BlaiseConfigurationHelper.QuestionnaireName);
             var toStartDateText = DqsHelper.GetInstance().GetToStartDate();
 
             Assert.AreEqual("No start date specified, using survey days", toStartDateText);
@@ -39,7 +39,7 @@ namespace Blaise.Dqs.Tests.Behaviour.Steps
         [When(@"I change the TO start date to '(.*)'")]
         public void GivenTheInstrumentHasAStartDateOf(string date)
         {
-            DqsHelper.GetInstance().ClickInstrumentInfoButton(BlaiseConfigurationHelper.InstrumentName);
+            DqsHelper.GetInstance().ClickInstrumentInfoButton(BlaiseConfigurationHelper.QuestionnaireName);
             var toStartDate = DateTime.Now.ToString("dd/MM/yyyy");
             if (date == "tomorrow")
                 toStartDate = DateTime.Now.AddDays(1).ToString("dd/MM/yyyy");
@@ -65,7 +65,7 @@ namespace Blaise.Dqs.Tests.Behaviour.Steps
         [When(@"I change the TO start date to no TO start date")]
         public void WhenIChangeTheTOStartDateToNoTOStartDate()
         {
-            DqsHelper.GetInstance().ClickInstrumentInfoButton(BlaiseConfigurationHelper.InstrumentName);
+            DqsHelper.GetInstance().ClickInstrumentInfoButton(BlaiseConfigurationHelper.QuestionnaireName);
             DqsHelper.GetInstance().ClickAddStartDate();
             DqsHelper.GetInstance().SelectNoLiveDate();
             DqsHelper.GetInstance().ConfirmQuestionnaireUpload();
@@ -77,7 +77,7 @@ namespace Blaise.Dqs.Tests.Behaviour.Steps
             var toStartDate = DateTime.Now.ToString("dd/MM/yyyy");
             if (date == "tomorrow")
                 toStartDate = DateTime.Now.AddDays(1).ToString("dd/MM/yyyy");
-            DqsHelper.GetInstance().ClickInstrumentInfoButton(BlaiseConfigurationHelper.InstrumentName);
+            DqsHelper.GetInstance().ClickInstrumentInfoButton(BlaiseConfigurationHelper.QuestionnaireName);
             var toStartDateText = DqsHelper.GetInstance().GetToStartDate();
 
             Assert.IsTrue(toStartDateText.Contains(toStartDate));
@@ -87,7 +87,7 @@ namespace Blaise.Dqs.Tests.Behaviour.Steps
         public void CleanUpScenario()
         {
             DqsHelper.GetInstance().LogOutOfToDqs();
-            if (QuestionnaireHelper.GetInstance().SurveyExists(BlaiseConfigurationHelper.InstrumentName))
+            if (QuestionnaireHelper.GetInstance().SurveyExists(BlaiseConfigurationHelper.QuestionnaireName))
             {
                 CaseHelper.GetInstance().DeleteCases();
                 QuestionnaireHelper.GetInstance().UninstallSurvey();

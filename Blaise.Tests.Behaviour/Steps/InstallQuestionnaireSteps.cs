@@ -40,7 +40,7 @@ namespace Blaise.Tests.Behaviour.Steps
         [Then(@"the questionnaire is available to use in the Blaise environment")]
         public void ThenTheInstrumentIsAvailableToUseInTheBlaiseEnvironment()
         {
-            var instrumentHasInstalled = QuestionnaireHelper.GetInstance().SurveyHasInstalled(BlaiseConfigurationHelper.InstrumentName, 60);
+            var instrumentHasInstalled = QuestionnaireHelper.GetInstance().SurveyHasInstalled(BlaiseConfigurationHelper.QuestionnaireName, 60);
 
             Assert.IsTrue(instrumentHasInstalled, "The questionnaire has not been installed, or is not active");
         }

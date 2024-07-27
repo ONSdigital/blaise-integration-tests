@@ -27,7 +27,7 @@ namespace Blaise.Cati.Tests.Behaviour.Steps
                 CatiInterviewHelper.GetInstance().CreateInterviewUser();
                 QuestionnaireHelper.GetInstance().InstallQuestionnaire();
                 Assert.IsTrue(QuestionnaireHelper.GetInstance()
-                    .SurveyHasInstalled(BlaiseConfigurationHelper.InstrumentName, 60));
+                    .SurveyHasInstalled(BlaiseConfigurationHelper.QuestionnaireName, 60));
             }
             catch (Exception ex)
             {

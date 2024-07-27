@@ -25,8 +25,8 @@ namespace Blaise.Tobi.Tests.Behaviour.Steps
         [BeforeScenario("HappyPath")]
         public static void HappyPathScenarios()
         {
-            DayBatchHelper.GetInstance().SetSurveyDay(BlaiseConfigurationHelper.InstrumentName, DateTime.Today);
-            DayBatchHelper.GetInstance().CreateDayBatch(BlaiseConfigurationHelper.InstrumentName, DateTime.Today);
+            DayBatchHelper.GetInstance().SetSurveyDay(BlaiseConfigurationHelper.QuestionnaireName, DateTime.Today);
+            DayBatchHelper.GetInstance().CreateDayBatch(BlaiseConfigurationHelper.QuestionnaireName, DateTime.Today);
         }
 
         [Given(@"I have internet access")]
@@ -60,7 +60,7 @@ namespace Blaise.Tobi.Tests.Behaviour.Steps
         [When(@"I select a link to interview against the questionnaire with the survey dates I am working on")]
         public void WhenISelectALinkToInterviewAgainstTheQuestionnaireWithTheSurveyDatesIAmWorkingOn()
         {
-            TobiHelper.GetInstance().ClickInterviewButton(BlaiseConfigurationHelper.InstrumentName);
+            TobiHelper.GetInstance().ClickInterviewButton(BlaiseConfigurationHelper.QuestionnaireName);
         }
 
         [When(@"I do not see the questionnaire that I am working on")]
@@ -79,7 +79,7 @@ namespace Blaise.Tobi.Tests.Behaviour.Steps
         public void ThenIAmPresentedWithAListOfActiveQuestionnairesToBeWorkedOnThatDayForThatSurvey()
         {
             var activeQuestionnaires = TobiHelper.GetInstance().GetQuestionnaireTableContents();
-            Assert.IsNotNull(activeQuestionnaires.Where(q => q.Contains(BlaiseConfigurationHelper.InstrumentName)));
+            Assert.IsNotNull(activeQuestionnaires.Where(q => q.Contains(BlaiseConfigurationHelper.QuestionnaireName)));
             
         }
 
@@ -95,7 +95,7 @@ namespace Blaise.Tobi.Tests.Behaviour.Steps
         {
             
             var questionnaireShowing = TobiHelper.GetInstance().GetQuestionnaireTableContents()
-                .Where(s => s.Contains(BlaiseConfigurationHelper.InstrumentName));
+                .Where(s => s.Contains(BlaiseConfigurationHelper.QuestionnaireName));
             Assert.IsEmpty(questionnaireShowing);
         }
 
@@ -115,7 +115,7 @@ namespace Blaise.Tobi.Tests.Behaviour.Steps
         [AfterFeature("tobi")]
         public static void CleanUpFeature()
         {
-            DayBatchHelper.GetInstance().RemoveSurveyDays(BlaiseConfigurationHelper.InstrumentName, DateTime.Today);
+            DayBatchHelper.GetInstance().RemoveSurveyDays(BlaiseConfigurationHelper.QuestionnaireName, DateTime.Today);
             BrowserHelper.ClosePreviousTab();
             CaseHelper.GetInstance().DeleteCases();
             QuestionnaireHelper.GetInstance().UninstallSurvey();
