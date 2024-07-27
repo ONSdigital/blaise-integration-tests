@@ -2,7 +2,7 @@
 using Blaise.Tests.Helpers.Case;
 using Blaise.Tests.Helpers.Cati;
 using Blaise.Tests.Helpers.Configuration;
-using Blaise.Tests.Helpers.Instrument;
+using Blaise.Tests.Helpers.Questionnaire;
 using Blaise.Tests.Helpers.Tobi;
 using Blaise.Tests.Models.Case;
 using NUnit.Framework;
@@ -18,7 +18,7 @@ namespace Blaise.Tobi.Tests.Behaviour.Steps
         [BeforeFeature("tobi")]
         public static void InitializeFeature()
         {
-            InstrumentHelper.GetInstance().InstallInstrument();
+            QuestionnaireHelper.GetInstance().InstallInstrument();
             CaseHelper.GetInstance().CreateCase(new CaseModel("900001", "110", "07000 000 00"));
         }
 
@@ -118,7 +118,7 @@ namespace Blaise.Tobi.Tests.Behaviour.Steps
             DayBatchHelper.GetInstance().RemoveSurveyDays(BlaiseConfigurationHelper.InstrumentName, DateTime.Today);
             BrowserHelper.ClosePreviousTab();
             CaseHelper.GetInstance().DeleteCases();
-            InstrumentHelper.GetInstance().UninstallSurvey();
+            QuestionnaireHelper.GetInstance().UninstallSurvey();
         }
 
         [AfterTestRun]

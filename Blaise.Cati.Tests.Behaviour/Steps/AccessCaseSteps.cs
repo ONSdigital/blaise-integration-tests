@@ -1,7 +1,7 @@
 ﻿using Blaise.Tests.Helpers.Browser;
 using Blaise.Tests.Helpers.Cati;
 using Blaise.Tests.Helpers.Configuration;
-using Blaise.Tests.Helpers.Instrument;
+using Blaise.Tests.Helpers.Questionnaire;
 using NUnit.Framework;
 using System;
 using System.Diagnostics;
@@ -25,8 +25,8 @@ namespace Blaise.Cati.Tests.Behaviour.Steps
             try
             {
                 CatiInterviewHelper.GetInstance().CreateInterviewUser();
-                InstrumentHelper.GetInstance().InstallInstrument();
-                Assert.IsTrue(InstrumentHelper.GetInstance()
+                QuestionnaireHelper.GetInstance().InstallInstrument();
+                Assert.IsTrue(QuestionnaireHelper.GetInstance()
                     .SurveyHasInstalled(BlaiseConfigurationHelper.InstrumentName, 60));
             }
             catch (Exception ex)
@@ -99,7 +99,7 @@ namespace Blaise.Cati.Tests.Behaviour.Steps
         public static void CleanUpFeature()
         {
             CatiInterviewHelper.GetInstance().DeleteInterviewUser();
-            InstrumentHelper.GetInstance().UninstallSurvey();
+            QuestionnaireHelper.GetInstance().UninstallSurvey();
         }
 
         [AfterTestRun]

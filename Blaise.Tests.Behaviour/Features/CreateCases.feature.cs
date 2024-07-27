@@ -117,7 +117,7 @@ this.ScenarioInitialize(scenarioInfo);
                             "110",
                             "07000 000 00"});
 #line 11
- testRunner.When("I create sample cases for the instrument", ((string)(null)), table1, "When ");
+ testRunner.When("I create sample cases for the questionnaire", ((string)(null)), table1, "When ");
 #line hidden
                 TechTalk.SpecFlow.Table table2 = new TechTalk.SpecFlow.Table(new string[] {
                             "primarykey",
