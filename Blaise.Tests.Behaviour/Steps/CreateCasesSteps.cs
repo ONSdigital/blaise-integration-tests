@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using Blaise.Tests.Helpers.Case;
-using Blaise.Tests.Helpers.Instrument;
+using Blaise.Tests.Helpers.Questionnaire;
 using Blaise.Tests.Models.Case;
 using NUnit.Framework;
 using TechTalk.SpecFlow;
@@ -14,11 +14,11 @@ namespace Blaise.Tests.Behaviour.Steps
         [BeforeFeature("case")]
         public static void InitializeFeature()
         {
-            //InstrumentHelper.GetInstance().InstallInstrument();
+            //QuestionnaireHelper.GetInstance().InstallInstrument();
         }
 
         [Given(@"I have created sample cases for the questionnaire")]
-        [When(@"I create sample cases for the instrument")]
+        [When(@"I create sample cases for the questionnaire")]
         public void WhenICreateACaseForTheInstrument(IEnumerable<CaseModel> caseModels)
         {
             CaseHelper.GetInstance().DeleteCases();
@@ -68,7 +68,7 @@ namespace Blaise.Tests.Behaviour.Steps
         [AfterFeature("case")]
         public static void CleanUpFeature()
         {
-            InstrumentHelper.GetInstance().UninstallSurvey();
+            QuestionnaireHelper.GetInstance().UninstallSurvey();
         }
     }
 }

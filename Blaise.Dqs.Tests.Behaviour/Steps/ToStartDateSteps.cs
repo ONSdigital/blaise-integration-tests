@@ -2,7 +2,7 @@
 using Blaise.Tests.Helpers.Case;
 using Blaise.Tests.Helpers.Configuration;
 using Blaise.Tests.Helpers.Dqs;
-using Blaise.Tests.Helpers.Instrument;
+using Blaise.Tests.Helpers.Questionnaire;
 using NUnit.Framework;
 using System;
 using TechTalk.SpecFlow;
@@ -17,10 +17,10 @@ namespace Blaise.Dqs.Tests.Behaviour.Steps
         [BeforeScenario("ToStartDate")]
         public static void InitializeScenario()
         {
-            InstrumentHelper.GetInstance().InstallInstrument();
+            QuestionnaireHelper.GetInstance().InstallInstrument();
         }
 
-        [Given(@"An instrument is installed in Blaise")]
+        [Given(@"A questionnaire is installed in Blaise")]
         public void GivenAnInstrumentIsInstalledInBlaise()
         {
         }
@@ -71,7 +71,7 @@ namespace Blaise.Dqs.Tests.Behaviour.Steps
             DqsHelper.GetInstance().ConfirmQuestionnaireUpload();
         }
 
-        [Then(@"The TO start date for '(.*)' is stored against the instrument")]
+        [Then(@"The TO start date for '(.*)' is stored against the questionnaire")]
         public void ThenTheTOStartDateForIsStoredAgainstTheInstrument(string date)
         {
             var toStartDate = DateTime.Now.ToString("dd/MM/yyyy");
@@ -87,10 +87,10 @@ namespace Blaise.Dqs.Tests.Behaviour.Steps
         public void CleanUpScenario()
         {
             DqsHelper.GetInstance().LogOutOfToDqs();
-            if (InstrumentHelper.GetInstance().SurveyExists(BlaiseConfigurationHelper.InstrumentName))
+            if (QuestionnaireHelper.GetInstance().SurveyExists(BlaiseConfigurationHelper.InstrumentName))
             {
                 CaseHelper.GetInstance().DeleteCases();
-                InstrumentHelper.GetInstance().UninstallSurvey();
+                QuestionnaireHelper.GetInstance().UninstallSurvey();
             }
             BrowserHelper.ClosePreviousTab();
         }

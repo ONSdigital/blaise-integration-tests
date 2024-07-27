@@ -1,6 +1,6 @@
 ﻿using Blaise.Nuget.Api.Contracts.Models;
 using Blaise.Tests.Helpers.Framework.Extensions;
-using Blaise.Tests.Helpers.Instrument;
+using Blaise.Tests.Helpers.Questionnaire;
 
 namespace Blaise.Tests.Helpers.Configuration
 {
@@ -10,7 +10,7 @@ namespace Blaise.Tests.Helpers.Configuration
         public static string ServerParkName => ConfigurationExtensions.GetVariable("ServerParkName");
         public static string InstrumentPath => ConfigurationExtensions.GetVariable("InstrumentPath");
         public static string InstrumentName => ConfigurationExtensions.GetVariable("InstrumentName");
-        public static string InstrumentPackage => InstrumentHelper.InstrumentPackagePath(InstrumentPath, InstrumentName);
+        public static string InstrumentPackage => QuestionnaireHelper.InstrumentPackagePath(InstrumentPath, InstrumentName);
 
         public static ConnectionModel BuildConnectionModel()
         {

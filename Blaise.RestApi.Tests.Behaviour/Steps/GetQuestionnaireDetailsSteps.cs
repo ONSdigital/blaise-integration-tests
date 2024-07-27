@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using Blaise.Tests.Helpers.Configuration;
-using Blaise.Tests.Helpers.Instrument;
+using Blaise.Tests.Helpers.Questionnaire;
 using Blaise.Tests.Helpers.RestApi;
 using Blaise.Tests.Models.Questionnaire;
 using NUnit.Framework;
@@ -23,14 +23,14 @@ namespace Blaise.RestApi.Tests.Behaviour.Steps
         [Given(@"the questionnaire is active")]
         public void GivenTheQuestionnaireIsActive()
         {
-            var surveyIsActive = InstrumentHelper.GetInstance().SetSurveyAsActive(60);
+            var surveyIsActive = QuestionnaireHelper.GetInstance().SetSurveyAsActive(60);
             Assert.IsTrue(surveyIsActive);
         }
 
         [Given(@"the questionnaire is inactive")]
         public void GivenTheQuestionnaireIsInactive()
         {
-            var surveyIsInactive = InstrumentHelper.GetInstance().SetSurveyAsInactive();
+            var surveyIsInactive = QuestionnaireHelper.GetInstance().SetSurveyAsInactive();
             Assert.IsTrue(surveyIsInactive);
         }
 
@@ -64,7 +64,7 @@ namespace Blaise.RestApi.Tests.Behaviour.Steps
         [AfterScenario("questionnaires")]
         public void CleanUpScenario()
         {
-            InstrumentHelper.GetInstance().UninstallSurvey();
+            QuestionnaireHelper.GetInstance().UninstallSurvey();
         }
     }
 }

@@ -2,7 +2,7 @@
 using Blaise.Tests.Helpers.Case;
 using Blaise.Tests.Helpers.Cati;
 using Blaise.Tests.Helpers.Configuration;
-using Blaise.Tests.Helpers.Instrument;
+using Blaise.Tests.Helpers.Questionnaire;
 using Blaise.Tests.Models.Case;
 using NUnit.Framework;
 using System.Collections.Generic;
@@ -26,7 +26,7 @@ namespace Blaise.Cati.Tests.Behaviour.Steps
                 return;
 
             CatiManagementHelper.GetInstance().CreateAdminUser();
-            InstrumentHelper.GetInstance().InstallInstrument();
+            QuestionnaireHelper.GetInstance().InstallInstrument();
         }
 
         [Given(@"I log on to Cati as an administrator")]
@@ -58,7 +58,7 @@ namespace Blaise.Cati.Tests.Behaviour.Steps
             CatiManagementHelper.GetInstance().ClearDayBatchEntries();
             CatiManagementHelper.GetInstance().DeleteAdminUser();
             CaseHelper.GetInstance().DeleteCases();
-            InstrumentHelper.GetInstance().UninstallSurvey();
+            QuestionnaireHelper.GetInstance().UninstallSurvey();
             BrowserHelper.ClearSessionData();
         }
     }

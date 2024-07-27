@@ -38,7 +38,7 @@ namespace Blaise.Tests.Behaviour.Features
         {
             testRunner = TechTalk.SpecFlow.TestRunnerManager.GetTestRunner();
             TechTalk.SpecFlow.FeatureInfo featureInfo = new TechTalk.SpecFlow.FeatureInfo(new System.Globalization.CultureInfo("en-US"), "Features", "Install Questionnaire", "\tIn order to capture respondents data accurately\r\n\tAs a responsible data owner\r\n\t" +
-                    "I want to be able to install an instrument with a defined set of questions", ProgrammingLanguage.CSharp, featureTags);
+                    "I want to be able to install a questionnaire with a defined set of questions", ProgrammingLanguage.CSharp, featureTags);
             testRunner.OnFeatureStart(featureInfo);
         }
         
@@ -77,7 +77,7 @@ namespace Blaise.Tests.Behaviour.Features
         }
         
         [NUnit.Framework.TestAttribute()]
-        [NUnit.Framework.DescriptionAttribute("Install an instrument into a Blaise environment")]
+        [NUnit.Framework.DescriptionAttribute("Install a questionnaire into a Blaise environment")]
         [NUnit.Framework.CategoryAttribute("smoke")]
         [NUnit.Framework.CategoryAttribute("regression")]
         public void InstallAnInstrumentIntoABlaiseEnvironment()
@@ -86,7 +86,7 @@ namespace Blaise.Tests.Behaviour.Features
                     "smoke",
                     "regression"};
             System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
-            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Install an instrument into a Blaise environment", null, tagsOfScenario, argumentsOfScenario, featureTags);
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Install a questionnaire into a Blaise environment", null, tagsOfScenario, argumentsOfScenario, featureTags);
 #line 9
 this.ScenarioInitialize(scenarioInfo);
 #line hidden
@@ -111,7 +111,7 @@ this.ScenarioInitialize(scenarioInfo);
         }
         
         [NUnit.Framework.TestAttribute()]
-        [NUnit.Framework.DescriptionAttribute("Install an instrument into a Blaise environment using Cati configuration")]
+        [NUnit.Framework.DescriptionAttribute("Install a questionnaire into a Blaise environment using Cati configuration")]
         [NUnit.Framework.CategoryAttribute("smoke")]
         [NUnit.Framework.CategoryAttribute("regression")]
         public void InstallAnInstrumentIntoABlaiseEnvironmentUsingCatiConfiguration()
@@ -120,7 +120,7 @@ this.ScenarioInitialize(scenarioInfo);
                     "smoke",
                     "regression"};
             System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
-            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Install an instrument into a Blaise environment using Cati configuration", null, tagsOfScenario, argumentsOfScenario, featureTags);
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Install a questionnaire into a Blaise environment using Cati configuration", null, tagsOfScenario, argumentsOfScenario, featureTags);
 #line 16
 this.ScenarioInitialize(scenarioInfo);
 #line hidden
