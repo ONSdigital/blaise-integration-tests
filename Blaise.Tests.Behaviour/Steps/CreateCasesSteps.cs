@@ -14,7 +14,7 @@ namespace Blaise.Tests.Behaviour.Steps
         [BeforeFeature("case")]
         public static void InitializeFeature()
         {
-            //QuestionnaireHelper.GetInstance().InstallInstrument();
+            //QuestionnaireHelper.GetInstance().InstallQuestionnaire();
         }
 
         [Given(@"I have created sample cases for the questionnaire")]

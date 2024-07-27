@@ -28,13 +28,13 @@ namespace Blaise.Tests.Behaviour.Steps
         [When(@"I install the questionnaire into a Blaise environment")]
         public void WhenIInstallTheInstrumentIntoABlaiseEnvironment()
         {
-            QuestionnaireHelper.GetInstance().InstallInstrument();
+            QuestionnaireHelper.GetInstance().InstallQuestionnaire();
         }
 
         [When(@"I install the questionnaire into a Blaise environment specifying a Cati configuration")]
         public void WhenIInstallTheInstrumentIntoABlaiseEnvironmentSpecifyingACatiConfiguration()
         {
-            QuestionnaireHelper.GetInstance().InstallInstrument();
+            QuestionnaireHelper.GetInstance().InstallQuestionnaire();
         }
 
         [Then(@"the questionnaire is available to use in the Blaise environment")]
@@ -42,7 +42,7 @@ namespace Blaise.Tests.Behaviour.Steps
         {
             var instrumentHasInstalled = QuestionnaireHelper.GetInstance().SurveyHasInstalled(BlaiseConfigurationHelper.InstrumentName, 60);
 
-            Assert.IsTrue(instrumentHasInstalled, "The instrument has not been installed, or is not active");
+            Assert.IsTrue(instrumentHasInstalled, "The questionnaire has not been installed, or is not active");
         }
 
         [Then(@"the questionnaire is configured to capture respondents data via Cati")]

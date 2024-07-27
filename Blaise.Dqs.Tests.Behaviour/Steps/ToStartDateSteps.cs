@@ -17,7 +17,7 @@ namespace Blaise.Dqs.Tests.Behaviour.Steps
         [BeforeScenario("ToStartDate")]
         public static void InitializeScenario()
         {
-            QuestionnaireHelper.GetInstance().InstallInstrument();
+            QuestionnaireHelper.GetInstance().InstallQuestionnaire();
         }
 
         [Given(@"A questionnaire is installed in Blaise")]
@@ -25,7 +25,7 @@ namespace Blaise.Dqs.Tests.Behaviour.Steps
         {
         }
 
-        [Given(@"The instrument has no TO start date")]
+        [Given(@"The questionnaire has no TO start date")]
         [Then(@"The TO start date should not be set")]
         public void GivenTheInstrumentHasNoTOStartDate()
         {
@@ -35,7 +35,7 @@ namespace Blaise.Dqs.Tests.Behaviour.Steps
             Assert.AreEqual("No start date specified, using survey days", toStartDateText);
         }
 
-        [Given(@"The instrument has a start date of '(.*)'")]
+        [Given(@"The questionnaire has a start date of '(.*)'")]
         [When(@"I change the TO start date to '(.*)'")]
         public void GivenTheInstrumentHasAStartDateOf(string date)
         {

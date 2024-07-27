@@ -113,7 +113,7 @@ this.FeatureBackground();
  testRunner.Given("A questionnaire is installed in Blaise", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line hidden
 #line 12
- testRunner.And("The instrument has no TO start date", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.And("The questionnaire has no TO start date", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
 #line 13
  testRunner.When("I add a TO start date of \'today\'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
@@ -151,7 +151,7 @@ this.FeatureBackground();
  testRunner.Given("A questionnaire is installed in Blaise", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line hidden
 #line 19
- testRunner.And("The instrument has a start date of \'today\'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.And("The questionnaire has a start date of \'today\'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
 #line 20
  testRunner.When("I change the TO start date to \'tomorrow\'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
@@ -189,7 +189,7 @@ this.FeatureBackground();
  testRunner.Given("A questionnaire is installed in Blaise", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line hidden
 #line 26
- testRunner.And("The instrument has a start date of \'today\'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.And("The questionnaire has a start date of \'today\'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
 #line 27
  testRunner.When("I change the TO start date to no TO start date", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");

@@ -62,14 +62,14 @@ namespace Blaise.Tests.Helpers.Questionnaire
             return $"{instrumentPath}//{instrumentName}.bpkg";
         }
 
-        public void InstallInstrument()
+        public void InstallQuestionnaire()
         {
-            InstallInstrument(BlaiseConfigurationHelper.InstrumentName);
+            InstallQuestionnaire(BlaiseConfigurationHelper.InstrumentName);
         }
 
-        public void InstallInstrument(string instrumentName)
+        public void InstallQuestionnaire(string instrumentName)
         {
-            Console.WriteLine($"QuestionnaireHelper InstallInstrument: Installing questionnaire {BlaiseConfigurationHelper.InstrumentName}...");
+            Console.WriteLine($"QuestionnaireHelper InstallQuestionnaire: Installing questionnaire {BlaiseConfigurationHelper.InstrumentName}...");
             var instrumentPackage = InstrumentPackagePath(BlaiseConfigurationHelper.InstrumentPath, instrumentName);
             _blaiseQuestionnaireApi.InstallQuestionnaire(instrumentName,
                 BlaiseConfigurationHelper.ServerParkName,
