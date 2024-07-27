@@ -39,7 +39,7 @@ namespace Blaise.Dqs.Tests.Behaviour.Steps
         public void ThenIAmPresentedWithAListOfTheQuestionnairesAlreadyDeployedToBlaise()
         {
             var questionnairesInTable = DqsHelper.GetInstance().GetQuestionnaireTableContents();
-            Assert.IsTrue(questionnairesInTable.Any(q => q == BlaiseConfigurationHelper.InstrumentName));
+            Assert.IsTrue(questionnairesInTable.Any(q => q == BlaiseConfigurationHelper.QuestionnaireName));
         }
 
         [Given(@"I have selected the questionnaire package I wish to deploy")]
@@ -189,7 +189,7 @@ namespace Blaise.Dqs.Tests.Behaviour.Steps
         [Then(@"the questionnaire is active in blaise")]
         public void ThenTheQuestionnaireIsActiveInBlaise()
         {
-            var instrumentInstalled = QuestionnaireHelper.GetInstance().SurveyHasInstalled(BlaiseConfigurationHelper.InstrumentName, 60);
+            var instrumentInstalled = QuestionnaireHelper.GetInstance().SurveyHasInstalled(BlaiseConfigurationHelper.QuestionnaireName, 60);
             Assert.IsTrue(instrumentInstalled);
         }
 
@@ -203,7 +203,7 @@ namespace Blaise.Dqs.Tests.Behaviour.Steps
         public void CleanUpScenario()
         {
             DqsHelper.GetInstance().LogOutOfToDqs();
-            if (QuestionnaireHelper.GetInstance().SurveyExists(BlaiseConfigurationHelper.InstrumentName))
+            if (QuestionnaireHelper.GetInstance().SurveyExists(BlaiseConfigurationHelper.QuestionnaireName))
             {
                 CaseHelper.GetInstance().DeleteCases();
                 QuestionnaireHelper.GetInstance().UninstallSurvey();

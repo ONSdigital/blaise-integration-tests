@@ -19,7 +19,7 @@ namespace Blaise.Tests.Helpers.Cati.Pages
 
         public void SetSurveyDay()
         {
-            SelectDropDownValueById(InstrumentDropDownId, BlaiseConfigurationHelper.InstrumentName);
+            SelectDropDownValueById(InstrumentDropDownId, BlaiseConfigurationHelper.QuestionnaireName);
             Thread.Sleep(3000);
             ClickButtonByXPath(SurveyAccordionPath);
             ClickButtonById(EditButtonId);

@@ -36,7 +36,7 @@ namespace Blaise.Tests.Helpers.Dqs
         public List<string> GetQuestionnaireTableContents()
         {
             var homePage = new HomePage();
-            homePage.FilterInstruments(BlaiseConfigurationHelper.InstrumentName);
+            homePage.FilterInstruments(BlaiseConfigurationHelper.QuestionnaireName);
             return homePage.GetFirstColumnFromTableContent();
         }
 
@@ -143,7 +143,7 @@ namespace Blaise.Tests.Helpers.Dqs
         public string GetDeletionSummary()
         {
             var homePage = new HomePage();
-            homePage.FilterInstruments(BlaiseConfigurationHelper.InstrumentName);
+            homePage.FilterInstruments(BlaiseConfigurationHelper.QuestionnaireName);
             return homePage.GetUploadSummaryText();
         }
 
@@ -174,7 +174,7 @@ namespace Blaise.Tests.Helpers.Dqs
         {
             var homePage = new HomePage();
             homePage.LoadPage();
-            homePage.FilterInstruments(BlaiseConfigurationHelper.InstrumentName);
+            homePage.FilterInstruments(BlaiseConfigurationHelper.QuestionnaireName);
             homePage.ClickInstrumentInfoButton(instrumentName);
         }
 
@@ -187,7 +187,7 @@ namespace Blaise.Tests.Helpers.Dqs
         public void WaitForQuestionnaireDetailsPage()
         {
             var instrumentInfoPage = new QuestionnaireInfoPage();
-            instrumentInfoPage.WaitForPageToLoad(BlaiseConfigurationHelper.InstrumentName);
+            instrumentInfoPage.WaitForPageToLoad(BlaiseConfigurationHelper.QuestionnaireName);
         }
 
         public void WaitForDeleteQuestionnaireConfirmationPage()
