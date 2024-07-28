@@ -90,7 +90,7 @@ namespace Blaise.Dqs.Tests.Behaviour.Features
         [NUnit.Framework.TestAttribute()]
         [NUnit.Framework.DescriptionAttribute("A questionnaire has been deployed without a start date and I wish to add one")]
         [NUnit.Framework.CategoryAttribute("Smoke")]
-        public void AnInstrumentHasBeenDeployedWithoutAStartDateAndIWishToAddOne()
+        public void AQuestionnaireHasBeenDeployedWithoutAStartDateAndIWishToAddOne()
         {
             string[] tagsOfScenario = new string[] {
                     "Smoke"};
@@ -128,7 +128,7 @@ this.FeatureBackground();
         [NUnit.Framework.TestAttribute()]
         [NUnit.Framework.DescriptionAttribute("A questionnaire has been deployed with a start date and I wish to change it")]
         [NUnit.Framework.CategoryAttribute("Smoke")]
-        public void AnInstrumentHasBeenDeployedWithAStartDateAndIWishToChangeIt()
+        public void AQuestionnaireHasBeenDeployedWithAStartDateAndIWishToChangeIt()
         {
             string[] tagsOfScenario = new string[] {
                     "Smoke"};
@@ -166,7 +166,7 @@ this.FeatureBackground();
         [NUnit.Framework.TestAttribute()]
         [NUnit.Framework.DescriptionAttribute("A questionnaire has been deployed with a start date and I wish to remove it")]
         [NUnit.Framework.CategoryAttribute("Smoke")]
-        public void AnInstrumentHasBeenDeployedWithAStartDateAndIWishToRemoveIt()
+        public void AQuestionnaireHasBeenDeployedWithAStartDateAndIWishToRemoveIt()
         {
             string[] tagsOfScenario = new string[] {
                     "Smoke"};

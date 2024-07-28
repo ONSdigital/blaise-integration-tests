@@ -53,7 +53,7 @@ namespace Blaise.Dqs.Tests.Behaviour.Steps
             DqsHelper.GetInstance().LoadDqsHomePage();
             var questionnairesInTable = DqsHelper.GetInstance().GetQuestionnaireTableContents();
             Assert.IsTrue(questionnairesInTable.Any(q => q == BlaiseConfigurationHelper.QuestionnaireName));
-            DqsHelper.GetInstance().ClickInstrumentInfoButton(BlaiseConfigurationHelper.QuestionnaireName);
+            DqsHelper.GetInstance().ClickQuestionnaireInfoButton(BlaiseConfigurationHelper.QuestionnaireName);
         }
 
         [When(@"I am taken to the questionnaire details page")]

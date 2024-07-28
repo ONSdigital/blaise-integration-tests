@@ -13,7 +13,7 @@ namespace Blaise.Tests.Behaviour.Steps
         // For additional details on SpecFlow step definitions see https://go.specflow.org/doc-stepdef
 
         [Given(@"I have an questionnaire I want to use to capture respondents data")]
-        public void GivenIHaveAnInstrumentIWantToUseToCaptureRespondentsData()
+        public void GivenIHaveAQuestionnaireIWantToUseToCaptureRespondentsData()
         {
             var instrumentPackage = BlaiseConfigurationHelper.InstrumentPackage;
 
@@ -26,19 +26,19 @@ namespace Blaise.Tests.Behaviour.Steps
         [Given(@"I have an questionnaire installed on a Blaise environment")]
         [Given(@"There is an questionnaire installed on a Blaise environment")]
         [When(@"I install the questionnaire into a Blaise environment")]
-        public void WhenIInstallTheInstrumentIntoABlaiseEnvironment()
+        public void WhenIInstallTheQuestionnaireIntoABlaiseEnvironment()
         {
             QuestionnaireHelper.GetInstance().InstallQuestionnaire();
         }
 
         [When(@"I install the questionnaire into a Blaise environment specifying a Cati configuration")]
-        public void WhenIInstallTheInstrumentIntoABlaiseEnvironmentSpecifyingACatiConfiguration()
+        public void WhenIInstallTheQuestionnaireIntoABlaiseEnvironmentSpecifyingACatiConfiguration()
         {
             QuestionnaireHelper.GetInstance().InstallQuestionnaire();
         }
 
         [Then(@"the questionnaire is available to use in the Blaise environment")]
-        public void ThenTheInstrumentIsAvailableToUseInTheBlaiseEnvironment()
+        public void ThenTheQuestionnaireIsAvailableToUseInTheBlaiseEnvironment()
         {
             var instrumentHasInstalled = QuestionnaireHelper.GetInstance().SurveyHasInstalled(BlaiseConfigurationHelper.QuestionnaireName, 60);
 
@@ -46,7 +46,7 @@ namespace Blaise.Tests.Behaviour.Steps
         }
 
         [Then(@"the questionnaire is configured to capture respondents data via Cati")]
-        public void ThenTheInstrumentIsConfiguredToCaptureRespondentsDataViaCati()
+        public void ThenTheQuestionnaireIsConfiguredToCaptureRespondentsDataViaCati()
         {
             var surveyConfiguration = QuestionnaireHelper.GetInstance().GetSurveyInterviewType();
             Assert.AreEqual(QuestionnaireInterviewType.Cati, surveyConfiguration);

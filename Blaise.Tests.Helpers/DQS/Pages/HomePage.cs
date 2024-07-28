@@ -33,7 +33,7 @@ namespace Blaise.Tests.Helpers.Dqs.Pages
             return GetElementTextByPath(SummaryDivPath);
         }
 
-        public void ClickInstrumentInfoButton(string questionnaireName)
+        public void ClickQuestionnaireInfoButton(string questionnaireName)
         {
             ClickButtonById(InfoButtonPlaceholderId + questionnaireName);
         }
