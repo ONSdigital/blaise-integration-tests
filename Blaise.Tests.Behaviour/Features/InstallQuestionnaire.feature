@@ -1,4 +1,4 @@
-﻿@instrument
+﻿@questionnaire
 Feature: Install Questionnaire
 	In order to capture respondents data accurately
 	As a responsible data owner

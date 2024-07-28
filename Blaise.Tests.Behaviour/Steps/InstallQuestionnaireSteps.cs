@@ -15,11 +15,11 @@ namespace Blaise.Tests.Behaviour.Steps
         [Given(@"I have an questionnaire I want to use to capture respondents data")]
         public void GivenIHaveAQuestionnaireIWantToUseToCaptureRespondentsData()
         {
-            var instrumentPackage = BlaiseConfigurationHelper.InstrumentPackage;
+            var questionnairePackage = BlaiseConfigurationHelper.QuestionnairePackage;
 
-            if (string.IsNullOrWhiteSpace(instrumentPackage))
+            if (string.IsNullOrWhiteSpace(questionnairePackage))
             {
-                Assert.Fail("No instrument package has been configured");
+                Assert.Fail("No questionnaire package has been configured");
             }
         }
 
@@ -40,9 +40,9 @@ namespace Blaise.Tests.Behaviour.Steps
         [Then(@"the questionnaire is available to use in the Blaise environment")]
         public void ThenTheQuestionnaireIsAvailableToUseInTheBlaiseEnvironment()
         {
-            var instrumentHasInstalled = QuestionnaireHelper.GetInstance().SurveyHasInstalled(BlaiseConfigurationHelper.QuestionnaireName, 60);
+            var questionnaireHasInstalled = QuestionnaireHelper.GetInstance().SurveyHasInstalled(BlaiseConfigurationHelper.QuestionnaireName, 60);
 
-            Assert.IsTrue(instrumentHasInstalled, "The questionnaire has not been installed, or is not active");
+            Assert.IsTrue(questionnaireHasInstalled, "The questionnaire has not been installed, or is not active");
         }
 
         [Then(@"the questionnaire is configured to capture respondents data via Cati")]
@@ -52,7 +52,7 @@ namespace Blaise.Tests.Behaviour.Steps
             Assert.AreEqual(QuestionnaireInterviewType.Cati, surveyConfiguration);
         }
 
-        [AfterScenario("instrument")]
+        [AfterScenario("questionnaire")]
         public void CleanUpScenario()
         {
             QuestionnaireHelper.GetInstance().UninstallSurvey();

@@ -38,7 +38,7 @@ namespace Blaise.Tests.Helpers.Dqs.Pages
             ClickButtonById(InfoButtonPlaceholderId + questionnaireName);
         }
 
-        public void FilterInstruments(string questionnaireName)
+        public void FilterQuestionnaire(string questionnaireName)
         {
             PopulateInputById(FilterId, questionnaireName);
         }

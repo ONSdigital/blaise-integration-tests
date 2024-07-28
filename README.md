@@ -65,9 +65,9 @@ Depending on the tests your running, substitute the environment variable values 
 ```xml
   <appSettings>
 	  <add key="UninstallSurveyTimeOutInSeconds" value="5" />
-	  <add key="InstrumentPath" value="C:\<test-questionnaire-path>\" />
+	  <add key="QuestionnairePath" value="C:\<test-questionnaire-path>\" />
 	  <add key="ServerParkName" value="gusty" />
-	  <add key="InstrumentName" value="DST2304Z" />
+	  <add key="QuestionnaireName" value="DST2304Z" />
 	  <add key="ENV_BLAISE_SERVER_HOST_NAME" value="localhost" />
 	  <add key="ENV_BLAISE_ADMIN_USER" value="<blaise-username>" />
 	  <add key="ENV_BLAISE_ADMIN_PASSWORD" value="<blaise-password>" />
