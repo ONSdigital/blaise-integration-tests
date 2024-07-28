@@ -21,14 +21,14 @@ namespace Blaise.Tests.Behaviour.Features
     [System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     [NUnit.Framework.TestFixtureAttribute()]
     [NUnit.Framework.DescriptionAttribute("Install Questionnaire")]
-    [NUnit.Framework.CategoryAttribute("instrument")]
+    [NUnit.Framework.CategoryAttribute("questionnaire")]
     public partial class InstallQuestionnaireFeature
     {
         
         private TechTalk.SpecFlow.ITestRunner testRunner;
         
         private static string[] featureTags = new string[] {
-                "instrument"};
+                "questionnaire"};
         
 #line 1 "InstallQuestionnaire.feature"
 #line hidden

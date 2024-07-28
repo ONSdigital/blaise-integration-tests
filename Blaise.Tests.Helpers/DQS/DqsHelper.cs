@@ -36,7 +36,7 @@ namespace Blaise.Tests.Helpers.Dqs
         public List<string> GetQuestionnaireTableContents()
         {
             var homePage = new HomePage();
-            homePage.FilterInstruments(BlaiseConfigurationHelper.QuestionnaireName);
+            homePage.FilterQuestionnaire(BlaiseConfigurationHelper.QuestionnaireName);
             return homePage.GetFirstColumnFromTableContent();
         }
 
@@ -68,7 +68,7 @@ namespace Blaise.Tests.Helpers.Dqs
         public void SelectQuestionnairePackage()
         {
             var uploadPage = new UploadPage();
-            uploadPage.SelectFileToUpload(BlaiseConfigurationHelper.InstrumentPackage);
+            uploadPage.SelectFileToUpload(BlaiseConfigurationHelper.QuestionnairePackage);
         }
 
         public void ConfirmQuestionnaireUpload()
@@ -91,8 +91,8 @@ namespace Blaise.Tests.Helpers.Dqs
 
         public void CanDeleteQuestionnaire()
         {
-            var instrumentInfoPage = new QuestionnaireInfoPage();
-            instrumentInfoPage.CanDeleteQuestionnaire();
+            var questionnaireInfoPage = new QuestionnaireInfoPage();
+            questionnaireInfoPage.CanDeleteQuestionnaire();
         }
 
         public void WaitForUploadToComplete()
@@ -132,18 +132,18 @@ namespace Blaise.Tests.Helpers.Dqs
 
         }
 
-        public void DeleteQuestionnaire(string instrumentName)
+        public void DeleteQuestionnaire(string questionnaireName)
         {
-            ClickQuestionnaireInfoButton(instrumentName);
-            var instrumentInformationPage = new QuestionnaireInfoPage();
+            ClickQuestionnaireInfoButton(questionnaireName);
+            var questionnaireInformationPage = new QuestionnaireInfoPage();
             Thread.Sleep(5000);
-            instrumentInformationPage.ClickDeleteButton();
+            questionnaireInformationPage.ClickDeleteButton();
         }
 
         public string GetDeletionSummary()
         {
             var homePage = new HomePage();
-            homePage.FilterInstruments(BlaiseConfigurationHelper.QuestionnaireName);
+            homePage.FilterQuestionnaire(BlaiseConfigurationHelper.QuestionnaireName);
             return homePage.GetUploadSummaryText();
         }
 
@@ -166,28 +166,28 @@ namespace Blaise.Tests.Helpers.Dqs
         }
         public string GetToStartDate()
         {
-            var instrumentInfoPage = new QuestionnaireInfoPage();
-            return instrumentInfoPage.GetToStartDate();
+            var questionnaireInfoPage = new QuestionnaireInfoPage();
+            return questionnaireInfoPage.GetToStartDate();
         }
 
-        public void ClickQuestionnaireInfoButton(string instrumentName)
+        public void ClickQuestionnaireInfoButton(string questionnaireName)
         {
             var homePage = new HomePage();
             homePage.LoadPage();
-            homePage.FilterInstruments(BlaiseConfigurationHelper.QuestionnaireName);
-            homePage.ClickQuestionnaireInfoButton(instrumentName);
+            homePage.FilterQuestionnaire(BlaiseConfigurationHelper.QuestionnaireName);
+            homePage.ClickQuestionnaireInfoButton(questionnaireName);
         }
 
         public void ClickAddStartDate()
         {
-            var instrumentInfoPage = new QuestionnaireInfoPage();
-            instrumentInfoPage.AddToStartDate();
+            var questionnaireInfoPage = new QuestionnaireInfoPage();
+            questionnaireInfoPage.AddToStartDate();
         }
 
         public void WaitForQuestionnaireDetailsPage()
         {
-            var instrumentInfoPage = new QuestionnaireInfoPage();
-            instrumentInfoPage.WaitForPageToLoad(BlaiseConfigurationHelper.QuestionnaireName);
+            var questionnaireInfoPage = new QuestionnaireInfoPage();
+            questionnaireInfoPage.WaitForPageToLoad(BlaiseConfigurationHelper.QuestionnaireName);
         }
 
         public void WaitForDeleteQuestionnaireConfirmationPage()
