@@ -19,7 +19,7 @@ namespace Blaise.Tests.Behaviour.Steps
 
         [Given(@"I have created sample cases for the questionnaire")]
         [When(@"I create sample cases for the questionnaire")]
-        public void WhenICreateACaseForTheInstrument(IEnumerable<CaseModel> caseModels)
+        public void WhenICreateACaseForTheQuestionnaire(IEnumerable<CaseModel> caseModels)
         {
             CaseHelper.GetInstance().DeleteCases();
             CaseHelper.GetInstance().CreateCases(caseModels);
@@ -35,7 +35,7 @@ namespace Blaise.Tests.Behaviour.Steps
 
         private void CheckNumberOfCasesMatch(int expectedNumberOfCases)
         {
-            var actualNumberOfCases = CaseHelper.GetInstance().NumberOfCasesInInstrument();
+            var actualNumberOfCases = CaseHelper.GetInstance().NumberOfCasesInQuestionnaire();
             
             if (expectedNumberOfCases != actualNumberOfCases)
             {

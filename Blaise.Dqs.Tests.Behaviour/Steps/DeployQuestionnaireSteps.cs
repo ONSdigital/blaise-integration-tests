@@ -126,7 +126,7 @@ namespace Blaise.Dqs.Tests.Behaviour.Steps
         [Given(@"the questionnaire does not have data records")]
         public void GivenTheQuestionnaireDoesNotHaveDataRecords()
         {
-            Assert.AreEqual(0, CaseHelper.GetInstance().NumberOfCasesInInstrument());
+            Assert.AreEqual(0, CaseHelper.GetInstance().NumberOfCasesInQuestionnaire());
         }
 
         [Given(@"I have been presented with questionnaire already exists screen")]
@@ -189,8 +189,8 @@ namespace Blaise.Dqs.Tests.Behaviour.Steps
         [Then(@"the questionnaire is active in blaise")]
         public void ThenTheQuestionnaireIsActiveInBlaise()
         {
-            var instrumentInstalled = QuestionnaireHelper.GetInstance().SurveyHasInstalled(BlaiseConfigurationHelper.QuestionnaireName, 60);
-            Assert.IsTrue(instrumentInstalled);
+            var questionnaireInstalled = QuestionnaireHelper.GetInstance().SurveyHasInstalled(BlaiseConfigurationHelper.QuestionnaireName, 60);
+            Assert.IsTrue(questionnaireInstalled);
         }
 
         [Given(@"the package I have selected already exists in Blaise")]
