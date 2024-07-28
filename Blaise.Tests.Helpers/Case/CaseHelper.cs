@@ -77,7 +77,7 @@ namespace Blaise.Tests.Helpers.Case
             }
         }
 
-        public int NumberOfCasesInInstrument()
+        public int NumberOfCasesInQuestionnaire()
         {
             try
             {

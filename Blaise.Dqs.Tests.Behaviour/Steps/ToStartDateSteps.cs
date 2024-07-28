@@ -21,15 +21,15 @@ namespace Blaise.Dqs.Tests.Behaviour.Steps
         }
 
         [Given(@"A questionnaire is installed in Blaise")]
-        public void GivenAnInstrumentIsInstalledInBlaise()
+        public void GivenAQuestionnaireIsInstalledInBlaise()
         {
         }
 
         [Given(@"The questionnaire has no TO start date")]
         [Then(@"The TO start date should not be set")]
-        public void GivenTheInstrumentHasNoTOStartDate()
+        public void GivenTheQuestionnaireHasNoTOStartDate()
         {
-            DqsHelper.GetInstance().ClickInstrumentInfoButton(BlaiseConfigurationHelper.QuestionnaireName);
+            DqsHelper.GetInstance().ClickQuestionnaireInfoButton(BlaiseConfigurationHelper.QuestionnaireName);
             var toStartDateText = DqsHelper.GetInstance().GetToStartDate();
 
             Assert.AreEqual("No start date specified, using survey days", toStartDateText);
@@ -37,9 +37,9 @@ namespace Blaise.Dqs.Tests.Behaviour.Steps
 
         [Given(@"The questionnaire has a start date of '(.*)'")]
         [When(@"I change the TO start date to '(.*)'")]
-        public void GivenTheInstrumentHasAStartDateOf(string date)
+        public void GivenTheQuestionnaireHasAStartDateOf(string date)
         {
-            DqsHelper.GetInstance().ClickInstrumentInfoButton(BlaiseConfigurationHelper.QuestionnaireName);
+            DqsHelper.GetInstance().ClickQuestionnaireInfoButton(BlaiseConfigurationHelper.QuestionnaireName);
             var toStartDate = DateTime.Now.ToString("dd/MM/yyyy");
             if (date == "tomorrow")
                 toStartDate = DateTime.Now.AddDays(1).ToString("dd/MM/yyyy");
@@ -65,19 +65,19 @@ namespace Blaise.Dqs.Tests.Behaviour.Steps
         [When(@"I change the TO start date to no TO start date")]
         public void WhenIChangeTheTOStartDateToNoTOStartDate()
         {
-            DqsHelper.GetInstance().ClickInstrumentInfoButton(BlaiseConfigurationHelper.QuestionnaireName);
+            DqsHelper.GetInstance().ClickQuestionnaireInfoButton(BlaiseConfigurationHelper.QuestionnaireName);
             DqsHelper.GetInstance().ClickAddStartDate();
             DqsHelper.GetInstance().SelectNoLiveDate();
             DqsHelper.GetInstance().ConfirmQuestionnaireUpload();
         }
 
         [Then(@"The TO start date for '(.*)' is stored against the questionnaire")]
-        public void ThenTheTOStartDateForIsStoredAgainstTheInstrument(string date)
+        public void ThenTheTOStartDateForIsStoredAgainstTheQuestionnaire(string date)
         {
             var toStartDate = DateTime.Now.ToString("dd/MM/yyyy");
             if (date == "tomorrow")
                 toStartDate = DateTime.Now.AddDays(1).ToString("dd/MM/yyyy");
-            DqsHelper.GetInstance().ClickInstrumentInfoButton(BlaiseConfigurationHelper.QuestionnaireName);
+            DqsHelper.GetInstance().ClickQuestionnaireInfoButton(BlaiseConfigurationHelper.QuestionnaireName);
             var toStartDateText = DqsHelper.GetInstance().GetToStartDate();
 
             Assert.IsTrue(toStartDateText.Contains(toStartDate));

@@ -80,7 +80,7 @@ namespace Blaise.Tests.Behaviour.Features
         [NUnit.Framework.DescriptionAttribute("Install a questionnaire into a Blaise environment")]
         [NUnit.Framework.CategoryAttribute("smoke")]
         [NUnit.Framework.CategoryAttribute("regression")]
-        public void InstallAnInstrumentIntoABlaiseEnvironment()
+        public void InstallAQuestionnaireIntoABlaiseEnvironment()
         {
             string[] tagsOfScenario = new string[] {
                     "smoke",
@@ -114,7 +114,7 @@ this.ScenarioInitialize(scenarioInfo);
         [NUnit.Framework.DescriptionAttribute("Install a questionnaire into a Blaise environment using Cati configuration")]
         [NUnit.Framework.CategoryAttribute("smoke")]
         [NUnit.Framework.CategoryAttribute("regression")]
-        public void InstallAnInstrumentIntoABlaiseEnvironmentUsingCatiConfiguration()
+        public void InstallAQuestionnaireIntoABlaiseEnvironmentUsingCatiConfiguration()
         {
             string[] tagsOfScenario = new string[] {
                     "smoke",

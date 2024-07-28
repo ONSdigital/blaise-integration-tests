@@ -30,7 +30,7 @@ namespace Blaise.Tests.Helpers.Questionnaire
                 BlaiseConfigurationHelper.ServerParkName);
         }
 
-        public void CheckIfInstrumentIsErroneous(string instrumentName)
+        public void CheckIfQuestionnaireIsErroneous(string instrumentName)
         {
             try
             {
@@ -46,14 +46,14 @@ namespace Blaise.Tests.Helpers.Questionnaire
                     | |____| | \ \| | \ \| |__| | |\  | |___| |__| | |__| |____) |
                     |______|_|  \_\_|  \_\\____/|_| \_|______\____/ \____/|_____/
                     "); 
-                    Console.WriteLine($"QuestionnaireHelper CheckIfInstrumentIsErroneous: Questionnaire {instrumentName} is ERRONEOUS! Restart Blaise on mgmt VM and uninstall it via Blaise Server Manager");
+                    Console.WriteLine($"QuestionnaireHelper CheckIfQuestionnaireIsErroneous: Questionnaire {instrumentName} is ERRONEOUS! Restart Blaise on mgmt VM and uninstall it via Blaise Server Manager");
                     return;
                 }
-                Console.WriteLine($"QuestionnaireHelper CheckIfInstrumentIsErroneous: Questionnaire {instrumentName} is not erroneous, it is in the state {questionnaireStatus}");
+                Console.WriteLine($"QuestionnaireHelper CheckIfQuestionnaireIsErroneous: Questionnaire {instrumentName} is not erroneous, it is in the state {questionnaireStatus}");
             }
             catch (DataNotFoundException)
             {
-                Console.WriteLine($"QuestionnaireHelper CheckIfInstrumentIsErroneous: Questionnaire {instrumentName} does not exist");
+                Console.WriteLine($"QuestionnaireHelper CheckIfQuestionnaireIsErroneous: Questionnaire {instrumentName} does not exist");
             }
         }
 
@@ -95,7 +95,7 @@ namespace Blaise.Tests.Helpers.Questionnaire
 
            if (!SurveyHasUninstalled(BlaiseConfigurationHelper.QuestionnaireName, 180))
             {
-                CheckIfInstrumentIsErroneous(BlaiseConfigurationHelper.QuestionnaireName);
+                CheckIfQuestionnaireIsErroneous(BlaiseConfigurationHelper.QuestionnaireName);
             }
         }
 
