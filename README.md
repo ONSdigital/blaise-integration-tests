@@ -84,7 +84,7 @@ Depending on the tests your running, substitute the environment variable values 
 
 Placeholder | Description
 --- | ---
-`<test-questionnaire-path>` | Local path to the test questionnaire instrument package file.
+`<test-questionnaire-path>` | Local path to the test questionnaire package file.
 `<blaise-username>`         | From the `blaise-gusty-mgmt` VM `ENV_BLAISE_ADMIN_USER` environment variable.
 `<blaise-password>`         | From the `blaise-gusty-mgmt` VM `ENV_BLAISE_ADMIN_PASSWORD` environment variable.
 `<sandbox>`                 | The short name of your sandbox environment. e.g. `rr5`.
