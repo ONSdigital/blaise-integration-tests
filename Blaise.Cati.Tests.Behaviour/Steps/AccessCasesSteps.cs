@@ -18,7 +18,7 @@ namespace Blaise.Cati.Tests.Behaviour.Steps
             _scenarioContext = scenarioContext;
         }
 
-        [BeforeFeature("Access cases")]
+        [BeforeFeature("access-cases")]
         public static void InitializeFeature()
         {
             try
@@ -85,7 +85,7 @@ namespace Blaise.Cati.Tests.Behaviour.Steps
             }
         }
 
-        [AfterFeature("Access cases")]
+        [AfterFeature("access-cases")]
         public static void CleanUpFeature()
         {
             CatiManagementHelper.GetInstance().ClearDayBatchEntries();
