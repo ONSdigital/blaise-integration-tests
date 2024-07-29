@@ -37,7 +37,7 @@ namespace Blaise.Cati.Tests.Behaviour.Steps
         }
 
         [Given(@"there is a CATI questionnaire installed")]
-        public void GivenThereIsACatiQuestionnaireInstalled();
+        public void GivenThereIsACatiQuestionnaireInstalled()
         {
         }
 
