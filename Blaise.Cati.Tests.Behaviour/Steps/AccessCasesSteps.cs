@@ -10,10 +10,10 @@ using TechTalk.SpecFlow;
 namespace Blaise.Cati.Tests.Behaviour.Steps
 {
     [Binding]
-    public sealed class AccessCaseSteps
+    public sealed class AccessCasesSteps
     {
         private readonly ScenarioContext _scenarioContext;
-        public AccessCaseSteps(ScenarioContext scenarioContext)
+        public AccessCasesSteps(ScenarioContext scenarioContext)
         {
             _scenarioContext = scenarioContext;
         }
@@ -37,7 +37,7 @@ namespace Blaise.Cati.Tests.Behaviour.Steps
         }
 
         [Given(@"there is a CATI questionnaire installed")]
-        public void GivenThereIsACatiQuestionnaireInstalled questionnaire installed()
+        public void GivenThereIsACatiQuestionnaireInstalled();
         {
         }
 
