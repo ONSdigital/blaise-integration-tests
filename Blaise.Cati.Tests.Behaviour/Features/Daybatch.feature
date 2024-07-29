@@ -1,12 +1,8 @@
-﻿@cati
+﻿@daybatch
 Feature: Daybatch
-	In order to capture respondents data accurately
-	As a responsible data owner
-	I want to be able to create a daybatch to schedule the capture of respondents answers
 
-@smoke
-Scenario: Create a daybatch to schedule the capture respondent data
-	Given I have an questionnaire installed on a Blaise environment
+Scenario: Create a daybatch to schedule the capture of respondent data
+	Given there is a CATI questionnaire installed
 	And I have created sample cases for the questionnaire
 		| primarykey | outcomecode | telephoneno  |
 		| 9000003    |             | 07000 000 00 |

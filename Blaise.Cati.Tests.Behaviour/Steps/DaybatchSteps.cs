@@ -19,14 +19,27 @@ namespace Blaise.Cati.Tests.Behaviour.Steps
             _scenarioContext = scenarioContext;
         }
 
-        [BeforeFeature("cati")]
+        [BeforeFeature("daybatch")]
         public static void InitializeFeature()
         {
-            if (_scenarioContext.TestError == null)
-                return;
+            try
+            {
+                CatiManagementHelper.GetInstance().CreateAdminUser();
+                QuestionnaireHelper.GetInstance().InstallQuestionnaire();
+                Assert.IsTrue(QuestionnaireHelper.GetInstance()
+                    .SurveyHasInstalled(BlaiseConfigurationHelper.QuestionnaireName, 60));
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine($"Error from debug: {ex.Message}, inner exception: {{ex.InnerException?.Message}}\"");
+                Console.WriteLine($"Error from console: {ex.Message}, inner exception: {{ex.InnerException?.Message}}\"");
+                Assert.Fail($"The test failed to complete - {ex.Message}, inner exception: {ex.InnerException?.Message}");
+            }
+        }
 
-            CatiManagementHelper.GetInstance().CreateAdminUser();
-            QuestionnaireHelper.GetInstance().InstallQuestionnaire();
+        [Given(@"there is a CATI questionnaire installed")]
+        public void GivenThereIsACatiQuestionnaireInstalled()
+        {
         }
 
         [Given(@"I log on to Cati as an administrator")]
@@ -52,7 +65,7 @@ namespace Blaise.Cati.Tests.Behaviour.Steps
             Assert.IsNotNull(entriesText);
         }
 
-        [AfterScenario("cati")]
+        [AfterScenario("daybatch")]
         public void CleanUpFeature()
         {
             CatiManagementHelper.GetInstance().ClearDayBatchEntries();
