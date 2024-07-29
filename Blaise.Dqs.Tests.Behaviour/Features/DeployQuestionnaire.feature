@@ -8,20 +8,19 @@ Background:
 	Given I am a BDSS user
 	And I have logged into to DQS
 
-@Smoke @LU-7994
+@smoke
 Scenario: List all questionnaires in Blaise
 	Given I have launched the Questionnaire Deployment Service
 	And there is a questionnaire installed in Blaise
 	When I view the landing page
 	Then I am presented with a list of the questionnaires already deployed to Blaise
 
-@LU-7990 
 Scenario: Successful log in to Questionnaire Deployment Service
 	Given I have launched the Questionnaire Deployment Service
 	When I view the landing page
 	Then I am presented with an option to deploy a new questionnaire
 
-@Smoke @LU-7990
+@smoke
 Scenario: Deploy selected file without Start Dates
 	Given I have selected the questionnaire package I wish to deploy
 	When I confirm my selection
@@ -31,7 +30,7 @@ Scenario: Deploy selected file without Start Dates
 	Then I am presented with a successful deployment information banner
 	And the questionnaire is active in blaise
 
-@Smoke @LU-7990
+@smoke
 Scenario: Deploy selected file with live dates
 	Given I have selected the questionnaire package I wish to deploy
 	When I confirm my selection
@@ -41,14 +40,13 @@ Scenario: Deploy selected file with live dates
 	Then I am presented with a successful deployment information banner
 	And the questionnaire is active in blaise
 
-@regression @LU-7994
 Scenario: Back-out of deploying a questionnaire
 	Given I have been presented with questionnaire already exists screen
 	When I select to cancel
 	Then I am returned to the landing page
 	And the questionnaire has not been overwritten
 
-@Smoke @LU-7992
+@smoke
 Scenario: Overwrite a questionnaire that does not have data
 	Given I have been presented with questionnaire already exists screen
 	And the questionnaire does not have data records
@@ -58,4 +56,3 @@ Scenario: Overwrite a questionnaire that does not have data
 	And The set start date for questionnaire returns Start Date Not Specified
 	And I Deploy The Questionnaire
 	Then Then the questionnaire package is deployed and overwrites the existing questionnaire
-

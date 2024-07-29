@@ -20,11 +20,6 @@ namespace Blaise.Tobi.Tests.Behaviour.Steps
         {
             QuestionnaireHelper.GetInstance().InstallQuestionnaire();
             CaseHelper.GetInstance().CreateCase(new CaseModel("900001", "110", "07000 000 00"));
-        }
-
-        [BeforeScenario("HappyPath")]
-        public static void HappyPathScenarios()
-        {
             DayBatchHelper.GetInstance().SetSurveyDay(BlaiseConfigurationHelper.QuestionnaireName, DateTime.Today);
             DayBatchHelper.GetInstance().CreateDayBatch(BlaiseConfigurationHelper.QuestionnaireName, DateTime.Today);
         }
