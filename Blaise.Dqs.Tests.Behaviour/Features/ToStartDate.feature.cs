@@ -89,11 +89,11 @@ namespace Blaise.Dqs.Tests.Behaviour.Features
         
         [NUnit.Framework.TestAttribute()]
         [NUnit.Framework.DescriptionAttribute("A questionnaire has been deployed without a start date and I wish to add one")]
-        [NUnit.Framework.CategoryAttribute("Smoke")]
+        [NUnit.Framework.CategoryAttribute("smoke")]
         public void AQuestionnaireHasBeenDeployedWithoutAStartDateAndIWishToAddOne()
         {
             string[] tagsOfScenario = new string[] {
-                    "Smoke"};
+                    "smoke"};
             System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("A questionnaire has been deployed without a start date and I wish to add one", null, tagsOfScenario, argumentsOfScenario, featureTags);
 #line 10
@@ -127,11 +127,11 @@ this.FeatureBackground();
         
         [NUnit.Framework.TestAttribute()]
         [NUnit.Framework.DescriptionAttribute("A questionnaire has been deployed with a start date and I wish to change it")]
-        [NUnit.Framework.CategoryAttribute("Smoke")]
+        [NUnit.Framework.CategoryAttribute("smoke")]
         public void AQuestionnaireHasBeenDeployedWithAStartDateAndIWishToChangeIt()
         {
             string[] tagsOfScenario = new string[] {
-                    "Smoke"};
+                    "smoke"};
             System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("A questionnaire has been deployed with a start date and I wish to change it", null, tagsOfScenario, argumentsOfScenario, featureTags);
 #line 17
@@ -165,11 +165,11 @@ this.FeatureBackground();
         
         [NUnit.Framework.TestAttribute()]
         [NUnit.Framework.DescriptionAttribute("A questionnaire has been deployed with a start date and I wish to remove it")]
-        [NUnit.Framework.CategoryAttribute("Smoke")]
+        [NUnit.Framework.CategoryAttribute("smoke")]
         public void AQuestionnaireHasBeenDeployedWithAStartDateAndIWishToRemoveIt()
         {
             string[] tagsOfScenario = new string[] {
-                    "Smoke"};
+                    "smoke"};
             System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("A questionnaire has been deployed with a start date and I wish to remove it", null, tagsOfScenario, argumentsOfScenario, featureTags);
 #line 24
