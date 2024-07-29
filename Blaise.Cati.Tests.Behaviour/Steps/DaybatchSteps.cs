@@ -6,6 +6,8 @@ using Blaise.Tests.Helpers.Questionnaire;
 using Blaise.Tests.Models.Case;
 using NUnit.Framework;
 using System.Collections.Generic;
+using System;
+using System.Diagnostics;
 using TechTalk.SpecFlow;
 
 namespace Blaise.Cati.Tests.Behaviour.Steps
