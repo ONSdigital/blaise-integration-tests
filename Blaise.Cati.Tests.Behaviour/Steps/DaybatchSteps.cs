@@ -39,11 +39,6 @@ namespace Blaise.Cati.Tests.Behaviour.Steps
             }
         }
 
-        [Given(@"there is a CATI questionnaire installed")]
-        public void GivenThereIsACatiQuestionnaireInstalled()
-        {
-        }
-
         [Given(@"I log on to Cati as an administrator")]
         public void GivenILogOnToTheCatiDashboard()
         {
