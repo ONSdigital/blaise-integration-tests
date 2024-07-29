@@ -1,4 +1,5 @@
-﻿Feature: Access cases
+﻿@access-cases
+Feature: Access cases
 
 @smoke
 Scenario: Access case via interview link
