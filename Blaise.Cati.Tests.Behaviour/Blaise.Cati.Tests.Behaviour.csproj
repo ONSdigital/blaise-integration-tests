@@ -104,7 +104,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
-    <None Include="Features\AccessCase.feature" />
+    <None Include="Features\AccessCases.feature" />
     <None Include="Features\Daybatch.feature" />
     <None Include="packages.config" />
   </ItemGroup>
