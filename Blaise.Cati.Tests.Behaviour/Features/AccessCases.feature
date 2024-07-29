@@ -1,9 +1,8 @@
-﻿@interview
-Feature: Access
+﻿Feature: Access cases
 
 @smoke
 Scenario: Access case via interview link
-	Given There is a questionnaire installed on a Blaise environment
+	Given there is a CATI questionnaire installed
 	And I have created sample cases for the questionnaire
 		| primarykey | outcomecode | telephoneno  |
 		| 9000001    |             | 07000 000 00 |
@@ -14,7 +13,7 @@ Scenario: Access case via interview link
 
 @smoke
 Scenario: Access case via Scheduler
-	Given I have an questionnaire installed on a Blaise environment
+	Given there is a CATI questionnaire installed
 	And I have created sample cases for the questionnaire
 		| primarykey | outcomecode | telephoneno  |
 		| 9000002    |             | 07000 000 00 |
