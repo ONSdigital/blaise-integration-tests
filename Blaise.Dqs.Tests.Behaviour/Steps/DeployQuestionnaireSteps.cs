@@ -2,7 +2,7 @@
 using Blaise.Tests.Helpers.Case;
 using Blaise.Tests.Helpers.Configuration;
 using Blaise.Tests.Helpers.Dqs;
-using Blaise.Tests.Helpers.Instrument;
+using Blaise.Tests.Helpers.Questionnaire;
 using NUnit.Framework;
 using System;
 using System.Linq;
@@ -32,14 +32,14 @@ namespace Blaise.Dqs.Tests.Behaviour.Steps
         [Given(@"there is a questionnaire installed in Blaise")]
         public void GivenThereIsAQuestionnaireInstalledInBlaise()
         {
-            InstrumentHelper.GetInstance().InstallInstrument();
+            QuestionnaireHelper.GetInstance().InstallQuestionnaire();
         }
 
         [Then(@"I am presented with a list of the questionnaires already deployed to Blaise")]
         public void ThenIAmPresentedWithAListOfTheQuestionnairesAlreadyDeployedToBlaise()
         {
             var questionnairesInTable = DqsHelper.GetInstance().GetQuestionnaireTableContents();
-            Assert.IsTrue(questionnairesInTable.Any(q => q == BlaiseConfigurationHelper.InstrumentName));
+            Assert.IsTrue(questionnairesInTable.Any(q => q == BlaiseConfigurationHelper.QuestionnaireName));
         }
 
         [Given(@"I have selected the questionnaire package I wish to deploy")]
@@ -126,18 +126,18 @@ namespace Blaise.Dqs.Tests.Behaviour.Steps
         [Given(@"the questionnaire does not have data records")]
         public void GivenTheQuestionnaireDoesNotHaveDataRecords()
         {
-            Assert.AreEqual(0, CaseHelper.GetInstance().NumberOfCasesInInstrument());
+            Assert.AreEqual(0, CaseHelper.GetInstance().NumberOfCasesInQuestionnaire());
         }
 
         [Given(@"I have been presented with questionnaire already exists screen")]
         public void GivenIHaveBeenPresentedWithQuestionnaireAlreadyExistsScreen()
         {
-            InstrumentHelper.GetInstance().InstallInstrument();
+            QuestionnaireHelper.GetInstance().InstallQuestionnaire();
             DqsHelper.GetInstance().LoadUploadPage();
             DqsHelper.GetInstance().SelectQuestionnairePackage();
             DqsHelper.GetInstance().ConfirmQuestionnaireUpload();
 
-            _scenarioContext.Set(InstrumentHelper.GetInstance().GetInstallDate(), InstallDate);
+            _scenarioContext.Set(QuestionnaireHelper.GetInstance().GetInstallDate(), InstallDate);
         }
 
         [When(@"I select to cancel")]
@@ -163,7 +163,7 @@ namespace Blaise.Dqs.Tests.Behaviour.Steps
         public void ThenTheQuestionnaireHasNotBeenOverwritten()
         {
             var expectedInstallDate = _scenarioContext.Get<DateTime>(InstallDate);
-            var actualInstallDate = InstrumentHelper.GetInstance().GetInstallDate();
+            var actualInstallDate = QuestionnaireHelper.GetInstance().GetInstallDate();
 
             Assert.AreEqual(expectedInstallDate, actualInstallDate);
         }
@@ -181,7 +181,7 @@ namespace Blaise.Dqs.Tests.Behaviour.Steps
         {
             DqsHelper.GetInstance().WaitForUploadToComplete();
             var existingInstallDate = _scenarioContext.Get<DateTime>(InstallDate);
-            var newInstallDate = InstrumentHelper.GetInstance().GetInstallDate();
+            var newInstallDate = QuestionnaireHelper.GetInstance().GetInstallDate();
 
             Assert.Greater(newInstallDate, existingInstallDate);
         }
@@ -189,24 +189,24 @@ namespace Blaise.Dqs.Tests.Behaviour.Steps
         [Then(@"the questionnaire is active in blaise")]
         public void ThenTheQuestionnaireIsActiveInBlaise()
         {
-            var instrumentInstalled = InstrumentHelper.GetInstance().SurveyHasInstalled(BlaiseConfigurationHelper.InstrumentName, 60);
-            Assert.IsTrue(instrumentInstalled);
+            var questionnaireInstalled = QuestionnaireHelper.GetInstance().SurveyHasInstalled(BlaiseConfigurationHelper.QuestionnaireName, 60);
+            Assert.IsTrue(questionnaireInstalled);
         }
 
         [Given(@"the package I have selected already exists in Blaise")]
         public void GivenThePackageIHaveSelectedAlreadyExistsInBlaise()
         {
-            InstrumentHelper.GetInstance().InstallInstrument();
+            QuestionnaireHelper.GetInstance().InstallQuestionnaire();
         }
 
         [AfterScenario("questionnaire")]
         public void CleanUpScenario()
         {
             DqsHelper.GetInstance().LogOutOfToDqs();
-            if (InstrumentHelper.GetInstance().SurveyExists(BlaiseConfigurationHelper.InstrumentName))
+            if (QuestionnaireHelper.GetInstance().SurveyExists(BlaiseConfigurationHelper.QuestionnaireName))
             {
                 CaseHelper.GetInstance().DeleteCases();
-                InstrumentHelper.GetInstance().UninstallSurvey();
+                QuestionnaireHelper.GetInstance().UninstallSurvey();
             }
             BrowserHelper.ClosePreviousTab();
         }

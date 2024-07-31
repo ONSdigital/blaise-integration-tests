@@ -1,66 +1,53 @@
-# ASP.NET Core (.NET Framework)
-# Build and test ASP.NET Core projects targeting the full .NET Framework.
-# Add steps that publish symbols, save build artifacts, and more:
-# https://docs.microsoft.com/azure/devops/pipelines/languages/dotnet-core
-
-trigger:
-- master
-
+---
+trigger: none
 pool:
-  vmImage: 'windows-2019'
-
+  vmImage: windows-2019
 variables:
-  solution: '**/*.sln'
-  buildPlatform: 'Any CPU'
-  buildConfiguration: 'Release'
-
+  solutionPath: '**/*.sln'
+  buildPlatform: Any CPU
+  buildConfiguration: Release
 stages:
-  - stage: Build
-    displayName: Build Automated Tests
+  - stage: BuildIntegrationTests
+    displayName: Build integration tests
     jobs:
     - job: build
       steps:
       - task: NuGetToolInstaller@1
-        displayName: Nuget Installer
-
+        displayName: Install NuGet
       - task: NuGetCommand@2
-        displayName: Restore Nuget Package
+        displayName: Run NuGet restore
         inputs:
-          command: 'restore'
+          command: restore
           restoreSolution: '**/*.sln'
-          feedsToUse: 'select'
-          vstsFeed: 'fbaf94f7-2d40-410a-8a27-de142d8d2313/2d8c792e-c1ad-4a66-924d-5bc4fec5fca0'
-
+          feedsToUse: select
+          vstsFeed: fbaf94f7-2d40-410a-8a27-de142d8d2313/2d8c792e-c1ad-4a66-924d-5bc4fec5fca0
       - task: VSBuild@1
-        displayName: Build Solution
+        displayName: Build solution
         inputs:
-          solution: '**\*.sln'
-          platform: '$(BuildPlatform)'
-          configuration: '$(BuildConfiguration)'
-          
+          solution: $(solutionPath)
+          platform: $(buildPlatform)
+          configuration: $(buildConfiguration)
       - task: VSTest@2
-        displayName: Run Unit Tests
+        displayName: Run unit tests
         inputs:
-          testSelector: 'testAssemblies'
+          testSelector: testAssemblies
           testAssemblyVer2: |
             **\*test*.dll
             !**\*Behaviour.dll
             !**\*TestAdapter.dll
             !**\obj\**
-          searchFolder: '$(System.DefaultWorkingDirectory)'
-
+          searchFolder: $(System.DefaultWorkingDirectory)
       - task: CopyFiles@2
-        displayName: Copy Files to Artifact staging area
+        displayName: Copy artifact
         inputs:
-          SourceFolder: '$(system.defaultworkingdirectory)'
+          SourceFolder: $(system.defaultworkingdirectory)
           Contents: '**\bin\$(BuildConfiguration)\**'
-          TargetFolder: '$(build.artifactstagingdirectory)'
+          TargetFolder: $(build.artifactstagingdirectory)
           CleanTargetFolder: true
-          OverWrite: true
-          
+          OverWrite: true          
       - task: PublishBuildArtifacts@1
-        displayName: Publish Artifact
+        displayName: Publish artifact
         inputs:
-          PathtoPublish: '$(Build.ArtifactStagingDirectory)'
-          ArtifactName: '_AutomatedTests'
-          publishLocation: 'Container'
+          PathtoPublish: $(Build.ArtifactStagingDirectory)
+          ArtifactName: _AutomatedTests
+          publishLocation: Container

@@ -13,7 +13,7 @@ namespace Blaise.Tests.Helpers.Cati.Pages
         private const string CaseIdCell = "//*[@id='MVCGridTable_CaseInfoGrid']/tbody/tr[1]/td[2]";
         private const string PlayButton = "//*[@id='MVCGridTable_CaseInfoGrid']/tbody/tr[1]/td[19]/a/span";
         private const string FilterButton = "//*[contains(text(), 'Filters')]";
-        private readonly string SurveyRadioButton = $"//*[normalize-space()='{BlaiseConfigurationHelper.InstrumentName}']";
+        private readonly string SurveyRadioButton = $"//*[normalize-space()='{BlaiseConfigurationHelper.QuestionnaireName}']";
         private const string ApplyButton = "//*[contains(text(), 'Apply')]";
 
         public CaseInfoPage() : base(CatiConfigurationHelper.CaseInfoUrl)
@@ -27,7 +27,7 @@ namespace Blaise.Tests.Helpers.Cati.Pages
             {
                 LoadPage();
                 ApplyFilters();
-                WaitUntilFirstCaseQuestionnaireIs(BlaiseConfigurationHelper.InstrumentName);
+                WaitUntilFirstCaseQuestionnaireIs(BlaiseConfigurationHelper.QuestionnaireName);
                 WaitUntilFirstCaseIs(caseId);
 
                 attempts++;
