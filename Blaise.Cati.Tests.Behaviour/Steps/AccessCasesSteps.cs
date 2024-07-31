@@ -1,7 +1,7 @@
 ﻿using Blaise.Tests.Helpers.Browser;
 using Blaise.Tests.Helpers.Cati;
 using Blaise.Tests.Helpers.Configuration;
-using Blaise.Tests.Helpers.Instrument;
+using Blaise.Tests.Helpers.Questionnaire;
 using NUnit.Framework;
 using System;
 using System.Diagnostics;
@@ -10,24 +10,23 @@ using TechTalk.SpecFlow;
 namespace Blaise.Cati.Tests.Behaviour.Steps
 {
     [Binding]
-    public sealed class AccessCaseSteps
+    public sealed class AccessCasesSteps
     {
         private readonly ScenarioContext _scenarioContext;
-        public AccessCaseSteps(ScenarioContext scenarioContext)
+        public AccessCasesSteps(ScenarioContext scenarioContext)
         {
             _scenarioContext = scenarioContext;
         }
 
-
-        [BeforeFeature("interview")]
+        [BeforeFeature("access-cases")]
         public static void InitializeFeature()
         {
             try
             {
                 CatiInterviewHelper.GetInstance().CreateInterviewUser();
-                InstrumentHelper.GetInstance().InstallInstrument();
-                Assert.IsTrue(InstrumentHelper.GetInstance()
-                    .SurveyHasInstalled(BlaiseConfigurationHelper.InstrumentName, 60));
+                QuestionnaireHelper.GetInstance().InstallQuestionnaire();
+                Assert.IsTrue(QuestionnaireHelper.GetInstance()
+                    .SurveyHasInstalled(BlaiseConfigurationHelper.QuestionnaireName, 60));
             }
             catch (Exception ex)
             {
@@ -37,18 +36,16 @@ namespace Blaise.Cati.Tests.Behaviour.Steps
             }
         }
 
-        [Given(@"There is a questionnaire installed on a Blaise environment")]
-        public void GivenThereIsAQuestionnaireInstalledOnABlaiseEnvironment()
+        [Given(@"there is a CATI questionnaire installed")]
+        public void GivenThereIsACatiQuestionnaireInstalled()
         {
         }
-
 
         [Given(@"I log on to Cati as an interviewer")]
         public void GivenILogOnToCatiAsAnInterviewer()
         {
             CatiManagementHelper.GetInstance().LogIntoCatiManagementPortalAsAnInterviewer();
         }
-
 
         [When(@"I click the play button for case '(.*)'")]
         public void WhenIClickThePlayButtonForCase(string caseId)
@@ -88,18 +85,13 @@ namespace Blaise.Cati.Tests.Behaviour.Steps
             }
         }
 
-        [AfterScenario("interview")]
-        public void CleanUpScenario()
+        [AfterFeature("access-cases")]
+        public static void CleanUpFeature()
         {
             CatiManagementHelper.GetInstance().ClearDayBatchEntries();
             BrowserHelper.ClosePreviousTab();
-        }
-
-        [AfterFeature("interview")]
-        public static void CleanUpFeature()
-        {
             CatiInterviewHelper.GetInstance().DeleteInterviewUser();
-            InstrumentHelper.GetInstance().UninstallSurvey();
+            QuestionnaireHelper.GetInstance().UninstallSurvey();
         }
 
         [AfterTestRun]

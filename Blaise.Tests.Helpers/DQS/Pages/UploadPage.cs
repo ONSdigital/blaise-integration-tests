@@ -19,9 +19,9 @@ namespace Blaise.Tests.Helpers.Dqs.Pages
         {
         }
 
-        public void SelectFileToUpload(string instrumentPath)
+        public void SelectFileToUpload(string questionnairePath)
         {
-            PopulateInputById(FileSelectorId, instrumentPath);
+            PopulateInputById(FileSelectorId, questionnairePath);
         }
 
         public void SelectContinueButton()
