@@ -2,7 +2,7 @@
 using Blaise.Tests.Helpers.Case;
 using Blaise.Tests.Helpers.Configuration;
 using Blaise.Tests.Helpers.Dqs;
-using Blaise.Tests.Helpers.Instrument;
+using Blaise.Tests.Helpers.Questionnaire;
 using NUnit.Framework;
 using System;
 using TechTalk.SpecFlow;
@@ -17,29 +17,29 @@ namespace Blaise.Dqs.Tests.Behaviour.Steps
         [BeforeScenario("ToStartDate")]
         public static void InitializeScenario()
         {
-            InstrumentHelper.GetInstance().InstallInstrument();
+            QuestionnaireHelper.GetInstance().InstallQuestionnaire();
         }
 
-        [Given(@"An instrument is installed in Blaise")]
-        public void GivenAnInstrumentIsInstalledInBlaise()
+        [Given(@"A questionnaire is installed in Blaise")]
+        public void GivenAQuestionnaireIsInstalledInBlaise()
         {
         }
 
-        [Given(@"The instrument has no TO start date")]
+        [Given(@"The questionnaire has no TO start date")]
         [Then(@"The TO start date should not be set")]
-        public void GivenTheInstrumentHasNoTOStartDate()
+        public void GivenTheQuestionnaireHasNoTOStartDate()
         {
-            DqsHelper.GetInstance().ClickInstrumentInfoButton(BlaiseConfigurationHelper.InstrumentName);
+            DqsHelper.GetInstance().ClickQuestionnaireInfoButton(BlaiseConfigurationHelper.QuestionnaireName);
             var toStartDateText = DqsHelper.GetInstance().GetToStartDate();
 
             Assert.AreEqual("No start date specified, using survey days", toStartDateText);
         }
 
-        [Given(@"The instrument has a start date of '(.*)'")]
+        [Given(@"The questionnaire has a start date of '(.*)'")]
         [When(@"I change the TO start date to '(.*)'")]
-        public void GivenTheInstrumentHasAStartDateOf(string date)
+        public void GivenTheQuestionnaireHasAStartDateOf(string date)
         {
-            DqsHelper.GetInstance().ClickInstrumentInfoButton(BlaiseConfigurationHelper.InstrumentName);
+            DqsHelper.GetInstance().ClickQuestionnaireInfoButton(BlaiseConfigurationHelper.QuestionnaireName);
             var toStartDate = DateTime.Now.ToString("dd/MM/yyyy");
             if (date == "tomorrow")
                 toStartDate = DateTime.Now.AddDays(1).ToString("dd/MM/yyyy");
@@ -65,19 +65,19 @@ namespace Blaise.Dqs.Tests.Behaviour.Steps
         [When(@"I change the TO start date to no TO start date")]
         public void WhenIChangeTheTOStartDateToNoTOStartDate()
         {
-            DqsHelper.GetInstance().ClickInstrumentInfoButton(BlaiseConfigurationHelper.InstrumentName);
+            DqsHelper.GetInstance().ClickQuestionnaireInfoButton(BlaiseConfigurationHelper.QuestionnaireName);
             DqsHelper.GetInstance().ClickAddStartDate();
             DqsHelper.GetInstance().SelectNoLiveDate();
             DqsHelper.GetInstance().ConfirmQuestionnaireUpload();
         }
 
-        [Then(@"The TO start date for '(.*)' is stored against the instrument")]
-        public void ThenTheTOStartDateForIsStoredAgainstTheInstrument(string date)
+        [Then(@"The TO start date for '(.*)' is stored against the questionnaire")]
+        public void ThenTheTOStartDateForIsStoredAgainstTheQuestionnaire(string date)
         {
             var toStartDate = DateTime.Now.ToString("dd/MM/yyyy");
             if (date == "tomorrow")
                 toStartDate = DateTime.Now.AddDays(1).ToString("dd/MM/yyyy");
-            DqsHelper.GetInstance().ClickInstrumentInfoButton(BlaiseConfigurationHelper.InstrumentName);
+            DqsHelper.GetInstance().ClickQuestionnaireInfoButton(BlaiseConfigurationHelper.QuestionnaireName);
             var toStartDateText = DqsHelper.GetInstance().GetToStartDate();
 
             Assert.IsTrue(toStartDateText.Contains(toStartDate));
@@ -87,10 +87,10 @@ namespace Blaise.Dqs.Tests.Behaviour.Steps
         public void CleanUpScenario()
         {
             DqsHelper.GetInstance().LogOutOfToDqs();
-            if (InstrumentHelper.GetInstance().SurveyExists(BlaiseConfigurationHelper.InstrumentName))
+            if (QuestionnaireHelper.GetInstance().SurveyExists(BlaiseConfigurationHelper.QuestionnaireName))
             {
                 CaseHelper.GetInstance().DeleteCases();
-                InstrumentHelper.GetInstance().UninstallSurvey();
+                QuestionnaireHelper.GetInstance().UninstallSurvey();
             }
             BrowserHelper.ClosePreviousTab();
         }

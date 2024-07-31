@@ -20,17 +20,17 @@ namespace Blaise.RestApi.Tests.Behaviour.Steps
         public void GivenThereIsAnQuestionnaireAvailableInABucket()
         {
             CloudStorageHelper.GetInstance().UploadToBucket(
-                BlaiseConfigurationHelper.InstrumentBucketPath,
-                BlaiseConfigurationHelper.InstrumentPackage);
+                BlaiseConfigurationHelper.QuestionnaireBucketPath,
+                BlaiseConfigurationHelper.QuestionnairePackage);
         }
 
         [When(@"the API is called to deploy the questionnaire")]
         public async Task WhenTheApiIsCalledToDeployTheQuestionnaire()
         {
             await RestApiHelper.GetInstance().DeployQuestionnaire(
-                RestApiConfigurationHelper.InstrumentsUrl,
-                BlaiseConfigurationHelper.InstrumentBucketPath,
-                BlaiseConfigurationHelper.InstrumentPackage);
+                RestApiConfigurationHelper.QuestionnaireUrl,
+                BlaiseConfigurationHelper.QuestionnaireBucketPath,
+                BlaiseConfigurationHelper.QuestionnairePackage);
         }
 
 
@@ -38,8 +38,8 @@ namespace Blaise.RestApi.Tests.Behaviour.Steps
         public void CleanUpScenario()
         {
             CloudStorageHelper.GetInstance().DeleteFromBucket(
-                BlaiseConfigurationHelper.InstrumentBucketPath,
-                BlaiseConfigurationHelper.InstrumentPackage);
+                BlaiseConfigurationHelper.QuestionnaireBucketPath,
+                BlaiseConfigurationHelper.QuestionnairePackage);
         }
     }
 }
