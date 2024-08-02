@@ -55,7 +55,7 @@ namespace Blaise.Tests.Helpers.Cati
         {
             SetSurveyDays();
 
-            DayBatchHelper.GetInstance().CreateDayBatch(BlaiseConfigurationHelper.InstrumentName, DateTime.Today);
+            DayBatchHelper.GetInstance().CreateDayBatch(BlaiseConfigurationHelper.QuestionnaireName, DateTime.Today);
         }
 
         public string GetDaybatchEntriesText()
@@ -71,7 +71,7 @@ namespace Blaise.Tests.Helpers.Cati
 
         public void SetSurveyDays()
         {
-            DayBatchHelper.GetInstance().SetSurveyDay(BlaiseConfigurationHelper.InstrumentName, DateTime.Today);
+            DayBatchHelper.GetInstance().SetSurveyDay(BlaiseConfigurationHelper.QuestionnaireName, DateTime.Today);
         }
 
         public void DeleteAdminUser()
