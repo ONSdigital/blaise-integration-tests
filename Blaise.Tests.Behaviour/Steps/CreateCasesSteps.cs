@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using Blaise.Tests.Helpers.Case;
-using Blaise.Tests.Helpers.Instrument;
+using Blaise.Tests.Helpers.Questionnaire;
 using Blaise.Tests.Models.Case;
 using NUnit.Framework;
 using TechTalk.SpecFlow;
@@ -14,12 +14,12 @@ namespace Blaise.Tests.Behaviour.Steps
         [BeforeFeature("case")]
         public static void InitializeFeature()
         {
-            //InstrumentHelper.GetInstance().InstallInstrument();
+            //QuestionnaireHelper.GetInstance().InstallQuestionnaire();
         }
 
         [Given(@"I have created sample cases for the questionnaire")]
-        [When(@"I create sample cases for the instrument")]
-        public void WhenICreateACaseForTheInstrument(IEnumerable<CaseModel> caseModels)
+        [When(@"I create sample cases for the questionnaire")]
+        public void WhenICreateACaseForTheQuestionnaire(IEnumerable<CaseModel> caseModels)
         {
             CaseHelper.GetInstance().DeleteCases();
             CaseHelper.GetInstance().CreateCases(caseModels);
@@ -35,7 +35,7 @@ namespace Blaise.Tests.Behaviour.Steps
 
         private void CheckNumberOfCasesMatch(int expectedNumberOfCases)
         {
-            var actualNumberOfCases = CaseHelper.GetInstance().NumberOfCasesInInstrument();
+            var actualNumberOfCases = CaseHelper.GetInstance().NumberOfCasesInQuestionnaire();
             
             if (expectedNumberOfCases != actualNumberOfCases)
             {
@@ -68,7 +68,7 @@ namespace Blaise.Tests.Behaviour.Steps
         [AfterFeature("case")]
         public static void CleanUpFeature()
         {
-            InstrumentHelper.GetInstance().UninstallSurvey();
+            QuestionnaireHelper.GetInstance().UninstallSurvey();
         }
     }
 }
