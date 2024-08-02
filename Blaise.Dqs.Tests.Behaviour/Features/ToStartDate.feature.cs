@@ -88,14 +88,14 @@ namespace Blaise.Dqs.Tests.Behaviour.Features
         }
         
         [NUnit.Framework.TestAttribute()]
-        [NUnit.Framework.DescriptionAttribute("An Instrument has been deployed without a start date and I wish to add one")]
-        [NUnit.Framework.CategoryAttribute("Smoke")]
-        public void AnInstrumentHasBeenDeployedWithoutAStartDateAndIWishToAddOne()
+        [NUnit.Framework.DescriptionAttribute("A questionnaire has been deployed without a start date and I wish to add one")]
+        [NUnit.Framework.CategoryAttribute("smoke")]
+        public void AQuestionnaireHasBeenDeployedWithoutAStartDateAndIWishToAddOne()
         {
             string[] tagsOfScenario = new string[] {
-                    "Smoke"};
+                    "smoke"};
             System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
-            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("An Instrument has been deployed without a start date and I wish to add one", null, tagsOfScenario, argumentsOfScenario, featureTags);
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("A questionnaire has been deployed without a start date and I wish to add one", null, tagsOfScenario, argumentsOfScenario, featureTags);
 #line 10
 this.ScenarioInitialize(scenarioInfo);
 #line hidden
@@ -110,30 +110,30 @@ this.ScenarioInitialize(scenarioInfo);
 this.FeatureBackground();
 #line hidden
 #line 11
- testRunner.Given("An instrument is installed in Blaise", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+ testRunner.Given("A questionnaire is installed in Blaise", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line hidden
 #line 12
- testRunner.And("The instrument has no TO start date", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.And("the questionnaire has no TO start date", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
 #line 13
  testRunner.When("I add a TO start date of \'today\'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line hidden
 #line 14
- testRunner.Then("The TO start date for \'today\' is stored against the instrument", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+ testRunner.Then("The TO start date for \'today\' is stored against the questionnaire", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
             }
             this.ScenarioCleanup();
         }
         
         [NUnit.Framework.TestAttribute()]
-        [NUnit.Framework.DescriptionAttribute("An Instrument has been deployed with a start date and I wish to change it")]
-        [NUnit.Framework.CategoryAttribute("Smoke")]
-        public void AnInstrumentHasBeenDeployedWithAStartDateAndIWishToChangeIt()
+        [NUnit.Framework.DescriptionAttribute("A questionnaire has been deployed with a start date and I wish to change it")]
+        [NUnit.Framework.CategoryAttribute("smoke")]
+        public void AQuestionnaireHasBeenDeployedWithAStartDateAndIWishToChangeIt()
         {
             string[] tagsOfScenario = new string[] {
-                    "Smoke"};
+                    "smoke"};
             System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
-            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("An Instrument has been deployed with a start date and I wish to change it", null, tagsOfScenario, argumentsOfScenario, featureTags);
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("A questionnaire has been deployed with a start date and I wish to change it", null, tagsOfScenario, argumentsOfScenario, featureTags);
 #line 17
 this.ScenarioInitialize(scenarioInfo);
 #line hidden
@@ -148,30 +148,30 @@ this.ScenarioInitialize(scenarioInfo);
 this.FeatureBackground();
 #line hidden
 #line 18
- testRunner.Given("An instrument is installed in Blaise", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+ testRunner.Given("A questionnaire is installed in Blaise", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line hidden
 #line 19
- testRunner.And("The instrument has a start date of \'today\'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.And("the questionnaire has a start date of \'today\'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
 #line 20
  testRunner.When("I change the TO start date to \'tomorrow\'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line hidden
 #line 21
- testRunner.Then("The TO start date for \'tomorrow\' is stored against the instrument", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+ testRunner.Then("The TO start date for \'tomorrow\' is stored against the questionnaire", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
             }
             this.ScenarioCleanup();
         }
         
         [NUnit.Framework.TestAttribute()]
-        [NUnit.Framework.DescriptionAttribute("An Instrument has been deployed with a start date and I wish to remove it")]
-        [NUnit.Framework.CategoryAttribute("Smoke")]
-        public void AnInstrumentHasBeenDeployedWithAStartDateAndIWishToRemoveIt()
+        [NUnit.Framework.DescriptionAttribute("A questionnaire has been deployed with a start date and I wish to remove it")]
+        [NUnit.Framework.CategoryAttribute("smoke")]
+        public void AQuestionnaireHasBeenDeployedWithAStartDateAndIWishToRemoveIt()
         {
             string[] tagsOfScenario = new string[] {
-                    "Smoke"};
+                    "smoke"};
             System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
-            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("An Instrument has been deployed with a start date and I wish to remove it", null, tagsOfScenario, argumentsOfScenario, featureTags);
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("A questionnaire has been deployed with a start date and I wish to remove it", null, tagsOfScenario, argumentsOfScenario, featureTags);
 #line 24
 this.ScenarioInitialize(scenarioInfo);
 #line hidden
@@ -186,10 +186,10 @@ this.ScenarioInitialize(scenarioInfo);
 this.FeatureBackground();
 #line hidden
 #line 25
- testRunner.Given("An instrument is installed in Blaise", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+ testRunner.Given("A questionnaire is installed in Blaise", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line hidden
 #line 26
- testRunner.And("The instrument has a start date of \'today\'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.And("the questionnaire has a start date of \'today\'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
 #line 27
  testRunner.When("I change the TO start date to no TO start date", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
