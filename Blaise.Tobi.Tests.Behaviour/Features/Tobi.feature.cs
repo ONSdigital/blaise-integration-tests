@@ -79,14 +79,10 @@ namespace Blaise.Tobi.Tests.Behaviour.Features
         [NUnit.Framework.TestAttribute()]
         [NUnit.Framework.DescriptionAttribute("View live survey list in TOBI")]
         [NUnit.Framework.CategoryAttribute("smoke")]
-        [NUnit.Framework.CategoryAttribute("regression")]
-        [NUnit.Framework.CategoryAttribute("HappyPath")]
         public void ViewLiveSurveyListInTOBI()
         {
             string[] tagsOfScenario = new string[] {
-                    "smoke",
-                    "regression",
-                    "HappyPath"};
+                    "smoke"};
             System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("View live survey list in TOBI", null, tagsOfScenario, argumentsOfScenario, featureTags);
 #line 8
@@ -115,16 +111,12 @@ testRunner.Then("I will be able to view all live surveys with questionnaires loa
         
         [NUnit.Framework.TestAttribute()]
         [NUnit.Framework.DescriptionAttribute("Select survey")]
-        [NUnit.Framework.CategoryAttribute("regression")]
-        [NUnit.Framework.CategoryAttribute("HappyPath")]
         public void SelectSurvey()
         {
-            string[] tagsOfScenario = new string[] {
-                    "regression",
-                    "HappyPath"};
+            string[] tagsOfScenario = ((string[])(null));
             System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Select survey", null, tagsOfScenario, argumentsOfScenario, featureTags);
-#line 14
+#line 13
 this.ScenarioInitialize(scenarioInfo);
 #line hidden
             if ((TagHelper.ContainsIgnoreTag(tagsOfScenario) || TagHelper.ContainsIgnoreTag(featureTags)))
@@ -134,13 +126,13 @@ this.ScenarioInitialize(scenarioInfo);
             else
             {
                 this.ScenarioStart();
-#line 15
+#line 14
 testRunner.Given("I can view a list of surveys on Blaise within TOBI", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line hidden
-#line 16
+#line 15
 testRunner.When("I select the DST survey I am working on", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line hidden
-#line 17
+#line 16
 testRunner.Then("I am presented with a list of active questionnaires to be worked on that day for " +
                         "that survey", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
@@ -150,16 +142,12 @@ testRunner.Then("I am presented with a list of active questionnaires to be worke
         
         [NUnit.Framework.TestAttribute()]
         [NUnit.Framework.DescriptionAttribute("Select questionnaire")]
-        [NUnit.Framework.CategoryAttribute("regression")]
-        [NUnit.Framework.CategoryAttribute("HappyPath")]
         public void SelectQuestionnaire()
         {
-            string[] tagsOfScenario = new string[] {
-                    "regression",
-                    "HappyPath"};
+            string[] tagsOfScenario = ((string[])(null));
             System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Select questionnaire", null, tagsOfScenario, argumentsOfScenario, featureTags);
-#line 20
+#line 18
 this.ScenarioInitialize(scenarioInfo);
 #line hidden
             if ((TagHelper.ContainsIgnoreTag(tagsOfScenario) || TagHelper.ContainsIgnoreTag(featureTags)))
@@ -169,14 +157,14 @@ this.ScenarioInitialize(scenarioInfo);
             else
             {
                 this.ScenarioStart();
-#line 21
+#line 19
 testRunner.Given("I can view a list of live questionnaires for the survey I am allocated to", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line hidden
-#line 22
+#line 20
 testRunner.When("I select a link to interview against the questionnaire with the survey dates I am" +
                         " working on", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line hidden
-#line 23
+#line 21
 testRunner.Then("I am presented with the Blaise log in", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
             }
@@ -185,16 +173,12 @@ testRunner.Then("I am presented with the Blaise log in", ((string)(null)), ((Tec
         
         [NUnit.Framework.TestAttribute()]
         [NUnit.Framework.DescriptionAttribute("Return to select survey")]
-        [NUnit.Framework.CategoryAttribute("regression")]
-        [NUnit.Framework.CategoryAttribute("HappyPath")]
         public void ReturnToSelectSurvey()
         {
-            string[] tagsOfScenario = new string[] {
-                    "regression",
-                    "HappyPath"};
+            string[] tagsOfScenario = ((string[])(null));
             System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Return to select survey", null, tagsOfScenario, argumentsOfScenario, featureTags);
-#line 26
+#line 23
 this.ScenarioInitialize(scenarioInfo);
 #line hidden
             if ((TagHelper.ContainsIgnoreTag(tagsOfScenario) || TagHelper.ContainsIgnoreTag(featureTags)))
@@ -204,13 +188,13 @@ this.ScenarioInitialize(scenarioInfo);
             else
             {
                 this.ScenarioStart();
-#line 27
+#line 24
 testRunner.Given("I have selected a survey", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line hidden
-#line 28
+#line 25
 testRunner.When("I do not see the questionnaire that I am working on", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line hidden
-#line 29
+#line 26
 testRunner.Then("I am able to go back to view the list of surveys", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
             }

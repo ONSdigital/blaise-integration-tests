@@ -35,10 +35,10 @@ namespace Blaise.Tests.Helpers.Configuration
         }
         public static string LoginUrl => $"{CatiBaseUrl}/blaise/account/login";
         public static string DayBatchUrl => $"{CatiBaseUrl}/blaise/daybatch";
-        public static string InterviewUrl => $"{CatiBaseUrl}/{BlaiseConfigurationHelper.InstrumentName}";
+        public static string InterviewUrl => $"{CatiBaseUrl}/{BlaiseConfigurationHelper.QuestionnaireName}";
         public static string SpecificationUrl => $"{CatiBaseUrl}/blaise/specification";
         public static string SurveyUrl => $"{CatiBaseUrl}/blaise";
-        public static string CaseUrl => $"{CatiBaseUrl}//Blaise/CaseInfo/StartSurvey?url={CatiBaseUrl}/{BlaiseConfigurationHelper.InstrumentName}/&rp.KeyValue=";
+        public static string CaseUrl => $"{CatiBaseUrl}//Blaise/CaseInfo/StartSurvey?url={CatiBaseUrl}/{BlaiseConfigurationHelper.QuestionnaireName}/&rp.KeyValue=";
         public static string CaseInfoUrl => $"{CatiBaseUrl}/blaise/CaseInfo";
     }
 }

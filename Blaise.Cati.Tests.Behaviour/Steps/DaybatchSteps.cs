@@ -2,10 +2,12 @@
 using Blaise.Tests.Helpers.Case;
 using Blaise.Tests.Helpers.Cati;
 using Blaise.Tests.Helpers.Configuration;
-using Blaise.Tests.Helpers.Instrument;
+using Blaise.Tests.Helpers.Questionnaire;
 using Blaise.Tests.Models.Case;
 using NUnit.Framework;
 using System.Collections.Generic;
+using System;
+using System.Diagnostics;
 using TechTalk.SpecFlow;
 
 namespace Blaise.Cati.Tests.Behaviour.Steps
@@ -19,14 +21,22 @@ namespace Blaise.Cati.Tests.Behaviour.Steps
             _scenarioContext = scenarioContext;
         }
 
-        [BeforeFeature("cati")]
+        [BeforeFeature("daybatch")]
         public static void InitializeFeature()
         {
-            if (_scenarioContext.TestError == null)
-                return;
-
-            CatiManagementHelper.GetInstance().CreateAdminUser();
-            InstrumentHelper.GetInstance().InstallInstrument();
+            try
+            {
+                CatiManagementHelper.GetInstance().CreateAdminUser();
+                QuestionnaireHelper.GetInstance().InstallQuestionnaire();
+                Assert.IsTrue(QuestionnaireHelper.GetInstance()
+                    .SurveyHasInstalled(BlaiseConfigurationHelper.QuestionnaireName, 60));
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine($"Error from debug: {ex.Message}, inner exception: {{ex.InnerException?.Message}}\"");
+                Console.WriteLine($"Error from console: {ex.Message}, inner exception: {{ex.InnerException?.Message}}\"");
+                Assert.Fail($"The test failed to complete - {ex.Message}, inner exception: {ex.InnerException?.Message}");
+            }
         }
 
         [Given(@"I log on to Cati as an administrator")]
@@ -52,13 +62,13 @@ namespace Blaise.Cati.Tests.Behaviour.Steps
             Assert.IsNotNull(entriesText);
         }
 
-        [AfterScenario("cati")]
+        [AfterScenario("daybatch")]
         public void CleanUpFeature()
         {
             CatiManagementHelper.GetInstance().ClearDayBatchEntries();
             CatiManagementHelper.GetInstance().DeleteAdminUser();
             CaseHelper.GetInstance().DeleteCases();
-            InstrumentHelper.GetInstance().UninstallSurvey();
+            QuestionnaireHelper.GetInstance().UninstallSurvey();
             BrowserHelper.ClearSessionData();
         }
     }
