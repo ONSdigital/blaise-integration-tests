@@ -91,13 +91,11 @@ namespace Blaise.Dqs.Tests.Behaviour.Features
         
         [NUnit.Framework.TestAttribute()]
         [NUnit.Framework.DescriptionAttribute("List all questionnaires in Blaise")]
-        [NUnit.Framework.CategoryAttribute("Smoke")]
-        [NUnit.Framework.CategoryAttribute("LU-7994")]
+        [NUnit.Framework.CategoryAttribute("smoke")]
         public void ListAllQuestionnairesInBlaise()
         {
             string[] tagsOfScenario = new string[] {
-                    "Smoke",
-                    "LU-7994"};
+                    "smoke"};
             System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("List all questionnaires in Blaise", null, tagsOfScenario, argumentsOfScenario, featureTags);
 #line 12
@@ -131,14 +129,12 @@ this.FeatureBackground();
         
         [NUnit.Framework.TestAttribute()]
         [NUnit.Framework.DescriptionAttribute("Successful log in to Questionnaire Deployment Service")]
-        [NUnit.Framework.CategoryAttribute("LU-7990")]
         public void SuccessfulLogInToQuestionnaireDeploymentService()
         {
-            string[] tagsOfScenario = new string[] {
-                    "LU-7990"};
+            string[] tagsOfScenario = ((string[])(null));
             System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Successful log in to Questionnaire Deployment Service", null, tagsOfScenario, argumentsOfScenario, featureTags);
-#line 19
+#line 18
 this.ScenarioInitialize(scenarioInfo);
 #line hidden
             if ((TagHelper.ContainsIgnoreTag(tagsOfScenario) || TagHelper.ContainsIgnoreTag(featureTags)))
@@ -151,13 +147,13 @@ this.ScenarioInitialize(scenarioInfo);
 #line 7
 this.FeatureBackground();
 #line hidden
-#line 20
+#line 19
  testRunner.Given("I have launched the Questionnaire Deployment Service", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line hidden
-#line 21
+#line 20
  testRunner.When("I view the landing page", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line hidden
-#line 22
+#line 21
  testRunner.Then("I am presented with an option to deploy a new questionnaire", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
             }
@@ -166,16 +162,14 @@ this.FeatureBackground();
         
         [NUnit.Framework.TestAttribute()]
         [NUnit.Framework.DescriptionAttribute("Deploy selected file without Start Dates")]
-        [NUnit.Framework.CategoryAttribute("Smoke")]
-        [NUnit.Framework.CategoryAttribute("LU-7990")]
+        [NUnit.Framework.CategoryAttribute("smoke")]
         public void DeploySelectedFileWithoutStartDates()
         {
             string[] tagsOfScenario = new string[] {
-                    "Smoke",
-                    "LU-7990"};
+                    "smoke"};
             System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Deploy selected file without Start Dates", null, tagsOfScenario, argumentsOfScenario, featureTags);
-#line 25
+#line 24
 this.ScenarioInitialize(scenarioInfo);
 #line hidden
             if ((TagHelper.ContainsIgnoreTag(tagsOfScenario) || TagHelper.ContainsIgnoreTag(featureTags)))
@@ -188,25 +182,25 @@ this.ScenarioInitialize(scenarioInfo);
 #line 7
 this.FeatureBackground();
 #line hidden
-#line 26
+#line 25
  testRunner.Given("I have selected the questionnaire package I wish to deploy", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line hidden
-#line 27
+#line 26
  testRunner.When("I confirm my selection", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line hidden
-#line 28
+#line 27
  testRunner.And("I dont select a Start date", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
-#line 29
+#line 28
  testRunner.And("The set start date for questionnaire returns Start Date Not Specified", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
-#line 30
+#line 29
  testRunner.And("I Deploy The Questionnaire", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
-#line 31
+#line 30
  testRunner.Then("I am presented with a successful deployment information banner", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
-#line 32
+#line 31
  testRunner.And("the questionnaire is active in blaise", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
             }
@@ -215,16 +209,14 @@ this.FeatureBackground();
         
         [NUnit.Framework.TestAttribute()]
         [NUnit.Framework.DescriptionAttribute("Deploy selected file with live dates")]
-        [NUnit.Framework.CategoryAttribute("Smoke")]
-        [NUnit.Framework.CategoryAttribute("LU-7990")]
+        [NUnit.Framework.CategoryAttribute("smoke")]
         public void DeploySelectedFileWithLiveDates()
         {
             string[] tagsOfScenario = new string[] {
-                    "Smoke",
-                    "LU-7990"};
+                    "smoke"};
             System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Deploy selected file with live dates", null, tagsOfScenario, argumentsOfScenario, featureTags);
-#line 35
+#line 34
 this.ScenarioInitialize(scenarioInfo);
 #line hidden
             if ((TagHelper.ContainsIgnoreTag(tagsOfScenario) || TagHelper.ContainsIgnoreTag(featureTags)))
@@ -237,25 +229,25 @@ this.ScenarioInitialize(scenarioInfo);
 #line 7
 this.FeatureBackground();
 #line hidden
-#line 36
+#line 35
  testRunner.Given("I have selected the questionnaire package I wish to deploy", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line hidden
-#line 37
+#line 36
  testRunner.When("I confirm my selection", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line hidden
-#line 38
+#line 37
  testRunner.And("I set a start date to today", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
-#line 39
+#line 38
  testRunner.And("The set start date for questionnaire returns today", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
-#line 40
+#line 39
  testRunner.And("I Deploy The Questionnaire", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
-#line 41
+#line 40
  testRunner.Then("I am presented with a successful deployment information banner", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
-#line 42
+#line 41
  testRunner.And("the questionnaire is active in blaise", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
             }
@@ -264,16 +256,12 @@ this.FeatureBackground();
         
         [NUnit.Framework.TestAttribute()]
         [NUnit.Framework.DescriptionAttribute("Back-out of deploying a questionnaire")]
-        [NUnit.Framework.CategoryAttribute("regression")]
-        [NUnit.Framework.CategoryAttribute("LU-7994")]
         public void Back_OutOfDeployingAQuestionnaire()
         {
-            string[] tagsOfScenario = new string[] {
-                    "regression",
-                    "LU-7994"};
+            string[] tagsOfScenario = ((string[])(null));
             System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Back-out of deploying a questionnaire", null, tagsOfScenario, argumentsOfScenario, featureTags);
-#line 45
+#line 43
 this.ScenarioInitialize(scenarioInfo);
 #line hidden
             if ((TagHelper.ContainsIgnoreTag(tagsOfScenario) || TagHelper.ContainsIgnoreTag(featureTags)))
@@ -286,16 +274,16 @@ this.ScenarioInitialize(scenarioInfo);
 #line 7
 this.FeatureBackground();
 #line hidden
-#line 46
+#line 44
  testRunner.Given("I have been presented with questionnaire already exists screen", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line hidden
-#line 47
+#line 45
  testRunner.When("I select to cancel", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line hidden
-#line 48
+#line 46
  testRunner.Then("I am returned to the landing page", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
-#line 49
+#line 47
  testRunner.And("the questionnaire has not been overwritten", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
             }
@@ -304,16 +292,14 @@ this.FeatureBackground();
         
         [NUnit.Framework.TestAttribute()]
         [NUnit.Framework.DescriptionAttribute("Overwrite a questionnaire that does not have data")]
-        [NUnit.Framework.CategoryAttribute("Smoke")]
-        [NUnit.Framework.CategoryAttribute("LU-7992")]
+        [NUnit.Framework.CategoryAttribute("smoke")]
         public void OverwriteAQuestionnaireThatDoesNotHaveData()
         {
             string[] tagsOfScenario = new string[] {
-                    "Smoke",
-                    "LU-7992"};
+                    "smoke"};
             System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Overwrite a questionnaire that does not have data", null, tagsOfScenario, argumentsOfScenario, featureTags);
-#line 52
+#line 50
 this.ScenarioInitialize(scenarioInfo);
 #line hidden
             if ((TagHelper.ContainsIgnoreTag(tagsOfScenario) || TagHelper.ContainsIgnoreTag(featureTags)))
@@ -326,28 +312,28 @@ this.ScenarioInitialize(scenarioInfo);
 #line 7
 this.FeatureBackground();
 #line hidden
-#line 53
+#line 51
  testRunner.Given("I have been presented with questionnaire already exists screen", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line hidden
-#line 54
+#line 52
  testRunner.And("the questionnaire does not have data records", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
-#line 55
+#line 53
  testRunner.When("I select to overwrite", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line hidden
-#line 56
+#line 54
  testRunner.And("confirm my selection", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
-#line 57
+#line 55
  testRunner.And("I dont select a Start date", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
-#line 58
+#line 56
  testRunner.And("The set start date for questionnaire returns Start Date Not Specified", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
-#line 59
+#line 57
  testRunner.And("I Deploy The Questionnaire", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
-#line 60
+#line 58
  testRunner.Then("Then the questionnaire package is deployed and overwrites the existing questionna" +
                         "ire", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden

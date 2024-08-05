@@ -224,7 +224,7 @@
     <Compile Include="Dqs\Pages\UploadSummaryPage.cs" />
     <Compile Include="Framework\Extensions\ConfigurationExtensions.cs" />
     <Compile Include="Framework\Extensions\ParameterValidationExtensions.cs" />
-    <Compile Include="Instrument\InstrumentHelper.cs" />
+    <Compile Include="Questionnaire\QuestionnaireHelper.cs" />
     <Compile Include="Cati\CatiInterviewHelper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Tobi\DayBatchHelper.cs" />
