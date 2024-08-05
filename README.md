@@ -65,9 +65,9 @@ Depending on the tests your running, substitute the environment variable values 
 ```xml
   <appSettings>
 	  <add key="UninstallSurveyTimeOutInSeconds" value="5" />
-	  <add key="InstrumentPath" value="C:\<test-questionnaire-path>\" />
+	  <add key="QuestionnairePath" value="C:\<test-questionnaire-path>\" />
 	  <add key="ServerParkName" value="gusty" />
-	  <add key="InstrumentName" value="DST2304Z" />
+	  <add key="QuestionnaireName" value="DST2304Z" />
 	  <add key="ENV_BLAISE_SERVER_HOST_NAME" value="localhost" />
 	  <add key="ENV_BLAISE_ADMIN_USER" value="<blaise-username>" />
 	  <add key="ENV_BLAISE_ADMIN_PASSWORD" value="<blaise-password>" />
@@ -84,7 +84,7 @@ Depending on the tests your running, substitute the environment variable values 
 
 Placeholder | Description
 --- | ---
-`<test-questionnaire-path>` | Local path to the test questionnaire instrument package file.
+`<test-questionnaire-path>` | Local path to the test questionnaire package file.
 `<blaise-username>`         | From the `blaise-gusty-mgmt` VM `ENV_BLAISE_ADMIN_USER` environment variable.
 `<blaise-password>`         | From the `blaise-gusty-mgmt` VM `ENV_BLAISE_ADMIN_PASSWORD` environment variable.
 `<sandbox>`                 | The short name of your sandbox environment. e.g. `rr5`.

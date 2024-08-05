@@ -20,23 +20,23 @@ namespace Blaise.Tests.Helpers.Tobi
             return _currentInstance ?? (_currentInstance = new DayBatchHelper());
         }
 
-        public void SetSurveyDay(string instrumentName, DateTime surveyDay)
+        public void SetSurveyDay(string questionnaireName, DateTime surveyDay)
         {
-            var surveydays = _blaiseCatiApi.GetSurveyDays(instrumentName, BlaiseConfigurationHelper.ServerParkName);
+            var surveydays = _blaiseCatiApi.GetSurveyDays(questionnaireName, BlaiseConfigurationHelper.ServerParkName);
             if (!surveydays.Contains(surveyDay))
-                _blaiseCatiApi.SetSurveyDay(instrumentName, BlaiseConfigurationHelper.ServerParkName, surveyDay);
+                _blaiseCatiApi.SetSurveyDay(questionnaireName, BlaiseConfigurationHelper.ServerParkName, surveyDay);
         }
 
-        public void CreateDayBatch(string instrumentName, DateTime dayBatchDate)
+        public void CreateDayBatch(string questionnaireName, DateTime dayBatchDate)
         {
-            _blaiseCatiApi.CreateDayBatch(instrumentName, BlaiseConfigurationHelper.ServerParkName, dayBatchDate, true);
+            _blaiseCatiApi.CreateDayBatch(questionnaireName, BlaiseConfigurationHelper.ServerParkName, dayBatchDate, true);
         }
 
-        public void RemoveSurveyDays(string instrumentName, DateTime surveyDay)
+        public void RemoveSurveyDays(string questionnaireName, DateTime surveyDay)
         {
-            var surveydays = _blaiseCatiApi.GetSurveyDays(instrumentName, BlaiseConfigurationHelper.ServerParkName);
+            var surveydays = _blaiseCatiApi.GetSurveyDays(questionnaireName, BlaiseConfigurationHelper.ServerParkName);
             if (surveydays.Contains(surveyDay))
-                _blaiseCatiApi.RemoveSurveyDay(instrumentName, BlaiseConfigurationHelper.ServerParkName, surveyDay);
+                _blaiseCatiApi.RemoveSurveyDay(questionnaireName, BlaiseConfigurationHelper.ServerParkName, surveyDay);
 
         }
     }
