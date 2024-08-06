@@ -1,8 +1,8 @@
 ![Build Status](https://dev.azure.com/blaise-gcp/csharp/_apis/build/status/ONSdigital.blaise-automated-tests?branchName=main)
 
-# Blaise Automated Tests
+# Blaise Integration Tests
 
-This repository holds the automated integration tests for the ONS Blaise 5 ecosystem, which are executed from the Concourse pipelines during the deployment of various services.
+This repository holds the integration tests for the ONS Blaise 5 ecosystem, which are executed from the Concourse pipelines during the deployment of various services.
 
 The Concourse pipeline triggers an Azure DevOps pipeline via an HTTP request, which runs the tests using hosted Azure DevOps agents.
 
@@ -127,7 +127,6 @@ gcloud compute start-iap-tunnel blaise-gusty-mgmt 8033 --local-host-port=localho
 Open `Test Explorer` from the Visual Studio `View` menu.
 
 Run all the tests or specific tests using the play buttons.
-
 
 # Troubleshooting
 
