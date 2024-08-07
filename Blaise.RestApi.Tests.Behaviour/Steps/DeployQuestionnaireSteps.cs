@@ -1,7 +1,10 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 using Blaise.Tests.Helpers.Cloud;
 using Blaise.Tests.Helpers.Configuration;
 using Blaise.Tests.Helpers.RestApi;
+using Blaise.Tests.Helpers.Questionnaire;
+using NUnit.Framework;
 using TechTalk.SpecFlow;
 
 namespace Blaise.RestApi.Tests.Behaviour.Steps
@@ -10,10 +13,12 @@ namespace Blaise.RestApi.Tests.Behaviour.Steps
     public sealed class DeployQuestionnaireSteps
     {
         private readonly ScenarioContext _scenarioContext;
+        private readonly QuestionnaireHelper _questionnaireHelper;
 
         public DeployQuestionnaireSteps(ScenarioContext scenarioContext)
         {
             _scenarioContext = scenarioContext;
+            _questionnaireHelper = QuestionnaireHelper.GetInstance();
         }
 
         [Given(@"there is a questionnaire available in a bucket")]
@@ -27,12 +32,22 @@ namespace Blaise.RestApi.Tests.Behaviour.Steps
         [When(@"the API is called to deploy the questionnaire")]
         public async Task WhenTheApiIsCalledToDeployTheQuestionnaire()
         {
-            await RestApiHelper.GetInstance().DeployQuestionnaire(
-                RestApiConfigurationHelper.QuestionnaireUrl,
-                BlaiseConfigurationHelper.QuestionnaireBucketPath,
-                BlaiseConfigurationHelper.QuestionnairePackage);
-        }
+            try
+            {
+                await RestApiHelper.GetInstance().DeployQuestionnaire(
+                    RestApiConfigurationHelper.QuestionnaireUrl,
+                    BlaiseConfigurationHelper.QuestionnaireBucketPath,
+                    BlaiseConfigurationHelper.QuestionnairePackage);
 
+                // Check if the questionnaire is erroneous after deployment
+                _questionnaireHelper.CheckIfQuestionnaireIsErroneous(BlaiseConfigurationHelper.QuestionnaireName);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error deploying questionnaire: {ex.Message}");
+                Assert.Fail($"Failed to deploy questionnaire: {ex.Message}");
+            }
+        }
 
         [AfterScenario("deploy")]
         public void CleanUpScenario()
