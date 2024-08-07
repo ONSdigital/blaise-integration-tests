@@ -1,66 +1,54 @@
-﻿using System;
-using Blaise.Tests.Helpers.Browser;
-using Blaise.Tests.Helpers.Questionnaire;
-using Blaise.Nuget.Api.Contracts.Enums;
-using NUnit.Framework;
-using TechTalk.SpecFlow;
-
-namespace Blaise.RestApi.Tests.Behaviour.Steps
+﻿[Binding]
+public sealed class CommonHooks
 {
-    [Binding]
-    public sealed class CommonHooks
+    private readonly FeatureContext _featureContext;
+
+    public CommonHooks(FeatureContext featureContext)
     {
-        private readonly ScenarioContext _scenarioContext;
-        private readonly QuestionnaireHelper _questionnaireHelper;
+        _featureContext = featureContext;
+    }
 
-        public CommonHooks(ScenarioContext scenarioContext)
+    [BeforeTestRun]
+    public static void BeforeTestRun()
+    {
+        Console.WriteLine("BeforeTestRun hook is running...");
+        CheckForErroneousQuestionnaire();
+    }
+
+    [BeforeScenario(Order = -1)]
+    public void BeforeScenario()
+    {
+        Console.WriteLine("BeforeScenario hook is running...");
+        CheckForErroneousQuestionnaire();
+    }
+
+    [AfterStep]
+    public void OnError()
+    {
+        if (_featureContext.TestError!= null)
         {
-            _scenarioContext = scenarioContext;
-            _questionnaireHelper = QuestionnaireHelper.GetInstance();
+            BrowserHelper.OnError(TestContext.CurrentContext, _featureContext);
+            throw new Exception(_featureContext.TestError.Message);
         }
+    }
 
-        [BeforeTestRun]
-        public static void BeforeTestRun()
+    private static void CheckForErroneousQuestionnaire()
+    {
+        var questionnaireHelper = QuestionnaireHelper.GetInstance();
+        var questionnaireStatus = questionnaireHelper.GetQuestionnaireStatus();
+
+        if (questionnaireStatus == QuestionnaireStatusType.Erroneous)
         {
-            Console.WriteLine("BeforeTestRun hook is running...");
-            CheckForErroneousQuestionnaire();
-        }
-
-        [BeforeScenario(Order = -1)]
-        public void BeforeScenario()
-        {
-            Console.WriteLine("BeforeScenario hook is running...");
-            CheckForErroneousQuestionnaire();
-        }
-
-        [AfterStep]
-        public void OnError()
-        {
-            if (_scenarioContext.TestError != null)
-            {
-                BrowserHelper.OnError(TestContext.CurrentContext, _scenarioContext);
-                throw new Exception(_scenarioContext.TestError.Message);
-            }
-        }
-
-        private static void CheckForErroneousQuestionnaire()
-        {
-            var questionnaireHelper = QuestionnaireHelper.GetInstance();
-            var questionnaireStatus = questionnaireHelper.GetQuestionnaireStatus();
-
-            if (questionnaireStatus == QuestionnaireStatusType.Erroneous)
-            {
-                Console.WriteLine(@"
+            Console.WriteLine(@"
  ______ _____ _____ ____ _ _ ______ ____ _ _ _____
 | ____| __ \| __ \ / __ \| \ | | ____/ __ \| | | |/ ____|
 | |__ | |__) | |__) | | | | \| | |__ | | | | | | | (___
-| __| | _ /| _ /| | | | . ` | __|| | | | | | |\___ \
+| __| | _ /| _ /| | | |. ` | __|| | | | | | |\___ \
 | |____| | \ \| | \ \| |__| | |\ | |___| |__| | |__| |____) |
 |______|_| \_\_| \_\\____/|_| \_|______\____/ \____/|_____/
 ");
-                Console.WriteLine("The questionnaire is in an erroneous state. All tests are skipped. Please restart Blaise on the management VM and uninstall it via Blaise Server Manager.");
-                Assert.Fail("The questionnaire is in an erroneous state. All tests are skipped.");
-            }
+            Console.WriteLine("The questionnaire is in an erroneous state. All tests are skipped. Please restart Blaise on the management VM and uninstall it via Blaise Server Manager.");
+            Assert.Fail("The questionnaire is in an erroneous state. All tests are skipped.");
         }
     }
 }
