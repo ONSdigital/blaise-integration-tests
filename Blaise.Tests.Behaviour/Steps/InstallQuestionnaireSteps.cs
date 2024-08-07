@@ -65,7 +65,17 @@ namespace Blaise.Tests.Behaviour.Steps
         [AfterScenario("questionnaire")]
         public void CleanUpScenario()
         {
-            QuestionnaireHelper.GetInstance().UninstallSurvey();
+            var questionnaireHelper = QuestionnaireHelper.GetInstance();
+            var questionnaireStatus = questionnaireHelper.GetQuestionnaireStatus();
+
+            if (questionnaireStatus != QuestionnaireStatusType.Erroneous)
+            {
+                questionnaireHelper.UninstallSurvey();
+            }
+            else
+            {
+                Console.WriteLine("Questionnaire is in an erroneous state. Skipping uninstallation. Please restart Blaise on the management VM and uninstall it via Blaise Server Manager.");
+            }
         }
 
         [AfterTestRun]
