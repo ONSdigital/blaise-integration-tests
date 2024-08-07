@@ -12,52 +12,55 @@ namespace Blaise.Tests.Behaviour.Steps
     {
         private readonly ScenarioContext _scenarioContext;
         private readonly QuestionnaireHelper _questionnaireHelper;
-
-        public CommonHooks(ScenarioContext scenarioContext)
-        {
-            _scenarioContext = scenarioContext;
-            _questionnaireHelper = QuestionnaireHelper.GetInstance();
-        }
-
-        [BeforeTestRun]
-        public static void BeforeTestRun()
-        {
-            CheckForErroneousQuestionnaire();
-        }
-
-        [BeforeScenario(Order = -1)]
-        public void BeforeScenario()
-        {
-            CheckForErroneousQuestionnaire();
-        }
-
-        [AfterStep]
-        public void OnError()
-        {
-            if (_scenarioContext.TestError != null)
-            {
-                BrowserHelper.OnError(TestContext.CurrentContext, _scenarioContext);
-                throw new Exception(_scenarioContext.TestError.Message);
-            }
-        }
-
-        private static void CheckForErroneousQuestionnaire()
-        {
-            var questionnaireHelper = QuestionnaireHelper.GetInstance();
-            var questionnaireStatus = questionnaireHelper.GetQuestionnaireStatus();
-
-            if (questionnaireStatus == QuestionnaireStatusType.Erroneous)
-            {
-                TestContext.WriteLine(@"
+        private const string ErroneousQuestionnaireAscii = @"
                  _____                                            _ 
                 |  ___|                                          | |
                 | |__ _ __ _ __ ___  _ __   ___  ___  _   _ ___  | |
                 |  __| '__| '__/ _ \| '_ \ / _ \/ _ \| | | / __| | |
                 | |__| |  | | | (_) | | | |  __/ (_) | |_| \__ \ |_|
                 \____/_|  |_|  \___/|_| |_|\___|\___/ \__,_|___/ (_)
-                ");
-                TestContext.WriteLine("The questionnaire is in an erroneous state. All tests are skipped. Please restart Blaise on the management VM and uninstall it via Blaise Server Manager.");
-                Assert.Fail("The questionnaire is in an erroneous state. All tests are skipped.");
+                ";
+        private const string ErroneousQuestionnaireMessage = 
+            $"The questionnaire is in an erroneous state.{Environment.NewLine}" +
+            $"Skipping Tests.{Environment.NewLine}" +
+            $"Restart Blaise and uninstall the erroneous questionnaire via Blaise Server Manager.";
+
+        public CommonHooks(ScenarioContext scenarioContext, QuestionnaireHelper questionnaireHelper)
+        {
+            _scenarioContext = scenarioContext;
+            _questionnaireHelper = questionnaireHelper;
+        }
+
+        [BeforeTestRun]
+        public static void CheckQuestionnaireStatusBeforeTestRun()
+        {
+            CheckQuestionnaireStatus();
+        }
+
+        [BeforeScenario(Order = -1)]
+        public void CheckQuestionnaireStatusBeforeScenario()
+        {
+            CheckQuestionnaireStatus();
+        }
+
+        [AfterStep]
+        public void HandleTestError()
+        {
+            if (_scenarioContext.TestError!= null)
+            {
+                BrowserHelper.OnError(TestContext.CurrentContext, _scenarioContext);
+                TestContext.WriteLine($"Test error: {_scenarioContext.TestError.Message}");
+            }
+        }
+
+        private static void CheckQuestionnaireStatus()
+        {
+            var questionnaireStatus = _questionnaireHelper.GetQuestionnaireStatus();
+
+            if (questionnaireStatus == QuestionnaireStatusType.Erroneous)
+            {
+                Console.WriteLine($"##[error]{ErroneousQuestionnaireAscii}");
+                Assert.Fail(ErroneousQuestionnaireMessage);
             }
         }
     }
