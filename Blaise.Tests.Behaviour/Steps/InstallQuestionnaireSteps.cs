@@ -26,15 +26,24 @@ namespace Blaise.Tests.Behaviour.Steps
         [Given(@"I have an questionnaire installed on a Blaise environment")]
         [Given(@"There is an questionnaire installed on a Blaise environment")]
         [When(@"I install the questionnaire into a Blaise environment")]
+        [When(@"I install the questionnaire into a Blaise environment specifying a Cati configuration")]
         public void WhenIInstallTheQuestionnaireIntoABlaiseEnvironment()
         {
-            QuestionnaireHelper.GetInstance().InstallQuestionnaire();
-        }
+            var questionnaireStatus = QuestionnaireHelper.GetInstance().GetQuestionnaireStatus();
 
-        [When(@"I install the questionnaire into a Blaise environment specifying a Cati configuration")]
-        public void WhenIInstallTheQuestionnaireIntoABlaiseEnvironmentSpecifyingACatiConfiguration()
-        {
+            if questionnaireStatus == QuestionnaireStatusType.Erroneous)
+            {
+                Assert.Fail("The questionnaire is in an erroneous state, please restart Blaise on the management VM and uninstall it via Blaise Server Manager");
+            }
+
             QuestionnaireHelper.GetInstance().InstallQuestionnaire();
+
+            var questionnaireStatus = QuestionnaireHelper.GetInstance().GetQuestionnaireStatus();
+
+            if questionnaireStatus == QuestionnaireStatusType.Erroneous)
+            {
+                Assert.Fail("The questionnaire is in an erroneous state, please restart Blaise on the management VM and uninstall it via Blaise Server Manager");
+            }
         }
 
         [Then(@"the questionnaire is available to use in the Blaise environment")]
