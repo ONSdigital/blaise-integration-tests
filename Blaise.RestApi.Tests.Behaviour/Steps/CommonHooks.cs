@@ -5,7 +5,7 @@ using Blaise.Nuget.Api.Contracts.Enums;
 using NUnit.Framework;
 using TechTalk.SpecFlow;
 
-namespace Blaise.Tests.Behaviour.Steps
+namespace Blaise.RestApi.Tests.Behaviour.Steps
 {
     [Binding]
     public sealed class CommonHooks
