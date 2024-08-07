@@ -12,6 +12,7 @@ namespace Blaise.Tests.Behaviour.Steps
     {
         private readonly ScenarioContext _scenarioContext;
         private readonly QuestionnaireHelper _questionnaireHelper;
+
         private const string ErroneousQuestionnaireAscii = @"
                  _____                                            _ 
                 |  ___|                                          | |
@@ -20,10 +21,10 @@ namespace Blaise.Tests.Behaviour.Steps
                 | |__| |  | | | (_) | | | |  __/ (_) | |_| \__ \ |_|
                 \____/_|  |_|  \___/|_| |_|\___|\___/ \__,_|___/ (_)
                 ";
-        private static readonly string ErroneousQuestionnaireMessage = 
-            $"The questionnaire is in an erroneous state.{Environment.NewLine}" +
-            $"Skipping Tests.{Environment.NewLine}" +
-            $"Restart Blaise and uninstall the erroneous questionnaire via Blaise Server Manager.";
+        private const string ErroneousQuestionnaireMessage = 
+            "The questionnaire is in an erroneous state.\n" +
+            "Skipping Tests.\n" +
+            "Restart Blaise and uninstall the erroneous questionnaire via Blaise Server Manager.";
 
         public CommonHooks(ScenarioContext scenarioContext, QuestionnaireHelper questionnaireHelper)
         {
@@ -32,15 +33,15 @@ namespace Blaise.Tests.Behaviour.Steps
         }
 
         [BeforeTestRun]
-        public static void CheckQuestionnaireStatusBeforeTestRun()
+        public static void CheckQuestionnaireStatusBeforeTestRun(QuestionnaireHelper questionnaireHelper)
         {
-            CheckQuestionnaireStatus();
+            CheckQuestionnaireStatus(questionnaireHelper);
         }
 
         [BeforeScenario(Order = -1)]
         public void CheckQuestionnaireStatusBeforeScenario()
         {
-            CheckQuestionnaireStatus();
+            CheckQuestionnaireStatus(_questionnaireHelper);
         }
 
         [AfterStep]
@@ -53,13 +54,14 @@ namespace Blaise.Tests.Behaviour.Steps
             }
         }
 
-        private static void CheckQuestionnaireStatus()
+        private static void CheckQuestionnaireStatus(QuestionnaireHelper questionnaireHelper)
         {
-            var questionnaireStatus = _questionnaireHelper.GetQuestionnaireStatus();
+            var questionnaireStatus = questionnaireHelper.GetQuestionnaireStatus();
 
             if (questionnaireStatus == QuestionnaireStatusType.Erroneous)
             {
                 Console.WriteLine($"##[error]{ErroneousQuestionnaireAscii}");
+                Console.WriteLine($"##[error]{ErroneousQuestionnaireMessage}");
                 Assert.Fail(ErroneousQuestionnaireMessage);
             }
         }
