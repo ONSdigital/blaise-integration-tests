@@ -1,4 +1,13 @@
-﻿[Binding]
+﻿using System;
+using Blaise.Tests.Helpers.Browser;
+using Blaise.Tests.Helpers.Questionnaire;
+using Blaise.Nuget.Api.Contracts.Enums;
+using NUnit.Framework;
+using TechTalk.SpecFlow;
+
+namespace Blaise.RestApi.Tests.Behaviour.Steps
+{
+[Binding]
 public sealed class CommonHooks
 {
     private readonly FeatureContext _featureContext;
@@ -51,4 +60,5 @@ public sealed class CommonHooks
             Assert.Fail("The questionnaire is in an erroneous state. All tests are skipped.");
         }
     }
+}
 }
