@@ -60,9 +60,8 @@ namespace Blaise.Tests.Behaviour.Steps
 
             if (questionnaireStatus == QuestionnaireStatusType.Erroneous)
             {
-                Console.WriteLine("test");
-                Console.WriteLine($"##[error]{ErroneousQuestionnaireAscii}");
-                Console.WriteLine($"##[error]{ErroneousQuestionnaireMessage}");
+                TestContext.WriteLine($"##[error]{ErroneousQuestionnaireAscii}");
+                TestContext.WriteLine($"##[error]{ErroneousQuestionnaireMessage}");
                 Assert.Fail(ErroneousQuestionnaireMessage);
             }
         }
