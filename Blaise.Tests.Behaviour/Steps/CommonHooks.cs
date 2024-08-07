@@ -57,7 +57,7 @@ namespace Blaise.Tests.Behaviour.Steps
 |______|_| \_\_| \_\\____/|_| \_|______\____/ \____/|_____/
 ");
                 Console.WriteLine("The questionnaire is in an erroneous state. All tests are skipped. Please restart Blaise on the management VM and uninstall it via Blaise Server Manager.");
-                Assert.Inconclusive("The questionnaire is in an erroneous state. All tests are skipped.");
+                Assert.Fail("The questionnaire is in an erroneous state. All tests are skipped.");
             }
         }
     }
