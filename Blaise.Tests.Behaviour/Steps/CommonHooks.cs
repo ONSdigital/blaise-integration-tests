@@ -25,7 +25,7 @@ namespace Blaise.Tests.Behaviour.Steps
             "The questionnaire is in an erroneous state.\n" +
             "Skipping Tests.\n" +
             "Restart Blaise and uninstall the erroneous questionnaire via Blaise Server Manager.";
--
+            
         public CommonHooks(ScenarioContext scenarioContext, QuestionnaireHelper questionnaireHelper)
         {
             _scenarioContext = scenarioContext;
