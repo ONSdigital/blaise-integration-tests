@@ -4,6 +4,7 @@ using Blaise.Tests.Helpers.Configuration;
 using Blaise.Tests.Helpers.Questionnaire;
 using NUnit.Framework;
 using TechTalk.SpecFlow;
+using System;
 
 namespace Blaise.Tests.Behaviour.Steps
 {
