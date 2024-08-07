@@ -20,7 +20,7 @@ namespace Blaise.Tests.Behaviour.Steps
                 | |__| |  | | | (_) | | | |  __/ (_) | |_| \__ \ |_|
                 \____/_|  |_|  \___/|_| |_|\___|\___/ \__,_|___/ (_)
                 ";
-        private const string ErroneousQuestionnaireMessage = 
+        private static readonly string ErroneousQuestionnaireMessage = 
             $"The questionnaire is in an erroneous state.{Environment.NewLine}" +
             $"Skipping Tests.{Environment.NewLine}" +
             $"Restart Blaise and uninstall the erroneous questionnaire via Blaise Server Manager.";
