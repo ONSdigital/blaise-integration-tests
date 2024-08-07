@@ -48,15 +48,15 @@ namespace Blaise.Tests.Behaviour.Steps
 
             if (questionnaireStatus == QuestionnaireStatusType.Erroneous)
             {
-                Console.WriteLine(@"
- ______ _____ _____ ____ _ _ ______ ____ _ _ _____
-| ____| __ \| __ \ / __ \| \ | | ____/ __ \| | | |/ ____|
-| |__ | |__) | |__) | | | | \| | |__ | | | | | | | (___
-| __| | _ /| _ /| | | | . ` | __|| | | | | | |\___ \
-| |____| | \ \| | \ \| |__| | |\ | |___| |__| | |__| |____) |
-|______|_| \_\_| \_\\____/|_| \_|______\____/ \____/|_____/
-");
-                Console.WriteLine("The questionnaire is in an erroneous state. All tests are skipped. Please restart Blaise on the management VM and uninstall it via Blaise Server Manager.");
+                TestContext.WriteLine(@"
+                 _____                                            _ 
+                |  ___|                                          | |
+                | |__ _ __ _ __ ___  _ __   ___  ___  _   _ ___  | |
+                |  __| '__| '__/ _ \| '_ \ / _ \/ _ \| | | / __| | |
+                | |__| |  | | | (_) | | | |  __/ (_) | |_| \__ \ |_|
+                \____/_|  |_|  \___/|_| |_|\___|\___/ \__,_|___/ (_)
+                ");
+                TestContext.WriteLine("The questionnaire is in an erroneous state. All tests are skipped. Please restart Blaise on the management VM and uninstall it via Blaise Server Manager.");
                 Assert.Fail("The questionnaire is in an erroneous state. All tests are skipped.");
             }
         }
