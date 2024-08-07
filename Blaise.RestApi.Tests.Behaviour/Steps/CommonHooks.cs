@@ -22,12 +22,14 @@ namespace Blaise.RestApi.Tests.Behaviour.Steps
         [BeforeTestRun]
         public static void BeforeTestRun()
         {
+            Console.WriteLine("BeforeTestRun hook is running...");
             CheckForErroneousQuestionnaire();
         }
 
         [BeforeScenario(Order = -1)]
         public void BeforeScenario()
         {
+            Console.WriteLine("BeforeScenario hook is running...");
             CheckForErroneousQuestionnaire();
         }
 
