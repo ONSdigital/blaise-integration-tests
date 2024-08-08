@@ -13,6 +13,7 @@ namespace Blaise.Tests.Behaviour.Steps
     {
         private readonly ScenarioContext _scenarioContext;
         private readonly QuestionnaireHelper _questionnaireHelper;
+        
 
         private const string ErroneousQuestionnaireAscii = @"
                  _____                                            _ 
@@ -29,6 +30,7 @@ namespace Blaise.Tests.Behaviour.Steps
         public CommonHooks(ScenarioContext scenarioContext)
         {
             _scenarioContext = scenarioContext;
+            _questionnaireHelper = new QuestionnaireHelper(scenarioContext);
         }
 
         [OneTimeSetUp]
