@@ -35,9 +35,7 @@ namespace Blaise.Tests.Behaviour.Steps
         [When(@"I install the questionnaire into a Blaise environment specifying a Cati configuration")]
         public void WhenIInstallTheQuestionnaireIntoABlaiseEnvironment()
         {
-            _questionnaireHelper.CheckIfQuestionnaireIsErroneous(BlaiseConfigurationHelper.QuestionnaireName);
             _questionnaireHelper.InstallQuestionnaire();
-            _questionnaireHelper.CheckIfQuestionnaireIsErroneous(BlaiseConfigurationHelper.QuestionnaireName);
         }
 
         [Then(@"the questionnaire is available to use in the Blaise environment")]

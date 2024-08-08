@@ -7,8 +7,8 @@ Feature: Install Questionnaire
 @smoke
 Scenario: Install a questionnaire into a Blaise environment
 	Given I have an questionnaire I want to use to capture respondents data
-	When I install the questionnaire into a Blaise environment 
-	Then the questionnaire is available to use in the Blaise environment 
+	When I install the questionnaire into a Blaise environment
+	Then the questionnaire is available to use in the Blaise environment
 
 @smoke
 Scenario: Install a questionnaire into a Blaise environment using Cati configuration

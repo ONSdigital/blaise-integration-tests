@@ -1,6 +1,7 @@
 ﻿using System;
 using Blaise.Tests.Helpers.Browser;
 using Blaise.Tests.Helpers.Questionnaire;
+using Blaise.Tests.Helpers.Configuration;
 using Blaise.Nuget.Api.Contracts.Enums;
 using NUnit.Framework;
 using TechTalk.SpecFlow;
@@ -22,9 +23,8 @@ namespace Blaise.Tests.Behaviour.Steps
                 \____/_|  |_|  \___/|_| |_|\___|\___/ \__,_|___/ (_)
                 ";
         private const string ErroneousQuestionnaireMessage = 
-            "The questionnaire is in an erroneous state.\n" +
-            "Skipping Tests.\n" +
-            "Restart Blaise and uninstall the erroneous questionnaire via Blaise Server Manager.";
+            $"The test questionnaire {BlaiseConfigurationHelper.QuestionnaireName} is in an erroneous state.\n" +
+            $"Restart Blaise and uninstall the erroneous questionnaire via Blaise Server Manager.";
 
         public CommonHooks(ScenarioContext scenarioContext, QuestionnaireHelper questionnaireHelper)
         {
@@ -61,7 +61,7 @@ namespace Blaise.Tests.Behaviour.Steps
             if (questionnaireStatus == QuestionnaireStatusType.Erroneous)
             {
                 //Assert.Fail($"{ErroneousQuestionnaireAscii}\n{ErroneousQuestionnaireMessage}\n");
-                throw new InvalidOperationException($"{ErroneousQuestionnaireAscii}{ErroneousQuestionnaireMessage}\n\n");
+                throw new InvalidOperationException($"{ErroneousQuestionnaireAscii}\n{ErroneousQuestionnaireMessage}");
             }
         }
     }
