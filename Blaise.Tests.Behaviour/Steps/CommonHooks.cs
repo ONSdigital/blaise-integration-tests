@@ -50,7 +50,7 @@ namespace Blaise.Tests.Behaviour.Steps
             if (_scenarioContext.TestError!= null)
             {
                 BrowserHelper.OnError(TestContext.CurrentContext, _scenarioContext);
-                _scenarioContext.WriteLine($"Test error: {_scenarioContext.TestError.Message}");
+                Assert.Fail($"Test error: {_scenarioContext.TestError.Message}");
             }
         }
 
@@ -60,8 +60,7 @@ namespace Blaise.Tests.Behaviour.Steps
 
             if (questionnaireStatus == QuestionnaireStatusType.Erroneous)
             {
-                _scenarioContext.WriteLine(ErroneousQuestionnaireAscii);
-                Assert.Fail(ErroneousQuestionnaireMessage);
+                Assert.Fail($"{ErroneousQuestionnaireAscii}\n\n{ErroneousQuestionnaireMessage}");
             }
         }
     }
