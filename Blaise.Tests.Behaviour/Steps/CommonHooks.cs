@@ -50,7 +50,7 @@ namespace Blaise.Tests.Behaviour.Steps
             if (_scenarioContext.TestError != null)
             {
                 BrowserHelper.OnError(TestContext.CurrentContext, _scenarioContext);
-                throw new Exception(_scenarioContext.TestError.Message);
+                throw _scenarioContext.TestError;
             }
         }
 
