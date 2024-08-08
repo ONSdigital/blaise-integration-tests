@@ -55,7 +55,12 @@ namespace Blaise.Tests.Behaviour.Steps
         [AfterScenario("questionnaire")]
         public void CleanUpScenario()
         {
-            QuestionnaireHelper.GetInstance().UninstallSurvey();
+            var questionnaireStatus = questionnaireHelper.GetQuestionnaireStatus();
+
+                if (questionnaireStatus == QuestionnaireStatusType.Erroneous)
+                {
+                    QuestionnaireHelper.GetInstance().UninstallSurvey();
+                }
         }
 
         [AfterTestRun]
