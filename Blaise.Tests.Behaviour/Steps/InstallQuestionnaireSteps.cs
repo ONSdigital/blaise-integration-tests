@@ -1,4 +1,4 @@
-﻿using Blaise.Nuget.Api.Contracts.Enums;
+﻿﻿using Blaise.Nuget.Api.Contracts.Enums;
 using Blaise.Tests.Helpers.Browser;
 using Blaise.Tests.Helpers.Configuration;
 using Blaise.Tests.Helpers.Questionnaire;
@@ -55,13 +55,7 @@ namespace Blaise.Tests.Behaviour.Steps
         [AfterScenario("questionnaire")]
         public void CleanUpScenario()
         {
-            var questionnaireHelper = QuestionnaireHelper.GetInstance();
-            var questionnaireStatus = questionnaireHelper.GetQuestionnaireStatus();
-
-                if (questionnaireStatus == QuestionnaireStatusType.Erroneous)
-                {
-                    questionnaireHelper.UninstallSurvey();
-                }
+            QuestionnaireHelper.GetInstance().UninstallSurvey();
         }
 
         [AfterTestRun]

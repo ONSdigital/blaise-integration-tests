@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+﻿﻿using System.Collections.Generic;
 using System.Linq;
 using Blaise.Tests.Helpers.Case;
 using Blaise.Tests.Helpers.Questionnaire;
@@ -68,13 +68,7 @@ namespace Blaise.Tests.Behaviour.Steps
         [AfterFeature("case")]
         public static void CleanUpFeature()
         {
-            var questionnaireHelper = QuestionnaireHelper.GetInstance();
-            var questionnaireStatus = questionnaireHelper.GetQuestionnaireStatus();
-
-                if (questionnaireStatus == QuestionnaireStatusType.Erroneous)
-                {
-                    questionnaireHelper.UninstallSurvey();
-                }
+            QuestionnaireHelper.GetInstance().UninstallSurvey();
         }
     }
 }
