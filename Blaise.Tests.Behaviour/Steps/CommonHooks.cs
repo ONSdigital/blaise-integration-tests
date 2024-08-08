@@ -1,8 +1,7 @@
-﻿using System;
+﻿using Blaise.Nuget.Api.Contracts.Enums;
 using Blaise.Tests.Helpers.Browser;
-using Blaise.Tests.Helpers.Questionnaire;
 using Blaise.Tests.Helpers.Configuration;
-using Blaise.Nuget.Api.Contracts.Enums;
+using Blaise.Tests.Helpers.Questionnaire;
 using NUnit.Framework;
 using TechTalk.SpecFlow;
 
@@ -23,7 +22,7 @@ namespace Blaise.Tests.Behaviour.Steps
                 \____/_|  |_|  \___/|_| |_|\___|\___/ \__,_|___/ (_)
                 ";
         private static readonly string ErroneousQuestionnaireMessage =
-        $"Test questionnaire {BlaiseConfigurationHelper.QuestionnaireName} is in an erroneous state.\n" +
+        $"The test questionnaire {BlaiseConfigurationHelper.QuestionnaireName} is in an erroneous state.\n" +
         "Restart Blaise and uninstall the erroneous questionnaire via Blaise Server Manager.";
 
         public CommonHooks(ScenarioContext scenarioContext)
@@ -62,12 +61,13 @@ namespace Blaise.Tests.Behaviour.Steps
 
                 if (questionnaireStatus == QuestionnaireStatusType.Erroneous)
                 {
-                    throw new InvalidOperationException($"{ErroneousQuestionnaireAscii}{ErroneousQuestionnaireMessage}");
+                    throw new InvalidOperationException($"{ErroneousQuestionnaireAscii}\n{ErroneousQuestionnaireMessage}");
                 }
             }
-            catch (DataNotFoundException)
+            catch (Exception ex)
             {
-                Console.WriteLine($"Test questionnaire {BlaiseConfigurationHelper.QuestionnaireName} not installed, continuing with tests...");
+                Console.WriteLine($"An error occurred while checking the questionnaire status: {ex.Message}");
+                Console.WriteLine($"Questionnaire {BlaiseConfigurationHelper.QuestionnaireName} not found, continuing with the tests.");
             }
         }
     }
