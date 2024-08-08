@@ -22,9 +22,9 @@ namespace Blaise.Tests.Behaviour.Steps
                 | |__| |  | | | (_) | | | |  __/ (_) | |_| \__ \ |_|
                 \____/_|  |_|  \___/|_| |_|\___|\___/ \__,_|___/ (_)
                 ";
-        private const string ErroneousQuestionnaireMessage = 
-            $"The test questionnaire {BlaiseConfigurationHelper.QuestionnaireName} is in an erroneous state.\n" +
-            $"Restart Blaise and uninstall the erroneous questionnaire via Blaise Server Manager.";
+        private static readonly string ErroneousQuestionnaireMessage =
+        $"The test questionnaire {BlaiseConfigurationHelper.QuestionnaireName} is in an erroneous state.\n" +
+        "Restart Blaise and uninstall the erroneous questionnaire via Blaise Server Manager.";
 
         public CommonHooks(ScenarioContext scenarioContext, QuestionnaireHelper questionnaireHelper)
         {
