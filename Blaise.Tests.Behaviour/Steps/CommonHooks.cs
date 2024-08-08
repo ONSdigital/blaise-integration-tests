@@ -32,10 +32,10 @@ namespace Blaise.Tests.Behaviour.Steps
             _questionnaireHelper = questionnaireHelper;
         }
 
-        [BeforeTestRun]
-        public static void CheckQuestionnaireStatusBeforeTestRun(QuestionnaireHelper questionnaireHelper)
+        [OneTimeSetUp]
+        public void CheckQuestionnaireStatusBeforeTestRun()
         {
-            CheckQuestionnaireStatus(questionnaireHelper);
+            CheckQuestionnaireStatus(_questionnaireHelper);
         }
 
         [BeforeScenario(Order = -1)]
@@ -61,7 +61,7 @@ namespace Blaise.Tests.Behaviour.Steps
             if (questionnaireStatus == QuestionnaireStatusType.Erroneous)
             {
                 //Assert.Fail($"{ErroneousQuestionnaireAscii}\n{ErroneousQuestionnaireMessage}\n");
-                throw new InvalidOperationException($"{ErroneousQuestionnaireAscii}\n{ErroneousQuestionnaireMessage}\n");
+                throw new InvalidOperationException($"{ErroneousQuestionnaireAscii}{ErroneousQuestionnaireMessage}\n\n");
             }
         }
     }
