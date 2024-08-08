@@ -56,7 +56,7 @@ namespace Blaise.Tests.Behaviour.Steps
         public void CleanUpScenario()
         {
             var questionnaireHelper = QuestionnaireHelper.GetInstance();
-            var questionnaireStatus = QuestionnaireHelper.GetQuestionnaireStatus();
+            var questionnaireStatus = questionnaireHelper.GetQuestionnaireStatus();
 
                 if (questionnaireStatus == QuestionnaireStatusType.Erroneous)
                 {
