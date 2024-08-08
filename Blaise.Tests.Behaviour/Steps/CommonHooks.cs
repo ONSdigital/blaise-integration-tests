@@ -12,7 +12,7 @@ namespace Blaise.Tests.Behaviour.Steps
     public sealed class CommonHooks
     {
         private readonly ScenarioContext _scenarioContext;
-        private readonly QuestionnaireHelper _questionnaireHelper;        
+        private readonly QuestionnaireHelper _questionnaireHelper;
 
         private const string ErroneousQuestionnaireAscii = @"
                  _____                                            _ 
@@ -23,7 +23,7 @@ namespace Blaise.Tests.Behaviour.Steps
                 \____/_|  |_|  \___/|_| |_|\___|\___/ \__,_|___/ (_)
                 ";
         private static readonly string ErroneousQuestionnaireMessage =
-        $"The test questionnaire {BlaiseConfigurationHelper.QuestionnaireName} is in an erroneous state.\n" +
+        $"Test questionnaire {BlaiseConfigurationHelper.QuestionnaireName} is in an erroneous state.\n" +
         "Restart Blaise and uninstall the erroneous questionnaire via Blaise Server Manager.";
 
         public CommonHooks(ScenarioContext scenarioContext)
@@ -54,13 +54,20 @@ namespace Blaise.Tests.Behaviour.Steps
             }
         }
 
-        private static void CheckQuestionnaireStatus(QuestionnaireHelper questionnaireHelper, ScenarioContext scenarioContext)
+        private void CheckQuestionnaireStatus(QuestionnaireHelper questionnaireHelper, ScenarioContext scenarioContext)
         {
-            var questionnaireStatus = questionnaireHelper.GetQuestionnaireStatus();
-
-            if (questionnaireStatus == QuestionnaireStatusType.Erroneous)
+            try
             {
-                throw new InvalidOperationException($"{ErroneousQuestionnaireAscii}\n{ErroneousQuestionnaireMessage}");
+                var questionnaireStatus = questionnaireHelper.GetQuestionnaireStatus();
+
+                if (questionnaireStatus == QuestionnaireStatusType.Erroneous)
+                {
+                    throw new InvalidOperationException($"{ErroneousQuestionnaireAscii}{ErroneousQuestionnaireMessage}");
+                }
+            }
+            catch (DataNotFoundException)
+            {
+                Console.WriteLine($"Test questionnaire {BlaiseConfigurationHelper.QuestionnaireName} not installed, continuing with tests...");
             }
         }
     }
