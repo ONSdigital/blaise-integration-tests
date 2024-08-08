@@ -68,7 +68,12 @@ namespace Blaise.Tests.Behaviour.Steps
         [AfterFeature("case")]
         public static void CleanUpFeature()
         {
-            QuestionnaireHelper.GetInstance().UninstallSurvey();
+            var questionnaireStatus = QuestionnaireHelper.GetQuestionnaireStatus();
+
+                if (questionnaireStatus == QuestionnaireStatusType.Erroneous)
+                {
+                    QuestionnaireHelper.GetInstance().UninstallSurvey();
+                }
         }
     }
 }
