@@ -25,7 +25,7 @@ namespace Blaise.Tests.Behaviour.Steps
             "The questionnaire is in an erroneous state.\n" +
             "Skipping Tests.\n" +
             "Restart Blaise and uninstall the erroneous questionnaire via Blaise Server Manager.";
-            
+
         public CommonHooks(ScenarioContext scenarioContext, QuestionnaireHelper questionnaireHelper)
         {
             _scenarioContext = scenarioContext;
@@ -50,7 +50,7 @@ namespace Blaise.Tests.Behaviour.Steps
             if (_scenarioContext.TestError!= null)
             {
                 BrowserHelper.OnError(TestContext.CurrentContext, _scenarioContext);
-                TestContext.WriteLine($"Test error: {_scenarioContext.TestError.Message}");
+                _scenarioContext.WriteLine($"Test error: {_scenarioContext.TestError.Message}");
             }
         }
 
@@ -60,7 +60,7 @@ namespace Blaise.Tests.Behaviour.Steps
 
             if (questionnaireStatus == QuestionnaireStatusType.Erroneous)
             {
-                Console.WriteLine("##vso[task.logissue type=error]" + ErroneousQuestionnaireAscii);
+                _scenarioContext.WriteLine(ErroneousQuestionnaireAscii);
                 Assert.Fail(ErroneousQuestionnaireMessage);
             }
         }
