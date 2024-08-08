@@ -12,8 +12,7 @@ namespace Blaise.Tests.Behaviour.Steps
     public sealed class CommonHooks
     {
         private readonly ScenarioContext _scenarioContext;
-        private readonly QuestionnaireHelper _questionnaireHelper;
-        
+        private readonly QuestionnaireHelper _questionnaireHelper;        
 
         private const string ErroneousQuestionnaireAscii = @"
                  _____                                            _ 
@@ -30,19 +29,19 @@ namespace Blaise.Tests.Behaviour.Steps
         public CommonHooks(ScenarioContext scenarioContext)
         {
             _scenarioContext = scenarioContext;
-            _questionnaireHelper = new QuestionnaireHelper(scenarioContext);
+            _questionnaireHelper = new QuestionnaireHelper();
         }
 
         [OneTimeSetUp]
         public void CheckQuestionnaireStatusBeforeTestRun()
         {
-            CheckQuestionnaireStatus(_questionnaireHelper);
+            CheckQuestionnaireStatus(_questionnaireHelper, _scenarioContext);
         }
 
         [BeforeScenario(Order = -1)]
         public void CheckQuestionnaireStatusBeforeScenario()
         {
-            CheckQuestionnaireStatus(_questionnaireHelper);
+            CheckQuestionnaireStatus(_questionnaireHelper, _scenarioContext);
         }
 
         [AfterStep]
@@ -55,7 +54,7 @@ namespace Blaise.Tests.Behaviour.Steps
             }
         }
 
-        private static void CheckQuestionnaireStatus(QuestionnaireHelper questionnaireHelper)
+        private static void CheckQuestionnaireStatus(QuestionnaireHelper questionnaireHelper, ScenarioContext scenarioContext)
         {
             var questionnaireStatus = questionnaireHelper.GetQuestionnaireStatus();
 
