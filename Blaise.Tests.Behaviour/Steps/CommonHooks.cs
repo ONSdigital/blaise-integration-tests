@@ -66,9 +66,9 @@ namespace Blaise.Tests.Behaviour.Steps
                     Assert.Fail($"{ErroneousQuestionnaireAscii}{ErroneousQuestionnaireMessage}");
                 }
             }
-            catch (Exception ex)
+            catch (DataNotFoundException)
             {
-                Console.WriteLine($"An error occurred while checking the questionnaire status: {ex.Message}");
+                //Console.WriteLine($"An error occurred while checking the questionnaire status: {ex.Message}");
                 Console.WriteLine($"Questionnaire {BlaiseConfigurationHelper.QuestionnaireName} not found, continuing with the tests.");
             }
         }
