@@ -62,14 +62,20 @@ namespace Blaise.Tests.Behaviour.Steps
 
                 if (questionnaireStatus == QuestionnaireStatusType.Erroneous)
                 {
-                    //throw new InvalidOperationException($"{ErroneousQuestionnaireAscii}\n{ErroneousQuestionnaireMessage}");
-                    Assert.Fail($"{ErroneousQuestionnaireAscii}{ErroneousQuestionnaireMessage}");
+                    throw new InvalidOperationException($"{ErroneousQuestionnaireAscii}\n{ErroneousQuestionnaireMessage}");
                 }
             }
-            catch (DataNotFoundException)
+            catch (Exception ex)
             {
-                //Console.WriteLine($"An error occurred while checking the questionnaire status: {ex.Message}");
-                Console.WriteLine($"Questionnaire {BlaiseConfigurationHelper.QuestionnaireName} not found, continuing with the tests.");
+                if (ex.Message.Contains("No questionnaire found"))
+                {
+                    Console.WriteLine($"Questionnaire {BlaiseConfigurationHelper.QuestionnaireName} not found, continuing with the tests.");
+                }
+                else
+                {
+                    Console.WriteLine($"An error occurred while checking the questionnaire status: {ex.Message}");
+                    throw;
+                }
             }
         }
     }
