@@ -69,12 +69,22 @@ namespace Blaise.Tests.Helpers.Questionnaire
 
         public void InstallQuestionnaire(string questionnaireName)
         {
-            Console.WriteLine($"QuestionnaireHelper InstallQuestionnaire: Installing questionnaire {BlaiseConfigurationHelper.QuestionnaireName}...");
-            var questionnairePackage = QuestionnairePackagePath(BlaiseConfigurationHelper.QuestionnairePath, questionnaireName);
+            // Check if the questionnaire is already installed and erroneous
+            QuestionnaireStatusType status = GetSurveyStatus(questionnaireName);
+            Consoel.WriteLine($"QuestionnaireHelper InstallQuestionnaire: Questionnaire {questionnaireName} status is {status}");
+            if (status == QuestionnaireStatusType.Erroneous)
+            {
+                Console.WriteLine($"QuestionnaireHelper InstallQuestionnaire: Questionnaire {questionnaireName} is in erroneous state.");
+                throw new Exception($"Questionnaire '{questionnaireName}' cannot be installed because it is already installed and in an erroneous state.");
+            }
+            
+            // Proceed with installation only if the questionnaire is not erroneous
+            Console.WriteLine($"QuestionnaireHelper InstallQuestionnaire: Installing questionnaire {questionnaireName}...");
+            string questionnairePackagePath = QuestionnairePackagePath(BlaiseConfigurationHelper.QuestionnairePath, questionnaireName);
             _blaiseQuestionnaireApi.InstallQuestionnaire(questionnaireName,
-                BlaiseConfigurationHelper.ServerParkName,
-                questionnairePackage,
-                QuestionnaireInterviewType.Cati);
+                                                        BlaiseConfigurationHelper.ServerParkName,
+                                                        questionnairePackagePath,
+                                                        QuestionnaireInterviewType.Cati);
         }
 
         public bool SurveyHasInstalled(string questionnaireName, int timeoutInSeconds)
