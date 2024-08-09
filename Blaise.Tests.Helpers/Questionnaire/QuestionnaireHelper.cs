@@ -37,6 +37,8 @@ namespace Blaise.Tests.Helpers.Questionnaire
 
         public void InstallQuestionnaire()
         {
+            string questionnaireName = BlaiseConfigurationHelper.QuestionnaireName;
+
             QuestionnaireStatusType status = QuestionnaireStatusType.Other;
             
             try
