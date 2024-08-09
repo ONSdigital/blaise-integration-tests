@@ -69,8 +69,8 @@ namespace Blaise.Tests.Helpers.Questionnaire
 
         public void InstallQuestionnaire(string questionnaireName)
         {
-            QuestionnaireStatusType status;
-
+            QuestionnaireStatusType status = QuestionnaireStatusType.Other;
+            
             try
             {
                 // Attempt to get the status of the questionnaire
