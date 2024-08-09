@@ -43,14 +43,14 @@ namespace Blaise.Tests.Helpers.Questionnaire
 
             if (SurveyExists(questionnaireName))
             {
-                Console.WriteLine($"Attempting uninstall before install...");
+                Console.WriteLine($"Attempting to uninstall questionnaire {questionnaireName} before re-installing...");
                 _blaiseQuestionnaireApi.UninstallQuestionnaire(questionnaireName, BlaiseConfigurationHelper.ServerParkName);
             }
 
             if (SurveyExists(questionnaireName))
             {
                 status = GetSurveyStatus(questionnaireName);
-                Console.WriteLine($"QuestionnaireHelper InstallQuestionnaire: Questionnaire {questionnaireName} status is {status}");
+                Console.WriteLine($"Questionnaire {questionnaireName} status: {status}");
             }
             
             /*
@@ -85,13 +85,13 @@ namespace Blaise.Tests.Helpers.Questionnaire
                     | |____| | \ \| | \ \| |__| | |\  | |___| |__| | |__| |____) |
                     |______|_|  \_\_|  \_\\____/|_| \_|______\____/ \____/|_____/
                     ");        
-                Console.WriteLine($"The test questionnaire {questionnaireName} is in an erroneous state");
+                Console.WriteLine($"Questionnaire {questionnaireName} is in an erroneous state");
                 Console.WriteLine("Restart Blaise and uninstall the erroneous questionnaire via Blaise Server Manager.");
-                throw new Exception($"The test questionnaire {questionnaireName} is in an erroneous state");
+                throw new Exception($"Questionnaire {questionnaireName} is in an erroneous state");
             }
 
             // Proceed with installation if the questionnaire is not erroneous
-            Console.WriteLine($"Installing test questionnaire {questionnaireName}...");
+            Console.WriteLine($"Installing questionnaire {questionnaireName}...");
             string questionnairePackagePath = QuestionnairePackagePath(BlaiseConfigurationHelper.QuestionnairePath, questionnaireName);
             _blaiseQuestionnaireApi.InstallQuestionnaire(questionnaireName,
                                                         BlaiseConfigurationHelper.ServerParkName,
@@ -111,7 +111,14 @@ namespace Blaise.Tests.Helpers.Questionnaire
             string questionnaireName = BlaiseConfigurationHelper.QuestionnaireName;
 
             QuestionnaireStatusType status = QuestionnaireStatusType.Other;
+
+            if (SurveyExists(questionnaireName))
+            {
+                status = GetSurveyStatus(questionnaireName);
+                Console.WriteLine($"Questionnaire {questionnaireName} status: {status}");
+            }
             
+            /*
             try
             {
                 // Attempt to get the status of the questionnaire
@@ -131,6 +138,7 @@ namespace Blaise.Tests.Helpers.Questionnaire
                     throw;
                 }
             }
+            */
 
             if (status == QuestionnaireStatusType.Erroneous)
             {
@@ -142,11 +150,11 @@ namespace Blaise.Tests.Helpers.Questionnaire
                     | |____| | \ \| | \ \| |__| | |\  | |___| |__| | |__| |____) |
                     |______|_|  \_\_|  \_\\____/|_| \_|______\____/ \____/|_____/
                     ");        
-                Console.WriteLine($"The test questionnaire {questionnaireName} is in an erroneous state");
+                Console.WriteLine($"Questionnaire {questionnaireName} is in an erroneous state");
                 Console.WriteLine("Restart Blaise and uninstall the erroneous questionnaire via Blaise Server Manager.");
-                throw new Exception($"The test questionnaire {questionnaireName} is in an erroneous state");
+                throw new Exception($"Questionnaire {questionnaireName} is in an erroneous state");
             }
-            Console.WriteLine($"Uninstalling test questionnaire {questionnaireName}...");
+            Console.WriteLine($"Uninstalling questionnaire {questionnaireName}...");
             _blaiseQuestionnaireApi.UninstallQuestionnaire(questionnaireName, BlaiseConfigurationHelper.ServerParkName);
         }
 
