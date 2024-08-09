@@ -71,7 +71,7 @@ namespace Blaise.Tests.Helpers.Questionnaire
         {
             // Check if the questionnaire is already installed and erroneous
             QuestionnaireStatusType status = GetSurveyStatus(questionnaireName);
-            Consoel.WriteLine($"QuestionnaireHelper InstallQuestionnaire: Questionnaire {questionnaireName} status is {status}");
+            Console.WriteLine($"QuestionnaireHelper InstallQuestionnaire: Questionnaire {questionnaireName} status is {status}");
             if (status == QuestionnaireStatusType.Erroneous)
             {
                 Console.WriteLine($"QuestionnaireHelper InstallQuestionnaire: Questionnaire {questionnaireName} is in erroneous state.");
