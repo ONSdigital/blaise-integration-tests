@@ -46,7 +46,14 @@ namespace Blaise.Tests.Helpers.Questionnaire
                 Console.WriteLine($"Attempting uninstall before install...");
                 _blaiseQuestionnaireApi.UninstallQuestionnaire(questionnaireName, BlaiseConfigurationHelper.ServerParkName);
             }
+
+            if (SurveyExists(questionnaireName))
+            {
+                status = GetSurveyStatus(questionnaireName);
+                Console.WriteLine($"QuestionnaireHelper InstallQuestionnaire: Questionnaire {questionnaireName} status is {status}");
+            }
             
+            /*
             try
             {
                 // Attempt to get the status of the questionnaire
@@ -66,6 +73,7 @@ namespace Blaise.Tests.Helpers.Questionnaire
                     throw;
                 }
             }
+            */
 
             if (status == QuestionnaireStatusType.Erroneous)
             {
