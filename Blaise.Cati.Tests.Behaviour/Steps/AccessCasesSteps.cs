@@ -91,7 +91,7 @@ namespace Blaise.Cati.Tests.Behaviour.Steps
             CatiManagementHelper.GetInstance().ClearDayBatchEntries();
             BrowserHelper.ClosePreviousTab();
             CatiInterviewHelper.GetInstance().DeleteInterviewUser();
-            QuestionnaireHelper.GetInstance().UninstallSurvey();
+            QuestionnaireHelper.GetInstance().UninstallQuestionnaire();
         }
 
         [AfterTestRun]

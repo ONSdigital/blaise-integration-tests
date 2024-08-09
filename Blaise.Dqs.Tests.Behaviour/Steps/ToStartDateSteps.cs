@@ -90,7 +90,7 @@ namespace Blaise.Dqs.Tests.Behaviour.Steps
             if (QuestionnaireHelper.GetInstance().SurveyExists(BlaiseConfigurationHelper.QuestionnaireName))
             {
                 CaseHelper.GetInstance().DeleteCases();
-                QuestionnaireHelper.GetInstance().UninstallSurvey();
+                QuestionnaireHelper.GetInstance().UninstallQuestionnaire();
             }
             BrowserHelper.ClosePreviousTab();
         }

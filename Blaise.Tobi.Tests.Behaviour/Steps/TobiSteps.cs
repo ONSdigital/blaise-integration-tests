@@ -113,7 +113,7 @@ namespace Blaise.Tobi.Tests.Behaviour.Steps
             DayBatchHelper.GetInstance().RemoveSurveyDays(BlaiseConfigurationHelper.QuestionnaireName, DateTime.Today);
             BrowserHelper.ClosePreviousTab();
             CaseHelper.GetInstance().DeleteCases();
-            QuestionnaireHelper.GetInstance().UninstallSurvey();
+            QuestionnaireHelper.GetInstance().UninstallQuestionnaire();
         }
 
         [AfterTestRun]

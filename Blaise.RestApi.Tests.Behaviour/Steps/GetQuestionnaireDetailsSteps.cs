@@ -64,7 +64,7 @@ namespace Blaise.RestApi.Tests.Behaviour.Steps
         [AfterScenario("questionnaires")]
         public void CleanUpScenario()
         {
-            QuestionnaireHelper.GetInstance().UninstallSurvey();
+            QuestionnaireHelper.GetInstance().UninstallQuestionnaire();
         }
     }
 }
