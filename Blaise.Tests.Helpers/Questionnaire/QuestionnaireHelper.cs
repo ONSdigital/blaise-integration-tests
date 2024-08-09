@@ -119,14 +119,41 @@ namespace Blaise.Tests.Helpers.Questionnaire
 
         public void UninstallSurvey()
         {
-            Console.WriteLine($"QuestionnaireHelper UninstallSurvey: Removing questionnaire {BlaiseConfigurationHelper.QuestionnaireName}...");
-            _blaiseQuestionnaireApi.UninstallQuestionnaire(BlaiseConfigurationHelper.QuestionnaireName, BlaiseConfigurationHelper.ServerParkName);
 
-           if (!SurveyHasUninstalled(BlaiseConfigurationHelper.QuestionnaireName, 180))
+            questionnaireName = BlaiseConfigurationHelper.QuestionnaireName;
+
+            QuestionnaireStatusType status = QuestionnaireStatusType.Other;
+            
+            try
             {
-                CheckIfQuestionnaireIsErroneous(BlaiseConfigurationHelper.QuestionnaireName);
+                // Attempt to get the status of the questionnaire
+                status = GetSurveyStatus(questionnaireName);
+                Console.WriteLine($"QuestionnaireHelper InstallQuestionnaire: Questionnaire {questionnaireName} status is {status}");
             }
+            catch (Exception ex)
+            {
+                // Check if the exception indicates that no questionnaire was found
+                if (ex.Message.Contains("No questionnaire found"))
+                {
+                    Console.WriteLine($"QuestionnaireHelper InstallQuestionnaire: No questionnaire found for {questionnaireName}. Proceeding with installation.");
+                }
+                else
+                {
+                    // Re-throw the exception if it's not related to a missing questionnaire
+                    throw;
+                }
+            }
+
+            if (status == QuestionnaireStatusType.Erroneous)
+            {
+                Console.WriteLine($"QuestionnaireHelper Questionnaire {questionnaireName} is in erroneous state.");
+                throw new Exception($"Questionnaire '{questionnaireName}' cannot be uninstalled because an erroneous state.");
+            }
+            Console.WriteLine($"QuestionnaireHelper UninstallSurvey: Removing questionnaire {questionnaireName}...");
+            _blaiseQuestionnaireApi.UninstallQuestionnaire(questionnaireName, BlaiseConfigurationHelper.ServerParkName);
         }
+
+
 
         public QuestionnaireInterviewType GetSurveyInterviewType()
         {
