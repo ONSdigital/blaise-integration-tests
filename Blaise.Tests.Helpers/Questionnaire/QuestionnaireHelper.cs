@@ -40,6 +40,12 @@ namespace Blaise.Tests.Helpers.Questionnaire
             string questionnaireName = BlaiseConfigurationHelper.QuestionnaireName;
 
             QuestionnaireStatusType status = QuestionnaireStatusType.Other;
+
+            if SurveyExists(questionnaireName)
+            {
+                Console.WriteLine($"Attempting uninstall before install...");
+                _blaiseQuestionnaireApi.UninstallQuestionnaire(questionnaireName, BlaiseConfigurationHelper.ServerParkName);
+            }
             
             try
             {
