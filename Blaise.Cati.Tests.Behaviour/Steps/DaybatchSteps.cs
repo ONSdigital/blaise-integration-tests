@@ -68,7 +68,7 @@ namespace Blaise.Cati.Tests.Behaviour.Steps
             CatiManagementHelper.GetInstance().ClearDayBatchEntries();
             CatiManagementHelper.GetInstance().DeleteAdminUser();
             CaseHelper.GetInstance().DeleteCases();
-            QuestionnaireHelper.GetInstance().UninstallSurvey();
+            QuestionnaireHelper.GetInstance().UninstallQuestionnaire();
             BrowserHelper.ClearSessionData();
         }
     }
