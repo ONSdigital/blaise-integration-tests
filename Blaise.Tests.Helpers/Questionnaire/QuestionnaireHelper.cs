@@ -69,16 +69,35 @@ namespace Blaise.Tests.Helpers.Questionnaire
 
         public void InstallQuestionnaire(string questionnaireName)
         {
-            // Check if the questionnaire is already installed and erroneous
-            QuestionnaireStatusType status = GetSurveyStatus(questionnaireName);
-            Console.WriteLine($"QuestionnaireHelper InstallQuestionnaire: Questionnaire {questionnaireName} status is {status}");
+            QuestionnaireStatusType status;
+
+            try
+            {
+                // Attempt to get the status of the questionnaire
+                status = GetSurveyStatus(questionnaireName);
+                Console.WriteLine($"QuestionnaireHelper InstallQuestionnaire: Questionnaire {questionnaireName} status is {status}");
+            }
+            catch (Exception ex)
+            {
+                // Check if the exception indicates that no questionnaire was found
+                if (ex.Message.Contains("No questionnaire found"))
+                {
+                    Console.WriteLine($"QuestionnaireHelper InstallQuestionnaire: No questionnaire found for {questionnaireName}. Proceeding with installation.");
+                }
+                else
+                {
+                    // Re-throw the exception if it's not related to a missing questionnaire
+                    throw;
+                }
+            }
+
             if (status == QuestionnaireStatusType.Erroneous)
             {
                 Console.WriteLine($"QuestionnaireHelper InstallQuestionnaire: Questionnaire {questionnaireName} is in erroneous state.");
                 throw new Exception($"Questionnaire '{questionnaireName}' cannot be installed because it is already installed and in an erroneous state.");
             }
-            
-            // Proceed with installation only if the questionnaire is not erroneous
+
+            // Proceed with installation if the questionnaire is not erroneous
             Console.WriteLine($"QuestionnaireHelper InstallQuestionnaire: Installing questionnaire {questionnaireName}...");
             string questionnairePackagePath = QuestionnairePackagePath(BlaiseConfigurationHelper.QuestionnairePath, questionnaireName);
             _blaiseQuestionnaireApi.InstallQuestionnaire(questionnaireName,
