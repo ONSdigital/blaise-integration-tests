@@ -69,8 +69,8 @@ namespace Blaise.Tests.Helpers.Questionnaire
                     | |____| | \ \| | \ \| |__| | |\  | |___| |__| | |__| |____) |
                     |______|_|  \_\_|  \_\\____/|_| \_|______\____/ \____/|_____/
                     ");        
-                Console.WriteLine($"The test questionnaire {questionnaireName} is in an erroneous state")
-                Console.WriteLine("Restart Blaise and uninstall the erroneous questionnaire via Blaise Server Manager.";)
+                Console.WriteLine($"The test questionnaire {questionnaireName} is in an erroneous state");
+                Console.WriteLine("Restart Blaise and uninstall the erroneous questionnaire via Blaise Server Manager.");
                 throw new Exception($"The test questionnaire {questionnaireName} is in an erroneous state");
             }
 
@@ -126,8 +126,8 @@ namespace Blaise.Tests.Helpers.Questionnaire
                     | |____| | \ \| | \ \| |__| | |\  | |___| |__| | |__| |____) |
                     |______|_|  \_\_|  \_\\____/|_| \_|______\____/ \____/|_____/
                     ");        
-                Console.WriteLine($"The test questionnaire {questionnaireName} is in an erroneous state")
-                Console.WriteLine("Restart Blaise and uninstall the erroneous questionnaire via Blaise Server Manager.";)
+                Console.WriteLine($"The test questionnaire {questionnaireName} is in an erroneous state");
+                Console.WriteLine("Restart Blaise and uninstall the erroneous questionnaire via Blaise Server Manager.");
                 throw new Exception($"The test questionnaire {questionnaireName} is in an erroneous state");
             }
             Console.WriteLine($"Uninstalling test questionnaire {questionnaireName}...");
