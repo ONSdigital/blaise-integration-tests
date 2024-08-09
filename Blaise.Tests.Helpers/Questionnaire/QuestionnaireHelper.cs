@@ -120,7 +120,7 @@ namespace Blaise.Tests.Helpers.Questionnaire
         public void UninstallSurvey()
         {
 
-            questionnaireName = BlaiseConfigurationHelper.QuestionnaireName;
+            string questionnaireName = BlaiseConfigurationHelper.QuestionnaireName;
 
             QuestionnaireStatusType status = QuestionnaireStatusType.Other;
             
