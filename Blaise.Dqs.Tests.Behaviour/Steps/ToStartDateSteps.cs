@@ -45,7 +45,6 @@ namespace Blaise.Dqs.Tests.Behaviour.Steps
             DqsHelper.GetInstance().SelectYesLiveDate();
             DqsHelper.GetInstance().SetLiveDate(toStartDate);
             DqsHelper.GetInstance().ConfirmQuestionnaireUpload();
-            
         }
 
         [When(@"I add a TO start date of '(.*)'")]
