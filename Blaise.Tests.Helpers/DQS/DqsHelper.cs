@@ -27,12 +27,6 @@ namespace Blaise.Tests.Helpers.Dqs
             loginPage.LogOutOfDqs();
         }
 
-        public bool IsUserSignedIn()
-        {
-            var loginPage = new LoginPage();
-            return loginPage.IsUserSignedIn();
-        }
-
         public bool IsLogoutButtonVisible()
         {
             var loginPage = new LoginPage();
