@@ -27,12 +27,11 @@ namespace Blaise.Tests.Helpers.Dqs.Pages
             ClickButtonById(_signOutId);
         }
 
-        public bool IsUserSignedIn()
+        public bool IsLogoutButtonVisible()
         {
-            TryFindElementById(_signOutId);
-            return ElementIsFound;
+            return ElementExistsById(_signOutId);
         }
-
+        
         private void WaitUntilLoggedIn()
         {
             ButtonIsAvailableById(_signOutId);

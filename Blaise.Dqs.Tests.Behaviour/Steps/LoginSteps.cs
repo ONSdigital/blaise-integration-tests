@@ -46,7 +46,7 @@ namespace Blaise.Dqs.Tests.Behaviour.Steps
         [AfterTestRun]
         public static void CleanUpTestRun()
         {
-            UserHelper.GetInstance().RemoveUser(UserName); /*Needed here to get access to the username*/
+            UserHelper.GetInstance().RemoveUser(UserName);
             BrowserHelper.ClearSessionData();
         }
     }

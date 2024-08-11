@@ -90,7 +90,7 @@ namespace Blaise.Dqs.Tests.Behaviour.Steps
         [AfterScenario("delete")]
         public void CleanUpScenario()
         {
-            if (DqsHelper.GetInstance.IsUserSignedIn())
+            if (DqsHelper.GetInstance.IsLogoutButtonVisible())
             {
                 DqsHelper.GetInstance().LogOutOfToDqs();
             }
@@ -103,6 +103,5 @@ namespace Blaise.Dqs.Tests.Behaviour.Steps
             }
             BrowserHelper.ClosePreviousTab();
         }
-
     }
 }
