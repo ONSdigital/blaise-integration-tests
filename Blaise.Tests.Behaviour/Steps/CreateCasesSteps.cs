@@ -2,6 +2,7 @@
 using System.Linq;
 using Blaise.Tests.Helpers.Case;
 using Blaise.Tests.Helpers.Questionnaire;
+using Blaise.Tests.Helpers.Configuration;
 using Blaise.Tests.Models.Case;
 using NUnit.Framework;
 using TechTalk.SpecFlow;
