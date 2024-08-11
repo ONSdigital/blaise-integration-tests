@@ -9,6 +9,7 @@ using SeleniumExtras.WaitHelpers;
 using System;
 using System.IO;
 using System.Linq;
+using System.Collections.Generic;
 using TechTalk.SpecFlow;
 
 namespace Blaise.Tests.Helpers.Browser
