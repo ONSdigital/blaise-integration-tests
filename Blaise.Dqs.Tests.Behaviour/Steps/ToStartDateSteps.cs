@@ -12,12 +12,10 @@ namespace Blaise.Dqs.Tests.Behaviour.Steps
     [Binding]
     public sealed class ToStartDateSteps
     {
-        // For additional details on SpecFlow step definitions see https://go.specflow.org/doc-stepdef
-
         [BeforeScenario("ToStartDate")]
         public static void InitializeScenario()
         {
-            QuestionnaireHelper.GetInstance().InstallQuestionnaire();
+            QuestionnaireHelper.GetInstance().InstallQuestionnaire(BlaiseConfigurationHelper.QuestionnaireName, BlaiseConfigurationHelper.ServerParkName, BlaiseConfigurationHelper.QuestionnairePath);
         }
 
         [Given(@"A questionnaire is installed in Blaise")]
@@ -87,10 +85,10 @@ namespace Blaise.Dqs.Tests.Behaviour.Steps
         public void CleanUpScenario()
         {
             DqsHelper.GetInstance().LogOutOfToDqs();
-            if (QuestionnaireHelper.GetInstance().CheckQuestionnaireExists(BlaiseConfigurationHelper.QuestionnaireName))
+            if (QuestionnaireHelper.GetInstance().CheckQuestionnaireExists(BlaiseConfigurationHelper.QuestionnaireName, BlaiseConfigurationHelper.ServerParkName))
             {
                 CaseHelper.GetInstance().DeleteCases();
-                QuestionnaireHelper.GetInstance().UninstallQuestionnaire();
+                QuestionnaireHelper.GetInstance().UninstallQuestionnaire(BlaiseConfigurationHelper.QuestionnaireName, BlaiseConfigurationHelper.ServerParkName);
             }
             BrowserHelper.ClosePreviousTab();
         }
