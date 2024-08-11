@@ -139,12 +139,12 @@ namespace Blaise.Tests.Helpers.Framework
             BrowserHelper.BrowseTo(url);
         }
 
-        protected bool ElementExistsById(string elementId)
+        protected bool ElementExistsById(string elementId, TimeSpan? timeout = null)
         {
             try
             {
                 BrowserHelper
-                    .Wait($"Timed out in ElementExistsById(\"{elementId}\")")
+                    .Wait($"Timed out in ElementExistsById(\"{elementId}\")", timeout)
                     .Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementExists(By.Id(elementId)));
                 return true;
             }
