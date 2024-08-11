@@ -89,6 +89,11 @@ namespace Blaise.Tests.Helpers.Browser
             _browser.Quit();
         }
 
+        public static bool ElementExistsById(string id)
+        {
+            return Browser.FindElements(By.Id(id)).Count > 0;
+        }
+
         public static bool ElementExistsByXpath(string xPath)
         {
             return Browser.FindElements(By.XPath(xPath)).Count > 0;
