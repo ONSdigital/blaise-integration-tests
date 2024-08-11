@@ -175,7 +175,7 @@ namespace Blaise.Tests.Helpers.Questionnaire
                     |______|_|  \_\_|  \_\\____/|_| \_|______\____/ \____/|_____/
         ");
         Console.WriteLine($"Questionnaire {questionnaireName} is in an erroneous state");
-        Console.WriteLine("Restart Blaise and uninstall the erroneous questionnaire via Blaise Server Manager.");
+        Console.WriteLine("Restart Blaise and uninstall the erroneous questionnaire via Blaise Server Manager");
         throw new Exception($"Questionnaire {questionnaireName} is in an erroneous state");
         }
     }
