@@ -30,6 +30,11 @@ namespace Blaise.Tests.Helpers.Questionnaire
                 BlaiseConfigurationHelper.ServerParkName);
         }
 
+        public QuestionnaireStatusType GetQuestionnaireStatus(string questionnaireName)
+        {
+            return _blaiseQuestionnaireApi.GetQuestionnaireStatus(questionnaireName, BlaiseConfigurationHelper.ServerParkName);
+        }
+
         public static string QuestionnairePackagePath(string questionnairePath, string questionnaireName)
         {
             return $"{questionnairePath}//{questionnaireName}.bpkg";
@@ -41,39 +46,17 @@ namespace Blaise.Tests.Helpers.Questionnaire
 
             QuestionnaireStatusType status = QuestionnaireStatusType.Other;
 
-            if (SurveyExists(questionnaireName))
+            if (CheckQuestionnaireExists(questionnaireName))
             {
                 Console.WriteLine($"Attempting to uninstall questionnaire {questionnaireName} before re-installing...");
                 _blaiseQuestionnaireApi.UninstallQuestionnaire(questionnaireName, BlaiseConfigurationHelper.ServerParkName);
             }
 
-            if (SurveyExists(questionnaireName))
+            if (CheckQuestionnaireExists(questionnaireName))
             {
-                status = GetSurveyStatus(questionnaireName);
+                status = GetQuestionnaireStatus(questionnaireName);
                 Console.WriteLine($"Questionnaire {questionnaireName} status: {status}");
             }
-            
-            /*
-            try
-            {
-                // Attempt to get the status of the questionnaire
-                status = GetSurveyStatus(questionnaireName);
-                Console.WriteLine($"QuestionnaireHelper InstallQuestionnaire: Questionnaire {questionnaireName} status is {status}");
-            }
-            catch (Exception ex)
-            {
-                // Check if the exception indicates that no questionnaire was found
-                if (ex.Message.Contains("No questionnaire found"))
-                {
-                    Console.WriteLine($"QuestionnaireHelper InstallQuestionnaire: No questionnaire found for {questionnaireName}. Proceeding with installation.");
-                }
-                else
-                {
-                    // Re-throw the exception if it's not related to a missing questionnaire
-                    throw;
-                }
-            }
-            */
 
             if (status == QuestionnaireStatusType.Erroneous)
             {
@@ -90,7 +73,6 @@ namespace Blaise.Tests.Helpers.Questionnaire
                 throw new Exception($"Questionnaire {questionnaireName} is in an erroneous state");
             }
 
-            // Proceed with installation if the questionnaire is not erroneous
             Console.WriteLine($"Installing questionnaire {questionnaireName}...");
             string questionnairePackagePath = QuestionnairePackagePath(BlaiseConfigurationHelper.QuestionnairePath, questionnaireName);
             _blaiseQuestionnaireApi.InstallQuestionnaire(questionnaireName,
@@ -99,10 +81,10 @@ namespace Blaise.Tests.Helpers.Questionnaire
                                                         QuestionnaireInterviewType.Cati);
         }
 
-        public bool SurveyHasInstalled(string questionnaireName, int timeoutInSeconds)
+        public bool CheckQuestionnaireInstalled(string questionnaireName, int timeoutInSeconds)
         {
-            return SurveyExists(questionnaireName, timeoutInSeconds) &&
-                   SurveyIsActive(questionnaireName, timeoutInSeconds);
+            return CheckQuestionnaireExists(questionnaireName, timeoutInSeconds) &&
+                   CheckQuestionnaireActive(questionnaireName, timeoutInSeconds);
         }
 
         public void UninstallQuestionnaire()
@@ -112,33 +94,11 @@ namespace Blaise.Tests.Helpers.Questionnaire
 
             QuestionnaireStatusType status = QuestionnaireStatusType.Other;
 
-            if (SurveyExists(questionnaireName))
+            if (CheckQuestionnaireExists(questionnaireName))
             {
-                status = GetSurveyStatus(questionnaireName);
+                status = GetQuestionnaireStatus(questionnaireName);
                 Console.WriteLine($"Questionnaire {questionnaireName} status: {status}");
             }
-            
-            /*
-            try
-            {
-                // Attempt to get the status of the questionnaire
-                status = GetSurveyStatus(questionnaireName);
-                Console.WriteLine($"QuestionnaireHelper InstallQuestionnaire: Questionnaire {questionnaireName} status is {status}");
-            }
-            catch (Exception ex)
-            {
-                // Check if the exception indicates that no questionnaire was found
-                if (ex.Message.Contains("No questionnaire found"))
-                {
-                    Console.WriteLine($"QuestionnaireHelper InstallQuestionnaire: No questionnaire found for {questionnaireName}. Proceeding with installation.");
-                }
-                else
-                {
-                    // Re-throw the exception if it's not related to a missing questionnaire
-                    throw;
-                }
-            }
-            */
 
             if (status == QuestionnaireStatusType.Erroneous)
             {
@@ -154,16 +114,17 @@ namespace Blaise.Tests.Helpers.Questionnaire
                 Console.WriteLine("Restart Blaise and uninstall the erroneous questionnaire via Blaise Server Manager.");
                 throw new Exception($"Questionnaire {questionnaireName} is in an erroneous state");
             }
+
             Console.WriteLine($"Uninstalling questionnaire {questionnaireName}...");
             _blaiseQuestionnaireApi.UninstallQuestionnaire(questionnaireName, BlaiseConfigurationHelper.ServerParkName);
         }
 
-        public QuestionnaireInterviewType GetSurveyInterviewType()
+        public QuestionnaireInterviewType GetQuestionnaireInterviewType()
         {
             return _blaiseQuestionnaireApi.GetQuestionnaireInterviewType(BlaiseConfigurationHelper.QuestionnaireName, BlaiseConfigurationHelper.ServerParkName);
         }
 
-        public bool SurveyExists(string questionnaireName)
+        public bool CheckQuestionnaireExists(string questionnaireName)
         {
             try
             {
@@ -175,22 +136,22 @@ namespace Blaise.Tests.Helpers.Questionnaire
             }
         }
 
-        public bool SurveyIsActive(string questionnaireName, string serverPark)
-        {
-            return _blaiseQuestionnaireApi.GetQuestionnaireStatus(questionnaireName, serverPark) == QuestionnaireStatusType.Active;
-        }
-
-        public void DeactivateSurvey(string questionnaireName, string serverParkName)
+        public void DeactivateQuestionnaire(string questionnaireName, string serverParkName)
         {
             _blaiseQuestionnaireApi.DeactivateQuestionnaire(questionnaireName, serverParkName);
         }
 
-        private bool SurveyIsActive(string questionnaireName, int timeoutInSeconds)
+        public bool CheckQuestionnaireActive(string questionnaireName, string serverPark)
+        {
+            return _blaiseQuestionnaireApi.GetQuestionnaireStatus(questionnaireName, serverPark) == QuestionnaireStatusType.Active;
+        }
+
+        private bool CheckQuestionnaireActive(string questionnaireName, int timeoutInSeconds)
         {
             var counter = 0;
             const int maxCount = 10;
 
-            while (GetSurveyStatus(questionnaireName) == QuestionnaireStatusType.Installing)
+            while (GetQuestionnaireStatus(questionnaireName) == QuestionnaireStatusType.Installing)
             {
                 Thread.Sleep((timeoutInSeconds * 1000) / maxCount);
 
@@ -200,40 +161,35 @@ namespace Blaise.Tests.Helpers.Questionnaire
                     return false;
                 }
             }
-            return GetSurveyStatus(questionnaireName) == QuestionnaireStatusType.Active;
+            return GetQuestionnaireStatus(questionnaireName) == QuestionnaireStatusType.Active;
         }
 
-        private QuestionnaireStatusType GetSurveyStatus(string questionnaireName)
+        public DateTime GetQuestionnaireInstallDate()
         {
-            return _blaiseQuestionnaireApi.GetQuestionnaireStatus(questionnaireName, BlaiseConfigurationHelper.ServerParkName);
+            var questionnaire = _blaiseQuestionnaireApi.GetQuestionnaire(BlaiseConfigurationHelper.QuestionnaireName, BlaiseConfigurationHelper.ServerParkName);
+
+            return questionnaire.InstallDate;
         }
 
-        public DateTime GetInstallDate()
+        private bool CheckQuestionnaireExists(string questionnaireName, int timeoutInSeconds)
         {
-            var survey = _blaiseQuestionnaireApi.GetQuestionnaire(BlaiseConfigurationHelper.QuestionnaireName, BlaiseConfigurationHelper.ServerParkName);
-
-            return survey.InstallDate;
-        }
-
-        private bool SurveyExists(string questionnaireName, int timeoutInSeconds)
-        {
-            Console.WriteLine($"QuestionnaireHelper SurveyExists: Checking questionnaire {BlaiseConfigurationHelper.QuestionnaireName} has been installed...");
+            Console.WriteLine($"Checking questionnaire {BlaiseConfigurationHelper.QuestionnaireName} exists...");
             var counter = 0;
             const int maxCount = 10;
 
             while (!_blaiseQuestionnaireApi.QuestionnaireExists(questionnaireName, BlaiseConfigurationHelper.ServerParkName))
             {
-                Console.WriteLine($"QuestionnaireHelper SurveyExists: Sleep {counter} for {timeoutInSeconds / maxCount} seconds");
+                Console.WriteLine($"Sleep {counter} for {timeoutInSeconds / maxCount} seconds");
                 Thread.Sleep((timeoutInSeconds * 1000) / maxCount);
 
                 counter++;
                 if (counter == maxCount)
                 {
-                    Console.WriteLine("QuestionnaireHelper SurveyExists: Timed out");
+                    Console.WriteLine("Timed out");
                     return false;
                 }
             }
-            Console.WriteLine($"QuestionnaireHelper SurveyExists: Questionnaire {BlaiseConfigurationHelper.QuestionnaireName} has been installed");
+            Console.WriteLine($"Questionnaire {BlaiseConfigurationHelper.QuestionnaireName} exists");
 
             return true;
         }

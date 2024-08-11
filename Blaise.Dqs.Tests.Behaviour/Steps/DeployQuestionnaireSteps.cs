@@ -137,7 +137,7 @@ namespace Blaise.Dqs.Tests.Behaviour.Steps
             DqsHelper.GetInstance().SelectQuestionnairePackage();
             DqsHelper.GetInstance().ConfirmQuestionnaireUpload();
 
-            _scenarioContext.Set(QuestionnaireHelper.GetInstance().GetInstallDate(), InstallDate);
+            _scenarioContext.Set(QuestionnaireHelper.GetInstance().GetQuestionnaireInstallDate(), InstallDate);
         }
 
         [When(@"I select to cancel")]
@@ -163,7 +163,7 @@ namespace Blaise.Dqs.Tests.Behaviour.Steps
         public void ThenTheQuestionnaireHasNotBeenOverwritten()
         {
             var expectedInstallDate = _scenarioContext.Get<DateTime>(InstallDate);
-            var actualInstallDate = QuestionnaireHelper.GetInstance().GetInstallDate();
+            var actualInstallDate = QuestionnaireHelper.GetInstance().GetQuestionnaireInstallDate();
 
             Assert.AreEqual(expectedInstallDate, actualInstallDate);
         }
@@ -181,7 +181,7 @@ namespace Blaise.Dqs.Tests.Behaviour.Steps
         {
             DqsHelper.GetInstance().WaitForUploadToComplete();
             var existingInstallDate = _scenarioContext.Get<DateTime>(InstallDate);
-            var newInstallDate = QuestionnaireHelper.GetInstance().GetInstallDate();
+            var newInstallDate = QuestionnaireHelper.GetInstance().GetQuestionnaireInstallDate();
 
             Assert.Greater(newInstallDate, existingInstallDate);
         }
@@ -189,7 +189,7 @@ namespace Blaise.Dqs.Tests.Behaviour.Steps
         [Then(@"the questionnaire is active in blaise")]
         public void ThenTheQuestionnaireIsActiveInBlaise()
         {
-            var questionnaireInstalled = QuestionnaireHelper.GetInstance().SurveyHasInstalled(BlaiseConfigurationHelper.QuestionnaireName, 60);
+            var questionnaireInstalled = QuestionnaireHelper.GetInstance().CheckQuestionnaireInstalled(BlaiseConfigurationHelper.QuestionnaireName, 60);
             Assert.IsTrue(questionnaireInstalled);
         }
 
@@ -203,7 +203,7 @@ namespace Blaise.Dqs.Tests.Behaviour.Steps
         public void CleanUpScenario()
         {
             DqsHelper.GetInstance().LogOutOfToDqs();
-            if (QuestionnaireHelper.GetInstance().SurveyExists(BlaiseConfigurationHelper.QuestionnaireName))
+            if (QuestionnaireHelper.GetInstance().CheckQuestionnaireExists(BlaiseConfigurationHelper.QuestionnaireName))
             {
                 CaseHelper.GetInstance().DeleteCases();
                 QuestionnaireHelper.GetInstance().UninstallQuestionnaire();

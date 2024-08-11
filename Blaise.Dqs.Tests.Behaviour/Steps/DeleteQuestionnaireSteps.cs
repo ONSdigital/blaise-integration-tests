@@ -23,13 +23,13 @@ namespace Blaise.Dqs.Tests.Behaviour.Steps
         [Given(@"the questionnaire is active")]
         public void GivenTheQuestionnaireIsActive()
         {
-            Assert.IsTrue(QuestionnaireHelper.GetInstance().SurveyIsActive(BlaiseConfigurationHelper.QuestionnaireName, BlaiseConfigurationHelper.ServerParkName));
+            Assert.IsTrue(QuestionnaireHelper.GetInstance().CheckQuestionnaireActive(BlaiseConfigurationHelper.QuestionnaireName, BlaiseConfigurationHelper.ServerParkName));
         }
 
         [Given(@"the questionnaire is not active")]
         public void GivenTheQuestionnaireIsNotActive()
         {
-            QuestionnaireHelper.GetInstance().DeactivateSurvey(BlaiseConfigurationHelper.QuestionnaireName,
+            QuestionnaireHelper.GetInstance().DeactivateQuestionnaire(BlaiseConfigurationHelper.QuestionnaireName,
                 BlaiseConfigurationHelper.ServerParkName);
         }
 
@@ -91,7 +91,7 @@ namespace Blaise.Dqs.Tests.Behaviour.Steps
         public void CleanUpScenario()
         {
             DqsHelper.GetInstance().LogOutOfToDqs();
-            if (QuestionnaireHelper.GetInstance().SurveyExists(BlaiseConfigurationHelper.QuestionnaireName))
+            if (QuestionnaireHelper.GetInstance().CheckQuestionnaireExists(BlaiseConfigurationHelper.QuestionnaireName))
             {
                 var caseHelper = CaseHelper.GetInstance();
                 caseHelper?.DeleteCases();
