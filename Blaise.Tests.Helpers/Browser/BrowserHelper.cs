@@ -197,6 +197,12 @@ namespace Blaise.Tests.Helpers.Browser
                 .Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementIsVisible(by));
         }
 
+        public static IReadOnlyCollection<IWebElement> FindElements(By by)
+        {
+            return Wait($"Timed out in FindElements({by})")
+                .Until(driver => driver.FindElements(by));
+        }
+
         public static bool ElementIsDisplayed(By by)
         {
             try
