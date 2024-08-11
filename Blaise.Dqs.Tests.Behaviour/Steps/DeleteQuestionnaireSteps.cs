@@ -90,7 +90,10 @@ namespace Blaise.Dqs.Tests.Behaviour.Steps
         [AfterScenario("delete")]
         public void CleanUpScenario()
         {
-            DqsHelper.GetInstance().LogOutOfToDqs();
+            if (DqsHelper.GetInstance.IsUserSignedIn())
+            {
+                DqsHelper.GetInstance().LogOutOfToDqs();
+            }
             if (QuestionnaireHelper.GetInstance().CheckQuestionnaireExists(BlaiseConfigurationHelper.QuestionnaireName, BlaiseConfigurationHelper.ServerParkName))
             {
                 var caseHelper = CaseHelper.GetInstance();
