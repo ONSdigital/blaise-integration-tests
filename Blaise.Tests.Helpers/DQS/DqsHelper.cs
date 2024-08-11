@@ -33,6 +33,12 @@ namespace Blaise.Tests.Helpers.Dqs
             return loginPage.IsUserSignedIn();
         }
 
+        public bool IsLogoutButtonVisible()
+        {
+            var loginPage = new LoginPage();
+            return loginPage.IsLogoutButtonVisible();
+        }
+
         public void LoadDqsHomePage()
         {
             var homePage = new HomePage();
