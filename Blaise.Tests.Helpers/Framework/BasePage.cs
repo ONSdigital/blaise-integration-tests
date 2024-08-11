@@ -141,7 +141,17 @@ namespace Blaise.Tests.Helpers.Framework
 
         protected bool ElementExistsById(string elementId)
         {
-            return BrowserHelper.FindElements(By.Id(elementId)).Count > 0;
+            try
+            {
+                BrowserHelper
+                    .Wait($"Timed out in ElementExistsById(\"{elementId}\")")
+                    .Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementExists(By.Id(elementId)));
+                return true;
+            }
+            catch (WebDriverTimeoutException)
+            {
+                return false;
+            }
         }
 
         public void ButtonIsAvailableById(string buttonId)
