@@ -79,6 +79,7 @@ namespace Blaise.Tests.Helpers.Questionnaire
                                                         BlaiseConfigurationHelper.ServerParkName,
                                                         questionnairePackagePath,
                                                         QuestionnaireInterviewType.Cati);
+            Thread.Sleep(2000);
         }
 
         public bool CheckQuestionnaireInstalled(string questionnaireName, int timeoutInSeconds)
@@ -117,6 +118,7 @@ namespace Blaise.Tests.Helpers.Questionnaire
 
             Console.WriteLine($"Uninstalling questionnaire {questionnaireName}...");
             _blaiseQuestionnaireApi.UninstallQuestionnaire(questionnaireName, BlaiseConfigurationHelper.ServerParkName);
+            Thread.Sleep(2000);
         }
 
         public QuestionnaireInterviewType GetQuestionnaireInterviewType()
