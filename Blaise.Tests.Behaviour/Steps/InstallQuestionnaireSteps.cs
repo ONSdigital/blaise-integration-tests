@@ -40,7 +40,7 @@ namespace Blaise.Tests.Behaviour.Steps
         [Then(@"the questionnaire is available to use in the Blaise environment")]
         public void ThenTheQuestionnaireIsAvailableToUseInTheBlaiseEnvironment()
         {
-            var questionnaireHasInstalled = QuestionnaireHelper.GetInstance().SurveyHasInstalled(BlaiseConfigurationHelper.QuestionnaireName, 60);
+            var questionnaireHasInstalled = QuestionnaireHelper.GetInstance().CheckQuestionnaireInstalled(BlaiseConfigurationHelper.QuestionnaireName, 60);
 
             Assert.IsTrue(questionnaireHasInstalled, "The questionnaire has not been installed, or is not active");
         }
@@ -48,7 +48,7 @@ namespace Blaise.Tests.Behaviour.Steps
         [Then(@"the questionnaire is configured to capture respondents data via Cati")]
         public void ThenTheQuestionnaireIsConfiguredToCaptureRespondentsDataViaCati()
         {
-            var surveyConfiguration = QuestionnaireHelper.GetInstance().GetSurveyInterviewType();
+            var surveyConfiguration = QuestionnaireHelper.GetInstance().GetQuestionnaireInterviewType();
             Assert.AreEqual(QuestionnaireInterviewType.Cati, surveyConfiguration);
         }
 

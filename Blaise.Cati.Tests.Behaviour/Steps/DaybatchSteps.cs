@@ -29,7 +29,7 @@ namespace Blaise.Cati.Tests.Behaviour.Steps
                 CatiManagementHelper.GetInstance().CreateAdminUser();
                 QuestionnaireHelper.GetInstance().InstallQuestionnaire();
                 Assert.IsTrue(QuestionnaireHelper.GetInstance()
-                    .SurveyHasInstalled(BlaiseConfigurationHelper.QuestionnaireName, 60));
+                    .CheckQuestionnaireInstalled(BlaiseConfigurationHelper.QuestionnaireName, 60));
             }
             catch (Exception ex)
             {
