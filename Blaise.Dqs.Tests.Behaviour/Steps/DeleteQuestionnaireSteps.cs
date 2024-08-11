@@ -90,7 +90,7 @@ namespace Blaise.Dqs.Tests.Behaviour.Steps
         [AfterScenario("delete")]
         public void CleanUpScenario()
         {
-            if (DqsHelper.GetInstance.IsLogoutButtonVisible())
+            if (DqsHelper.GetInstance().IsLogoutButtonVisible())
             {
                 DqsHelper.GetInstance().LogOutOfToDqs();
             }
