@@ -89,7 +89,7 @@ namespace Blaise.Tests.Helpers.Questionnaire
             Thread.Sleep(2000);
         }
 
-        public QuestionnaireInterviewType GetQuestionnaireInterviewType()
+        public QuestionnaireInterviewType GetQuestionnaireInterviewType(string questionnaireName, string serverParkName)
         {
             return _blaiseQuestionnaireApi.GetQuestionnaireInterviewType(questionnaireName, serverParkName);
         }
