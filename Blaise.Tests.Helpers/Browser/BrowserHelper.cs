@@ -33,6 +33,14 @@ namespace Blaise.Tests.Helpers.Browser
             };
         }
 
+        public static WebDriverWait Wait(string message, TimeSpan? timeout = null)
+        {
+            return new WebDriverWait(Browser, timeout ?? TimeSpan.FromSeconds(TimeOutInSeconds))
+            {
+                Message = message
+            };
+        }
+
         public static string GetCurrentUrl()
         {
             return _browser.Url;
@@ -90,9 +98,18 @@ namespace Blaise.Tests.Helpers.Browser
             _browser.Quit();
         }
 
-        public static bool ElementExistsById(string id)
+        public static bool ElementExistsById(string id, TimeSpan? timeout = null)
         {
-            return Browser.FindElements(By.Id(id)).Count > 0;
+            try
+            {
+                Wait($"Timed out in ElementExistsById(\"{id}\")", timeout)
+                    .Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementExists(By.Id(id)));
+                return true;
+            }
+            catch (WebDriverTimeoutException)
+            {
+                return false;
+            }
         }
 
         public static bool ElementExistsByXpath(string xPath)
