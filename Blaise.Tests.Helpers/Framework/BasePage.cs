@@ -139,6 +139,11 @@ namespace Blaise.Tests.Helpers.Framework
             BrowserHelper.BrowseTo(url);
         }
 
+        protected bool ElementExistsById(string elementId)
+        {
+            return BrowserHelper.FindElements(By.Id(elementId)).Count > 0;
+        }
+
         public void ButtonIsAvailableById(string buttonId)
         {
             BrowserHelper
