@@ -29,7 +29,7 @@ namespace Blaise.Tests.Helpers.Dqs.Pages
 
         public bool IsLogoutButtonVisible()
         {
-            return ElementExistsById(_signOutId);
+            return BrowserHelper.ElementExistsById(_signOutId);
         }
         
         private void WaitUntilLoggedIn()
