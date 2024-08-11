@@ -28,19 +28,19 @@ namespace Blaise.Tests.Behaviour.Steps
         [When(@"I install the questionnaire into a Blaise environment")]
         public void WhenIInstallTheQuestionnaireIntoABlaiseEnvironment()
         {
-            QuestionnaireHelper.GetInstance().InstallQuestionnaire();
+            QuestionnaireHelper.GetInstance().InstallQuestionnaire(BlaiseConfigurationHelper.QuestionnaireName, BlaiseConfigurationHelper.ServerParkName, BlaiseConfigurationHelper.QuestionnairePath);
         }
 
         [When(@"I install the questionnaire into a Blaise environment specifying a Cati configuration")]
         public void WhenIInstallTheQuestionnaireIntoABlaiseEnvironmentSpecifyingACatiConfiguration()
         {
-            QuestionnaireHelper.GetInstance().InstallQuestionnaire();
+            QuestionnaireHelper.GetInstance().InstallQuestionnaire(BlaiseConfigurationHelper.QuestionnaireName, BlaiseConfigurationHelper.ServerParkName, BlaiseConfigurationHelper.QuestionnairePath);
         }
 
         [Then(@"the questionnaire is available to use in the Blaise environment")]
         public void ThenTheQuestionnaireIsAvailableToUseInTheBlaiseEnvironment()
         {
-            var questionnaireHasInstalled = QuestionnaireHelper.GetInstance().CheckQuestionnaireInstalled(BlaiseConfigurationHelper.QuestionnaireName, 60);
+            var questionnaireHasInstalled = QuestionnaireHelper.GetInstance().CheckQuestionnaireInstalled(BlaiseConfigurationHelper.QuestionnaireName, BlaiseConfigurationHelper.ServerParkName, 60);
 
             Assert.IsTrue(questionnaireHasInstalled, "The questionnaire has not been installed, or is not active");
         }
@@ -48,14 +48,14 @@ namespace Blaise.Tests.Behaviour.Steps
         [Then(@"the questionnaire is configured to capture respondents data via Cati")]
         public void ThenTheQuestionnaireIsConfiguredToCaptureRespondentsDataViaCati()
         {
-            var surveyConfiguration = QuestionnaireHelper.GetInstance().GetQuestionnaireInterviewType();
+            var surveyConfiguration = QuestionnaireHelper.GetInstance().GetQuestionnaireInterviewType(BlaiseConfigurationHelper.QuestionnaireName, BlaiseConfigurationHelper.ServerParkName);
             Assert.AreEqual(QuestionnaireInterviewType.Cati, surveyConfiguration);
         }
 
         [AfterScenario("questionnaire")]
         public void CleanUpScenario()
         {
-            QuestionnaireHelper.GetInstance().UninstallQuestionnaire();
+            QuestionnaireHelper.GetInstance().UninstallQuestionnaire(BlaiseConfigurationHelper.QuestionnaireName, BlaiseConfigurationHelper.ServerParkName);
         }
 
         [AfterTestRun]

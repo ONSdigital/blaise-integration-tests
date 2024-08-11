@@ -32,7 +32,7 @@ namespace Blaise.Dqs.Tests.Behaviour.Steps
         [Given(@"there is a questionnaire installed in Blaise")]
         public void GivenThereIsAQuestionnaireInstalledInBlaise()
         {
-            QuestionnaireHelper.GetInstance().InstallQuestionnaire();
+            QuestionnaireHelper.GetInstance().InstallQuestionnaire(BlaiseConfigurationHelper.QuestionnaireName, BlaiseConfigurationHelper.ServerParkName, BlaiseConfigurationHelper.QuestionnairePath);
         }
 
         [Then(@"I am presented with a list of the questionnaires already deployed to Blaise")]
@@ -132,12 +132,12 @@ namespace Blaise.Dqs.Tests.Behaviour.Steps
         [Given(@"I have been presented with questionnaire already exists screen")]
         public void GivenIHaveBeenPresentedWithQuestionnaireAlreadyExistsScreen()
         {
-            QuestionnaireHelper.GetInstance().InstallQuestionnaire();
+            QuestionnaireHelper.GetInstance().InstallQuestionnaire(BlaiseConfigurationHelper.QuestionnaireName, BlaiseConfigurationHelper.ServerParkName, BlaiseConfigurationHelper.QuestionnairePath);
             DqsHelper.GetInstance().LoadUploadPage();
             DqsHelper.GetInstance().SelectQuestionnairePackage();
             DqsHelper.GetInstance().ConfirmQuestionnaireUpload();
 
-            _scenarioContext.Set(QuestionnaireHelper.GetInstance().GetQuestionnaireInstallDate(), InstallDate);
+            _scenarioContext.Set(QuestionnaireHelper.GetInstance().GetQuestionnaireInstallDate(BlaiseConfigurationHelper.QuestionnaireName, BlaiseConfigurationHelper.ServerParkName), InstallDate);
         }
 
         [When(@"I select to cancel")]
@@ -163,7 +163,7 @@ namespace Blaise.Dqs.Tests.Behaviour.Steps
         public void ThenTheQuestionnaireHasNotBeenOverwritten()
         {
             var expectedInstallDate = _scenarioContext.Get<DateTime>(InstallDate);
-            var actualInstallDate = QuestionnaireHelper.GetInstance().GetQuestionnaireInstallDate();
+            var actualInstallDate = QuestionnaireHelper.GetInstance().GetQuestionnaireInstallDate(BlaiseConfigurationHelper.QuestionnaireName, BlaiseConfigurationHelper.ServerParkName);
 
             Assert.AreEqual(expectedInstallDate, actualInstallDate);
         }
@@ -181,7 +181,7 @@ namespace Blaise.Dqs.Tests.Behaviour.Steps
         {
             DqsHelper.GetInstance().WaitForUploadToComplete();
             var existingInstallDate = _scenarioContext.Get<DateTime>(InstallDate);
-            var newInstallDate = QuestionnaireHelper.GetInstance().GetQuestionnaireInstallDate();
+            var newInstallDate = QuestionnaireHelper.GetInstance().GetQuestionnaireInstallDate(BlaiseConfigurationHelper.QuestionnaireName, BlaiseConfigurationHelper.ServerParkName);
 
             Assert.Greater(newInstallDate, existingInstallDate);
         }
@@ -189,24 +189,24 @@ namespace Blaise.Dqs.Tests.Behaviour.Steps
         [Then(@"the questionnaire is active in blaise")]
         public void ThenTheQuestionnaireIsActiveInBlaise()
         {
-            var questionnaireInstalled = QuestionnaireHelper.GetInstance().CheckQuestionnaireInstalled(BlaiseConfigurationHelper.QuestionnaireName, 60);
+            var questionnaireInstalled = QuestionnaireHelper.GetInstance().CheckQuestionnaireInstalled(BlaiseConfigurationHelper.QuestionnaireName, BlaiseConfigurationHelper.ServerParkName, 60);
             Assert.IsTrue(questionnaireInstalled);
         }
 
         [Given(@"the package I have selected already exists in Blaise")]
         public void GivenThePackageIHaveSelectedAlreadyExistsInBlaise()
         {
-            QuestionnaireHelper.GetInstance().InstallQuestionnaire();
+            QuestionnaireHelper.GetInstance().InstallQuestionnaire(BlaiseConfigurationHelper.QuestionnaireName, BlaiseConfigurationHelper.ServerParkName, BlaiseConfigurationHelper.QuestionnairePath);
         }
 
         [AfterScenario("questionnaire")]
         public void CleanUpScenario()
         {
             DqsHelper.GetInstance().LogOutOfToDqs();
-            if (QuestionnaireHelper.GetInstance().CheckQuestionnaireExists(BlaiseConfigurationHelper.QuestionnaireName))
+            if (QuestionnaireHelper.GetInstance().CheckQuestionnaireExists(BlaiseConfigurationHelper.QuestionnaireName, BlaiseConfigurationHelper.ServerParkName))
             {
                 CaseHelper.GetInstance().DeleteCases();
-                QuestionnaireHelper.GetInstance().UninstallQuestionnaire();
+                QuestionnaireHelper.GetInstance().UninstallQuestionnaire(BlaiseConfigurationHelper.QuestionnaireName, BlaiseConfigurationHelper.ServerParkName);
             }
             BrowserHelper.ClosePreviousTab();
         }

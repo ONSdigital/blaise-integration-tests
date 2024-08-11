@@ -14,7 +14,7 @@ namespace Blaise.Tests.Behaviour.Steps
         [BeforeFeature("case")]
         public static void InitializeFeature()
         {
-            //QuestionnaireHelper.GetInstance().InstallQuestionnaire();
+            //
         }
 
         [Given(@"I have created sample cases for the questionnaire")]
@@ -68,7 +68,7 @@ namespace Blaise.Tests.Behaviour.Steps
         [AfterFeature("case")]
         public static void CleanUpFeature()
         {
-            QuestionnaireHelper.GetInstance().UninstallQuestionnaire();
+            QuestionnaireHelper.GetInstance().UninstallQuestionnaire(BlaiseConfigurationHelper.QuestionnaireName, BlaiseConfigurationHelper.ServerParkName);
         }
     }
 }

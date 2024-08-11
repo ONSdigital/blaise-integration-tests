@@ -24,9 +24,9 @@ namespace Blaise.Cati.Tests.Behaviour.Steps
             try
             {
                 CatiInterviewHelper.GetInstance().CreateInterviewUser();
-                QuestionnaireHelper.GetInstance().InstallQuestionnaire();
+                QuestionnaireHelper.GetInstance().InstallQuestionnaire(BlaiseConfigurationHelper.QuestionnaireName, BlaiseConfigurationHelper.ServerParkName, BlaiseConfigurationHelper.QuestionnairePath);
                 Assert.IsTrue(QuestionnaireHelper.GetInstance()
-                    .CheckQuestionnaireInstalled(BlaiseConfigurationHelper.QuestionnaireName, 60));
+                    .CheckQuestionnaireInstalled(BlaiseConfigurationHelper.QuestionnaireName, BlaiseConfigurationHelper.ServerParkName, 60));
             }
             catch (Exception ex)
             {
@@ -91,7 +91,7 @@ namespace Blaise.Cati.Tests.Behaviour.Steps
             CatiManagementHelper.GetInstance().ClearDayBatchEntries();
             BrowserHelper.ClosePreviousTab();
             CatiInterviewHelper.GetInstance().DeleteInterviewUser();
-            QuestionnaireHelper.GetInstance().UninstallQuestionnaire();
+            QuestionnaireHelper.GetInstance().UninstallQuestionnaire(BlaiseConfigurationHelper.QuestionnaireName, BlaiseConfigurationHelper.ServerParkName);
         }
 
         [AfterTestRun]

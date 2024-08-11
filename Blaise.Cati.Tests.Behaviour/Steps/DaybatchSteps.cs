@@ -27,9 +27,9 @@ namespace Blaise.Cati.Tests.Behaviour.Steps
             try
             {
                 CatiManagementHelper.GetInstance().CreateAdminUser();
-                QuestionnaireHelper.GetInstance().InstallQuestionnaire();
+                QuestionnaireHelper.GetInstance().InstallQuestionnaire(BlaiseConfigurationHelper.QuestionnaireName, BlaiseConfigurationHelper.ServerParkName, BlaiseConfigurationHelper.QuestionnairePath);
                 Assert.IsTrue(QuestionnaireHelper.GetInstance()
-                    .CheckQuestionnaireInstalled(BlaiseConfigurationHelper.QuestionnaireName, 60));
+                    .CheckQuestionnaireInstalled(BlaiseConfigurationHelper.QuestionnaireName, BlaiseConfigurationHelper.ServerParkName, 60));
             }
             catch (Exception ex)
             {
@@ -68,7 +68,7 @@ namespace Blaise.Cati.Tests.Behaviour.Steps
             CatiManagementHelper.GetInstance().ClearDayBatchEntries();
             CatiManagementHelper.GetInstance().DeleteAdminUser();
             CaseHelper.GetInstance().DeleteCases();
-            QuestionnaireHelper.GetInstance().UninstallQuestionnaire();
+            QuestionnaireHelper.GetInstance().UninstallQuestionnaire(BlaiseConfigurationHelper.QuestionnaireName, BlaiseConfigurationHelper.ServerParkName);
             BrowserHelper.ClearSessionData();
         }
     }

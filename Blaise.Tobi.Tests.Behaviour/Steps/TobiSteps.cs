@@ -18,7 +18,7 @@ namespace Blaise.Tobi.Tests.Behaviour.Steps
         [BeforeFeature("tobi")]
         public static void InitializeFeature()
         {
-            QuestionnaireHelper.GetInstance().InstallQuestionnaire();
+            QuestionnaireHelper.GetInstance().InstallQuestionnaire(BlaiseConfigurationHelper.QuestionnaireName, BlaiseConfigurationHelper.ServerParkName, BlaiseConfigurationHelper.QuestionnairePath);
             CaseHelper.GetInstance().CreateCase(new CaseModel("900001", "110", "07000 000 00"));
             DayBatchHelper.GetInstance().SetSurveyDay(BlaiseConfigurationHelper.QuestionnaireName, DateTime.Today);
             DayBatchHelper.GetInstance().CreateDayBatch(BlaiseConfigurationHelper.QuestionnaireName, DateTime.Today);
@@ -113,7 +113,7 @@ namespace Blaise.Tobi.Tests.Behaviour.Steps
             DayBatchHelper.GetInstance().RemoveSurveyDays(BlaiseConfigurationHelper.QuestionnaireName, DateTime.Today);
             BrowserHelper.ClosePreviousTab();
             CaseHelper.GetInstance().DeleteCases();
-            QuestionnaireHelper.GetInstance().UninstallQuestionnaire();
+            QuestionnaireHelper.GetInstance().UninstallQuestionnaire(BlaiseConfigurationHelper.QuestionnaireName, BlaiseConfigurationHelper.ServerParkName);
         }
 
         [AfterTestRun]
