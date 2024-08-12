@@ -202,7 +202,8 @@ namespace Blaise.Dqs.Tests.Behaviour.Steps
         [AfterScenario("questionnaire")]
         public void CleanUpScenario()
         {
-            BrowserHelper.ClearSessionData();
+            DqsHelper.GetInstance().LogOutOfToDqs();
+            DqsHelper.GetInstance().LogOutOfToDqs();
             if (QuestionnaireHelper.GetInstance().CheckQuestionnaireExists(BlaiseConfigurationHelper.QuestionnaireName, BlaiseConfigurationHelper.ServerParkName))
             {
                 QuestionnaireHelper.GetInstance().UninstallQuestionnaire(BlaiseConfigurationHelper.QuestionnaireName, BlaiseConfigurationHelper.ServerParkName);

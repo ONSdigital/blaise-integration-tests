@@ -10,8 +10,6 @@ namespace Blaise.Tests.Behaviour.Steps
     [Binding]
     public sealed class InstallQuestionnaireSteps
     {
-        // For additional details on SpecFlow step definitions see https://go.specflow.org/doc-stepdef
-
         [Given(@"I have an questionnaire I want to use to capture respondents data")]
         public void GivenIHaveAQuestionnaireIWantToUseToCaptureRespondentsData()
         {
