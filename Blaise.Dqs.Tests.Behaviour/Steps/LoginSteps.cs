@@ -12,8 +12,6 @@ namespace Blaise.Dqs.Tests.Behaviour.Steps
     [Binding]
     public sealed class LoginSteps
     {
-        // For additional details on SpecFlow step definitions see https://go.specflow.org/doc-stepdef
-
         private static readonly string UserName = $"BDSS-test-user-{Guid.NewGuid()}";
         private static readonly string Password = $"{Guid.NewGuid()}";
 

@@ -29,7 +29,7 @@ namespace Blaise.Tests.Behaviour.Steps
 
             if (questionnaireExists)
             {
-                //_questionnaireHelper.UninstallQuestionnaire(questionnaireName, serverParkName);
+                _questionnaireHelper.UninstallQuestionnaire(questionnaireName, serverParkName);
                 bool questionnaireStillExists = _questionnaireHelper.CheckQuestionnaireExists(questionnaireName, serverParkName);
 
                 if (questionnaireStillExists)

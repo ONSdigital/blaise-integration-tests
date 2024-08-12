@@ -90,15 +90,16 @@ namespace Blaise.Dqs.Tests.Behaviour.Steps
         [AfterScenario("delete")]
         public void CleanUpScenario()
         {
+            DqsHelper.GetInstance().LogOutOfToDqs();
+            /*
             if (DqsHelper.GetInstance().IsLogoutButtonVisible())
             {
                 DqsHelper.GetInstance().LogOutOfToDqs();
             }
+            */
             if (QuestionnaireHelper.GetInstance().CheckQuestionnaireExists(BlaiseConfigurationHelper.QuestionnaireName, BlaiseConfigurationHelper.ServerParkName))
             {
-                var caseHelper = CaseHelper.GetInstance();
-                caseHelper?.DeleteCases();
-
+                //CaseHelper.GetInstance().DeleteCases();
                 QuestionnaireHelper.GetInstance().UninstallQuestionnaire(BlaiseConfigurationHelper.QuestionnaireName, BlaiseConfigurationHelper.ServerParkName);
             }
             BrowserHelper.ClosePreviousTab();
