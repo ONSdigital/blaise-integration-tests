@@ -90,7 +90,7 @@ namespace Blaise.Dqs.Tests.Behaviour.Steps
         [AfterScenario("delete")]
         public void CleanUpScenario()
         {
-            DqsHelper.GetInstance().LogOutOfToDqs();
+            BrowserHelper.ClearSessionData();
             /*
             if (DqsHelper.GetInstance().IsLogoutButtonVisible())
             {
@@ -102,7 +102,7 @@ namespace Blaise.Dqs.Tests.Behaviour.Steps
                 //CaseHelper.GetInstance().DeleteCases();
                 QuestionnaireHelper.GetInstance().UninstallQuestionnaire(BlaiseConfigurationHelper.QuestionnaireName, BlaiseConfigurationHelper.ServerParkName);
             }
-            BrowserHelper.ClosePreviousTab();
+            //BrowserHelper.ClosePreviousTab();
         }
     }
 }
