@@ -1,8 +1,5 @@
 ﻿@tobi
 Feature: tobi
-	In order to avoid silly mistakes
-	As a math idiot
-	I want to be told the sum of two numbers
 
 @smoke
 Scenario: View live survey list in TOBI
