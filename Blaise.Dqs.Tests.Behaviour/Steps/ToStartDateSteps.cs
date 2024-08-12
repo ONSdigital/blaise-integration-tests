@@ -86,9 +86,9 @@ namespace Blaise.Dqs.Tests.Behaviour.Steps
             if (QuestionnaireHelper.GetInstance().CheckQuestionnaireExists(BlaiseConfigurationHelper.QuestionnaireName, BlaiseConfigurationHelper.ServerParkName))
             {
                 QuestionnaireHelper.GetInstance().UninstallQuestionnaire(BlaiseConfigurationHelper.QuestionnaireName, BlaiseConfigurationHelper.ServerParkName);
-                DqsHelper.GetInstance().LogOutOfToDqs();
-                BrowserHelper.ClosePreviousTab();
             }
+            DqsHelper.GetInstance().LogOutOfToDqs();
+            BrowserHelper.ClosePreviousTab();
         }
     }
 }
