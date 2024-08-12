@@ -84,18 +84,10 @@ namespace Blaise.Dqs.Tests.Behaviour.Steps
         public void CleanUpScenario()
         {
             BrowserHelper.ClearSessionData();
-            /*
-            if (DqsHelper.GetInstance().IsLogoutButtonVisible())
-            {
-                DqsHelper.GetInstance().LogOutOfToDqs();
-            }
-            */
             if (QuestionnaireHelper.GetInstance().CheckQuestionnaireExists(BlaiseConfigurationHelper.QuestionnaireName, BlaiseConfigurationHelper.ServerParkName))
             {
-                //CaseHelper.GetInstance().DeleteCases();
                 QuestionnaireHelper.GetInstance().UninstallQuestionnaire(BlaiseConfigurationHelper.QuestionnaireName, BlaiseConfigurationHelper.ServerParkName);
             }
-            //BrowserHelper.ClosePreviousTab();
         }
     }
 }
