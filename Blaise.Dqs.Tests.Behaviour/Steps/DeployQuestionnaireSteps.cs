@@ -203,7 +203,7 @@ namespace Blaise.Dqs.Tests.Behaviour.Steps
         public void CleanUpScenario()
         {
             DqsHelper.GetInstance().LogOutOfToDqs();
-            DqsHelper.GetInstance().LogOutOfToDqs();
+            BrowserHelper.ClosePreviousTab();
             if (QuestionnaireHelper.GetInstance().CheckQuestionnaireExists(BlaiseConfigurationHelper.QuestionnaireName, BlaiseConfigurationHelper.ServerParkName))
             {
                 QuestionnaireHelper.GetInstance().UninstallQuestionnaire(BlaiseConfigurationHelper.QuestionnaireName, BlaiseConfigurationHelper.ServerParkName);
