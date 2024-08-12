@@ -13,6 +13,8 @@ namespace Blaise.Tests.Behaviour.Steps
         private readonly ScenarioContext _scenarioContext;
         private readonly QuestionnaireHelper _questionnaireHelper;
 
+        private static bool _hasFailureOccurred = false;
+
         public CommonHooks(ScenarioContext scenarioContext)
         {
             _scenarioContext = scenarioContext;
@@ -20,8 +22,13 @@ namespace Blaise.Tests.Behaviour.Steps
         }
 
         [BeforeScenario]
-        public void CheckAndRemoveQuestionnaire()
+        public void BeforeScenario()
         {
+            if (_hasFailureOccurred)
+            {
+                Assert.Fail("A previous scenario has failed. Stopping tests.");
+            }
+
             var questionnaireName = BlaiseConfigurationHelper.QuestionnaireName;
             var serverParkName = BlaiseConfigurationHelper.ServerParkName;
 
@@ -34,10 +41,11 @@ namespace Blaise.Tests.Behaviour.Steps
         }
 
         [AfterStep]
-        public void OnError()
+        public void AfterStep()
         {
             if (_scenarioContext.TestError != null)
             {
+                _hasFailureOccurred = true;
                 BrowserHelper.OnError(TestContext.CurrentContext, _scenarioContext);
                 throw new Exception(_scenarioContext.TestError.Message);
             }
