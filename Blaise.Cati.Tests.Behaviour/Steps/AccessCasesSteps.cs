@@ -23,7 +23,7 @@ namespace Blaise.Cati.Tests.Behaviour.Steps
         {
             QuestionnaireHelper.GetInstance().InstallQuestionnaire(BlaiseConfigurationHelper.QuestionnaireName, BlaiseConfigurationHelper.ServerParkName, BlaiseConfigurationHelper.QuestionnairePath);
             CatiInterviewHelper.GetInstance().CreateInterviewUser();
-            CatiInterviewHelper.GetInstance().CreateAdminUser();
+            CatiManagementHelper.GetInstance().CreateAdminUser();
         }
 
         [Given(@"there is a CATI questionnaire installed")]
