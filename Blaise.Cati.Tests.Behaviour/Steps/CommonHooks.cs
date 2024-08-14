@@ -16,6 +16,23 @@ namespace Blaise.Cati.Tests.Behaviour.Steps
         {
             _scenarioContext = scenarioContext;
         }
+
+        [BeforeTestRun]
+        public static void BeforeTestRun()
+        {
+            QuestionnaireHelper.GetInstance().InstallQuestionnaire(BlaiseConfigurationHelper.QuestionnaireName, BlaiseConfigurationHelper.ServerParkName, BlaiseConfigurationHelper.QuestionnairePath);
+            CatiManagementHelper.GetInstance().CreateAdminUser();
+            CatiInterviewHelper.GetInstance().CreateInterviewUser();
+        }
+
+        [AfterTestRun]
+        public static void AfterTestRun()
+        {
+            CatiManagementHelper.GetInstance().ClearDayBatchEntries();
+            CatiInterviewHelper.GetInstance().DeleteInterviewUser();
+            CatiManagementHelper.GetInstance().DeleteAdminUser();
+            QuestionnaireHelper.GetInstance().UninstallQuestionnaire(BlaiseConfigurationHelper.QuestionnaireName, BlaiseConfigurationHelper.ServerParkName);
+        }
         
         [BeforeScenario]
         public void BeforeScenario()

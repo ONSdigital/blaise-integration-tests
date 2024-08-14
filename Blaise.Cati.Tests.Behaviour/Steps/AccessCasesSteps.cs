@@ -10,14 +10,9 @@ using TechTalk.SpecFlow;
 namespace Blaise.Cati.Tests.Behaviour.Steps
 {
     [Binding]
-    public sealed class AccessCasesSteps
+    public class AccessCasesSteps
     {
-        private readonly ScenarioContext _scenarioContext;
-        public AccessCasesSteps(ScenarioContext scenarioContext)
-        {
-            _scenarioContext = scenarioContext;
-        }
-
+        /*
         [BeforeFeature("access-cases")]
         public static void BeforeFeature()
         {
@@ -25,6 +20,7 @@ namespace Blaise.Cati.Tests.Behaviour.Steps
             CatiInterviewHelper.GetInstance().CreateInterviewUser();
             CatiManagementHelper.GetInstance().CreateAdminUser();
         }
+        */
 
         [Given(@"there is a CATI questionnaire installed")]
         public void GivenThereIsACatiQuestionnaireInstalled()
@@ -77,6 +73,7 @@ namespace Blaise.Cati.Tests.Behaviour.Steps
             }
         }
 
+        /*
         [AfterFeature("access-cases")]
         public static void AfterFeature()
         {
@@ -87,5 +84,6 @@ namespace Blaise.Cati.Tests.Behaviour.Steps
             QuestionnaireHelper.GetInstance().UninstallQuestionnaire(BlaiseConfigurationHelper.QuestionnaireName, BlaiseConfigurationHelper.ServerParkName);
             BrowserHelper.ClearSessionData();
         }
+        */
     }
 }

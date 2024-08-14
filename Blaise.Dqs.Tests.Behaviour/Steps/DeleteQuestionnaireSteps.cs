@@ -13,7 +13,6 @@ namespace Blaise.Dqs.Tests.Behaviour.Steps
     [Binding]
     public class DeleteQuestionnaireSteps
     {
-
         [Given(@"I have a questionnaire I want to delete")]
         public void GivenIHaveTheNameOfAQuestionnaireIWantToDeleteAndThatSurveyIsLive()
         {
