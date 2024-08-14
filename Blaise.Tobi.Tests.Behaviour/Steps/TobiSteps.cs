@@ -82,7 +82,7 @@ namespace Blaise.Tobi.Tests.Behaviour.Steps
         public void ThenIAmPresentedWithTheBlaiseLogIn()
         {
             CatiInterviewHelper.GetInstance().LoginButtonIsAvailable();
-            Assert.AreEqual($"{CatiConfigurationHelper.InterviewUrl.ToLower()}/login", BrowserHelper.CurrentUrl.ToLower());   
+            Assert.AreEqual($"{CatiConfigurationHelper.SchedulerUrl.ToLower()}/login", BrowserHelper.CurrentUrl.ToLower());   
         }
 
         [Then(@"I will not see that questionnaire listed for the survey")]

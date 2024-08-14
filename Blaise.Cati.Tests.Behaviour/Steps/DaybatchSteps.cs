@@ -22,7 +22,7 @@ namespace Blaise.Cati.Tests.Behaviour.Steps
         }
 
         [BeforeFeature("daybatch")]
-        public static void InitializeFeature()
+        public static void BeforeFeature()
         {
             try
             {
@@ -33,16 +33,16 @@ namespace Blaise.Cati.Tests.Behaviour.Steps
             }
             catch (Exception ex)
             {
-                Debug.WriteLine($"Error from debug: {ex.Message}, inner exception: {{ex.InnerException?.Message}}\"");
-                Console.WriteLine($"Error from console: {ex.Message}, inner exception: {{ex.InnerException?.Message}}\"");
-                Assert.Fail($"The test failed to complete - {ex.Message}, inner exception: {ex.InnerException?.Message}");
+                Debug.WriteLine($"Test failed: {ex.Message}, inner exception: {ex.InnerException?.Message}");
+                Console.WriteLine($"Test failed: {ex.Message}, inner exception: {ex.InnerException?.Message}");
+                Assert.Fail($"Test failed: {ex.Message}, inner exception: {ex.InnerException?.Message}");
             }
         }
 
-        [Given(@"I log on to Cati as an administrator")]
+        [Given(@"I log into the CATI dashboard as an administrator")]
         public void GivenILogOnToTheCatiDashboard()
         {
-            CatiManagementHelper.GetInstance().LogIntoCatiManagementPortal();
+            CatiManagementHelper.GetInstance().LogIntoCatiDashboardAsAdministrator();
             Assert.AreNotEqual(CatiConfigurationHelper.LoginUrl, CatiManagementHelper.GetInstance().CurrentUrl(),
                 "Expected to leave the login page");
         }
@@ -54,9 +54,9 @@ namespace Blaise.Cati.Tests.Behaviour.Steps
             CatiManagementHelper.GetInstance().ClearDayBatchEntries();
             CatiManagementHelper.GetInstance().CreateDayBatch();
         }
-        [When(@"the sample cases are present on the daybatch entry screen")]
-        [Then(@"the sample cases are present on the daybatch entry screen")]
-        public void ThenTheSampleCasesArePresentOnTheDaybatchEntryScreen(IEnumerable<CaseModel> cases)
+        [When(@"the sample cases are present on the daybatch entries screen")]
+        [Then(@"the sample cases are present on the daybatch entries screen")]
+        public void ThenTheSampleCasesArePresentOnTheDaybatchEntriesScreen(IEnumerable<CaseModel> cases)
         {
             var entriesText = CatiManagementHelper.GetInstance().GetDaybatchEntriesText();
             Assert.IsNotNull(entriesText);

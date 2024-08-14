@@ -208,7 +208,7 @@
     <Compile Include="Dqs\Pages\QuestionnaireInfoPage.cs" />
     <Compile Include="Framework\BasePage.cs" />
     <Compile Include="Cati\Pages\DayBatchPage.cs" />
-    <Compile Include="Cati\Pages\InterviewLoginPage.cs" />
+    <Compile Include="Cati\Pages\SchedulerPage.cs" />
     <Compile Include="Cati\Pages\InterviewPage.cs" />
     <Compile Include="Cati\Pages\LoginPage.cs" />
     <Compile Include="Cati\Pages\SpecificationPage.cs" />

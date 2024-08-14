@@ -19,7 +19,7 @@ namespace Blaise.Cati.Tests.Behaviour.Steps
         }
 
         [BeforeFeature("access-cases")]
-        public static void InitializeFeature()
+        public static void BeforeFeature()
         {
             try
             {
@@ -30,9 +30,9 @@ namespace Blaise.Cati.Tests.Behaviour.Steps
             }
             catch (Exception ex)
             {
-                Debug.WriteLine($"Error from debug: {ex.Message}, inner exception: {{ex.InnerException?.Message}}\"");
-                Console.WriteLine($"Error from console: {ex.Message}, inner exception: {{ex.InnerException?.Message}}\"");
-                Assert.Fail($"The test failed to complete - {ex.Message}, inner exception: {ex.InnerException?.Message}");
+                Debug.WriteLine($"Error from debug: {ex.Message}, inner exception: {ex.InnerException?.Message}");
+                Console.WriteLine($"Error from console: {ex.Message}, inner exception: {ex.InnerException?.Message}");
+                Assert.Fail($"Test failed: {ex.Message}, inner exception: {ex.InnerException?.Message}");
             }
         }
 
@@ -41,10 +41,12 @@ namespace Blaise.Cati.Tests.Behaviour.Steps
         {
         }
 
-        [Given(@"I log on to Cati as an interviewer")]
+        [Given(@"I log into the CATI dashboard as an interviewer")]
         public void GivenILogOnToCatiAsAnInterviewer()
         {
-            CatiManagementHelper.GetInstance().LogIntoCatiManagementPortalAsAnInterviewer();
+            CatiManagementHelper.GetInstance().LogIntoCatiDashboardAsInterviewer();
+            Assert.AreNotEqual(CatiConfigurationHelper.LoginUrl, CatiManagementHelper.GetInstance().CurrentUrl(),
+                "Expected to leave the login page");
         }
 
         [When(@"I click the play button for case '(.*)'")]
@@ -53,17 +55,17 @@ namespace Blaise.Cati.Tests.Behaviour.Steps
             CatiInterviewHelper.GetInstance().ClickPlayButtonToAccessCase(caseId);
         }
 
-        [When(@"The time is within the day batch parameters")]
+        [When(@"the time is within the daybatch parameters")]
         public void WhenTheTimeIsWithinTheDayBatchParameters()
         {
             CatiInterviewHelper.GetInstance().AddSurveyFilter();
             CatiInterviewHelper.GetInstance().SetupDayBatchTimeParameters();
         }
 
-        [When(@"I Open the cati scheduler as an interviewer")]
+        [When(@"I open the CATI scheduler as an interviewer")]
         public void WhenIOpenTheCatiSchedulerAsAnInterviewer()
         {
-            CatiInterviewHelper.GetInstance().AccessInterviewPortal();
+            CatiInterviewHelper.GetInstance().AccessCatiScheduler();
         }
 
         [Then(@"I am able to capture the respondents data for case '(.*)'")]
