@@ -25,7 +25,7 @@ namespace Blaise.Cati.Tests.Behaviour.Steps
         public static void BeforeFeature()
         {
             QuestionnaireHelper.GetInstance().InstallQuestionnaire(BlaiseConfigurationHelper.QuestionnaireName, BlaiseConfigurationHelper.ServerParkName, BlaiseConfigurationHelper.QuestionnairePath);
-            CatiInterviewHelper.GetInstance().CreateAdminUser();
+            CatiManagementHelper.GetInstance().CreateAdminUser();
         }
 
         [Given(@"I log into the CATI dashboard as an administrator")]
