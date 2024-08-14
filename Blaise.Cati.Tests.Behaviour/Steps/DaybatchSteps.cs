@@ -52,7 +52,7 @@ namespace Blaise.Cati.Tests.Behaviour.Steps
         }
 
         [AfterFeature("daybatch")]
-        public void AfterFeature()
+        public static void AfterFeature()
         {
             CatiManagementHelper.GetInstance().ClearDayBatchEntries();
             CatiManagementHelper.GetInstance().DeleteAdminUser();
