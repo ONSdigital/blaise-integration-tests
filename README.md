@@ -1,4 +1,4 @@
-![Build Status](https://dev.azure.com/blaise-gcp/csharp/_apis/build/status/ONSdigital.blaise-automated-tests?branchName=main)
+![Build Status](https://dev.azure.com/blaise-gcp/csharp/_apis/build/status/ONSdigital.blaise-integration-tests?branchName=main)
 
 # Blaise Integration Tests
 
@@ -58,7 +58,7 @@ You can download the latest test questionnaire from [Confluence](https://conflue
 
 [Add our Azure DevOps artifacts feed to Visual Studio.](https://confluence.ons.gov.uk/display/QSS/How-to+connect+to+our+private+NuGet+package+source)
 
-Git clone down this repository and open the solution file `BlaiseAutomatedTests.sln` in Visual Studio.
+Git clone down this repository and open the solution file `BlaiseIntegrationTests.sln` in Visual Studio.
 
 Depending on the tests your running, substitute the environment variable values in the `app.config` files with the following:
 
