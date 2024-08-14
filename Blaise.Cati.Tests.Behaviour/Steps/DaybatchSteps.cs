@@ -13,17 +13,8 @@ using TechTalk.SpecFlow;
 namespace Blaise.Cati.Tests.Behaviour.Steps
 {
     [Binding]
-    public class DaybatchSteps
+    public sealed class DaybatchSteps
     {
-        /*
-        [BeforeFeature("daybatch")]
-        public static void BeforeFeature()
-        {
-            QuestionnaireHelper.GetInstance().InstallQuestionnaire(BlaiseConfigurationHelper.QuestionnaireName, BlaiseConfigurationHelper.ServerParkName, BlaiseConfigurationHelper.QuestionnairePath);
-            CatiManagementHelper.GetInstance().CreateAdminUser();
-        }
-        */
-
         [Given(@"I log into the CATI dashboard as an administrator")]
         public void GivenILogOnToTheCatiDashboard()
         {
@@ -39,6 +30,7 @@ namespace Blaise.Cati.Tests.Behaviour.Steps
             CatiManagementHelper.GetInstance().ClearDayBatchEntries();
             CatiManagementHelper.GetInstance().CreateDayBatch();
         }
+        
         [When(@"the sample cases are present on the daybatch page")]
         [Then(@"the sample cases are present on the daybatch page")]
         public void ThenTheSampleCasesArePresentOnTheDaybatchPage(IEnumerable<CaseModel> cases)
@@ -46,18 +38,5 @@ namespace Blaise.Cati.Tests.Behaviour.Steps
             var entriesText = CatiManagementHelper.GetInstance().GetDaybatchEntriesText();
             Assert.IsNotNull(entriesText);
         }
-
-        /*
-        [AfterFeature("daybatch")]
-        public static void AfterFeature()
-        {
-            CatiManagementHelper.GetInstance().ClearDayBatchEntries();
-            CatiInterviewHelper.GetInstance().DeleteInterviewUser();
-            CatiManagementHelper.GetInstance().DeleteAdminUser();
-            CaseHelper.GetInstance().DeleteCases();
-            QuestionnaireHelper.GetInstance().UninstallQuestionnaire(BlaiseConfigurationHelper.QuestionnaireName, BlaiseConfigurationHelper.ServerParkName);
-            BrowserHelper.ClearSessionData();
-        }
-        */
     }
 }
