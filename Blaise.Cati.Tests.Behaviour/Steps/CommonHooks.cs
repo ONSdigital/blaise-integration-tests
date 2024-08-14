@@ -1,5 +1,8 @@
 ﻿using System;
 using Blaise.Tests.Helpers.Browser;
+using Blaise.Tests.Helpers.Questionnaire;
+using Blaise.Tests.Helpers.Configuration;
+using Blaise.Tests.Helpers.Cati;
 using NUnit.Framework;
 using TechTalk.SpecFlow;
 
