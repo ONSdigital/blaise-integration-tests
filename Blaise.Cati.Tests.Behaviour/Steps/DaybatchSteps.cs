@@ -24,19 +24,8 @@ namespace Blaise.Cati.Tests.Behaviour.Steps
         [BeforeFeature("daybatch")]
         public static void BeforeFeature()
         {
-            try
-            {
-                CatiManagementHelper.GetInstance().CreateAdminUser();
-                QuestionnaireHelper.GetInstance().InstallQuestionnaire(BlaiseConfigurationHelper.QuestionnaireName, BlaiseConfigurationHelper.ServerParkName, BlaiseConfigurationHelper.QuestionnairePath);
-                Assert.IsTrue(QuestionnaireHelper.GetInstance()
-                    .CheckQuestionnaireInstalled(BlaiseConfigurationHelper.QuestionnaireName, BlaiseConfigurationHelper.ServerParkName, 60));
-            }
-            catch (Exception ex)
-            {
-                Debug.WriteLine($"Test failed: {ex.Message}, inner exception: {ex.InnerException?.Message}");
-                Console.WriteLine($"Test failed: {ex.Message}, inner exception: {ex.InnerException?.Message}");
-                Assert.Fail($"Test failed: {ex.Message}, inner exception: {ex.InnerException?.Message}");
-            }
+            QuestionnaireHelper.GetInstance().InstallQuestionnaire(BlaiseConfigurationHelper.QuestionnaireName, BlaiseConfigurationHelper.ServerParkName, BlaiseConfigurationHelper.QuestionnairePath);
+            CatiInterviewHelper.GetInstance().CreateAdminUser();
         }
 
         [Given(@"I log into the CATI dashboard as an administrator")]
@@ -62,8 +51,8 @@ namespace Blaise.Cati.Tests.Behaviour.Steps
             Assert.IsNotNull(entriesText);
         }
 
-        [AfterScenario("daybatch")]
-        public void CleanUpFeature()
+        [AfterFeature("daybatch")]
+        public void AfterFeature()
         {
             CatiManagementHelper.GetInstance().ClearDayBatchEntries();
             CatiManagementHelper.GetInstance().DeleteAdminUser();
