@@ -11,14 +11,12 @@ namespace Blaise.Tests.Behaviour.Steps
     public sealed class CommonHooks
     {
         private readonly ScenarioContext _scenarioContext;
-        private readonly QuestionnaireHelper _questionnaireHelper;
 
         private static bool _hasFailureOccurred = false;
 
         public CommonHooks(ScenarioContext scenarioContext)
         {
             _scenarioContext = scenarioContext;
-            _questionnaireHelper = QuestionnaireHelper.GetInstance();
         }
 
         [BeforeScenario]
@@ -27,16 +25,6 @@ namespace Blaise.Tests.Behaviour.Steps
             if (_hasFailureOccurred)
             {
                 Assert.Fail("A previous scenario has failed. Stopping tests.");
-            }
-
-            var questionnaireName = BlaiseConfigurationHelper.QuestionnaireName;
-            var serverParkName = BlaiseConfigurationHelper.ServerParkName;
-
-            bool questionnaireExists = _questionnaireHelper.CheckQuestionnaireExists(questionnaireName, serverParkName);
-
-            if (questionnaireExists)
-            {
-                _questionnaireHelper.UninstallQuestionnaire(questionnaireName, serverParkName);
             }
         }
 

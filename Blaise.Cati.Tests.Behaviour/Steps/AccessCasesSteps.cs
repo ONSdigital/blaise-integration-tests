@@ -21,19 +21,9 @@ namespace Blaise.Cati.Tests.Behaviour.Steps
         [BeforeFeature("access-cases")]
         public static void BeforeFeature()
         {
-            try
-            {
-                CatiInterviewHelper.GetInstance().CreateInterviewUser();
-                QuestionnaireHelper.GetInstance().InstallQuestionnaire(BlaiseConfigurationHelper.QuestionnaireName, BlaiseConfigurationHelper.ServerParkName, BlaiseConfigurationHelper.QuestionnairePath);
-                Assert.IsTrue(QuestionnaireHelper.GetInstance()
-                    .CheckQuestionnaireInstalled(BlaiseConfigurationHelper.QuestionnaireName, BlaiseConfigurationHelper.ServerParkName, 60));
-            }
-            catch (Exception ex)
-            {
-                Debug.WriteLine($"Error from debug: {ex.Message}, inner exception: {ex.InnerException?.Message}");
-                Console.WriteLine($"Error from console: {ex.Message}, inner exception: {ex.InnerException?.Message}");
-                Assert.Fail($"Test failed: {ex.Message}, inner exception: {ex.InnerException?.Message}");
-            }
+            QuestionnaireHelper.GetInstance().InstallQuestionnaire(BlaiseConfigurationHelper.QuestionnaireName, BlaiseConfigurationHelper.ServerParkName, BlaiseConfigurationHelper.QuestionnairePath);
+            CatiInterviewHelper.GetInstance().CreateInterviewUser();
+            CatiInterviewHelper.GetInstance().CreateAdminUser();
         }
 
         [Given(@"there is a CATI questionnaire installed")]
@@ -88,17 +78,13 @@ namespace Blaise.Cati.Tests.Behaviour.Steps
         }
 
         [AfterFeature("access-cases")]
-        public static void CleanUpFeature()
+        public static void AfterFeature()
         {
             CatiManagementHelper.GetInstance().ClearDayBatchEntries();
             BrowserHelper.ClosePreviousTab();
             CatiInterviewHelper.GetInstance().DeleteInterviewUser();
+            CatiManagementHelper.GetInstance().DeleteAdminUser();
             QuestionnaireHelper.GetInstance().UninstallQuestionnaire(BlaiseConfigurationHelper.QuestionnaireName, BlaiseConfigurationHelper.ServerParkName);
-        }
-
-        [AfterTestRun]
-        public static void AfterTestRun()
-        {
             BrowserHelper.ClearSessionData();
         }
     }
