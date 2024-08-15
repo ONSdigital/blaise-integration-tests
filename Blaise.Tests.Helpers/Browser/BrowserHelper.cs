@@ -145,17 +145,53 @@ namespace Blaise.Tests.Helpers.Browser
             if (scenarioContext.ContainsValue(scenarioContext.StepContext.StepInfo.Text))
                 return;
 
-            var screenShotFile = TakeScreenShot(testContext.WorkDirectory,
-                    $@"{scenarioContext.StepContext.StepInfo.Text}");
-            TestContext.AddTestAttachment(screenShotFile, scenarioContext.StepContext.StepInfo.Text);
+            var driver = scenarioContext.ScenarioContainer.Resolve<IWebDriver>();
 
-            File.WriteAllText($@"{testContext.WorkDirectory}\{Path.GetFileNameWithoutExtension(screenShotFile)}.html", CurrentWindowHTML());
-            TestContext.AddTestAttachment($@"{testContext.WorkDirectory}\{Path.GetFileNameWithoutExtension(screenShotFile)}.html", "Windows HTML");
+            try
+            {
+                if (driver is ITakesScreenshot screenshotDriver)
+                {
+                    var screenshot = screenshotDriver.GetScreenshot();
+                    var screenShotFile = Path.Combine(testContext.WorkDirectory, $"{scenarioContext.StepContext.StepInfo.Text}.png");
+                    screenshot.SaveAsFile(screenShotFile, ScreenshotImageFormat.Png);
+                    TestContext.AddTestAttachment(screenShotFile, scenarioContext.StepContext.StepInfo.Text);
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error capturing screenshot: {ex.Message}");
+            }
 
-            //Record existing error
-            scenarioContext.Remove("Error");
-            scenarioContext.Add("Error", scenarioContext.TestError.Message);
-            scenarioContext.ScenarioContainer.RegisterInstanceAs(scenarioContext.TestError);
+            try
+            {
+                var htmlSource = driver.PageSource;
+                var htmlFile = Path.Combine(testContext.WorkDirectory, $"{scenarioContext.StepContext.StepInfo.Text}.html");
+                File.WriteAllText(htmlFile, htmlSource);
+                TestContext.AddTestAttachment(htmlFile, "Windows HTML");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error capturing HTML: {ex.Message}");
+            }
+
+            try
+            {
+                var errorMessage = scenarioContext.TestError?.Message ?? "No error message available";
+                var stackTrace = scenarioContext.TestError?.StackTrace ?? "No stack trace available";
+
+                scenarioContext.Remove("Error");
+                scenarioContext.Add("Error", errorMessage);
+                scenarioContext.ScenarioContainer.RegisterInstanceAs(scenarioContext.TestError);
+
+                var errorDetails = $"Error Message: {errorMessage}\nStack Trace: {stackTrace}";
+                var errorFile = Path.Combine(testContext.WorkDirectory, $"{scenarioContext.StepContext.StepInfo.Text}_error.txt");
+                File.WriteAllText(errorFile, errorDetails);
+                TestContext.AddTestAttachment(errorFile, "Error Details");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error recording error details: {ex.Message}");
+            }
         }
 
         public static void CloseBrowser()
