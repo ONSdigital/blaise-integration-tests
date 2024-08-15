@@ -142,55 +142,59 @@ namespace Blaise.Tests.Helpers.Browser
 
         public static void OnError(NUnit.Framework.TestContext testContext, ScenarioContext scenarioContext)
         {
-            if (scenarioContext.ContainsValue(scenarioContext.StepContext.StepInfo.Text))
+            if (testContext == null || scenarioContext == null)
+            {
+                Console.WriteLine("TestContext or ScenarioContext is null");
                 return;
+            }
 
-            var driver = scenarioContext.ScenarioContainer.Resolve<IWebDriver>();
+            if (scenarioContext.ContainsValue(scenarioContext.StepContext.StepInfo.Text))
+            {
+                Console.WriteLine("Error already handled for this step");
+                return;
+            }
 
             try
             {
-                if (driver is ITakesScreenshot screenshotDriver)
+                // Sanitize the step text for use in file names
+                var sanitizedStepText = string.Join("_", scenarioContext.StepContext.StepInfo.Text.Split(Path.GetInvalidFileNameChars()));
+
+                // Take screenshot
+                var screenShotFile = TakeScreenShot(
+                    Path.Combine(testContext.WorkDirectory, sanitizedStepText));
+
+                if (!string.IsNullOrEmpty(screenShotFile))
                 {
-                    var screenshot = screenshotDriver.GetScreenshot();
-                    var screenShotFile = Path.Combine(testContext.WorkDirectory, $"{scenarioContext.StepContext.StepInfo.Text}.png");
-                    screenshot.SaveAsFile(screenShotFile, ScreenshotImageFormat.Png);
                     TestContext.AddTestAttachment(screenShotFile, scenarioContext.StepContext.StepInfo.Text);
+                    Console.WriteLine($"Screenshot saved: {screenShotFile}");
+                }
+
+                // Capture HTML
+                var htmlFile = Path.Combine(testContext.WorkDirectory, $"{Path.GetFileNameWithoutExtension(screenShotFile)}.html");
+                File.WriteAllText(htmlFile, CurrentWindowHTML());
+                TestContext.AddTestAttachment(htmlFile, "Window HTML");
+                Console.WriteLine($"HTML captured: {htmlFile}");
+
+                // Record error
+                if (scenarioContext.TestError != null)
+                {
+                    if (scenarioContext.ContainsKey("Error"))
+                    {
+                        scenarioContext.Remove("Error");
+                    }
+                    scenarioContext.Add("Error", scenarioContext.TestError.Message);
+                    scenarioContext.ScenarioContainer.RegisterInstanceAs(scenarioContext.TestError);
+                    Console.WriteLine($"Error recorded: {scenarioContext.TestError.Message}");
+                }
+                else
+                {
+                    Console.WriteLine("No TestError found in ScenarioContext");
                 }
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"Error capturing screenshot: {ex.Message}");
-            }
-
-            try
-            {
-                var htmlSource = driver.PageSource;
-                var htmlFile = Path.Combine(testContext.WorkDirectory, $"{scenarioContext.StepContext.StepInfo.Text}.html");
-                File.WriteAllText(htmlFile, htmlSource);
-                TestContext.AddTestAttachment(htmlFile, "Windows HTML");
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine($"Error capturing HTML: {ex.Message}");
-            }
-
-            try
-            {
-                var errorMessage = scenarioContext.TestError?.Message ?? "No error message available";
-                var stackTrace = scenarioContext.TestError?.StackTrace ?? "No stack trace available";
-
-                scenarioContext.Remove("Error");
-                scenarioContext.Add("Error", errorMessage);
-                scenarioContext.ScenarioContainer.RegisterInstanceAs(scenarioContext.TestError);
-
-                var errorDetails = $"Error Message: {errorMessage}\nStack Trace: {stackTrace}";
-                var errorFile = Path.Combine(testContext.WorkDirectory, $"{scenarioContext.StepContext.StepInfo.Text}_error.txt");
-                File.WriteAllText(errorFile, errorDetails);
-                TestContext.AddTestAttachment(errorFile, "Error Details");
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine($"Error recording error details: {ex.Message}");
+                Console.WriteLine($"Failed to capture error details: {ex.Message}");
+                Console.WriteLine($"Stack Trace: {ex.StackTrace}");
             }
         }
 
