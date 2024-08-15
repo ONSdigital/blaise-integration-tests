@@ -28,7 +28,7 @@ namespace Blaise.Tests.Helpers.Cati
         {
             var adminUser = new UserModel
             {
-                UserName = CatiConfigurationHelper.CatiAdminUsername,
+                Username = CatiConfigurationHelper.CatiAdminUsername,
                 Password = CatiConfigurationHelper.CatiAdminPassword,
                 Role = CatiConfigurationHelper.AdminRole,
                 ServerParks = new List<string> { BlaiseConfigurationHelper.ServerParkName },

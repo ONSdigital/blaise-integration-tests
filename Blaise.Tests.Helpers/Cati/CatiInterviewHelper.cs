@@ -34,7 +34,7 @@ namespace Blaise.Tests.Helpers.Cati
         {
             var interviewUser = new UserModel
             {
-                UserName = CatiConfigurationHelper.CatiInterviewUsername,
+                Username = CatiConfigurationHelper.CatiInterviewUsername,
                 Password = CatiConfigurationHelper.CatiInterviewPassword,
                 Role = CatiConfigurationHelper.InterviewRole,
                 ServerParks = new List<string> { BlaiseConfigurationHelper.ServerParkName },

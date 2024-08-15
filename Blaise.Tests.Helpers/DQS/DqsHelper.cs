@@ -14,17 +14,17 @@ namespace Blaise.Tests.Helpers.Dqs
             return _currentInstance ?? (_currentInstance = new DqsHelper());
         }
 
-        public void LogInToDqs(string username, string password)
+        public void LogIntoDqs(string username, string password)
         {
             var loginPage = new LoginPage();
             loginPage.LoadPage();
             loginPage.LogIntoDqs(username, password);
         }
 
-        public void LogOutOfToDqs()
+        public void LogoutOfDqs()
         {
             var loginPage = new LoginPage();
-            loginPage.LogOutOfDqs();
+            loginPage.LogoutOfDqs();
         }
 
         public bool IsLogoutButtonVisible()
@@ -113,10 +113,10 @@ namespace Blaise.Tests.Helpers.Dqs
             return uploadSummaryPage.GetUploadSummaryText();
         }
 
-        public void SelectNoLiveDate()
+        public void SelectNoToStartDate()
         {
             var uploadPage = new UploadPage();
-            uploadPage.SelectNoLiveDateButton();
+            uploadPage.SelectNoToStartDateButton();
         }
 
         public void WaitForQuestionnaireAlreadyExistsPage()
@@ -153,10 +153,10 @@ namespace Blaise.Tests.Helpers.Dqs
             return homePage.GetUploadSummaryText();
         }
 
-        public string GetLivedateSummaryText()
+        public string GetToStartDateSummaryText()
         {
             var uploadPage = new UploadPage();
-            return uploadPage.GetLiveDateSummaryText();
+            return uploadPage.GetToStartDateSummaryText();
         }
 
         public void SelectYesLiveDate()

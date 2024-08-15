@@ -35,7 +35,7 @@ namespace Blaise.RestApi.Tests.Behaviour.Steps
 
 
         [AfterScenario("deploy")]
-        public void CleanUpScenario()
+        public void AfterScenario()
         {
             CloudStorageHelper.GetInstance().DeleteFromBucket(
                 BlaiseConfigurationHelper.QuestionnaireBucketPath,

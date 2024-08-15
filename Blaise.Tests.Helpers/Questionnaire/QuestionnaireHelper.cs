@@ -175,24 +175,9 @@ namespace Blaise.Tests.Helpers.Questionnaire
                     |______|_|  \_\_|  \_\\____/|_| \_|______\____/ \____/|_____/ 
             ";
             string erroneousExceptionMessage = $"{erroneousAsciiArt}\n" +
-                $"Questionnaire {questionnaireName} is in an erroneous state\n" +
+                $"Questionnaire {questionnaireName} is erroneous!\n" +
                 "Restart Blaise and uninstall the erroneous questionnaire via Blaise Server Manager";
             throw new Exception(erroneousExceptionMessage);
-
-            /*
-            Console.WriteLine(@"
-                        ______ _____  _____   ____  _   _ ______ ____  _    _  _____  
-                        |  ____|  __ \|  __ \ / __ \| \ | |  ____/ __ \| |  | |/ ____|
-                        | |__  | |__) | |__) | |  | |  \| | |__ | |  | | |  | | (___
-                        |  __| |  _  /|  _  /| |  | | . ` |  __|| |  | | |  | |\___ \
-                        | |____| | \ \| | \ \| |__| | |\  | |___| |__| | |__| |____) |
-                        |______|_|  \_\_|  \_\\____/|_| \_|______\____/ \____/|_____/
-            ");
-            Console.WriteLine($"Questionnaire {questionnaireName} is in an erroneous state");
-            Console.WriteLine("Restart Blaise and uninstall the erroneous questionnaire via Blaise Server Manager");
-            throw new Exception($"Questionnaire {questionnaireName} is in an erroneous state");
-            */
-
         }
     }
 }

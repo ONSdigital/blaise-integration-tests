@@ -14,7 +14,7 @@ namespace Blaise.Dqs.Tests.Behaviour.Steps
     public class DeleteQuestionnaireSteps
     {
         [Given(@"I have a questionnaire I want to delete")]
-        public void GivenIHaveTheNameOfAQuestionnaireIWantToDeleteAndThatSurveyIsLive()
+        public void GivenIHaveAQestionnaireIWantToDelete()
         {
             QuestionnaireHelper.GetInstance().InstallQuestionnaire(BlaiseConfigurationHelper.QuestionnaireName, BlaiseConfigurationHelper.ServerParkName, BlaiseConfigurationHelper.QuestionnairePath);
         }
@@ -33,7 +33,7 @@ namespace Blaise.Dqs.Tests.Behaviour.Steps
         }
 
         [Given(@"I select delete on the questionnaire details page")]
-        public void GivenISelectDeleteOnAQuestionnaireThatIsNotLive()
+        public void GivenISelectDeleteOnTheQuestionnaireDetailsPage()
         {
             try
             {
@@ -41,13 +41,14 @@ namespace Blaise.Dqs.Tests.Behaviour.Steps
             }
             catch (Exception e)
             {
-                Console.WriteLine($" select delete on the questionnaire details page failed {e}");
+                Console.WriteLine("Selecting delete on the questionnaire details page failed");
+                Console.WriteLine($"{e}");
                 throw;
             }
         }
 
         [When(@"I select the questionnaire in the list")]
-        public void WhenILocateThatQuestionnaireInTheList()
+        public void WhenISelectTheQuestionnaireInTheList()
         {
             DqsHelper.GetInstance().LoadDqsHomePage();
             var questionnairesInTable = DqsHelper.GetInstance().GetQuestionnaireTableContents();
@@ -61,8 +62,8 @@ namespace Blaise.Dqs.Tests.Behaviour.Steps
             DqsHelper.GetInstance().WaitForQuestionnaireDetailsPage();
         }
 
-        [Given(@"I am taken to the delete confirmation screen")]
-        public void GivenIAmPresentedWithTheConfirmationScreen()
+        [Given(@"I am taken to the delete confirmation page")]
+        public void GivenIAmTakenToTheDeleteConfirmationPage()
         {
             DqsHelper.GetInstance().WaitForDeleteQuestionnaireConfirmationPage();
         }
@@ -86,14 +87,14 @@ namespace Blaise.Dqs.Tests.Behaviour.Steps
             Assert.IsNotNull(DqsHelper.GetInstance().GetDeletionSummary());
         }
 
-        [AfterScenario("delete")]
-        public void CleanUpScenario()
+        [AfterScenario("delete-questionnaire")]
+        public void AfterScenario()
         {            
             if (QuestionnaireHelper.GetInstance().CheckQuestionnaireExists(BlaiseConfigurationHelper.QuestionnaireName, BlaiseConfigurationHelper.ServerParkName))
             {
                 QuestionnaireHelper.GetInstance().UninstallQuestionnaire(BlaiseConfigurationHelper.QuestionnaireName, BlaiseConfigurationHelper.ServerParkName);
             }
-            DqsHelper.GetInstance().LogOutOfToDqs();
+            DqsHelper.GetInstance().LogoutOfDqs();
             BrowserHelper.ClosePreviousTab();
         }
     }

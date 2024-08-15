@@ -16,7 +16,7 @@ namespace Blaise.Tests.Helpers.Configuration
         {
             return new ConnectionModel{
                 ServerName = ConfigurationExtensions.GetVariable("ENV_BLAISE_SERVER_HOST_NAME"),
-                UserName = ConfigurationExtensions.GetVariable("ENV_BLAISE_ADMIN_USER"),
+                Username = ConfigurationExtensions.GetVariable("ENV_BLAISE_ADMIN_USER"),
                 Password = ConfigurationExtensions.GetVariable("ENV_BLAISE_ADMIN_PASSWORD"),
                 Binding = ConfigurationExtensions.GetVariable("ENV_BLAISE_SERVER_BINDING"),
                 Port = ConfigurationExtensions.GetIntVariable("ENV_BLAISE_CONNECTION_PORT"),

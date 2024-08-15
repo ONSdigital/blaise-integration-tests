@@ -13,7 +13,7 @@ namespace Blaise.Tests.Behaviour.Steps
     public sealed class CreateCasesSteps
     {
         [BeforeFeature("case")]
-        public static void InitializeFeature()
+        public static void BeforeFeature()
         {
             //
         }
@@ -61,13 +61,13 @@ namespace Blaise.Tests.Behaviour.Steps
         }
 
         [AfterScenario("case")]
-        public void CleanUpScenario()
+        public void AfterScenario()
         {
             CaseHelper.GetInstance().DeleteCases();
         }
 
         [AfterFeature("case")]
-        public static void CleanUpFeature()
+        public static void AfterFeature()
         {
             QuestionnaireHelper.GetInstance().UninstallQuestionnaire(BlaiseConfigurationHelper.QuestionnaireName, BlaiseConfigurationHelper.ServerParkName);
         }

@@ -24,16 +24,16 @@ namespace Blaise.Tests.Helpers.User
 
         public void CreateUser(UserModel userModel)
         {
-            if (GetUser(userModel.UserName) == null)
+            if (GetUser(userModel.Username) == null)
             {
-                _blaiseUserApi.AddUser(userModel.UserName, userModel.Password,
+                _blaiseUserApi.AddUser(userModel.Username, userModel.Password,
                     userModel.Role, userModel.ServerParks, userModel.DefaultServerPark);
             }
             else
             {
-                RemoveUser(userModel.UserName);
+                RemoveUser(userModel.Username);
 
-                _blaiseUserApi.AddUser(userModel.UserName, userModel.Password,
+                _blaiseUserApi.AddUser(userModel.Username, userModel.Password,
                    userModel.Role, userModel.ServerParks, userModel.DefaultServerPark);
             }
         }
