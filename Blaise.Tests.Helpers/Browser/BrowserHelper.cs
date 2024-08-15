@@ -219,8 +219,6 @@ private static string SanitiseFileName(string fileName)
 
 
 
-
-
         public static void CloseBrowser()
         {
             Browser.Quit();
