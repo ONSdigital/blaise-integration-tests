@@ -50,14 +50,14 @@ namespace Blaise.Tests.Behaviour.Steps
             Assert.AreEqual(QuestionnaireInterviewType.Cati, surveyConfiguration);
         }
 
-        [AfterScenario("questionnaire")]
-        public void CleanUpScenario()
+        [AfterScenario("deploy-questionnaire")]
+        public void AfterScenario()
         {
             QuestionnaireHelper.GetInstance().UninstallQuestionnaire(BlaiseConfigurationHelper.QuestionnaireName, BlaiseConfigurationHelper.ServerParkName);
         }
 
         [AfterTestRun]
-        public static void CleanUpTestRun()
+        public static void AfterTestRun()
         {
             BrowserHelper.ClearSessionData();
         }

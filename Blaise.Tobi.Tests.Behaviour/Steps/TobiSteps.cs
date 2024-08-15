@@ -16,7 +16,7 @@ namespace Blaise.Tobi.Tests.Behaviour.Steps
     public class TobiSteps
     {
         [BeforeFeature("tobi")]
-        public static void InitializeFeature()
+        public static void BeforeFeature()
         {
             QuestionnaireHelper.GetInstance().InstallQuestionnaire(BlaiseConfigurationHelper.QuestionnaireName, BlaiseConfigurationHelper.ServerParkName, BlaiseConfigurationHelper.QuestionnairePath);
             CaseHelper.GetInstance().CreateCase(new CaseModel("900001", "110", "07000 000 00"));
@@ -108,7 +108,7 @@ namespace Blaise.Tobi.Tests.Behaviour.Steps
         }
 
         [AfterFeature("tobi")]
-        public static void CleanUpFeature()
+        public static void AfterFeature()
         {
             DayBatchHelper.GetInstance().RemoveSurveyDays(BlaiseConfigurationHelper.QuestionnaireName, DateTime.Today);
             BrowserHelper.ClosePreviousTab();
@@ -117,7 +117,7 @@ namespace Blaise.Tobi.Tests.Behaviour.Steps
         }
 
         [AfterTestRun]
-        public static void CleanUpTestRun()
+        public static void AfterTestRun()
         {
             BrowserHelper.ClearSessionData();
         }

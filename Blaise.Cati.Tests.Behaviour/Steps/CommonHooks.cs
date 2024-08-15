@@ -41,7 +41,7 @@ namespace Blaise.Cati.Tests.Behaviour.Steps
         {
             if (_hasFailureOccurred)
             {
-                Assert.Fail("A previous scenario has failed. Stopping tests.");
+                Assert.Fail("A previous scenario has failed. Skipping test.");
             }
         }
 

@@ -24,7 +24,7 @@ namespace Blaise.Tests.Helpers.Dqs.Pages
             WaitUntilLoggedIn();
         }
 
-        public void LogOutOfDqs()
+        public void LogoutOfDqs()
         {
             ClickButtonById(_signOutId);
         }
