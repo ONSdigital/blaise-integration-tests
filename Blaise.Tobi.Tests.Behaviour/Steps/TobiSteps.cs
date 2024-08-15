@@ -110,15 +110,8 @@ namespace Blaise.Tobi.Tests.Behaviour.Steps
         public static void AfterFeature()
         {
             DayBatchHelper.GetInstance().RemoveSurveyDays(BlaiseConfigurationHelper.QuestionnaireName, DateTime.Today);
-            BrowserHelper.ClosePreviousTab();
             CaseHelper.GetInstance().DeleteCases();
             QuestionnaireHelper.GetInstance().UninstallQuestionnaire(BlaiseConfigurationHelper.QuestionnaireName, BlaiseConfigurationHelper.ServerParkName);
-        }
-
-        [AfterTestRun]
-        public static void AfterTestRun()
-        {
-            BrowserHelper.ClearSessionData();
         }
     }
 }
