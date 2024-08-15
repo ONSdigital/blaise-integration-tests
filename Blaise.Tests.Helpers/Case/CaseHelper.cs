@@ -117,7 +117,7 @@ namespace Blaise.Tests.Helpers.Case
 
         private CaseModel BuildDefaultCase()
         {
-            return new CaseModel("900001", "110", "07000000000");
+            return new CaseModel("9001", "110", "07000000000");
         }
     }
 }

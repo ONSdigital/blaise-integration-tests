@@ -19,7 +19,7 @@ namespace Blaise.Tobi.Tests.Behaviour.Steps
         public static void BeforeFeature()
         {
             QuestionnaireHelper.GetInstance().InstallQuestionnaire(BlaiseConfigurationHelper.QuestionnaireName, BlaiseConfigurationHelper.ServerParkName, BlaiseConfigurationHelper.QuestionnairePath);
-            CaseHelper.GetInstance().CreateCase(new CaseModel("900001", "110", "07000 000 00"));
+            CaseHelper.GetInstance().CreateCase(new CaseModel("9001", "110", "07000000000"));
             DayBatchHelper.GetInstance().SetSurveyDay(BlaiseConfigurationHelper.QuestionnaireName, DateTime.Today);
             DayBatchHelper.GetInstance().CreateDayBatch(BlaiseConfigurationHelper.QuestionnaireName, DateTime.Today);
         }
