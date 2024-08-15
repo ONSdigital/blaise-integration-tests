@@ -2,15 +2,16 @@
 Feature: tobi
 
 @smoke
-Scenario: View live survey list in TOBI
-Given I have internet access
+Scenario: View live surveys
+Given there are live surveys
 When I launch TOBI
-Then I will be able to view all live surveys with questionnaires loaded in Blaise, identified by their three letter acronym (TLA), i.e. OPN, LMS
+Then I am presented with a list of live surveys
 
 Scenario: Select survey
-Given I can view a list of surveys on Blaise within TOBI
-When I select the DST survey I am working on
-Then I am presented with a list of active questionnaires to be worked on that day for that survey
+Given there are live surveys
+When I launch TOBI
+And I select a survey
+Then I am presented with a list of questionnaires for the survey
 
 Scenario: Select questionnaire
 Given I can view a list of live questionnaires for the survey I am allocated to

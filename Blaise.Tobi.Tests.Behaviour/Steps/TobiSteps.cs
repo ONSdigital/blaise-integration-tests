@@ -24,8 +24,8 @@ namespace Blaise.Tobi.Tests.Behaviour.Steps
             DayBatchHelper.GetInstance().CreateDayBatch(BlaiseConfigurationHelper.QuestionnaireName, DateTime.Today);
         }
 
-        [Given(@"I have internet access")]
-        public void GivenIHaveInternetAccess()
+        [Given(@"there are live surveys")]
+        public void GivenThereAreLiveSurveys()
         {
         }
 
@@ -44,8 +44,8 @@ namespace Blaise.Tobi.Tests.Behaviour.Steps
         }
 
         [Given(@"I have selected a survey")]
-        [When(@"I select the DST survey I am working on")]
-        public void WhenISelectTheDSTSurveyIAmWorkingOn()
+        [When(@"I select a survey")]
+        public void WhenISelectASurvey()
         {
             TobiHelper.GetInstance().LoadTobiHomePage();
             var currentUrl = TobiHelper.GetInstance().ClickLoadQuestionnaire();
@@ -64,18 +64,17 @@ namespace Blaise.Tobi.Tests.Behaviour.Steps
             Assert.AreEqual(TobiConfigurationHelper.SurveyUrl, BrowserHelper.CurrentUrl);
         }
 
-        [Then(@"I will be able to view all live surveys with questionnaires loaded in Blaise, identified by their three letter acronym \(TLA\), i\.e\. OPN, LMS")]
-        public void ThenIWillBeAbleToViewAllLiveSurveysWithQuestionnairesLoadedInBlaiseIdentifiedByTheirThreeLetterAcronym()
+        [Then(@"I am presented with a list of live surveys")]
+        public void ThenIAmPresentedWithAListOfLiveSurveys()
         {
             Assert.IsNotNull(TobiHelper.GetInstance().GetSurveyTableContents().Where(s => s.Equals("DST")));   
         }
 
-        [Then(@"I am presented with a list of active questionnaires to be worked on that day for that survey")]
-        public void ThenIAmPresentedWithAListOfActiveQuestionnairesToBeWorkedOnThatDayForThatSurvey()
+        [Then(@"I am presented with a list of questionnaires for the survey")]
+        public void ThenIAmPresentedWithAListOfQuestionnairesForTheSurvey()
         {
             var activeQuestionnaires = TobiHelper.GetInstance().GetQuestionnaireTableContents();
             Assert.IsNotNull(activeQuestionnaires.Where(q => q.Contains(BlaiseConfigurationHelper.QuestionnaireName)));
-            
         }
 
         [Then(@"I am presented with the Blaise log in")]
@@ -88,7 +87,6 @@ namespace Blaise.Tobi.Tests.Behaviour.Steps
         [Then(@"I will not see that questionnaire listed for the survey")]
         public void ThenIWillNotSeeThatQuestionnaireListedForTheSurvey()
         {
-            
             var questionnaireShowing = TobiHelper.GetInstance().GetQuestionnaireTableContents()
                 .Where(s => s.Contains(BlaiseConfigurationHelper.QuestionnaireName));
             Assert.IsEmpty(questionnaireShowing);
@@ -121,6 +119,5 @@ namespace Blaise.Tobi.Tests.Behaviour.Steps
         {
             BrowserHelper.ClearSessionData();
         }
-
     }
 }
