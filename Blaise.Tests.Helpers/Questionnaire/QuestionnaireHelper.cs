@@ -177,7 +177,7 @@ namespace Blaise.Tests.Helpers.Questionnaire
             string erroneousExceptionMessage = $"{erroneousAsciiArt}\n" +
                 $"Questionnaire {questionnaireName} is in an erroneous state\n" +
                 "Restart Blaise and uninstall the erroneous questionnaire via Blaise Server Manager";
-            throw new Exception(errorMessage);
+            throw new Exception(erroneousExceptionMessage);
 
             /*
             Console.WriteLine(@"
