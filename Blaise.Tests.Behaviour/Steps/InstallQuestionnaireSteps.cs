@@ -10,8 +10,8 @@ namespace Blaise.Tests.Behaviour.Steps
     [Binding]
     public sealed class InstallQuestionnaireSteps
     {
-        [Given(@"I have an questionnaire I want to use to capture respondents data")]
-        public void GivenIHaveAQuestionnaireIWantToUseToCaptureRespondentsData()
+        [Given(@"I have a questionnaire I want to install")]
+        public void GivenIHaveAQuestionnaireIWantToInstall()
         {
             var questionnairePackage = BlaiseConfigurationHelper.QuestionnairePackage;
 
@@ -21,22 +21,16 @@ namespace Blaise.Tests.Behaviour.Steps
             }
         }
 
-        [Given(@"I have an questionnaire installed on a Blaise environment")]
+        [Given(@"there is a questionnaire installed")]
         [Given(@"There is an questionnaire installed on a Blaise environment")]
-        [When(@"I install the questionnaire into a Blaise environment")]
-        public void WhenIInstallTheQuestionnaireIntoABlaiseEnvironment()
+        [When(@"I install the questionnaire")]
+        public void GivenThereIsAQuestionnaireInstalled()
         {
             QuestionnaireHelper.GetInstance().InstallQuestionnaire(BlaiseConfigurationHelper.QuestionnaireName, BlaiseConfigurationHelper.ServerParkName, BlaiseConfigurationHelper.QuestionnairePath);
         }
 
-        [When(@"I install the questionnaire into a Blaise environment specifying a Cati configuration")]
-        public void WhenIInstallTheQuestionnaireIntoABlaiseEnvironmentSpecifyingACatiConfiguration()
-        {
-            QuestionnaireHelper.GetInstance().InstallQuestionnaire(BlaiseConfigurationHelper.QuestionnaireName, BlaiseConfigurationHelper.ServerParkName, BlaiseConfigurationHelper.QuestionnairePath);
-        }
-
-        [Then(@"the questionnaire is available to use in the Blaise environment")]
-        public void ThenTheQuestionnaireIsAvailableToUseInTheBlaiseEnvironment()
+        [Then(@"the questionnaire is available")]
+        public void ThenTheQuestionnaireIsAvailable()
         {
             var questionnaireHasInstalled = QuestionnaireHelper.GetInstance().CheckQuestionnaireInstalled(BlaiseConfigurationHelper.QuestionnaireName, BlaiseConfigurationHelper.ServerParkName, 60);
 
