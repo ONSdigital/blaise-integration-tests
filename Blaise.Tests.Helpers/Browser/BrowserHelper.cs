@@ -142,13 +142,13 @@ namespace Blaise.Tests.Helpers.Browser
 
         public static void OnError(NUnit.Framework.TestContext testContext, ScenarioContext scenarioContext)
         {
-            if (testContext is null)
+            if (testContext == null)
             {
                 Console.WriteLine("TestContext is null");
                 return;
             }
 
-            if (scenarioContext is null)
+            if (scenarioContext == null)
             {
                 Console.WriteLine("ScenarioContext is null");
                 return;
@@ -210,6 +210,20 @@ namespace Blaise.Tests.Helpers.Browser
             File.WriteAllText(htmlFile, CurrentWindowHTML());
             TestContext.AddTestAttachment(htmlFile, "Window HTML");
             Console.WriteLine($"HTML captured: {htmlFile}");
+        }
+
+        private static void RecordError(ScenarioContext scenarioContext)
+        {
+            if (scenarioContext.TestError != null)
+            {
+                scenarioContext["Error"] = scenarioContext.TestError.Message;
+                scenarioContext.ScenarioContainer.RegisterInstanceAs(scenarioContext.TestError);
+                Console.WriteLine($"Error recorded: {scenarioContext.TestError.Message}");
+            }
+            else
+            {
+                Console.WriteLine("No TestError found in ScenarioContext");
+            }
         }
 
         private static void RecordError(ScenarioContext scenarioContext)
