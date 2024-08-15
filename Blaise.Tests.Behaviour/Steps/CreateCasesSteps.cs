@@ -12,22 +12,16 @@ namespace Blaise.Tests.Behaviour.Steps
     [Binding]
     public sealed class CreateCasesSteps
     {
-        [BeforeFeature("case")]
-        public static void BeforeFeature()
-        {
-            //
-        }
-
         [Given(@"I have created sample cases for the questionnaire")]
-        [When(@"I create sample cases for the questionnaire")]
-        public void WhenICreateACaseForTheQuestionnaire(IEnumerable<CaseModel> caseModels)
+        [When(@"I create cases for the questionnaire")]
+        public void WhenICreateCasesForTheQuestionnaire(IEnumerable<CaseModel> caseModels)
         {
             CaseHelper.GetInstance().DeleteCases();
             CaseHelper.GetInstance().CreateCases(caseModels);
         }
 
-        [Then(@"the sample cases are available in the Blaise environment")]
-        public void ThenTheCaseIsAvailableInTheBlaiseEnvironment(IEnumerable<CaseModel> cases)
+        [Then(@"the cases are available in the questionnaire")]
+        public void ThenTheCasesAreAvailableInTheQuestionnaire(IEnumerable<CaseModel> cases)
         {
             var expectedCases = cases.ToList();
             CheckNumberOfCasesMatch(expectedCases.Count);
@@ -60,13 +54,13 @@ namespace Blaise.Tests.Behaviour.Steps
             }
         }
 
-        [AfterScenario("case")]
+        [AfterScenario("create-casess")]
         public void AfterScenario()
         {
             CaseHelper.GetInstance().DeleteCases();
         }
 
-        [AfterFeature("case")]
+        [AfterFeature("create-casess")]
         public static void AfterFeature()
         {
             QuestionnaireHelper.GetInstance().UninstallQuestionnaire(BlaiseConfigurationHelper.QuestionnaireName, BlaiseConfigurationHelper.ServerParkName);
