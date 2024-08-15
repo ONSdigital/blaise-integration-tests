@@ -23,8 +23,8 @@ namespace Blaise.Dqs.Tests.Behaviour.Steps
             _scenarioContext = scenarioContext;
         }
 
-        [Given(@"I have launched the Questionnaire Deployment Service")]
-        public void GivenIHaveLaunchedTheQuestionnaireDeploymentService()
+        [Given(@"I have launched DQS")]
+        public void GivenIHaveLaunchedDqs()
         {
             DqsHelper.GetInstance().LoadDqsHomePage();
         }
@@ -35,8 +35,8 @@ namespace Blaise.Dqs.Tests.Behaviour.Steps
             QuestionnaireHelper.GetInstance().InstallQuestionnaire(BlaiseConfigurationHelper.QuestionnaireName, BlaiseConfigurationHelper.ServerParkName, BlaiseConfigurationHelper.QuestionnairePath);
         }
 
-        [Then(@"I am presented with a list of the questionnaires already deployed to Blaise")]
-        public void ThenIAmPresentedWithAListOfTheQuestionnairesAlreadyDeployedToBlaise()
+        [Then(@"I am presented with a list of deployed questionnaires")]
+        public void ThenIAmPresentedWithAListOfDeployedQuestionnaires()
         {
             var questionnairesInTable = DqsHelper.GetInstance().GetQuestionnaireTableContents();
             Assert.IsTrue(questionnairesInTable.Any(q => q == BlaiseConfigurationHelper.QuestionnaireName));
@@ -58,21 +58,21 @@ namespace Blaise.Dqs.Tests.Behaviour.Steps
         }
 
         [When(@"I confirm my selection")]
-        [When(@"I Deploy The Questionnaire")]
+        [When(@"I deploy the questionnaire")]
         public void WhenIConfirmMySelection()
         {
             DqsHelper.GetInstance().ConfirmQuestionnaireUpload();
         }
 
-        [When(@"I dont select a Start date")]
-        public void WhenIdontSelectAStartDate()
+        [When(@"I dont select a TO start date")]
+        public void WhenIDontSelectAToStartDate()
         {
-            DqsHelper.GetInstance().SelectNoLiveDate();
+            DqsHelper.GetInstance().SelectNoToStartDate();
             DqsHelper.GetInstance().ConfirmQuestionnaireUpload();
         }
 
-        [When(@"I set a start date to today")]
-        public void WhenISetAStartDateTo()
+        [When(@"I set a TO start date for today")]
+        public void WhenISetAToStartDateForToday()
         {
             var today = DateTime.Now.ToString("dd/MM/yyyy");
             DqsHelper.GetInstance().SelectYesLiveDate();
@@ -81,23 +81,23 @@ namespace Blaise.Dqs.Tests.Behaviour.Steps
             DqsHelper.GetInstance().ConfirmQuestionnaireUpload();
         }
 
-        [When(@"The set start date for questionnaire returns today")]
-        public void WhenTheSetStartDateForQuestionnaireReturns()
+        [When(@"the deployment summary confirms the TO start date for today")]
+        public void WhenTheDeploymentSummaryConfirmsTheToStartDateForToday()
         {
             var today = DateTime.Now.ToString("dd/MM/yyyy");
-            Assert.AreEqual($"Start date set to {today}", DqsHelper.GetInstance().GetLivedateSummaryText());
+            Assert.AreEqual($"Start date set to {today}", DqsHelper.GetInstance().GetToStartDateSummaryText());
         }
 
 
-        [When(@"The set start date for questionnaire returns Start Date Not Specified")]
-        public void WhenTheSetStartDateForQuestionnaireReturnsLiveDateNotSpecified()
+        [When(@"the deployment summary confirms no TO start date")]
+        public void WhenTheDeploymentSummaryConfirmsNoToStartDate()
         {
-            Assert.AreEqual("Start date not specified", DqsHelper.GetInstance().GetLivedateSummaryText());
+            Assert.AreEqual("Start date not specified", DqsHelper.GetInstance().GetToStartDateSummaryText());
         }
 
 
-        [Then(@"I am presented with an option to deploy a new questionnaire")]
-        public void ThenIAmPresentedWithAnOptionToDeployANewQuestionnaire()
+        [Then(@"I have the option to deploy a questionnaire")]
+        public void ThenIHaveTheOptionToDeployAQuestionnaire()
         {
             DqsHelper.GetInstance().ClickDeployQuestionnaire();
             Assert.AreEqual(DqsConfigurationHelper.UploadUrl, BrowserHelper.CurrentUrl);
@@ -123,8 +123,8 @@ namespace Blaise.Dqs.Tests.Behaviour.Steps
             CaseHelper.GetInstance().CreateCase();
         }
 
-        [Given(@"the questionnaire does not have data records")]
-        public void GivenTheQuestionnaireDoesNotHaveDataRecords()
+        [Given(@"the questionnaire does not have data")]
+        public void GivenTheQuestionnaireDoesNotHaveData()
         {
             Assert.AreEqual(0, CaseHelper.GetInstance().NumberOfCasesInQuestionnaire());
         }
@@ -136,18 +136,17 @@ namespace Blaise.Dqs.Tests.Behaviour.Steps
             DqsHelper.GetInstance().LoadUploadPage();
             DqsHelper.GetInstance().SelectQuestionnairePackage();
             DqsHelper.GetInstance().ConfirmQuestionnaireUpload();
-
             _scenarioContext.Set(QuestionnaireHelper.GetInstance().GetQuestionnaireInstallDate(BlaiseConfigurationHelper.QuestionnaireName, BlaiseConfigurationHelper.ServerParkName), InstallDate);
         }
 
-        [When(@"I select to cancel")]
-        public void WhenISelectCancelDeploymentOfQuestionnaire()
+        [When(@"I select cancel")]
+        public void WhenISelectCancel()
         {
             DqsHelper.GetInstance().CancelDeploymentOfQuestionnaire();
         }
 
-        [When(@"I select to overwrite")]
-        public void WhenISelectToOverwrite()
+        [When(@"I select overwrite")]
+        public void WhenISelectOverwrite()
         {
             DqsHelper.GetInstance().OverwriteQuestionnaire();
         }
@@ -164,7 +163,6 @@ namespace Blaise.Dqs.Tests.Behaviour.Steps
         {
             var expectedInstallDate = _scenarioContext.Get<DateTime>(InstallDate);
             var actualInstallDate = QuestionnaireHelper.GetInstance().GetQuestionnaireInstallDate(BlaiseConfigurationHelper.QuestionnaireName, BlaiseConfigurationHelper.ServerParkName);
-
             Assert.AreEqual(expectedInstallDate, actualInstallDate);
         }
 
@@ -176,17 +174,16 @@ namespace Blaise.Dqs.Tests.Behaviour.Steps
         }
 
 
-        [Then(@"Then the questionnaire package is deployed and overwrites the existing questionnaire")]
-        public void ThenThenTheQuestionnairePackageIsDeployedAndOverwritesTheExistingQuestionnaire()
+        [Then(@"the questionnaire is deployed and overwrites the existing questionnaire")]
+        public void ThenTheQuestionnaireIsDeployedAndOverwritesTheExistingQuestionnaire()
         {
             DqsHelper.GetInstance().WaitForUploadToComplete();
             var existingInstallDate = _scenarioContext.Get<DateTime>(InstallDate);
             var newInstallDate = QuestionnaireHelper.GetInstance().GetQuestionnaireInstallDate(BlaiseConfigurationHelper.QuestionnaireName, BlaiseConfigurationHelper.ServerParkName);
-
             Assert.Greater(newInstallDate, existingInstallDate);
         }
 
-        [Then(@"the questionnaire is active in blaise")]
+        [Then(@"the questionnaire is active in Blaise")]
         public void ThenTheQuestionnaireIsActiveInBlaise()
         {
             var questionnaireInstalled = QuestionnaireHelper.GetInstance().CheckQuestionnaireInstalled(BlaiseConfigurationHelper.QuestionnaireName, BlaiseConfigurationHelper.ServerParkName, 60);
@@ -199,14 +196,14 @@ namespace Blaise.Dqs.Tests.Behaviour.Steps
             QuestionnaireHelper.GetInstance().InstallQuestionnaire(BlaiseConfigurationHelper.QuestionnaireName, BlaiseConfigurationHelper.ServerParkName, BlaiseConfigurationHelper.QuestionnairePath);
         }
 
-        [AfterScenario("questionnaire")]
-        public void CleanUpScenario()
+        [AfterScenario("deploy-questionnaire")]
+        public void AfterScenario()
         {            
             if (QuestionnaireHelper.GetInstance().CheckQuestionnaireExists(BlaiseConfigurationHelper.QuestionnaireName, BlaiseConfigurationHelper.ServerParkName))
             {
                 QuestionnaireHelper.GetInstance().UninstallQuestionnaire(BlaiseConfigurationHelper.QuestionnaireName, BlaiseConfigurationHelper.ServerParkName);
             }
-            DqsHelper.GetInstance().LogOutOfToDqs();
+            DqsHelper.GetInstance().LogoutOfDqs();
             BrowserHelper.ClosePreviousTab();
         }
     }
