@@ -32,7 +32,7 @@ namespace Blaise.Dqs.Tests.Behaviour.Steps
             Assert.AreEqual("No start date specified, using survey days", toStartDateText);
         }
 
-        [Given(@"The questionnaire has a start date of '(.*)'")]
+        [Given(@"the questionnaire has a start date of '(.*)'")]
         [When(@"I change the TO start date to '(.*)'")]
         public void GivenTheQuestionnaireHasAStartDateOf(string date)
         {
