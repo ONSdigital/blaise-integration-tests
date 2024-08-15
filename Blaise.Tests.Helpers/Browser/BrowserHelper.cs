@@ -131,14 +131,9 @@ namespace Blaise.Tests.Helpers.Browser
             Browser.ExecuteJavaScript("arguments[0].scrollIntoView(true);", element);
         }
 
-        public static string TakeScreenShot(string screenShotPath, string screenShotName)
-        {
-            var screenShot = _browser.TakeScreenshot();
-            var screenShotFile = Path.Combine(screenShotPath, $"{screenShotName}.png");
-            screenShot.SaveAsFile(screenShotFile);
 
-            return screenShotFile;
-        }
+=
+
 
         public static void OnError(NUnit.Framework.TestContext testContext, ScenarioContext scenarioContext)
         {
@@ -226,19 +221,14 @@ namespace Blaise.Tests.Helpers.Browser
             }
         }
 
-        private static void RecordError(ScenarioContext scenarioContext)
-        {
-            if (scenarioContext.TestError is not null)
-            {
-                scenarioContext["Error"] = scenarioContext.TestError.Message;
-                scenarioContext.ScenarioContainer.RegisterInstanceAs(scenarioContext.TestError);
-                Console.WriteLine($"Error recorded: {scenarioContext.TestError.Message}");
-            }
-            else
-            {
-                Console.WriteLine("No TestError found in ScenarioContext");
-            }
-        }
+
+
+
+
+
+
+
+
 
         public static void CloseBrowser()
         {
