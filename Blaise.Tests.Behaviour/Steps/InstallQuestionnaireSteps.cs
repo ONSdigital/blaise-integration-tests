@@ -1,5 +1,4 @@
 ﻿﻿using Blaise.Nuget.Api.Contracts.Enums;
-using Blaise.Tests.Helpers.Browser;
 using Blaise.Tests.Helpers.Configuration;
 using Blaise.Tests.Helpers.Questionnaire;
 using NUnit.Framework;
@@ -48,12 +47,6 @@ namespace Blaise.Tests.Behaviour.Steps
         public void AfterScenario()
         {
             QuestionnaireHelper.GetInstance().UninstallQuestionnaire(BlaiseConfigurationHelper.QuestionnaireName, BlaiseConfigurationHelper.ServerParkName);
-        }
-
-        [AfterTestRun]
-        public static void AfterTestRun()
-        {
-            BrowserHelper.ClearSessionData();
         }
     }
 }
