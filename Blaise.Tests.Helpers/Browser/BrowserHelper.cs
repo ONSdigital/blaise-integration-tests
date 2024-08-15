@@ -135,91 +135,95 @@ namespace Blaise.Tests.Helpers.Browser
 =
 
 
-        public static void OnError(NUnit.Framework.TestContext testContext, ScenarioContext scenarioContext)
+public static void OnError(NUnit.Framework.TestContext testContext, ScenarioContext scenarioContext)
+{
+    if (testContext == null)
+    {
+        Console.WriteLine("TestContext is null");
+        return;
+    }
+
+    if (scenarioContext == null)
+    {
+        Console.WriteLine("ScenarioContext is null");
+        return;
+    }
+
+    string stepText = scenarioContext.StepContext.StepInfo.Text;
+    if (string.IsNullOrEmpty(stepText))
+    {
+        Console.WriteLine("Step text is null or empty");
+        return;
+    }
+
+    if (scenarioContext.ContainsKey(stepText))
+    {
+        Console.WriteLine("Error already handled for this step");
+        return;
+    }
+
+    try
+    {
+        string sanitisedStepText = SanitiseFileName(stepText);
+        string baseFileName = Path.Combine(testContext.WorkDirectory, sanitisedStepText);
+
+        CaptureScreenshot(testContext, scenarioContext, baseFileName);
+        CaptureHtml(testContext, baseFileName);
+        RecordError(scenarioContext);
+
+        scenarioContext.Add(stepText, true); // Mark step as handled
+    }
+    catch (Exception ex)
+    {
+        Console.WriteLine(string.Format("Failed to capture error details: {0}", ex.Message));
+        Console.WriteLine(string.Format("Stack Trace: {0}", ex.StackTrace));
+    }
+}
+
+private static string SanitiseFileName(string fileName)
+{
+    return string.Join("_", fileName.Split(Path.GetInvalidFileNameChars()));
+}
+
+private static void CaptureScreenshot(NUnit.Framework.TestContext testContext, ScenarioContext scenarioContext, string baseFileName)
+{
+    string screenShotFile = TakeScreenShot(Path.GetDirectoryName(baseFileName), Path.GetFileName(baseFileName));
+    if (!string.IsNullOrEmpty(screenShotFile))
+    {
+        testContext.AddTestAttachment(screenShotFile, scenarioContext.StepContext.StepInfo.Text);
+        Console.WriteLine(string.Format("Screenshot saved: {0}", screenShotFile));
+    }
+    else
+    {
+        Console.WriteLine("Failed to capture screenshot");
+    }
+}
+
+private static void CaptureHtml(NUnit.Framework.TestContext testContext, string baseFileName)
+{
+    string htmlFile = string.Format("{0}.html", baseFileName);
+    File.WriteAllText(htmlFile, CurrentWindowHTML());
+    testContext.AddTestAttachment(htmlFile, "Window HTML");
+    Console.WriteLine(string.Format("HTML captured: {0}", htmlFile));
+}
+
+private static void RecordError(ScenarioContext scenarioContext)
+{
+    if (scenarioContext.TestError != null)
+    {
+        if (scenarioContext.ContainsKey("Error"))
         {
-            if (testContext == null)
-            {
-                Console.WriteLine("TestContext is null");
-                return;
-            }
-
-            if (scenarioContext == null)
-            {
-                Console.WriteLine("ScenarioContext is null");
-                return;
-            }
-
-            string stepText = scenarioContext.StepContext.StepInfo.Text;
-            if (string.IsNullOrEmpty(stepText))
-            {
-                Console.WriteLine("Step text is null or empty");
-                return;
-            }
-
-            if (scenarioContext.ContainsKey(stepText))
-            {
-                Console.WriteLine("Error already handled for this step");
-                return;
-            }
-
-            try
-            {
-                string sanitisedStepText = SanitiseFileName(stepText);
-                string baseFileName = Path.Combine(testContext.WorkDirectory, sanitisedStepText);
-
-                CaptureScreenshot(baseFileName);
-                CaptureHtml(baseFileName);
-                RecordError(scenarioContext);
-
-                scenarioContext.Add(stepText, true); // Mark step as handled
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine($"Failed to capture error details: {ex.Message}");
-                Console.WriteLine($"Stack Trace: {ex.StackTrace}");
-            }
+            scenarioContext.Remove("Error");
         }
-
-        private static string SanitiseFileName(string fileName)
-        {
-            return string.Join("_", fileName.Split(Path.GetInvalidFileNameChars()));
-        }
-
-        private static void CaptureScreenshot(string baseFileName)
-        {
-            string screenShotFile = TakeScreenShot(Path.GetDirectoryName(baseFileName), Path.GetFileName(baseFileName));
-            if (!string.IsNullOrEmpty(screenShotFile))
-            {
-                TestContext.AddTestAttachment(screenShotFile, "Screenshot");
-                Console.WriteLine($"Screenshot saved: {screenShotFile}");
-            }
-            else
-            {
-                Console.WriteLine("Failed to capture screenshot");
-            }
-        }
-
-        private static void CaptureHtml(string baseFileName)
-        {
-            string htmlFile = $"{baseFileName}.html";
-            File.WriteAllText(htmlFile, CurrentWindowHTML());
-            TestContext.AddTestAttachment(htmlFile, "Window HTML");
-            Console.WriteLine($"HTML captured: {htmlFile}");
-        }
-
-        private static void RecordError(ScenarioContext scenarioContext)
-        {
-            if (scenarioContext.TestError != null)
-            {
-                scenarioContext["Error"] = scenarioContext.TestError.Message;
-                scenarioContext.ScenarioContainer.RegisterInstanceAs(scenarioContext.TestError);
-                Console.WriteLine($"Error recorded: {scenarioContext.TestError.Message}");
-            }
-            else
-            {
-                Console.WriteLine("No TestError found in ScenarioContext");
-            }
-        }
+        scenarioContext.Add("Error", scenarioContext.TestError.Message);
+        scenarioContext.ScenarioContainer.RegisterInstanceAs(scenarioContext.TestError);
+        Console.WriteLine(string.Format("Error recorded: {0}", scenarioContext.TestError.Message));
+    }
+    else
+    {
+        Console.WriteLine("No TestError found in ScenarioContext");
+    }
+}
 
 
 
