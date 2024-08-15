@@ -25,6 +25,7 @@ namespace Blaise.Tobi.Tests.Behaviour.Steps
         }
 
         [Given(@"there are live surveys")]
+        [Given(@"I can view a list of live surveys")]
         public void GivenThereAreLiveSurveys()
         {
         }
@@ -37,10 +38,10 @@ namespace Blaise.Tobi.Tests.Behaviour.Steps
             TobiHelper.GetInstance().LoadTobiHomePage();
         }
 
-        [Given(@"I can view a list of live questionnaires for the survey I am allocated to")]
-        public void GivenICanViewAListOfLiveQuestionnairesForTheSurveyIAmAllocatedTo()
+        [Given(@"I can view a list of questionnaires for a live survey")]
+        public void GivenICanViewAListOfQuestionnairesForALiveSurvey()
         {
-            TobiHelper.GetInstance().LoadQuestionnairePagePage();
+            TobiHelper.GetInstance().LoadQuestionnairePage();
         }
 
         [Given(@"I have selected a survey")]
@@ -52,8 +53,8 @@ namespace Blaise.Tobi.Tests.Behaviour.Steps
             Assert.AreEqual(TobiConfigurationHelper.SurveyUrl, currentUrl);
         }
 
-        [When(@"I select a link to interview against the questionnaire with the survey dates I am working on")]
-        public void WhenISelectALinkToInterviewAgainstTheQuestionnaireWithTheSurveyDatesIAmWorkingOn()
+        [When(@"I select a questionnaire")]
+        public void WhenISelectAQuestionnaire()
         {
             TobiHelper.GetInstance().ClickInterviewButton(BlaiseConfigurationHelper.QuestionnaireName);
         }
@@ -77,8 +78,8 @@ namespace Blaise.Tobi.Tests.Behaviour.Steps
             Assert.IsNotNull(activeQuestionnaires.Where(q => q.Contains(BlaiseConfigurationHelper.QuestionnaireName)));
         }
 
-        [Then(@"I am presented with the Blaise log in")]
-        public void ThenIAmPresentedWithTheBlaiseLogIn()
+        [Then(@"I am presented with the Blaise login")]
+        public void ThenIAmPresentedWithTheBlaiseLogin()
         {
             CatiInterviewHelper.GetInstance().LoginButtonIsAvailable();
             Assert.AreEqual($"{CatiConfigurationHelper.SchedulerUrl.ToLower()}/login", BrowserHelper.CurrentUrl.ToLower());   
