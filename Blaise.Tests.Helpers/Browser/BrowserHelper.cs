@@ -161,7 +161,8 @@ namespace Blaise.Tests.Helpers.Browser
 
                 // Take screenshot
                 var screenShotFile = TakeScreenShot(
-                    Path.Combine(testContext.WorkDirectory, sanitizedStepText));
+                    testContext.WorkDirectory,
+                    sanitizedStepText);
 
                 if (!string.IsNullOrEmpty(screenShotFile))
                 {
@@ -170,7 +171,7 @@ namespace Blaise.Tests.Helpers.Browser
                 }
 
                 // Capture HTML
-                var htmlFile = Path.Combine(testContext.WorkDirectory, $"{Path.GetFileNameWithoutExtension(screenShotFile)}.html");
+                var htmlFile = Path.Combine(testContext.WorkDirectory, $"{sanitizedStepText}.html");
                 File.WriteAllText(htmlFile, CurrentWindowHTML());
                 TestContext.AddTestAttachment(htmlFile, "Window HTML");
                 Console.WriteLine($"HTML captured: {htmlFile}");
