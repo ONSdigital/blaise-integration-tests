@@ -152,16 +152,41 @@ namespace Blaise.Tests.Helpers.Browser
         {
             try
             {
+                if (testContext == null)
+                {
+                    Console.WriteLine("TestContext is null. Cannot save or attach HTML.");
+                    return;
+                }
+
+                if (string.IsNullOrEmpty(baseFileName))
+                {
+                    Console.WriteLine("BaseFileName is null or empty. Using default name.");
+                    baseFileName = "default_html_capture";
+                }
+
                 string htmlFileName = $"{baseFileName}.html";
                 string htmlFilePath = Path.Combine(testContext.WorkDirectory, htmlFileName);
                 string htmlContent = CurrentWindowHTML();
+
+                if (string.IsNullOrEmpty(htmlContent))
+                {
+                    Console.WriteLine("HTML content is empty. Not saving or attaching.");
+                    return;
+                }
+
                 File.WriteAllText(htmlFilePath, htmlContent);
                 TestContext.AddTestAttachment(htmlFilePath, "Window HTML");
                 Console.WriteLine($"HTML saved and attached: {htmlFilePath}");
             }
+            catch (NullReferenceException ex)
+            {
+                Console.WriteLine($"NullReferenceException in SaveAndAttachHtml: {ex.Message}");
+                Console.WriteLine($"Stack Trace: {ex.StackTrace}");
+            }
             catch (Exception ex)
             {
                 Console.WriteLine($"Failed to save or attach HTML: {ex.Message}");
+                Console.WriteLine($"Stack Trace: {ex.StackTrace}");
             }
         }
 
@@ -198,7 +223,34 @@ namespace Blaise.Tests.Helpers.Browser
 
         public static string CurrentWindowHTML()
         {
-            return _browser.PageSource;
+            try
+            {
+                if (_browser == null)
+                {
+                    Console.WriteLine("Browser instance is null. Cannot get HTML.");
+                    return null;
+                }
+
+                string html = _browser.PageSource;
+
+                if (string.IsNullOrEmpty(html))
+                {
+                    Console.WriteLine("Retrieved HTML is null or empty.");
+                    return null;
+                }
+
+                return html;
+            }
+            catch (WebDriverException ex)
+            {
+                Console.WriteLine($"WebDriverException in CurrentWindowHTML: {ex.Message}");
+                return null;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Exception in CurrentWindowHTML: {ex.Message}");
+                return null;
+            }
         }
 
         public static void BrowseTo(string pageUrl)
