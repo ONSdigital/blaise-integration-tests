@@ -1,5 +1,4 @@
-﻿using Blaise.Nuget.Api.Contracts.Enums;
-using Blaise.Tests.Helpers.Browser;
+﻿﻿using Blaise.Nuget.Api.Contracts.Enums;
 using Blaise.Tests.Helpers.Configuration;
 using Blaise.Tests.Helpers.Questionnaire;
 using NUnit.Framework;
@@ -10,10 +9,8 @@ namespace Blaise.Tests.Behaviour.Steps
     [Binding]
     public sealed class InstallQuestionnaireSteps
     {
-        // For additional details on SpecFlow step definitions see https://go.specflow.org/doc-stepdef
-
-        [Given(@"I have an questionnaire I want to use to capture respondents data")]
-        public void GivenIHaveAQuestionnaireIWantToUseToCaptureRespondentsData()
+        [Given(@"I have a questionnaire I want to install")]
+        public void GivenIHaveAQuestionnaireIWantToInstall()
         {
             var questionnairePackage = BlaiseConfigurationHelper.QuestionnairePackage;
 
@@ -23,24 +20,18 @@ namespace Blaise.Tests.Behaviour.Steps
             }
         }
 
-        [Given(@"I have an questionnaire installed on a Blaise environment")]
+        [Given(@"there is a questionnaire installed")]
         [Given(@"There is an questionnaire installed on a Blaise environment")]
-        [When(@"I install the questionnaire into a Blaise environment")]
-        public void WhenIInstallTheQuestionnaireIntoABlaiseEnvironment()
+        [When(@"I install the questionnaire")]
+        public void GivenThereIsAQuestionnaireInstalled()
         {
-            QuestionnaireHelper.GetInstance().InstallQuestionnaire();
+            QuestionnaireHelper.GetInstance().InstallQuestionnaire(BlaiseConfigurationHelper.QuestionnaireName, BlaiseConfigurationHelper.ServerParkName, BlaiseConfigurationHelper.QuestionnairePath);
         }
 
-        [When(@"I install the questionnaire into a Blaise environment specifying a Cati configuration")]
-        public void WhenIInstallTheQuestionnaireIntoABlaiseEnvironmentSpecifyingACatiConfiguration()
+        [Then(@"the questionnaire is available")]
+        public void ThenTheQuestionnaireIsAvailable()
         {
-            QuestionnaireHelper.GetInstance().InstallQuestionnaire();
-        }
-
-        [Then(@"the questionnaire is available to use in the Blaise environment")]
-        public void ThenTheQuestionnaireIsAvailableToUseInTheBlaiseEnvironment()
-        {
-            var questionnaireHasInstalled = QuestionnaireHelper.GetInstance().SurveyHasInstalled(BlaiseConfigurationHelper.QuestionnaireName, 60);
+            var questionnaireHasInstalled = QuestionnaireHelper.GetInstance().CheckQuestionnaireInstalled(BlaiseConfigurationHelper.QuestionnaireName, BlaiseConfigurationHelper.ServerParkName, 60);
 
             Assert.IsTrue(questionnaireHasInstalled, "The questionnaire has not been installed, or is not active");
         }
@@ -48,20 +39,14 @@ namespace Blaise.Tests.Behaviour.Steps
         [Then(@"the questionnaire is configured to capture respondents data via Cati")]
         public void ThenTheQuestionnaireIsConfiguredToCaptureRespondentsDataViaCati()
         {
-            var surveyConfiguration = QuestionnaireHelper.GetInstance().GetSurveyInterviewType();
+            var surveyConfiguration = QuestionnaireHelper.GetInstance().GetQuestionnaireInterviewType(BlaiseConfigurationHelper.QuestionnaireName, BlaiseConfigurationHelper.ServerParkName);
             Assert.AreEqual(QuestionnaireInterviewType.Cati, surveyConfiguration);
         }
 
-        [AfterScenario("questionnaire")]
-        public void CleanUpScenario()
+        [AfterScenario("deploy-questionnaire")]
+        public void AfterScenario()
         {
-            QuestionnaireHelper.GetInstance().UninstallSurvey();
-        }
-
-        [AfterTestRun]
-        public static void CleanUpTestRun()
-        {
-            BrowserHelper.ClearSessionData();
+            QuestionnaireHelper.GetInstance().UninstallQuestionnaire(BlaiseConfigurationHelper.QuestionnaireName, BlaiseConfigurationHelper.ServerParkName);
         }
     }
 }

@@ -1,58 +1,53 @@
-﻿@questionnaire
-Feature: Deploy Questionnaire
-	As a Survey Team Research Officer
-	I want to deploy a questionnaire to a Blaise server in the production environment
-	So that I can set up a new survey in Blaise 5 for Telephone Operations nudge/data collection
+﻿@deploy-questionnaire
+Feature: Deploy questionnaire
 
-Background: 
+Background:
 	Given I am a BDSS user
-	And I have logged into to DQS
+	And I have logged into DQS
+
+Scenario: Option to deploy questionnaire
+	Given I have launched DQS
+	When I view the landing page
+	Then I have the option to deploy a questionnaire
 
 @smoke
-Scenario: List all questionnaires in Blaise
-	Given I have launched the Questionnaire Deployment Service
+Scenario: List deployed questionnaires
+	Given I have launched DQS
 	And there is a questionnaire installed in Blaise
 	When I view the landing page
-	Then I am presented with a list of the questionnaires already deployed to Blaise
-
-Scenario: Successful log in to Questionnaire Deployment Service
-	Given I have launched the Questionnaire Deployment Service
-	When I view the landing page
-	Then I am presented with an option to deploy a new questionnaire
+	Then I am presented with a list of deployed questionnaires
 
 @smoke
-Scenario: Deploy selected file without Start Dates
+Scenario: Deploy questionnaire with TO start date
 	Given I have selected the questionnaire package I wish to deploy
 	When I confirm my selection
-	And I dont select a Start date
-	And The set start date for questionnaire returns Start Date Not Specified
-	And I Deploy The Questionnaire
+	And I set a TO start date for today
+	And the deployment summary confirms the TO start date for today
+	And I deploy the questionnaire
 	Then I am presented with a successful deployment information banner
-	And the questionnaire is active in blaise
+	And the questionnaire is active in Blaise
 
-@smoke
-Scenario: Deploy selected file with live dates
+Scenario: Deploy questionnaire without TO start date
 	Given I have selected the questionnaire package I wish to deploy
 	When I confirm my selection
-	And I set a start date to today
-	And The set start date for questionnaire returns today
-	And I Deploy The Questionnaire
+	And I dont select a TO start date
+	And the deployment summary confirms no TO start date
+	And I deploy the questionnaire
 	Then I am presented with a successful deployment information banner
-	And the questionnaire is active in blaise
+	And the questionnaire is active in Blaise
 
-Scenario: Back-out of deploying a questionnaire
+Scenario: Back out of deploying an existing questionnaire
 	Given I have been presented with questionnaire already exists screen
-	When I select to cancel
+	When I select cancel
 	Then I am returned to the landing page
 	And the questionnaire has not been overwritten
 
-@smoke
-Scenario: Overwrite a questionnaire that does not have data
+Scenario: Overwrite an existing questionnaire that does not have data
 	Given I have been presented with questionnaire already exists screen
-	And the questionnaire does not have data records
-	When I select to overwrite
+	And the questionnaire does not have data
+	When I select overwrite
 	And confirm my selection
-	And I dont select a Start date
-	And The set start date for questionnaire returns Start Date Not Specified
-	And I Deploy The Questionnaire
-	Then Then the questionnaire package is deployed and overwrites the existing questionnaire
+	And I dont select a TO start date
+	And the deployment summary confirms no TO start date
+	And I deploy the questionnaire
+	Then the questionnaire is deployed and overwrites the existing questionnaire
