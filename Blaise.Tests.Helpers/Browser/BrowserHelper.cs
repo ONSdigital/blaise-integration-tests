@@ -16,13 +16,9 @@ namespace Blaise.Tests.Helpers.Browser
 {
     public static class BrowserHelper
     {
-
         private static IWebDriver _browser;
-
         private static IWebDriver Browser => _browser ?? (_browser = CreateChromeDriver());
-
         public static int TimeOutInSeconds => BrowserConfigurationHelper.TimeOutInSeconds;
-
         public static string CurrentUrl => Browser.Url;
 
         public static WebDriverWait Wait(string message)
@@ -49,7 +45,6 @@ namespace Blaise.Tests.Helpers.Browser
         public static void ClosePreviousTab()
         {
             if (_browser == null) return;
-
             var tabs = _browser.WindowHandles;
             if (tabs.Count > 1)
             {
@@ -63,7 +58,6 @@ namespace Blaise.Tests.Helpers.Browser
         {
             var wait = new WebDriverWait(_browser, TimeSpan.FromSeconds(TimeOutInSeconds));
             var element = wait.Until(ExpectedConditions.ElementIsVisible(By.Name(elementName)));
-
             try
             {
                 // Enter the value into the element
@@ -80,21 +74,12 @@ namespace Blaise.Tests.Helpers.Browser
         public static void ClearSessionData()
         {
             if (_browser == null) return;
-
             _browser.Manage().Cookies.DeleteAllCookies();
-
-            // Wait for the cookies to be cleared
             var wait = new WebDriverWait(_browser, TimeSpan.FromSeconds(10));
             wait.Until(driver => driver.Manage().Cookies.AllCookies.Count == 0);
-
-            // Clear local storage
             var jsExecutor = (IJavaScriptExecutor)_browser;
             jsExecutor.ExecuteScript("window.localStorage.clear();");
-
-            // Clear session storage
             jsExecutor.ExecuteScript("window.sessionStorage.clear();");
-
-            // Close the WebDriver
             _browser.Quit();
         }
 
@@ -120,9 +105,7 @@ namespace Blaise.Tests.Helpers.Browser
         public static void ScrollHorizontalByOffset(int offset)
         {
             var actions = new Actions(Browser);
-
             actions.MoveByOffset(offset, 0);
-
             actions.Perform();
         }
 
@@ -138,7 +121,6 @@ namespace Blaise.Tests.Helpers.Browser
                 var screenShot = _browser.TakeScreenshot();
                 var screenShotFile = Path.Combine(screenShotPath, $"{screenShotName}.png");
                 screenShot.SaveAsFile(screenShotFile);
-
                 return screenShotFile;
             }
             catch (WebDriverException ex)
@@ -265,7 +247,6 @@ namespace Blaise.Tests.Helpers.Browser
             Browser.Navigate().GoToUrl(pageUrl);
         }
 
-
         public static int GetNumberOfWindows()
         {
             return Browser.WindowHandles.Count;
@@ -282,10 +263,8 @@ namespace Blaise.Tests.Helpers.Browser
             {
                 AcceptInsecureCertificates = true
             };
-
-            //chromeOptions.AddArguments("headless");
+            chromeOptions.AddArguments("headless");
             chromeOptions.AddArguments("start-maximized");
-
             return new ChromeDriver(BrowserConfigurationHelper.ChromeDriver, chromeOptions);
         }
 
