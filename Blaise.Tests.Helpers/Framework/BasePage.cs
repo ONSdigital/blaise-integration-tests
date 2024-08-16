@@ -98,7 +98,7 @@ namespace Blaise.Tests.Helpers.Framework
 
         protected void WaitForPageToChange(string url)
         {
-            //Are we currently on the required page
+            // Are we currently on the required page
             if (!BrowserHelper.GetCurrentUrl().Equals(url, StringComparison.CurrentCultureIgnoreCase))
             {
                 BrowserHelper.Wait($"Timed out in WaitForPageToChange(\"{url}\")")
@@ -139,6 +139,21 @@ namespace Blaise.Tests.Helpers.Framework
             BrowserHelper.BrowseTo(url);
         }
 
+        protected bool ElementExistsById(string elementId, TimeSpan? timeout = null)
+        {
+            try
+            {
+                BrowserHelper
+                    .Wait($"Timed out in ElementExistsById(\"{elementId}\")", timeout)
+                    .Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementExists(By.Id(elementId)));
+                return true;
+            }
+            catch (WebDriverTimeoutException)
+            {
+                return false;
+            }
+        }
+
         public void ButtonIsAvailableById(string buttonId)
         {
             BrowserHelper
@@ -173,7 +188,6 @@ namespace Blaise.Tests.Helpers.Framework
         private List<string> ReadFirstColumnInATable(string tablePath, int numberOfRows)
         {
             var questionnaires = new List<string>();
-
             for (var i = 1; i < numberOfRows + 1; i++)
             {
                 var colPath = $"{tablePath}[{i}]/td[1]";

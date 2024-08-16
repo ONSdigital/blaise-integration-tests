@@ -16,11 +16,11 @@ namespace Blaise.Tests.Helpers.Cati
             return _currentInstance ?? (_currentInstance = new CatiInterviewHelper());
         }
 
-        public void AccessInterviewPortal()
+        public void AccessCatiScheduler()
         {
-            var interviewLoginPage = new InterviewLoginPage();
-            interviewLoginPage.LoadPage();
-            interviewLoginPage.LogIntoInterviewPortal(CatiConfigurationHelper.CatiInterviewUsername, CatiConfigurationHelper.CatiInterviewPassword);
+            var schedulerPage = new SchedulerPage();
+            schedulerPage.LoadPage();
+            schedulerPage.LogIntoScheduler(CatiConfigurationHelper.CatiInterviewUsername, CatiConfigurationHelper.CatiInterviewPassword);
         }
 
         public void ClickPlayButtonToAccessCase(string caseId)
@@ -34,7 +34,7 @@ namespace Blaise.Tests.Helpers.Cati
         {
             var interviewUser = new UserModel
             {
-                UserName = CatiConfigurationHelper.CatiInterviewUsername,
+                Username = CatiConfigurationHelper.CatiInterviewUsername,
                 Password = CatiConfigurationHelper.CatiInterviewPassword,
                 Role = CatiConfigurationHelper.InterviewRole,
                 ServerParks = new List<string> { BlaiseConfigurationHelper.ServerParkName },
@@ -77,8 +77,8 @@ namespace Blaise.Tests.Helpers.Cati
 
         public void LoginButtonIsAvailable()
         {
-            var interviewPage = new InterviewLoginPage();
-            interviewPage.LoginButtonIsAvailable();
+            var schedulerPage = new SchedulerPage();
+            schedulerPage.LoginButtonIsAvailable();
         }
     }
 }
