@@ -133,11 +133,36 @@ namespace Blaise.Tests.Helpers.Browser
 
         public static string TakeScreenShot(string screenShotPath, string screenShotName)
         {
-            var screenShot = _browser.TakeScreenshot();
-            var screenShotFile = Path.Combine(screenShotPath, $"{screenShotName}.png");
-            screenShot.SaveAsFile(screenShotFile);
+            try
+            {
+                var screenShot = _browser.TakeScreenshot();
+                var screenShotFile = Path.Combine(screenShotPath, $"{screenShotName}.png");
+                screenShot.SaveAsFile(screenShotFile);
 
-            return screenShotFile;
+                return screenShotFile;
+            }
+            catch (WebDriverException ex)
+            {
+                Console.WriteLine($"Error taking screenshot: {ex.Message}");
+                return null;
+            }
+        }
+
+        public static void SaveAndAttachHtml(NUnit.Framework.TestContext testContext, string baseFileName)
+        {
+            try
+            {
+                string htmlFileName = $"{baseFileName}.html";
+                string htmlFilePath = Path.Combine(testContext.WorkDirectory, htmlFileName);
+                string htmlContent = CurrentWindowHTML();
+                File.WriteAllText(htmlFilePath, htmlContent);
+                TestContext.AddTestAttachment(htmlFilePath, "Window HTML");
+                Console.WriteLine($"HTML saved and attached: {htmlFilePath}");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Failed to save or attach HTML: {ex.Message}");
+            }
         }
 
         public static void OnError(NUnit.Framework.TestContext testContext, ScenarioContext scenarioContext)
@@ -145,14 +170,21 @@ namespace Blaise.Tests.Helpers.Browser
             if (scenarioContext.ContainsValue(scenarioContext.StepContext.StepInfo.Text))
                 return;
 
-            var screenShotFile = TakeScreenShot(testContext.WorkDirectory,
-                    $@"{scenarioContext.StepContext.StepInfo.Text}");
-            TestContext.AddTestAttachment(screenShotFile, scenarioContext.StepContext.StepInfo.Text);
+            string baseFileName = scenarioContext.StepContext.StepInfo.Text;
 
-            File.WriteAllText($@"{testContext.WorkDirectory}\{Path.GetFileNameWithoutExtension(screenShotFile)}.html", CurrentWindowHTML());
-            TestContext.AddTestAttachment($@"{testContext.WorkDirectory}\{Path.GetFileNameWithoutExtension(screenShotFile)}.html", "Windows HTML");
+            var screenShotFile = TakeScreenShot(testContext.WorkDirectory, baseFileName);
+            
+            if (screenShotFile != null)
+            {
+                TestContext.AddTestAttachment(screenShotFile, baseFileName);
+            }
+            else
+            {
+                Console.WriteLine("Unable to take screenshot for error reporting.");
+            }
 
-            //Record existing error
+            SaveAndAttachHtml(testContext, baseFileName);
+
             scenarioContext.Remove("Error");
             scenarioContext.Add("Error", scenarioContext.TestError.Message);
             scenarioContext.ScenarioContainer.RegisterInstanceAs(scenarioContext.TestError);
