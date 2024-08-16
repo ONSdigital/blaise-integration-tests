@@ -1,7 +1,6 @@
 ﻿using Blaise.Nuget.Api.Api;
 using Blaise.Nuget.Api.Contracts.Enums;
 using Blaise.Nuget.Api.Contracts.Interfaces;
-using Blaise.Tests.Helpers.Configuration;
 using System;
 using System.Threading;
 using Blaise.Nuget.Api.Contracts.Exceptions;
@@ -24,37 +23,9 @@ namespace Blaise.Tests.Helpers.Questionnaire
             return _currentInstance ?? (_currentInstance = new QuestionnaireHelper());
         }
 
-        public QuestionnaireStatusType GetQuestionnaireStatus()
+        public QuestionnaireStatusType GetQuestionnaireStatus(string questionnaireName, string serverParkName)
         {
-            return _blaiseQuestionnaireApi.GetQuestionnaireStatus(BlaiseConfigurationHelper.QuestionnaireName,
-                BlaiseConfigurationHelper.ServerParkName);
-        }
-
-        public void CheckIfQuestionnaireIsErroneous(string questionnaireName)
-        {
-            try
-            {
-                var questionnaireStatus = GetQuestionnaireStatus();
-
-                if (questionnaireStatus == QuestionnaireStatusType.Erroneous)
-                {
-                    Console.WriteLine(@"
-                     ______ _____  _____   ____  _   _ ______ ____  _    _  _____  
-                    |  ____|  __ \|  __ \ / __ \| \ | |  ____/ __ \| |  | |/ ____|
-                    | |__  | |__) | |__) | |  | |  \| | |__ | |  | | |  | | (___
-                    |  __| |  _  /|  _  /| |  | | . ` |  __|| |  | | |  | |\___ \
-                    | |____| | \ \| | \ \| |__| | |\  | |___| |__| | |__| |____) |
-                    |______|_|  \_\_|  \_\\____/|_| \_|______\____/ \____/|_____/
-                    "); 
-                    Console.WriteLine($"QuestionnaireHelper CheckIfQuestionnaireIsErroneous: Questionnaire {questionnaireName} is ERRONEOUS! Restart Blaise on mgmt VM and uninstall it via Blaise Server Manager");
-                    return;
-                }
-                Console.WriteLine($"QuestionnaireHelper CheckIfQuestionnaireIsErroneous: Questionnaire {questionnaireName} is not erroneous, it is in the state {questionnaireStatus}");
-            }
-            catch (DataNotFoundException)
-            {
-                Console.WriteLine($"QuestionnaireHelper CheckIfQuestionnaireIsErroneous: Questionnaire {questionnaireName} does not exist");
-            }
+            return _blaiseQuestionnaireApi.GetQuestionnaireStatus(questionnaireName, serverParkName);
         }
 
         public static string QuestionnairePackagePath(string questionnairePath, string questionnaireName)
@@ -62,53 +33,72 @@ namespace Blaise.Tests.Helpers.Questionnaire
             return $"{questionnairePath}//{questionnaireName}.bpkg";
         }
 
-        public void InstallQuestionnaire()
+        public void InstallQuestionnaire(string questionnaireName, string serverParkName, string questionnairePath)
         {
-            InstallQuestionnaire(BlaiseConfigurationHelper.QuestionnaireName);
-        }
+            QuestionnaireStatusType status = QuestionnaireStatusType.Other;
 
-        public void InstallQuestionnaire(string questionnaireName)
-        {
-            Console.WriteLine($"QuestionnaireHelper InstallQuestionnaire: Installing questionnaire {BlaiseConfigurationHelper.QuestionnaireName}...");
-            var questionnairePackage = QuestionnairePackagePath(BlaiseConfigurationHelper.QuestionnairePath, questionnaireName);
-            _blaiseQuestionnaireApi.InstallQuestionnaire(questionnaireName,
-                BlaiseConfigurationHelper.ServerParkName,
-                questionnairePackage,
-                QuestionnaireInterviewType.Cati);
-        }
-
-        public bool SurveyHasInstalled(string questionnaireName, int timeoutInSeconds)
-        {
-            return SurveyExists(questionnaireName, timeoutInSeconds) &&
-                   SurveyIsActive(questionnaireName, timeoutInSeconds);
-        }
-
-        public bool SurveyHasUninstalled(string questionnaireName, int timeoutInSeconds)
-        {
-            return SurveyNoLongerExists(questionnaireName, timeoutInSeconds);
-        }
-
-        public void UninstallSurvey()
-        {
-            Console.WriteLine($"QuestionnaireHelper UninstallSurvey: Removing questionnaire {BlaiseConfigurationHelper.QuestionnaireName}...");
-            _blaiseQuestionnaireApi.UninstallQuestionnaire(BlaiseConfigurationHelper.QuestionnaireName, BlaiseConfigurationHelper.ServerParkName);
-
-           if (!SurveyHasUninstalled(BlaiseConfigurationHelper.QuestionnaireName, 180))
+            if (CheckQuestionnaireExists(questionnaireName, serverParkName))
             {
-                CheckIfQuestionnaireIsErroneous(BlaiseConfigurationHelper.QuestionnaireName);
+                Console.WriteLine($"Attempting to uninstall questionnaire {questionnaireName} before re-installing...");
+                _blaiseQuestionnaireApi.UninstallQuestionnaire(questionnaireName, serverParkName);
             }
+
+            if (CheckQuestionnaireExists(questionnaireName, serverParkName))
+            {
+                status = GetQuestionnaireStatus(questionnaireName, serverParkName);
+                Console.WriteLine($"Questionnaire {questionnaireName} status: {status}");
+            }
+
+            if (status == QuestionnaireStatusType.Erroneous)
+            {
+                HandleErroneousState(questionnaireName);
+            }
+
+            Console.WriteLine($"Installing questionnaire {questionnaireName}...");
+            string questionnairePackagePath = QuestionnairePackagePath(questionnairePath, questionnaireName);
+            _blaiseQuestionnaireApi.InstallQuestionnaire(questionnaireName,
+                                                        serverParkName,
+                                                        questionnairePackagePath,
+                                                        QuestionnaireInterviewType.Cati);
+            Thread.Sleep(2000);
         }
 
-        public QuestionnaireInterviewType GetSurveyInterviewType()
+        public bool CheckQuestionnaireInstalled(string questionnaireName, string serverParkName, int timeoutInSeconds)
         {
-            return _blaiseQuestionnaireApi.GetQuestionnaireInterviewType(BlaiseConfigurationHelper.QuestionnaireName, BlaiseConfigurationHelper.ServerParkName);
+            return CheckQuestionnaireExists(questionnaireName, serverParkName, timeoutInSeconds) &&
+                   CheckQuestionnaireActive(questionnaireName, serverParkName, timeoutInSeconds);
         }
 
-        public bool SurveyExists(string questionnaireName)
+        public void UninstallQuestionnaire(string questionnaireName, string serverParkName)
+        {
+            QuestionnaireStatusType status = QuestionnaireStatusType.Other;
+
+            if (CheckQuestionnaireExists(questionnaireName, serverParkName))
+            {
+                status = GetQuestionnaireStatus(questionnaireName, serverParkName);
+                Console.WriteLine($"Questionnaire {questionnaireName} status: {status}");
+            }
+
+            if (status == QuestionnaireStatusType.Erroneous)
+            {
+                HandleErroneousState(questionnaireName);
+            }
+
+            Console.WriteLine($"Uninstalling questionnaire {questionnaireName}...");
+            _blaiseQuestionnaireApi.UninstallQuestionnaire(questionnaireName, serverParkName);
+            Thread.Sleep(2000);
+        }
+
+        public QuestionnaireInterviewType GetQuestionnaireInterviewType(string questionnaireName, string serverParkName)
+        {
+            return _blaiseQuestionnaireApi.GetQuestionnaireInterviewType(questionnaireName, serverParkName);
+        }
+
+        public bool CheckQuestionnaireExists(string questionnaireName, string serverParkName)
         {
             try
             {
-                return _blaiseQuestionnaireApi.QuestionnaireExists(questionnaireName, BlaiseConfigurationHelper.ServerParkName);
+                return _blaiseQuestionnaireApi.QuestionnaireExists(questionnaireName, serverParkName);
             }
             catch (Exception)
             {
@@ -116,22 +106,22 @@ namespace Blaise.Tests.Helpers.Questionnaire
             }
         }
 
-        public bool SurveyIsActive(string questionnaireName, string serverPark)
-        {
-            return _blaiseQuestionnaireApi.GetQuestionnaireStatus(questionnaireName, serverPark) == QuestionnaireStatusType.Active;
-        }
-
-        public void DeactivateSurvey(string questionnaireName, string serverParkName)
+        public void DeactivateQuestionnaire(string questionnaireName, string serverParkName)
         {
             _blaiseQuestionnaireApi.DeactivateQuestionnaire(questionnaireName, serverParkName);
         }
 
-        private bool SurveyIsActive(string questionnaireName, int timeoutInSeconds)
+        public bool CheckQuestionnaireActive(string questionnaireName, string serverPark)
+        {
+            return _blaiseQuestionnaireApi.GetQuestionnaireStatus(questionnaireName, serverPark) == QuestionnaireStatusType.Active;
+        }
+
+        private bool CheckQuestionnaireActive(string questionnaireName, string serverParkName, int timeoutInSeconds)
         {
             var counter = 0;
             const int maxCount = 10;
 
-            while (GetSurveyStatus(questionnaireName) == QuestionnaireStatusType.Installing)
+            while (GetQuestionnaireStatus(questionnaireName, serverParkName) == QuestionnaireStatusType.Installing)
             {
                 Thread.Sleep((timeoutInSeconds * 1000) / maxCount);
 
@@ -141,65 +131,53 @@ namespace Blaise.Tests.Helpers.Questionnaire
                     return false;
                 }
             }
-            return GetSurveyStatus(questionnaireName) == QuestionnaireStatusType.Active;
+            return GetQuestionnaireStatus(questionnaireName, serverParkName) == QuestionnaireStatusType.Active;
         }
 
-        private QuestionnaireStatusType GetSurveyStatus(string questionnaireName)
+        public DateTime GetQuestionnaireInstallDate(string questionnaireName, string serverParkName)
         {
-            return _blaiseQuestionnaireApi.GetQuestionnaireStatus(questionnaireName, BlaiseConfigurationHelper.ServerParkName);
+            var questionnaire = _blaiseQuestionnaireApi.GetQuestionnaire(questionnaireName, serverParkName);
+
+            return questionnaire.InstallDate;
         }
 
-        public DateTime GetInstallDate()
+        private bool CheckQuestionnaireExists(string questionnaireName, string serverParkName, int timeoutInSeconds)
         {
-            var survey = _blaiseQuestionnaireApi.GetQuestionnaire(BlaiseConfigurationHelper.QuestionnaireName, BlaiseConfigurationHelper.ServerParkName);
-
-            return survey.InstallDate;
-        }
-
-        private bool SurveyExists(string questionnaireName, int timeoutInSeconds)
-        {
-            Console.WriteLine($"QuestionnaireHelper SurveyExists: Checking questionnaire {BlaiseConfigurationHelper.QuestionnaireName} has been installed...");
+            Console.WriteLine($"Checking questionnaire {questionnaireName} exists...");
             var counter = 0;
             const int maxCount = 10;
 
-            while (!_blaiseQuestionnaireApi.QuestionnaireExists(questionnaireName, BlaiseConfigurationHelper.ServerParkName))
+            while (!_blaiseQuestionnaireApi.QuestionnaireExists(questionnaireName, serverParkName))
             {
-                Console.WriteLine($"QuestionnaireHelper SurveyExists: Sleep {counter} for {timeoutInSeconds / maxCount} seconds");
+                Console.WriteLine($"Sleep {counter} for {timeoutInSeconds / maxCount} seconds");
                 Thread.Sleep((timeoutInSeconds * 1000) / maxCount);
 
                 counter++;
                 if (counter == maxCount)
                 {
-                    Console.WriteLine("QuestionnaireHelper SurveyExists: Timed out");
+                    Console.WriteLine("Timed out");
                     return false;
                 }
             }
-            Console.WriteLine($"QuestionnaireHelper SurveyExists: Questionnaire {BlaiseConfigurationHelper.QuestionnaireName} has been installed");
+            Console.WriteLine($"Questionnaire {questionnaireName} exists");
 
             return true;
         }
 
-        private bool SurveyNoLongerExists(string questionnaireName, int timeoutInSeconds)
+        private void HandleErroneousState(string questionnaireName)
         {
-            Console.WriteLine($"QuestionnaireHelper SurveyNoLongerExists: Checking questionnaire {BlaiseConfigurationHelper.QuestionnaireName} has been removed");
-            var counter = 0;
-            const int maxCount = 10;
-
-            while (_blaiseQuestionnaireApi.QuestionnaireExists(questionnaireName, BlaiseConfigurationHelper.ServerParkName))
-            {
-                Console.WriteLine($"QuestionnaireHelper SurveyNoLongerExists: Sleep {counter} for {timeoutInSeconds / maxCount} seconds");
-                Thread.Sleep((timeoutInSeconds * 1000) / maxCount);
-
-                counter++;
-                if (counter == maxCount)
-                {
-                    Console.WriteLine("QuestionnaireHelper SurveyNoLongerExists: Timed out");
-                    return false;
-                }
-            }
-
-            Console.WriteLine($"QuestionnaireHelper SurveyNoLongerExists: Questionnaire {BlaiseConfigurationHelper.QuestionnaireName} has been removed");
-            return true;
+            string erroneousAsciiArt = @"
+                     ______ _____  _____   ____  _   _ ______ ____  _    _  _____  
+                    |  ____|  __ \|  __ \ / __ \| \ | |  ____/ __ \| |  | |/ ____| 
+                    | |__  | |__) | |__) | |  | |  \| | |__ | |  | | |  | | (___  
+                    |  __| |  _  /|  _  /| |  | | . ` |  __|| |  | | |  | |\___ \ 
+                    | |____| | \ \| | \ \| |__| | |\  | |___| |__| | |__| |____) |
+                    |______|_|  \_\_|  \_\\____/|_| \_|______\____/ \____/|_____/ 
+            ";
+            string erroneousExceptionMessage = $"{erroneousAsciiArt}\n" +
+                $"Questionnaire {questionnaireName} is erroneous!\n" +
+                "Restart Blaise and uninstall the erroneous questionnaire via Blaise Server Manager";
+            throw new Exception(erroneousExceptionMessage);
         }
     }
 }

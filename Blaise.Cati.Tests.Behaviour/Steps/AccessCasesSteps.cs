@@ -12,39 +12,17 @@ namespace Blaise.Cati.Tests.Behaviour.Steps
     [Binding]
     public sealed class AccessCasesSteps
     {
-        private readonly ScenarioContext _scenarioContext;
-        public AccessCasesSteps(ScenarioContext scenarioContext)
-        {
-            _scenarioContext = scenarioContext;
-        }
-
-        [BeforeFeature("access-cases")]
-        public static void InitializeFeature()
-        {
-            try
-            {
-                CatiInterviewHelper.GetInstance().CreateInterviewUser();
-                QuestionnaireHelper.GetInstance().InstallQuestionnaire();
-                Assert.IsTrue(QuestionnaireHelper.GetInstance()
-                    .SurveyHasInstalled(BlaiseConfigurationHelper.QuestionnaireName, 60));
-            }
-            catch (Exception ex)
-            {
-                Debug.WriteLine($"Error from debug: {ex.Message}, inner exception: {{ex.InnerException?.Message}}\"");
-                Console.WriteLine($"Error from console: {ex.Message}, inner exception: {{ex.InnerException?.Message}}\"");
-                Assert.Fail($"The test failed to complete - {ex.Message}, inner exception: {ex.InnerException?.Message}");
-            }
-        }
-
         [Given(@"there is a CATI questionnaire installed")]
         public void GivenThereIsACatiQuestionnaireInstalled()
         {
         }
 
-        [Given(@"I log on to Cati as an interviewer")]
+        [Given(@"I log into the CATI dashboard as an interviewer")]
         public void GivenILogOnToCatiAsAnInterviewer()
         {
-            CatiManagementHelper.GetInstance().LogIntoCatiManagementPortalAsAnInterviewer();
+            CatiManagementHelper.GetInstance().LogIntoCatiDashboardAsInterviewer();
+            Assert.AreNotEqual(CatiConfigurationHelper.LoginUrl, CatiManagementHelper.GetInstance().CurrentUrl(),
+                "Expected to leave the login page");
         }
 
         [When(@"I click the play button for case '(.*)'")]
@@ -53,17 +31,17 @@ namespace Blaise.Cati.Tests.Behaviour.Steps
             CatiInterviewHelper.GetInstance().ClickPlayButtonToAccessCase(caseId);
         }
 
-        [When(@"The time is within the day batch parameters")]
+        [When(@"the time is within the daybatch parameters")]
         public void WhenTheTimeIsWithinTheDayBatchParameters()
         {
             CatiInterviewHelper.GetInstance().AddSurveyFilter();
             CatiInterviewHelper.GetInstance().SetupDayBatchTimeParameters();
         }
 
-        [When(@"I Open the cati scheduler as an interviewer")]
+        [When(@"I open the CATI scheduler as an interviewer")]
         public void WhenIOpenTheCatiSchedulerAsAnInterviewer()
         {
-            CatiInterviewHelper.GetInstance().AccessInterviewPortal();
+            CatiInterviewHelper.GetInstance().AccessCatiScheduler();
         }
 
         [Then(@"I am able to capture the respondents data for case '(.*)'")]
@@ -83,21 +61,6 @@ namespace Blaise.Cati.Tests.Behaviour.Steps
                 Console.WriteLine("Error from console: " + BrowserHelper.CurrentWindowHTML());
                 throw;
             }
-        }
-
-        [AfterFeature("access-cases")]
-        public static void CleanUpFeature()
-        {
-            CatiManagementHelper.GetInstance().ClearDayBatchEntries();
-            BrowserHelper.ClosePreviousTab();
-            CatiInterviewHelper.GetInstance().DeleteInterviewUser();
-            QuestionnaireHelper.GetInstance().UninstallSurvey();
-        }
-
-        [AfterTestRun]
-        public static void AfterTestRun()
-        {
-            BrowserHelper.ClearSessionData();
         }
     }
 }

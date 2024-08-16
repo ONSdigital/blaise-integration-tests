@@ -45,7 +45,7 @@ namespace Blaise.Tests.Helpers.Tobi
             return questionnairePage.GetTableContent().FirstOrDefault();
         }
 
-        public void LoadQuestionnairePagePage()
+        public void LoadQuestionnairePage()
         {
             var questionnairePage = new QuestionnairePage();
             questionnairePage.LoadPage();
