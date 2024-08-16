@@ -28,7 +28,7 @@ namespace Blaise.Tests.Helpers.Cati
         {
             var adminUser = new UserModel
             {
-                UserName = CatiConfigurationHelper.CatiAdminUsername,
+                Username = CatiConfigurationHelper.CatiAdminUsername,
                 Password = CatiConfigurationHelper.CatiAdminPassword,
                 Role = CatiConfigurationHelper.AdminRole,
                 ServerParks = new List<string> { BlaiseConfigurationHelper.ServerParkName },
@@ -37,14 +37,14 @@ namespace Blaise.Tests.Helpers.Cati
             UserHelper.GetInstance().CreateUser(adminUser);
         }
 
-        public void LogIntoCatiManagementPortal()
+        public void LogIntoCatiDashboardAsAdministrator()
         {
             var loginPage = new LoginPage();
             loginPage.LoadPage();
             loginPage.LoginToCati(CatiConfigurationHelper.CatiAdminUsername, CatiConfigurationHelper.CatiAdminPassword);
         }
 
-        public void LogIntoCatiManagementPortalAsAnInterviewer()
+        public void LogIntoCatiDashboardAsInterviewer()
         {
             var loginPage = new LoginPage();
             loginPage.LoadPage();
@@ -60,7 +60,7 @@ namespace Blaise.Tests.Helpers.Cati
 
         public string GetDaybatchEntriesText()
         {
-            LogIntoCatiManagementPortal();
+            LogIntoCatiDashboardAsAdministrator();
 
             var dayBatchPage = new DayBatchPage();
             dayBatchPage.LoadPage();

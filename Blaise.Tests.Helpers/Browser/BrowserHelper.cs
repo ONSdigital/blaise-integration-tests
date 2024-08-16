@@ -9,24 +9,29 @@ using SeleniumExtras.WaitHelpers;
 using System;
 using System.IO;
 using System.Linq;
+using System.Collections.Generic;
 using TechTalk.SpecFlow;
 
 namespace Blaise.Tests.Helpers.Browser
 {
     public static class BrowserHelper
     {
-
         private static IWebDriver _browser;
-
         private static IWebDriver Browser => _browser ?? (_browser = CreateChromeDriver());
-
         public static int TimeOutInSeconds => BrowserConfigurationHelper.TimeOutInSeconds;
-
         public static string CurrentUrl => Browser.Url;
 
         public static WebDriverWait Wait(string message)
         {
             return new WebDriverWait(Browser, TimeSpan.FromSeconds(TimeOutInSeconds))
+            {
+                Message = message
+            };
+        }
+
+        public static WebDriverWait Wait(string message, TimeSpan? timeout = null)
+        {
+            return new WebDriverWait(Browser, timeout ?? TimeSpan.FromSeconds(TimeOutInSeconds))
             {
                 Message = message
             };
@@ -40,7 +45,6 @@ namespace Blaise.Tests.Helpers.Browser
         public static void ClosePreviousTab()
         {
             if (_browser == null) return;
-
             var tabs = _browser.WindowHandles;
             if (tabs.Count > 1)
             {
@@ -54,7 +58,6 @@ namespace Blaise.Tests.Helpers.Browser
         {
             var wait = new WebDriverWait(_browser, TimeSpan.FromSeconds(TimeOutInSeconds));
             var element = wait.Until(ExpectedConditions.ElementIsVisible(By.Name(elementName)));
-
             try
             {
                 // Enter the value into the element
@@ -71,22 +74,27 @@ namespace Blaise.Tests.Helpers.Browser
         public static void ClearSessionData()
         {
             if (_browser == null) return;
-
             _browser.Manage().Cookies.DeleteAllCookies();
-
-            // Wait for the cookies to be cleared
             var wait = new WebDriverWait(_browser, TimeSpan.FromSeconds(10));
             wait.Until(driver => driver.Manage().Cookies.AllCookies.Count == 0);
-
-            // Clear local storage
             var jsExecutor = (IJavaScriptExecutor)_browser;
             jsExecutor.ExecuteScript("window.localStorage.clear();");
-
-            // Clear session storage
             jsExecutor.ExecuteScript("window.sessionStorage.clear();");
-
-            // Close the WebDriver
             _browser.Quit();
+        }
+
+        public static bool ElementExistsById(string id, TimeSpan? timeout = null)
+        {
+            try
+            {
+                Wait($"Timed out in ElementExistsById(\"{id}\")", timeout)
+                    .Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementExists(By.Id(id)));
+                return true;
+            }
+            catch (WebDriverTimeoutException)
+            {
+                return false;
+            }
         }
 
         public static bool ElementExistsByXpath(string xPath)
@@ -97,9 +105,7 @@ namespace Blaise.Tests.Helpers.Browser
         public static void ScrollHorizontalByOffset(int offset)
         {
             var actions = new Actions(Browser);
-
             actions.MoveByOffset(offset, 0);
-
             actions.Perform();
         }
 
@@ -110,11 +116,60 @@ namespace Blaise.Tests.Helpers.Browser
 
         public static string TakeScreenShot(string screenShotPath, string screenShotName)
         {
-            var screenShot = _browser.TakeScreenshot();
-            var screenShotFile = Path.Combine(screenShotPath, $"{screenShotName}.png");
-            screenShot.SaveAsFile(screenShotFile);
+            try
+            {
+                var screenShot = _browser.TakeScreenshot();
+                var screenShotFile = Path.Combine(screenShotPath, $"{screenShotName}.png");
+                screenShot.SaveAsFile(screenShotFile);
+                return screenShotFile;
+            }
+            catch (WebDriverException ex)
+            {
+                Console.WriteLine($"Error taking screenshot: {ex.Message}");
+                return null;
+            }
+        }
 
-            return screenShotFile;
+        public static void SaveAndAttachHtml(NUnit.Framework.TestContext testContext, string baseFileName)
+        {
+            try
+            {
+                if (testContext == null)
+                {
+                    Console.WriteLine("TestContext is null. Cannot save or attach HTML.");
+                    return;
+                }
+
+                if (string.IsNullOrEmpty(baseFileName))
+                {
+                    Console.WriteLine("BaseFileName is null or empty. Using default name.");
+                    baseFileName = "default_html_capture";
+                }
+
+                string htmlFileName = $"{baseFileName}.html";
+                string htmlFilePath = Path.Combine(testContext.WorkDirectory, htmlFileName);
+                string htmlContent = CurrentWindowHTML();
+
+                if (string.IsNullOrEmpty(htmlContent))
+                {
+                    Console.WriteLine("HTML content is empty. Not saving or attaching.");
+                    return;
+                }
+
+                File.WriteAllText(htmlFilePath, htmlContent);
+                TestContext.AddTestAttachment(htmlFilePath, "Window HTML");
+                Console.WriteLine($"HTML saved and attached: {htmlFilePath}");
+            }
+            catch (NullReferenceException ex)
+            {
+                Console.WriteLine($"NullReferenceException in SaveAndAttachHtml: {ex.Message}");
+                Console.WriteLine($"Stack Trace: {ex.StackTrace}");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Failed to save or attach HTML: {ex.Message}");
+                Console.WriteLine($"Stack Trace: {ex.StackTrace}");
+            }
         }
 
         public static void OnError(NUnit.Framework.TestContext testContext, ScenarioContext scenarioContext)
@@ -122,14 +177,28 @@ namespace Blaise.Tests.Helpers.Browser
             if (scenarioContext.ContainsValue(scenarioContext.StepContext.StepInfo.Text))
                 return;
 
-            var screenShotFile = TakeScreenShot(testContext.WorkDirectory,
-                    $@"{scenarioContext.StepContext.StepInfo.Text}");
-            TestContext.AddTestAttachment(screenShotFile, scenarioContext.StepContext.StepInfo.Text);
+            string baseFileName = scenarioContext.StepContext.StepInfo.Text;
 
-            File.WriteAllText($@"{testContext.WorkDirectory}\{Path.GetFileNameWithoutExtension(screenShotFile)}.html", CurrentWindowHTML());
-            TestContext.AddTestAttachment($@"{testContext.WorkDirectory}\{Path.GetFileNameWithoutExtension(screenShotFile)}.html", "Windows HTML");
+            if (_browser!= null)
+            {
+                var screenShotFile = TakeScreenShot(testContext.WorkDirectory, baseFileName);
+                
+                if (screenShotFile!= null)
+                {
+                    TestContext.AddTestAttachment(screenShotFile, baseFileName);
+                }
+                else
+                {
+                    Console.WriteLine("Unable to take screenshot for error reporting.");
+                }
 
-            //Record existing error
+                SaveAndAttachHtml(testContext, baseFileName);
+            }
+            else
+            {
+                Console.WriteLine("Browser was not initialised when error occurred.");
+            }
+
             scenarioContext.Remove("Error");
             scenarioContext.Add("Error", scenarioContext.TestError.Message);
             scenarioContext.ScenarioContainer.RegisterInstanceAs(scenarioContext.TestError);
@@ -143,14 +212,40 @@ namespace Blaise.Tests.Helpers.Browser
 
         public static string CurrentWindowHTML()
         {
-            return _browser.PageSource;
+            try
+            {
+                if (_browser == null)
+                {
+                    Console.WriteLine("Browser instance is null. Cannot get HTML.");
+                    return null;
+                }
+
+                string html = _browser.PageSource;
+
+                if (string.IsNullOrEmpty(html))
+                {
+                    Console.WriteLine("Retrieved HTML is null or empty.");
+                    return null;
+                }
+
+                return html;
+            }
+            catch (WebDriverException ex)
+            {
+                Console.WriteLine($"WebDriverException in CurrentWindowHTML: {ex.Message}");
+                return null;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Exception in CurrentWindowHTML: {ex.Message}");
+                return null;
+            }
         }
 
         public static void BrowseTo(string pageUrl)
         {
             Browser.Navigate().GoToUrl(pageUrl);
         }
-
 
         public static int GetNumberOfWindows()
         {
@@ -168,10 +263,8 @@ namespace Blaise.Tests.Helpers.Browser
             {
                 AcceptInsecureCertificates = true
             };
-
-            //chromeOptions.AddArguments("headless");
+            chromeOptions.AddArguments("headless");
             chromeOptions.AddArguments("start-maximized");
-
             return new ChromeDriver(BrowserConfigurationHelper.ChromeDriver, chromeOptions);
         }
 
@@ -190,6 +283,12 @@ namespace Blaise.Tests.Helpers.Browser
         {
             return Wait($"Timed out in FindElement({by})'")
                 .Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementIsVisible(by));
+        }
+
+        public static IReadOnlyCollection<IWebElement> FindElements(By by)
+        {
+            return Wait($"Timed out in FindElements({by})")
+                .Until(driver => driver.FindElements(by));
         }
 
         public static bool ElementIsDisplayed(By by)
