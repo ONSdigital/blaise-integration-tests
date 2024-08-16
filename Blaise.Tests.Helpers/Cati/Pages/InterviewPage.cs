@@ -8,7 +8,7 @@ namespace Blaise.Tests.Helpers.Cati.Pages
         private const string CaseIdPath = "//div[contains(text(), 'Case:')]";
         private const string FirstFocusId = "firstFocusable";
 
-        public InterviewPage() : base(CatiConfigurationHelper.InterviewUrl, "LayoutSet=CATI-Interviewer_Large")
+        public InterviewPage() : base(CatiConfigurationHelper.SchedulerUrl, "LayoutSet=CATI-Interviewer_Large")
         {
         }
 

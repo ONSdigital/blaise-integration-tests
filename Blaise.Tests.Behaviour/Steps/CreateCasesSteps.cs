@@ -1,7 +1,8 @@
-﻿using System.Collections.Generic;
+﻿﻿using System.Collections.Generic;
 using System.Linq;
 using Blaise.Tests.Helpers.Case;
 using Blaise.Tests.Helpers.Questionnaire;
+using Blaise.Tests.Helpers.Configuration;
 using Blaise.Tests.Models.Case;
 using NUnit.Framework;
 using TechTalk.SpecFlow;
@@ -11,22 +12,16 @@ namespace Blaise.Tests.Behaviour.Steps
     [Binding]
     public sealed class CreateCasesSteps
     {
-        [BeforeFeature("case")]
-        public static void InitializeFeature()
-        {
-            //QuestionnaireHelper.GetInstance().InstallQuestionnaire();
-        }
-
         [Given(@"I have created sample cases for the questionnaire")]
-        [When(@"I create sample cases for the questionnaire")]
-        public void WhenICreateACaseForTheQuestionnaire(IEnumerable<CaseModel> caseModels)
+        [When(@"I create cases for the questionnaire")]
+        public void WhenICreateCasesForTheQuestionnaire(IEnumerable<CaseModel> caseModels)
         {
             CaseHelper.GetInstance().DeleteCases();
             CaseHelper.GetInstance().CreateCases(caseModels);
         }
 
-        [Then(@"the sample cases are available in the Blaise environment")]
-        public void ThenTheCaseIsAvailableInTheBlaiseEnvironment(IEnumerable<CaseModel> cases)
+        [Then(@"the cases are available in the questionnaire")]
+        public void ThenTheCasesAreAvailableInTheQuestionnaire(IEnumerable<CaseModel> cases)
         {
             var expectedCases = cases.ToList();
             CheckNumberOfCasesMatch(expectedCases.Count);
@@ -59,16 +54,16 @@ namespace Blaise.Tests.Behaviour.Steps
             }
         }
 
-        [AfterScenario("case")]
-        public void CleanUpScenario()
+        [AfterScenario("create-casess")]
+        public void AfterScenario()
         {
             CaseHelper.GetInstance().DeleteCases();
         }
 
-        [AfterFeature("case")]
-        public static void CleanUpFeature()
+        [AfterFeature("create-casess")]
+        public static void AfterFeature()
         {
-            QuestionnaireHelper.GetInstance().UninstallSurvey();
+            QuestionnaireHelper.GetInstance().UninstallQuestionnaire(BlaiseConfigurationHelper.QuestionnaireName, BlaiseConfigurationHelper.ServerParkName);
         }
     }
 }
