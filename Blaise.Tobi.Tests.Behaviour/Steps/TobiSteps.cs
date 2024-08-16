@@ -16,16 +16,17 @@ namespace Blaise.Tobi.Tests.Behaviour.Steps
     public class TobiSteps
     {
         [BeforeFeature("tobi")]
-        public static void InitializeFeature()
+        public static void BeforeFeature()
         {
-            QuestionnaireHelper.GetInstance().InstallQuestionnaire();
-            CaseHelper.GetInstance().CreateCase(new CaseModel("900001", "110", "07000 000 00"));
+            QuestionnaireHelper.GetInstance().InstallQuestionnaire(BlaiseConfigurationHelper.QuestionnaireName, BlaiseConfigurationHelper.ServerParkName, BlaiseConfigurationHelper.QuestionnairePath);
+            CaseHelper.GetInstance().CreateCase(new CaseModel("9001", "110", "07000000000"));
             DayBatchHelper.GetInstance().SetSurveyDay(BlaiseConfigurationHelper.QuestionnaireName, DateTime.Today);
             DayBatchHelper.GetInstance().CreateDayBatch(BlaiseConfigurationHelper.QuestionnaireName, DateTime.Today);
         }
 
-        [Given(@"I have internet access")]
-        public void GivenIHaveInternetAccess()
+        [Given(@"there are live surveys")]
+        [Given(@"I can view a list of live surveys")]
+        public void GivenThereAreLiveSurveys()
         {
         }
 
@@ -37,23 +38,23 @@ namespace Blaise.Tobi.Tests.Behaviour.Steps
             TobiHelper.GetInstance().LoadTobiHomePage();
         }
 
-        [Given(@"I can view a list of live questionnaires for the survey I am allocated to")]
-        public void GivenICanViewAListOfLiveQuestionnairesForTheSurveyIAmAllocatedTo()
+        [Given(@"I can view a list of questionnaires for a live survey")]
+        public void GivenICanViewAListOfQuestionnairesForALiveSurvey()
         {
-            TobiHelper.GetInstance().LoadQuestionnairePagePage();
+            TobiHelper.GetInstance().LoadQuestionnairePage();
         }
 
         [Given(@"I have selected a survey")]
-        [When(@"I select the DST survey I am working on")]
-        public void WhenISelectTheDSTSurveyIAmWorkingOn()
+        [When(@"I select a survey")]
+        public void WhenISelectASurvey()
         {
             TobiHelper.GetInstance().LoadTobiHomePage();
             var currentUrl = TobiHelper.GetInstance().ClickLoadQuestionnaire();
             Assert.AreEqual(TobiConfigurationHelper.SurveyUrl, currentUrl);
         }
 
-        [When(@"I select a link to interview against the questionnaire with the survey dates I am working on")]
-        public void WhenISelectALinkToInterviewAgainstTheQuestionnaireWithTheSurveyDatesIAmWorkingOn()
+        [When(@"I select a questionnaire")]
+        public void WhenISelectAQuestionnaire()
         {
             TobiHelper.GetInstance().ClickInterviewButton(BlaiseConfigurationHelper.QuestionnaireName);
         }
@@ -64,31 +65,29 @@ namespace Blaise.Tobi.Tests.Behaviour.Steps
             Assert.AreEqual(TobiConfigurationHelper.SurveyUrl, BrowserHelper.CurrentUrl);
         }
 
-        [Then(@"I will be able to view all live surveys with questionnaires loaded in Blaise, identified by their three letter acronym \(TLA\), i\.e\. OPN, LMS")]
-        public void ThenIWillBeAbleToViewAllLiveSurveysWithQuestionnairesLoadedInBlaiseIdentifiedByTheirThreeLetterAcronym()
+        [Then(@"I am presented with a list of live surveys")]
+        public void ThenIAmPresentedWithAListOfLiveSurveys()
         {
             Assert.IsNotNull(TobiHelper.GetInstance().GetSurveyTableContents().Where(s => s.Equals("DST")));   
         }
 
-        [Then(@"I am presented with a list of active questionnaires to be worked on that day for that survey")]
-        public void ThenIAmPresentedWithAListOfActiveQuestionnairesToBeWorkedOnThatDayForThatSurvey()
+        [Then(@"I am presented with a list of questionnaires for the survey")]
+        public void ThenIAmPresentedWithAListOfQuestionnairesForTheSurvey()
         {
             var activeQuestionnaires = TobiHelper.GetInstance().GetQuestionnaireTableContents();
             Assert.IsNotNull(activeQuestionnaires.Where(q => q.Contains(BlaiseConfigurationHelper.QuestionnaireName)));
-            
         }
 
-        [Then(@"I am presented with the Blaise log in")]
-        public void ThenIAmPresentedWithTheBlaiseLogIn()
+        [Then(@"I am presented with the Blaise login")]
+        public void ThenIAmPresentedWithTheBlaiseLogin()
         {
             CatiInterviewHelper.GetInstance().LoginButtonIsAvailable();
-            Assert.AreEqual($"{CatiConfigurationHelper.InterviewUrl.ToLower()}/login", BrowserHelper.CurrentUrl.ToLower());   
+            Assert.AreEqual($"{CatiConfigurationHelper.SchedulerUrl.ToLower()}/login", BrowserHelper.CurrentUrl.ToLower());   
         }
 
         [Then(@"I will not see that questionnaire listed for the survey")]
         public void ThenIWillNotSeeThatQuestionnaireListedForTheSurvey()
         {
-            
             var questionnaireShowing = TobiHelper.GetInstance().GetQuestionnaireTableContents()
                 .Where(s => s.Contains(BlaiseConfigurationHelper.QuestionnaireName));
             Assert.IsEmpty(questionnaireShowing);
@@ -108,19 +107,11 @@ namespace Blaise.Tobi.Tests.Behaviour.Steps
         }
 
         [AfterFeature("tobi")]
-        public static void CleanUpFeature()
+        public static void AfterFeature()
         {
             DayBatchHelper.GetInstance().RemoveSurveyDays(BlaiseConfigurationHelper.QuestionnaireName, DateTime.Today);
-            BrowserHelper.ClosePreviousTab();
             CaseHelper.GetInstance().DeleteCases();
-            QuestionnaireHelper.GetInstance().UninstallSurvey();
+            QuestionnaireHelper.GetInstance().UninstallQuestionnaire(BlaiseConfigurationHelper.QuestionnaireName, BlaiseConfigurationHelper.ServerParkName);
         }
-
-        [AfterTestRun]
-        public static void CleanUpTestRun()
-        {
-            BrowserHelper.ClearSessionData();
-        }
-
     }
 }

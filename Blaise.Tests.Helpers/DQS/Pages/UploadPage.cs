@@ -39,7 +39,7 @@ namespace Blaise.Tests.Helpers.Dqs.Pages
             WaitForPageToChange(DqsConfigurationHelper.QuestionnaireExistsUrl);
         }
 
-        public void SelectNoLiveDateButton()
+        public void SelectNoToStartDateButton()
         {
             ClickButtonById(NoRadioButtonId);
         }
@@ -49,7 +49,7 @@ namespace Blaise.Tests.Helpers.Dqs.Pages
             ClickButtonById(YesRadioButtonId);
         }
 
-        public string GetLiveDateSummaryText()
+        public string GetToStartDateSummaryText()
         {
             return GetElementTextByPath(LiveDateTextPath);
         }
