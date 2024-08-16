@@ -197,18 +197,25 @@ namespace Blaise.Tests.Helpers.Browser
 
             string baseFileName = scenarioContext.StepContext.StepInfo.Text;
 
-            var screenShotFile = TakeScreenShot(testContext.WorkDirectory, baseFileName);
-            
-            if (screenShotFile != null)
+            if (_browser!= null)
             {
-                TestContext.AddTestAttachment(screenShotFile, baseFileName);
+                var screenShotFile = TakeScreenShot(testContext.WorkDirectory, baseFileName);
+                
+                if (screenShotFile!= null)
+                {
+                    TestContext.AddTestAttachment(screenShotFile, baseFileName);
+                }
+                else
+                {
+                    Console.WriteLine("Unable to take screenshot for error reporting.");
+                }
+
+                SaveAndAttachHtml(testContext, baseFileName);
             }
             else
             {
-                Console.WriteLine("Unable to take screenshot for error reporting.");
+                Console.WriteLine("Browser was not initialised when error occurred.");
             }
-
-            SaveAndAttachHtml(testContext, baseFileName);
 
             scenarioContext.Remove("Error");
             scenarioContext.Add("Error", scenarioContext.TestError.Message);
