@@ -31,7 +31,6 @@ namespace Blaise.Cati.Tests.Behaviour.Steps
             CatiManagementHelper.GetInstance().CreateDayBatch();
         }
         
-        [When(@"the sample cases are present on the daybatch page")]
         [Then(@"the sample cases are present on the daybatch page")]
         public void ThenTheSampleCasesArePresentOnTheDaybatchPage(IEnumerable<CaseModel> cases)
         {
