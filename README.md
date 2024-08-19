@@ -1,43 +1,40 @@
-![Build Status](https://dev.azure.com/blaise-gcp/csharp/_apis/build/status/ONSdigital.blaise-integration-tests?branchName=main)
-
 # Blaise Integration Tests
 
-This repository holds the integration tests for the ONS Blaise 5 ecosystem, which are executed from the Concourse pipelines during the deployment of various services.
+This repository contains a subset of our integration tests for Blaise and some related wrapper services. Please note that this does not include all of our integration tests, as others are located in repositories alongside their corresponding services.
 
-The Concourse pipeline triggers an Azure DevOps pipeline via an HTTP request, which runs the tests using hosted Azure DevOps agents.
+Some of these tests use Selenium to interact with various UIs and are written in C# to leverage the Blaise NuGet package for communication with Blaise.
 
-The code is also built and hosted in Azure DevOps through a Concourse pipeline that calls another Azure DevOps pipeline.
+Both building and running the integration tests are managed through Concourse jobs. These jobs are automatically triggered on pushes to this repository as well as to the corresponding repositories that these integration tests cover. The Concourse jobs securely call Azure DevOps pipelines via HTTP requests, where the tests are executed using hosted Azure DevOps agents.
 
-The tests use Selenium to interact with various UIs and are written in C# to leverage the Blaise NuGet package for communicating with Blaise.
+## Local setup
 
-# Local setup
+Since Blaise currently only provides a .NET Framework NuGet API, these tests require a Windows environment.
 
-As Blaise currently only provide a .NET Framework NuGet API, you'll need to be running Windows.
+It's recommended to run the tests locally while connecting to your GCP sandbox environment.
 
-It is advisable to run the tests locally and connect them to your sandbox environment.
-
-## Install tools
+### Install tools
 
 You'll need the following tools installed:
 
 - Visual Studio
 - gcloud CLI
+- Chrome
 - ChromeDriver
 
 You may want to consider using the Windows package manager [Chocolatey](https://chocolatey.org/) to install these tools.
 
-## Setup Blaise license
+### Setup Blaise license
 
-To run the tests, you need to have a valid license for the local version of Blaise. The tests use the Blaise NuGet API, which verifies the license status.
+To run the tests, you must have a valid license for the local version of Blaise. The tests utilise the Blaise NuGet API, which checks the license status.
 
-You can find the license information in the metadata of the `blaise-gusty-mgmt` VM.
+License information can be found in the metadata of the `blaise-gusty-mgmt` VM.
 
 To register the license, you have two options:
 
 - Install Blaise and follow the registration steps
-- Add the registration details directly to the Windows registry
+- Manually add the registration details to the Windows registry
 
-To add the details to the Windows registry, you can create a reg file with the following content:
+If you choose to add the details to the Windows registry, create a `.reg` file with the following content:
 
 ```
 Windows Registry Editor Version 5.00
@@ -48,13 +45,13 @@ Windows Registry Editor Version 5.00
 "ActivationCode"=""
 ```
 
-## Download test questionnaire
+### Download test questionnaire
 
-Most of the tests need a .bpkg file, which is a Blaise package containing a questionnaire instrument. The tests will prepare the testing environment by deploying the test questionnaire to it.
+Most of the tests require a `.bpkg` file, which is a Blaise package containing a questionnaire instrument. The tests prepare the testing environment by deploying this test questionnaire.
 
 You can download the latest test questionnaire from [Confluence](https://confluence.ons.gov.uk/display/QSS/Blaise+5+Questionnaire+Instrument+Artefacts) or the [Blaise shared GCP storage bucket](https://console.cloud.google.com/storage/browser?project=ons-blaise-v2-shared).
 
-## Configure the solution
+### Configure the solution
 
 [Add our Azure DevOps artifacts feed to Visual Studio.](https://confluence.ons.gov.uk/display/QSS/How-to+connect+to+our+private+NuGet+package+source)
 
@@ -94,7 +91,7 @@ Placeholder | Description
 
 Build the solution via the Visual Studio `Build` menu.
 
-## Create tunnels to Blaise management VM
+### Create tunnels to Blaise management VM
 
 If you have Blaise installed locally, you'll need to stop the `BlaiseServices5` service from running.
 
@@ -122,17 +119,17 @@ In a separate instance, open a tunnel for port 8033 to the Blaise management VM 
 gcloud compute start-iap-tunnel blaise-gusty-mgmt 8033 --local-host-port=localhost:8033
 ```
 
-## Run the tests
+### Run the tests
 
 Open `Test Explorer` from the Visual Studio `View` menu.
 
 Run all the tests or specific tests using the play buttons.
 
-# Troubleshooting
+## Troubleshooting
 
-If the Test Explorer window doesn't show any tests, clean and rebuild the solution via the Visual Studio `Build` menu.
+If the `Test Explorer` window doesn't show any tests, clean and rebuild the solution via the Visual Studio `Build` menu.
 
-When using Chocolatey to install packages, ensure you are running your Command Prompt or PowerShell instance as administrator.
+When using Chocolatey to install packages, ensure you are running your Command prompt or PowerShell instance as administrator.
 
 Trying to find the path to chromedriver.exe? Chocolatey should put it in `C:\tools\selenium\` by default.
 
