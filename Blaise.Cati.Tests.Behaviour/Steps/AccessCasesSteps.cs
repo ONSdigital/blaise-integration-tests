@@ -17,14 +17,6 @@ namespace Blaise.Cati.Tests.Behaviour.Steps
         {
         }
 
-        [Given(@"I log into the CATI dashboard as an interviewer")]
-        public void GivenILogOnToCatiAsAnInterviewer()
-        {
-            CatiManagementHelper.GetInstance().LogIntoCatiDashboardAsInterviewer();
-            Assert.AreNotEqual(CatiConfigurationHelper.LoginUrl, CatiManagementHelper.GetInstance().CurrentUrl(),
-                "Expected to leave the login page");
-        }
-
         [When(@"I click the play button for case '(.*)'")]
         public void WhenIClickThePlayButtonForCase(string caseId)
         {

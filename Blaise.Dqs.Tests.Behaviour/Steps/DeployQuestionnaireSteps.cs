@@ -88,13 +88,11 @@ namespace Blaise.Dqs.Tests.Behaviour.Steps
             Assert.AreEqual($"Start date set to {today}", DqsHelper.GetInstance().GetToStartDateSummaryText());
         }
 
-
         [When(@"the deployment summary confirms no TO start date")]
         public void WhenTheDeploymentSummaryConfirmsNoToStartDate()
         {
             Assert.AreEqual("Start date not specified", DqsHelper.GetInstance().GetToStartDateSummaryText());
         }
-
 
         [Then(@"I have the option to deploy a questionnaire")]
         public void ThenIHaveTheOptionToDeployAQuestionnaire()
@@ -109,18 +107,6 @@ namespace Blaise.Dqs.Tests.Behaviour.Steps
             DqsHelper.GetInstance().WaitForUploadToComplete();
             var successMessage = DqsHelper.GetInstance().GetUploadMessage();
             Assert.IsNotNull(successMessage);
-        }
-
-        [Then(@"I am presented with questionnaire already exists screen")]
-        public void ThenIAmPresentedWithQuestionnaireAlreadyExistsScreen()
-        {
-            DqsHelper.GetInstance().WaitForQuestionnaireAlreadyExistsPage();
-        }
-
-        [Given(@"the questionnaire has data records")]
-        public void GivenTheQuestionnaireHasDataRecords()
-        {
-            CaseHelper.GetInstance().CreateCase();
         }
 
         [Given(@"the questionnaire does not have data")]
@@ -166,14 +152,6 @@ namespace Blaise.Dqs.Tests.Behaviour.Steps
             Assert.AreEqual(expectedInstallDate, actualInstallDate);
         }
 
-        [Then(@"I am presented with a warning that I cannot overwrite the survey")]
-        public void ThenIAmPresentedWithAWarningThatICannotOverwriteTheSurvey()
-        {
-            Assert.IsNotNull(DqsHelper.GetInstance().GetOverwriteMessage());
-            Assert.AreEqual(DqsConfigurationHelper.CannotOverwriteUrl, BrowserHelper.CurrentUrl);
-        }
-
-
         [Then(@"the questionnaire is deployed and overwrites the existing questionnaire")]
         public void ThenTheQuestionnaireIsDeployedAndOverwritesTheExistingQuestionnaire()
         {
@@ -188,12 +166,6 @@ namespace Blaise.Dqs.Tests.Behaviour.Steps
         {
             var questionnaireInstalled = QuestionnaireHelper.GetInstance().CheckQuestionnaireInstalled(BlaiseConfigurationHelper.QuestionnaireName, BlaiseConfigurationHelper.ServerParkName, 60);
             Assert.IsTrue(questionnaireInstalled);
-        }
-
-        [Given(@"the package I have selected already exists in Blaise")]
-        public void GivenThePackageIHaveSelectedAlreadyExistsInBlaise()
-        {
-            QuestionnaireHelper.GetInstance().InstallQuestionnaire(BlaiseConfigurationHelper.QuestionnaireName, BlaiseConfigurationHelper.ServerParkName, BlaiseConfigurationHelper.QuestionnairePath);
         }
 
         [AfterScenario("deploy-questionnaire")]
