@@ -100,14 +100,14 @@ this.ScenarioInitialize(scenarioInfo);
                             "outcomecode",
                             "telephoneno"});
                 table3.AddRow(new string[] {
-                            "9000003",
+                            "9003",
                             "",
-                            "07000 000 00"});
+                            "07000000000"});
 #line 6
  testRunner.And("I have created sample cases for the questionnaire", ((string)(null)), table3, "And ");
 #line hidden
 #line 9
- testRunner.And("I log on to Cati as an administrator", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.And("I log into the CATI dashboard as an administrator", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
 #line 10
  testRunner.When("I create a daybatch for today", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
@@ -117,11 +117,11 @@ this.ScenarioInitialize(scenarioInfo);
                             "outcomecode",
                             "telephoneno"});
                 table4.AddRow(new string[] {
-                            "9000003",
+                            "9003",
                             "",
-                            "07000 000 00"});
+                            "07000000000"});
 #line 11
- testRunner.Then("the sample cases are present on the daybatch entry screen", ((string)(null)), table4, "Then ");
+ testRunner.Then("the sample cases are present on the daybatch page", ((string)(null)), table4, "Then ");
 #line hidden
             }
             this.ScenarioCleanup();

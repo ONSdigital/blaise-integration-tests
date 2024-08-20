@@ -1,11 +1,9 @@
-﻿using System;
-using Blaise.Tests.Helpers.Browser;
-using Blaise.Tests.Helpers.Case;
+﻿using Blaise.Tests.Helpers.Browser;
 using Blaise.Tests.Helpers.Configuration;
 using Blaise.Tests.Helpers.Dqs;
 using Blaise.Tests.Helpers.Questionnaire;
 using NUnit.Framework;
-using System.Linq;
+using System;
 using TechTalk.SpecFlow;
 
 namespace Blaise.Dqs.Tests.Behaviour.Steps
@@ -22,7 +20,14 @@ namespace Blaise.Dqs.Tests.Behaviour.Steps
         [Given(@"the questionnaire is active")]
         public void GivenTheQuestionnaireIsActive()
         {
-            Assert.IsTrue(QuestionnaireHelper.GetInstance().CheckQuestionnaireActive(BlaiseConfigurationHelper.QuestionnaireName, BlaiseConfigurationHelper.ServerParkName));
+            Assert.That(
+                QuestionnaireHelper.GetInstance().CheckQuestionnaireActive(
+                    BlaiseConfigurationHelper.QuestionnaireName,
+                    BlaiseConfigurationHelper.ServerParkName
+                ),
+                Is.True,
+                "The questionnaire should be active"
+            );
         }
 
         [Given(@"I select delete on the questionnaire details page")]
@@ -56,12 +61,16 @@ namespace Blaise.Dqs.Tests.Behaviour.Steps
         [Then(@"the questionnaire is removed from Blaise")]
         public void ThenTheQuestionnaireIsRemovedFromBlaise()
         {
-            Assert.IsNotNull(DqsHelper.GetInstance().GetDeletionSummary());
+            var deletionSummary = DqsHelper.GetInstance().GetDeletionSummary();
+
+            Assert.That(deletionSummary,
+                Is.Not.Null,
+                "The deletion summary should be available, indicating that the questionnaire has been removed from Blaise");
         }
 
         [AfterScenario("delete-questionnaire")]
         public void AfterScenario()
-        {            
+        {
             if (QuestionnaireHelper.GetInstance().CheckQuestionnaireExists(BlaiseConfigurationHelper.QuestionnaireName, BlaiseConfigurationHelper.ServerParkName))
             {
                 QuestionnaireHelper.GetInstance().UninstallQuestionnaire(BlaiseConfigurationHelper.QuestionnaireName, BlaiseConfigurationHelper.ServerParkName);

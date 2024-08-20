@@ -3,7 +3,6 @@ using Blaise.Nuget.Api.Contracts.Enums;
 using Blaise.Nuget.Api.Contracts.Interfaces;
 using System;
 using System.Threading;
-using Blaise.Nuget.Api.Contracts.Exceptions;
 
 namespace Blaise.Tests.Helpers.Questionnaire
 {

@@ -1,7 +1,7 @@
-﻿using System;
-using System.Threading;
-using Blaise.Tests.Helpers.Configuration;
+﻿using Blaise.Tests.Helpers.Configuration;
 using Blaise.Tests.Helpers.Framework;
+using System;
+using System.Threading;
 
 namespace Blaise.Tests.Helpers.Cati.Pages
 {
