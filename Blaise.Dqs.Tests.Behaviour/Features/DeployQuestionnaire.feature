@@ -27,7 +27,6 @@ Scenario: Deploy questionnaire with TO start date
 	Then I am presented with a successful deployment information banner
 	And the questionnaire is active in Blaise
 
-@smoke
 Scenario: Deploy questionnaire without TO start date
 	Given I have selected the questionnaire package I wish to deploy
 	When I confirm my selection
