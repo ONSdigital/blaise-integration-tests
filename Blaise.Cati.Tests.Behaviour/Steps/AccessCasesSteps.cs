@@ -1,7 +1,5 @@
 ﻿using Blaise.Tests.Helpers.Browser;
 using Blaise.Tests.Helpers.Cati;
-using Blaise.Tests.Helpers.Configuration;
-using Blaise.Tests.Helpers.Questionnaire;
 using NUnit.Framework;
 using System;
 using System.Diagnostics;
@@ -15,14 +13,6 @@ namespace Blaise.Cati.Tests.Behaviour.Steps
         [Given(@"there is a CATI questionnaire installed")]
         public void GivenThereIsACatiQuestionnaireInstalled()
         {
-        }
-
-        [Given(@"I log into the CATI dashboard as an interviewer")]
-        public void GivenILogOnToCatiAsAnInterviewer()
-        {
-            CatiManagementHelper.GetInstance().LogIntoCatiDashboardAsInterviewer();
-            Assert.AreNotEqual(CatiConfigurationHelper.LoginUrl, CatiManagementHelper.GetInstance().CurrentUrl(),
-                "Expected to leave the login page");
         }
 
         [When(@"I click the play button for case '(.*)'")]
@@ -51,14 +41,14 @@ namespace Blaise.Cati.Tests.Behaviour.Steps
             {
                 BrowserHelper.SwitchToLastOpenedWindow();
                 CatiInterviewHelper.GetInstance().WaitForFirstFocusObject();
-                BrowserHelper.WaitForTextInHTML(caseId);
+                BrowserHelper.WaitForTextInHtml(caseId);
             }
             catch
             {
-                TestContext.WriteLine("Error from Test Context " + BrowserHelper.CurrentWindowHTML());
-                TestContext.Progress.WriteLine("Error from Test Context progress " + BrowserHelper.CurrentWindowHTML());
-                Debug.WriteLine("Error from debug: " + BrowserHelper.CurrentWindowHTML());
-                Console.WriteLine("Error from console: " + BrowserHelper.CurrentWindowHTML());
+                TestContext.WriteLine("Error from Test Context " + BrowserHelper.CurrentWindowHtml());
+                TestContext.Progress.WriteLine("Error from Test Context progress " + BrowserHelper.CurrentWindowHtml());
+                Debug.WriteLine("Error from debug: " + BrowserHelper.CurrentWindowHtml());
+                Console.WriteLine("Error from console: " + BrowserHelper.CurrentWindowHtml());
                 throw;
             }
         }
