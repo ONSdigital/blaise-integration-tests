@@ -43,14 +43,14 @@ namespace Blaise.Cati.Tests.Behaviour.Steps
             {
                 BrowserHelper.SwitchToLastOpenedWindow();
                 CatiInterviewHelper.GetInstance().WaitForFirstFocusObject();
-                BrowserHelper.WaitForTextInHTML(caseId);
+                BrowserHelper.WaitForTextInHtml(caseId);
             }
             catch
             {
-                TestContext.WriteLine("Error from Test Context " + BrowserHelper.CurrentWindowHTML());
-                TestContext.Progress.WriteLine("Error from Test Context progress " + BrowserHelper.CurrentWindowHTML());
-                Debug.WriteLine("Error from debug: " + BrowserHelper.CurrentWindowHTML());
-                Console.WriteLine("Error from console: " + BrowserHelper.CurrentWindowHTML());
+                TestContext.WriteLine("Error from Test Context " + BrowserHelper.CurrentWindowHtml());
+                TestContext.Progress.WriteLine("Error from Test Context progress " + BrowserHelper.CurrentWindowHtml());
+                Debug.WriteLine("Error from debug: " + BrowserHelper.CurrentWindowHtml());
+                Console.WriteLine("Error from console: " + BrowserHelper.CurrentWindowHtml());
                 throw;
             }
         }
