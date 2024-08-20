@@ -14,7 +14,8 @@ namespace Blaise.Tests.Helpers.Configuration
 
         public static ConnectionModel BuildConnectionModel()
         {
-            return new ConnectionModel{
+            return new ConnectionModel
+            {
                 ServerName = ConfigurationExtensions.GetVariable("ENV_BLAISE_SERVER_HOST_NAME"),
                 UserName = ConfigurationExtensions.GetVariable("ENV_BLAISE_ADMIN_USER"),
                 Password = ConfigurationExtensions.GetVariable("ENV_BLAISE_ADMIN_PASSWORD"),
