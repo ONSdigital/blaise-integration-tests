@@ -13,12 +13,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Blaise.Tobi.Tests.Behaviour
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Blaise.Tests.Behaviour", "Blaise.Tests.Behaviour\Blaise.Tests.Behaviour.csproj", "{4602EC60-152E-4B79-B9A5-26F25B1E635B}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Cati", "Cati", "{EC5C45DD-A7E2-4408-903C-470DC0371A29}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tobi", "Tobi", "{F2F5D1CB-4683-4AA5-98A6-389D6A11BAA4}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Dqs", "Dqs", "{513E382E-BD3D-455B-95DE-124CE1A316CD}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Blaise.Dqs.Tests.Behaviour", "Blaise.Dqs.Tests.Behaviour\Blaise.Dqs.Tests.Behaviour.csproj", "{8F5E6F0B-F86A-4CDA-A5E3-64482CF17106}"
 EndProject
 Global
