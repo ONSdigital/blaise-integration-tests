@@ -7,9 +7,9 @@ using OpenQA.Selenium.Support.Extensions;
 using OpenQA.Selenium.Support.UI;
 using SeleniumExtras.WaitHelpers;
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Collections.Generic;
 using TechTalk.SpecFlow;
 
 namespace Blaise.Tests.Helpers.Browser
@@ -97,7 +97,7 @@ namespace Blaise.Tests.Helpers.Browser
             }
         }
 
-        public static bool ElementExistsByXpath(string xPath)
+        public static bool ElementExistsByXPath(string xPath)
         {
             return Browser.FindElements(By.XPath(xPath)).Count > 0;
         }
@@ -148,7 +148,7 @@ namespace Blaise.Tests.Helpers.Browser
 
                 string htmlFileName = $"{baseFileName}.html";
                 string htmlFilePath = Path.Combine(testContext.WorkDirectory, htmlFileName);
-                string htmlContent = CurrentWindowHTML();
+                string htmlContent = CurrentWindowHtml();
 
                 if (string.IsNullOrEmpty(htmlContent))
                 {
@@ -179,11 +179,11 @@ namespace Blaise.Tests.Helpers.Browser
 
             string baseFileName = scenarioContext.StepContext.StepInfo.Text;
 
-            if (_browser!= null)
+            if (_browser != null)
             {
                 var screenShotFile = TakeScreenShot(testContext.WorkDirectory, baseFileName);
-                
-                if (screenShotFile!= null)
+
+                if (screenShotFile != null)
                 {
                     TestContext.AddTestAttachment(screenShotFile, baseFileName);
                 }
@@ -210,7 +210,7 @@ namespace Blaise.Tests.Helpers.Browser
             _browser = null;
         }
 
-        public static string CurrentWindowHTML()
+        public static string CurrentWindowHtml()
         {
             try
             {
@@ -232,12 +232,12 @@ namespace Blaise.Tests.Helpers.Browser
             }
             catch (WebDriverException ex)
             {
-                Console.WriteLine($"WebDriverException in CurrentWindowHTML: {ex.Message}");
+                Console.WriteLine($"WebDriverException in CurrentWindowHtml: {ex.Message}");
                 return null;
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"Exception in CurrentWindowHTML: {ex.Message}");
+                Console.WriteLine($"Exception in CurrentWindowHtml: {ex.Message}");
                 return null;
             }
         }
@@ -268,13 +268,13 @@ namespace Blaise.Tests.Helpers.Browser
             return new ChromeDriver(BrowserConfigurationHelper.ChromeDriver, chromeOptions);
         }
 
-        public static void WaitForTextInHTML(string text)
+        public static void WaitForTextInHtml(string text)
         {
-            Wait($"Timed out in WaitForTextInHTML(\"{text}\")")
-                .Until(driver => CurrentWindowHTML().Contains(text));
+            Wait($"Timed out in WaitForTextInHtml(\"{text}\")")
+                .Until(driver => CurrentWindowHtml().Contains(text));
         }
 
-        public static void WaitForElementByXpath(string xPath)
+        public static void WaitForElementByXPath(string xPath)
         {
             FindElement(By.XPath(xPath));
         }

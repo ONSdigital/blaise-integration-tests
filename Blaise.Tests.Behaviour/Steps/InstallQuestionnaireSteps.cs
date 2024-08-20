@@ -1,5 +1,4 @@
-﻿﻿using Blaise.Nuget.Api.Contracts.Enums;
-using Blaise.Tests.Helpers.Configuration;
+﻿using Blaise.Tests.Helpers.Configuration;
 using Blaise.Tests.Helpers.Questionnaire;
 using NUnit.Framework;
 using TechTalk.SpecFlow;
@@ -21,7 +20,6 @@ namespace Blaise.Tests.Behaviour.Steps
         }
 
         [Given(@"there is a questionnaire installed")]
-        [Given(@"There is an questionnaire installed on a Blaise environment")]
         [When(@"I install the questionnaire")]
         public void GivenThereIsAQuestionnaireInstalled()
         {
@@ -31,16 +29,14 @@ namespace Blaise.Tests.Behaviour.Steps
         [Then(@"the questionnaire is available")]
         public void ThenTheQuestionnaireIsAvailable()
         {
-            var questionnaireHasInstalled = QuestionnaireHelper.GetInstance().CheckQuestionnaireInstalled(BlaiseConfigurationHelper.QuestionnaireName, BlaiseConfigurationHelper.ServerParkName, 60);
+            var questionnaireHasInstalled = QuestionnaireHelper.GetInstance().CheckQuestionnaireInstalled(
+                BlaiseConfigurationHelper.QuestionnaireName,
+                BlaiseConfigurationHelper.ServerParkName,
+                60);
 
-            Assert.IsTrue(questionnaireHasInstalled, "The questionnaire has not been installed, or is not active");
-        }
-
-        [Then(@"the questionnaire is configured to capture respondents data via Cati")]
-        public void ThenTheQuestionnaireIsConfiguredToCaptureRespondentsDataViaCati()
-        {
-            var surveyConfiguration = QuestionnaireHelper.GetInstance().GetQuestionnaireInterviewType(BlaiseConfigurationHelper.QuestionnaireName, BlaiseConfigurationHelper.ServerParkName);
-            Assert.AreEqual(QuestionnaireInterviewType.Cati, surveyConfiguration);
+            Assert.That(questionnaireHasInstalled,
+                Is.True,
+                $"Questionnaire '{BlaiseConfigurationHelper.QuestionnaireName}' should be installed and active on server park '{BlaiseConfigurationHelper.ServerParkName}'");
         }
 
         [AfterScenario("deploy-questionnaire")]
