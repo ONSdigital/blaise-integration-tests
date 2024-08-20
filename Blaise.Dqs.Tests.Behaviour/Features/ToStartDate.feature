@@ -5,7 +5,6 @@ Background:
 	Given I am a BDSS user
 	And I have logged into DQS
 
-@smoke
 Scenario: A questionnaire has been deployed without a start date and I wish to add one
 	Given a questionnaire has been deployed
 	And the questionnaire has no TO start date
