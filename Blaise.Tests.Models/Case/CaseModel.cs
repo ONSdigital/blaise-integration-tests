@@ -1,7 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using Blaise.Nuget.Api.Contracts.Enums;
+﻿using Blaise.Nuget.Api.Contracts.Enums;
 using Blaise.Nuget.Api.Contracts.Extensions;
+using System;
+using System.Collections.Generic;
 
 namespace Blaise.Tests.Models.Case
 {
