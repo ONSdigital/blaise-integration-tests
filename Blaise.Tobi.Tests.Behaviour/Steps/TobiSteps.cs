@@ -30,8 +30,6 @@ namespace Blaise.Tobi.Tests.Behaviour.Steps
         {
         }
 
-        [Given(@"I can view a list of surveys on Blaise within TOBI")]
-        [Given(@"a survey questionnaire end date has passed")]
         [When(@"I launch TOBI")]
         public void WhenILaunchTobi()
         {
@@ -44,13 +42,15 @@ namespace Blaise.Tobi.Tests.Behaviour.Steps
             TobiHelper.GetInstance().LoadQuestionnairePage();
         }
 
-        [Given(@"I have selected a survey")]
         [When(@"I select a survey")]
         public void WhenISelectASurvey()
         {
             TobiHelper.GetInstance().LoadTobiHomePage();
             var currentUrl = TobiHelper.GetInstance().ClickLoadQuestionnaire();
-            Assert.AreEqual(TobiConfigurationHelper.SurveyUrl, currentUrl);
+
+            Assert.That(currentUrl,
+                Is.EqualTo(TobiConfigurationHelper.SurveyUrl),
+                $"Current URL should match the expected survey URL: {TobiConfigurationHelper.SurveyUrl}");
         }
 
         [When(@"I select a questionnaire")]
@@ -59,51 +59,34 @@ namespace Blaise.Tobi.Tests.Behaviour.Steps
             TobiHelper.GetInstance().ClickInterviewButton(BlaiseConfigurationHelper.QuestionnaireName);
         }
 
-        [When(@"I do not see the questionnaire that I am working on")]
-        public void WhenIDoNotSeeTheQuestionnaireThatIAmWorkingOn()
-        {
-            Assert.AreEqual(TobiConfigurationHelper.SurveyUrl, BrowserHelper.CurrentUrl);
-        }
-
         [Then(@"I am presented with a list of live surveys")]
         public void ThenIAmPresentedWithAListOfLiveSurveys()
         {
-            Assert.IsNotNull(TobiHelper.GetInstance().GetSurveyTableContents().Where(s => s.Equals("DST")));   
+            var surveyTableContents = TobiHelper.GetInstance().GetSurveyTableContents();
+
+            Assert.That(surveyTableContents,
+                Contains.Item("DST"),
+                "List of live surveys should contain 'DST'");
         }
 
         [Then(@"I am presented with a list of questionnaires for the survey")]
         public void ThenIAmPresentedWithAListOfQuestionnairesForTheSurvey()
         {
             var activeQuestionnaires = TobiHelper.GetInstance().GetQuestionnaireTableContents();
-            Assert.IsNotNull(activeQuestionnaires.Where(q => q.Contains(BlaiseConfigurationHelper.QuestionnaireName)));
+
+            Assert.That(activeQuestionnaires,
+                Has.Some.Contain(BlaiseConfigurationHelper.QuestionnaireName),
+                $"List of active questionnaires should contain '{BlaiseConfigurationHelper.QuestionnaireName}'");
         }
 
         [Then(@"I am presented with the Blaise login")]
         public void ThenIAmPresentedWithTheBlaiseLogin()
         {
             CatiInterviewHelper.GetInstance().LoginButtonIsAvailable();
-            Assert.AreEqual($"{CatiConfigurationHelper.SchedulerUrl.ToLower()}/login", BrowserHelper.CurrentUrl.ToLower());   
-        }
 
-        [Then(@"I will not see that questionnaire listed for the survey")]
-        public void ThenIWillNotSeeThatQuestionnaireListedForTheSurvey()
-        {
-            var questionnaireShowing = TobiHelper.GetInstance().GetQuestionnaireTableContents()
-                .Where(s => s.Contains(BlaiseConfigurationHelper.QuestionnaireName));
-            Assert.IsEmpty(questionnaireShowing);
-        }
-
-        [Then(@"I will not see any surveys listed")]
-        public void ThenIWillNotSeeAnySurveysListed()
-        {
-            Assert.AreEqual("No active surveys found.", TobiHelper.GetInstance().GetNoSurveysText());
-        }
-
-        [Then(@"I am able to go back to view the list of surveys")]
-        public void ThenIAmAbleToGoBackToViewTheListOfSurveys()
-        {
-            TobiHelper.GetInstance().ClickReturnToSurveyListButton();
-            Assert.AreEqual(TobiConfigurationHelper.TobiUrl, BrowserHelper.CurrentUrl);
+            Assert.That(BrowserHelper.CurrentUrl.ToLower(),
+                Is.EqualTo($"{CatiConfigurationHelper.SchedulerUrl.ToLower()}/login"),
+                $"Current URL should be the Blaise login page: {CatiConfigurationHelper.SchedulerUrl.ToLower()}/login");
         }
 
         [AfterFeature("tobi")]
