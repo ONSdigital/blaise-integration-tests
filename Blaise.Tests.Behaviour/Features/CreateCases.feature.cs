@@ -20,15 +20,15 @@ namespace Blaise.Tests.Behaviour.Features
     [System.CodeDom.Compiler.GeneratedCodeAttribute("TechTalk.SpecFlow", "3.9.0.0")]
     [System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     [NUnit.Framework.TestFixtureAttribute()]
-    [NUnit.Framework.DescriptionAttribute("Create Cases")]
-    [NUnit.Framework.CategoryAttribute("case")]
+    [NUnit.Framework.DescriptionAttribute("Create cases")]
+    [NUnit.Framework.CategoryAttribute("create-casess")]
     public partial class CreateCasesFeature
     {
         
         private TechTalk.SpecFlow.ITestRunner testRunner;
         
         private static string[] featureTags = new string[] {
-                "case"};
+                "create-casess"};
         
 #line 1 "CreateCases.feature"
 #line hidden
@@ -37,8 +37,7 @@ namespace Blaise.Tests.Behaviour.Features
         public virtual void FeatureSetup()
         {
             testRunner = TechTalk.SpecFlow.TestRunnerManager.GetTestRunner();
-            TechTalk.SpecFlow.FeatureInfo featureInfo = new TechTalk.SpecFlow.FeatureInfo(new System.Globalization.CultureInfo("en-US"), "Features", "Create Cases", "\tIn order to capture respondents data accurately\r\n\tAs a responsible data owner\r\n\t" +
-                    "I want to be able to create a new case to capture respondents answers", ProgrammingLanguage.CSharp, featureTags);
+            TechTalk.SpecFlow.FeatureInfo featureInfo = new TechTalk.SpecFlow.FeatureInfo(new System.Globalization.CultureInfo("en-US"), "Features", "Create cases", null, ProgrammingLanguage.CSharp, featureTags);
             testRunner.OnFeatureStart(featureInfo);
         }
         
@@ -77,15 +76,15 @@ namespace Blaise.Tests.Behaviour.Features
         }
         
         [NUnit.Framework.TestAttribute()]
-        [NUnit.Framework.DescriptionAttribute("Create sample cases to capture respondent data")]
+        [NUnit.Framework.DescriptionAttribute("Create cases")]
         [NUnit.Framework.CategoryAttribute("smoke")]
-        public void CreateSampleCasesToCaptureRespondentData()
+        public void CreateCases()
         {
             string[] tagsOfScenario = new string[] {
                     "smoke"};
             System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
-            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Create sample cases to capture respondent data", null, tagsOfScenario, argumentsOfScenario, featureTags);
-#line 8
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Create cases", null, tagsOfScenario, argumentsOfScenario, featureTags);
+#line 5
 this.ScenarioInitialize(scenarioInfo);
 #line hidden
             if ((TagHelper.ContainsIgnoreTag(tagsOfScenario) || TagHelper.ContainsIgnoreTag(featureTags)))
@@ -95,46 +94,46 @@ this.ScenarioInitialize(scenarioInfo);
             else
             {
                 this.ScenarioStart();
-#line 9
- testRunner.Given("I have an questionnaire installed on a Blaise environment", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+#line 6
+ testRunner.Given("there is a questionnaire installed", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line hidden
                 TechTalk.SpecFlow.Table table1 = new TechTalk.SpecFlow.Table(new string[] {
                             "primarykey",
                             "outcomecode",
                             "telephoneno"});
                 table1.AddRow(new string[] {
-                            "900001",
+                            "9001",
                             "110",
-                            "07000 000 00"});
+                            "07000000000"});
                 table1.AddRow(new string[] {
-                            "900002",
+                            "9002",
                             "110",
-                            "07000 000 00"});
+                            "07000000000"});
                 table1.AddRow(new string[] {
-                            "900003",
+                            "9003",
                             "110",
-                            "07000 000 00"});
-#line 10
- testRunner.When("I create sample cases for the questionnaire", ((string)(null)), table1, "When ");
+                            "07000000000"});
+#line 7
+ testRunner.When("I create cases for the questionnaire", ((string)(null)), table1, "When ");
 #line hidden
                 TechTalk.SpecFlow.Table table2 = new TechTalk.SpecFlow.Table(new string[] {
                             "primarykey",
                             "outcomecode",
                             "telephoneno"});
                 table2.AddRow(new string[] {
-                            "900001",
+                            "9001",
                             "110",
-                            "07000 000 00"});
+                            "07000000000"});
                 table2.AddRow(new string[] {
-                            "900002",
+                            "9002",
                             "110",
-                            "07000 000 00"});
+                            "07000000000"});
                 table2.AddRow(new string[] {
-                            "900003",
+                            "9003",
                             "110",
-                            "07000 000 00"});
-#line 15
- testRunner.Then("the sample cases are available in the Blaise environment", ((string)(null)), table2, "Then ");
+                            "07000000000"});
+#line 12
+ testRunner.Then("the cases are available in the questionnaire", ((string)(null)), table2, "Then ");
 #line hidden
             }
             this.ScenarioCleanup();

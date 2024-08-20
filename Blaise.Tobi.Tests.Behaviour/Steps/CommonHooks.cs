@@ -1,6 +1,6 @@
-﻿using System;
-using Blaise.Tests.Helpers.Browser;
+﻿using Blaise.Tests.Helpers.Browser;
 using NUnit.Framework;
+using System;
 using TechTalk.SpecFlow;
 
 namespace Blaise.Tobi.Tests.Behaviour.Steps

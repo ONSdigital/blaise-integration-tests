@@ -1,10 +1,10 @@
-﻿﻿using System.Collections.Generic;
-using System.Linq;
-using Blaise.Tests.Helpers.Case;
-using Blaise.Tests.Helpers.Questionnaire;
+﻿using Blaise.Tests.Helpers.Case;
 using Blaise.Tests.Helpers.Configuration;
+using Blaise.Tests.Helpers.Questionnaire;
 using Blaise.Tests.Models.Case;
 using NUnit.Framework;
+using System.Collections.Generic;
+using System.Linq;
 using TechTalk.SpecFlow;
 
 namespace Blaise.Tests.Behaviour.Steps
@@ -31,7 +31,7 @@ namespace Blaise.Tests.Behaviour.Steps
         private void CheckNumberOfCasesMatch(int expectedNumberOfCases)
         {
             var actualNumberOfCases = CaseHelper.GetInstance().NumberOfCasesInQuestionnaire();
-            
+
             if (expectedNumberOfCases != actualNumberOfCases)
             {
                 Assert.Fail($"Expected '{expectedNumberOfCases}' cases in Blaise, but {actualNumberOfCases} cases were found");
@@ -41,16 +41,16 @@ namespace Blaise.Tests.Behaviour.Steps
         private void CheckCasesMatch(IEnumerable<CaseModel> expectedCases)
         {
             var actualCases = CaseHelper.GetInstance().GetCasesInBlaise().ToList();
+
             foreach (var expectedCase in expectedCases)
             {
                 var actualCase = actualCases.FirstOrDefault(c => c.PrimaryKey == expectedCase.PrimaryKey);
 
-                if (actualCase == null)
-                {
-                    Assert.Fail($"Case '{expectedCase.PrimaryKey}' was not found in Blaise");
-                }
+                Assert.That(actualCase, Is.Not.Null,
+                    $"Case '{expectedCase.PrimaryKey}' was not found in Blaise");
 
-                Assert.True(actualCase.Equals(expectedCase), $"Case '{expectedCase.PrimaryKey}' did not match the case in Blaise");
+                Assert.That(actualCase, Is.EqualTo(expectedCase),
+                    $"Case '{expectedCase.PrimaryKey}' did not match the case in Blaise");
             }
         }
 

@@ -47,7 +47,10 @@ namespace Blaise.Tobi.Tests.Behaviour.Steps
         {
             TobiHelper.GetInstance().LoadTobiHomePage();
             var currentUrl = TobiHelper.GetInstance().ClickLoadQuestionnaire();
-            Assert.AreEqual(TobiConfigurationHelper.SurveyUrl, currentUrl);
+
+            Assert.That(currentUrl,
+                Is.EqualTo(TobiConfigurationHelper.SurveyUrl),
+                $"Current URL should match the expected survey URL: {TobiConfigurationHelper.SurveyUrl}");
         }
 
         [When(@"I select a questionnaire")]
@@ -59,21 +62,31 @@ namespace Blaise.Tobi.Tests.Behaviour.Steps
         [Then(@"I am presented with a list of live surveys")]
         public void ThenIAmPresentedWithAListOfLiveSurveys()
         {
-            Assert.IsNotNull(TobiHelper.GetInstance().GetSurveyTableContents().Where(s => s.Equals("DST")));   
+            var surveyTableContents = TobiHelper.GetInstance().GetSurveyTableContents();
+
+            Assert.That(surveyTableContents,
+                Contains.Item("DST"),
+                "List of live surveys should contain 'DST'");
         }
 
         [Then(@"I am presented with a list of questionnaires for the survey")]
         public void ThenIAmPresentedWithAListOfQuestionnairesForTheSurvey()
         {
             var activeQuestionnaires = TobiHelper.GetInstance().GetQuestionnaireTableContents();
-            Assert.IsNotNull(activeQuestionnaires.Where(q => q.Contains(BlaiseConfigurationHelper.QuestionnaireName)));
+
+            Assert.That(activeQuestionnaires,
+                Has.Some.Contain(BlaiseConfigurationHelper.QuestionnaireName),
+                $"List of active questionnaires should contain '{BlaiseConfigurationHelper.QuestionnaireName}'");
         }
 
         [Then(@"I am presented with the Blaise login")]
         public void ThenIAmPresentedWithTheBlaiseLogin()
         {
             CatiInterviewHelper.GetInstance().LoginButtonIsAvailable();
-            Assert.AreEqual($"{CatiConfigurationHelper.SchedulerUrl.ToLower()}/login", BrowserHelper.CurrentUrl.ToLower());   
+
+            Assert.That(BrowserHelper.CurrentUrl.ToLower(),
+                Is.EqualTo($"{CatiConfigurationHelper.SchedulerUrl.ToLower()}/login"),
+                $"Current URL should be the Blaise login page: {CatiConfigurationHelper.SchedulerUrl.ToLower()}/login");
         }
 
         [AfterFeature("tobi")]

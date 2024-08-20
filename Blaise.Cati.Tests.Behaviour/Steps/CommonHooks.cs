@@ -1,9 +1,9 @@
-﻿using System;
-using Blaise.Tests.Helpers.Browser;
-using Blaise.Tests.Helpers.Questionnaire;
-using Blaise.Tests.Helpers.Configuration;
+﻿using Blaise.Tests.Helpers.Browser;
 using Blaise.Tests.Helpers.Cati;
+using Blaise.Tests.Helpers.Configuration;
+using Blaise.Tests.Helpers.Questionnaire;
 using NUnit.Framework;
+using System;
 using TechTalk.SpecFlow;
 
 namespace Blaise.Cati.Tests.Behaviour.Steps
@@ -35,7 +35,7 @@ namespace Blaise.Cati.Tests.Behaviour.Steps
             CatiManagementHelper.GetInstance().DeleteAdminUser();
             QuestionnaireHelper.GetInstance().UninstallQuestionnaire(BlaiseConfigurationHelper.QuestionnaireName, BlaiseConfigurationHelper.ServerParkName);
         }
-        
+
         [BeforeScenario]
         public void BeforeScenario()
         {

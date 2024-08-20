@@ -1,5 +1,4 @@
-﻿﻿using Blaise.Nuget.Api.Contracts.Enums;
-using Blaise.Tests.Helpers.Configuration;
+﻿using Blaise.Tests.Helpers.Configuration;
 using Blaise.Tests.Helpers.Questionnaire;
 using NUnit.Framework;
 using TechTalk.SpecFlow;
@@ -30,9 +29,14 @@ namespace Blaise.Tests.Behaviour.Steps
         [Then(@"the questionnaire is available")]
         public void ThenTheQuestionnaireIsAvailable()
         {
-            var questionnaireHasInstalled = QuestionnaireHelper.GetInstance().CheckQuestionnaireInstalled(BlaiseConfigurationHelper.QuestionnaireName, BlaiseConfigurationHelper.ServerParkName, 60);
+            var questionnaireHasInstalled = QuestionnaireHelper.GetInstance().CheckQuestionnaireInstalled(
+                BlaiseConfigurationHelper.QuestionnaireName,
+                BlaiseConfigurationHelper.ServerParkName,
+                60);
 
-            Assert.IsTrue(questionnaireHasInstalled, "The questionnaire has not been installed, or is not active");
+            Assert.That(questionnaireHasInstalled,
+                Is.True,
+                $"Questionnaire '{BlaiseConfigurationHelper.QuestionnaireName}' should be installed and active on server park '{BlaiseConfigurationHelper.ServerParkName}'");
         }
 
         [AfterScenario("deploy-questionnaire")]

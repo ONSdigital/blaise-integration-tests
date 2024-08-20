@@ -7,9 +7,9 @@ using OpenQA.Selenium.Support.Extensions;
 using OpenQA.Selenium.Support.UI;
 using SeleniumExtras.WaitHelpers;
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Collections.Generic;
 using TechTalk.SpecFlow;
 
 namespace Blaise.Tests.Helpers.Browser
@@ -179,11 +179,11 @@ namespace Blaise.Tests.Helpers.Browser
 
             string baseFileName = scenarioContext.StepContext.StepInfo.Text;
 
-            if (_browser!= null)
+            if (_browser != null)
             {
                 var screenShotFile = TakeScreenShot(testContext.WorkDirectory, baseFileName);
-                
-                if (screenShotFile!= null)
+
+                if (screenShotFile != null)
                 {
                     TestContext.AddTestAttachment(screenShotFile, baseFileName);
                 }
