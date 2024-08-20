@@ -1,6 +1,6 @@
-﻿using System.Collections.Generic;
-using Blaise.Tests.Helpers.Configuration;
+﻿using Blaise.Tests.Helpers.Configuration;
 using Blaise.Tests.Helpers.Framework;
+using System.Collections.Generic;
 
 namespace Blaise.Tests.Helpers.Tobi.Pages
 {

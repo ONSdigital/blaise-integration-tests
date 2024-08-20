@@ -1,11 +1,9 @@
-﻿using System;
-using Blaise.Tests.Helpers.Browser;
-using Blaise.Tests.Helpers.Case;
+﻿using Blaise.Tests.Helpers.Browser;
 using Blaise.Tests.Helpers.Configuration;
 using Blaise.Tests.Helpers.Dqs;
 using Blaise.Tests.Helpers.Questionnaire;
 using NUnit.Framework;
-using System.Linq;
+using System;
 using TechTalk.SpecFlow;
 
 namespace Blaise.Dqs.Tests.Behaviour.Steps
@@ -22,14 +20,14 @@ namespace Blaise.Dqs.Tests.Behaviour.Steps
         [Given(@"the questionnaire is active")]
         public void GivenTheQuestionnaireIsActive()
         {
-            Assert.IsTrue(QuestionnaireHelper.GetInstance().CheckQuestionnaireActive(BlaiseConfigurationHelper.QuestionnaireName, BlaiseConfigurationHelper.ServerParkName));
-        }
-
-        [Given(@"the questionnaire is not active")]
-        public void GivenTheQuestionnaireIsNotActive()
-        {
-            QuestionnaireHelper.GetInstance().DeactivateQuestionnaire(BlaiseConfigurationHelper.QuestionnaireName,
-                BlaiseConfigurationHelper.ServerParkName);
+            Assert.That(
+                QuestionnaireHelper.GetInstance().CheckQuestionnaireActive(
+                    BlaiseConfigurationHelper.QuestionnaireName,
+                    BlaiseConfigurationHelper.ServerParkName
+                ),
+                Is.True,
+                "The questionnaire should be active"
+            );
         }
 
         [Given(@"I select delete on the questionnaire details page")]
@@ -47,21 +45,6 @@ namespace Blaise.Dqs.Tests.Behaviour.Steps
             }
         }
 
-        [When(@"I select the questionnaire in the list")]
-        public void WhenISelectTheQuestionnaireInTheList()
-        {
-            DqsHelper.GetInstance().LoadDqsHomePage();
-            var questionnairesInTable = DqsHelper.GetInstance().GetQuestionnaireTableContents();
-            Assert.IsTrue(questionnairesInTable.Any(q => q == BlaiseConfigurationHelper.QuestionnaireName));
-            DqsHelper.GetInstance().ClickQuestionnaireInfoButton(BlaiseConfigurationHelper.QuestionnaireName);
-        }
-
-        [When(@"I am taken to the questionnaire details page")]
-        public void WhenIAmTakenToTheQuestionnaireDetailsPage()
-        {
-            DqsHelper.GetInstance().WaitForQuestionnaireDetailsPage();
-        }
-
         [Given(@"I am taken to the delete confirmation page")]
         public void GivenIAmTakenToTheDeleteConfirmationPage()
         {
@@ -75,21 +58,19 @@ namespace Blaise.Dqs.Tests.Behaviour.Steps
             DqsHelper.GetInstance().WaitForDeletionToComplete();
         }
 
-        [Then(@"I will have the option to delete the questionnaire")]
-        public void ThenIWillHaveTheOptionToDeleteTheQuestionnaire()
-        {
-            DqsHelper.GetInstance().CanDeleteQuestionnaire(); 
-        }
-
         [Then(@"the questionnaire is removed from Blaise")]
         public void ThenTheQuestionnaireIsRemovedFromBlaise()
         {
-            Assert.IsNotNull(DqsHelper.GetInstance().GetDeletionSummary());
+            var deletionSummary = DqsHelper.GetInstance().GetDeletionSummary();
+
+            Assert.That(deletionSummary,
+                Is.Not.Null,
+                "The deletion summary should be available, indicating that the questionnaire has been removed from Blaise");
         }
 
         [AfterScenario("delete-questionnaire")]
         public void AfterScenario()
-        {            
+        {
             if (QuestionnaireHelper.GetInstance().CheckQuestionnaireExists(BlaiseConfigurationHelper.QuestionnaireName, BlaiseConfigurationHelper.ServerParkName))
             {
                 QuestionnaireHelper.GetInstance().UninstallQuestionnaire(BlaiseConfigurationHelper.QuestionnaireName, BlaiseConfigurationHelper.ServerParkName);

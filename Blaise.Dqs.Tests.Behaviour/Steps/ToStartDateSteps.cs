@@ -1,5 +1,4 @@
 ﻿using Blaise.Tests.Helpers.Browser;
-using Blaise.Tests.Helpers.Case;
 using Blaise.Tests.Helpers.Configuration;
 using Blaise.Tests.Helpers.Dqs;
 using Blaise.Tests.Helpers.Questionnaire;
@@ -29,7 +28,10 @@ namespace Blaise.Dqs.Tests.Behaviour.Steps
         {
             DqsHelper.GetInstance().ClickQuestionnaireInfoButton(BlaiseConfigurationHelper.QuestionnaireName);
             var toStartDateText = DqsHelper.GetInstance().GetToStartDate();
-            Assert.AreEqual("No start date specified, using survey days", toStartDateText);
+
+            Assert.That(toStartDateText,
+                Is.EqualTo("No start date specified, using survey days"),
+                "The TO start date should indicate that no start date is specified");
         }
 
         [Given(@"the questionnaire has a start date of '(.*)'")]
@@ -55,7 +57,7 @@ namespace Blaise.Dqs.Tests.Behaviour.Steps
             DqsHelper.GetInstance().ClickAddStartDate();
             DqsHelper.GetInstance().SelectYesLiveDate();
             DqsHelper.GetInstance().SetLiveDate(toStartDate);
-            DqsHelper.GetInstance().ConfirmQuestionnaireUpload(); 
+            DqsHelper.GetInstance().ConfirmQuestionnaireUpload();
         }
 
         [When(@"I remove the TO start date")]
@@ -70,17 +72,21 @@ namespace Blaise.Dqs.Tests.Behaviour.Steps
         [Then(@"the TO start date for '(.*)' is stored against the questionnaire")]
         public void ThenTheToStartDateForIsStoredAgainstTheQuestionnaire(string date)
         {
-            var toStartDate = DateTime.Now.ToString("dd/MM/yyyy");
-            if (date == "tomorrow")
-                toStartDate = DateTime.Now.AddDays(1).ToString("dd/MM/yyyy");
+            var toStartDate = date == "tomorrow"
+                ? DateTime.Now.AddDays(1).ToString("dd/MM/yyyy")
+                : DateTime.Now.ToString("dd/MM/yyyy");
+
             DqsHelper.GetInstance().ClickQuestionnaireInfoButton(BlaiseConfigurationHelper.QuestionnaireName);
             var toStartDateText = DqsHelper.GetInstance().GetToStartDate();
-            Assert.IsTrue(toStartDateText.Contains(toStartDate));
+
+            Assert.That(toStartDateText,
+                Does.Contain(toStartDate),
+                $"TO start date text should contain '{toStartDate}', but got: '{toStartDateText}'");
         }
 
         [AfterScenario("to-start-date")]
         public void AfterScenario()
-        {            
+        {
             if (QuestionnaireHelper.GetInstance().CheckQuestionnaireExists(BlaiseConfigurationHelper.QuestionnaireName, BlaiseConfigurationHelper.ServerParkName))
             {
                 QuestionnaireHelper.GetInstance().UninstallQuestionnaire(BlaiseConfigurationHelper.QuestionnaireName, BlaiseConfigurationHelper.ServerParkName);
