@@ -32,7 +32,7 @@ namespace Blaise.Dqs.Tests.Behaviour.Steps
         [Given(@"there is a questionnaire installed in Blaise")]
         public void GivenThereIsAQuestionnaireInstalledInBlaise()
         {
-            QuestionnaireHelper.GetInstance().InstallQuestionnaire(BlaiseConfigurationHelper.QuestionnaireName, BlaiseConfigurationHelper.ServerParkName, BlaiseConfigurationHelper.QuestionnairePath);
+            QuestionnaireHelper.GetInstance().InstallQuestionnaire(BlaiseConfigurationHelper.QuestionnaireName, BlaiseConfigurationHelper.ServerParkName, BlaiseConfigurationHelper.QuestionnairePath, BlaiseConfigurationHelper.QuestionnaireInstallOptions);
         }
 
         [Then(@"I am presented with a list of deployed questionnaires")]
@@ -144,7 +144,7 @@ namespace Blaise.Dqs.Tests.Behaviour.Steps
         [Given(@"I have been presented with questionnaire already exists screen")]
         public void GivenIHaveBeenPresentedWithQuestionnaireAlreadyExistsScreen()
         {
-            QuestionnaireHelper.GetInstance().InstallQuestionnaire(BlaiseConfigurationHelper.QuestionnaireName, BlaiseConfigurationHelper.ServerParkName, BlaiseConfigurationHelper.QuestionnairePath);
+            QuestionnaireHelper.GetInstance().InstallQuestionnaire(BlaiseConfigurationHelper.QuestionnaireName, BlaiseConfigurationHelper.ServerParkName, BlaiseConfigurationHelper.QuestionnairePath, BlaiseConfigurationHelper.QuestionnaireInstallOptions);
             DqsHelper.GetInstance().LoadUploadPage();
             DqsHelper.GetInstance().SelectQuestionnairePackage();
             DqsHelper.GetInstance().ConfirmQuestionnaireUpload();

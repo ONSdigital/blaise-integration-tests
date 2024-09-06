@@ -14,7 +14,7 @@ namespace Blaise.Dqs.Tests.Behaviour.Steps
         [BeforeScenario("to-start-date")]
         public static void BeforeScenario()
         {
-            QuestionnaireHelper.GetInstance().InstallQuestionnaire(BlaiseConfigurationHelper.QuestionnaireName, BlaiseConfigurationHelper.ServerParkName, BlaiseConfigurationHelper.QuestionnairePath);
+            QuestionnaireHelper.GetInstance().InstallQuestionnaire(BlaiseConfigurationHelper.QuestionnaireName, BlaiseConfigurationHelper.ServerParkName, BlaiseConfigurationHelper.QuestionnairePath, BlaiseConfigurationHelper.QuestionnaireInstallOptions);
         }
 
         [Given(@"a questionnaire has been deployed")]

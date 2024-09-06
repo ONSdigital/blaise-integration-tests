@@ -1,6 +1,8 @@
 ﻿using Blaise.Nuget.Api.Api;
 using Blaise.Nuget.Api.Contracts.Enums;
 using Blaise.Nuget.Api.Contracts.Interfaces;
+using Blaise.Nuget.Api.Contracts.Models;
+using StatNeth.Blaise.API.ServerManager;
 using System;
 using System.Threading;
 
@@ -32,7 +34,7 @@ namespace Blaise.Tests.Helpers.Questionnaire
             return $"{questionnairePath}//{questionnaireName}.bpkg";
         }
 
-        public void InstallQuestionnaire(string questionnaireName, string serverParkName, string questionnairePath)
+        public void InstallQuestionnaire(string questionnaireName, string serverParkName, string questionnairePath, IInstallOptions installOptions)
         {
             QuestionnaireStatusType status = QuestionnaireStatusType.Other;
 
@@ -58,7 +60,7 @@ namespace Blaise.Tests.Helpers.Questionnaire
             _blaiseQuestionnaireApi.InstallQuestionnaire(questionnaireName,
                                                         serverParkName,
                                                         questionnairePackagePath,
-                                                        QuestionnaireInterviewType.Cati);
+                                                        installOptions);
             Thread.Sleep(2000);
         }
 
@@ -88,9 +90,9 @@ namespace Blaise.Tests.Helpers.Questionnaire
             Thread.Sleep(2000);
         }
 
-        public QuestionnaireInterviewType GetQuestionnaireInterviewType(string questionnaireName, string serverParkName)
+        public QuestionnaireConfigurationModel GetQuestionnaireConfigurationModel(string questionnaireName, string serverParkName)
         {
-            return _blaiseQuestionnaireApi.GetQuestionnaireInterviewType(questionnaireName, serverParkName);
+            return _blaiseQuestionnaireApi.GetQuestionnaireConfigurationModel(questionnaireName, serverParkName);
         }
 
         public bool CheckQuestionnaireExists(string questionnaireName, string serverParkName)
