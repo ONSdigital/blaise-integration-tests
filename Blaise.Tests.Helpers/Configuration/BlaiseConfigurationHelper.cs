@@ -15,11 +15,11 @@ namespace Blaise.Tests.Helpers.Configuration
         public static string QuestionnaireName => ConfigurationExtensions.GetVariable("QuestionnaireName");
         public static string QuestionnairePackage => QuestionnaireHelper.QuestionnairePackagePath(QuestionnairePath, QuestionnaireName);
 
-        public static IInstallOptions QuestionnaireInstallOptions => new InstallOptions
+        public static InstallOptions QuestionnaireInstallOptions => new InstallOptions
         {
             DataEntrySettingsName = QuestionnaireDataEntryType.StrictInterviewing.ToString(),
-            InitialAppLayoutSetGroupName = QuestionnaireInterviewType.Cati.FullName(),
-            LayoutSetGroupName = QuestionnaireInterviewType.Cati.FullName(),
+            InitialAppLayoutSetGroupName = QuestionnaireInterviewType.Capi.FullName(),
+            LayoutSetGroupName = QuestionnaireInterviewType.Capi.FullName(),
             OverwriteMode = DataOverwriteMode.Always,
         };
 

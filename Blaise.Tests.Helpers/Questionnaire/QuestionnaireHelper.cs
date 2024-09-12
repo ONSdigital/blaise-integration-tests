@@ -34,7 +34,7 @@ namespace Blaise.Tests.Helpers.Questionnaire
             return $"{questionnairePath}//{questionnaireName}.bpkg";
         }
 
-        public void InstallQuestionnaire(string questionnaireName, string serverParkName, string questionnairePath, IInstallOptions installOptions)
+        public void InstallQuestionnaire(string questionnaireName, string serverParkName, string questionnairePath, InstallOptions installOptions)
         {
             QuestionnaireStatusType status = QuestionnaireStatusType.Other;
 
