@@ -21,7 +21,7 @@ namespace Blaise.Tobi.Tests.Behaviour.Steps
         {
             QuestionnaireHelper.GetInstance().InstallQuestionnaire(BlaiseConfigurationHelper.QuestionnaireName, BlaiseConfigurationHelper.ServerParkName, BlaiseConfigurationHelper.QuestionnairePath, BlaiseConfigurationHelper.QuestionnaireInstallOptions);
             var primaryKeyValues = new Dictionary<string, string> { { "QID.Serial_Number", "9001" } };
-            CaseHelper.GetInstance().CreateCase(new CaseModel(primaryKeyValues, "110", "07000000000"));
+            CaseHelper.GetInstance().CreateCase(new CaseModel("9001", "110", "07000000000"));
             DayBatchHelper.GetInstance().SetSurveyDay(BlaiseConfigurationHelper.QuestionnaireName, DateTime.Today);
             DayBatchHelper.GetInstance().CreateDayBatch(BlaiseConfigurationHelper.QuestionnaireName, DateTime.Today);
         }

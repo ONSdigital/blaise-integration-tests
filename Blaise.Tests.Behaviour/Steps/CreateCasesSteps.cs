@@ -44,13 +44,13 @@ namespace Blaise.Tests.Behaviour.Steps
 
             foreach (var expectedCase in expectedCases)
             {
-                var actualCase = actualCases.FirstOrDefault(c => c.PrimaryKeyValues == expectedCase.PrimaryKeyValues);
+                var actualCase = actualCases.FirstOrDefault(c => c.PrimaryKey == expectedCase.PrimaryKey);
 
                 Assert.That(actualCase, Is.Not.Null,
-                    $"Case '{expectedCase.PrimaryKeyValues}' was not found in Blaise");
+                    $"Case '{expectedCase.PrimaryKey}' was not found in Blaise");
 
                 Assert.That(actualCase, Is.EqualTo(expectedCase),
-                    $"Case '{expectedCase.PrimaryKeyValues}' did not match the case in Blaise");
+                    $"Case '{expectedCase.PrimaryKey}' did not match the case in Blaise");
             }
         }
 
