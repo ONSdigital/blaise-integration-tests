@@ -15,8 +15,9 @@ namespace Blaise.Tests.Helpers.Framework.Extensions
         public static string GetVariable(string variableName)
         {
             var variable = ConfigurationManager.AppSettings[variableName];
+            Console.WriteLine($"{variableName} = {variable}");
             variable.ThrowExceptionIfNullOrEmpty(variableName);
-            return variable;
+            return variable;    
         }
 
         public static int GetIntVariable(string variableName)
