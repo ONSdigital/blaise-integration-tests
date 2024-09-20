@@ -7,6 +7,7 @@ using StatNeth.Blaise.API.DataRecord;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
+using System.Linq;
 
 namespace Blaise.Tests.Helpers.Case
 {
@@ -36,14 +37,16 @@ namespace Blaise.Tests.Helpers.Case
 
         public void CreateCase(CaseModel caseModel)
         {
-            _blaiseCaseApi.CreateCase(caseModel.PrimaryKey, caseModel.FieldData(), BlaiseConfigurationHelper.QuestionnaireName,
+            var primaryKeyValues = new Dictionary<string, string> { { "QID.Serial_Number", caseModel.PrimaryKey } };
+            _blaiseCaseApi.CreateCase(primaryKeyValues, caseModel.FieldData(), BlaiseConfigurationHelper.QuestionnaireName,
                 BlaiseConfigurationHelper.ServerParkName);
         }
 
         public void CreateCase()
         {
             var caseModel = BuildDefaultCase();
-            _blaiseCaseApi.CreateCase(caseModel.PrimaryKey, caseModel.FieldData(), BlaiseConfigurationHelper.QuestionnaireName,
+            var primaryKeyValues = new Dictionary<string, string> { { "QID.Serial_Number", caseModel.PrimaryKey } };
+            _blaiseCaseApi.CreateCase(primaryKeyValues, caseModel.FieldData(), BlaiseConfigurationHelper.QuestionnaireName,
                 BlaiseConfigurationHelper.ServerParkName);
         }
 
@@ -58,7 +61,7 @@ namespace Blaise.Tests.Helpers.Case
                 {
                     try
                     {
-                        var primaryKey = _blaiseCaseApi.GetPrimaryKeyValue(cases.ActiveRecord);
+                        var primaryKey = _blaiseCaseApi.GetPrimaryKeyValues(cases.ActiveRecord);
 
                         _blaiseCaseApi.RemoveCase(primaryKey, BlaiseConfigurationHelper.QuestionnaireName,
                             BlaiseConfigurationHelper.ServerParkName);
@@ -108,7 +111,8 @@ namespace Blaise.Tests.Helpers.Case
 
         private CaseModel MapRecordToCaseModel(IDataRecord caseRecord)
         {
-            var primaryKey = _blaiseCaseApi.GetPrimaryKeyValue(caseRecord);
+            var primaryKeyValues = _blaiseCaseApi.GetPrimaryKeyValues(caseRecord);
+            var primaryKey = primaryKeyValues.ElementAt(0).Value;
             var outcomeCode = _blaiseCaseApi.GetFieldValue(caseRecord, FieldNameType.HOut).IntegerValue.ToString(CultureInfo.InvariantCulture);
             var telephoneNumber = _blaiseCaseApi.GetFieldValue(caseRecord, FieldNameType.TelNo).IntegerValue.ToString(CultureInfo.InvariantCulture);
 
