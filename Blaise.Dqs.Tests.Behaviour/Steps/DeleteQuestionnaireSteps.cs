@@ -14,7 +14,7 @@ namespace Blaise.Dqs.Tests.Behaviour.Steps
         [Given(@"I have a questionnaire I want to delete")]
         public void GivenIHaveAQestionnaireIWantToDelete()
         {
-            QuestionnaireHelper.GetInstance().InstallQuestionnaire(BlaiseConfigurationHelper.QuestionnaireName, BlaiseConfigurationHelper.ServerParkName, BlaiseConfigurationHelper.QuestionnairePath);
+            QuestionnaireHelper.GetInstance().InstallQuestionnaire(BlaiseConfigurationHelper.QuestionnaireName, BlaiseConfigurationHelper.ServerParkName, BlaiseConfigurationHelper.QuestionnairePath, BlaiseConfigurationHelper.QuestionnaireInstallOptions);
         }
 
         [Given(@"the questionnaire is active")]
