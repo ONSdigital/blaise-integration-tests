@@ -54,13 +54,13 @@ namespace Blaise.Tests.Behaviour.Steps
             }
         }
 
-        [AfterScenario("create-casess")]
+        [AfterScenario("create-cases")]
         public void AfterScenario()
         {
             CaseHelper.GetInstance().DeleteCases();
         }
 
-        [AfterFeature("create-casess")]
+        [AfterFeature("create-cases")]
         public static void AfterFeature()
         {
             QuestionnaireHelper.GetInstance().UninstallQuestionnaire(BlaiseConfigurationHelper.QuestionnaireName, BlaiseConfigurationHelper.ServerParkName);

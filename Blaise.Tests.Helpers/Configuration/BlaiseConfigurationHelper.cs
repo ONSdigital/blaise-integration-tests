@@ -1,6 +1,9 @@
-﻿using Blaise.Nuget.Api.Contracts.Models;
+﻿using Blaise.Nuget.Api.Contracts.Enums;
+using Blaise.Nuget.Api.Contracts.Extensions;
+using Blaise.Nuget.Api.Contracts.Models;
 using Blaise.Tests.Helpers.Framework.Extensions;
 using Blaise.Tests.Helpers.Questionnaire;
+using StatNeth.Blaise.API.ServerManager;
 
 namespace Blaise.Tests.Helpers.Configuration
 {
@@ -11,6 +14,14 @@ namespace Blaise.Tests.Helpers.Configuration
         public static string QuestionnairePath => ConfigurationExtensions.GetVariable("QuestionnairePath");
         public static string QuestionnaireName => ConfigurationExtensions.GetVariable("QuestionnaireName");
         public static string QuestionnairePackage => QuestionnaireHelper.QuestionnairePackagePath(QuestionnairePath, QuestionnaireName);
+
+        public static InstallOptions QuestionnaireInstallOptions => new InstallOptions
+        {
+            DataEntrySettingsName = QuestionnaireDataEntryType.StrictInterviewing.ToString(),
+            InitialAppLayoutSetGroupName = QuestionnaireInterviewType.Capi.FullName(),
+            LayoutSetGroupName = QuestionnaireInterviewType.Capi.FullName(),
+            OverwriteMode = DataOverwriteMode.Always,
+        };
 
         public static ConnectionModel BuildConnectionModel()
         {
