@@ -2,6 +2,7 @@
 using Blaise.Nuget.Api.Contracts.Extensions;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Blaise.Tests.Models.Case
 {
@@ -30,6 +31,8 @@ namespace Blaise.Tests.Models.Case
         {
             PrimaryKeyValues = primaryKeyValues;
 
+            PrimaryKey = PrimaryKeyValues.FirstOrDefault().Value;
+
             OutcomeCode = outcomeCode;
             TelephoneNo = telephoneNo;
         }
@@ -39,7 +42,7 @@ namespace Blaise.Tests.Models.Case
             if (other is null)
                 return false;
 
-            return PrimaryKeyValues == other.PrimaryKeyValues && OutcomeCode == other.OutcomeCode; //&& TelephoneNo == other.TelephoneNo;
+            return PrimaryKey == other.PrimaryKey && OutcomeCode == other.OutcomeCode; 
         }
 
         public Dictionary<string, string> FieldData()
