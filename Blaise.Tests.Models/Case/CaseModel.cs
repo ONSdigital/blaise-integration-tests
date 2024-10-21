@@ -11,12 +11,25 @@ namespace Blaise.Tests.Models.Case
         public string OutcomeCode { get; }
         public string TelephoneNo { get; }
 
-        public CaseModel(Dictionary<string, string> primaryKeyValues, string outcomeCode, string telephoneNo)
+        public CaseModel(string primaryKey, string outcomeCode, string telephoneNo)
         {
-            PrimaryKeyValues = primaryKeyValues;
+            PrimaryKeyValues = new Dictionary<string, string>
+            {
+                ["QID.Serial_Number"] = primaryKey
+            };
+
             OutcomeCode = outcomeCode;
             TelephoneNo = telephoneNo;
         }
+
+        public CaseModel(Dictionary<string, string> primaryKeyValues, string outcomeCode, string telephoneNo)
+        {
+            PrimaryKeyValues = primaryKeyValues;
+
+            OutcomeCode = outcomeCode;
+            TelephoneNo = telephoneNo;
+        }
+
         public bool Equals(CaseModel other)
         {
             if (other is null)
