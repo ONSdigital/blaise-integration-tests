@@ -17,6 +17,12 @@ namespace Blaise.Tests.Behaviour.Steps
             _scenarioContext = scenarioContext;
         }
 
+        [BeforeTestRun]
+        public static void BeforeTestRun()
+        {
+            NUnit.Framework.Internal.TestExecutionContext.CurrentContext.StopOnFirstFailure = true;
+        }
+
         [BeforeScenario]
         public void BeforeScenario()
         {
