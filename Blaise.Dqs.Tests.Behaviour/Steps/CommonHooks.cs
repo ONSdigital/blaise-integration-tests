@@ -36,5 +36,19 @@ namespace Blaise.Tests.Behaviour.Steps
                 throw new Exception(_scenarioContext.TestError.Message);
             }
         }
+
+        [AfterScenario]
+        public void AfterScenario()
+        {
+            if (QuestionnaireHelper.GetInstance().CheckQuestionnaireExists(BlaiseConfigurationHelper.QuestionnaireName, BlaiseConfigurationHelper.ServerParkName))
+            {
+                QuestionnaireHelper.GetInstance().UninstallQuestionnaire(BlaiseConfigurationHelper.QuestionnaireName, BlaiseConfigurationHelper.ServerParkName);
+            }
+            if (!_hasFailureOccurred)
+            {
+                DqsHelper.GetInstance().LogoutOfDqs();
+                BrowserHelper.ClosePreviousTab();
+            }     
+        }
     }
 }
