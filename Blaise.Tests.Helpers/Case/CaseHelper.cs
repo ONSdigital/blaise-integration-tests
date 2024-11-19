@@ -36,14 +36,14 @@ namespace Blaise.Tests.Helpers.Case
 
         public void CreateCase(CaseModel caseModel)
         {
-            _blaiseCaseApi.CreateCase(caseModel.PrimaryKey, caseModel.FieldData(), BlaiseConfigurationHelper.QuestionnaireName,
+            _blaiseCaseApi.CreateCase(caseModel.PrimaryKeyValues, caseModel.FieldData(), BlaiseConfigurationHelper.QuestionnaireName,
                 BlaiseConfigurationHelper.ServerParkName);
         }
 
         public void CreateCase()
         {
             var caseModel = BuildDefaultCase();
-            _blaiseCaseApi.CreateCase(caseModel.PrimaryKey, caseModel.FieldData(), BlaiseConfigurationHelper.QuestionnaireName,
+            _blaiseCaseApi.CreateCase(caseModel.PrimaryKeyValues, caseModel.FieldData(), BlaiseConfigurationHelper.QuestionnaireName,
                 BlaiseConfigurationHelper.ServerParkName);
         }
 
@@ -58,7 +58,7 @@ namespace Blaise.Tests.Helpers.Case
                 {
                     try
                     {
-                        var primaryKey = _blaiseCaseApi.GetPrimaryKeyValue(cases.ActiveRecord);
+                        var primaryKey = _blaiseCaseApi.GetPrimaryKeyValues(cases.ActiveRecord);
 
                         _blaiseCaseApi.RemoveCase(primaryKey, BlaiseConfigurationHelper.QuestionnaireName,
                             BlaiseConfigurationHelper.ServerParkName);
@@ -108,7 +108,7 @@ namespace Blaise.Tests.Helpers.Case
 
         private CaseModel MapRecordToCaseModel(IDataRecord caseRecord)
         {
-            var primaryKey = _blaiseCaseApi.GetPrimaryKeyValue(caseRecord);
+            var primaryKey = _blaiseCaseApi.GetPrimaryKeyValues(caseRecord);
             var outcomeCode = _blaiseCaseApi.GetFieldValue(caseRecord, FieldNameType.HOut).IntegerValue.ToString(CultureInfo.InvariantCulture);
             var telephoneNumber = _blaiseCaseApi.GetFieldValue(caseRecord, FieldNameType.TelNo).IntegerValue.ToString(CultureInfo.InvariantCulture);
 
@@ -117,7 +117,8 @@ namespace Blaise.Tests.Helpers.Case
 
         private CaseModel BuildDefaultCase()
         {
-            return new CaseModel("9001", "110", "07000000000");
+            var primaryKeyValues = new Dictionary<string, string> { { "QID.Serial_Number", "9001" } };
+            return new CaseModel(primaryKeyValues, "110", "07000000000");
         }
     }
 }

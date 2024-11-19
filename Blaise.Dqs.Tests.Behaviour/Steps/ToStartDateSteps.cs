@@ -14,7 +14,7 @@ namespace Blaise.Dqs.Tests.Behaviour.Steps
         [BeforeScenario("to-start-date")]
         public static void BeforeScenario()
         {
-            QuestionnaireHelper.GetInstance().InstallQuestionnaire(BlaiseConfigurationHelper.QuestionnaireName, BlaiseConfigurationHelper.ServerParkName, BlaiseConfigurationHelper.QuestionnairePath);
+            QuestionnaireHelper.GetInstance().InstallQuestionnaire(BlaiseConfigurationHelper.QuestionnaireName, BlaiseConfigurationHelper.ServerParkName, BlaiseConfigurationHelper.QuestionnairePath, BlaiseConfigurationHelper.QuestionnaireInstallOptions);
         }
 
         [Given(@"a questionnaire has been deployed")]
@@ -82,17 +82,6 @@ namespace Blaise.Dqs.Tests.Behaviour.Steps
             Assert.That(toStartDateText,
                 Does.Contain(toStartDate),
                 $"TO start date text should contain '{toStartDate}', but got: '{toStartDateText}'");
-        }
-
-        [AfterScenario("to-start-date")]
-        public void AfterScenario()
-        {
-            if (QuestionnaireHelper.GetInstance().CheckQuestionnaireExists(BlaiseConfigurationHelper.QuestionnaireName, BlaiseConfigurationHelper.ServerParkName))
-            {
-                QuestionnaireHelper.GetInstance().UninstallQuestionnaire(BlaiseConfigurationHelper.QuestionnaireName, BlaiseConfigurationHelper.ServerParkName);
-            }
-            DqsHelper.GetInstance().LogoutOfDqs();
-            BrowserHelper.ClosePreviousTab();
         }
     }
 }

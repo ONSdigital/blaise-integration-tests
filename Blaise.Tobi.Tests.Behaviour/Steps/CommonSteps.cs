@@ -3,16 +3,16 @@ using NUnit.Framework;
 using System;
 using TechTalk.SpecFlow;
 
-namespace Blaise.Tests.Behaviour.Steps
+namespace Blaise.Tobi.Tests.Behaviour.Steps
 {
     [Binding]
-    public sealed class CommonHooks
+    public sealed class CommonSteps
     {
         private readonly ScenarioContext _scenarioContext;
 
         private static bool _hasFailureOccurred = false;
 
-        public CommonHooks(ScenarioContext scenarioContext)
+        public CommonSteps(ScenarioContext scenarioContext)
         {
             _scenarioContext = scenarioContext;
         }
