@@ -9,13 +9,13 @@ using TechTalk.SpecFlow;
 namespace Blaise.Cati.Tests.Behaviour.Steps
 {
     [Binding]
-    public sealed class CommonHooks
+    public sealed class CommonSteps
     {
         private readonly ScenarioContext _scenarioContext;
 
         private static bool _hasFailureOccurred = false;
 
-        public CommonHooks(ScenarioContext scenarioContext)
+        public CommonSteps(ScenarioContext scenarioContext)
         {
             _scenarioContext = scenarioContext;
         }
@@ -23,7 +23,7 @@ namespace Blaise.Cati.Tests.Behaviour.Steps
         [BeforeTestRun]
         public static void BeforeTestRun()
         {
-            QuestionnaireHelper.GetInstance().InstallQuestionnaire(BlaiseConfigurationHelper.QuestionnaireName, BlaiseConfigurationHelper.ServerParkName, BlaiseConfigurationHelper.QuestionnairePath);
+            QuestionnaireHelper.GetInstance().InstallQuestionnaire(BlaiseConfigurationHelper.QuestionnaireName, BlaiseConfigurationHelper.ServerParkName, BlaiseConfigurationHelper.QuestionnairePath, BlaiseConfigurationHelper.QuestionnaireInstallOptions);
             CatiManagementHelper.GetInstance().CreateAdminUser();
             CatiInterviewHelper.GetInstance().CreateInterviewUser();
         }
