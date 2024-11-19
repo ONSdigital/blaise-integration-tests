@@ -32,7 +32,7 @@ namespace Blaise.Dqs.Tests.Behaviour.Steps
         [Given(@"there is a questionnaire installed in Blaise")]
         public void GivenThereIsAQuestionnaireInstalledInBlaise()
         {
-            QuestionnaireHelper.GetInstance().InstallQuestionnaire(BlaiseConfigurationHelper.QuestionnaireName, BlaiseConfigurationHelper.ServerParkName, BlaiseConfigurationHelper.QuestionnairePath);
+            QuestionnaireHelper.GetInstance().InstallQuestionnaire(BlaiseConfigurationHelper.QuestionnaireName, BlaiseConfigurationHelper.ServerParkName, BlaiseConfigurationHelper.QuestionnairePath, BlaiseConfigurationHelper.QuestionnaireInstallOptions);
         }
 
         [Then(@"I am presented with a list of deployed questionnaires")]
@@ -144,7 +144,7 @@ namespace Blaise.Dqs.Tests.Behaviour.Steps
         [Given(@"I have been presented with questionnaire already exists screen")]
         public void GivenIHaveBeenPresentedWithQuestionnaireAlreadyExistsScreen()
         {
-            QuestionnaireHelper.GetInstance().InstallQuestionnaire(BlaiseConfigurationHelper.QuestionnaireName, BlaiseConfigurationHelper.ServerParkName, BlaiseConfigurationHelper.QuestionnairePath);
+            QuestionnaireHelper.GetInstance().InstallQuestionnaire(BlaiseConfigurationHelper.QuestionnaireName, BlaiseConfigurationHelper.ServerParkName, BlaiseConfigurationHelper.QuestionnairePath, BlaiseConfigurationHelper.QuestionnaireInstallOptions);
             DqsHelper.GetInstance().LoadUploadPage();
             DqsHelper.GetInstance().SelectQuestionnairePackage();
             DqsHelper.GetInstance().ConfirmQuestionnaireUpload();
@@ -208,17 +208,6 @@ namespace Blaise.Dqs.Tests.Behaviour.Steps
             Assert.That(questionnaireInstalled,
                 Is.True,
                 $"Questionnaire '{BlaiseConfigurationHelper.QuestionnaireName}' should be active in Blaise on server park '{BlaiseConfigurationHelper.ServerParkName}'");
-        }
-
-        [AfterScenario("deploy-questionnaire")]
-        public void AfterScenario()
-        {
-            if (QuestionnaireHelper.GetInstance().CheckQuestionnaireExists(BlaiseConfigurationHelper.QuestionnaireName, BlaiseConfigurationHelper.ServerParkName))
-            {
-                QuestionnaireHelper.GetInstance().UninstallQuestionnaire(BlaiseConfigurationHelper.QuestionnaireName, BlaiseConfigurationHelper.ServerParkName);
-            }
-            DqsHelper.GetInstance().LogoutOfDqs();
-            BrowserHelper.ClosePreviousTab();
         }
     }
 }
