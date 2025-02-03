@@ -83,16 +83,5 @@ namespace Blaise.Dqs.Tests.Behaviour.Steps
                 Does.Contain(toStartDate),
                 $"TO start date text should contain '{toStartDate}', but got: '{toStartDateText}'");
         }
-
-        [AfterScenario("to-start-date")]
-        public void AfterScenario()
-        {
-            if (QuestionnaireHelper.GetInstance().CheckQuestionnaireExists(BlaiseConfigurationHelper.QuestionnaireName, BlaiseConfigurationHelper.ServerParkName))
-            {
-                QuestionnaireHelper.GetInstance().UninstallQuestionnaire(BlaiseConfigurationHelper.QuestionnaireName, BlaiseConfigurationHelper.ServerParkName);
-            }
-            DqsHelper.GetInstance().LogoutOfDqs();
-            BrowserHelper.ClosePreviousTab();
-        }
     }
 }

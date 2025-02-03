@@ -67,16 +67,5 @@ namespace Blaise.Dqs.Tests.Behaviour.Steps
                 Is.Not.Null,
                 "The deletion summary should be available, indicating that the questionnaire has been removed from Blaise");
         }
-
-        [AfterScenario("delete-questionnaire")]
-        public void AfterScenario()
-        {
-            if (QuestionnaireHelper.GetInstance().CheckQuestionnaireExists(BlaiseConfigurationHelper.QuestionnaireName, BlaiseConfigurationHelper.ServerParkName))
-            {
-                QuestionnaireHelper.GetInstance().UninstallQuestionnaire(BlaiseConfigurationHelper.QuestionnaireName, BlaiseConfigurationHelper.ServerParkName);
-            }
-            DqsHelper.GetInstance().LogoutOfDqs();
-            BrowserHelper.ClosePreviousTab();
-        }
     }
 }
