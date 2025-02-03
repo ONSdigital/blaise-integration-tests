@@ -209,16 +209,5 @@ namespace Blaise.Dqs.Tests.Behaviour.Steps
                 Is.True,
                 $"Questionnaire '{BlaiseConfigurationHelper.QuestionnaireName}' should be active in Blaise on server park '{BlaiseConfigurationHelper.ServerParkName}'");
         }
-
-        [AfterScenario("deploy-questionnaire")]
-        public void AfterScenario()
-        {
-            if (QuestionnaireHelper.GetInstance().CheckQuestionnaireExists(BlaiseConfigurationHelper.QuestionnaireName, BlaiseConfigurationHelper.ServerParkName))
-            {
-                QuestionnaireHelper.GetInstance().UninstallQuestionnaire(BlaiseConfigurationHelper.QuestionnaireName, BlaiseConfigurationHelper.ServerParkName);
-            }
-            DqsHelper.GetInstance().LogoutOfDqs();
-            BrowserHelper.ClosePreviousTab();
-        }
     }
 }
