@@ -42,6 +42,7 @@ namespace Blaise.Tests.Helpers.Cati
             var loginPage = new LoginPage();
             loginPage.LoadPage();
             loginPage.LoginToCati(CatiConfigurationHelper.CatiAdminUsername, CatiConfigurationHelper.CatiAdminPassword);
+            Thread.Sleep(2000);
         }
 
         public void LogIntoCatiDashboardAsInterviewer()
@@ -49,6 +50,7 @@ namespace Blaise.Tests.Helpers.Cati
             var loginPage = new LoginPage();
             loginPage.LoadPage();
             loginPage.LoginToCati(CatiConfigurationHelper.CatiInterviewUsername, CatiConfigurationHelper.CatiInterviewPassword);
+            Thread.Sleep(2000);
         }
 
         public void CreateDayBatch()
