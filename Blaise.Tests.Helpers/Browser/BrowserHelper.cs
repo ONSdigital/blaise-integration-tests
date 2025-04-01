@@ -247,6 +247,11 @@ namespace Blaise.Tests.Helpers.Browser
             Browser.Navigate().GoToUrl(pageUrl);
         }
 
+        public static IWebElement SwitchToActiveElement()
+        {
+            return Browser.SwitchTo().ActiveElement();
+        }
+
         public static int GetNumberOfWindows()
         {
             return Browser.WindowHandles.Count;

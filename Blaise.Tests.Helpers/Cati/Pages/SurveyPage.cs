@@ -1,4 +1,5 @@
-﻿using Blaise.Tests.Helpers.Configuration;
+﻿using Blaise.Tests.Helpers.Browser;
+using Blaise.Tests.Helpers.Configuration;
 using Blaise.Tests.Helpers.Framework;
 using OpenQA.Selenium;
 using System;
@@ -9,13 +10,15 @@ namespace Blaise.Tests.Helpers.Cati.Pages
 {
     public class SurveyPage : BasePage
     {
-        private const string ClearCatiDataButtonPath = @"//*[@id='MVCGridTable_SurveysGrid']/tbody/tr/td[9]/a";
-        private const string BackupDataButtonId = "chkBackupAll";
-        private const string ClearDataButtonId = "chkClearAll";
+        private const string ClearCatiDataButtonId = @"qa_backupdata_0";
+        private const string BackupAndClearCatiDataButtonPath = "//button[contains(@id, 'qa_backupdata_')]";
+        private const string BackupDataButtonPath = "//div[@class='row'][2]//input[@type='checkbox'][1]";
+        private const string ClearDataButtonPath = "//input[@id='qa_clear_all']";
         private const string ExecuteButtonPath = "//input[@value='Execute']";
-        private const string FilterButton = "//*[contains(text(), 'Filters')]";
+        private const string FilterButton = "//*[contains(text(), 'Database Filters')]";
+        private readonly string SurveyTextFieldId = "delim_val_qa_filter_surveymultiple"; 
         private readonly string SurveyRadioButton = $"//*[normalize-space()='{BlaiseConfigurationHelper.QuestionnaireName}']";
-        private const string ApplyButton = "//*[contains(text(), 'Apply')]";
+        private const string ApplyButtonId = "qa_filter_apply";
 
         public SurveyPage() : base(CatiConfigurationHelper.SurveyUrl)
         {
@@ -23,27 +26,49 @@ namespace Blaise.Tests.Helpers.Cati.Pages
 
         protected override Func<IWebDriver, bool> PageHasLoaded()
         {
-            return BodyContainsText("Showing");
+            return BodyContainsText("Surveys");
         }
 
         public void ClearDayBatchEntries()
         {
             Thread.Sleep(2000);
-            ClickButtonByXPath(ClearCatiDataButtonPath);
-            ClickButtonById(BackupDataButtonId);
-            ClickButtonById(ClearDataButtonId);
-            ClickButtonByXPath(ExecuteButtonPath);
+            ClickButtonByXPath(BackupAndClearCatiDataButtonPath); // Working
+
+            Thread.Sleep(2000);
+            var element = BrowserHelper.SwitchToActiveElement();
+            // modal-dialog-5825ca1f-b235-4b0e-ab94-562d44a9d0c9
+            Thread.Sleep(2000);
+            element.SendKeys(Keys.Space);
+            element.SendKeys(Keys.Tab);
+            element.SendKeys(Keys.Tab);
+            element.SendKeys(Keys.Tab);
+            element.SendKeys(Keys.Tab);
+            element.SendKeys(Keys.Tab);
+            element.SendKeys(Keys.Tab);
+            element.SendKeys(Keys.Space);
+            element.SendKeys(Keys.Tab);
+            element.SendKeys(Keys.Tab);
+            element.SendKeys(Keys.Tab);
+            element.SendKeys(Keys.Tab);
+            element.SendKeys(Keys.Tab);
+            element.SendKeys(Keys.Tab);
+            element.SendKeys(Keys.Tab);
+            element.SendKeys(Keys.Space);
+
+            //ClickButtonByXPath(BackupDataButtonPath);
+            //ClickButtonById(ClearCatiDataButtonId);
+
+            //ClickButtonById(ClearDataButtonId);
+            //ClickButtonByXPath(ExecuteButtonPath);
         }
 
         public void ApplyFilter()
         {
+            Thread.Sleep(2000);
             ClickButtonByXPath(FilterButton);
-            var filterButtonText = GetElementTextByPath(FilterButton);
-            if (filterButtonText != "Filters (active)")
-            {
-                ClickButtonByXPath(SurveyRadioButton);
-                ClickButtonByXPath(ApplyButton);
-            }
+            ClickButtonById("qa_filter_surveymultiple");
+            ClickButtonById("qa_filter_surveymultiple_0");
+            ClickButtonById(ApplyButtonId);
         }
     }
 }
