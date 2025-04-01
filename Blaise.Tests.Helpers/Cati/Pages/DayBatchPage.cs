@@ -9,7 +9,7 @@ namespace Blaise.Tests.Helpers.Cati.Pages
     {
         private const string DayBatchCreateButtonId = "btnCreateDaybatch";
         private const string CreateButtonPath = "//input[@value='Create']";
-        private readonly string DayBatchEntry = $"//table[@id='MVCGridTable_DaybatchGrid']//td[preceding-sibling::td='{BlaiseConfigurationHelper.QuestionnaireName}']";
+        private readonly string DayBatchEntry = $"//div[contains(text(), '{BlaiseConfigurationHelper.QuestionnaireName}')]";
         private readonly string ModifyEntryPath = $"//table[@id='MVCGridTable_DaybatchGrid']//td[preceding-sibling::td='{BlaiseConfigurationHelper.QuestionnaireName}']/a";
         private const string StartTimeId = "NewStartTimeAmPm";
         private const string EndTimeId = "NewEndTimeAmPm";
