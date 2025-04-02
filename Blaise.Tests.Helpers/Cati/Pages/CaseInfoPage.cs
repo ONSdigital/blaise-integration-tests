@@ -10,7 +10,7 @@ namespace Blaise.Tests.Helpers.Cati.Pages
     public class CaseInfoPage : BasePage
     {
         private const string QuestionnaireCell = "//span[text()='DST2304Z']";
-        private const string CaseIdCell = "//span[text()='DST2304Z']";
+        private readonly string CaseIdCell = $"/html/body/div[1]/main/div[2]/div/div[5]/div/table/tbody/tr[1]/td[2]";
         private const string PlayButton = "//a[contains(@href, '9001')]";
         private const string FilterButton = "//*[contains(text(), 'Filters')]";
         private readonly string SurveyRadioButton = $"//*[normalize-space()='{BlaiseConfigurationHelper.QuestionnaireName}']";
