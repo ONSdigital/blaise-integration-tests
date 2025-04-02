@@ -9,9 +9,9 @@ namespace Blaise.Tests.Helpers.Cati.Pages
 {
     public class CaseInfoPage : BasePage
     {
-        private const string QuestionnaireCell = "//*[@id='MVCGridTable_CaseInfoGrid']/tbody/tr[1]/td[1]";
-        private const string CaseIdCell = "//*[@id='MVCGridTable_CaseInfoGrid']/tbody/tr[1]/td[2]";
-        private const string PlayButton = "//*[@id='MVCGridTable_CaseInfoGrid']/tbody/tr[1]/td[19]/a/span";
+        private const string QuestionnaireCell = "//span[text()='DST2304Z']";
+        private const string CaseIdCell = "//span[text()='DST2304Z']";
+        private const string PlayButton = "//a[contains(@href, '9001')]";
         private const string FilterButton = "//*[contains(text(), 'Filters')]";
         private readonly string SurveyRadioButton = $"//*[normalize-space()='{BlaiseConfigurationHelper.QuestionnaireName}']";
         private const string ApplyButton = "//*[contains(text(), 'Apply')]";
@@ -40,7 +40,7 @@ namespace Blaise.Tests.Helpers.Cati.Pages
 
         protected override Func<IWebDriver, bool> PageHasLoaded()
         {
-            return BodyContainsText("Showing");
+            return BodyContainsText("Case Info");
         }
 
         public void ClickPlayButton()
