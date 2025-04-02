@@ -10,10 +10,10 @@ namespace Blaise.Tests.Helpers.Cati.Pages
         private const string DayBatchCreateButtonId = "btnCreateDaybatch";
         private const string CreateButtonPath = "//input[@value='Create']";
         private readonly string DayBatchEntry = $"//div[contains(text(), '{BlaiseConfigurationHelper.QuestionnaireName}')]";
-        private readonly string ModifyEntryPath = $"//table[@id='MVCGridTable_DaybatchGrid']//td[preceding-sibling::td='{BlaiseConfigurationHelper.QuestionnaireName}']/a";
-        private const string StartTimeId = "NewStartTimeAmPm";
-        private const string EndTimeId = "NewEndTimeAmPm";
-        private const string UpdateButtonPath = "//input[@value='Update']";
+        private readonly string ModifyEntryPath = $"/html/body/div[1]/main/div[2]/div/div[5]/div/table/tbody/tr/td[18]/div/div/button[1]/span";
+        private const string StartTimeId = "qa_starttime";
+        private const string EndTimeId = "qa_endtime";
+        private const string UpdateButtonId = "qa_btn_submit";
         private const string QuestionnaireDropDownId = "InstrumentId";
         private const string FilterButton = "//*[contains(text(), 'Filters')]";
         private readonly string SurveyRadioButton = $"//*[normalize-space()='{BlaiseConfigurationHelper.QuestionnaireName}']";
@@ -43,7 +43,7 @@ namespace Blaise.Tests.Helpers.Cati.Pages
             ClickButtonByXPath(ModifyEntryPath);
             PopulateInputById(StartTimeId, "12:00 AM");
             PopulateInputById(EndTimeId, "11:59 PM");
-            ClickButtonByXPath(UpdateButtonPath);
+            ClickButtonById(UpdateButtonId);
         }
 
         public void ApplyFilters()
