@@ -4,6 +4,7 @@ using Blaise.Tests.Helpers.Framework;
 using OpenQA.Selenium;
 using System;
 using System.Threading;
+using System.Xml.Linq;
 // ReSharper disable InconsistentNaming
 
 namespace Blaise.Tests.Helpers.Cati.Pages
@@ -67,7 +68,8 @@ namespace Blaise.Tests.Helpers.Cati.Pages
             Thread.Sleep(2000);
             ClickButtonByXPath(FilterButton);
             ClickButtonById("qa_filter_surveymultiple");
-            ClickButtonById("qa_filter_surveymultiple_0");
+            var element = BrowserHelper.SwitchToActiveElement();
+            element.SendKeys(Keys.Space);
             ClickButtonById(ApplyButtonId);
         }
     }

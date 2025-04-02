@@ -27,6 +27,7 @@ namespace Blaise.Tests.Helpers.Cati
         {
             var caseInfoPage = new CaseInfoPage();
             caseInfoPage.RefreshPageUntilCaseIsPlayable(caseId);
+            Thread.Sleep(1000);
             caseInfoPage.ClickPlayButton();
         }
 
