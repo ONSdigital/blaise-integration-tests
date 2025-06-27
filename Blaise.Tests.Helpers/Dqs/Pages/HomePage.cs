@@ -1,25 +1,26 @@
-﻿using Blaise.Tests.Helpers.Configuration;
-using Blaise.Tests.Helpers.Framework;
 using System.Collections.Generic;
+using Blaise.Tests.Helpers.Configuration;
+using Blaise.Tests.Helpers.Framework;
 
 namespace Blaise.Tests.Helpers.Dqs.Pages
 {
     public class HomePage : BasePage
     {
-        private const string DeployQuestionnaireButtonId = "deploy-questionnaire-link";
+        private const string _deployQuestionnaireButtonId = "deploy-questionnaire-link";
         public string QuestionnaireTableId = "questionnaire-table";
         public string QuestionnaireTableRowsPath = "//*[@id='questionnaire-table']/tbody/tr";
-        private const string SummaryDivPath = "//div[contains(@class, 'success ons-panel')]";
+        private const string _summaryDivPath = "//div[contains(@class, 'success ons-panel')]";
         public string InfoButtonPlaceholderId = "info-";
         public string FilterId = "filter-by-name";
 
-        public HomePage() : base(DqsConfigurationHelper.DqsUrl)
+        public HomePage()
+            : base(DqsConfigurationHelper.DqsUrl)
         {
         }
 
         public void ClickDeployAQuestionnaire()
         {
-            ClickButtonById(DeployQuestionnaireButtonId);
+            ClickButtonById(_deployQuestionnaireButtonId);
         }
 
         public List<string> GetFirstColumnFromTableContent()
@@ -30,7 +31,7 @@ namespace Blaise.Tests.Helpers.Dqs.Pages
 
         public string GetUploadSummaryText()
         {
-            return GetElementTextByPath(SummaryDivPath);
+            return GetElementTextByPath(_summaryDivPath);
         }
 
         public void ClickQuestionnaireInfoButton(string questionnaireName)

@@ -1,10 +1,10 @@
-﻿using Blaise.Nuget.Api.Api;
+using System;
+using System.Threading;
+using Blaise.Nuget.Api.Api;
 using Blaise.Nuget.Api.Contracts.Enums;
 using Blaise.Nuget.Api.Contracts.Interfaces;
 using Blaise.Nuget.Api.Contracts.Models;
 using StatNeth.Blaise.API.ServerManager;
-using System;
-using System.Threading;
 
 namespace Blaise.Tests.Helpers.Questionnaire
 {
@@ -57,10 +57,11 @@ namespace Blaise.Tests.Helpers.Questionnaire
 
             Console.WriteLine($"Installing questionnaire {questionnaireName}...");
             string questionnairePackagePath = QuestionnairePackagePath(questionnairePath, questionnaireName);
-            _blaiseQuestionnaireApi.InstallQuestionnaire(questionnaireName,
-                                                        serverParkName,
-                                                        questionnairePackagePath,
-                                                        installOptions);
+            _blaiseQuestionnaireApi.InstallQuestionnaire(
+                questionnaireName,
+                serverParkName,
+                questionnairePackagePath,
+                installOptions);
             Thread.Sleep(2000);
         }
 
@@ -132,6 +133,7 @@ namespace Blaise.Tests.Helpers.Questionnaire
                     return false;
                 }
             }
+
             return GetQuestionnaireStatus(questionnaireName, serverParkName) == QuestionnaireStatusType.Active;
         }
 
@@ -160,6 +162,7 @@ namespace Blaise.Tests.Helpers.Questionnaire
                     return false;
                 }
             }
+
             Console.WriteLine($"Questionnaire {questionnaireName} exists");
 
             return true;

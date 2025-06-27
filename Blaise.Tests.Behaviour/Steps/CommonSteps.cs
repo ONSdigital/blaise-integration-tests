@@ -1,6 +1,6 @@
-﻿using Blaise.Tests.Helpers.Browser;
-using NUnit.Framework;
 using System;
+using Blaise.Tests.Helpers.Browser;
+using NUnit.Framework;
 using TechTalk.SpecFlow;
 
 namespace Blaise.Tests.Behaviour.Steps
