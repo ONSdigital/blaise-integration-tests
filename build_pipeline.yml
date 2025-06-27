@@ -48,7 +48,7 @@ stages:
               targetType: inline
               script: |
                 cd "$(Build.SourcesDirectory)"
-                dotnet format BlaiseIntergrationTests.sln --verify-no-changes --no-restore --verbosity diagnostic
+                dotnet format BlaiseIntegrationTests.sln --verify-no-changes --no-restore --verbosity diagnostic
                 if ($LASTEXITCODE -eq 0) {
                   Write-Host "✅ Code formatting is clean."
                 } elseif ($LASTEXITCODE -eq 2) {
