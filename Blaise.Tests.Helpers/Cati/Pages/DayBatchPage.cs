@@ -1,60 +1,60 @@
-﻿using Blaise.Tests.Helpers.Configuration;
-using Blaise.Tests.Helpers.Framework;
 using System.Threading;
-// ReSharper disable InconsistentNaming
+using Blaise.Tests.Helpers.Configuration;
+using Blaise.Tests.Helpers.Framework;
 
+// ReSharper disable InconsistentNaming
 namespace Blaise.Tests.Helpers.Cati.Pages
 {
     public class DayBatchPage : BasePage
     {
-        private const string DayBatchCreateButtonId = "btnCreateDaybatch";
-        private const string CreateButtonPath = "//input[@value='Create']";
-        private readonly string DayBatchEntry = $"//table[@id='MVCGridTable_DaybatchGrid']//td[preceding-sibling::td='{BlaiseConfigurationHelper.QuestionnaireName}']";
-        private readonly string ModifyEntryPath = $"//table[@id='MVCGridTable_DaybatchGrid']//td[preceding-sibling::td='{BlaiseConfigurationHelper.QuestionnaireName}']/a";
-        private const string StartTimeId = "NewStartTimeAmPm";
-        private const string EndTimeId = "NewEndTimeAmPm";
-        private const string UpdateButtonPath = "//input[@value='Update']";
-        private const string QuestionnaireDropDownId = "InstrumentId";
-        private const string FilterButton = "//*[contains(text(), 'Filters')]";
-        private readonly string SurveyRadioButton = $"//*[normalize-space()='{BlaiseConfigurationHelper.QuestionnaireName}']";
-        private const string ApplyButton = "//*[contains(text(), 'Apply')]";
+        private const string _dayBatchCreateButtonId = "btnCreateDaybatch";
+        private const string _createButtonPath = "//input[@value='Create']";
+        private readonly string _dayBatchEntry = $"//table[@id='MVCGridTable_DaybatchGrid']//td[preceding-sibling::td='{BlaiseConfigurationHelper.QuestionnaireName}']";
+        private readonly string _modifyEntryPath = $"//table[@id='MVCGridTable_DaybatchGrid']//td[preceding-sibling::td='{BlaiseConfigurationHelper.QuestionnaireName}']/a";
+        private const string _startTimeId = "NewStartTimeAmPm";
+        private const string _endTimeId = "NewEndTimeAmPm";
+        private const string _updateButtonPath = "//input[@value='Update']";
+        private const string _questionnaireDropDownId = "InstrumentId";
+        private const string _filterButton = "//*[contains(text(), 'Filters')]";
+        private readonly string _surveyRadioButton = $"//*[normalize-space()='{BlaiseConfigurationHelper.QuestionnaireName}']";
+        private const string _applyButton = "//*[contains(text(), 'Apply')]";
 
-
-        public DayBatchPage() : base(CatiConfigurationHelper.DayBatchUrl)
+        public DayBatchPage()
+            : base(CatiConfigurationHelper.DayBatchUrl)
         {
         }
 
         public void CreateDayBatch()
         {
-            ClickButtonById(DayBatchCreateButtonId);
+            ClickButtonById(_dayBatchCreateButtonId);
             Thread.Sleep(2000);
-            SelectDropDownValueById(QuestionnaireDropDownId, BlaiseConfigurationHelper.QuestionnaireName);
+            SelectDropDownValueById(_questionnaireDropDownId, BlaiseConfigurationHelper.QuestionnaireName);
             Thread.Sleep(3000);
-            ClickButtonByXPath(CreateButtonPath);
+            ClickButtonByXPath(_createButtonPath);
         }
 
         public string GetDaybatchEntriesText()
         {
-            return GetElementTextByPath(DayBatchEntry);
+            return GetElementTextByPath(_dayBatchEntry);
         }
 
         internal void ModifyDayBatchEntry()
         {
-            ClickButtonByXPath(ModifyEntryPath);
-            PopulateInputById(StartTimeId, "12:00 AM");
-            PopulateInputById(EndTimeId, "11:59 PM");
-            ClickButtonByXPath(UpdateButtonPath);
+            ClickButtonByXPath(_modifyEntryPath);
+            PopulateInputById(_startTimeId, "12:00 AM");
+            PopulateInputById(_endTimeId, "11:59 PM");
+            ClickButtonByXPath(_updateButtonPath);
         }
 
         public void ApplyFilters()
         {
             Thread.Sleep(5000);
-            ClickButtonByXPath(FilterButton);
-            var filterButtonText = GetElementTextByPath(FilterButton);
+            ClickButtonByXPath(_filterButton);
+            var filterButtonText = GetElementTextByPath(_filterButton);
             if (filterButtonText != "Filters (active)")
             {
-                ClickButtonByXPath(SurveyRadioButton);
-                ClickButtonByXPath(ApplyButton);
+                ClickButtonByXPath(_surveyRadioButton);
+                ClickButtonByXPath(_applyButton);
             }
         }
     }

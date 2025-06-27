@@ -101,20 +101,26 @@ dotnet_naming_symbols.non_field_members.applicable_accessibilities = public, int
 dotnet_naming_symbols.non_field_members.required_modifiers =
  
 # Naming styles
-# Symbol group: all private fields
+# Symbol group: all private fields (not just readonly)
 dotnet_naming_symbols.private_fields.applicable_kinds = field
 dotnet_naming_symbols.private_fields.applicable_accessibilities = private
-dotnet_naming_symbols.private_fields.required_modifiers =
- 
+# Notice: No required_modifiers here — we want all private fields
+
 # Style: _camelCase
 dotnet_naming_style.camel_with_underscore.capitalization = camel_case
 dotnet_naming_style.camel_with_underscore.required_prefix = _
 dotnet_naming_style.camel_with_underscore.required_suffix =
- 
-# Rule: private fields should use _camelCase
+
+# Rule: all private fields should use _camelCase
 dotnet_naming_rule.private_fields_should_have_underscore.symbols = private_fields
 dotnet_naming_rule.private_fields_should_have_underscore.style = camel_with_underscore
 dotnet_naming_rule.private_fields_should_have_underscore.severity = error
+
+# Optional: enforce StyleCop rule for field prefix (underscore)
+dotnet_diagnostic.SA1309.severity = error
+
+
+
  
  
  
