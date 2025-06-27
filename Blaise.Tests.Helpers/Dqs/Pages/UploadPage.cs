@@ -21,12 +21,12 @@ namespace Blaise.Tests.Helpers.Dqs.Pages
 
         public void SelectFileToUpload(string questionnairePath)
         {
-            PopulateInputById(FileSelectorId, questionnairePath);
+            PopulateInputById(_fileSelectorId, questionnairePath);
         }
 
         public void SelectContinueButton()
         {
-            ClickButtonById(ContinueButtonId);
+            ClickButtonById(_continueButtonId);
         }
 
         public void WaitForUploadCompletion()
@@ -41,32 +41,32 @@ namespace Blaise.Tests.Helpers.Dqs.Pages
 
         public void SelectNoToStartDateButton()
         {
-            ClickButtonById(NoRadioButtonId);
+            ClickButtonById(_noRadioButtonId);
         }
 
         public void SelectYesLiveDateButton()
         {
-            ClickButtonById(YesRadioButtonId);
+            ClickButtonById(_yesRadioButtonId);
         }
 
         public string GetToStartDateSummaryText()
         {
-            return GetElementTextByPath(LiveDateTextPath);
+            return GetElementTextByPath(_liveDateTextPath);
         }
 
         internal void SetLiveDate(string date)
         {
-            PopulateInputById(LiveDateTextBoxId, date);
+            PopulateInputById(_liveDateTextBoxId, date);
         }
 
         public void SelectContinueOverwriteButton()
         {
-            ClickButtonById(ContinueOverwriteRadioButtonId);
+            ClickButtonById(_continueOverwriteRadioButtonId);
         }
 
         public void SelectCancelButton()
         {
-            ClickButtonById(CancelButtonId);
+            ClickButtonById(_cancelButtonId);
         }
     }
 }
