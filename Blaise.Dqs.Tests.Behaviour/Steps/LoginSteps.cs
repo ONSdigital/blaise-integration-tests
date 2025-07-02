@@ -1,10 +1,10 @@
-﻿using Blaise.Tests.Helpers.Browser;
+﻿using System;
+using System.Collections.Generic;
+using Blaise.Tests.Helpers.Browser;
 using Blaise.Tests.Helpers.Configuration;
 using Blaise.Tests.Helpers.Dqs;
 using Blaise.Tests.Helpers.User;
 using Blaise.Tests.Models.User;
-using System;
-using System.Collections.Generic;
 using TechTalk.SpecFlow;
 
 namespace Blaise.Dqs.Tests.Behaviour.Steps
