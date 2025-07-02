@@ -1,7 +1,7 @@
-﻿using Blaise.Tests.Helpers.Browser;
-using Blaise.Tests.Helpers.Tobi.Pages;
 using System.Collections.Generic;
 using System.Linq;
+using Blaise.Tests.Helpers.Browser;
+using Blaise.Tests.Helpers.Tobi.Pages;
 
 namespace Blaise.Tests.Helpers.Tobi
 {

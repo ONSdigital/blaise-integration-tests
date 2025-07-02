@@ -1,7 +1,7 @@
-﻿using Blaise.Nuget.Api.Api;
+using System;
+using Blaise.Nuget.Api.Api;
 using Blaise.Nuget.Api.Contracts.Interfaces;
 using Blaise.Tests.Helpers.Configuration;
-using System;
 
 namespace Blaise.Tests.Helpers.Tobi
 {
@@ -24,7 +24,9 @@ namespace Blaise.Tests.Helpers.Tobi
         {
             var surveydays = _blaiseCatiApi.GetSurveyDays(questionnaireName, BlaiseConfigurationHelper.ServerParkName);
             if (!surveydays.Contains(surveyDay))
+            {
                 _blaiseCatiApi.SetSurveyDay(questionnaireName, BlaiseConfigurationHelper.ServerParkName, surveyDay);
+            }
         }
 
         public void CreateDayBatch(string questionnaireName, DateTime dayBatchDate)
@@ -36,8 +38,9 @@ namespace Blaise.Tests.Helpers.Tobi
         {
             var surveydays = _blaiseCatiApi.GetSurveyDays(questionnaireName, BlaiseConfigurationHelper.ServerParkName);
             if (surveydays.Contains(surveyDay))
+            {
                 _blaiseCatiApi.RemoveSurveyDay(questionnaireName, BlaiseConfigurationHelper.ServerParkName, surveyDay);
-
+            }
         }
     }
 }

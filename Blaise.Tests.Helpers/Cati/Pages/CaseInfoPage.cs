@@ -1,22 +1,23 @@
-﻿using Blaise.Tests.Helpers.Browser;
+using System;
+using System.Threading;
+using Blaise.Tests.Helpers.Browser;
 using Blaise.Tests.Helpers.Configuration;
 using Blaise.Tests.Helpers.Framework;
 using OpenQA.Selenium;
-using System;
-using System.Threading;
 
 namespace Blaise.Tests.Helpers.Cati.Pages
 {
     public class CaseInfoPage : BasePage
     {
-        private const string QuestionnaireCell = "//*[@id='MVCGridTable_CaseInfoGrid']/tbody/tr[1]/td[1]";
-        private const string CaseIdCell = "//*[@id='MVCGridTable_CaseInfoGrid']/tbody/tr[1]/td[2]";
-        private const string PlayButton = "//*[@id='MVCGridTable_CaseInfoGrid']/tbody/tr[1]/td[19]/a/span";
-        private const string FilterButton = "//*[contains(text(), 'Filters')]";
-        private readonly string SurveyRadioButton = $"//*[normalize-space()='{BlaiseConfigurationHelper.QuestionnaireName}']";
-        private const string ApplyButton = "//*[contains(text(), 'Apply')]";
+        private const string _questionnaireCell = "//*[@id='MVCGridTable_CaseInfoGrid']/tbody/tr[1]/td[1]";
+        private const string _caseIdCell = "//*[@id='MVCGridTable_CaseInfoGrid']/tbody/tr[1]/td[2]";
+        private const string _playButton = "//*[@id='MVCGridTable_CaseInfoGrid']/tbody/tr[1]/td[19]/a/span";
+        private const string _filterButton = "//*[contains(text(), 'Filters')]";
+        private readonly string _surveyRadioButton = $"//*[normalize-space()='{BlaiseConfigurationHelper.QuestionnaireName}']";
+        private const string _applyButton = "//*[contains(text(), 'Apply')]";
 
-        public CaseInfoPage() : base(CatiConfigurationHelper.CaseInfoUrl)
+        public CaseInfoPage()
+            : base(CatiConfigurationHelper.CaseInfoUrl)
         {
         }
 
@@ -35,7 +36,8 @@ namespace Blaise.Tests.Helpers.Cati.Pages
                 {
                     throw new Exception("Giving up after 5 attempts waiting for play button");
                 }
-            } while (!FirstCaseIsPlayable());
+            }
+            while (!FirstCaseIsPlayable());
         }
 
         protected override Func<IWebDriver, bool> PageHasLoaded()
@@ -50,7 +52,7 @@ namespace Blaise.Tests.Helpers.Cati.Pages
             var attempts = 0;
             while (BrowserHelper.GetNumberOfWindows() == numberOfWindows)
             {
-                ClickButtonByXPath(PlayButton);
+                ClickButtonByXPath(_playButton);
                 Thread.Sleep(250);
                 attempts++;
                 if (attempts > 5)
@@ -62,29 +64,30 @@ namespace Blaise.Tests.Helpers.Cati.Pages
 
         public void ApplyFilters()
         {
-            ClickButtonByXPath(FilterButton);
-            var filterButtonText = GetElementTextByPath(FilterButton);
+            ClickButtonByXPath(_filterButton);
+            var filterButtonText = GetElementTextByPath(_filterButton);
             if (filterButtonText != "Filters (active)")
             {
-                ClickButtonByXPath(SurveyRadioButton);
-                ClickButtonByXPath(ApplyButton);
+                ClickButtonByXPath(_surveyRadioButton);
+                ClickButtonByXPath(_applyButton);
             }
-            ClickButtonByXPath(FilterButton);
+
+            ClickButtonByXPath(_filterButton);
         }
 
         private void WaitUntilFirstCaseQuestionnaireIs(string questionnaire)
         {
-            WaitUntilElementByXPathContainsText(QuestionnaireCell, questionnaire);
+            WaitUntilElementByXPathContainsText(_questionnaireCell, questionnaire);
         }
 
         private void WaitUntilFirstCaseIs(string caseId)
         {
-            WaitUntilElementByXPathContainsText(CaseIdCell, caseId);
+            WaitUntilElementByXPathContainsText(_caseIdCell, caseId);
         }
 
         public bool FirstCaseIsPlayable()
         {
-            return ElementIsDisplayed(By.XPath(PlayButton));
+            return ElementIsDisplayed(By.XPath(_playButton));
         }
     }
 }
