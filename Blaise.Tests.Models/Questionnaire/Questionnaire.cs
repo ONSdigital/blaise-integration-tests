@@ -1,4 +1,4 @@
-﻿namespace Blaise.Tests.Models.Questionnaire
+namespace Blaise.Tests.Models.Questionnaire
 {
     public class Questionnaire
     {

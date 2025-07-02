@@ -1,8 +1,8 @@
-﻿using Blaise.Tests.Helpers.Browser;
-using OpenQA.Selenium;
-using OpenQA.Selenium.Support.UI;
 using System;
 using System.Collections.Generic;
+using Blaise.Tests.Helpers.Browser;
+using OpenQA.Selenium;
+using OpenQA.Selenium.Support.UI;
 
 namespace Blaise.Tests.Helpers.Framework
 {
@@ -37,7 +37,7 @@ namespace Blaise.Tests.Helpers.Framework
         protected string GetElementTextById(string elementId)
         {
             var element = BrowserHelper.FindElement(By.Id(elementId));
-            return element != null ? element.Text : "";
+            return element != null ? element.Text : string.Empty;
         }
 
         protected string GetElementTextByPath(string elementPath)
@@ -192,6 +192,7 @@ namespace Blaise.Tests.Helpers.Framework
                 var colPath = $"{tablePath}[{i}]/td[1]";
                 questionnaires.Add(GetElementTextByPath(colPath));
             }
+
             return questionnaires;
         }
     }

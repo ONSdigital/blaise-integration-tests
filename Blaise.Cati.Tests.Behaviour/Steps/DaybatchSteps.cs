@@ -1,8 +1,8 @@
-﻿using Blaise.Tests.Helpers.Cati;
+using System.Collections.Generic;
+using Blaise.Tests.Helpers.Cati;
 using Blaise.Tests.Helpers.Configuration;
 using Blaise.Tests.Models.Case;
 using NUnit.Framework;
-using System.Collections.Generic;
 using TechTalk.SpecFlow;
 
 namespace Blaise.Cati.Tests.Behaviour.Steps
@@ -16,7 +16,8 @@ namespace Blaise.Cati.Tests.Behaviour.Steps
             CatiManagementHelper.GetInstance().LogIntoCatiDashboardAsAdministrator();
             var currentUrl = CatiManagementHelper.GetInstance().CurrentUrl();
 
-            Assert.That(currentUrl,
+            Assert.That(
+                currentUrl,
                 Is.Not.EqualTo(CatiConfigurationHelper.LoginUrl).IgnoreCase,
                 $"Expected to leave the login page, but current URL is still {currentUrl}");
         }
@@ -34,7 +35,8 @@ namespace Blaise.Cati.Tests.Behaviour.Steps
         {
             var entriesText = CatiManagementHelper.GetInstance().GetDaybatchEntriesText();
 
-            Assert.That(entriesText,
+            Assert.That(
+                entriesText,
                 Is.Not.Null.And.Not.Empty,
                 "The daybatch entries text should not be null or empty");
         }

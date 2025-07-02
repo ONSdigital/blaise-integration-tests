@@ -1,8 +1,8 @@
-﻿using Blaise.Tests.Helpers.Browser;
+﻿using System;
+using System.Diagnostics;
+using Blaise.Tests.Helpers.Browser;
 using Blaise.Tests.Helpers.Cati;
 using NUnit.Framework;
-using System;
-using System.Diagnostics;
 using TechTalk.SpecFlow;
 
 namespace Blaise.Cati.Tests.Behaviour.Steps
