@@ -1,9 +1,9 @@
-﻿using Blaise.Tests.Helpers.Browser;
+using System;
+using Blaise.Tests.Helpers.Browser;
 using Blaise.Tests.Helpers.Configuration;
 using Blaise.Tests.Helpers.Dqs;
 using Blaise.Tests.Helpers.Questionnaire;
 using NUnit.Framework;
-using System;
 using TechTalk.SpecFlow;
 
 namespace Blaise.Dqs.Tests.Behaviour.Steps
@@ -29,7 +29,8 @@ namespace Blaise.Dqs.Tests.Behaviour.Steps
             DqsHelper.GetInstance().ClickQuestionnaireInfoButton(BlaiseConfigurationHelper.QuestionnaireName);
             var toStartDateText = DqsHelper.GetInstance().GetToStartDate();
 
-            Assert.That(toStartDateText,
+            Assert.That(
+                toStartDateText,
                 Is.EqualTo("No start date specified, using survey days"),
                 "The TO start date should indicate that no start date is specified");
         }
@@ -41,7 +42,10 @@ namespace Blaise.Dqs.Tests.Behaviour.Steps
             DqsHelper.GetInstance().ClickQuestionnaireInfoButton(BlaiseConfigurationHelper.QuestionnaireName);
             var toStartDate = DateTime.Now.ToString("dd/MM/yyyy");
             if (date == "tomorrow")
+            {
                 toStartDate = DateTime.Now.AddDays(1).ToString("dd/MM/yyyy");
+            }
+
             DqsHelper.GetInstance().ClickAddStartDate();
             DqsHelper.GetInstance().SelectYesLiveDate();
             DqsHelper.GetInstance().SetLiveDate(toStartDate);
@@ -53,7 +57,10 @@ namespace Blaise.Dqs.Tests.Behaviour.Steps
         {
             var toStartDate = DateTime.Now.ToString("dd/MM/yyyy");
             if (date == "tomorrow")
+            {
                 toStartDate = DateTime.Now.AddDays(1).ToString("dd/MM/yyyy");
+            }
+
             DqsHelper.GetInstance().ClickAddStartDate();
             DqsHelper.GetInstance().SelectYesLiveDate();
             DqsHelper.GetInstance().SetLiveDate(toStartDate);
@@ -79,7 +86,8 @@ namespace Blaise.Dqs.Tests.Behaviour.Steps
             DqsHelper.GetInstance().ClickQuestionnaireInfoButton(BlaiseConfigurationHelper.QuestionnaireName);
             var toStartDateText = DqsHelper.GetInstance().GetToStartDate();
 
-            Assert.That(toStartDateText,
+            Assert.That(
+                toStartDateText,
                 Does.Contain(toStartDate),
                 $"TO start date text should contain '{toStartDate}', but got: '{toStartDateText}'");
         }
