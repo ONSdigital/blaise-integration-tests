@@ -1,4 +1,4 @@
-﻿using Blaise.Tests.Helpers.Configuration;
+using Blaise.Tests.Helpers.Configuration;
 using Blaise.Tests.Helpers.Framework;
 
 namespace Blaise.Tests.Helpers.Cati.Pages
@@ -9,7 +9,8 @@ namespace Blaise.Tests.Helpers.Cati.Pages
         private readonly string _passwordTextBoxName = "password";
         private readonly string _submitButtonPath = "//input[@type='submit']";
 
-        public SchedulerPage() : base(CatiConfigurationHelper.SchedulerUrl, "LayoutSet=CATI-Interviewer_Large")
+        public SchedulerPage()
+            : base(CatiConfigurationHelper.SchedulerUrl, "LayoutSet=CATI-Interviewer_Large")
         {
         }
 
