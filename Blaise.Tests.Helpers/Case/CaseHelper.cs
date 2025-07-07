@@ -1,12 +1,12 @@
-﻿using Blaise.Nuget.Api.Api;
+using System;
+using System.Collections.Generic;
+using System.Globalization;
+using Blaise.Nuget.Api.Api;
 using Blaise.Nuget.Api.Contracts.Enums;
 using Blaise.Nuget.Api.Contracts.Interfaces;
 using Blaise.Tests.Helpers.Configuration;
 using Blaise.Tests.Models.Case;
 using StatNeth.Blaise.API.DataRecord;
-using System;
-using System.Collections.Generic;
-using System.Globalization;
 
 namespace Blaise.Tests.Helpers.Case
 {
@@ -51,7 +51,8 @@ namespace Blaise.Tests.Helpers.Case
         {
             try
             {
-                var cases = _blaiseCaseApi.GetCases(BlaiseConfigurationHelper.QuestionnaireName,
+                var cases = _blaiseCaseApi.GetCases(
+                    BlaiseConfigurationHelper.QuestionnaireName,
                     BlaiseConfigurationHelper.ServerParkName);
 
                 while (!cases.EndOfSet)
@@ -81,12 +82,13 @@ namespace Blaise.Tests.Helpers.Case
         {
             try
             {
-                return _blaiseCaseApi.GetNumberOfCases(BlaiseConfigurationHelper.QuestionnaireName,
+                return _blaiseCaseApi.GetNumberOfCases(
+                    BlaiseConfigurationHelper.QuestionnaireName,
                     BlaiseConfigurationHelper.ServerParkName);
             }
             catch (Exception)
             {
-                //Could be improved by implementing ILogger
+                // Could be improved by implementing ILogger
                 return 0;
             }
         }
@@ -94,7 +96,8 @@ namespace Blaise.Tests.Helpers.Case
         public IEnumerable<CaseModel> GetCasesInBlaise()
         {
             var caseModels = new List<CaseModel>();
-            var casesInDatabase = _blaiseCaseApi.GetCases(BlaiseConfigurationHelper.QuestionnaireName,
+            var casesInDatabase = _blaiseCaseApi.GetCases(
+                BlaiseConfigurationHelper.QuestionnaireName,
                 BlaiseConfigurationHelper.ServerParkName);
 
             while (!casesInDatabase.EndOfSet)

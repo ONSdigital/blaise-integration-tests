@@ -1,9 +1,9 @@
-﻿using Blaise.Tests.Helpers.Cati.Pages;
+using System.Collections.Generic;
+using System.Threading;
+using Blaise.Tests.Helpers.Cati.Pages;
 using Blaise.Tests.Helpers.Configuration;
 using Blaise.Tests.Helpers.User;
 using Blaise.Tests.Models.User;
-using System.Collections.Generic;
-using System.Threading;
 
 namespace Blaise.Tests.Helpers.Cati
 {
@@ -53,7 +53,8 @@ namespace Blaise.Tests.Helpers.Cati
         public void SetupDayBatchTimeParameters()
         {
             var daybatchPage = new DayBatchPage();
-            //makes me sad but Blaise refreshes the table dom object after the page has initialized 
+
+            // makes me sad but Blaise refreshes the table dom object after the page has initialized
             Thread.Sleep(5000);
             daybatchPage.ModifyDayBatchEntry();
         }
