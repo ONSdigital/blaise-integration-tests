@@ -1,10 +1,10 @@
-﻿using Blaise.Tests.Helpers.Case;
+using System.Collections.Generic;
+using System.Linq;
+using Blaise.Tests.Helpers.Case;
 using Blaise.Tests.Helpers.Configuration;
 using Blaise.Tests.Helpers.Questionnaire;
 using Blaise.Tests.Models.Case;
 using NUnit.Framework;
-using System.Collections.Generic;
-using System.Linq;
 using TechTalk.SpecFlow;
 
 namespace Blaise.Tests.Behaviour.Steps

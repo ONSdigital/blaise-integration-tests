@@ -1,6 +1,6 @@
-﻿using Blaise.Tests.Helpers.Configuration;
-using Blaise.Tests.Helpers.Framework;
 using System.Collections.Generic;
+using Blaise.Tests.Helpers.Configuration;
+using Blaise.Tests.Helpers.Framework;
 
 namespace Blaise.Tests.Helpers.Tobi.Pages
 {
@@ -10,15 +10,16 @@ namespace Blaise.Tests.Helpers.Tobi.Pages
         public string SurveyTableId = "survey-table";
         public string NoResultsPath = "//p[contains(text(), 'No active surveys found.')]";
 
-        public HomePage() : base(TobiConfigurationHelper.TobiUrl)
+        public HomePage()
+            : base(TobiConfigurationHelper.TobiUrl)
         {
         }
 
         public void ClickQuestionnaireButton()
         {
             var dstIndex = GetSurveyAcronyms().FindIndex(s => s.Contains("DST")) + 1;
-            var LaunchQuestionnaireLinkPath = $"{SurveyTablePath}[{dstIndex}]/td[2]/a";
-            ClickButtonByXPath(LaunchQuestionnaireLinkPath);
+            var launchQuestionnaireLinkPath = $"{SurveyTablePath}[{dstIndex}]/td[2]/a";
+            ClickButtonByXPath(launchQuestionnaireLinkPath);
         }
 
         public List<string> GetSurveyAcronyms()

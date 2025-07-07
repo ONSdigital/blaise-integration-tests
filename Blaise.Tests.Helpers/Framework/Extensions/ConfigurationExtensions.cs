@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Configuration;
 
 namespace Blaise.Tests.Helpers.Framework.Extensions

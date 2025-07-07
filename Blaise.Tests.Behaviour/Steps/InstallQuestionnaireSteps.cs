@@ -1,4 +1,4 @@
-﻿using Blaise.Tests.Helpers.Configuration;
+using Blaise.Tests.Helpers.Configuration;
 using Blaise.Tests.Helpers.Questionnaire;
 using NUnit.Framework;
 using TechTalk.SpecFlow;
@@ -34,7 +34,8 @@ namespace Blaise.Tests.Behaviour.Steps
                 BlaiseConfigurationHelper.ServerParkName,
                 60);
 
-            Assert.That(questionnaireHasInstalled,
+            Assert.That(
+                questionnaireHasInstalled,
                 Is.True,
                 $"Questionnaire '{BlaiseConfigurationHelper.QuestionnaireName}' should be installed and active on server park '{BlaiseConfigurationHelper.ServerParkName}'");
         }

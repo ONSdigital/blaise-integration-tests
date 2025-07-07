@@ -1,30 +1,31 @@
-﻿using Blaise.Tests.Helpers.Configuration;
-using Blaise.Tests.Helpers.Framework;
 using System;
 using System.Threading;
+using Blaise.Tests.Helpers.Configuration;
+using Blaise.Tests.Helpers.Framework;
 
 namespace Blaise.Tests.Helpers.Cati.Pages
 {
     public class SpecificationPage : BasePage
     {
-        private const string SurveyAccordionPath = "//*[contains(text(), 'Survey Days')]";
-        private const string EditButtonId = "btnEditSurveyDays";
+        private const string _surveyAccordionPath = "//*[contains(text(), 'Survey Days')]";
+        private const string _editButtonId = "btnEditSurveyDays";
         public readonly string TodaysDateInCalenderPickerPath = $"//a[text()='{DateTime.Now.Day}']";
-        private const string SaveButtonPath = "//input[@value='Save']";
-        private const string QuestionnaireDropDownId = "InstrumentId";
+        private const string _saveButtonPath = "//input[@value='Save']";
+        private const string _questionnaireDropDownId = "InstrumentId";
 
-        public SpecificationPage() : base(CatiConfigurationHelper.SpecificationUrl)
+        public SpecificationPage()
+            : base(CatiConfigurationHelper.SpecificationUrl)
         {
         }
 
         public void SetSurveyDay()
         {
-            SelectDropDownValueById(QuestionnaireDropDownId, BlaiseConfigurationHelper.QuestionnaireName);
+            SelectDropDownValueById(_questionnaireDropDownId, BlaiseConfigurationHelper.QuestionnaireName);
             Thread.Sleep(3000);
-            ClickButtonByXPath(SurveyAccordionPath);
-            ClickButtonById(EditButtonId);
+            ClickButtonByXPath(_surveyAccordionPath);
+            ClickButtonById(_editButtonId);
             ClickButtonByXPath(TodaysDateInCalenderPickerPath);
-            ClickButtonByXPath(SaveButtonPath);
+            ClickButtonByXPath(_saveButtonPath);
         }
     }
 }

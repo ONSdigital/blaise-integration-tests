@@ -1,7 +1,6 @@
-﻿using Blaise.Tests.Helpers.Browser;
+using Blaise.Tests.Helpers.Browser;
 using Blaise.Tests.Helpers.Configuration;
 using Blaise.Tests.Helpers.Framework;
-
 
 namespace Blaise.Tests.Helpers.Dqs.Pages
 {
@@ -12,7 +11,8 @@ namespace Blaise.Tests.Helpers.Dqs.Pages
         private readonly string _submitButtonPath = "//button[@type='submit']";
         private readonly string _signOutId = "signout-button";
 
-        public LoginPage() : base(DqsConfigurationHelper.DqsUrl)
+        public LoginPage()
+            : base(DqsConfigurationHelper.DqsUrl)
         {
         }
 

@@ -1,4 +1,8 @@
-﻿using Blaise.Tests.Helpers.Configuration;
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using Blaise.Tests.Helpers.Configuration;
 using NUnit.Framework;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
@@ -6,10 +10,6 @@ using OpenQA.Selenium.Interactions;
 using OpenQA.Selenium.Support.Extensions;
 using OpenQA.Selenium.Support.UI;
 using SeleniumExtras.WaitHelpers;
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
 using TechTalk.SpecFlow;
 
 namespace Blaise.Tests.Helpers.Browser
@@ -17,8 +17,11 @@ namespace Blaise.Tests.Helpers.Browser
     public static class BrowserHelper
     {
         private static IWebDriver _browser;
+
         private static IWebDriver Browser => _browser ?? (_browser = CreateChromeDriver());
+
         public static int TimeOutInSeconds => BrowserConfigurationHelper.TimeOutInSeconds;
+
         public static string CurrentUrl => Browser.Url;
 
         public static WebDriverWait Wait(string message)
@@ -44,7 +47,11 @@ namespace Blaise.Tests.Helpers.Browser
 
         public static void ClosePreviousTab()
         {
-            if (_browser == null) return;
+            if (_browser == null)
+            {
+                return;
+            }
+
             var tabs = _browser.WindowHandles;
             if (tabs.Count > 1)
             {
@@ -73,7 +80,11 @@ namespace Blaise.Tests.Helpers.Browser
 
         public static void ClearSessionData()
         {
-            if (_browser == null) return;
+            if (_browser == null)
+            {
+                return;
+            }
+
             _browser.Manage().Cookies.DeleteAllCookies();
             var wait = new WebDriverWait(_browser, TimeSpan.FromSeconds(10));
             wait.Until(driver => driver.Manage().Cookies.AllCookies.Count == 0);
@@ -175,7 +186,9 @@ namespace Blaise.Tests.Helpers.Browser
         public static void OnError(NUnit.Framework.TestContext testContext, ScenarioContext scenarioContext)
         {
             if (scenarioContext.ContainsValue(scenarioContext.StepContext.StepInfo.Text))
+            {
                 return;
+            }
 
             string baseFileName = scenarioContext.StepContext.StepInfo.Text;
 

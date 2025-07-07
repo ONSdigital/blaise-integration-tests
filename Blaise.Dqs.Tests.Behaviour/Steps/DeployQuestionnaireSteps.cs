@@ -1,12 +1,12 @@
-﻿using Blaise.Tests.Helpers.Browser;
+using System;
+using System.Linq;
+using System.Threading;
+using Blaise.Tests.Helpers.Browser;
 using Blaise.Tests.Helpers.Case;
 using Blaise.Tests.Helpers.Configuration;
 using Blaise.Tests.Helpers.Dqs;
 using Blaise.Tests.Helpers.Questionnaire;
 using NUnit.Framework;
-using System;
-using System.Linq;
-using System.Threading;
 using TechTalk.SpecFlow;
 
 namespace Blaise.Dqs.Tests.Behaviour.Steps
@@ -40,7 +40,8 @@ namespace Blaise.Dqs.Tests.Behaviour.Steps
         {
             var questionnairesInTable = DqsHelper.GetInstance().GetQuestionnaireTableContents();
 
-            Assert.That(questionnairesInTable,
+            Assert.That(
+                questionnairesInTable,
                 Has.Member(BlaiseConfigurationHelper.QuestionnaireName),
                 $"Questionnaire '{BlaiseConfigurationHelper.QuestionnaireName}' should be in the list of deployed questionnaires");
         }
@@ -58,7 +59,8 @@ namespace Blaise.Dqs.Tests.Behaviour.Steps
         {
             DqsHelper.GetInstance().LoadDqsHomePage();
 
-            Assert.That(BrowserHelper.CurrentUrl,
+            Assert.That(
+                BrowserHelper.CurrentUrl,
                 Is.EqualTo($"{DqsConfigurationHelper.DqsUrl}/").IgnoreCase,
                 $"Current URL should be the DQS landing page: {DqsConfigurationHelper.DqsUrl}/");
         }
@@ -94,7 +96,8 @@ namespace Blaise.Dqs.Tests.Behaviour.Steps
             var expectedSummary = $"Start date set to {today}";
             var actualSummary = DqsHelper.GetInstance().GetToStartDateSummaryText();
 
-            Assert.That(actualSummary,
+            Assert.That(
+                actualSummary,
                 Is.EqualTo(expectedSummary).IgnoreCase,
                 $"Deployment summary should confirm the TO start date as '{expectedSummary}', but got '{actualSummary}'");
         }
@@ -105,7 +108,8 @@ namespace Blaise.Dqs.Tests.Behaviour.Steps
             var expectedSummary = "Start date not specified";
             var actualSummary = DqsHelper.GetInstance().GetToStartDateSummaryText();
 
-            Assert.That(actualSummary,
+            Assert.That(
+                actualSummary,
                 Is.EqualTo(expectedSummary).IgnoreCase,
                 $"Deployment summary should confirm no TO start date with '{expectedSummary}', but got '{actualSummary}'");
         }
@@ -115,7 +119,8 @@ namespace Blaise.Dqs.Tests.Behaviour.Steps
         {
             DqsHelper.GetInstance().ClickDeployQuestionnaire();
 
-            Assert.That(BrowserHelper.CurrentUrl,
+            Assert.That(
+                BrowserHelper.CurrentUrl,
                 Is.EqualTo(DqsConfigurationHelper.UploadUrl).IgnoreCase,
                 $"After clicking 'Deploy Questionnaire', the current URL should be the upload URL: {DqsConfigurationHelper.UploadUrl}");
         }
@@ -126,7 +131,8 @@ namespace Blaise.Dqs.Tests.Behaviour.Steps
             DqsHelper.GetInstance().WaitForUploadToComplete();
             var successMessage = DqsHelper.GetInstance().GetUploadMessage();
 
-            Assert.That(successMessage,
+            Assert.That(
+                successMessage,
                 Is.Not.Null.And.Not.Empty,
                 "Success message should be displayed after the deployment is complete");
         }
@@ -136,7 +142,8 @@ namespace Blaise.Dqs.Tests.Behaviour.Steps
         {
             var numberOfCases = CaseHelper.GetInstance().NumberOfCasesInQuestionnaire();
 
-            Assert.That(numberOfCases,
+            Assert.That(
+                numberOfCases,
                 Is.EqualTo(0),
                 $"Questionnaire should have no cases, but found {numberOfCases} case(s)");
         }
@@ -178,7 +185,8 @@ namespace Blaise.Dqs.Tests.Behaviour.Steps
                 BlaiseConfigurationHelper.QuestionnaireName,
                 BlaiseConfigurationHelper.ServerParkName);
 
-            Assert.That(actualInstallDate,
+            Assert.That(
+                actualInstallDate,
                 Is.EqualTo(expectedInstallDate).Within(TimeSpan.FromSeconds(1)),
                 $"Questionnaire install date should not have changed. Expected: {expectedInstallDate}, but was: {actualInstallDate}");
         }
@@ -192,7 +200,8 @@ namespace Blaise.Dqs.Tests.Behaviour.Steps
                 BlaiseConfigurationHelper.QuestionnaireName,
                 BlaiseConfigurationHelper.ServerParkName);
 
-            Assert.That(newInstallDate,
+            Assert.That(
+                newInstallDate,
                 Is.GreaterThan(existingInstallDate),
                 $"New install date ({newInstallDate}) should be later than the existing install date ({existingInstallDate}), indicating that the questionnaire has been overwritten");
         }
@@ -205,7 +214,8 @@ namespace Blaise.Dqs.Tests.Behaviour.Steps
                 BlaiseConfigurationHelper.ServerParkName,
                 60);
 
-            Assert.That(questionnaireInstalled,
+            Assert.That(
+                questionnaireInstalled,
                 Is.True,
                 $"Questionnaire '{BlaiseConfigurationHelper.QuestionnaireName}' should be active in Blaise on server park '{BlaiseConfigurationHelper.ServerParkName}'");
         }
