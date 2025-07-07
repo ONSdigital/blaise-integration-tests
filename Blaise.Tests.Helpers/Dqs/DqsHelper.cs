@@ -1,7 +1,7 @@
-﻿using Blaise.Tests.Helpers.Configuration;
-using Blaise.Tests.Helpers.Dqs.Pages;
 using System.Collections.Generic;
 using System.Threading;
+using Blaise.Tests.Helpers.Configuration;
+using Blaise.Tests.Helpers.Dqs.Pages;
 
 namespace Blaise.Tests.Helpers.Dqs
 {
@@ -135,7 +135,6 @@ namespace Blaise.Tests.Helpers.Dqs
         {
             var confirmOverwritePage = new UploadPage();
             confirmOverwritePage.SelectYesLiveDateButton();
-
         }
 
         public void DeleteQuestionnaire(string questionnaireName)
@@ -170,6 +169,7 @@ namespace Blaise.Tests.Helpers.Dqs
             var uploadPage = new UploadPage();
             uploadPage.SetLiveDate(date);
         }
+
         public string GetToStartDate()
         {
             var questionnaireInfoPage = new QuestionnaireInfoPage();

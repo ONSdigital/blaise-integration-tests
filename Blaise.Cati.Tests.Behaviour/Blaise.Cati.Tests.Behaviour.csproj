@@ -179,7 +179,13 @@
     <None Include="Features\Daybatch.feature" />
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Analyzer Include="..\packages\StyleCop.Analyzers.1.1.118\analyzers\dotnet\cs\StyleCop.Analyzers.CodeFixes.dll" />
+    <Analyzer Include="..\packages\StyleCop.Analyzers.1.1.118\analyzers\dotnet\cs\StyleCop.Analyzers.dll" />
+  </ItemGroup>
+	<PropertyGroup>
+    <EnforceCodeStyleInBuild>true</EnforceCodeStyleInBuild>
+  </PropertyGroup>
   <ItemGroup>
     <ProjectReference Include="..\Blaise.Tests.Behaviour\Blaise.Tests.Behaviour.csproj">
       <Project>{4602ec60-152e-4b79-b9a5-26f25b1e635b}</Project>
