@@ -1,7 +1,7 @@
-﻿using Blaise.Tests.Helpers.Browser;
+using System.Collections.Generic;
+using Blaise.Tests.Helpers.Browser;
 using Blaise.Tests.Helpers.Configuration;
 using Blaise.Tests.Helpers.Framework;
-using System.Collections.Generic;
 
 namespace Blaise.Tests.Helpers.Tobi.Pages
 {
@@ -11,15 +11,16 @@ namespace Blaise.Tests.Helpers.Tobi.Pages
         public string QuestionnaireTableRowsPath = "//*[@id='instrument-table']/tbody/tr";
         public string ReturnSurveyId = "return-to-survey-list";
 
-        public QuestionnairePage() : base(TobiConfigurationHelper.SurveyUrl)
+        public QuestionnairePage()
+            : base(TobiConfigurationHelper.SurveyUrl)
         {
         }
 
         public void ClickInterviewButton(string questionnaire)
         {
             var questionnaireIndex = GetTableContent().FindIndex(s => s.Contains(questionnaire)) + 1;
-            var InterviewLinkPath = $"{QuestionnaireTableRowsPath}[{questionnaireIndex}]/td[3]/a";
-            ClickButtonByXPath(InterviewLinkPath);
+            var interviewLinkPath = $"{QuestionnaireTableRowsPath}[{questionnaireIndex}]/td[3]/a";
+            ClickButtonByXPath(interviewLinkPath);
             BrowserHelper.SwitchToLastOpenedWindow();
         }
 

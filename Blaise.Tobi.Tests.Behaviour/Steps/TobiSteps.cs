@@ -1,4 +1,7 @@
-﻿using Blaise.Tests.Helpers.Browser;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using Blaise.Tests.Helpers.Browser;
 using Blaise.Tests.Helpers.Case;
 using Blaise.Tests.Helpers.Cati;
 using Blaise.Tests.Helpers.Configuration;
@@ -6,9 +9,6 @@ using Blaise.Tests.Helpers.Questionnaire;
 using Blaise.Tests.Helpers.Tobi;
 using Blaise.Tests.Models.Case;
 using NUnit.Framework;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using TechTalk.SpecFlow;
 
 namespace Blaise.Tobi.Tests.Behaviour.Steps
@@ -50,7 +50,8 @@ namespace Blaise.Tobi.Tests.Behaviour.Steps
             TobiHelper.GetInstance().LoadTobiHomePage();
             var currentUrl = TobiHelper.GetInstance().ClickLoadQuestionnaire();
 
-            Assert.That(currentUrl,
+            Assert.That(
+                currentUrl,
                 Is.EqualTo(TobiConfigurationHelper.SurveyUrl),
                 $"Current URL should match the expected survey URL: {TobiConfigurationHelper.SurveyUrl}");
         }
@@ -66,7 +67,8 @@ namespace Blaise.Tobi.Tests.Behaviour.Steps
         {
             var surveyTableContents = TobiHelper.GetInstance().GetSurveyTableContents();
 
-            Assert.That(surveyTableContents,
+            Assert.That(
+                surveyTableContents,
                 Contains.Item("DST"),
                 "List of live surveys should contain 'DST'");
         }
@@ -76,7 +78,8 @@ namespace Blaise.Tobi.Tests.Behaviour.Steps
         {
             var activeQuestionnaires = TobiHelper.GetInstance().GetQuestionnaireTableContents();
 
-            Assert.That(activeQuestionnaires,
+            Assert.That(
+                activeQuestionnaires,
                 Has.Some.Contain(BlaiseConfigurationHelper.QuestionnaireName),
                 $"List of active questionnaires should contain '{BlaiseConfigurationHelper.QuestionnaireName}'");
         }
@@ -86,7 +89,8 @@ namespace Blaise.Tobi.Tests.Behaviour.Steps
         {
             CatiInterviewHelper.GetInstance().LoginButtonIsAvailable();
 
-            Assert.That(BrowserHelper.CurrentUrl.ToLower(),
+            Assert.That(
+                BrowserHelper.CurrentUrl.ToLower(),
                 Is.EqualTo($"{CatiConfigurationHelper.SchedulerUrl.ToLower()}/login"),
                 $"Current URL should be the Blaise login page: {CatiConfigurationHelper.SchedulerUrl.ToLower()}/login");
         }

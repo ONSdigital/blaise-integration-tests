@@ -1,25 +1,31 @@
-﻿using Blaise.Tests.Helpers.Framework.Extensions;
 using System;
+using Blaise.Tests.Helpers.Framework.Extensions;
 
 namespace Blaise.Tests.Helpers.Configuration
 {
     public static class CatiConfigurationHelper
     {
-        private static readonly Guid AdminPassword;
-        private static readonly Guid InterviewerPassword;
+        private static readonly Guid _adminPassword;
+        private static readonly Guid _interviewerPassword;
 
         static CatiConfigurationHelper()
         {
-            AdminPassword = Guid.NewGuid();
-            InterviewerPassword = Guid.NewGuid();
+            _adminPassword = Guid.NewGuid();
+            _interviewerPassword = Guid.NewGuid();
         }
 
         public static string CatiAdminUsername => "DSTAdminUser";
-        public static string CatiAdminPassword => $"{AdminPassword}";
+
+        public static string CatiAdminPassword => $"{_adminPassword}";
+
         public static string AdminRole => $"DST";
+
         public static string CatiInterviewUsername => "DSTTestUser";
-        public static string CatiInterviewPassword => $"{InterviewerPassword}";
+
+        public static string CatiInterviewPassword => $"{_interviewerPassword}";
+
         public static string InterviewRole => $"DST";
+
         public static string CatiBaseUrl
         {
             get
@@ -33,12 +39,19 @@ namespace Blaise.Tests.Helpers.Configuration
                 return baseUrl;
             }
         }
+
         public static string LoginUrl => $"{CatiBaseUrl}/blaise/account/login";
+
         public static string DayBatchUrl => $"{CatiBaseUrl}/blaise/daybatch";
+
         public static string SchedulerUrl => $"{CatiBaseUrl}/{BlaiseConfigurationHelper.QuestionnaireName}";
+
         public static string SpecificationUrl => $"{CatiBaseUrl}/blaise/specification";
+
         public static string SurveyUrl => $"{CatiBaseUrl}/blaise";
+
         public static string CaseUrl => $"{CatiBaseUrl}//Blaise/CaseInfo/StartSurvey?url={CatiBaseUrl}/{BlaiseConfigurationHelper.QuestionnaireName}/&rp.KeyValue=";
+
         public static string CaseInfoUrl => $"{CatiBaseUrl}/blaise/CaseInfo";
     }
 }

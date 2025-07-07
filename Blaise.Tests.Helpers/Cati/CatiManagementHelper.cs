@@ -1,12 +1,12 @@
-﻿using Blaise.Tests.Helpers.Browser;
+using System;
+using System.Collections.Generic;
+using System.Threading;
+using Blaise.Tests.Helpers.Browser;
 using Blaise.Tests.Helpers.Cati.Pages;
 using Blaise.Tests.Helpers.Configuration;
 using Blaise.Tests.Helpers.Tobi;
 using Blaise.Tests.Helpers.User;
 using Blaise.Tests.Models.User;
-using System;
-using System.Collections.Generic;
-using System.Threading;
 
 namespace Blaise.Tests.Helpers.Cati
 {

@@ -1,9 +1,9 @@
-﻿using Blaise.Tests.Helpers.Browser;
+using System;
+using Blaise.Tests.Helpers.Browser;
+using Blaise.Tests.Helpers.Configuration;
 using Blaise.Tests.Helpers.Dqs;
 using Blaise.Tests.Helpers.Questionnaire;
-using Blaise.Tests.Helpers.Configuration;
 using NUnit.Framework;
-using System;
 using TechTalk.SpecFlow;
 
 namespace Blaise.Tests.Behaviour.Steps
@@ -47,11 +47,12 @@ namespace Blaise.Tests.Behaviour.Steps
             {
                 QuestionnaireHelper.GetInstance().UninstallQuestionnaire(BlaiseConfigurationHelper.QuestionnaireName, BlaiseConfigurationHelper.ServerParkName);
             }
+
             if (!_hasFailureOccurred)
             {
                 DqsHelper.GetInstance().LogoutOfDqs();
                 BrowserHelper.ClosePreviousTab();
-            }     
+            }
         }
     }
 }
