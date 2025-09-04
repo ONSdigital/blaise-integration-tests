@@ -59,9 +59,9 @@ namespace Blaise.Tests.Helpers.Questionnaire
             string questionnairePackagePath = QuestionnairePackagePath(questionnairePath, questionnaireName);
             _blaiseQuestionnaireApi.InstallQuestionnaire(
                 questionnaireName,
-                serverParkName,
-                questionnairePackagePath,
-                installOptions);
+                                                        serverParkName,
+                                                        questionnairePackagePath,
+                                                        installOptions);
             Thread.Sleep(2000);
         }
 
