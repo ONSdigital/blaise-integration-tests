@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using Blaise.Tests.Helpers.Browser;
 using NUnit.Framework;
 using TechTalk.SpecFlow;
