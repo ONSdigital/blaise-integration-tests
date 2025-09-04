@@ -40,7 +40,7 @@ stages:
             displayName: Check .NET runtime versions
 
           - script: dotnet format --version
-            displayName: Confirm dotnet-format version
+            displayName: Confirm dotnet-format version (after install)
 
           - task: PowerShell@2
             displayName: Check code formatting with dotnet-format
@@ -58,7 +58,6 @@ stages:
                   Write-Host "❌ Formatting check failed due to errors."
                   exit 1
                 }
-
           - task: VSTest@2
             displayName: Run unit tests
             inputs:

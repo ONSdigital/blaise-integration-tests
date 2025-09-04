@@ -9,7 +9,7 @@ namespace Blaise.Tests.Helpers.Cati.Pages
     {
         private const string _surveyAccordionPath = "//*[contains(text(), 'Survey Days')]";
         private const string _editButtonId = "btnEditSurveyDays";
-        public readonly string TodaysDateInCalenderPickerPath = $"//a[text()='{DateTime.Now.Day}']";
+        public readonly string _todaysDateInCalenderPickerPath = $"//a[text()='{DateTime.Now.Day}']";
         private const string _saveButtonPath = "//input[@value='Save']";
         private const string _questionnaireDropDownId = "InstrumentId";
 
@@ -24,7 +24,7 @@ namespace Blaise.Tests.Helpers.Cati.Pages
             Thread.Sleep(3000);
             ClickButtonByXPath(_surveyAccordionPath);
             ClickButtonById(_editButtonId);
-            ClickButtonByXPath(TodaysDateInCalenderPickerPath);
+            ClickButtonByXPath(_todaysDateInCalenderPickerPath);
             ClickButtonByXPath(_saveButtonPath);
         }
     }
