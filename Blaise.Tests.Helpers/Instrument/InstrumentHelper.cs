@@ -26,11 +26,11 @@ namespace Blaise.Tests.Helpers.Instrument
 
         public QuestionnaireStatusType GetQuestionnaireStatus()
         {
-            return _blaiseQuestionnaireApi.GetQuestionnaireStatus(BlaiseConfigurationHelper.InstrumentName,
+            return _blaiseQuestionnaireApi.GetQuestionnaireStatus(BlaiseConfigurationHelper.QuestionnaireName,
                 BlaiseConfigurationHelper.ServerParkName);
         }
 
-        public void CheckIfInstrumentIsErroneous(string instrumentName)
+        public void CheckIfInstrumentIsErroneous(string questionnaireName)
         {
             try
             {
@@ -38,72 +38,72 @@ namespace Blaise.Tests.Helpers.Instrument
 
                 if (questionnaireStatus == QuestionnaireStatusType.Erroneous)
                 {
-                    Console.WriteLine($"InstrumentHelper CheckIfInstrumentIsErroneous :Questionnaire {instrumentName} SEEMS to be erroneous. Check on the management node if the tests continue to fail");
+                    Console.WriteLine($"InstrumentHelper CheckIfInstrumentIsErroneous :Questionnaire {questionnaireName} SEEMS to be erroneous. Check on the management node if the tests continue to fail");
                     return;
                 }
 
-                Console.WriteLine($"InstrumentHelper CheckIfInstrumentIsErroneous :Questionnaire {instrumentName} is not erroneous, it is in the state {questionnaireStatus}");
+                Console.WriteLine($"InstrumentHelper CheckIfInstrumentIsErroneous :Questionnaire {questionnaireName} is not erroneous, it is in the state {questionnaireStatus}");
             }
             catch (DataNotFoundException)
             {
-                Console.WriteLine($"InstrumentHelper CheckIfInstrumentIsErroneous :Questionnaire {instrumentName} does not exist");
+                Console.WriteLine($"InstrumentHelper CheckIfInstrumentIsErroneous :Questionnaire {questionnaireName} does not exist");
             }
         }
 
-        public static string InstrumentPackagePath(string instrumentPath, string instrumentName)
+        public static string InstrumentPackagePath(string questionnairePath, string questionnaireName)
         {
-            return $"{instrumentPath}//{instrumentName}.bpkg";
+            return $"{questionnairePath}//{questionnaireName}.bpkg";
         }
 
         public void InstallInstrument()
         {
-            InstallInstrument(BlaiseConfigurationHelper.InstrumentName);
+            InstallInstrument(BlaiseConfigurationHelper.QuestionnaireName);
         }
 
-        public void InstallInstrument(string instrumentName)
+        public void InstallInstrument(string questionnaireName)
         {
-            Console.WriteLine($"InstrumentHelper InstallInstrument: Questionnaire {BlaiseConfigurationHelper.InstrumentName} is about to be installed");
-            var instrumentPackage = InstrumentPackagePath(BlaiseConfigurationHelper.InstrumentPath, instrumentName);
+            Console.WriteLine($"InstrumentHelper InstallInstrument: Questionnaire {BlaiseConfigurationHelper.QuestionnaireName} is about to be installed");
+            var questionnairePackage = InstrumentPackagePath(BlaiseConfigurationHelper.QuestionnairePath, questionnaireName);
 
-            Console.WriteLine($"InstrumentHelper InstallInstrument: install Questionnaire {BlaiseConfigurationHelper.InstrumentName}");
-            _blaiseQuestionnaireApi.InstallQuestionnaire(instrumentName,
+            Console.WriteLine($"InstrumentHelper InstallInstrument: install Questionnaire {BlaiseConfigurationHelper.QuestionnaireName}");
+            _blaiseQuestionnaireApi.InstallQuestionnaire(questionnaireName,
                 BlaiseConfigurationHelper.ServerParkName,
-                instrumentPackage,
+                questionnairePackage,
                 QuestionnaireInterviewType.Cati);
         }
 
-        public bool SurveyHasInstalled(string instrumentName, int timeoutInSeconds)
+        public bool SurveyHasInstalled(string questionnaireName, int timeoutInSeconds)
         {
-            return SurveyExists(instrumentName, timeoutInSeconds) &&
-                   SurveyIsActive(instrumentName, timeoutInSeconds);
+            return SurveyExists(questionnaireName, timeoutInSeconds) &&
+                   SurveyIsActive(questionnaireName, timeoutInSeconds);
         }
 
-        public bool SurveyHasUninstalled(string instrumentName, int timeoutInSeconds)
+        public bool SurveyHasUninstalled(string questionnaireName, int timeoutInSeconds)
         {
-            return SurveyNoLongerExists(instrumentName, timeoutInSeconds);
+            return SurveyNoLongerExists(questionnaireName, timeoutInSeconds);
         }
 
         public void UninstallSurvey()
         {
-            Console.WriteLine($"InstrumentHelper UninstallSurvey: Removing questionnaire {BlaiseConfigurationHelper.InstrumentName}");
-            _blaiseQuestionnaireApi.UninstallQuestionnaire(BlaiseConfigurationHelper.InstrumentName, BlaiseConfigurationHelper.ServerParkName);
+            Console.WriteLine($"InstrumentHelper UninstallSurvey: Removing questionnaire {BlaiseConfigurationHelper.QuestionnaireName}");
+            _blaiseQuestionnaireApi.UninstallQuestionnaire(BlaiseConfigurationHelper.QuestionnaireName, BlaiseConfigurationHelper.ServerParkName);
 
-           if (!SurveyHasUninstalled(BlaiseConfigurationHelper.InstrumentName, 180))
+           if (!SurveyHasUninstalled(BlaiseConfigurationHelper.QuestionnaireName, 180))
             {
-                CheckIfInstrumentIsErroneous(BlaiseConfigurationHelper.InstrumentName);
+                CheckIfInstrumentIsErroneous(BlaiseConfigurationHelper.QuestionnaireName);
             }
         }
 
         public QuestionnaireInterviewType GetSurveyInterviewType()
         {
-            return _blaiseQuestionnaireApi.GetQuestionnaireInterviewType(BlaiseConfigurationHelper.InstrumentName, BlaiseConfigurationHelper.ServerParkName);
+            return _blaiseQuestionnaireApi.GetQuestionnaireInterviewType(BlaiseConfigurationHelper.QuestionnaireName, BlaiseConfigurationHelper.ServerParkName);
         }
 
-        public bool SurveyExists(string instrumentName)
+        public bool SurveyExists(string questionnaireName)
         {
             try
             {
-                return _blaiseQuestionnaireApi.QuestionnaireExists(instrumentName, BlaiseConfigurationHelper.ServerParkName);
+                return _blaiseQuestionnaireApi.QuestionnaireExists(questionnaireName, BlaiseConfigurationHelper.ServerParkName);
             }
             catch (Exception)
             {
@@ -111,22 +111,22 @@ namespace Blaise.Tests.Helpers.Instrument
             }
         }
 
-        public bool SurveyIsActive(string instrumentName, string serverPark)
+        public bool SurveyIsActive(string questionnaireName, string serverPark)
         {
-            return _blaiseQuestionnaireApi.GetQuestionnaireStatus(instrumentName, serverPark) == QuestionnaireStatusType.Active;
+            return _blaiseQuestionnaireApi.GetQuestionnaireStatus(questionnaireName, serverPark) == QuestionnaireStatusType.Active;
         }
 
-        public void DeactivateSurvey(string instrumentName, string serverParkName)
+        public void DeactivateSurvey(string questionnaireName, string serverParkName)
         {
-            _blaiseQuestionnaireApi.DeactivateQuestionnaire(instrumentName, serverParkName);
+            _blaiseQuestionnaireApi.DeactivateQuestionnaire(questionnaireName, serverParkName);
         }
 
-        private bool SurveyIsActive(string instrumentName, int timeoutInSeconds)
+        private bool SurveyIsActive(string questionnaireName, int timeoutInSeconds)
         {
             var counter = 0;
             const int maxCount = 10;
 
-            while (GetSurveyStatus(instrumentName) == QuestionnaireStatusType.Installing)
+            while (GetSurveyStatus(questionnaireName) == QuestionnaireStatusType.Installing)
             {
                 Thread.Sleep((timeoutInSeconds * 1000) / maxCount);
 
@@ -136,28 +136,28 @@ namespace Blaise.Tests.Helpers.Instrument
                     return false;
                 }
             }
-            return GetSurveyStatus(instrumentName) == QuestionnaireStatusType.Active;
+            return GetSurveyStatus(questionnaireName) == QuestionnaireStatusType.Active;
         }
 
-        private QuestionnaireStatusType GetSurveyStatus(string instrumentName)
+        private QuestionnaireStatusType GetSurveyStatus(string questionnaireName)
         {
-            return _blaiseQuestionnaireApi.GetQuestionnaireStatus(instrumentName, BlaiseConfigurationHelper.ServerParkName);
+            return _blaiseQuestionnaireApi.GetQuestionnaireStatus(questionnaireName, BlaiseConfigurationHelper.ServerParkName);
         }
 
         public DateTime GetInstallDate()
         {
-            var survey = _blaiseQuestionnaireApi.GetQuestionnaire(BlaiseConfigurationHelper.InstrumentName, BlaiseConfigurationHelper.ServerParkName);
+            var survey = _blaiseQuestionnaireApi.GetQuestionnaire(BlaiseConfigurationHelper.QuestionnaireName, BlaiseConfigurationHelper.ServerParkName);
 
             return survey.InstallDate;
         }
 
-        private bool SurveyExists(string instrumentName, int timeoutInSeconds)
+        private bool SurveyExists(string questionnaireName, int timeoutInSeconds)
         {
-            Console.WriteLine($"InstrumentHelper SurveyExists: Check to see if questionnaire {BlaiseConfigurationHelper.InstrumentName} has been installed");
+            Console.WriteLine($"InstrumentHelper SurveyExists: Check to see if questionnaire {BlaiseConfigurationHelper.QuestionnaireName} has been installed");
             var counter = 0;
             const int maxCount = 10;
 
-            while (!_blaiseQuestionnaireApi.QuestionnaireExists(instrumentName, BlaiseConfigurationHelper.ServerParkName))
+            while (!_blaiseQuestionnaireApi.QuestionnaireExists(questionnaireName, BlaiseConfigurationHelper.ServerParkName))
             {
                 Console.WriteLine($"InstrumentHelper SurveyExists: Sleep {counter} for {timeoutInSeconds / maxCount} seconds");
                 Thread.Sleep((timeoutInSeconds * 1000) / maxCount);
@@ -169,18 +169,18 @@ namespace Blaise.Tests.Helpers.Instrument
                     return false;
                 }
             }
-            Console.WriteLine($"InstrumentHelper SurveyExists: Questionnaire {BlaiseConfigurationHelper.InstrumentName} has been installed");
+            Console.WriteLine($"InstrumentHelper SurveyExists: Questionnaire {BlaiseConfigurationHelper.QuestionnaireName} has been installed");
 
             return true;
         }
 
-        private bool SurveyNoLongerExists(string instrumentName, int timeoutInSeconds)
+        private bool SurveyNoLongerExists(string questionnaireName, int timeoutInSeconds)
         {
-            Console.WriteLine($"InstrumentHelper SurveyNoLongerExists: Check to see if questionnaire {BlaiseConfigurationHelper.InstrumentName} has been removed");
+            Console.WriteLine($"InstrumentHelper SurveyNoLongerExists: Check to see if questionnaire {BlaiseConfigurationHelper.QuestionnaireName} has been removed");
             var counter = 0;
             const int maxCount = 10;
 
-            while (_blaiseQuestionnaireApi.QuestionnaireExists(instrumentName, BlaiseConfigurationHelper.ServerParkName))
+            while (_blaiseQuestionnaireApi.QuestionnaireExists(questionnaireName, BlaiseConfigurationHelper.ServerParkName))
             {
                 Console.WriteLine($"InstrumentHelper SurveyNoLongerExists: Sleep {counter} for {timeoutInSeconds / maxCount} seconds");
                 Thread.Sleep((timeoutInSeconds * 1000) / maxCount);
@@ -193,7 +193,7 @@ namespace Blaise.Tests.Helpers.Instrument
                 }
             }
 
-            Console.WriteLine($"InstrumentHelper SurveyNoLongerExists: Questionnaire {BlaiseConfigurationHelper.InstrumentName} has been removed");
+            Console.WriteLine($"InstrumentHelper SurveyNoLongerExists: Questionnaire {BlaiseConfigurationHelper.QuestionnaireName} has been removed");
             return true;
         }
     }
