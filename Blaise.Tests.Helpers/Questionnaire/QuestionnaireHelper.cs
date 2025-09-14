@@ -57,6 +57,7 @@ namespace Blaise.Tests.Helpers.Questionnaire
 
             Console.WriteLine($"Installing questionnaire {questionnaireName}...");
             string questionnairePackagePath = QuestionnairePackagePath(questionnairePath, questionnaireName);
+            Console.WriteLine($"questionnairePackagePath: {questionnairePackagePath}");
             _blaiseQuestionnaireApi.InstallQuestionnaire(
                 questionnaireName,
                                                         serverParkName,
