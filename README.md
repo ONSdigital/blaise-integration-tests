@@ -49,7 +49,7 @@ Windows Registry Editor Version 5.00
 
 Most of the tests require a `.bpkg` file, which is a Blaise package containing a questionnaire instrument. The tests prepare the testing environment by deploying this test questionnaire.
 
-You can download the latest test questionnaire from [Confluence](https://confluence.ons.gov.uk/display/QSS/Blaise+5+Questionnaire+Instrument+Artefacts) or the [Blaise shared GCP storage bucket](https://console.cloud.google.com/storage/browser?project=ons-blaise-v2-shared).
+You can download the latest test questionnaire from [Confluence](https://officefornationalstatistics.atlassian.net/wiki/spaces/QSS/pages/50300235/Blaise+5+Questionnaire+Instrument+Artefacts) or the [Blaise shared GCP storage bucket](https://console.cloud.google.com/storage/browser?project=ons-blaise-v2-shared).
 
 ### Configure the solution
 

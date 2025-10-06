@@ -1,14 +1,15 @@
-using System;
 using Blaise.Tests.Helpers.Configuration;
 using Blaise.Tests.Helpers.Framework;
 using OpenQA.Selenium;
+using System;
+using System.Threading;
 
 namespace Blaise.Tests.Helpers.Cati.Pages
 {
     public class LoginPage : BasePage
     {
-        private const string _usernameBoxId = "Username";
-        private const string _passwordBoxId = "Password";
+        private const string _usernameBoxId = "qa_username";
+        private const string _passwordBoxId = "qa_password";
         private const string _loginButtonPath = "//button[@type='submit']";
 
         public LoginPage()
@@ -16,11 +17,11 @@ namespace Blaise.Tests.Helpers.Cati.Pages
         {
         }
 
-        protected override Func<IWebDriver, bool> PageHasLoaded()
-        {
-            return driver => driver.FindElement(By.XPath(_loginButtonPath)) != null;
-        }
-
+        /// <summary>
+        /// Logs into the CATI dashboard using the specified username and password.
+        /// </summary>
+        /// <param name="username">The username to use for login.</param>
+        /// <param name="password">The password to use for login.</param>
         public void LoginToCati(string username, string password)
         {
             PopulateInputById(_usernameBoxId, username);

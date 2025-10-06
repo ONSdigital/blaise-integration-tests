@@ -122,7 +122,13 @@ namespace Blaise.Tests.Helpers.Browser
 
         public static void ScrollIntoView(IWebElement element)
         {
-            Browser.ExecuteJavaScript("arguments[0].scrollIntoView(true);", element);
+            // Use Wait to get the driver, then scroll using Actions
+            Wait("Scrolling element into view")
+                .Until(driver =>
+                {
+                    new Actions(driver).MoveToElement(element).Perform();
+                    return true;
+                });
         }
 
         public static string TakeScreenShot(string screenShotPath, string screenShotName)

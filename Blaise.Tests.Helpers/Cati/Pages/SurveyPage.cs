@@ -9,10 +9,10 @@ namespace Blaise.Tests.Helpers.Cati.Pages
 {
     public class SurveyPage : BasePage
     {
-        private const string _clearCatiDataButtonPath = @"//*[@id='MVCGridTable_SurveysGrid']/tbody/tr/td[9]/a";
-        private const string _backupDataButtonId = "chkBackupAll";
-        private const string _clearDataButtonId = "chkClearAll";
-        private const string _executeButtonPath = "//input[@value='Execute']";
+        private const string _clearCatiDataButtonPath = "//*[contains(text(), 'Clear')]";
+        private const string _backupDataButtonId = "qa_backupdata_0";
+        private const string _clearDataButtonId = "//label[@for='qa_clear_all']";
+        private const string _executeButtonPath = "//button[@id='qa_btn_submit']";
         private const string _filterButton = "//*[contains(text(), 'Filters')]";
         private readonly string _surveyRadioButton = $"//*[normalize-space()='{BlaiseConfigurationHelper.QuestionnaireName}']";
         private const string _applyButton = "//*[contains(text(), 'Apply')]";
@@ -24,7 +24,7 @@ namespace Blaise.Tests.Helpers.Cati.Pages
 
         protected override Func<IWebDriver, bool> PageHasLoaded()
         {
-            return BodyContainsText("Showing");
+            return BodyContainsText("Surveys");
         }
 
         public void ClearDayBatchEntries()
@@ -32,7 +32,7 @@ namespace Blaise.Tests.Helpers.Cati.Pages
             Thread.Sleep(2000);
             ClickButtonByXPath(_clearCatiDataButtonPath);
             ClickButtonById(_backupDataButtonId);
-            ClickButtonById(_clearDataButtonId);
+            ClickButtonByXPath(_clearDataButtonId);
             ClickButtonByXPath(_executeButtonPath);
         }
 

@@ -1,8 +1,10 @@
-using System;
-using System.Collections.Generic;
 using Blaise.Tests.Helpers.Browser;
+using Blaise.Tests.Helpers.Cati;
+using NUnit.Framework;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Support.UI;
+using System;
+using System.Collections.Generic;
 
 namespace Blaise.Tests.Helpers.Framework
 {
@@ -29,11 +31,16 @@ namespace Blaise.Tests.Helpers.Framework
 
         protected void ClickButtonByXPath(string buttonElementPath)
         {
-            BrowserHelper
-                .Wait($"Timed out in ClickButtonByXPath(\"{buttonElementPath}\")")
-                .Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementToBeClickable(By.XPath(buttonElementPath))).Click();
-        }
+            var buttonElement = BrowserHelper.FindElement(By.XPath(buttonElementPath));
+            BrowserHelper.ScrollIntoView(buttonElement); // Ensure the button is in view
 
+            var button = BrowserHelper
+                .Wait($"Timed out in ClickButtonByXPath(\"{buttonElementPath}\")")
+                .Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementToBeClickable(By.XPath(buttonElementPath)));
+
+            button.Click();
+        }
+        
         protected string GetElementTextById(string elementId)
         {
             var element = BrowserHelper.FindElement(By.Id(elementId));
@@ -127,7 +134,10 @@ namespace Blaise.Tests.Helpers.Framework
 
         public void LoadPage()
         {
+            var currentUrl = CatiManagementHelper.GetInstance().CurrentUrl();
             BrowserHelper.BrowseTo(_pageUrl);
+            this.WaitForPageToChange(_pageUrl);
+            BrowserHelper.TakeScreenShot("C:/Users/Khans8/Downloads", "sharaz-debugger");
             BrowserHelper
                 .Wait($"Timed out waiting for page {_pageUrl} to load")
                 .Until(PageHasLoaded());
