@@ -9,9 +9,9 @@ namespace Blaise.Tests.Helpers.Cati.Pages
 {
     public class CaseInfoPage : BasePage
     {
-        private const string _questionnaireCell = "//*[@id='MVCGridTable_CaseInfoGrid']/tbody/tr[1]/td[1]";
-        private const string _caseIdCell = "//*[@id='MVCGridTable_CaseInfoGrid']/tbody/tr[1]/td[2]";
-        private const string _playButton = "//*[@id='MVCGridTable_CaseInfoGrid']/tbody/tr[1]/td[19]/a/span";
+        private const string _questionnaireCell = "//*[@id='CaseInfo_content_table']/tbody/tr[1]/td[1]";
+        private const string _caseIdCell = "//*[@id='CaseInfo_content_table']/tbody/tr[1]/td[2]";
+        private const string _playButton = "qa_startcase_0";
         private const string _filterButton = "//*[contains(text(), 'Filters')]";
         private readonly string _surveyRadioButton = $"//*[normalize-space()='{BlaiseConfigurationHelper.QuestionnaireName}']";
         private const string _applyButton = "//*[contains(text(), 'Apply')]";
@@ -42,7 +42,7 @@ namespace Blaise.Tests.Helpers.Cati.Pages
 
         protected override Func<IWebDriver, bool> PageHasLoaded()
         {
-            return BodyContainsText("Showing");
+            return BodyContainsText("Case Info");
         }
 
         public void ClickPlayButton()
@@ -52,7 +52,7 @@ namespace Blaise.Tests.Helpers.Cati.Pages
             var attempts = 0;
             while (BrowserHelper.GetNumberOfWindows() == numberOfWindows)
             {
-                ClickButtonByXPath(_playButton);
+                ClickButtonById(_playButton);
                 Thread.Sleep(250);
                 attempts++;
                 if (attempts > 5)
@@ -87,7 +87,7 @@ namespace Blaise.Tests.Helpers.Cati.Pages
 
         public bool FirstCaseIsPlayable()
         {
-            return ElementIsDisplayed(By.XPath(_playButton));
+            return ElementIsDisplayed(By.Id(_playButton));
         }
     }
 }

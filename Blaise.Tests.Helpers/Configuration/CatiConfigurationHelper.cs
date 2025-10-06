@@ -52,6 +52,6 @@ namespace Blaise.Tests.Helpers.Configuration
 
         public static string CaseUrl => $"{CatiBaseUrl}//BlaiseDashboard/CaseInfo/StartSurvey?url={CatiBaseUrl}/{BlaiseConfigurationHelper.QuestionnaireName}/&rp.KeyValue=";
 
-        public static string CaseInfoUrl => $"{CatiBaseUrl}/BlaiseDashboard/CaseInfo";
+        public static string CaseInfoUrl => $"{CatiBaseUrl}BlaiseDashboard/CaseInfo";
     }
 }
