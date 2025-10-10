@@ -107,8 +107,9 @@ namespace Blaise.Tests.Helpers.Framework
             // Are we currently on the required page
             if (!BrowserHelper.GetCurrentUrl().Equals(url, StringComparison.CurrentCultureIgnoreCase))
             {
-                BrowserHelper.Wait($"Timed out in WaitForPageToChange(\"{url}\")")
-                    .Until(SeleniumExtras.WaitHelpers.ExpectedConditions.UrlMatches(url));
+                string caseInsensitiveUrlPattern = $"(?i){url}";
+                BrowserHelper.Wait($"WaitForPageToChange expected (\"{url}\") actual (\"{BrowserHelper.CurrentUrl}\") ")
+                    .Until(SeleniumExtras.WaitHelpers.ExpectedConditions.UrlMatches(caseInsensitiveUrlPattern));
             }
         }
 
