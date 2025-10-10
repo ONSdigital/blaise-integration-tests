@@ -54,13 +54,12 @@ namespace Blaise.Tests.Helpers.Cati.Pages
         public void ApplyFilters()
         {
             Thread.Sleep(5000);
-            ClickButtonByXPath(_filterButton);
-            var filterButtonText = GetElementTextByPath(_filterButton);
-            if (filterButtonText != "Filters (active)")
+            if (!BrowserHelper.ElementExistsByXPath(_applyButton))
             {
-                ClickButtonByXPath(_surveyRadioButton);
-                ClickButtonByXPath(_applyButton);
+                ClickButtonByXPath(_filterButton);
             }
+            ClickButtonByXPath(_surveyRadioButton);
+            ClickButtonByXPath(_applyButton);
         }
     }
 }
