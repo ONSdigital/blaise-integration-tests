@@ -42,9 +42,9 @@ namespace Blaise.Tests.Helpers.Configuration
 
         public static string LoginUrl => $"{CatiBaseUrl}BlaiseDashboard/account/login";
 
-        public static string DayBatchUrl => $"{CatiBaseUrl}/BlaiseDashboard/daybatch";
+        public static string DayBatchUrl => $"{CatiBaseUrl}BlaiseDashboard/daybatch";
 
-        public static string SchedulerUrl => $"{CatiBaseUrl}/{BlaiseConfigurationHelper.QuestionnaireName}";
+        public static string SchedulerUrl => $"{CatiBaseUrl}{BlaiseConfigurationHelper.QuestionnaireName}";
 
         public static string SpecificationUrl => $"{CatiBaseUrl}/BlaiseDashboard/specification";
 

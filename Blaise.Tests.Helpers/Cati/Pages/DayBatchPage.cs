@@ -1,6 +1,8 @@
-using System.Threading;
+using Blaise.Tests.Helpers.Browser;
 using Blaise.Tests.Helpers.Configuration;
 using Blaise.Tests.Helpers.Framework;
+using OpenQA.Selenium;
+using System.Threading;
 
 // ReSharper disable InconsistentNaming
 namespace Blaise.Tests.Helpers.Cati.Pages
@@ -9,15 +11,18 @@ namespace Blaise.Tests.Helpers.Cati.Pages
     {
         private const string _dayBatchCreateButtonId = "btnCreateDaybatch";
         private const string _createButtonPath = "//input[@value='Create']";
-        private readonly string _dayBatchEntry = $"//table[@id='MVCGridTable_DaybatchGrid']//td[preceding-sibling::td='{BlaiseConfigurationHelper.QuestionnaireName}']";
-        private readonly string _modifyEntryPath = $"//table[@id='MVCGridTable_DaybatchGrid']//td[preceding-sibling::td='{BlaiseConfigurationHelper.QuestionnaireName}']/a";
-        private const string _startTimeId = "NewStartTimeAmPm";
-        private const string _endTimeId = "NewEndTimeAmPm";
-        private const string _updateButtonPath = "//input[@value='Update']";
+        private readonly string _dayBatchEntry = $"//table[@id='Daybatch_content_table']//td[contains(., '{BlaiseConfigurationHelper.QuestionnaireName}')]";
+        private readonly string _modifyEntryButtonId = "qa_editrecord_0";
+        private const string _startTimeId = "qa_starttime";
+        private const string _endTimeId = "qa_endtime";
+        private const string _updateButtonId = "qa_btn_submit";
         private const string _questionnaireDropDownId = "InstrumentId";
         private const string _filterButton = "//*[contains(text(), 'Filters')]";
         private readonly string _surveyRadioButton = $"//*[normalize-space()='{BlaiseConfigurationHelper.QuestionnaireName}']";
         private const string _applyButton = "//*[contains(text(), 'Apply')]";
+
+        private static IWebDriver _browser;
+
 
         public DayBatchPage()
             : base(CatiConfigurationHelper.DayBatchUrl)
@@ -40,10 +45,10 @@ namespace Blaise.Tests.Helpers.Cati.Pages
 
         internal void ModifyDayBatchEntry()
         {
-            ClickButtonByXPath(_modifyEntryPath);
+            ClickButtonById(_modifyEntryButtonId);
             PopulateInputById(_startTimeId, "12:00 AM");
             PopulateInputById(_endTimeId, "11:59 PM");
-            ClickButtonByXPath(_updateButtonPath);
+            ClickButtonById(_updateButtonId);
         }
 
         public void ApplyFilters()
@@ -53,9 +58,8 @@ namespace Blaise.Tests.Helpers.Cati.Pages
             var filterButtonText = GetElementTextByPath(_filterButton);
             if (filterButtonText != "Filters (active)")
             {
-                ClickButtonByXPath(_surveyRadioButton);
-                ClickButtonByXPath(_applyButton);
-            }
+            ClickButtonByXPath(_surveyRadioButton);
+            ClickButtonByXPath(_applyButton);
         }
     }
 }

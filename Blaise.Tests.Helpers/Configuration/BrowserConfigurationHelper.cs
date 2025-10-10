@@ -4,7 +4,7 @@ namespace Blaise.Tests.Helpers.Configuration
 {
     public static class BrowserConfigurationHelper
     {
-        public static int TimeOutInSeconds => 10;
+        public static int TimeOutInSeconds => 20;
 
         public static string ChromeDriver => ConfigurationExtensions.GetEnvironmentVariable("ChromeWebDriver");
     }
