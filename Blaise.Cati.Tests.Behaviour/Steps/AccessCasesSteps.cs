@@ -1,5 +1,6 @@
-﻿using System;
+using System;
 using System.Diagnostics;
+using System.Threading;
 using Blaise.Tests.Helpers.Browser;
 using Blaise.Tests.Helpers.Cati;
 using NUnit.Framework;
@@ -41,6 +42,9 @@ namespace Blaise.Cati.Tests.Behaviour.Steps
             {
                 BrowserHelper.SwitchToLastOpenedWindow();
                 CatiInterviewHelper.GetInstance().WaitForFirstFocusObject();
+                BrowserHelper.TakeScreenShot("C:/Users/Khans8/Downloads", "last opened window");
+                var currentUrl = BrowserHelper.CurrentUrl;
+                var html = BrowserHelper.CurrentWindowHtml();
                 BrowserHelper.WaitForTextInHtml(caseId);
             }
             catch

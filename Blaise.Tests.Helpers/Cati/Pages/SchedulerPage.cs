@@ -10,7 +10,7 @@ namespace Blaise.Tests.Helpers.Cati.Pages
         private readonly string _submitButtonPath = "//input[@type='submit']";
 
         public SchedulerPage()
-            : base(CatiConfigurationHelper.SchedulerUrl, "LayoutSet=CATI-Interviewer_Large")
+            : base(CatiConfigurationHelper.SchedulerUrl)
         {
         }
 

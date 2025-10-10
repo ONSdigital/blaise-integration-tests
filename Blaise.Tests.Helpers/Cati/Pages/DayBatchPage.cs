@@ -58,8 +58,9 @@ namespace Blaise.Tests.Helpers.Cati.Pages
             var filterButtonText = GetElementTextByPath(_filterButton);
             if (filterButtonText != "Filters (active)")
             {
-            ClickButtonByXPath(_surveyRadioButton);
-            ClickButtonByXPath(_applyButton);
+                ClickButtonByXPath(_surveyRadioButton);
+                ClickButtonByXPath(_applyButton);
+            }
         }
     }
 }
