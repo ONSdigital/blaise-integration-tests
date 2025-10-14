@@ -41,11 +41,24 @@ namespace Blaise.Cati.Tests.Behaviour.Steps
             try
             {
                 BrowserHelper.SwitchToLastOpenedWindow();
-                CatiInterviewHelper.GetInstance().WaitForFirstFocusObject();
+                var instance = CatiInterviewHelper.GetInstance();
+                instance.WaitForFirstFocusObject();
                 BrowserHelper.TakeScreenShot("C:/Users/Khans8/Downloads", "last opened window");
                 var currentUrl = BrowserHelper.CurrentUrl;
                 var html = BrowserHelper.CurrentWindowHtml();
-                BrowserHelper.WaitForTextInHtml(caseId);
+                // TODO: make this better... this is for the access case via scheduler page and there isn't anything better on the page to verify against
+                if(caseId == "9002")
+                {
+                    BrowserHelper.PopulateInputByName("wa_1haa", caseId);
+                    BrowserHelper.TakeScreenShot("C:/Users/Khans8/Downloads", "populated caseid");
+                    instance.ClickSubmitButton(caseId);
+                    BrowserHelper.TakeScreenShot("C:/Users/Khans8/Downloads", "submit button clicked");
+                    BrowserHelper.WaitForTextInHtml("Welcome to the study");
+                }
+                else
+                {
+                    BrowserHelper.WaitForTextInHtml(caseId);
+                }
             }
             catch
             {

@@ -3,6 +3,7 @@ using Blaise.Tests.Helpers.Cati.Pages;
 using Blaise.Tests.Helpers.Configuration;
 using Blaise.Tests.Helpers.User;
 using Blaise.Tests.Models.User;
+using OpenQA.Selenium;
 using System.Collections.Generic;
 using System.Threading;
 
@@ -28,6 +29,13 @@ namespace Blaise.Tests.Helpers.Cati
             var caseInfoPage = new CaseInfoPage();
             caseInfoPage.RefreshPageUntilCaseIsPlayable(caseId);
             caseInfoPage.ClickPlayButton();
+        }
+
+        public void ClickSubmitButton(string caseId)
+        {
+            BrowserHelper
+          .Wait($"Timed out in ClickSubmitButton")
+          .Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementToBeClickable(By.Id("z"))).Click();
         }
 
         public void CreateInterviewUser()
