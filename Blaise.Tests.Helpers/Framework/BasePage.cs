@@ -138,7 +138,6 @@ namespace Blaise.Tests.Helpers.Framework
             var currentUrl = CatiManagementHelper.GetInstance().CurrentUrl();
             BrowserHelper.BrowseTo(_pageUrl);
             this.WaitForPageToChange(_pageUrl);
-            BrowserHelper.TakeScreenShot("C:/Users/Khans8/Downloads", "sharaz-debugger");
             BrowserHelper
                 .Wait($"Timed out waiting for page {_pageUrl} to load")
                 .Until(PageHasLoaded());
