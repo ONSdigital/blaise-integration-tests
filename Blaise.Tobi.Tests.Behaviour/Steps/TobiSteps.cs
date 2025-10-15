@@ -89,10 +89,13 @@ namespace Blaise.Tobi.Tests.Behaviour.Steps
         {
             CatiInterviewHelper.GetInstance().LoginButtonIsAvailable();
 
+            var currentUrlToLower = BrowserHelper.CurrentUrl.ToLower();
+            var expectedUrlToLower = $"{CatiConfigurationHelper.SchedulerUrl.ToLower()}/login";
+
             Assert.That(
-                BrowserHelper.CurrentUrl.ToLower(),
-                Is.EqualTo($"{CatiConfigurationHelper.SchedulerUrl.ToLower()}/login"),
-                $"Current URL should be the Blaise login page: {CatiConfigurationHelper.SchedulerUrl.ToLower()}/login");
+                currentUrlToLower,
+                Is.EqualTo(expectedUrlToLower),
+                $"Current URL should be the Blaise login page: expected {expectedUrlToLower} actual: {currentUrlToLower}");
         }
 
         [AfterFeature("tobi")]
