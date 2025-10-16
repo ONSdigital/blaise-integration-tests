@@ -90,7 +90,7 @@ namespace Blaise.Tobi.Tests.Behaviour.Steps
             CatiInterviewHelper.GetInstance().LoginButtonIsAvailable();
 
             var currentUrlToLower = BrowserHelper.CurrentUrl.ToLower();
-            var expectedUrlToLower = $"/{CatiConfigurationHelper.SchedulerUrl.ToLower()}/login";
+            var expectedUrlToLower = $"{CatiConfigurationHelper.SchedulerUrl.ToLower()}/login";
 
             Assert.That(
                 currentUrlToLower,
