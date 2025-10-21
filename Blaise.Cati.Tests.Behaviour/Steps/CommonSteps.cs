@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using Blaise.Tests.Helpers.Browser;
 using Blaise.Tests.Helpers.Cati;
 using Blaise.Tests.Helpers.Configuration;
@@ -24,7 +24,8 @@ namespace Blaise.Cati.Tests.Behaviour.Steps
         public static void BeforeTestRun()
         {
             QuestionnaireHelper.GetInstance().InstallQuestionnaire(BlaiseConfigurationHelper.QuestionnaireName, BlaiseConfigurationHelper.ServerParkName, BlaiseConfigurationHelper.QuestionnairePath, BlaiseConfigurationHelper.QuestionnaireInstallOptions);
-            CatiManagementHelper.GetInstance().CreateAdminUser();
+            var catiHelper = TestBootstrap.Container.GetInstance<CatiManagementHelper>();
+            catiHelper.CreateAdminUser();
             CatiInterviewHelper.GetInstance().CreateInterviewUser();
         }
 
@@ -32,7 +33,8 @@ namespace Blaise.Cati.Tests.Behaviour.Steps
         public static void AfterTestRun()
         {
             CatiInterviewHelper.GetInstance().DeleteInterviewUser();
-            CatiManagementHelper.GetInstance().DeleteAdminUser();
+            var catiHelper = TestBootstrap.Container.GetInstance<CatiManagementHelper>();
+            catiHelper.DeleteAdminUser();
             QuestionnaireHelper.GetInstance().UninstallQuestionnaire(BlaiseConfigurationHelper.QuestionnaireName, BlaiseConfigurationHelper.ServerParkName);
         }
 

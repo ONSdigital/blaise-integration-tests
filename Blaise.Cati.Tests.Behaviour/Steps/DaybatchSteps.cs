@@ -10,11 +10,18 @@ namespace Blaise.Cati.Tests.Behaviour.Steps
     [Binding]
     public sealed class DaybatchSteps
     {
+        private readonly CatiManagementHelper _catiHelper;
+
+        public DaybatchSteps()
+        {
+            _catiHelper = TestBootstrap.Container.GetInstance<CatiManagementHelper>();
+        }
+
         [Given(@"I log into the CATI dashboard as an administrator")]
         public void GivenILogOnToTheCatiDashboard()
         {
-            CatiManagementHelper.GetInstance().LogIntoCatiDashboardAsAdministrator();
-            var currentUrl = CatiManagementHelper.GetInstance().CurrentUrl();
+            _catiHelper.LogIntoCatiDashboardAsAdministrator();
+            var currentUrl = _catiHelper.CurrentUrl();
 
             Assert.That(
                 currentUrl,
@@ -26,14 +33,14 @@ namespace Blaise.Cati.Tests.Behaviour.Steps
         [When(@"I create a daybatch for today")]
         public void WhenICreateADaybatchForToday()
         {
-            CatiManagementHelper.GetInstance().ClearDayBatchEntries();
-            CatiManagementHelper.GetInstance().CreateDayBatch();
+            _catiHelper.ClearDayBatchEntries();
+            _catiHelper.CreateDayBatch();
         }
 
         [Then(@"the sample cases are present on the daybatch page")]
         public void ThenTheSampleCasesArePresentOnTheDaybatchPage(IEnumerable<CaseModel> cases)
         {
-            var entriesText = CatiManagementHelper.GetInstance().GetDaybatchEntriesText();
+            var entriesText = _catiHelper.GetDaybatchEntriesText();
 
             Assert.That(
                 entriesText,
