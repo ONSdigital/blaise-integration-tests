@@ -135,7 +135,6 @@ namespace Blaise.Tests.Helpers.Framework
 
         public void LoadPage()
         {
-            var currentUrl = CatiManagementHelper.GetInstance().CurrentUrl();
             BrowserHelper.BrowseTo(_pageUrl);
             this.WaitForPageToChange(_pageUrl);
             BrowserHelper

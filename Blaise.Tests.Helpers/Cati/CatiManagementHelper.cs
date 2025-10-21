@@ -12,11 +12,11 @@ namespace Blaise.Tests.Helpers.Cati
 {
     public class CatiManagementHelper
     {
-        private static CatiManagementHelper _currentInstance;
+        private readonly ILoginPage _loginPage;
 
-        public static CatiManagementHelper GetInstance()
+        public CatiManagementHelper(ILoginPage loginPage)
         {
-            return _currentInstance ?? (_currentInstance = new CatiManagementHelper());
+            _loginPage = loginPage;
         }
 
         public string CurrentUrl()
@@ -39,17 +39,15 @@ namespace Blaise.Tests.Helpers.Cati
 
         public void LogIntoCatiDashboardAsAdministrator()
         {
-            var loginPage = new LoginPage();
-            loginPage.LoadPage();
-            loginPage.LoginToCati(CatiConfigurationHelper.CatiAdminUsername, CatiConfigurationHelper.CatiAdminPassword);
+            _loginPage.LoadPage();
+            _loginPage.LoginToCati(CatiConfigurationHelper.CatiAdminUsername, CatiConfigurationHelper.CatiAdminPassword);
             Thread.Sleep(2000);
         }
 
         public void LogIntoCatiDashboardAsInterviewer()
         {
-            var loginPage = new LoginPage();
-            loginPage.LoadPage();
-            loginPage.LoginToCati(CatiConfigurationHelper.CatiInterviewUsername, CatiConfigurationHelper.CatiInterviewPassword);
+            _loginPage.LoadPage();
+            _loginPage.LoginToCati(CatiConfigurationHelper.CatiInterviewUsername, CatiConfigurationHelper.CatiInterviewPassword);
             Thread.Sleep(2000);
         }
 

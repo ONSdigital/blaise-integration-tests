@@ -6,10 +6,10 @@ using System.Threading;
 
 namespace Blaise.Tests.Helpers.Cati.Pages
 {
-    public class LoginPage : BasePage
+    public class LoginPage : BasePage, ILoginPage
     {
-        private const string _usernameBoxId = "qa_username";
-        private const string _passwordBoxId = "qa_password";
+        private const string _usernameBoxId = "Username";
+        private const string _passwordBoxId = "Password";
         private const string _loginButtonPath = "//button[@type='submit']";
 
         public LoginPage()
