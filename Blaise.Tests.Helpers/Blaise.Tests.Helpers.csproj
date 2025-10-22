@@ -206,8 +206,11 @@
     <Compile Include="Case\CaseHelper.cs" />
     <Compile Include="Cati\CatiManagementHelper.cs" />
     <Compile Include="Cati\Interfaces\ILoginPage.cs" />
+    <Compile Include="Cati\Interfaces\ISurveyPageSelectors.cs" />
     <Compile Include="Cati\Pages\CaseInfoPage.cs" />
     <Compile Include="Cati\Pages\LoginPageV16.cs" />
+    <Compile Include="Cati\Pages\NewSurveyPageSelectors.cs" />
+    <Compile Include="Cati\Pages\SurveyPageSelectors.cs" />
     <Compile Include="Dqs\Pages\CannotOverwritePage.cs" />
     <Compile Include="Dqs\Pages\DeleteConfirmationPage.cs" />
     <Compile Include="Dqs\Pages\LoginPage.cs" />

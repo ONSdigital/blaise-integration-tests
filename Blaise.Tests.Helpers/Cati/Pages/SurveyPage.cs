@@ -1,50 +1,65 @@
-using System;
-using System.Threading;
 using Blaise.Tests.Helpers.Configuration;
 using Blaise.Tests.Helpers.Framework;
 using OpenQA.Selenium;
+using System;
+using System.Configuration;
+using System.Threading;
 
-// ReSharper disable InconsistentNaming
-namespace Blaise.Tests.Helpers.Cati.Pages
+public class SurveyPage : BasePage
 {
-    public class SurveyPage : BasePage
+    private readonly ISurveyPageSelectors _selectors;
+
+    public SurveyPage()
+        : base(CatiConfigurationHelper.SurveyUrl)
     {
-        private const string _clearCatiDataButtonPath = "//*[contains(text(), 'Clear')]";
-        private const string _backupDataButtonId = "qa_backupdata_0";
-        private const string _clearDataButtonId = "//label[@for='qa_clear_all']";
-        private const string _executeButtonPath = "//button[@id='qa_btn_submit']";
-        private const string _filterButton = "//*[contains(text(), 'Filters')]";
-        private readonly string _surveyRadioButton = $"//*[normalize-space()='{BlaiseConfigurationHelper.QuestionnaireName}']";
-        private const string _applyButton = "//*[contains(text(), 'Apply')]";
+        var isNewVersion = Convert.ToBoolean(ConfigurationManager.AppSettings["ENV_IS_BLAIS16"]);
 
-        public SurveyPage()
-            : base(CatiConfigurationHelper.SurveyUrl)
+        if (isNewVersion)
         {
+            _selectors = new NewSurveyPageSelectors();
         }
-
-        protected override Func<IWebDriver, bool> PageHasLoaded()
+        else
         {
-            return BodyContainsText("Surveys");
+            _selectors = new SurveyPageSelectors();
         }
+    }
 
-        public void ClearDayBatchEntries()
+    protected override Func<IWebDriver, bool> PageHasLoaded()
+    {
+        return BodyContainsText(_selectors.ExpectedPageText);
+    }
+
+    public void ClearDayBatchEntries()
+    {
+        Thread.Sleep(2000);
+
+        ClickButtonByXPath(_selectors.ClearCatiDataButtonPath);
+        ClickButtonByIdOrXPath(_selectors.BackupDataButtonId);
+        ClickButtonByIdOrXPath(_selectors.ClearDataButton);
+        ClickButtonByXPath(_selectors.ExecuteButtonPath);
+    }
+
+    private void ClickButtonByIdOrXPath(string selector)
+    {
+        if (selector.StartsWith("//"))
         {
-            Thread.Sleep(2000);
-            ClickButtonByXPath(_clearCatiDataButtonPath);
-            ClickButtonById(_backupDataButtonId);
-            ClickButtonByXPath(_clearDataButtonId);
-            ClickButtonByXPath(_executeButtonPath);
+            ClickButtonByXPath(selector);
         }
-
-        public void ApplyFilter()
+        else
         {
-            ClickButtonByXPath(_filterButton);
-            var filterButtonText = GetElementTextByPath(_filterButton);
-            if (filterButtonText != "Filters (active)")
-            {
-                ClickButtonByXPath(_surveyRadioButton);
-                ClickButtonByXPath(_applyButton);
-            }
+            ClickButtonById(selector);
+        }
+    }
+
+    public void ApplyFilter()
+    {
+        ClickButtonByXPath(_selectors.FilterButton);
+        var filterButtonText = GetElementTextByPath(_selectors.FilterButton);
+
+        if (filterButtonText != "Filters (active)")
+        {
+            ClickButtonByXPath(_selectors.SurveyRadioButton);
+            ClickButtonByXPath(_selectors.ApplyButton);
         }
     }
 }
