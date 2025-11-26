@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using Blaise.Tests.Helpers.Browser;
 using Blaise.Tests.Helpers.Configuration;
 using Blaise.Tests.Helpers.Dqs;

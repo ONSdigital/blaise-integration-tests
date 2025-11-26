@@ -28,7 +28,7 @@ namespace Blaise.Tests.Helpers.Browser
         {
             return new WebDriverWait(Browser, TimeSpan.FromSeconds(TimeOutInSeconds))
             {
-                Message = message
+                Message = message,
             };
         }
 
@@ -36,7 +36,7 @@ namespace Blaise.Tests.Helpers.Browser
         {
             return new WebDriverWait(Browser, timeout ?? TimeSpan.FromSeconds(TimeOutInSeconds))
             {
-                Message = message
+                Message = message,
             };
         }
 
@@ -274,7 +274,7 @@ namespace Blaise.Tests.Helpers.Browser
         {
             var chromeOptions = new ChromeOptions
             {
-                AcceptInsecureCertificates = true
+                AcceptInsecureCertificates = true,
             };
             chromeOptions.AddArguments("headless");
             chromeOptions.AddArguments("start-maximized");
@@ -324,7 +324,7 @@ namespace Blaise.Tests.Helpers.Browser
             {
                 Timeout = timeout,
                 PollingInterval = pollingInterval,
-                Message = $"Timed out after {timeoutInSeconds} seconds while waiting for URL to match '{expectedUrl}'"
+                Message = $"Timed out after {timeoutInSeconds} seconds while waiting for URL to match '{expectedUrl}'",
             };
 
             try

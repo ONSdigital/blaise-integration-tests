@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Diagnostics;
 using Blaise.Tests.Helpers.Browser;
 using Blaise.Tests.Helpers.Cati;

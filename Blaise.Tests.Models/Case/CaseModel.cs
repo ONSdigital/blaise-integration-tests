@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Blaise.Nuget.Api.Contracts.Enums;
@@ -22,7 +22,7 @@ namespace Blaise.Tests.Models.Case
 
             PrimaryKeyValues = new Dictionary<string, string>
             {
-                ["QID.Serial_Number"] = primaryKey
+                ["QID.Serial_Number"] = primaryKey,
             };
 
             OutcomeCode = outcomeCode;
@@ -54,7 +54,7 @@ namespace Blaise.Tests.Models.Case
             return new Dictionary<string, string>
             {
                 { FieldNameType.HOut.FullName(), OutcomeCode },
-                { FieldNameType.TelNo.FullName(), TelephoneNo }
+                { FieldNameType.TelNo.FullName(), TelephoneNo },
             };
         }
 
