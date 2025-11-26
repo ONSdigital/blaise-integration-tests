@@ -60,9 +60,9 @@ namespace Blaise.Tests.Helpers.Questionnaire
             Console.WriteLine($"questionnairePackagePath: {questionnairePackagePath}");
             _blaiseQuestionnaireApi.InstallQuestionnaire(
                 questionnaireName,
-                                                        serverParkName,
-                                                        questionnairePackagePath,
-                                                        installOptions);
+                serverParkName,
+                questionnairePackagePath,
+                installOptions);
             Thread.Sleep(2000);
         }
 

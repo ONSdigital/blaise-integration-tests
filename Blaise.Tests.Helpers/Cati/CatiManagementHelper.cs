@@ -32,7 +32,7 @@ namespace Blaise.Tests.Helpers.Cati
                 Password = CatiConfigurationHelper.CatiAdminPassword,
                 Role = CatiConfigurationHelper.AdminRole,
                 ServerParks = new List<string> { BlaiseConfigurationHelper.ServerParkName },
-                DefaultServerPark = BlaiseConfigurationHelper.ServerParkName
+                DefaultServerPark = BlaiseConfigurationHelper.ServerParkName,
             };
             UserHelper.GetInstance().CreateUser(adminUser);
         }
