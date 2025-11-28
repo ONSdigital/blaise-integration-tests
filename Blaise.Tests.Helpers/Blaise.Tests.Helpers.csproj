@@ -164,42 +164,6 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<Compile Include="Browser\BrowserHelper.cs" />
-		<Compile Include="Case\CaseHelper.cs" />
-		<Compile Include="Cati\CatiManagementHelper.cs" />
-		<Compile Include="Cati\Pages\CaseInfoPage.cs" />
-		<Compile Include="Dqs\Pages\CannotOverwritePage.cs" />
-		<Compile Include="Dqs\Pages\DeleteConfirmationPage.cs" />
-		<Compile Include="Dqs\Pages\LoginPage.cs" />
-		<Compile Include="Dqs\Pages\QuestionnaireInfoPage.cs" />
-		<Compile Include="Framework\BasePage.cs" />
-		<Compile Include="Cati\Pages\DayBatchPage.cs" />
-		<Compile Include="Cati\Pages\SchedulerPage.cs" />
-		<Compile Include="Cati\Pages\InterviewPage.cs" />
-		<Compile Include="Cati\Pages\LoginPage.cs" />
-		<Compile Include="Cati\Pages\SpecificationPage.cs" />
-		<Compile Include="Cati\Pages\SurveyPage.cs" />
-		<Compile Include="Configuration\BrowserConfigurationHelper.cs" />
-		<Compile Include="Configuration\CatiConfigurationHelper.cs" />
-		<Compile Include="Configuration\BlaiseConfigurationHelper.cs" />
-		<Compile Include="Configuration\DqsConfigurationHelper.cs" />
-		<Compile Include="Configuration\TobiConfigurationHelper.cs" />
-		<Compile Include="Dqs\DqsHelper.cs" />
-		<Compile Include="Dqs\Pages\HomePage.cs" />
-		<Compile Include="Dqs\Pages\UploadPage.cs" />
-		<Compile Include="Dqs\Pages\UploadSummaryPage.cs" />
-		<Compile Include="Framework\Extensions\ConfigurationExtensions.cs" />
-		<Compile Include="Framework\Extensions\ParameterValidationExtensions.cs" />
-		<Compile Include="Questionnaire\QuestionnaireHelper.cs" />
-		<Compile Include="Cati\CatiInterviewHelper.cs" />
-		<Compile Include="Tobi\DayBatchHelper.cs" />
-		<Compile Include="Tobi\Pages\HomePage.cs" />
-		<Compile Include="Tobi\Pages\QuestionnairePage.cs" />
-		<Compile Include="Tobi\TobiHelper.cs" />
-		<Compile Include="User\UserHelper.cs" />
-	</ItemGroup>
-
-	<ItemGroup>
 		<Folder Include="Properties\" />
 	</ItemGroup>
 
