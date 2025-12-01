@@ -16,7 +16,7 @@
 		<PackageReference Include="SpecFlow" Version="3.9.74" />
 		<PackageReference Include="SpecFlow.Internal.Json" Version="1.0.8" />
 		<PackageReference Include="System.ValueTuple" Version="4.5.0" />
-		<PackageReference Include="StyleCop.Analyzers" Version="1.1.118" PrivateAssets="all" />
+		<PackageReference Include="StyleCop.Analyzers" Version="1.1.118" PrivateAssets="All" />
 	</ItemGroup>
 
 	<ItemGroup>
