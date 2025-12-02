@@ -1,12 +1,12 @@
-using System;
-using System.Threading;
-using Blaise.Tests.Helpers.Configuration;
-using Blaise.Tests.Helpers.Framework;
-using OpenQA.Selenium;
-
 // ReSharper disable InconsistentNaming
 namespace Blaise.Tests.Helpers.Cati.Pages
 {
+    using System;
+    using System.Threading;
+    using Blaise.Tests.Helpers.Configuration;
+    using Blaise.Tests.Helpers.Framework;
+    using OpenQA.Selenium;
+
     public class SurveyPage : BasePage
     {
         private const string _clearCatiDataButtonPath = @"//*[@id='MVCGridTable_SurveysGrid']/tbody/tr/td[9]/a";

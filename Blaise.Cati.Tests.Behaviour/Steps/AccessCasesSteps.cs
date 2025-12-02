@@ -1,12 +1,12 @@
-using System;
-using System.Diagnostics;
-using Blaise.Tests.Helpers.Browser;
-using Blaise.Tests.Helpers.Cati;
-using NUnit.Framework;
-using TechTalk.SpecFlow;
-
 namespace Blaise.Cati.Tests.Behaviour.Steps
 {
+    using System;
+    using System.Diagnostics;
+    using Blaise.Tests.Helpers.Browser;
+    using Blaise.Tests.Helpers.Cati;
+    using NUnit.Framework;
+    using TechTalk.SpecFlow;
+
     [Binding]
     public sealed class AccessCasesSteps
     {

@@ -1,7 +1,7 @@
-using Blaise.Tests.Helpers.Framework.Extensions;
-
 namespace Blaise.Tests.Helpers.Configuration
 {
+    using Blaise.Tests.Helpers.Framework.Extensions;
+
     public static class DqsConfigurationHelper
     {
         public static string DqsUrl => $"{ConfigurationExtensions.GetVariable("ENV_DQS_URL")}";

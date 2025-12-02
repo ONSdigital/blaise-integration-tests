@@ -1,9 +1,9 @@
-using System.Collections.Generic;
-using Blaise.Tests.Helpers.Configuration;
-using Blaise.Tests.Helpers.Framework;
-
 namespace Blaise.Tests.Helpers.Tobi.Pages
 {
+    using System.Collections.Generic;
+    using Blaise.Tests.Helpers.Configuration;
+    using Blaise.Tests.Helpers.Framework;
+
     public class HomePage : BasePage
     {
         public string SurveyTablePath = "//*[@id='survey-table']/tbody/tr";

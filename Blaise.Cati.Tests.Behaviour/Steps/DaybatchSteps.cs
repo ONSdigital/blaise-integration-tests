@@ -1,12 +1,12 @@
-using System.Collections.Generic;
-using Blaise.Tests.Helpers.Cati;
-using Blaise.Tests.Helpers.Configuration;
-using Blaise.Tests.Models.Case;
-using NUnit.Framework;
-using TechTalk.SpecFlow;
-
 namespace Blaise.Cati.Tests.Behaviour.Steps
 {
+    using System.Collections.Generic;
+    using Blaise.Tests.Helpers.Cati;
+    using Blaise.Tests.Helpers.Configuration;
+    using Blaise.Tests.Models.Case;
+    using NUnit.Framework;
+    using TechTalk.SpecFlow;
+
     [Binding]
     public sealed class DaybatchSteps
     {

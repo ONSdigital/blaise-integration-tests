@@ -1,8 +1,8 @@
-using Blaise.Tests.Helpers.Configuration;
-using Blaise.Tests.Helpers.Framework;
-
 namespace Blaise.Tests.Helpers.Dqs.Pages
 {
+    using Blaise.Tests.Helpers.Configuration;
+    using Blaise.Tests.Helpers.Framework;
+
     public class UploadSummaryPage : BasePage
     {
         private const string _summaryDivPath = "//div[contains(@class, 'success ons-panel')]";

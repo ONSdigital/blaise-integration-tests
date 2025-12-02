@@ -1,10 +1,10 @@
-using System;
-using Blaise.Tests.Helpers.Configuration;
-using Blaise.Tests.Helpers.Framework;
-using OpenQA.Selenium;
-
 namespace Blaise.Tests.Helpers.Cati.Pages
 {
+    using System;
+    using Blaise.Tests.Helpers.Configuration;
+    using Blaise.Tests.Helpers.Framework;
+    using OpenQA.Selenium;
+
     public class LoginPage : BasePage
     {
         private const string _usernameBoxId = "Username";

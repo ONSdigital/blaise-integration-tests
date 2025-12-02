@@ -1,19 +1,19 @@
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using Blaise.Tests.Helpers.Configuration;
-using NUnit.Framework;
-using OpenQA.Selenium;
-using OpenQA.Selenium.Chrome;
-using OpenQA.Selenium.Interactions;
-using OpenQA.Selenium.Support.Extensions;
-using OpenQA.Selenium.Support.UI;
-using SeleniumExtras.WaitHelpers;
-using TechTalk.SpecFlow;
-
 namespace Blaise.Tests.Helpers.Browser
 {
+    using System;
+    using System.Collections.Generic;
+    using System.IO;
+    using System.Linq;
+    using Blaise.Tests.Helpers.Configuration;
+    using NUnit.Framework;
+    using OpenQA.Selenium;
+    using OpenQA.Selenium.Chrome;
+    using OpenQA.Selenium.Interactions;
+    using OpenQA.Selenium.Support.Extensions;
+    using OpenQA.Selenium.Support.UI;
+    using SeleniumExtras.WaitHelpers;
+    using TechTalk.SpecFlow;
+
     public static class BrowserHelper
     {
         private static IWebDriver _browser;

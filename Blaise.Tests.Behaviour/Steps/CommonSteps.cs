@@ -1,10 +1,10 @@
-using System;
-using Blaise.Tests.Helpers.Browser;
-using NUnit.Framework;
-using TechTalk.SpecFlow;
-
 namespace Blaise.Tests.Behaviour.Steps
 {
+    using System;
+    using Blaise.Tests.Helpers.Browser;
+    using NUnit.Framework;
+    using TechTalk.SpecFlow;
+
     [Binding]
     public sealed class CommonSteps
     {

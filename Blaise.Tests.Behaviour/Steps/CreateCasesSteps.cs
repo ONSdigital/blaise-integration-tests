@@ -1,14 +1,14 @@
-using System.Collections.Generic;
-using System.Linq;
-using Blaise.Tests.Helpers.Case;
-using Blaise.Tests.Helpers.Configuration;
-using Blaise.Tests.Helpers.Questionnaire;
-using Blaise.Tests.Models.Case;
-using NUnit.Framework;
-using TechTalk.SpecFlow;
-
 namespace Blaise.Tests.Behaviour.Steps
 {
+    using System.Collections.Generic;
+    using System.Linq;
+    using Blaise.Tests.Helpers.Case;
+    using Blaise.Tests.Helpers.Configuration;
+    using Blaise.Tests.Helpers.Questionnaire;
+    using Blaise.Tests.Models.Case;
+    using NUnit.Framework;
+    using TechTalk.SpecFlow;
+
     [Binding]
     public sealed class CreateCasesSteps
     {

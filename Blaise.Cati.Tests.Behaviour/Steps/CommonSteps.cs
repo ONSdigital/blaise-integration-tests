@@ -1,13 +1,13 @@
-using System;
-using Blaise.Tests.Helpers.Browser;
-using Blaise.Tests.Helpers.Cati;
-using Blaise.Tests.Helpers.Configuration;
-using Blaise.Tests.Helpers.Questionnaire;
-using NUnit.Framework;
-using TechTalk.SpecFlow;
-
 namespace Blaise.Cati.Tests.Behaviour.Steps
 {
+    using System;
+    using Blaise.Tests.Helpers.Browser;
+    using Blaise.Tests.Helpers.Cati;
+    using Blaise.Tests.Helpers.Configuration;
+    using Blaise.Tests.Helpers.Questionnaire;
+    using NUnit.Framework;
+    using TechTalk.SpecFlow;
+
     [Binding]
     public sealed class CommonSteps
     {

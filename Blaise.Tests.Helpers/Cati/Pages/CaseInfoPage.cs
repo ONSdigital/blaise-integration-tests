@@ -1,12 +1,12 @@
-using System;
-using System.Threading;
-using Blaise.Tests.Helpers.Browser;
-using Blaise.Tests.Helpers.Configuration;
-using Blaise.Tests.Helpers.Framework;
-using OpenQA.Selenium;
-
 namespace Blaise.Tests.Helpers.Cati.Pages
 {
+    using System;
+    using System.Threading;
+    using Blaise.Tests.Helpers.Browser;
+    using Blaise.Tests.Helpers.Configuration;
+    using Blaise.Tests.Helpers.Framework;
+    using OpenQA.Selenium;
+
     public class CaseInfoPage : BasePage
     {
         private const string _questionnaireCell = "//*[@id='MVCGridTable_CaseInfoGrid']/tbody/tr[1]/td[1]";

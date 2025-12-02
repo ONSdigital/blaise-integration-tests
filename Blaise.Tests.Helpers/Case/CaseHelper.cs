@@ -1,15 +1,15 @@
-using System;
-using System.Collections.Generic;
-using System.Globalization;
-using Blaise.Nuget.Api.Api;
-using Blaise.Nuget.Api.Contracts.Enums;
-using Blaise.Nuget.Api.Contracts.Interfaces;
-using Blaise.Tests.Helpers.Configuration;
-using Blaise.Tests.Models.Case;
-using StatNeth.Blaise.API.DataRecord;
-
 namespace Blaise.Tests.Helpers.Case
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Globalization;
+    using Blaise.Nuget.Api.Api;
+    using Blaise.Nuget.Api.Contracts.Enums;
+    using Blaise.Nuget.Api.Contracts.Interfaces;
+    using Blaise.Tests.Helpers.Configuration;
+    using Blaise.Tests.Models.Case;
+    using StatNeth.Blaise.API.DataRecord;
+
     public class CaseHelper
     {
         private readonly IBlaiseCaseApi _blaiseCaseApi;

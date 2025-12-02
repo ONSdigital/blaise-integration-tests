@@ -1,10 +1,10 @@
-using System.Collections.Generic;
-using System.Linq;
-using Blaise.Tests.Helpers.Browser;
-using Blaise.Tests.Helpers.Tobi.Pages;
-
 namespace Blaise.Tests.Helpers.Tobi
 {
+    using System.Collections.Generic;
+    using System.Linq;
+    using Blaise.Tests.Helpers.Browser;
+    using Blaise.Tests.Helpers.Tobi.Pages;
+
     public class TobiHelper
     {
         private static TobiHelper _currentInstance;

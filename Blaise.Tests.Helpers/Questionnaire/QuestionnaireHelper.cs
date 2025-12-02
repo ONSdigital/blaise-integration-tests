@@ -1,13 +1,13 @@
-using System;
-using System.Threading;
-using Blaise.Nuget.Api.Api;
-using Blaise.Nuget.Api.Contracts.Enums;
-using Blaise.Nuget.Api.Contracts.Interfaces;
-using Blaise.Nuget.Api.Contracts.Models;
-using StatNeth.Blaise.API.ServerManager;
-
 namespace Blaise.Tests.Helpers.Questionnaire
 {
+    using System;
+    using System.Threading;
+    using Blaise.Nuget.Api.Api;
+    using Blaise.Nuget.Api.Contracts.Enums;
+    using Blaise.Nuget.Api.Contracts.Interfaces;
+    using Blaise.Nuget.Api.Contracts.Models;
+    using StatNeth.Blaise.API.ServerManager;
+
     public class QuestionnaireHelper
     {
         private readonly IBlaiseQuestionnaireApi _blaiseQuestionnaireApi;
