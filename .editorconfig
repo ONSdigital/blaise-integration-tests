@@ -11,7 +11,7 @@ end_of_line = crlf
 charset = utf-8
 
 # Braces, parentheses, spacing
-csharp_prefer_braces = true
+csharp_prefer_braces = true:silent
 csharp_space_between_braces = true
 csharp_space_between_parentheses = false
 dotnet_style_spacing_after_comma = true
@@ -23,11 +23,11 @@ csharp_prefer_simple_using_statement = true:suggestion
 csharp_style_namespace_declarations = block_scoped:suggestion
 
 # Language usage preferences
-csharp_style_prefer_method_group_conversion = true
-csharp_style_expression_bodied_methods = false
-csharp_style_prefer_top_level_statements = true
-csharp_style_prefer_primary_constructors = true
-csharp_prefer_system_threading_lock = true
+csharp_style_prefer_method_group_conversion = true:silent
+csharp_style_expression_bodied_methods = false:silent
+csharp_style_prefer_top_level_statements = true:silent
+csharp_style_prefer_primary_constructors = true:suggestion
+csharp_prefer_system_threading_lock = true:suggestion
 csharp_style_trailing_commas = when_multiline
 csharp_preserve_single_line_statements = false
 
@@ -56,7 +56,7 @@ dotnet_naming_symbols.types.applicable_accessibilities = *
 # Constants naming
 dotnet_naming_rule.constants_should_be_all_caps.severity = warning
 dotnet_naming_rule.constants_should_be_all_caps.symbols = all_constants
-dotnet_naming_rule.constants_should_be_all_caps.style = all_caps
+dotnet_naming_rule.constants_should_be_all_caps.style = pascal_case
 dotnet_naming_symbols.all_constants.applicable_kinds = field, local
 dotnet_naming_symbols.all_constants.required_modifiers = const
 
@@ -73,4 +73,15 @@ dotnet_diagnostic.SA1101.severity = none   # don't force 'this.' prefix on local
 dotnet_diagnostic.SA1309.severity = none   # allow field names starting with underscore
 dotnet_diagnostic.SA1600.severity = none   # don't force documentation
 dotnet_diagnostic.SA1633.severity = none   # don't force file headers
-dotnet_diagnostic.SA1200.severity = none   # allow usings inside namespace
+csharp_indent_labels = flush_left
+csharp_using_directive_placement = outside_namespace:silent
+csharp_style_expression_bodied_constructors = false:silent
+csharp_style_expression_bodied_operators = false:silent
+csharp_style_expression_bodied_properties = true:silent
+csharp_style_expression_bodied_indexers = true:silent
+csharp_style_expression_bodied_accessors = true:silent
+[*.{cs,vb}]
+dotnet_style_operator_placement_when_wrapping = beginning_of_line
+tab_width = 4
+indent_size = 4
+end_of_line = crlf

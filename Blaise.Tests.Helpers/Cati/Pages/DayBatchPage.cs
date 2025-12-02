@@ -1,10 +1,10 @@
-using System.Threading;
-using Blaise.Tests.Helpers.Configuration;
-using Blaise.Tests.Helpers.Framework;
-
 // ReSharper disable InconsistentNaming
 namespace Blaise.Tests.Helpers.Cati.Pages
 {
+    using System.Threading;
+    using Blaise.Tests.Helpers.Configuration;
+    using Blaise.Tests.Helpers.Framework;
+
     public class DayBatchPage : BasePage
     {
         private const string _dayBatchCreateButtonId = "btnCreateDaybatch";

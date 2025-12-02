@@ -1,11 +1,11 @@
-using System;
-using System.Collections.Generic;
-using Blaise.Tests.Helpers.Browser;
-using OpenQA.Selenium;
-using OpenQA.Selenium.Support.UI;
-
 namespace Blaise.Tests.Helpers.Framework
 {
+    using System;
+    using System.Collections.Generic;
+    using Blaise.Tests.Helpers.Browser;
+    using OpenQA.Selenium;
+    using OpenQA.Selenium.Support.UI;
+
     public class BasePage
     {
         private readonly string _pageUrl;

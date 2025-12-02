@@ -1,12 +1,12 @@
-using System;
-using System.Net;
-using Blaise.Nuget.Api.Api;
-using Blaise.Nuget.Api.Contracts.Interfaces;
-using Blaise.Tests.Models.User;
-using StatNeth.Blaise.API.ServerManager;
-
 namespace Blaise.Tests.Helpers.User
 {
+    using System;
+    using System.Net;
+    using Blaise.Nuget.Api.Api;
+    using Blaise.Nuget.Api.Contracts.Interfaces;
+    using Blaise.Tests.Models.User;
+    using StatNeth.Blaise.API.ServerManager;
+
     public class UserHelper
     {
         private readonly IBlaiseUserApi _blaiseUserApi;

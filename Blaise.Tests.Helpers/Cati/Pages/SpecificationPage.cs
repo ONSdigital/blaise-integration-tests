@@ -1,10 +1,10 @@
-using System;
-using System.Threading;
-using Blaise.Tests.Helpers.Configuration;
-using Blaise.Tests.Helpers.Framework;
-
 namespace Blaise.Tests.Helpers.Cati.Pages
 {
+    using System;
+    using System.Threading;
+    using Blaise.Tests.Helpers.Configuration;
+    using Blaise.Tests.Helpers.Framework;
+
     public class SpecificationPage : BasePage
     {
         private const string _surveyAccordionPath = "//*[contains(text(), 'Survey Days')]";

@@ -1,11 +1,11 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using Blaise.Nuget.Api.Contracts.Enums;
-using Blaise.Nuget.Api.Contracts.Extensions;
-
 namespace Blaise.Tests.Models.Case
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using Blaise.Nuget.Api.Contracts.Enums;
+    using Blaise.Nuget.Api.Contracts.Extensions;
+
     public class CaseModel : IEquatable<CaseModel>
     {
         public Dictionary<string, string> PrimaryKeyValues { get; }

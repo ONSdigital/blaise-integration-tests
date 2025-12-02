@@ -1,10 +1,10 @@
-using System;
-using Blaise.Nuget.Api.Api;
-using Blaise.Nuget.Api.Contracts.Interfaces;
-using Blaise.Tests.Helpers.Configuration;
-
 namespace Blaise.Tests.Helpers.Tobi
 {
+    using System;
+    using Blaise.Nuget.Api.Api;
+    using Blaise.Nuget.Api.Contracts.Interfaces;
+    using Blaise.Tests.Helpers.Configuration;
+
     public class DayBatchHelper
     {
         private readonly IBlaiseCatiApi _blaiseCatiApi;
