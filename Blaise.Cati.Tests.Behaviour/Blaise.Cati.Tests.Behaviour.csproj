@@ -10,7 +10,7 @@
 
 	<ItemGroup>
 		<PackageReference Include="Blaise.Nuget.Api" Version="2025.9.4.2" />
-		<PackageReference Include="NUnit" Version="4.1.0" />
+		<PackageReference Include="NUnit" Version="3.13.1" />
 		<PackageReference Include="NUnit3TestAdapter" Version="4.6.0" />
 		<PackageReference Include="SpecFlow" Version="3.9.74" />
 		<PackageReference Include="StatNeth.Blaise.API.x64" Version="5.14.6.3686" />
