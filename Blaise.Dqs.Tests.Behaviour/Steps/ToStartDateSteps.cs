@@ -6,7 +6,7 @@ namespace Blaise.Dqs.Tests.Behaviour.Steps
     using Blaise.Tests.Helpers.Dqs;
     using Blaise.Tests.Helpers.Questionnaire;
     using NUnit.Framework;
-    using TechTalk.SpecFlow;
+    using Reqnroll;
 
     [Binding]
     public sealed class ToStartDateSteps

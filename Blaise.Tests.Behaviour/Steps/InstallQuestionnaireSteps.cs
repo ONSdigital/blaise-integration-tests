@@ -3,7 +3,7 @@ namespace Blaise.Tests.Behaviour.Steps
     using Blaise.Tests.Helpers.Configuration;
     using Blaise.Tests.Helpers.Questionnaire;
     using NUnit.Framework;
-    using TechTalk.SpecFlow;
+    using Reqnroll;
 
     [Binding]
     public sealed class InstallQuestionnaireSteps

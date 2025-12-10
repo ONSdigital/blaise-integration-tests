@@ -3,7 +3,7 @@ namespace Blaise.Tests.Behaviour.Steps
     using System;
     using Blaise.Tests.Helpers.Browser;
     using NUnit.Framework;
-    using TechTalk.SpecFlow;
+    using Reqnroll;
 
     [Binding]
     public sealed class CommonSteps

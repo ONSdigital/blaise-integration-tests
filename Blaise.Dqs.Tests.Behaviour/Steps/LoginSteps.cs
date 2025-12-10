@@ -7,7 +7,7 @@ namespace Blaise.Dqs.Tests.Behaviour.Steps
     using Blaise.Tests.Helpers.Dqs;
     using Blaise.Tests.Helpers.User;
     using Blaise.Tests.Models.User;
-    using TechTalk.SpecFlow;
+    using Reqnroll;
 
     [Binding]
     public sealed class LoginSteps

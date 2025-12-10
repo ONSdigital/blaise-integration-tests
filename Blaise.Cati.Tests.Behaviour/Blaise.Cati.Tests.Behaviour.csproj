@@ -1,5 +1,4 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
-
 	<PropertyGroup>
 		<TargetFramework>net48</TargetFramework>
 		<RootNamespace>Blaise.Cati.Tests.Behaviour</RootNamespace>
@@ -10,9 +9,12 @@
 
 	<ItemGroup>
 		<PackageReference Include="Blaise.Nuget.Api" Version="2025.9.4.2" />
+		<!-- REMOVE Gherkin 37: Reqnroll brings the correct version -->
 		<PackageReference Include="NUnit" Version="3.13.1" />
 		<PackageReference Include="NUnit3TestAdapter" Version="4.6.0" />
-		<PackageReference Include="SpecFlow" Version="3.9.74" />
+		<PackageReference Include="Reqnroll" Version="3.2.1" />
+		<PackageReference Include="Reqnroll.NUnit" Version="3.2.1" />
+		<PackageReference Include="Reqnroll.SpecFlowCompatibility" Version="3.2.1" />
 		<PackageReference Include="StatNeth.Blaise.API.x64" Version="5.14.6.3686" />
 		<PackageReference Include="StyleCop.Analyzers" Version="1.1.118" PrivateAssets="All" />
 	</ItemGroup>

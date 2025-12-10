@@ -11,7 +11,7 @@ namespace Blaise.Tobi.Tests.Behaviour.Steps
     using Blaise.Tests.Helpers.Tobi;
     using Blaise.Tests.Models.Case;
     using NUnit.Framework;
-    using TechTalk.SpecFlow;
+    using Reqnroll;
 
     [Binding]
     public class TobiSteps

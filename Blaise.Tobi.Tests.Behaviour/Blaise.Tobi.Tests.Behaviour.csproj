@@ -9,13 +9,14 @@
 	<ItemGroup>
 		<PackageReference Include="Blaise.Nuget.Api" Version="2025.9.4.2" />
 
-		<PackageReference Include="Gherkin" Version="29.0.0" />
+		<PackageReference Include="Gherkin" Version="37.0.0" />
 
 		<PackageReference Include="NUnit" Version="3.13.1" />
-		<PackageReference Include="NUnit3TestAdapter" Version="4.6.0" />
-		<PackageReference Include="SpecFlow" Version="3.9.74" />
-		<PackageReference Include="SpecFlow.Internal.Json" Version="1.0.8" />
-		<PackageReference Include="System.ValueTuple" Version="4.5.0" />
+		<PackageReference Include="NUnit3TestAdapter" Version="5.2.0" />
+		<PackageReference Include="Reqnroll" Version="3.2.1" />
+		<PackageReference Include="Reqnroll.NUnit" Version="3.2.1" />
+		<PackageReference Include="Reqnroll.SpecFlowCompatibility" Version="3.2.1" />
+		<PackageReference Include="System.ValueTuple" Version="4.6.1" />
 		<PackageReference Include="StyleCop.Analyzers" Version="1.1.118" PrivateAssets="All" />
 	</ItemGroup>
 
