@@ -5,7 +5,7 @@ namespace Blaise.Cati.Tests.Behaviour.Steps
     using Blaise.Tests.Helpers.Configuration;
     using Blaise.Tests.Models.Case;
     using NUnit.Framework;
-    using TechTalk.SpecFlow;
+    using Reqnroll;
 
     [Binding]
     public sealed class DaybatchSteps

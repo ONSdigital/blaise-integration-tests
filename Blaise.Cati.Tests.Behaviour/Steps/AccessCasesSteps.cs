@@ -5,7 +5,7 @@ namespace Blaise.Cati.Tests.Behaviour.Steps
     using Blaise.Tests.Helpers.Browser;
     using Blaise.Tests.Helpers.Cati;
     using NUnit.Framework;
-    using TechTalk.SpecFlow;
+    using Reqnroll;
 
     [Binding]
     public sealed class AccessCasesSteps

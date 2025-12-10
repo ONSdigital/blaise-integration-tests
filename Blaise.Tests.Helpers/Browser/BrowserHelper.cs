@@ -12,7 +12,7 @@ namespace Blaise.Tests.Helpers.Browser
     using OpenQA.Selenium.Support.Extensions;
     using OpenQA.Selenium.Support.UI;
     using SeleniumExtras.WaitHelpers;
-    using TechTalk.SpecFlow;
+    using Reqnroll;
 
     public static class BrowserHelper
     {
