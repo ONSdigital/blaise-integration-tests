@@ -7,9 +7,9 @@ namespace Blaise.Tests.Helpers.Tobi.Pages
 
     public class QuestionnairePage : BasePage
     {
-        public string QuestionnaireTableId = "instrument-table";
-        public string QuestionnaireTableRowsPath = "//*[@id='instrument-table']/tbody/tr";
-        public string ReturnSurveyId = "return-to-survey-list";
+        private const string _questionnaireTableId = "instrument-table";
+        private const string _questionnaireTableRowsPath = "//*[@id='instrument-table']/tbody/tr";
+        private const string _returnSurveyId = "return-to-survey-list";
 
         public QuestionnairePage()
             : base(TobiConfigurationHelper.SurveyUrl)
@@ -19,20 +19,20 @@ namespace Blaise.Tests.Helpers.Tobi.Pages
         public void ClickInterviewButton(string questionnaire)
         {
             var questionnaireIndex = GetTableContent().FindIndex(s => s.Contains(questionnaire)) + 1;
-            var interviewLinkPath = $"{QuestionnaireTableRowsPath}[{questionnaireIndex}]/td[3]/a";
+            var interviewLinkPath = $"{_questionnaireTableRowsPath}[{questionnaireIndex}]/td[3]/a";
             ClickButtonByXPath(interviewLinkPath);
             BrowserHelper.SwitchToLastOpenedWindow();
         }
 
         public List<string> GetTableContent()
         {
-            var elements = GetFirstColumnOfTableFromXPath(QuestionnaireTableRowsPath, QuestionnaireTableId);
+            var elements = GetFirstColumnOfTableFromXPath(_questionnaireTableRowsPath, _questionnaireTableId);
             return elements;
         }
 
         public void ClickReturnToSurveyList()
         {
-            ClickButtonById(ReturnSurveyId);
+            ClickButtonById(_returnSurveyId);
         }
     }
 }

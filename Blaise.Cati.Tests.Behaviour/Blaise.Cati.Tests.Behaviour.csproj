@@ -1,33 +1,14 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
-	<PropertyGroup>
-		<TargetFramework>net48</TargetFramework>
-		<RootNamespace>Blaise.Cati.Tests.Behaviour</RootNamespace>
-		<AssemblyName>Blaise.Cati.Tests.Behaviour</AssemblyName>
-		<IsTestProject>true</IsTestProject>
-		<GenerateAssemblyInfo>true</GenerateAssemblyInfo>
-	</PropertyGroup>
 
 	<ItemGroup>
-		<PackageReference Include="Blaise.Nuget.Api" Version="2025.9.4.2" />
-		<!-- REMOVE Gherkin 37: Reqnroll brings the correct version -->
-		<PackageReference Include="NUnit" Version="3.13.1" />
-		<PackageReference Include="NUnit3TestAdapter" Version="4.6.0" />
+		<PackageReference Include="NUnit" Version="4.4.0" />
 		<PackageReference Include="Reqnroll" Version="3.2.1" />
 		<PackageReference Include="Reqnroll.NUnit" Version="3.2.1" />
-		<PackageReference Include="Reqnroll.SpecFlowCompatibility" Version="3.2.1" />
-		<PackageReference Include="StatNeth.Blaise.API.x64" Version="5.14.6.3686" />
-		<PackageReference Include="StyleCop.Analyzers" Version="1.1.118" PrivateAssets="All" />
 	</ItemGroup>
 
 	<ItemGroup>
 		<ProjectReference Include="..\Blaise.Tests.Helpers\Blaise.Tests.Helpers.csproj" />
 		<ProjectReference Include="..\Blaise.Tests.Models\Blaise.Tests.Models.csproj" />
-	</ItemGroup>
-
-	<ItemGroup>
-		<None Include="Features\AccessCases.feature" />
-		<None Include="Features\Daybatch.feature" />
-		<None Include="app.config" />
 	</ItemGroup>
 
 </Project>

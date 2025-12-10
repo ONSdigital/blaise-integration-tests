@@ -1,47 +1,14 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
-	<PropertyGroup>
-		<TargetFramework>net48</TargetFramework>
-		<RootNamespace>Blaise.Tests.Behaviour</RootNamespace>
-		<AssemblyName>Blaise.Tests.Behaviour</AssemblyName>
-		<IsTestProject>true</IsTestProject>
-		<GenerateAssemblyInfo>true</GenerateAssemblyInfo>
-	</PropertyGroup>
-
 	<ItemGroup>
-		<PackageReference Include="Blaise.Nuget.Api" Version="2025.9.4.2" />
-		<PackageReference Include="BouncyCastle.Cryptography" Version="2.6.2" />
-
-		<PackageReference Include="Gherkin" Version="37.0.0" />
-		<PackageReference Include="Google.Protobuf" Version="3.33.1" />
-
-		<PackageReference Include="K4os.Compression.LZ4" Version="1.3.8" />
-		<PackageReference Include="K4os.Hash.xxHash" Version="1.0.8" />
-
-		<PackageReference Include="MySql.Data" Version="9.5.0" />
-
-		<PackageReference Include="NUnit" Version="3.13.1" />
-		<PackageReference Include="NUnit3TestAdapter" Version="5.2.0" />
+		<PackageReference Include="NUnit" Version="4.4.0" />
 		<PackageReference Include="Reqnroll" Version="3.2.1" />
 		<PackageReference Include="Reqnroll.NUnit" Version="3.2.1" />
-		<PackageReference Include="Reqnroll.SpecFlowCompatibility" Version="3.2.1" />
-
-		<PackageReference Include="StatNeth.Blaise.API.x64" Version="5.14.6.3686" />
-		<PackageReference Include="System.Threading.Tasks.Extensions" Version="4.6.3" />
-		<PackageReference Include="System.ValueTuple" Version="4.6.1" />
-
-		<PackageReference Include="StyleCop.Analyzers" Version="1.1.118" PrivateAssets="All" />
 	</ItemGroup>
 
 	<ItemGroup>
 		<ProjectReference Include="..\Blaise.Tests.Helpers\Blaise.Tests.Helpers.csproj" />
 		<ProjectReference Include="..\Blaise.Tests.Models\Blaise.Tests.Models.csproj" />
-	</ItemGroup>
-
-	<ItemGroup>
-		<None Include="app.config" />
-		<None Include="Features\CreateCases.feature" />
-		<None Include="Features\InstallQuestionnaire.feature" />
 	</ItemGroup>
 
 </Project>

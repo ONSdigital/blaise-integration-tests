@@ -7,8 +7,8 @@ namespace Blaise.Tests.Helpers.Tobi
 
     public class DayBatchHelper
     {
-        private readonly IBlaiseCatiApi _blaiseCatiApi;
         private static DayBatchHelper _currentInstance;
+        private readonly IBlaiseCatiApi _blaiseCatiApi;
 
         public DayBatchHelper()
         {

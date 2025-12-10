@@ -14,17 +14,12 @@ namespace Blaise.Tests.Helpers.Cati.Pages
         private const string _clearDataButtonId = "chkClearAll";
         private const string _executeButtonPath = "//input[@value='Execute']";
         private const string _filterButton = "//*[contains(text(), 'Filters')]";
-        private readonly string _surveyRadioButton = $"//*[normalize-space()='{BlaiseConfigurationHelper.QuestionnaireName}']";
         private const string _applyButton = "//*[contains(text(), 'Apply')]";
+        private readonly string _surveyRadioButton = $"//*[normalize-space()='{BlaiseConfigurationHelper.QuestionnaireName}']";
 
         public SurveyPage()
             : base(CatiConfigurationHelper.SurveyUrl)
         {
-        }
-
-        protected override Func<IWebDriver, bool> PageHasLoaded()
-        {
-            return BodyContainsText("Showing");
         }
 
         public void ClearDayBatchEntries()
@@ -45,6 +40,11 @@ namespace Blaise.Tests.Helpers.Cati.Pages
                 ClickButtonByXPath(_surveyRadioButton);
                 ClickButtonByXPath(_applyButton);
             }
+        }
+
+        protected override Func<IWebDriver, bool> PageHasLoaded()
+        {
+            return BodyContainsText("Showing");
         }
     }
 }

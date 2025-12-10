@@ -13,8 +13,8 @@ namespace Blaise.Tests.Helpers.Cati.Pages
         private const string _caseIdCell = "//*[@id='MVCGridTable_CaseInfoGrid']/tbody/tr[1]/td[2]";
         private const string _playButton = "//*[@id='MVCGridTable_CaseInfoGrid']/tbody/tr[1]/td[19]/a/span";
         private const string _filterButton = "//*[contains(text(), 'Filters')]";
-        private readonly string _surveyRadioButton = $"//*[normalize-space()='{BlaiseConfigurationHelper.QuestionnaireName}']";
         private const string _applyButton = "//*[contains(text(), 'Apply')]";
+        private readonly string _surveyRadioButton = $"//*[normalize-space()='{BlaiseConfigurationHelper.QuestionnaireName}']";
 
         public CaseInfoPage()
             : base(CatiConfigurationHelper.CaseInfoUrl)
@@ -38,11 +38,6 @@ namespace Blaise.Tests.Helpers.Cati.Pages
                 }
             }
             while (!FirstCaseIsPlayable());
-        }
-
-        protected override Func<IWebDriver, bool> PageHasLoaded()
-        {
-            return BodyContainsText("Showing");
         }
 
         public void ClickPlayButton()
@@ -75,6 +70,16 @@ namespace Blaise.Tests.Helpers.Cati.Pages
             ClickButtonByXPath(_filterButton);
         }
 
+        public bool FirstCaseIsPlayable()
+        {
+            return ElementIsDisplayed(By.XPath(_playButton));
+        }
+
+        protected override Func<IWebDriver, bool> PageHasLoaded()
+        {
+            return BodyContainsText("Showing");
+        }
+
         private void WaitUntilFirstCaseQuestionnaireIs(string questionnaire)
         {
             WaitUntilElementByXPathContainsText(_questionnaireCell, questionnaire);
@@ -83,11 +88,6 @@ namespace Blaise.Tests.Helpers.Cati.Pages
         private void WaitUntilFirstCaseIs(string caseId)
         {
             WaitUntilElementByXPathContainsText(_caseIdCell, caseId);
-        }
-
-        public bool FirstCaseIsPlayable()
-        {
-            return ElementIsDisplayed(By.XPath(_playButton));
         }
     }
 }

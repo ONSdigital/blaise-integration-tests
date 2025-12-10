@@ -11,9 +11,9 @@ namespace Blaise.Cati.Tests.Behaviour.Steps
     [Binding]
     public sealed class CommonSteps
     {
-        private readonly ScenarioContext _scenarioContext;
-
         private static bool _hasFailureOccurred = false;
+
+        private readonly ScenarioContext _scenarioContext;
 
         public CommonSteps(ScenarioContext scenarioContext)
         {

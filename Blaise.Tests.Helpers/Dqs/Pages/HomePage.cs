@@ -7,11 +7,11 @@ namespace Blaise.Tests.Helpers.Dqs.Pages
     public class HomePage : BasePage
     {
         private const string _deployQuestionnaireButtonId = "deploy-questionnaire-link";
-        public string QuestionnaireTableId = "questionnaire-table";
-        public string QuestionnaireTableRowsPath = "//*[@id='questionnaire-table']/tbody/tr";
+        private const string _questionnaireTableId = "questionnaire-table";
+        private const string _questionnaireTableRowsPath = "//*[@id='questionnaire-table']/tbody/tr";
         private const string _summaryDivPath = "//div[contains(@class, 'success ons-panel')]";
-        public string InfoButtonPlaceholderId = "info-";
-        public string FilterId = "filter-by-name";
+        private const string _infoButtonPlaceholderId = "info-";
+        private const string _filterId = "filter-by-name";
 
         public HomePage()
             : base(DqsConfigurationHelper.DqsUrl)
@@ -25,7 +25,7 @@ namespace Blaise.Tests.Helpers.Dqs.Pages
 
         public List<string> GetFirstColumnFromTableContent()
         {
-            var elements = GetFirstColumnOfTableFromXPath(QuestionnaireTableRowsPath, QuestionnaireTableId);
+            var elements = GetFirstColumnOfTableFromXPath(_questionnaireTableRowsPath, _questionnaireTableId);
             return elements;
         }
 
@@ -36,12 +36,12 @@ namespace Blaise.Tests.Helpers.Dqs.Pages
 
         public void ClickQuestionnaireInfoButton(string questionnaireName)
         {
-            ClickButtonById(InfoButtonPlaceholderId + questionnaireName);
+            ClickButtonById(_infoButtonPlaceholderId + questionnaireName);
         }
 
         public void FilterQuestionnaire(string questionnaireName)
         {
-            PopulateInputById(FilterId, questionnaireName);
+            PopulateInputById(_filterId, questionnaireName);
         }
     }
 }

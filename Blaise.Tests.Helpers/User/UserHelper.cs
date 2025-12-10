@@ -9,8 +9,8 @@ namespace Blaise.Tests.Helpers.User
 
     public class UserHelper
     {
-        private readonly IBlaiseUserApi _blaiseUserApi;
         private static UserHelper _currentInstance;
+        private readonly IBlaiseUserApi _blaiseUserApi;
 
         public UserHelper()
         {
@@ -26,15 +26,13 @@ namespace Blaise.Tests.Helpers.User
         {
             if (GetUser(userModel.Username) == null)
             {
-                _blaiseUserApi.AddUser(userModel.Username, userModel.Password,
-                    userModel.Role, userModel.ServerParks, userModel.DefaultServerPark);
+                _blaiseUserApi.AddUser(userModel.Username, userModel.Password, userModel.Role, userModel.ServerParks, userModel.DefaultServerPark);
             }
             else
             {
                 RemoveUser(userModel.Username);
 
-                _blaiseUserApi.AddUser(userModel.Username, userModel.Password,
-                   userModel.Role, userModel.ServerParks, userModel.DefaultServerPark);
+                _blaiseUserApi.AddUser(userModel.Username, userModel.Password, userModel.Role, userModel.ServerParks, userModel.DefaultServerPark);
             }
         }
 

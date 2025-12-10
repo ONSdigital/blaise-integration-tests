@@ -10,9 +10,9 @@ namespace Blaise.Tests.Helpers.Questionnaire
 
     public class QuestionnaireHelper
     {
-        private readonly IBlaiseQuestionnaireApi _blaiseQuestionnaireApi;
-
         private static QuestionnaireHelper _currentInstance;
+
+        private readonly IBlaiseQuestionnaireApi _blaiseQuestionnaireApi;
 
         public QuestionnaireHelper()
         {
@@ -24,14 +24,14 @@ namespace Blaise.Tests.Helpers.Questionnaire
             return _currentInstance ?? (_currentInstance = new QuestionnaireHelper());
         }
 
-        public QuestionnaireStatusType GetQuestionnaireStatus(string questionnaireName, string serverParkName)
-        {
-            return _blaiseQuestionnaireApi.GetQuestionnaireStatus(questionnaireName, serverParkName);
-        }
-
         public static string QuestionnairePackagePath(string questionnairePath, string questionnaireName)
         {
             return $"{questionnairePath}//{questionnaireName}.bpkg";
+        }
+
+        public QuestionnaireStatusType GetQuestionnaireStatus(string questionnaireName, string serverParkName)
+        {
+            return _blaiseQuestionnaireApi.GetQuestionnaireStatus(questionnaireName, serverParkName);
         }
 
         public void InstallQuestionnaire(string questionnaireName, string serverParkName, string questionnairePath, InstallOptions installOptions)
@@ -119,6 +119,13 @@ namespace Blaise.Tests.Helpers.Questionnaire
             return _blaiseQuestionnaireApi.GetQuestionnaireStatus(questionnaireName, serverPark) == QuestionnaireStatusType.Active;
         }
 
+        public DateTime GetQuestionnaireInstallDate(string questionnaireName, string serverParkName)
+        {
+            var questionnaire = _blaiseQuestionnaireApi.GetQuestionnaire(questionnaireName, serverParkName);
+
+            return questionnaire.InstallDate;
+        }
+
         private bool CheckQuestionnaireActive(string questionnaireName, string serverParkName, int timeoutInSeconds)
         {
             var counter = 0;
@@ -136,13 +143,6 @@ namespace Blaise.Tests.Helpers.Questionnaire
             }
 
             return GetQuestionnaireStatus(questionnaireName, serverParkName) == QuestionnaireStatusType.Active;
-        }
-
-        public DateTime GetQuestionnaireInstallDate(string questionnaireName, string serverParkName)
-        {
-            var questionnaire = _blaiseQuestionnaireApi.GetQuestionnaire(questionnaireName, serverParkName);
-
-            return questionnaire.InstallDate;
         }
 
         private bool CheckQuestionnaireExists(string questionnaireName, string serverParkName, int timeoutInSeconds)
@@ -172,13 +172,13 @@ namespace Blaise.Tests.Helpers.Questionnaire
         private void HandleErroneousState(string questionnaireName)
         {
             string erroneousAsciiArt = @"
-                     ______ _____  _____   ____  _   _ ______ ____  _    _  _____  
-                    |  ____|  __ \|  __ \ / __ \| \ | |  ____/ __ \| |  | |/ ____| 
-                    | |__  | |__) | |__) | |  | |  \| | |__ | |  | | |  | | (___  
-                    |  __| |  _  /|  _  /| |  | | . ` |  __|| |  | | |  | |\___ \ 
-                    | |____| | \ \| | \ \| |__| | |\  | |___| |__| | |__| |____) |
-                    |______|_|  \_\_|  \_\\____/|_| \_|______\____/ \____/|_____/ 
-            ";
+                         ______ _____  _____   ____  _   _ ______ ____  _    _  _____
+                        |  ____|  __ \|  __ \ / __ \| \ | |  ____/ __ \| |  | |/ ____|
+                        | |__  | |__) | |__) | |  | |  \| | |__ | |  | | |  | | (___
+                        |  __| |  _  /|  _  /| |  | | . ` |  __|| |  | | |  | |\___ \
+                        | |____| | \ \| | \ \| |__| | |\  | |___| |__| | |__| |____) |
+                        |______|_|  \_\_|  \_\\____/|_| \_|______\____/ \____/|_____/
+                ";
             string erroneousExceptionMessage = $"{erroneousAsciiArt}\n" +
                 $"Questionnaire {questionnaireName} is erroneous!\n" +
                 "Restart Blaise and uninstall the erroneous questionnaire via Blaise Server Manager";

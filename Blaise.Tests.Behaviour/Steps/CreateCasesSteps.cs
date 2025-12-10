@@ -12,6 +12,12 @@ namespace Blaise.Tests.Behaviour.Steps
     [Binding]
     public sealed class CreateCasesSteps
     {
+        [AfterFeature("create-cases")]
+        public static void AfterFeature()
+        {
+            QuestionnaireHelper.GetInstance().UninstallQuestionnaire(BlaiseConfigurationHelper.QuestionnaireName, BlaiseConfigurationHelper.ServerParkName);
+        }
+
         [Given(@"I have created sample cases for the questionnaire")]
         [When(@"I create cases for the questionnaire")]
         public void WhenICreateCasesForTheQuestionnaire(IEnumerable<CaseModel> caseModels)
@@ -26,6 +32,12 @@ namespace Blaise.Tests.Behaviour.Steps
             var expectedCases = cases.ToList();
             CheckNumberOfCasesMatch(expectedCases.Count);
             CheckCasesMatch(expectedCases);
+        }
+
+        [AfterScenario("create-cases")]
+        public void AfterScenario()
+        {
+            CaseHelper.GetInstance().DeleteCases();
         }
 
         private void CheckNumberOfCasesMatch(int expectedNumberOfCases)
@@ -46,24 +58,10 @@ namespace Blaise.Tests.Behaviour.Steps
             {
                 var actualCase = actualCases.FirstOrDefault(c => c.PrimaryKey == expectedCase.PrimaryKey);
 
-                Assert.That(actualCase, Is.Not.Null,
-                    $"Case '{expectedCase.PrimaryKey}' was not found in Blaise");
+                Assert.That(actualCase, Is.Not.Null, $"Case '{expectedCase.PrimaryKey}' was not found in Blaise");
 
-                Assert.That(actualCase, Is.EqualTo(expectedCase),
-                    $"Case '{expectedCase.PrimaryKey}' did not match the case in Blaise");
+                Assert.That(actualCase, Is.EqualTo(expectedCase), $"Case '{expectedCase.PrimaryKey}' did not match the case in Blaise");
             }
-        }
-
-        [AfterScenario("create-cases")]
-        public void AfterScenario()
-        {
-            CaseHelper.GetInstance().DeleteCases();
-        }
-
-        [AfterFeature("create-cases")]
-        public static void AfterFeature()
-        {
-            QuestionnaireHelper.GetInstance().UninstallQuestionnaire(BlaiseConfigurationHelper.QuestionnaireName, BlaiseConfigurationHelper.ServerParkName);
         }
     }
 }

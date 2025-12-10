@@ -54,11 +54,6 @@ namespace Blaise.Tests.Helpers.Dqs.Pages
             return GetElementTextByPath(_liveDateTextPath);
         }
 
-        internal void SetLiveDate(string date)
-        {
-            PopulateInputById(_liveDateTextBoxId, date);
-        }
-
         public void SelectContinueOverwriteButton()
         {
             ClickButtonById(_continueOverwriteRadioButtonId);
@@ -67,6 +62,11 @@ namespace Blaise.Tests.Helpers.Dqs.Pages
         public void SelectCancelButton()
         {
             ClickButtonById(_cancelButtonId);
+        }
+
+        internal void SetLiveDate(string date)
+        {
+            PopulateInputById(_liveDateTextBoxId, date);
         }
     }
 }

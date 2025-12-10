@@ -8,14 +8,6 @@ namespace Blaise.Tests.Models.Case
 
     public class CaseModel : IEquatable<CaseModel>
     {
-        public Dictionary<string, string> PrimaryKeyValues { get; }
-
-        public string PrimaryKey { get; }
-
-        public string OutcomeCode { get; }
-
-        public string TelephoneNo { get; }
-
         public CaseModel(string primaryKey, string outcomeCode, string telephoneNo)
         {
             PrimaryKey = primaryKey;
@@ -38,6 +30,14 @@ namespace Blaise.Tests.Models.Case
             OutcomeCode = outcomeCode;
             TelephoneNo = telephoneNo;
         }
+
+        public Dictionary<string, string> PrimaryKeyValues { get; }
+
+        public string PrimaryKey { get; }
+
+        public string OutcomeCode { get; }
+
+        public string TelephoneNo { get; }
 
         public bool Equals(CaseModel other)
         {

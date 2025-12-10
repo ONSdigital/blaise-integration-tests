@@ -12,9 +12,8 @@ namespace Blaise.Tests.Helpers.Case
 
     public class CaseHelper
     {
-        private readonly IBlaiseCaseApi _blaiseCaseApi;
-
         private static CaseHelper _currentInstance;
+        private readonly IBlaiseCaseApi _blaiseCaseApi;
 
         public CaseHelper()
         {
@@ -36,24 +35,20 @@ namespace Blaise.Tests.Helpers.Case
 
         public void CreateCase(CaseModel caseModel)
         {
-            _blaiseCaseApi.CreateCase(caseModel.PrimaryKeyValues, caseModel.FieldData(), BlaiseConfigurationHelper.QuestionnaireName,
-                BlaiseConfigurationHelper.ServerParkName);
+            _blaiseCaseApi.CreateCase(caseModel.PrimaryKeyValues, caseModel.FieldData(), BlaiseConfigurationHelper.QuestionnaireName, BlaiseConfigurationHelper.ServerParkName);
         }
 
         public void CreateCase()
         {
             var caseModel = BuildDefaultCase();
-            _blaiseCaseApi.CreateCase(caseModel.PrimaryKeyValues, caseModel.FieldData(), BlaiseConfigurationHelper.QuestionnaireName,
-                BlaiseConfigurationHelper.ServerParkName);
+            _blaiseCaseApi.CreateCase(caseModel.PrimaryKeyValues, caseModel.FieldData(), BlaiseConfigurationHelper.QuestionnaireName, BlaiseConfigurationHelper.ServerParkName);
         }
 
         public void DeleteCases()
         {
             try
             {
-                var cases = _blaiseCaseApi.GetCases(
-                    BlaiseConfigurationHelper.QuestionnaireName,
-                    BlaiseConfigurationHelper.ServerParkName);
+                var cases = _blaiseCaseApi.GetCases(BlaiseConfigurationHelper.QuestionnaireName, BlaiseConfigurationHelper.ServerParkName);
 
                 while (!cases.EndOfSet)
                 {
@@ -61,8 +56,7 @@ namespace Blaise.Tests.Helpers.Case
                     {
                         var primaryKey = _blaiseCaseApi.GetPrimaryKeyValues(cases.ActiveRecord);
 
-                        _blaiseCaseApi.RemoveCase(primaryKey, BlaiseConfigurationHelper.QuestionnaireName,
-                            BlaiseConfigurationHelper.ServerParkName);
+                        _blaiseCaseApi.RemoveCase(primaryKey, BlaiseConfigurationHelper.QuestionnaireName, BlaiseConfigurationHelper.ServerParkName);
                     }
                     catch (Exception)
                     {
@@ -82,9 +76,7 @@ namespace Blaise.Tests.Helpers.Case
         {
             try
             {
-                return _blaiseCaseApi.GetNumberOfCases(
-                    BlaiseConfigurationHelper.QuestionnaireName,
-                    BlaiseConfigurationHelper.ServerParkName);
+                return _blaiseCaseApi.GetNumberOfCases(BlaiseConfigurationHelper.QuestionnaireName, BlaiseConfigurationHelper.ServerParkName);
             }
             catch (Exception)
             {
@@ -96,9 +88,7 @@ namespace Blaise.Tests.Helpers.Case
         public IEnumerable<CaseModel> GetCasesInBlaise()
         {
             var caseModels = new List<CaseModel>();
-            var casesInDatabase = _blaiseCaseApi.GetCases(
-                BlaiseConfigurationHelper.QuestionnaireName,
-                BlaiseConfigurationHelper.ServerParkName);
+            var casesInDatabase = _blaiseCaseApi.GetCases(BlaiseConfigurationHelper.QuestionnaireName, BlaiseConfigurationHelper.ServerParkName);
 
             while (!casesInDatabase.EndOfSet)
             {
