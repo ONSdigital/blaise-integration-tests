@@ -20,6 +20,57 @@ namespace Blaise.Tests.Helpers.Framework
             _pageUrl = $"{pageUrl}?{pageUrlParameter}";
         }
 
+        public void LoadPage()
+        {
+            BrowserHelper.BrowseTo(_pageUrl);
+            BrowserHelper
+                .Wait($"Timed out waiting for page {_pageUrl} to load")
+                .Until(PageHasLoaded());
+        }
+
+        public void LoadSpecificPage(string url)
+        {
+            BrowserHelper.BrowseTo(url);
+        }
+
+        public void ButtonIsAvailableById(string buttonId)
+        {
+            BrowserHelper
+                .Wait($"Timed out in ButtonIsAvailableById(\"{buttonId}\")")
+                .Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementToBeClickable(By.Id(buttonId)));
+        }
+
+        public void ButtonIsAvailableByPath(string submitButtonPath)
+        {
+            BrowserHelper
+                .Wait($"Timed out in ButtonIsAvailableByPath(\"{submitButtonPath}\")")
+                .Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementToBeClickable(By.XPath(submitButtonPath)));
+        }
+
+        public void SelectDropDownValueById(string dropDownId, string value)
+        {
+            var selectList = new SelectElement(
+                BrowserHelper
+                .Wait($"Timed out in SelectDropDownValueById(\"{dropDownId}\", \"{value}\")")
+                .Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementExists(By.Id(dropDownId))));
+            selectList.SelectByText(value);
+        }
+
+        protected static bool ElementIsDisplayed(By by)
+        {
+            return BrowserHelper.ElementIsDisplayed(by);
+        }
+
+        protected static Func<IWebDriver, bool> BodyContainsText(string text)
+        {
+            return driver =>
+            {
+                var body = driver.FindElement(By.TagName("body"));
+
+                return SeleniumExtras.WaitHelpers.ExpectedConditions.TextToBePresentInElement(body, text)(driver);
+            };
+        }
+
         protected void ClickButtonById(string buttonElementId)
         {
             BrowserHelper
@@ -105,39 +156,6 @@ namespace Blaise.Tests.Helpers.Framework
             }
         }
 
-        protected static bool ElementIsDisplayed(By by)
-        {
-            return BrowserHelper.ElementIsDisplayed(by);
-        }
-
-        protected static Func<IWebDriver, bool> BodyContainsText(string text)
-        {
-            return driver =>
-            {
-                var body = driver.FindElement(By.TagName("body"));
-
-                return SeleniumExtras.WaitHelpers.ExpectedConditions.TextToBePresentInElement(body, text)(driver);
-            };
-        }
-
-        protected virtual Func<IWebDriver, bool> PageHasLoaded()
-        {
-            return driver => true;
-        }
-
-        public void LoadPage()
-        {
-            BrowserHelper.BrowseTo(_pageUrl);
-            BrowserHelper
-                .Wait($"Timed out waiting for page {_pageUrl} to load")
-                .Until(PageHasLoaded());
-        }
-
-        public void LoadSpecificPage(string url)
-        {
-            BrowserHelper.BrowseTo(url);
-        }
-
         protected bool ElementExistsById(string elementId, TimeSpan? timeout = null)
         {
             try
@@ -153,27 +171,9 @@ namespace Blaise.Tests.Helpers.Framework
             }
         }
 
-        public void ButtonIsAvailableById(string buttonId)
+        protected virtual Func<IWebDriver, bool> PageHasLoaded()
         {
-            BrowserHelper
-                .Wait($"Timed out in ButtonIsAvailableById(\"{buttonId}\")")
-                .Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementToBeClickable(By.Id(buttonId)));
-        }
-
-        public void ButtonIsAvailableByPath(string submitButtonPath)
-        {
-            BrowserHelper
-                .Wait($"Timed out in ButtonIsAvailableByPath(\"{submitButtonPath}\")")
-                .Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementToBeClickable(By.XPath(submitButtonPath)));
-        }
-
-        public void SelectDropDownValueById(string dropDownId, string value)
-        {
-            var selectList = new SelectElement(
-                BrowserHelper
-                .Wait($"Timed out in SelectDropDownValueById(\"{dropDownId}\", \"{value}\")")
-                .Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementExists(By.Id(dropDownId))));
-            selectList.SelectByText(value);
+            return driver => true;
         }
 
         private static int NumberOfRowsInATable(string tablePath)

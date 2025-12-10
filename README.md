@@ -82,10 +82,10 @@ Depending on the tests your running, substitute the environment variable values 
 Placeholder | Description
 --- | ---
 `<test-questionnaire-path>` | Local path to the test questionnaire package file.
-`<blaise-username>`         | From the `blaise-gusty-mgmt` VM `ENV_BLAISE_ADMIN_USER` environment variable.
-`<blaise-password>`         | From the `blaise-gusty-mgmt` VM `ENV_BLAISE_ADMIN_PASSWORD` environment variable.
-`<sandbox>`                 | The short name of your sandbox environment. e.g. `rr5`.
-`<chrome-driver-path>`      | Local path to the Chrome driver executable file.
+`<blaise-username>` | From the `blaise-gusty-mgmt` VM `ENV_BLAISE_ADMIN_USER` environment variable.
+`<blaise-password>` | From the `blaise-gusty-mgmt` VM `ENV_BLAISE_ADMIN_PASSWORD` environment variable.
+`<sandbox>` | The short name of your sandbox environment. e.g. `rr5`.
+`<chrome-driver-path>` | Local path to the Chrome driver executable file.
 
 :rotating_light: **IMPORTANT: DO NOT COMMIT APP.CONFIG FILES WITH ACTUAL VALUES!** :rotating_light:
 

@@ -1,19 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
-	<PropertyGroup>
-		<TargetFramework>net48</TargetFramework>
-		<AssemblyName>Blaise.Tests.Models</AssemblyName>
-		<RootNamespace>Blaise.Tests.Models</RootNamespace>
-		<GenerateAssemblyInfo>true</GenerateAssemblyInfo>
-	</PropertyGroup>
-
 	<ItemGroup>
 		<PackageReference Include="Blaise.Nuget.Api.Contracts" Version="2025.9.4.2" />
-		<PackageReference Include="StatNeth.Blaise.API.x64" Version="5.14.6.3686" />
-		<PackageReference Include="System.Memory" Version="4.6.3" />
-		<PackageReference Include="System.Numerics.Vectors" Version="4.6.1" />
-
-		<PackageReference Include="StyleCop.Analyzers" Version="1.1.118" PrivateAssets="all" />
 	</ItemGroup>
 
 </Project>

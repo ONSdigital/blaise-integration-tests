@@ -29,6 +29,13 @@ namespace Blaise.Dqs.Tests.Behaviour.Steps
             UserHelper.GetInstance().CreateUser(userModel);
         }
 
+        [AfterTestRun]
+        public static void AfterTestRun()
+        {
+            UserHelper.GetInstance().RemoveUser(Username);
+            BrowserHelper.ClearSessionData();
+        }
+
         [Given(@"I am a BDSS user")]
         public void GivenIAmABdssUser()
         {
@@ -38,13 +45,6 @@ namespace Blaise.Dqs.Tests.Behaviour.Steps
         public void GivenIHaveLoggedIntoDqs()
         {
             DqsHelper.GetInstance().LogIntoDqs(Username, Password);
-        }
-
-        [AfterTestRun]
-        public static void AfterTestRun()
-        {
-            UserHelper.GetInstance().RemoveUser(Username);
-            BrowserHelper.ClearSessionData();
         }
     }
 }

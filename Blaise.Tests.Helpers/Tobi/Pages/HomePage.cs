@@ -6,9 +6,9 @@ namespace Blaise.Tests.Helpers.Tobi.Pages
 
     public class HomePage : BasePage
     {
-        public string SurveyTablePath = "//*[@id='survey-table']/tbody/tr";
-        public string SurveyTableId = "survey-table";
-        public string NoResultsPath = "//p[contains(text(), 'No active surveys found.')]";
+        private const string _surveyTablePath = "//*[@id='survey-table']/tbody/tr";
+        private const string _surveyTableId = "survey-table";
+        private const string _noResultsPath = "//p[contains(text(), 'No active surveys found.')]";
 
         public HomePage()
             : base(TobiConfigurationHelper.TobiUrl)
@@ -18,19 +18,19 @@ namespace Blaise.Tests.Helpers.Tobi.Pages
         public void ClickQuestionnaireButton()
         {
             var dstIndex = GetSurveyAcronyms().FindIndex(s => s.Contains("DST")) + 1;
-            var launchQuestionnaireLinkPath = $"{SurveyTablePath}[{dstIndex}]/td[2]/a";
+            var launchQuestionnaireLinkPath = $"{_surveyTablePath}[{dstIndex}]/td[2]/a";
             ClickButtonByXPath(launchQuestionnaireLinkPath);
         }
 
         public List<string> GetSurveyAcronyms()
         {
-            var elements = GetFirstColumnOfTableFromXPath(SurveyTablePath, SurveyTableId);
+            var elements = GetFirstColumnOfTableFromXPath(_surveyTablePath, _surveyTableId);
             return elements;
         }
 
         public string GetNoSurveysText()
         {
-            return GetElementTextByPath(NoResultsPath);
+            return GetElementTextByPath(_noResultsPath);
         }
     }
 }

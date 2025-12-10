@@ -26,6 +26,14 @@ namespace Blaise.Tobi.Tests.Behaviour.Steps
             DayBatchHelper.GetInstance().CreateDayBatch(BlaiseConfigurationHelper.QuestionnaireName, DateTime.Today);
         }
 
+        [AfterFeature("tobi")]
+        public static void AfterFeature()
+        {
+            DayBatchHelper.GetInstance().RemoveSurveyDays(BlaiseConfigurationHelper.QuestionnaireName, DateTime.Today);
+            CaseHelper.GetInstance().DeleteCases();
+            QuestionnaireHelper.GetInstance().UninstallQuestionnaire(BlaiseConfigurationHelper.QuestionnaireName, BlaiseConfigurationHelper.ServerParkName);
+        }
+
         [Given(@"there are live surveys")]
         [Given(@"I can view a list of live surveys")]
         public void GivenThereAreLiveSurveys()
@@ -93,14 +101,6 @@ namespace Blaise.Tobi.Tests.Behaviour.Steps
                 BrowserHelper.CurrentUrl.ToLower(),
                 Is.EqualTo($"{CatiConfigurationHelper.SchedulerUrl.ToLower()}/login"),
                 $"Current URL should be the Blaise login page: {CatiConfigurationHelper.SchedulerUrl.ToLower()}/login");
-        }
-
-        [AfterFeature("tobi")]
-        public static void AfterFeature()
-        {
-            DayBatchHelper.GetInstance().RemoveSurveyDays(BlaiseConfigurationHelper.QuestionnaireName, DateTime.Today);
-            CaseHelper.GetInstance().DeleteCases();
-            QuestionnaireHelper.GetInstance().UninstallQuestionnaire(BlaiseConfigurationHelper.QuestionnaireName, BlaiseConfigurationHelper.ServerParkName);
         }
     }
 }

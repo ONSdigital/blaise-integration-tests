@@ -9,9 +9,9 @@ namespace Blaise.Tests.Helpers.Cati.Pages
     {
         private const string _surveyAccordionPath = "//*[contains(text(), 'Survey Days')]";
         private const string _editButtonId = "btnEditSurveyDays";
-        public readonly string _todaysDateInCalenderPickerPath = $"//a[text()='{DateTime.Now.Day}']";
         private const string _saveButtonPath = "//input[@value='Save']";
         private const string _questionnaireDropDownId = "InstrumentId";
+        private readonly string _todaysDateInCalenderPickerPath = $"//a[text()='{DateTime.Now.Day}']";
 
         public SpecificationPage()
             : base(CatiConfigurationHelper.SpecificationUrl)

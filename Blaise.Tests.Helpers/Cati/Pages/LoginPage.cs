@@ -16,16 +16,16 @@ namespace Blaise.Tests.Helpers.Cati.Pages
         {
         }
 
-        protected override Func<IWebDriver, bool> PageHasLoaded()
-        {
-            return driver => driver.FindElement(By.XPath(_loginButtonPath)) != null;
-        }
-
         public void LoginToCati(string username, string password)
         {
             PopulateInputById(_usernameBoxId, username);
             PopulateInputById(_passwordBoxId, password);
             ClickButtonByXPath(_loginButtonPath);
+        }
+
+        protected override Func<IWebDriver, bool> PageHasLoaded()
+        {
+            return driver => driver.FindElement(By.XPath(_loginButtonPath)) != null;
         }
     }
 }

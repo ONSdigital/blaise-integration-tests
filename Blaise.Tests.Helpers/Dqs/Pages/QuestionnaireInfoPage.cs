@@ -5,9 +5,9 @@ namespace Blaise.Tests.Helpers.Dqs.Pages
 
     public class QuestionnaireInfoPage : BasePage
     {
-        public string ToStartDatePath = "//*[@id=\"main-content\"]/div[2]/div/table/tbody/tr/td[2]";
-        public string AddToStartDatePath = "//a[contains(@href,'/questionnaire/start-date')]";
-        public string DeleteButtonId = "delete-questionnaire";
+        private const string _toStartDatePath = "//*[@id=\"main-content\"]/div[2]/div/table/tbody/tr/td[2]";
+        private const string _addToStartDatePath = "//a[contains(@href,'/questionnaire/start-date')]";
+        private const string _deleteButtonId = "delete-questionnaire";
 
         public QuestionnaireInfoPage()
             : base(DqsConfigurationHelper.DqsUrl)
@@ -16,12 +16,12 @@ namespace Blaise.Tests.Helpers.Dqs.Pages
 
         public string GetToStartDate()
         {
-            return GetElementTextByPath(ToStartDatePath);
+            return GetElementTextByPath(_toStartDatePath);
         }
 
         public void AddToStartDate()
         {
-            ClickButtonByXPath(AddToStartDatePath);
+            ClickButtonByXPath(_addToStartDatePath);
         }
 
         public void WaitForPageToLoad(string questionnaireName)
@@ -31,12 +31,12 @@ namespace Blaise.Tests.Helpers.Dqs.Pages
 
         public void CanDeleteQuestionnaire()
         {
-            ButtonIsAvailableById(DeleteButtonId);
+            ButtonIsAvailableById(_deleteButtonId);
         }
 
         public void ClickDeleteButton()
         {
-            ClickButtonById(DeleteButtonId);
+            ClickButtonById(_deleteButtonId);
         }
     }
 }

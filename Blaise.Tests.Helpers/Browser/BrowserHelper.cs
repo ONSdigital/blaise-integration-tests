@@ -11,18 +11,18 @@ namespace Blaise.Tests.Helpers.Browser
     using OpenQA.Selenium.Interactions;
     using OpenQA.Selenium.Support.Extensions;
     using OpenQA.Selenium.Support.UI;
-    using SeleniumExtras.WaitHelpers;
     using Reqnroll;
+    using SeleniumExtras.WaitHelpers;
 
     public static class BrowserHelper
     {
         private static IWebDriver _browser;
 
-        private static IWebDriver Browser => _browser ?? (_browser = CreateChromeDriver());
-
         public static int TimeOutInSeconds => BrowserConfigurationHelper.TimeOutInSeconds;
 
         public static string CurrentUrl => Browser.Url;
+
+        private static IWebDriver Browser => _browser ?? (_browser = CreateChromeDriver());
 
         public static WebDriverWait Wait(string message)
         {
@@ -270,17 +270,6 @@ namespace Blaise.Tests.Helpers.Browser
             Browser.SwitchTo().Window(Browser.WindowHandles.Last());
         }
 
-        private static ChromeDriver CreateChromeDriver()
-        {
-            var chromeOptions = new ChromeOptions
-            {
-                AcceptInsecureCertificates = true,
-            };
-            chromeOptions.AddArguments("headless");
-            chromeOptions.AddArguments("start-maximized");
-            return new ChromeDriver(BrowserConfigurationHelper.ChromeDriver, chromeOptions);
-        }
-
         public static void WaitForTextInHtml(string text)
         {
             Wait($"Timed out in WaitForTextInHtml(\"{text}\")")
@@ -339,6 +328,17 @@ namespace Blaise.Tests.Helpers.Browser
             {
                 throw new Exception($"An error occurred while waiting for URL to match '{expectedUrl}'", ex);
             }
+        }
+
+        private static ChromeDriver CreateChromeDriver()
+        {
+            var chromeOptions = new ChromeOptions
+            {
+                AcceptInsecureCertificates = true,
+            };
+            chromeOptions.AddArguments("headless");
+            chromeOptions.AddArguments("start-maximized");
+            return new ChromeDriver(chromeOptions);
         }
     }
 }
