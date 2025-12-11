@@ -1,6 +1,7 @@
 namespace Blaise.Cati.Tests.Behaviour.Steps
 {
     using System;
+    using Blaise.Nuget.Api.Contracts.Enums;
     using Blaise.Tests.Helpers.Browser;
     using Blaise.Tests.Helpers.Cati;
     using Blaise.Tests.Helpers.Configuration;
@@ -43,6 +44,9 @@ namespace Blaise.Cati.Tests.Behaviour.Steps
             {
                 Assert.Fail("A previous scenario has failed. Skipping test.");
             }
+
+            QuestionnaireHelper.GetInstance()
+                .EnsureQuestionnaireReadyForTest(BlaiseConfigurationHelper.QuestionnaireName, BlaiseConfigurationHelper.ServerParkName);
         }
 
         [AfterStep]
