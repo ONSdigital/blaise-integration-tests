@@ -24,11 +24,6 @@ namespace Blaise.Tests.Behaviour.Steps
         [BeforeScenario]
         public void BeforeScenario()
         {
-            if (_hasFailureOccurred)
-            {
-                Assert.Fail("A previous scenario has failed. Skipping test.");
-            }
-
             QuestionnaireHelper.GetInstance()
                 .EnsureQuestionnaireReadyForTest(BlaiseConfigurationHelper.QuestionnaireName, BlaiseConfigurationHelper.ServerParkName);
         }

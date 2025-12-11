@@ -11,8 +11,6 @@ namespace Blaise.Tests.Behaviour.Steps
     [Binding]
     public sealed class CommonSteps
     {
-        private static bool _hasFailureOccurred = false;
-
         private readonly ScenarioContext _scenarioContext;
 
         public CommonSteps(ScenarioContext scenarioContext)
@@ -23,11 +21,6 @@ namespace Blaise.Tests.Behaviour.Steps
         [BeforeScenario]
         public void BeforeScenario()
         {
-            if (_hasFailureOccurred)
-            {
-                Assert.Fail("A previous scenario has failed. Skipping test.");
-            }
-
             QuestionnaireHelper.GetInstance()
                 .EnsureQuestionnaireReadyForTest(BlaiseConfigurationHelper.QuestionnaireName, BlaiseConfigurationHelper.ServerParkName);
         }
@@ -37,7 +30,6 @@ namespace Blaise.Tests.Behaviour.Steps
         {
             if (_scenarioContext.TestError != null)
             {
-                _hasFailureOccurred = true;
                 BrowserHelper.OnError(TestContext.CurrentContext, _scenarioContext);
                 throw new Exception(_scenarioContext.TestError.Message);
             }
