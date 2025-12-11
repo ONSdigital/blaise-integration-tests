@@ -65,13 +65,15 @@ stages:
               projects: |
                 **/*[Tt]est*.csproj
                 !**/*Behaviour.csproj
-              arguments: --configuration $(buildConfiguration) --no-build
+              arguments: --configuration $(buildConfiguration) --no-build --settings .runsettings
 
           - task: CopyFiles@2
             displayName: Copy artifact
             inputs:
               SourceFolder: $(System.DefaultWorkingDirectory)
-              Contents: '**\bin\$(BuildConfiguration)\**'
+              Contents: |
+                **\bin\$(BuildConfiguration)\**
+                .runsettings
               TargetFolder: $(build.ArtifactStagingDirectory)
               CleanTargetFolder: true
               OverWrite: true
