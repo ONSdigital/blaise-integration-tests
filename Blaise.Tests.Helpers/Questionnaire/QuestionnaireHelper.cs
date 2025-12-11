@@ -126,6 +126,37 @@ namespace Blaise.Tests.Helpers.Questionnaire
             return questionnaire.InstallDate;
         }
 
+        public void EnsureQuestionnaireReadyForTest(string questionnaireName, string serverParkName)
+        {
+            if (!CheckQuestionnaireExists(questionnaireName, serverParkName))
+            {
+                // Not installed - test setup can install it
+                return;
+            }
+
+            var status = GetQuestionnaireStatus(questionnaireName, serverParkName);
+
+            if (status == QuestionnaireStatusType.Active)
+            {
+                // Good to go
+                return;
+            }
+
+            if (status == QuestionnaireStatusType.Installing)
+            {
+                throw new Exception($"Questionnaire '{questionnaireName}' is stuck in Installing state. Restart Blaise and uninstall the questionnaire via Blaise Server Manager before retrying.");
+            }
+
+            if (status == QuestionnaireStatusType.Erroneous)
+            {
+                throw new Exception($"Questionnaire '{questionnaireName}' is in Erroneous state. Restart Blaise and uninstall the questionnaire via Blaise Server Manager before retrying.");
+            }
+
+            // Any other non-active state (e.g., Inactive) - uninstall to provide a clean starting point
+            Console.WriteLine($"Questionnaire '{questionnaireName}' is in {status} state. Uninstalling to get clean state...");
+            UninstallQuestionnaire(questionnaireName, serverParkName);
+        }
+
         private bool CheckQuestionnaireActive(string questionnaireName, string serverParkName, int timeoutInSeconds)
         {
             var counter = 0;
