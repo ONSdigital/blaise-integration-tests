@@ -72,7 +72,6 @@ Depending on the tests your running, substitute the environment variable values 
 	  <add key="ENV_BLAISE_CONNECTION_PORT" value="8031" />
 	  <add key="ENV_BLAISE_REMOTE_CONNECTION_PORT" value="8033" />
 	  <add key="ENV_CONNECTION_EXPIRES_IN_MINUTES" value="60" />
-	  <add key="ChromeWebDriver" value="C:\<chrome-driver-path>\" />
 	  <add key="ENV_DQS_URL" value="https://dev-<sandbox>-dqs.social-surveys.gcp.onsdigital.uk" />
 	  <add key="ENV_TOBI_URL" value="https://dev-<sandbox>-tobi.social-surveys.gcp.onsdigital.uk" />
 	  <add key="ENV_BLAISE_CATI_URL" value="https://dev-<sandbox>-cati.social-surveys.gcp.onsdigital.uk" />
