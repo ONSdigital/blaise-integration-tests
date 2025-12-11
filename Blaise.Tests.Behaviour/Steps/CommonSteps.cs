@@ -1,7 +1,6 @@
 namespace Blaise.Tests.Behaviour.Steps
 {
     using System;
-    using Blaise.Nuget.Api.Contracts.Enums;
     using Blaise.Tests.Helpers.Browser;
     using Blaise.Tests.Helpers.Configuration;
     using Blaise.Tests.Helpers.Questionnaire;
