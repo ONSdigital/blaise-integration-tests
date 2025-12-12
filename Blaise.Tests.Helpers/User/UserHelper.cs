@@ -46,7 +46,7 @@ namespace Blaise.Tests.Helpers.User
             {
                 Console.WriteLine($"Warning: Failed to remove user '{userName}' (Bad Request). They may not exist. Error: {ex.Message}");
             }
-            catch (Exception)
+            catch (Exception ex)
             {
                 Console.WriteLine($"Warning: Failed to remove user '{userName}'. Error: {ex.Message}");
             }

@@ -91,6 +91,7 @@ namespace Blaise.Tests.Helpers.Browser
             jsExecutor.ExecuteScript("window.localStorage.clear();");
             jsExecutor.ExecuteScript("window.sessionStorage.clear();");
             _browser.Quit();
+            _browser = null;
         }
 
         public static bool ElementExistsById(string id, TimeSpan? timeout = null)
@@ -160,13 +161,11 @@ namespace Blaise.Tests.Helpers.Browser
             }
             catch (NullReferenceException ex)
             {
-                Console.WriteLine($"NullReferenceException in SaveAndAttachHtml: {ex.Message}");
-                Console.WriteLine($"Stack Trace: {ex.StackTrace}");
+                Console.WriteLine($"NullReferenceException in SaveAndAttachHtml. Error: {ex.Message}");
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"Failed to save or attach HTML: {ex.Message}");
-                Console.WriteLine($"Stack Trace: {ex.StackTrace}");
+                Console.WriteLine($"Failed to save or attach HTML. Error: {ex.Message}");
             }
         }
 
@@ -232,12 +231,12 @@ namespace Blaise.Tests.Helpers.Browser
             }
             catch (WebDriverException ex)
             {
-                Console.WriteLine($"WebDriverException in CurrentWindowHtml: {ex.Message}");
+                Console.WriteLine($"WebDriverException in CurrentWindowHtml. Error: {ex.Message}");
                 return null;
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"Exception in CurrentWindowHtml: {ex.Message}");
+                Console.WriteLine($"Exception in CurrentWindowHtml. Error: {ex.Message}");
                 return null;
             }
         }
@@ -270,14 +269,18 @@ namespace Blaise.Tests.Helpers.Browser
 
         public static IWebElement FindElement(By by)
         {
-            return Wait($"Timed out in FindElement({by})'")
+            return Wait($"Timed out in FindElement({by})")
                 .Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementIsVisible(by));
         }
 
         public static IReadOnlyCollection<IWebElement> FindElements(By by)
         {
             return Wait($"Timed out in FindElements({by})")
-                .Until(driver => driver.FindElements(by));
+                .Until(driver => 
+                {
+                    var elements = driver.FindElements(by);
+                    return elements.Count > 0 ? elements : null;
+                });
         }
 
         public static bool ElementIsDisplayed(By by)
@@ -309,11 +312,11 @@ namespace Blaise.Tests.Helpers.Browser
             }
             catch (WebDriverTimeoutException ex)
             {
-                throw new WebDriverTimeoutException($"Timed out after {timeoutInSeconds} seconds while waiting for URL to match '{expectedUrl}'", ex);
+                throw new WebDriverTimeoutException($"Timed out after {timeoutInSeconds} seconds while waiting for URL to match '{expectedUrl}'. Error: {ex.Message}");
             }
             catch (Exception ex)
             {
-                throw new Exception($"An error occurred while waiting for URL to match '{expectedUrl}'", ex);
+                throw new Exception($"An error occurred while waiting for URL to match '{expectedUrl}'. Error: {ex.Message}");
             }
         }
 
@@ -325,6 +328,7 @@ namespace Blaise.Tests.Helpers.Browser
             };
             chromeOptions.AddArguments("headless");
             chromeOptions.AddArguments("start-maximized");
+            chromeOptions.AddArguments("--ignore-certificate-errors");
             return new ChromeDriver(chromeOptions);
         }
     }

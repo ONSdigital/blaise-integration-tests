@@ -43,12 +43,11 @@ namespace Blaise.Cati.Tests.Behaviour.Steps
                 CatiInterviewHelper.GetInstance().WaitForFirstFocusObject();
                 BrowserHelper.WaitForTextInHtml(caseId);
             }
-            catch
+            catch (Exception ex)
             {
-                TestContext.WriteLine("Error from Test Context " + BrowserHelper.CurrentWindowHtml());
-                TestContext.Progress.WriteLine("Error from Test Context progress " + BrowserHelper.CurrentWindowHtml());
-                Debug.WriteLine("Error from debug: " + BrowserHelper.CurrentWindowHtml());
-                Console.WriteLine("Error from console: " + BrowserHelper.CurrentWindowHtml());
+                Console.WriteLine($"Test failed for Case '{caseId}'. Error: {ex.Message}");
+                BrowserHelper.SaveAndAttachHtml(TestContext.CurrentContext, $"Failure_Case_{caseId}");
+                BrowserHelper.TakeScreenShot(TestContext.CurrentContext.WorkDirectory, $"Failure_Case_{caseId}");
                 throw;
             }
         }
