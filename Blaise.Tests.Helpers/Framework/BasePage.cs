@@ -148,7 +148,6 @@ namespace Blaise.Tests.Helpers.Framework
 
         protected void WaitForPageToChange(string url)
         {
-            // Are we currently on the required page
             if (!BrowserHelper.GetCurrentUrl().Equals(url, StringComparison.CurrentCultureIgnoreCase))
             {
                 BrowserHelper.Wait($"Timed out in WaitForPageToChange(\"{url}\")")

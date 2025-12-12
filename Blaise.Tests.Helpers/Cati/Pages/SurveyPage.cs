@@ -1,4 +1,3 @@
-// ReSharper disable InconsistentNaming
 namespace Blaise.Tests.Helpers.Cati.Pages
 {
     using System;

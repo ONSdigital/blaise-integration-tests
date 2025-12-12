@@ -67,12 +67,11 @@ namespace Blaise.Tests.Helpers.Browser
             var element = wait.Until(ExpectedConditions.ElementIsVisible(By.Name(elementName)));
             try
             {
-                // Enter the value into the element
                 element.SendKeys(value);
             }
             catch (StaleElementReferenceException)
             {
-                // Element has become stale, re-find the element and retry sending keys
+                // element has become stale, re-find the element and retry sending keys
                 element = wait.Until(ExpectedConditions.ElementIsVisible(By.Name(elementName)));
                 element.SendKeys(value);
             }
