@@ -59,12 +59,6 @@ namespace Blaise.Tests.Helpers.Cati
             daybatchPage.ModifyDayBatchEntry();
         }
 
-        public string GetCaseIdText()
-        {
-            var interviewPage = new InterviewPage();
-            return interviewPage.GetCaseIdText();
-        }
-
         public void WaitForFirstFocusObject()
         {
             var interviewPage = new InterviewPage();
