@@ -35,10 +35,9 @@ namespace Blaise.Dqs.Tests.Behaviour.Steps
             {
                 DqsHelper.GetInstance().DeleteQuestionnaire(BlaiseConfigurationHelper.QuestionnaireName);
             }
-            catch (Exception e)
+            catch (Exception ex)
             {
-                Console.WriteLine("Selecting delete on the questionnaire details page failed");
-                Console.WriteLine($"{e}");
+                Console.WriteLine($"Selecting delete on the questionnaire details page failed. Error: {ex.Message}");
                 throw;
             }
         }

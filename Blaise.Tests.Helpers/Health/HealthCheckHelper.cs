@@ -23,7 +23,7 @@ namespace Blaise.Tests.Helpers.Health
             }
             catch (Exception ex)
             {
-                throw new Exception($"Failed to connect to the URL '{url}'. Please check the application is running and the URL is correct. Inner exception: {ex.Message}", ex);
+                throw new Exception($"Failed to connect to the URL '{url}'. Please check the application is running and the URL is correct. Error: {ex.Message}");
             }
         }
 
@@ -36,7 +36,7 @@ namespace Blaise.Tests.Helpers.Health
             }
             catch (Exception ex)
             {
-                throw new Exception($"Failed to connect to the Blaise server. Please check the connection details are correct and the server is running. Inner exception: {ex.Message}", ex);
+                throw new Exception($"Failed to connect to the Blaise server. Please check the connection details are correct and the server is running. Error: {ex.Message}");
             }
         }
     }

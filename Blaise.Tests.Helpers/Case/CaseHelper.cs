@@ -58,7 +58,7 @@ namespace Blaise.Tests.Helpers.Case
 
                         _blaiseCaseApi.RemoveCase(primaryKey, BlaiseConfigurationHelper.QuestionnaireName, BlaiseConfigurationHelper.ServerParkName);
                     }
-                    catch (Exception)
+                    catch (Exception ex)
                     {
                         Console.WriteLine($"Warning: Failed to remove case. Error: {ex.Message}");
                     }
@@ -66,7 +66,7 @@ namespace Blaise.Tests.Helpers.Case
                     cases.MoveNext();
                 }
             }
-            catch (Exception)
+            catch (Exception ex)
             {
                 Console.WriteLine($"Warning: Could not retrieve cases to delete. Error: {ex.Message}");
             }
