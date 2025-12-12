@@ -276,7 +276,7 @@ namespace Blaise.Tests.Helpers.Browser
         public static IReadOnlyCollection<IWebElement> FindElements(By by)
         {
             return Wait($"Timed out in FindElements({by})")
-                .Until(driver => 
+                .Until(driver =>
                 {
                     var elements = driver.FindElements(by);
                     return elements.Count > 0 ? elements : null;
