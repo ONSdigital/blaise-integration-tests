@@ -31,6 +31,7 @@ namespace Blaise.Tests.Behaviour.Steps
                 {
                     catiUrl = "https://" + catiUrl;
                 }
+
                 HealthCheckHelper.CheckUrlIsAvailable(catiUrl);
             }
 
