@@ -19,6 +19,11 @@ namespace Blaise.Tests.Helpers.Framework.Extensions
             return variable;
         }
 
+        public static string TryGetVariable(string variableName)
+        {
+            return Environment.GetEnvironmentVariable(variableName) ?? ConfigurationManager.AppSettings[variableName];
+        }
+
         public static int GetIntVariable(string variableName)
         {
             var variable = ConfigurationManager.AppSettings[variableName];
