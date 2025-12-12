@@ -20,15 +20,19 @@ namespace Blaise.Tests.Behaviour.Steps
 
         [Given(@"I have created sample cases for the questionnaire")]
         [When(@"I create cases for the questionnaire")]
-        public void WhenICreateCasesForTheQuestionnaire(IEnumerable<CaseModel> caseModels)
+        public void WhenICreateCasesForTheQuestionnaire(DataTable dataTable)
         {
+            var caseModels = dataTable.CreateSet<CaseModel>();
+
             CaseHelper.GetInstance().DeleteCases();
             CaseHelper.GetInstance().CreateCases(caseModels);
         }
 
         [Then(@"the cases are available in the questionnaire")]
-        public void ThenTheCasesAreAvailableInTheQuestionnaire(IEnumerable<CaseModel> cases)
+        public void ThenTheCasesAreAvailableInTheQuestionnaire(DataTable dataTable)
         {
+            var cases = dataTable.CreateSet<CaseModel>();
+
             var expectedCases = cases.ToList();
             CheckNumberOfCasesMatch(expectedCases.Count);
             CheckCasesMatch(expectedCases);
