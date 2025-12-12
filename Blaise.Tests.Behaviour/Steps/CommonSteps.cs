@@ -1,12 +1,12 @@
 namespace Blaise.Tests.Behaviour.Steps
 {
+    using System;
     using Blaise.Tests.Helpers.Browser;
     using Blaise.Tests.Helpers.Configuration;
     using Blaise.Tests.Helpers.Health;
     using Blaise.Tests.Helpers.Questionnaire;
     using NUnit.Framework;
     using Reqnroll;
-    using System;
 
     [Binding]
     public sealed class CommonSteps
