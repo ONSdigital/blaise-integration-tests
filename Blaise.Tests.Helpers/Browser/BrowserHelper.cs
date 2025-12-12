@@ -108,18 +108,6 @@ namespace Blaise.Tests.Helpers.Browser
             }
         }
 
-        public static bool ElementExistsByXPath(string xPath)
-        {
-            return Browser.FindElements(By.XPath(xPath)).Count > 0;
-        }
-
-        public static void ScrollHorizontalByOffset(int offset)
-        {
-            var actions = new Actions(Browser);
-            actions.MoveByOffset(offset, 0);
-            actions.Perform();
-        }
-
         public static void ScrollIntoView(IWebElement element)
         {
             Browser.ExecuteJavaScript("arguments[0].scrollIntoView(true);", element);
