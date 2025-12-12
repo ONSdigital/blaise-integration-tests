@@ -69,7 +69,7 @@ namespace Blaise.Tests.Helpers.Questionnaire
         public bool CheckQuestionnaireInstalled(string questionnaireName, string serverParkName, int timeoutInSeconds)
         {
             return CheckQuestionnaireExists(questionnaireName, serverParkName, timeoutInSeconds) &&
-                   CheckQuestionnaireActive(questionnaireName, serverParkName, timeoutInSeconds);
+                    CheckQuestionnaireActive(questionnaireName, serverParkName, timeoutInSeconds);
         }
 
         public void UninstallQuestionnaire(string questionnaireName, string serverParkName)
@@ -130,7 +130,6 @@ namespace Blaise.Tests.Helpers.Questionnaire
         {
             if (!CheckQuestionnaireExists(questionnaireName, serverParkName))
             {
-                // Not installed - test setup can install it
                 return;
             }
 
@@ -138,7 +137,6 @@ namespace Blaise.Tests.Helpers.Questionnaire
 
             if (status == QuestionnaireStatusType.Active)
             {
-                // Good to go
                 return;
             }
 
@@ -152,7 +150,6 @@ namespace Blaise.Tests.Helpers.Questionnaire
                 throw new Exception($"Questionnaire '{questionnaireName}' is in Erroneous state. Restart Blaise and uninstall the questionnaire via Blaise Server Manager before retrying.");
             }
 
-            // Any other non-active state (e.g., Inactive) - uninstall to provide a clean starting point
             Console.WriteLine($"Questionnaire '{questionnaireName}' is in {status} state. Uninstalling to get clean state...");
             UninstallQuestionnaire(questionnaireName, serverParkName);
         }
