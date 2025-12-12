@@ -4,6 +4,7 @@ namespace Blaise.Cati.Tests.Behaviour.Steps
     using Blaise.Tests.Helpers.Browser;
     using Blaise.Tests.Helpers.Cati;
     using Blaise.Tests.Helpers.Configuration;
+    using Blaise.Tests.Helpers.Health;
     using Blaise.Tests.Helpers.Questionnaire;
     using NUnit.Framework;
     using Reqnroll;
@@ -21,6 +22,11 @@ namespace Blaise.Cati.Tests.Behaviour.Steps
         [BeforeTestRun]
         public static void BeforeTestRun()
         {
+            HealthCheckHelper.CheckBlaiseConnection();
+            HealthCheckHelper.CheckUrlIsAvailable(CatiConfigurationHelper.CatiBaseUrl);
+            HealthCheckHelper.CheckUrlIsAvailable(DqsConfigurationHelper.DqsUrl);
+            HealthCheckHelper.CheckUrlIsAvailable(TobiConfigurationHelper.TobiUrl);
+
             QuestionnaireHelper.GetInstance().InstallQuestionnaire(BlaiseConfigurationHelper.QuestionnaireName, BlaiseConfigurationHelper.ServerParkName, BlaiseConfigurationHelper.QuestionnairePath, BlaiseConfigurationHelper.QuestionnaireInstallOptions);
             CatiManagementHelper.GetInstance().CreateAdminUser();
             CatiInterviewHelper.GetInstance().CreateInterviewUser();
