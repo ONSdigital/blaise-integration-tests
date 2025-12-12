@@ -22,9 +22,28 @@ namespace Blaise.Tests.Behaviour.Steps
         public static void BeforeTestRun()
         {
             HealthCheckHelper.CheckBlaiseConnection();
-            HealthCheckHelper.CheckUrlIsAvailable(CatiConfigurationHelper.CatiBaseUrl);
-            HealthCheckHelper.CheckUrlIsAvailable(DqsConfigurationHelper.DqsUrl);
-            HealthCheckHelper.CheckUrlIsAvailable(TobiConfigurationHelper.TobiUrl);
+
+            var catiUrl = ConfigurationExtensions.TryGetVariable("ENV_BLAISE_CATI_URL");
+            if (!string.IsNullOrEmpty(catiUrl))
+            {
+                if (!catiUrl.StartsWith("http://") && !catiUrl.StartsWith("https://"))
+                {
+                    catiUrl = "https://" + catiUrl;
+                }
+                HealthCheckHelper.CheckUrlIsAvailable(catiUrl);
+            }
+
+            var dqsUrl = ConfigurationExtensions.TryGetVariable("ENV_DQS_URL");
+            if (!string.IsNullOrEmpty(dqsUrl))
+            {
+                HealthCheckHelper.CheckUrlIsAvailable(dqsUrl);
+            }
+
+            var tobiUrl = ConfigurationExtensions.TryGetVariable("ENV_TOBI_URL");
+            if (!string.IsNullOrEmpty(tobiUrl))
+            {
+                HealthCheckHelper.CheckUrlIsAvailable(tobiUrl + "/");
+            }
         }
 
         [BeforeScenario]
