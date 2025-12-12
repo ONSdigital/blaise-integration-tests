@@ -4,6 +4,7 @@ namespace Blaise.Dqs.Tests.Behaviour.Steps
     using Blaise.Tests.Helpers.Browser;
     using Blaise.Tests.Helpers.Configuration;
     using Blaise.Tests.Helpers.Dqs;
+    using Blaise.Tests.Helpers.Framework.Extensions;
     using Blaise.Tests.Helpers.Health;
     using Blaise.Tests.Helpers.Questionnaire;
     using NUnit.Framework;
