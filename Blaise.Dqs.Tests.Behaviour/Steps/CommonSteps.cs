@@ -1,5 +1,6 @@
 namespace Blaise.Dqs.Tests.Behaviour.Steps
 {
+    using System;
     using Blaise.Tests.Helpers.Browser;
     using Blaise.Tests.Helpers.Configuration;
     using Blaise.Tests.Helpers.Dqs;
@@ -7,7 +8,6 @@ namespace Blaise.Dqs.Tests.Behaviour.Steps
     using Blaise.Tests.Helpers.Questionnaire;
     using NUnit.Framework;
     using Reqnroll;
-    using System;
 
     [Binding]
     public sealed class CommonSteps

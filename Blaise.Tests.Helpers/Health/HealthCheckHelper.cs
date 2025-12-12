@@ -1,9 +1,10 @@
-using Blaise.Nuget.Api.Api;
-using System;
-using System.Net.Http;
-
 namespace Blaise.Tests.Helpers.Health
 {
+    using System;
+    using System.Net.Http;
+    using Blaise.Nuget.Api.Api;
+    using Blaise.Tests.Helpers.Configuration;
+
     public static class HealthCheckHelper
     {
         public static void CheckUrlIsAvailable(string url)
@@ -31,7 +32,7 @@ namespace Blaise.Tests.Helpers.Health
             try
             {
                 var blaiseApi = new BlaiseQuestionnaireApi();
-                blaiseApi.GetServerParks();
+                blaiseApi.QuestionnaireExists(BlaiseConfigurationHelper.QuestionnaireName, BlaiseConfigurationHelper.ServerParkName);
             }
             catch (Exception ex)
             {
