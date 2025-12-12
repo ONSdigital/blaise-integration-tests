@@ -78,7 +78,7 @@ namespace Blaise.Tests.Helpers.Case
             {
                 return _blaiseCaseApi.GetNumberOfCases(BlaiseConfigurationHelper.QuestionnaireName, BlaiseConfigurationHelper.ServerParkName);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
                 Console.WriteLine($"Warning: Failed to retrieve case count. Defaulting to 0. Error: {ex.Message}");
                 return 0;
