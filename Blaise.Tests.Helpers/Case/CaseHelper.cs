@@ -60,7 +60,7 @@ namespace Blaise.Tests.Helpers.Case
                     }
                     catch (Exception)
                     {
-                        /*Ignored - better to implement ILogger*/
+                        Console.WriteLine($"Warning: Failed to remove case. Error: {ex.Message}");
                     }
 
                     cases.MoveNext();
@@ -68,7 +68,7 @@ namespace Blaise.Tests.Helpers.Case
             }
             catch (Exception)
             {
-                /*Ignored - better to implement ILogger*/
+                Console.WriteLine($"Warning: Could not retrieve cases to delete. Error: {ex.Message}");
             }
         }
 
@@ -80,7 +80,7 @@ namespace Blaise.Tests.Helpers.Case
             }
             catch (Exception)
             {
-                // Could be improved by implementing ILogger
+                Console.WriteLine($"Warning: Failed to retrieve case count. Defaulting to 0. Error: {ex.Message}");
                 return 0;
             }
         }

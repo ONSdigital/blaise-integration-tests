@@ -1,4 +1,4 @@
-namespace Blaise.Tests.Behaviour.Steps
+namespace Blaise.Cati.Tests.Behaviour.Steps
 {
     using System.Collections.Generic;
     using System.Linq;

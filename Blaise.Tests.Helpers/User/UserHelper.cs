@@ -44,13 +44,11 @@ namespace Blaise.Tests.Helpers.User
             }
             catch (WebException ex) when (ex.Message.Contains("Bad Request"))
             {
-                // The remote server returned an unexpected response: (400) Bad Request.
-                // These are not thrown as if the user cannot be removed it will not affect the system
+                Console.WriteLine($"Warning: Failed to remove user '{userName}' (Bad Request). They may not exist. Error: {ex.Message}");
             }
             catch (Exception)
             {
-                // Handle other exceptions.
-                // These are not thrown as if the user cannot be removed it will not affect the system
+                Console.WriteLine($"Warning: Failed to remove user '{userName}'. Error: {ex.Message}");
             }
         }
 
