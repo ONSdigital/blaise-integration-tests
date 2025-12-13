@@ -3,11 +3,13 @@ namespace Blaise.Tests.Helpers.Case
     using System;
     using System.Collections.Generic;
     using System.Globalization;
+    using System.Threading;
     using Blaise.Nuget.Api.Api;
     using Blaise.Nuget.Api.Contracts.Enums;
     using Blaise.Nuget.Api.Contracts.Interfaces;
     using Blaise.Tests.Helpers.Configuration;
     using Blaise.Tests.Models.Case;
+    using StatNeth.Blaise.API.DataLink;
     using StatNeth.Blaise.API.DataRecord;
 
     public class CaseHelper
@@ -35,13 +37,45 @@ namespace Blaise.Tests.Helpers.Case
 
         public void CreateCase(CaseModel caseModel)
         {
-            _blaiseCaseApi.CreateCase(caseModel.PrimaryKeyValues, caseModel.FieldData(), BlaiseConfigurationHelper.QuestionnaireName, BlaiseConfigurationHelper.ServerParkName);
+            CreateCaseWithRetry(caseModel.PrimaryKeyValues, caseModel.FieldData());
         }
 
         public void CreateCase()
         {
             var caseModel = BuildDefaultCase();
-            _blaiseCaseApi.CreateCase(caseModel.PrimaryKeyValues, caseModel.FieldData(), BlaiseConfigurationHelper.QuestionnaireName, BlaiseConfigurationHelper.ServerParkName);
+            CreateCaseWithRetry(caseModel.PrimaryKeyValues, caseModel.FieldData());
+        }
+
+        private void CreateCaseWithRetry(Dictionary<string, string> primaryKeyValues, Dictionary<string, string> fieldData)
+        {
+            var retries = 3;
+            const int delayInMs = 1000;
+
+            while (retries > 0)
+            {
+                try
+                {
+                    _blaiseCaseApi.CreateCase(primaryKeyValues, fieldData, BlaiseConfigurationHelper.QuestionnaireName, BlaiseConfigurationHelper.ServerParkName);
+                    return;
+                }
+                catch (DataLinkException ex)
+                {
+                    if (ex.Message.ToLower().Contains("already locked"))
+                    {
+                        retries--;
+                        if (retries == 0)
+                        {
+                            throw;
+                        }
+                        Console.WriteLine($"Case is locked, retrying in {delayInMs}ms ({retries} retries remaining)");
+                        Thread.Sleep(delayInMs);
+                    }
+                    else
+                    {
+                        throw;
+                    }
+                }
+            }
         }
 
         public void DeleteCases()

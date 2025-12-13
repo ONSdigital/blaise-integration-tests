@@ -22,18 +22,6 @@ namespace Blaise.Dqs.Tests.Behaviour.Steps
             _scenarioContext = scenarioContext;
         }
 
-        [Given(@"I have launched DQS")]
-        public void GivenIHaveLaunchedDqs()
-        {
-            DqsHelper.GetInstance().LoadDqsHomePage();
-        }
-
-        [Given(@"there is a questionnaire installed in Blaise")]
-        public void GivenThereIsAQuestionnaireInstalledInBlaise()
-        {
-            QuestionnaireHelper.GetInstance().InstallQuestionnaire(BlaiseConfigurationHelper.QuestionnaireName, BlaiseConfigurationHelper.ServerParkName, BlaiseConfigurationHelper.QuestionnairePath, BlaiseConfigurationHelper.QuestionnaireInstallOptions);
-        }
-
         [Then(@"I am presented with a list of deployed questionnaires")]
         public void ThenIAmPresentedWithAListOfDeployedQuestionnaires()
         {
@@ -52,6 +40,7 @@ namespace Blaise.Dqs.Tests.Behaviour.Steps
             DqsHelper.GetInstance().SelectQuestionnairePackage();
         }
 
+        [Given(@"I have launched DQS")]
         [When(@"I view the landing page")]
         [Then(@"I am returned to the landing page")]
         public void WhenIViewTheLandingPage()

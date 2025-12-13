@@ -3,24 +3,12 @@ namespace Blaise.Dqs.Tests.Behaviour.Steps
     using System;
     using Blaise.Tests.Helpers.Configuration;
     using Blaise.Tests.Helpers.Dqs;
-    using Blaise.Tests.Helpers.Questionnaire;
     using NUnit.Framework;
     using Reqnroll;
 
     [Binding]
     public sealed class ToStartDateSteps
     {
-        [BeforeScenario("to-start-date")]
-        public static void BeforeScenario()
-        {
-            QuestionnaireHelper.GetInstance().InstallQuestionnaire(BlaiseConfigurationHelper.QuestionnaireName, BlaiseConfigurationHelper.ServerParkName, BlaiseConfigurationHelper.QuestionnairePath, BlaiseConfigurationHelper.QuestionnaireInstallOptions);
-        }
-
-        [Given(@"a questionnaire has been deployed")]
-        public void GivenAQuestionnaireHasBeenDeployed()
-        {
-        }
-
         [Given(@"the questionnaire has no TO start date")]
         [Then(@"the TO start date should not be set")]
         public void GivenTheQuestionnaireHasNoToStartDate()

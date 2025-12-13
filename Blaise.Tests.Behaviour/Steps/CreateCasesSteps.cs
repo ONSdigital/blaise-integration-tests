@@ -18,7 +18,6 @@ namespace Blaise.Tests.Behaviour.Steps
             QuestionnaireHelper.GetInstance().UninstallQuestionnaire(BlaiseConfigurationHelper.QuestionnaireName, BlaiseConfigurationHelper.ServerParkName);
         }
 
-        [Given(@"I have created sample cases for the questionnaire")]
         [When(@"I create cases for the questionnaire")]
         public void WhenICreateCasesForTheQuestionnaire(IEnumerable<CaseModel> caseModels)
         {
