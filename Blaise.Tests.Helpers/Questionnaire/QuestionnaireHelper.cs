@@ -157,14 +157,14 @@ namespace Blaise.Tests.Helpers.Questionnaire
         private bool CheckQuestionnaireActive(string questionnaireName, string serverParkName, int timeoutInSeconds)
         {
             var counter = 0;
-            const int maxCount = 10;
+            const int MaxCount = 10;
 
             while (GetQuestionnaireStatus(questionnaireName, serverParkName) == QuestionnaireStatusType.Installing)
             {
-                Thread.Sleep((timeoutInSeconds * 1000) / maxCount);
+                Thread.Sleep((timeoutInSeconds * 1000) / MaxCount);
 
                 counter++;
-                if (counter == maxCount)
+                if (counter == MaxCount)
                 {
                     return false;
                 }
@@ -177,15 +177,15 @@ namespace Blaise.Tests.Helpers.Questionnaire
         {
             Console.WriteLine($"Checking questionnaire {questionnaireName} exists...");
             var counter = 0;
-            const int maxCount = 10;
+            const int MaxCount = 10;
 
             while (!_blaiseQuestionnaireApi.QuestionnaireExists(questionnaireName, serverParkName))
             {
-                Console.WriteLine($"Sleep {counter} for {timeoutInSeconds / maxCount} seconds");
-                Thread.Sleep((timeoutInSeconds * 1000) / maxCount);
+                Console.WriteLine($"Sleep {counter} for {timeoutInSeconds / MaxCount} seconds");
+                Thread.Sleep((timeoutInSeconds * 1000) / MaxCount);
 
                 counter++;
-                if (counter == maxCount)
+                if (counter == MaxCount)
                 {
                     Console.WriteLine("Timed out");
                     return false;

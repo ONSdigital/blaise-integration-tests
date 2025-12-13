@@ -1,7 +1,5 @@
 namespace Blaise.Dqs.Tests.Behaviour.Steps
 {
-    using System;
-    using Blaise.Tests.Helpers.Browser;
     using Blaise.Tests.Helpers.Configuration;
     using Blaise.Tests.Helpers.Dqs;
     using Blaise.Tests.Helpers.Questionnaire;
@@ -31,15 +29,7 @@ namespace Blaise.Dqs.Tests.Behaviour.Steps
         [Given(@"I select delete on the questionnaire details page")]
         public void GivenISelectDeleteOnTheQuestionnaireDetailsPage()
         {
-            try
-            {
-                DqsHelper.GetInstance().DeleteQuestionnaire(BlaiseConfigurationHelper.QuestionnaireName);
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine($"Selecting delete on the questionnaire details page failed. Error: {ex.Message}");
-                throw;
-            }
+            DqsHelper.GetInstance().DeleteQuestionnaire(BlaiseConfigurationHelper.QuestionnaireName);
         }
 
         [Given(@"I am taken to the delete confirmation page")]

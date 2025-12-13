@@ -5,14 +5,14 @@ namespace Blaise.Tests.Helpers.Dqs.Pages
 
     public class UploadPage : BasePage
     {
-        private const string _fileSelectorId = "survey-selector";
-        private const string _continueButtonId = "continue-deploy-button";
-        private const string _noRadioButtonId = "no";
-        private const string _yesRadioButtonId = "yes";
-        private const string _continueOverwriteRadioButtonId = "continue";
-        private const string _liveDateTextPath = "//*[@id=\"formID\"]/div[1]/div/table/tbody[5]/tr/td[2]";
-        private const string _liveDateTextBoxId = "set-live-date";
-        private const string _cancelButtonId = "cancel-deploy-button";
+        private const string FileSelectorId = "survey-selector";
+        private const string ContinueButtonId = "continue-deploy-button";
+        private const string NoRadioButtonId = "no";
+        private const string YesRadioButtonId = "yes";
+        private const string ContinueOverwriteRadioButtonId = "continue";
+        private const string LiveDateTextPath = "//*[@id=\"formID\"]/div[1]/div/table/tbody[5]/tr/td[2]";
+        private const string LiveDateTextBoxId = "set-live-date";
+        private const string CancelButtonId = "cancel-deploy-button";
 
         public UploadPage()
             : base(DqsConfigurationHelper.UploadUrl)
@@ -21,12 +21,12 @@ namespace Blaise.Tests.Helpers.Dqs.Pages
 
         public void SelectFileToUpload(string questionnairePath)
         {
-            PopulateInputById(_fileSelectorId, questionnairePath);
+            PopulateInputById(FileSelectorId, questionnairePath);
         }
 
         public void SelectContinueButton()
         {
-            ClickButtonById(_continueButtonId);
+            ClickButtonById(ContinueButtonId);
         }
 
         public void WaitForUploadCompletion()
@@ -41,32 +41,32 @@ namespace Blaise.Tests.Helpers.Dqs.Pages
 
         public void SelectNoToStartDateButton()
         {
-            ClickButtonById(_noRadioButtonId);
+            ClickButtonById(NoRadioButtonId);
         }
 
         public void SelectYesLiveDateButton()
         {
-            ClickButtonById(_yesRadioButtonId);
+            ClickButtonById(YesRadioButtonId);
         }
 
         public string GetToStartDateSummaryText()
         {
-            return GetElementTextByPath(_liveDateTextPath);
+            return GetElementTextByPath(LiveDateTextPath);
         }
 
         public void SelectContinueOverwriteButton()
         {
-            ClickButtonById(_continueOverwriteRadioButtonId);
+            ClickButtonById(ContinueOverwriteRadioButtonId);
         }
 
         public void SelectCancelButton()
         {
-            ClickButtonById(_cancelButtonId);
+            ClickButtonById(CancelButtonId);
         }
 
         internal void SetLiveDate(string date)
         {
-            PopulateInputById(_liveDateTextBoxId, date);
+            PopulateInputById(LiveDateTextBoxId, date);
         }
     }
 }

@@ -5,7 +5,7 @@ namespace Blaise.Tests.Helpers.Dqs.Pages
 
     public class DeleteConfirmationPage : BasePage
     {
-        private const string _continueButtonId = "confirm-delete";
+        private const string ContinueButtonId = "confirm-delete";
 
         public DeleteConfirmationPage()
             : base(DqsConfigurationHelper.ConfirmDeleteUrl)
@@ -14,7 +14,7 @@ namespace Blaise.Tests.Helpers.Dqs.Pages
 
         public void ClickContinueButton()
         {
-            ClickButtonById(_continueButtonId);
+            ClickButtonById(ContinueButtonId);
         }
 
         public void WaitForDeletionToComplete()

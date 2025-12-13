@@ -1,12 +1,15 @@
 namespace Blaise.Cati.Tests.Behaviour.Steps
 {
     using System;
+    using System.Collections.Generic;
     using Blaise.Tests.Helpers.Browser;
+    using Blaise.Tests.Helpers.Case;
     using Blaise.Tests.Helpers.Cati;
     using Blaise.Tests.Helpers.Configuration;
     using Blaise.Tests.Helpers.Framework.Extensions;
     using Blaise.Tests.Helpers.Health;
     using Blaise.Tests.Helpers.Questionnaire;
+    using Blaise.Tests.Models.Case;
     using NUnit.Framework;
     using Reqnroll;
 
@@ -33,22 +36,15 @@ namespace Blaise.Cati.Tests.Behaviour.Steps
                     catiUrl = "https://" + catiUrl;
                 }
 
-                HealthCheckHelper.CheckUrlIsAvailable(catiUrl);
+                HealthCheckHelper.CheckUrl(catiUrl);
             }
 
-            var dqsUrl = ConfigurationExtensions.TryGetVariable("ENV_DQS_URL");
-            if (!string.IsNullOrEmpty(dqsUrl))
-            {
-                HealthCheckHelper.CheckUrlIsAvailable(dqsUrl);
-            }
+            QuestionnaireHelper.GetInstance().InstallQuestionnaire(
+                BlaiseConfigurationHelper.QuestionnaireName,
+                BlaiseConfigurationHelper.ServerParkName,
+                BlaiseConfigurationHelper.QuestionnairePath,
+                BlaiseConfigurationHelper.QuestionnaireInstallOptions);
 
-            var tobiUrl = ConfigurationExtensions.TryGetVariable("ENV_TOBI_URL");
-            if (!string.IsNullOrEmpty(tobiUrl))
-            {
-                HealthCheckHelper.CheckUrlIsAvailable(tobiUrl + "/");
-            }
-
-            QuestionnaireHelper.GetInstance().InstallQuestionnaire(BlaiseConfigurationHelper.QuestionnaireName, BlaiseConfigurationHelper.ServerParkName, BlaiseConfigurationHelper.QuestionnairePath, BlaiseConfigurationHelper.QuestionnaireInstallOptions);
             CatiManagementHelper.GetInstance().CreateAdminUser();
             CatiInterviewHelper.GetInstance().CreateInterviewUser();
         }
@@ -58,14 +54,9 @@ namespace Blaise.Cati.Tests.Behaviour.Steps
         {
             CatiInterviewHelper.GetInstance().DeleteInterviewUser();
             CatiManagementHelper.GetInstance().DeleteAdminUser();
-            QuestionnaireHelper.GetInstance().UninstallQuestionnaire(BlaiseConfigurationHelper.QuestionnaireName, BlaiseConfigurationHelper.ServerParkName);
-        }
-
-        [BeforeScenario]
-        public void BeforeScenario()
-        {
-            QuestionnaireHelper.GetInstance()
-                .EnsureQuestionnaireReadyForTest(BlaiseConfigurationHelper.QuestionnaireName, BlaiseConfigurationHelper.ServerParkName);
+            QuestionnaireHelper.GetInstance().UninstallQuestionnaire(
+                BlaiseConfigurationHelper.QuestionnaireName,
+                BlaiseConfigurationHelper.ServerParkName);
         }
 
         [AfterStep]
@@ -74,8 +65,42 @@ namespace Blaise.Cati.Tests.Behaviour.Steps
             if (_scenarioContext.TestError != null)
             {
                 BrowserHelper.OnError(TestContext.CurrentContext, _scenarioContext);
-                throw new Exception(_scenarioContext.TestError.Message);
             }
+        }
+
+        [Given(@"there is a CATI questionnaire installed")]
+        public void GivenThereIsACatiQuestionnaireInstalled()
+        {
+            QuestionnaireHelper.GetInstance().EnsureQuestionnaireReadyForTest(
+                BlaiseConfigurationHelper.QuestionnaireName,
+                BlaiseConfigurationHelper.ServerParkName);
+        }
+
+        [Given(@"I have created cases for the questionnaire")]
+        public void GivenIHaveCreatedCasesForTheQuestionnaire(IEnumerable<CaseModel> caseModels)
+        {
+            CaseHelper.GetInstance().DeleteCases();
+            CaseHelper.GetInstance().CreateCases(caseModels);
+        }
+
+        [Given(@"I log into the CATI dashboard as an administrator")]
+        public void GivenILogIntoTheCatiDashboardAsAnAdministrator()
+        {
+            CatiManagementHelper.GetInstance().LogIntoCatiDashboardAsAdministrator();
+            var currentUrl = CatiManagementHelper.GetInstance().CurrentUrl();
+
+            Assert.That(
+                currentUrl,
+                Is.Not.EqualTo(CatiConfigurationHelper.LoginUrl).IgnoreCase,
+                $"Expected to leave the login page, but current URL is still {currentUrl}");
+        }
+
+        [Given(@"I have created a daybatch for today")]
+        [When(@"I create a daybatch for today")]
+        public void GivenIHaveCreatedADaybatchForToday()
+        {
+            CatiManagementHelper.GetInstance().ClearDayBatchEntries();
+            CatiManagementHelper.GetInstance().CreateDayBatch();
         }
     }
 }

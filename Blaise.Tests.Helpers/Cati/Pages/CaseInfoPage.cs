@@ -9,11 +9,11 @@ namespace Blaise.Tests.Helpers.Cati.Pages
 
     public class CaseInfoPage : BasePage
     {
-        private const string _questionnaireCell = "//*[@id='MVCGridTable_CaseInfoGrid']/tbody/tr[1]/td[1]";
-        private const string _caseIdCell = "//*[@id='MVCGridTable_CaseInfoGrid']/tbody/tr[1]/td[2]";
-        private const string _playButton = "//*[@id='MVCGridTable_CaseInfoGrid']/tbody/tr[1]/td[19]/a/span";
-        private const string _filterButton = "//*[contains(text(), 'Filters')]";
-        private const string _applyButton = "//*[contains(text(), 'Apply')]";
+        private const string QuestionnaireCell = "//*[@id='MVCGridTable_CaseInfoGrid']/tbody/tr[1]/td[1]";
+        private const string CaseIdCell = "//*[@id='MVCGridTable_CaseInfoGrid']/tbody/tr[1]/td[2]";
+        private const string PlayButton = "//*[@id='MVCGridTable_CaseInfoGrid']/tbody/tr[1]/td[19]/a/span";
+        private const string FilterButton = "//*[contains(text(), 'Filters')]";
+        private const string ApplyButton = "//*[contains(text(), 'Apply')]";
         private readonly string _surveyRadioButton = $"//*[normalize-space()='{BlaiseConfigurationHelper.QuestionnaireName}']";
 
         public CaseInfoPage()
@@ -47,7 +47,7 @@ namespace Blaise.Tests.Helpers.Cati.Pages
             var attempts = 0;
             while (BrowserHelper.GetNumberOfWindows() == numberOfWindows)
             {
-                ClickButtonByXPath(_playButton);
+                ClickButtonByXPath(PlayButton);
                 Thread.Sleep(250);
                 attempts++;
                 if (attempts > 5)
@@ -59,20 +59,20 @@ namespace Blaise.Tests.Helpers.Cati.Pages
 
         public void ApplyFilters()
         {
-            ClickButtonByXPath(_filterButton);
-            var filterButtonText = GetElementTextByPath(_filterButton);
+            ClickButtonByXPath(FilterButton);
+            var filterButtonText = GetElementTextByPath(FilterButton);
             if (filterButtonText != "Filters (active)")
             {
                 ClickButtonByXPath(_surveyRadioButton);
-                ClickButtonByXPath(_applyButton);
+                ClickButtonByXPath(ApplyButton);
             }
 
-            ClickButtonByXPath(_filterButton);
+            ClickButtonByXPath(FilterButton);
         }
 
         public bool FirstCaseIsPlayable()
         {
-            return ElementIsDisplayed(By.XPath(_playButton));
+            return ElementIsDisplayed(By.XPath(PlayButton));
         }
 
         protected override Func<IWebDriver, bool> PageHasLoaded()
@@ -82,12 +82,12 @@ namespace Blaise.Tests.Helpers.Cati.Pages
 
         private void WaitUntilFirstCaseQuestionnaireIs(string questionnaire)
         {
-            WaitUntilElementByXPathContainsText(_questionnaireCell, questionnaire);
+            WaitUntilElementByXPathContainsText(QuestionnaireCell, questionnaire);
         }
 
         private void WaitUntilFirstCaseIs(string caseId)
         {
-            WaitUntilElementByXPathContainsText(_caseIdCell, caseId);
+            WaitUntilElementByXPathContainsText(CaseIdCell, caseId);
         }
     }
 }

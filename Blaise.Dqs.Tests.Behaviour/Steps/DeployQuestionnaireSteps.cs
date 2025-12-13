@@ -1,7 +1,6 @@
 namespace Blaise.Dqs.Tests.Behaviour.Steps
 {
     using System;
-    using System.Linq;
     using System.Threading;
     using Blaise.Tests.Helpers.Browser;
     using Blaise.Tests.Helpers.Case;

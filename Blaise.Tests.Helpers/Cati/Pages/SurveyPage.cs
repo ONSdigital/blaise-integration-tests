@@ -8,12 +8,12 @@ namespace Blaise.Tests.Helpers.Cati.Pages
 
     public class SurveyPage : BasePage
     {
-        private const string _clearCatiDataButtonPath = @"//*[@id='MVCGridTable_SurveysGrid']/tbody/tr/td[9]/a";
-        private const string _backupDataButtonId = "chkBackupAll";
-        private const string _clearDataButtonId = "chkClearAll";
-        private const string _executeButtonPath = "//input[@value='Execute']";
-        private const string _filterButton = "//*[contains(text(), 'Filters')]";
-        private const string _applyButton = "//*[contains(text(), 'Apply')]";
+        private const string ClearCatiDataButtonPath = @"//*[@id='MVCGridTable_SurveysGrid']/tbody/tr/td[9]/a";
+        private const string BackupDataButtonId = "chkBackupAll";
+        private const string ClearDataButtonId = "chkClearAll";
+        private const string ExecuteButtonPath = "//input[@value='Execute']";
+        private const string FilterButton = "//*[contains(text(), 'Filters')]";
+        private const string ApplyButton = "//*[contains(text(), 'Apply')]";
         private readonly string _surveyRadioButton = $"//*[normalize-space()='{BlaiseConfigurationHelper.QuestionnaireName}']";
 
         public SurveyPage()
@@ -24,20 +24,20 @@ namespace Blaise.Tests.Helpers.Cati.Pages
         public void ClearDayBatchEntries()
         {
             Thread.Sleep(2000);
-            ClickButtonByXPath(_clearCatiDataButtonPath);
-            ClickButtonById(_backupDataButtonId);
-            ClickButtonById(_clearDataButtonId);
-            ClickButtonByXPath(_executeButtonPath);
+            ClickButtonByXPath(ClearCatiDataButtonPath);
+            ClickButtonById(BackupDataButtonId);
+            ClickButtonById(ClearDataButtonId);
+            ClickButtonByXPath(ExecuteButtonPath);
         }
 
         public void ApplyFilter()
         {
-            ClickButtonByXPath(_filterButton);
-            var filterButtonText = GetElementTextByPath(_filterButton);
+            ClickButtonByXPath(FilterButton);
+            var filterButtonText = GetElementTextByPath(FilterButton);
             if (filterButtonText != "Filters (active)")
             {
                 ClickButtonByXPath(_surveyRadioButton);
-                ClickButtonByXPath(_applyButton);
+                ClickButtonByXPath(ApplyButton);
             }
         }
 

@@ -6,12 +6,12 @@ namespace Blaise.Tests.Helpers.Dqs.Pages
 
     public class HomePage : BasePage
     {
-        private const string _deployQuestionnaireButtonId = "deploy-questionnaire-link";
-        private const string _questionnaireTableId = "questionnaire-table";
-        private const string _questionnaireTableRowsPath = "//*[@id='questionnaire-table']/tbody/tr";
-        private const string _summaryDivPath = "//div[contains(@class, 'success ons-panel')]";
-        private const string _infoButtonPlaceholderId = "info-";
-        private const string _filterId = "filter-by-name";
+        private const string DeployQuestionnaireButtonId = "deploy-questionnaire-link";
+        private const string QuestionnaireTableId = "questionnaire-table";
+        private const string QuestionnaireTableRowsPath = "//*[@id='questionnaire-table']/tbody/tr";
+        private const string SummaryDivPath = "//div[contains(@class, 'success ons-panel')]";
+        private const string InfoButtonPlaceholderId = "info-";
+        private const string FilterId = "filter-by-name";
 
         public HomePage()
             : base(DqsConfigurationHelper.DqsUrl)
@@ -20,28 +20,28 @@ namespace Blaise.Tests.Helpers.Dqs.Pages
 
         public void ClickDeployAQuestionnaire()
         {
-            ClickButtonById(_deployQuestionnaireButtonId);
+            ClickButtonById(DeployQuestionnaireButtonId);
         }
 
         public List<string> GetFirstColumnFromTableContent()
         {
-            var elements = GetFirstColumnOfTableFromXPath(_questionnaireTableRowsPath, _questionnaireTableId);
+            var elements = GetFirstColumnOfTableFromXPath(QuestionnaireTableRowsPath, QuestionnaireTableId);
             return elements;
         }
 
         public string GetUploadSummaryText()
         {
-            return GetElementTextByPath(_summaryDivPath);
+            return GetElementTextByPath(SummaryDivPath);
         }
 
         public void ClickQuestionnaireInfoButton(string questionnaireName)
         {
-            ClickButtonById(_infoButtonPlaceholderId + questionnaireName);
+            ClickButtonById(InfoButtonPlaceholderId + questionnaireName);
         }
 
         public void FilterQuestionnaire(string questionnaireName)
         {
-            PopulateInputById(_filterId, questionnaireName);
+            PopulateInputById(FilterId, questionnaireName);
         }
     }
 }

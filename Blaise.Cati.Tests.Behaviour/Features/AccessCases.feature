@@ -4,7 +4,7 @@ Feature: Access cases
 @smoke
 Scenario: Access case via play button
 	Given there is a CATI questionnaire installed
-	And I have created sample cases for the questionnaire
+	And I have created cases for the questionnaire
 		| primarykey | outcomecode | telephoneno |
 		| 9001       |             | 07000000000 |
 	And I log into the CATI dashboard as an administrator
@@ -14,7 +14,7 @@ Scenario: Access case via play button
 
 Scenario: Access case via scheduler
 	Given there is a CATI questionnaire installed
-	And I have created sample cases for the questionnaire
+	And I have created cases for the questionnaire
 		| primarykey | outcomecode | telephoneno |
 		| 9002       |             | 07000000000 |
 	And I log into the CATI dashboard as an administrator
