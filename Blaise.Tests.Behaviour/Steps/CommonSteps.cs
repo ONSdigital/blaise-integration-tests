@@ -63,5 +63,12 @@ namespace Blaise.Tests.Behaviour.Steps
                 BrowserHelper.OnError(TestContext.CurrentContext, _scenarioContext);
             }
         }
+
+        [Given(@"there is a questionnaire installed")]
+        [When(@"I install the questionnaire")]
+        public void GivenThereIsAQuestionnaireInstalled()
+        {
+            QuestionnaireHelper.GetInstance().InstallQuestionnaire(BlaiseConfigurationHelper.QuestionnaireName, BlaiseConfigurationHelper.ServerParkName, BlaiseConfigurationHelper.QuestionnairePath, BlaiseConfigurationHelper.QuestionnaireInstallOptions);
+        }
     }
 }

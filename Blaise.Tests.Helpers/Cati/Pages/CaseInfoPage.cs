@@ -47,7 +47,7 @@ namespace Blaise.Tests.Helpers.Cati.Pages
             var attempts = 0;
             while (BrowserHelper.GetNumberOfWindows() == numberOfWindows)
             {
-                ClickButtonByXPath(PlayButton);
+                ClickButtonByXPathWithJavaScript(PlayButton);
                 Thread.Sleep(250);
                 attempts++;
                 if (attempts > 5)

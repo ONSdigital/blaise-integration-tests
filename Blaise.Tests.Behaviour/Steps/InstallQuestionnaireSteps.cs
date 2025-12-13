@@ -19,13 +19,6 @@ namespace Blaise.Tests.Behaviour.Steps
             }
         }
 
-        [Given(@"there is a questionnaire installed")]
-        [When(@"I install the questionnaire")]
-        public void GivenThereIsAQuestionnaireInstalled()
-        {
-            QuestionnaireHelper.GetInstance().InstallQuestionnaire(BlaiseConfigurationHelper.QuestionnaireName, BlaiseConfigurationHelper.ServerParkName, BlaiseConfigurationHelper.QuestionnairePath, BlaiseConfigurationHelper.QuestionnaireInstallOptions);
-        }
-
         [Then(@"the questionnaire is available")]
         public void ThenTheQuestionnaireIsAvailable()
         {
@@ -38,12 +31,6 @@ namespace Blaise.Tests.Behaviour.Steps
                 questionnaireHasInstalled,
                 Is.True,
                 $"Questionnaire '{BlaiseConfigurationHelper.QuestionnaireName}' should be installed and active on server park '{BlaiseConfigurationHelper.ServerParkName}'");
-        }
-
-        [AfterScenario("deploy-questionnaire")]
-        public void AfterScenario()
-        {
-            QuestionnaireHelper.GetInstance().UninstallQuestionnaire(BlaiseConfigurationHelper.QuestionnaireName, BlaiseConfigurationHelper.ServerParkName);
         }
     }
 }

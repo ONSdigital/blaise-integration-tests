@@ -15,28 +15,34 @@ namespace Blaise.Tobi.Tests.Behaviour.Steps
     [Binding]
     public class TobiSteps
     {
-        [BeforeFeature("tobi")]
-        public static void BeforeFeature()
-        {
-            QuestionnaireHelper.GetInstance().InstallQuestionnaire(BlaiseConfigurationHelper.QuestionnaireName, BlaiseConfigurationHelper.ServerParkName, BlaiseConfigurationHelper.QuestionnairePath, BlaiseConfigurationHelper.QuestionnaireInstallOptions);
-            var primaryKeyValues = new Dictionary<string, string> { { "QID.Serial_Number", "9001" } };
-            CaseHelper.GetInstance().CreateCase(new CaseModel(primaryKeyValues, "110", "07000000000"));
-            DayBatchHelper.GetInstance().SetSurveyDay(BlaiseConfigurationHelper.QuestionnaireName, DateTime.Today);
-            DayBatchHelper.GetInstance().CreateDayBatch(BlaiseConfigurationHelper.QuestionnaireName, DateTime.Today);
-        }
+        private static bool _tobiFeatureSetupDone;
 
         [AfterFeature("tobi")]
         public static void AfterFeature()
         {
-            DayBatchHelper.GetInstance().RemoveSurveyDays(BlaiseConfigurationHelper.QuestionnaireName, DateTime.Today);
-            CaseHelper.GetInstance().DeleteCases();
-            QuestionnaireHelper.GetInstance().UninstallQuestionnaire(BlaiseConfigurationHelper.QuestionnaireName, BlaiseConfigurationHelper.ServerParkName);
+            if (_tobiFeatureSetupDone)
+            {
+                DayBatchHelper.GetInstance().RemoveSurveyDays(BlaiseConfigurationHelper.QuestionnaireName, DateTime.Today);
+                CaseHelper.GetInstance().DeleteCases();
+                QuestionnaireHelper.GetInstance().UninstallQuestionnaire(BlaiseConfigurationHelper.QuestionnaireName, BlaiseConfigurationHelper.ServerParkName);
+            }
         }
 
         [Given(@"there are live surveys")]
         [Given(@"I can view a list of live surveys")]
         public void GivenThereAreLiveSurveys()
         {
+            if (_tobiFeatureSetupDone)
+            {
+                return;
+            }
+
+            QuestionnaireHelper.GetInstance().InstallQuestionnaire(BlaiseConfigurationHelper.QuestionnaireName, BlaiseConfigurationHelper.ServerParkName, BlaiseConfigurationHelper.QuestionnairePath, BlaiseConfigurationHelper.QuestionnaireInstallOptions);
+            var primaryKeyValues = new Dictionary<string, string> { { "QID.Serial_Number", "9001" } };
+            CaseHelper.GetInstance().CreateCase(new CaseModel(primaryKeyValues, "110", "07000000000"));
+            DayBatchHelper.GetInstance().SetSurveyDay(BlaiseConfigurationHelper.QuestionnaireName, DateTime.Today);
+            DayBatchHelper.GetInstance().CreateDayBatch(BlaiseConfigurationHelper.QuestionnaireName, DateTime.Today);
+            _tobiFeatureSetupDone = true;
         }
 
         [When(@"I launch TOBI")]

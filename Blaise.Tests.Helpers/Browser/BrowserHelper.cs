@@ -8,7 +8,6 @@ namespace Blaise.Tests.Helpers.Browser
     using NUnit.Framework;
     using OpenQA.Selenium;
     using OpenQA.Selenium.Chrome;
-    using OpenQA.Selenium.Interactions;
     using OpenQA.Selenium.Support.Extensions;
     using OpenQA.Selenium.Support.UI;
     using Reqnroll;
@@ -271,6 +270,13 @@ namespace Blaise.Tests.Helpers.Browser
         {
             return Wait($"Timed out in FindElement({by})")
                 .Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementIsVisible(by));
+        }
+
+        public static void ClickWithJavaScript(By by)
+        {
+            var element = FindElement(by);
+            var js = (IJavaScriptExecutor)Browser;
+            js.ExecuteScript("arguments[0].click()", element);
         }
 
         public static IReadOnlyCollection<IWebElement> FindElements(By by)

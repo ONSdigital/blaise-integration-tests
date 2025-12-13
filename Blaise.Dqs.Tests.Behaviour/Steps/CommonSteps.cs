@@ -1,18 +1,24 @@
 namespace Blaise.Dqs.Tests.Behaviour.Steps
 {
     using System;
+    using System.Collections.Generic;
     using Blaise.Tests.Helpers.Browser;
     using Blaise.Tests.Helpers.Configuration;
     using Blaise.Tests.Helpers.Dqs;
     using Blaise.Tests.Helpers.Framework.Extensions;
     using Blaise.Tests.Helpers.Health;
     using Blaise.Tests.Helpers.Questionnaire;
+    using Blaise.Tests.Helpers.User;
+    using Blaise.Tests.Models.User;
     using NUnit.Framework;
     using Reqnroll;
 
     [Binding]
     public sealed class CommonSteps
     {
+        private static readonly string _username = $"BDSS-test-user-{Guid.NewGuid()}";
+        private static readonly string _password = $"{Guid.NewGuid()}";
+
         private readonly ScenarioContext _scenarioContext;
 
         public CommonSteps(ScenarioContext scenarioContext)
@@ -25,35 +31,36 @@ namespace Blaise.Dqs.Tests.Behaviour.Steps
         {
             HealthCheckHelper.CheckBlaiseConnection();
 
-            var catiUrl = ConfigurationExtensions.TryGetVariable("ENV_BLAISE_CATI_URL");
-            if (!string.IsNullOrEmpty(catiUrl))
-            {
-                if (!catiUrl.StartsWith("http://") && !catiUrl.StartsWith("https://"))
-                {
-                    catiUrl = "https://" + catiUrl;
-                }
-
-                HealthCheckHelper.CheckUrl(catiUrl);
-            }
-
             var dqsUrl = ConfigurationExtensions.TryGetVariable("ENV_DQS_URL");
             if (!string.IsNullOrEmpty(dqsUrl))
             {
                 HealthCheckHelper.CheckUrl(dqsUrl);
             }
 
-            var tobiUrl = ConfigurationExtensions.TryGetVariable("ENV_TOBI_URL");
-            if (!string.IsNullOrEmpty(tobiUrl))
+            var userModel = new UserModel
             {
-                HealthCheckHelper.CheckUrl(tobiUrl + "/");
-            }
+                Username = _username,
+                Password = _password,
+                Role = "BDSS",
+                ServerParks = new List<string> { BlaiseConfigurationHelper.ServerParkName },
+                DefaultServerPark = BlaiseConfigurationHelper.ServerParkName,
+            };
+            UserHelper.GetInstance().CreateUser(userModel);
+        }
+
+        [AfterTestRun]
+        public static void AfterTestRun()
+        {
+            UserHelper.GetInstance().RemoveUser(_username);
+            BrowserHelper.ClearSessionData();
         }
 
         [BeforeScenario]
         public void BeforeScenario()
         {
-            QuestionnaireHelper.GetInstance()
-                .EnsureQuestionnaireReadyForTest(BlaiseConfigurationHelper.QuestionnaireName, BlaiseConfigurationHelper.ServerParkName);
+            QuestionnaireHelper.GetInstance().EnsureQuestionnaireReadyForTest(
+                BlaiseConfigurationHelper.QuestionnaireName,
+                BlaiseConfigurationHelper.ServerParkName);
         }
 
         [AfterStep]
@@ -68,14 +75,40 @@ namespace Blaise.Dqs.Tests.Behaviour.Steps
         [AfterScenario]
         public void AfterScenario()
         {
-            if (QuestionnaireHelper.GetInstance().CheckQuestionnaireExists(BlaiseConfigurationHelper.QuestionnaireName, BlaiseConfigurationHelper.ServerParkName))
+            if (QuestionnaireHelper.GetInstance().CheckQuestionnaireExists(
+                BlaiseConfigurationHelper.QuestionnaireName,
+                BlaiseConfigurationHelper.ServerParkName))
             {
-                QuestionnaireHelper.GetInstance().UninstallQuestionnaire(BlaiseConfigurationHelper.QuestionnaireName, BlaiseConfigurationHelper.ServerParkName);
+                QuestionnaireHelper.GetInstance().UninstallQuestionnaire(
+                    BlaiseConfigurationHelper.QuestionnaireName,
+                    BlaiseConfigurationHelper.ServerParkName);
             }
 
-            // It's better to attempt cleanup regardless of failure
             DqsHelper.GetInstance().LogoutOfDqs();
             BrowserHelper.ClosePreviousTab();
+        }
+
+        [Given(@"I am a BDSS user")]
+        public void GivenIAmABdssUser()
+        {
+        }
+
+        [Given(@"I have logged into DQS")]
+        public void GivenIHaveLoggedIntoDqs()
+        {
+            DqsHelper.GetInstance().LogIntoDqs(_username, _password);
+        }
+
+        [Given(@"a questionnaire has been deployed")]
+        [Given(@"there is a questionnaire installed in Blaise")]
+        [Given(@"I have a questionnaire I want to delete")]
+        public void GivenAQuestionnaireIsInstalled()
+        {
+            QuestionnaireHelper.GetInstance().InstallQuestionnaire(
+                BlaiseConfigurationHelper.QuestionnaireName,
+                BlaiseConfigurationHelper.ServerParkName,
+                BlaiseConfigurationHelper.QuestionnairePath,
+                BlaiseConfigurationHelper.QuestionnaireInstallOptions);
         }
     }
 }

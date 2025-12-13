@@ -85,10 +85,14 @@ namespace Blaise.Tests.Helpers.Framework
                 .Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementToBeClickable(By.XPath(buttonElementPath))).Click();
         }
 
+        protected void ClickButtonByXPathWithJavaScript(string buttonElementPath)
+        {
+            BrowserHelper.ClickWithJavaScript(By.XPath(buttonElementPath));
+        }
+
         protected string GetElementTextById(string elementId)
         {
-            var element = BrowserHelper.FindElement(By.Id(elementId));
-            return element != null ? element.Text : string.Empty;
+            return BrowserHelper.FindElement(By.Id(elementId)).Text;
         }
 
         protected string GetElementTextByPath(string elementPath)
@@ -119,15 +123,11 @@ namespace Blaise.Tests.Helpers.Framework
 
         protected void PopulateInputById(string elementId, string value)
         {
-            BrowserHelper
+            var element = BrowserHelper
                 .Wait($"Timed out in PopulateInputById(\"{elementId}\", \"{value}\")")
-                .Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementIsVisible(By.Id(elementId)))
-                .Clear();
-
-            BrowserHelper
-                .Wait($"Timed out in PopulateInputById(\"{elementId}\", \"{value}\")")
-                .Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementIsVisible(By.Id(elementId)))
-                .SendKeys(value);
+                .Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementIsVisible(By.Id(elementId)));
+            element.Clear();
+            element.SendKeys(value);
         }
 
         protected void PopulateInputByName(string elementName, string value)
@@ -148,10 +148,10 @@ namespace Blaise.Tests.Helpers.Framework
 
         protected void WaitForPageToChange(string url)
         {
-            if (!BrowserHelper.GetCurrentUrl().Equals(url, StringComparison.CurrentCultureIgnoreCase))
+            if (!BrowserHelper.GetCurrentUrl().Contains(url))
             {
                 BrowserHelper.Wait($"Timed out in WaitForPageToChange(\"{url}\")")
-                    .Until(SeleniumExtras.WaitHelpers.ExpectedConditions.UrlMatches(url));
+                    .Until(SeleniumExtras.WaitHelpers.ExpectedConditions.UrlContains(url));
             }
         }
 
@@ -172,7 +172,7 @@ namespace Blaise.Tests.Helpers.Framework
 
         protected virtual Func<IWebDriver, bool> PageHasLoaded()
         {
-            return driver => true;
+            return driver => ((IJavaScriptExecutor)driver).ExecuteScript("return document.readyState").Equals("complete");
         }
 
         private static int NumberOfRowsInATable(string tablePath)
