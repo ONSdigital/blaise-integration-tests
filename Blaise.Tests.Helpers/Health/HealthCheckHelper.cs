@@ -7,7 +7,7 @@ namespace Blaise.Tests.Helpers.Health
 
     public static class HealthCheckHelper
     {
-        public static void CheckUrlIsAvailable(string url)
+        public static void CheckUrl(string url)
         {
             try
             {
@@ -23,7 +23,7 @@ namespace Blaise.Tests.Helpers.Health
             }
             catch (Exception ex)
             {
-                throw new Exception($"Failed to connect to the URL '{url}'. Please check the application is running and the URL is correct. Error: {ex.Message}");
+                throw new Exception($"Failed to connect to the URL '{url}'. Check the application is running and the URL is correct. Error: {ex.Message}");
             }
         }
 
@@ -36,7 +36,7 @@ namespace Blaise.Tests.Helpers.Health
             }
             catch (Exception ex)
             {
-                throw new Exception($"Failed to connect to the Blaise server. Please check the connection details are correct and the server is running. Error: {ex.Message}");
+                throw new Exception($"Failed to connect to Blaise. Check Blaise and rproxy are running and connection details are corrct. Error: {ex.Message}");
             }
         }
     }

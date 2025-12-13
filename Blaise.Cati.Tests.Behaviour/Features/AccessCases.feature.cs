@@ -144,7 +144,7 @@ this.ScenarioInitialize(scenarioInfo, ruleInfo);
                             "",
                             "07000000000"});
 #line 7
- await testRunner.AndAsync("I have created sample cases for the questionnaire", ((string)(null)), table1, "And ");
+ await testRunner.AndAsync("I have created cases for the questionnaire", ((string)(null)), table1, "And ");
 #line hidden
 #line 10
  await testRunner.AndAsync("I log into the CATI dashboard as an administrator", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
@@ -194,7 +194,7 @@ this.ScenarioInitialize(scenarioInfo, ruleInfo);
                             "",
                             "07000000000"});
 #line 17
- await testRunner.AndAsync("I have created sample cases for the questionnaire", ((string)(null)), table2, "And ");
+ await testRunner.AndAsync("I have created cases for the questionnaire", ((string)(null)), table2, "And ");
 #line hidden
 #line 20
  await testRunner.AndAsync("I log into the CATI dashboard as an administrator", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");

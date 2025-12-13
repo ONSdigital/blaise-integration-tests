@@ -12,16 +12,16 @@ namespace Blaise.Dqs.Tests.Behaviour.Steps
     [Binding]
     public sealed class LoginSteps
     {
-        private static readonly string Username = $"BDSS-test-user-{Guid.NewGuid()}";
-        private static readonly string Password = $"{Guid.NewGuid()}";
+        private static readonly string _username = $"BDSS-test-user-{Guid.NewGuid()}";
+        private static readonly string _password = $"{Guid.NewGuid()}";
 
         [BeforeTestRun]
         public static void BeforeTestRun()
         {
             var userModel = new UserModel
             {
-                Username = Username,
-                Password = Password,
+                Username = _username,
+                Password = _password,
                 Role = "BDSS",
                 ServerParks = new List<string> { BlaiseConfigurationHelper.ServerParkName },
                 DefaultServerPark = BlaiseConfigurationHelper.ServerParkName,
@@ -32,7 +32,7 @@ namespace Blaise.Dqs.Tests.Behaviour.Steps
         [AfterTestRun]
         public static void AfterTestRun()
         {
-            UserHelper.GetInstance().RemoveUser(Username);
+            UserHelper.GetInstance().RemoveUser(_username);
             BrowserHelper.ClearSessionData();
         }
 
@@ -44,7 +44,7 @@ namespace Blaise.Dqs.Tests.Behaviour.Steps
         [Given(@"I have logged into DQS")]
         public void GivenIHaveLoggedIntoDqs()
         {
-            DqsHelper.GetInstance().LogIntoDqs(Username, Password);
+            DqsHelper.GetInstance().LogIntoDqs(_username, _password);
         }
     }
 }

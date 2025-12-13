@@ -5,8 +5,8 @@ namespace Blaise.Tests.Helpers.Cati.Pages
 
     public class InterviewPage : BasePage
     {
-        private const string _caseIdPath = "//div[contains(text(), 'Case:')]";
-        private const string _firstFocusId = "firstFocusable";
+        private const string CaseIdPath = "//div[contains(text(), 'Case:')]";
+        private const string FirstFocusId = "firstFocusable";
 
         public InterviewPage()
             : base(CatiConfigurationHelper.SchedulerUrl, "LayoutSet=CATI-Interviewer_Large")
@@ -15,12 +15,12 @@ namespace Blaise.Tests.Helpers.Cati.Pages
 
         public string GetCaseIdText()
         {
-            return GetElementTextByPath(_caseIdPath);
+            return GetElementTextByPath(CaseIdPath);
         }
 
         public void WaitForFirstFocusObject()
         {
-            GetElementTextById(_firstFocusId);
+            GetElementTextById(FirstFocusId);
         }
     }
 }

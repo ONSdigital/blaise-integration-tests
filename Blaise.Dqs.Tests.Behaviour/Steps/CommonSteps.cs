@@ -33,19 +33,19 @@ namespace Blaise.Dqs.Tests.Behaviour.Steps
                     catiUrl = "https://" + catiUrl;
                 }
 
-                HealthCheckHelper.CheckUrlIsAvailable(catiUrl);
+                HealthCheckHelper.CheckUrl(catiUrl);
             }
 
             var dqsUrl = ConfigurationExtensions.TryGetVariable("ENV_DQS_URL");
             if (!string.IsNullOrEmpty(dqsUrl))
             {
-                HealthCheckHelper.CheckUrlIsAvailable(dqsUrl);
+                HealthCheckHelper.CheckUrl(dqsUrl);
             }
 
             var tobiUrl = ConfigurationExtensions.TryGetVariable("ENV_TOBI_URL");
             if (!string.IsNullOrEmpty(tobiUrl))
             {
-                HealthCheckHelper.CheckUrlIsAvailable(tobiUrl + "/");
+                HealthCheckHelper.CheckUrl(tobiUrl + "/");
             }
         }
 
@@ -62,7 +62,6 @@ namespace Blaise.Dqs.Tests.Behaviour.Steps
             if (_scenarioContext.TestError != null)
             {
                 BrowserHelper.OnError(TestContext.CurrentContext, _scenarioContext);
-                throw new Exception(_scenarioContext.TestError.Message);
             }
         }
 
