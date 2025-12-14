@@ -5,6 +5,7 @@ namespace Blaise.Tests.Helpers.Configuration
     using Blaise.Nuget.Api.Contracts.Models;
     using Blaise.Tests.Helpers.Framework.Extensions;
     using Blaise.Tests.Helpers.Questionnaire;
+    using StatNeth.Blaise.API.ServerManager;
 
     public static class BlaiseConfigurationHelper
     {

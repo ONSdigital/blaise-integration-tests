@@ -46,38 +46,6 @@ namespace Blaise.Tests.Helpers.Case
             CreateCaseWithRetry(caseModel.PrimaryKeyValues, caseModel.FieldData());
         }
 
-        private void CreateCaseWithRetry(Dictionary<string, string> primaryKeyValues, Dictionary<string, string> fieldData)
-        {
-            var retries = 3;
-            const int delayInMs = 1000;
-
-            while (retries > 0)
-            {
-                try
-                {
-                    _blaiseCaseApi.CreateCase(primaryKeyValues, fieldData, BlaiseConfigurationHelper.QuestionnaireName, BlaiseConfigurationHelper.ServerParkName);
-                    return;
-                }
-                catch (DataLinkException ex)
-                {
-                    if (ex.Message.ToLower().Contains("already locked"))
-                    {
-                        retries--;
-                        if (retries == 0)
-                        {
-                            throw;
-                        }
-                        Console.WriteLine($"Case is locked, retrying in {delayInMs}ms ({retries} retries remaining)");
-                        Thread.Sleep(delayInMs);
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
-            }
-        }
-
         public void DeleteCases()
         {
             try
@@ -131,6 +99,39 @@ namespace Blaise.Tests.Helpers.Case
             }
 
             return caseModels;
+        }
+
+        private void CreateCaseWithRetry(Dictionary<string, string> primaryKeyValues, Dictionary<string, string> fieldData)
+        {
+            var retries = 3;
+            const int DelayInMs = 1000;
+
+            while (retries > 0)
+            {
+                try
+                {
+                    _blaiseCaseApi.CreateCase(primaryKeyValues, fieldData, BlaiseConfigurationHelper.QuestionnaireName, BlaiseConfigurationHelper.ServerParkName);
+                    return;
+                }
+                catch (DataLinkException ex)
+                {
+                    if (ex.Message.ToLower().Contains("already locked"))
+                    {
+                        retries--;
+                        if (retries == 0)
+                        {
+                            throw;
+                        }
+
+                        Console.WriteLine($"Case is locked, retrying in {DelayInMs}ms ({retries} retries remaining)");
+                        Thread.Sleep(DelayInMs);
+                    }
+                    else
+                    {
+                        throw;
+                    }
+                }
+            }
         }
 
         private CaseModel MapRecordToCaseModel(IDataRecord caseRecord)
