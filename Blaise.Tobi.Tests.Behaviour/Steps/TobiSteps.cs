@@ -54,6 +54,7 @@ namespace Blaise.Tobi.Tests.Behaviour.Steps
         [Given(@"I can view a list of questionnaires for a live survey")]
         public void GivenICanViewAListOfQuestionnairesForALiveSurvey()
         {
+            GivenThereAreLiveSurveys();
             TobiHelper.GetInstance().LoadQuestionnairePage();
         }
 
