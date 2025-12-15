@@ -145,7 +145,7 @@ namespace Blaise.Tests.Helpers.Case
 
         private CaseModel BuildDefaultCase()
         {
-            var primaryKeyValues = new Dictionary<string, string> { { "QID.Serial_Number", "9001" } };
+            var primaryKeyValues = new Dictionary<string, string> { { "QID.Serial_Number", "9091" } };
             return new CaseModel(primaryKeyValues, "110", "07000000000");
         }
     }
