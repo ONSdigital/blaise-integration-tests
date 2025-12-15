@@ -140,15 +140,15 @@ this.ScenarioInitialize(scenarioInfo, ruleInfo);
                             "outcomecode",
                             "telephoneno"});
                 table1.AddRow(new string[] {
-                            "9001",
+                            "9011",
                             "110",
                             "07000000000"});
                 table1.AddRow(new string[] {
-                            "9002",
+                            "9012",
                             "210",
                             "07900000000"});
                 table1.AddRow(new string[] {
-                            "9003",
+                            "9013",
                             "130",
                             "07800000000"});
 #line 7
@@ -159,15 +159,15 @@ this.ScenarioInitialize(scenarioInfo, ruleInfo);
                             "outcomecode",
                             "telephoneno"});
                 table2.AddRow(new string[] {
-                            "9001",
+                            "9011",
                             "110",
                             "07000000000"});
                 table2.AddRow(new string[] {
-                            "9002",
+                            "9012",
                             "210",
                             "07900000000"});
                 table2.AddRow(new string[] {
-                            "9003",
+                            "9013",
                             "130",
                             "07800000000"});
 #line 12

@@ -85,6 +85,7 @@ namespace Blaise.Cati.Tests.Behaviour.Steps
         [Given(@"I have created cases for the questionnaire")]
         public void GivenIHaveCreatedCasesForTheQuestionnaire(IEnumerable<CaseModel> caseModels)
         {
+            CaseHelper.GetInstance().DeleteCases();
             CaseHelper.GetInstance().CreateCases(caseModels);
         }
 

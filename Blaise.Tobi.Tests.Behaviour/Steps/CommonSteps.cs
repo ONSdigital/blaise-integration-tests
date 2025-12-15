@@ -40,7 +40,7 @@ namespace Blaise.Tobi.Tests.Behaviour.Steps
                 BlaiseConfigurationHelper.QuestionnairePath,
                 BlaiseConfigurationHelper.QuestionnaireInstallOptions);
 
-            var primaryKeyValues = new Dictionary<string, string> { { "QID.Serial_Number", "9001" } };
+            var primaryKeyValues = new Dictionary<string, string> { { "QID.Serial_Number", "9021" } };
             CaseHelper.GetInstance().CreateCase(new CaseModel(primaryKeyValues, "110", "07000000000"));
             DaybatchHelper.GetInstance().SetSurveyDay(BlaiseConfigurationHelper.QuestionnaireName, DateTime.Today);
             DaybatchHelper.GetInstance().CreateDaybatch(BlaiseConfigurationHelper.QuestionnaireName, DateTime.Today);
