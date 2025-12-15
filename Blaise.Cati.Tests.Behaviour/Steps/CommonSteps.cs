@@ -68,6 +68,12 @@ namespace Blaise.Cati.Tests.Behaviour.Steps
             }
         }
 
+        [AfterScenario]
+        public void AfterScenario()
+        {
+            BrowserHelper.CloseBrowser();
+        }
+
         [Given(@"there is a CATI questionnaire installed")]
         public void GivenThereIsACatiQuestionnaireInstalled()
         {

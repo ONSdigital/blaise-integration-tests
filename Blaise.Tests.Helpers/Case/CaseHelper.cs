@@ -123,7 +123,7 @@ namespace Blaise.Tests.Helpers.Case
                             throw;
                         }
 
-                        Console.WriteLine($"Case is locked, retrying in {DelayInMs}ms ({retries} retries remaining)");
+                        Console.WriteLine($"Case is locked, retrying in {DelayInMs}ms. ({retries} retries remaining...)");
                         Thread.Sleep(DelayInMs);
                     }
                     else

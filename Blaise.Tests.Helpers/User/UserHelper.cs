@@ -44,11 +44,11 @@ namespace Blaise.Tests.Helpers.User
             }
             catch (WebException ex) when (ex.Message.Contains("Bad Request"))
             {
-                Console.WriteLine($"Warning: Failed to remove user '{userName}' (Bad Request). They may not exist. Error: {ex.Message}");
+                Console.WriteLine($"Warning: Failed to remove user {userName} (Bad Request). They may not exist. Error: {ex.Message}");
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"Warning: Failed to remove user '{userName}'. Error: {ex.Message}");
+                Console.WriteLine($"Warning: Failed to remove user {userName}. Error: {ex.Message}");
             }
         }
 

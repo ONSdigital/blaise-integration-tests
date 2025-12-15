@@ -24,23 +24,6 @@ namespace Blaise.Tobi.Tests.Behaviour.Steps
         {
             HealthCheckHelper.CheckBlaiseConnection();
 
-            var catiUrl = ConfigurationExtensions.TryGetVariable("ENV_BLAISE_CATI_URL");
-            if (!string.IsNullOrEmpty(catiUrl))
-            {
-                if (!catiUrl.StartsWith("http://") && !catiUrl.StartsWith("https://"))
-                {
-                    catiUrl = "https://" + catiUrl;
-                }
-
-                HealthCheckHelper.CheckUrl(catiUrl);
-            }
-
-            var dqsUrl = ConfigurationExtensions.TryGetVariable("ENV_DQS_URL");
-            if (!string.IsNullOrEmpty(dqsUrl))
-            {
-                HealthCheckHelper.CheckUrl(dqsUrl);
-            }
-
             var tobiUrl = ConfigurationExtensions.TryGetVariable("ENV_TOBI_URL");
             if (!string.IsNullOrEmpty(tobiUrl))
             {
@@ -52,7 +35,15 @@ namespace Blaise.Tobi.Tests.Behaviour.Steps
         public void BeforeScenario()
         {
             QuestionnaireHelper.GetInstance()
-                .EnsureQuestionnaireReadyForTest(BlaiseConfigurationHelper.QuestionnaireName, BlaiseConfigurationHelper.ServerParkName);
+                .EnsureQuestionnaireReadyForTest(
+                    BlaiseConfigurationHelper.QuestionnaireName,
+                    BlaiseConfigurationHelper.ServerParkName);
+        }
+
+        [AfterScenario]
+        public void AfterScenario()
+        {
+            BrowserHelper.CloseBrowser();
         }
 
         [AfterStep]

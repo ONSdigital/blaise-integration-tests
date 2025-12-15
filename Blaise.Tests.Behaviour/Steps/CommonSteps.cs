@@ -23,36 +23,28 @@ namespace Blaise.Tests.Behaviour.Steps
         public static void BeforeTestRun()
         {
             HealthCheckHelper.CheckBlaiseConnection();
-
-            var catiUrl = ConfigurationExtensions.TryGetVariable("ENV_BLAISE_CATI_URL");
-            if (!string.IsNullOrEmpty(catiUrl))
-            {
-                if (!catiUrl.StartsWith("http://") && !catiUrl.StartsWith("https://"))
-                {
-                    catiUrl = "https://" + catiUrl;
-                }
-
-                HealthCheckHelper.CheckUrl(catiUrl);
-            }
-
-            var dqsUrl = ConfigurationExtensions.TryGetVariable("ENV_DQS_URL");
-            if (!string.IsNullOrEmpty(dqsUrl))
-            {
-                HealthCheckHelper.CheckUrl(dqsUrl);
-            }
-
-            var tobiUrl = ConfigurationExtensions.TryGetVariable("ENV_TOBI_URL");
-            if (!string.IsNullOrEmpty(tobiUrl))
-            {
-                HealthCheckHelper.CheckUrl(tobiUrl + "/");
-            }
         }
 
         [BeforeScenario]
         public void BeforeScenario()
         {
             QuestionnaireHelper.GetInstance()
-                .EnsureQuestionnaireReadyForTest(BlaiseConfigurationHelper.QuestionnaireName, BlaiseConfigurationHelper.ServerParkName);
+                .EnsureQuestionnaireReadyForTest(
+                    BlaiseConfigurationHelper.QuestionnaireName,
+                    BlaiseConfigurationHelper.ServerParkName);
+        }
+
+        [AfterScenario]
+        public void AfterScenario()
+        {
+            if (QuestionnaireHelper.GetInstance().CheckQuestionnaireExists(
+                BlaiseConfigurationHelper.QuestionnaireName,
+                BlaiseConfigurationHelper.ServerParkName))
+            {
+                QuestionnaireHelper.GetInstance().UninstallQuestionnaire(
+                    BlaiseConfigurationHelper.QuestionnaireName,
+                    BlaiseConfigurationHelper.ServerParkName);
+            }
         }
 
         [AfterStep]
@@ -68,7 +60,11 @@ namespace Blaise.Tests.Behaviour.Steps
         [When(@"I install the questionnaire")]
         public void GivenThereIsAQuestionnaireInstalled()
         {
-            QuestionnaireHelper.GetInstance().InstallQuestionnaire(BlaiseConfigurationHelper.QuestionnaireName, BlaiseConfigurationHelper.ServerParkName, BlaiseConfigurationHelper.QuestionnairePath, BlaiseConfigurationHelper.QuestionnaireInstallOptions);
+            QuestionnaireHelper.GetInstance().InstallQuestionnaire(
+                BlaiseConfigurationHelper.QuestionnaireName,
+                BlaiseConfigurationHelper.ServerParkName,
+                BlaiseConfigurationHelper.QuestionnairePath,
+                BlaiseConfigurationHelper.QuestionnaireInstallOptions);
         }
     }
 }

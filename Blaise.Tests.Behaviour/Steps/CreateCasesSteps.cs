@@ -15,7 +15,9 @@ namespace Blaise.Tests.Behaviour.Steps
         [AfterFeature("create-cases")]
         public static void AfterFeature()
         {
-            QuestionnaireHelper.GetInstance().UninstallQuestionnaire(BlaiseConfigurationHelper.QuestionnaireName, BlaiseConfigurationHelper.ServerParkName);
+            QuestionnaireHelper.GetInstance().UninstallQuestionnaire(
+                BlaiseConfigurationHelper.QuestionnaireName,
+                BlaiseConfigurationHelper.ServerParkName);
         }
 
         [When(@"I create cases for the questionnaire")]

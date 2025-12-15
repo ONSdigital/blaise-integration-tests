@@ -170,12 +170,14 @@ namespace Blaise.Tests.Helpers.Browser
 
         public static void OnError(NUnit.Framework.TestContext testContext, ScenarioContext scenarioContext)
         {
-            if (scenarioContext.ContainsValue(scenarioContext.StepContext.StepInfo.Text))
+            if (scenarioContext.ContainsKey("ErrorHandled"))
             {
                 return;
             }
 
-            string baseFileName = scenarioContext.StepContext.StepInfo.Text;
+            string stepText = scenarioContext.StepContext.StepInfo.Text;
+            string baseFileName = new string(stepText.Where(character => !Path.GetInvalidFileNameChars().Contains(character)).ToArray());
+            baseFileName = baseFileName.Length > 100 ? baseFileName.Substring(0, 100) : baseFileName;
 
             if (_browser != null)
             {
@@ -187,19 +189,17 @@ namespace Blaise.Tests.Helpers.Browser
                 }
                 else
                 {
-                    Console.WriteLine("Unable to take screenshot for error reporting.");
+                    Console.WriteLine("Unable to take screenshot for error reporting");
                 }
 
                 SaveAndAttachHtml(testContext, baseFileName);
             }
             else
             {
-                Console.WriteLine("Browser was not initialised when error occurred.");
+                Console.WriteLine("Browser was not initialised when error occurred");
             }
 
-            scenarioContext.Remove("Error");
-            scenarioContext.Add("Error", scenarioContext.TestError.Message);
-            scenarioContext.ScenarioContainer.RegisterInstanceAs(scenarioContext.TestError);
+            scenarioContext.Add("ErrorHandled", true);
         }
 
         public static void CloseBrowser()
@@ -222,7 +222,7 @@ namespace Blaise.Tests.Helpers.Browser
 
                 if (string.IsNullOrEmpty(html))
                 {
-                    Console.WriteLine("Retrieved HTML is null or empty.");
+                    Console.WriteLine("Retrieved HTML is null or empty");
                     return null;
                 }
 

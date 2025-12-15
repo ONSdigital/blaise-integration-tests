@@ -13,7 +13,7 @@ Scenario: Option to deploy questionnaire
 @smoke
 Scenario: List deployed questionnaires
 	Given I have launched DQS
-	And there is a questionnaire installed in Blaise
+	And a questionnaire has been deployed
 	When I view the landing page
 	Then I am presented with a list of deployed questionnaires
 

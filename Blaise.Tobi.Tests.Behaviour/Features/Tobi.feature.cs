@@ -164,7 +164,7 @@ this.ScenarioInitialize(scenarioInfo, ruleInfo);
             {
                 await this.ScenarioStartAsync();
 #line 10
-await testRunner.GivenAsync("I can view a list of live surveys", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
+await testRunner.GivenAsync("there are live surveys", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
 #line hidden
 #line 11
 await testRunner.WhenAsync("I select a survey", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
