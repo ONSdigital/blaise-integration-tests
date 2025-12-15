@@ -4,9 +4,9 @@ namespace Blaise.Tests.Helpers.Cati.Pages
     using Blaise.Tests.Helpers.Configuration;
     using Blaise.Tests.Helpers.Framework;
 
-    public class DayBatchPage : BasePage
+    public class DaybatchPage : BasePage
     {
-        private const string DayBatchCreateButtonId = "btnCreateDaybatch";
+        private const string DaybatchCreateButtonId = "btnCreateDaybatch";
         private const string CreateButtonPath = "//input[@value='Create']";
         private const string StartTimeId = "NewStartTimeAmPm";
         private const string EndTimeId = "NewEndTimeAmPm";
@@ -18,14 +18,14 @@ namespace Blaise.Tests.Helpers.Cati.Pages
         private readonly string _modifyEntryPath = $"//table[@id='MVCGridTable_DaybatchGrid']//td[preceding-sibling::td='{BlaiseConfigurationHelper.QuestionnaireName}']/a";
         private readonly string _surveyRadioButton = $"//*[normalize-space()='{BlaiseConfigurationHelper.QuestionnaireName}']";
 
-        public DayBatchPage()
-            : base(CatiConfigurationHelper.DayBatchUrl)
+        public DaybatchPage()
+            : base(CatiConfigurationHelper.DaybatchUrl)
         {
         }
 
-        public void CreateDayBatch()
+        public void CreateDaybatch()
         {
-            ClickButtonById(DayBatchCreateButtonId);
+            ClickButtonById(DaybatchCreateButtonId);
             Thread.Sleep(2000);
             SelectDropDownValueById(QuestionnaireDropDownId, BlaiseConfigurationHelper.QuestionnaireName);
             Thread.Sleep(3000);
@@ -49,7 +49,7 @@ namespace Blaise.Tests.Helpers.Cati.Pages
             }
         }
 
-        internal void ModifyDayBatchEntry()
+        internal void ModifyDaybatchEntry()
         {
             ClickButtonByXPath(_modifyEntryPath);
             PopulateInputById(StartTimeId, "12:00 AM");

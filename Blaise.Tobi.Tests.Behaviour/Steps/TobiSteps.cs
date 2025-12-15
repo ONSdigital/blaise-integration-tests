@@ -3,12 +3,9 @@ namespace Blaise.Tobi.Tests.Behaviour.Steps
     using System;
     using System.Collections.Generic;
     using Blaise.Tests.Helpers.Browser;
-    using Blaise.Tests.Helpers.Case;
     using Blaise.Tests.Helpers.Cati;
     using Blaise.Tests.Helpers.Configuration;
-    using Blaise.Tests.Helpers.Questionnaire;
     using Blaise.Tests.Helpers.Tobi;
-    using Blaise.Tests.Models.Case;
     using NUnit.Framework;
     using Reqnroll;
 

@@ -45,18 +45,18 @@ namespace Blaise.Tests.Helpers.Cati
 
         public void AddSurveyFilter()
         {
-            var dayBatchPage = new DayBatchPage();
+            var dayBatchPage = new DaybatchPage();
             dayBatchPage.LoadPage();
             dayBatchPage.ApplyFilters();
         }
 
-        public void SetupDayBatchTimeParameters()
+        public void SetupDaybatchTimeParameters()
         {
-            var daybatchPage = new DayBatchPage();
+            var daybatchPage = new DaybatchPage();
 
             // Blaise refreshes the table dom object after the page has initialised
             Thread.Sleep(5000);
-            daybatchPage.ModifyDayBatchEntry();
+            daybatchPage.ModifyDaybatchEntry();
         }
 
         public void WaitForFirstFocusObject()
