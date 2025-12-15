@@ -76,7 +76,7 @@ namespace Blaise.Dqs.Tests.Behaviour.Steps
             Assert.That(
                 toStartDateText,
                 Does.Contain(toStartDate),
-                $"TO start date text should contain '{toStartDate}', but got: '{toStartDateText}'");
+                $"TO start date text should contain {toStartDate}, but got: {toStartDateText}");
         }
     }
 }

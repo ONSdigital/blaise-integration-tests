@@ -30,7 +30,7 @@ namespace Blaise.Dqs.Tests.Behaviour.Steps
             Assert.That(
                 questionnairesInTable,
                 Has.Member(BlaiseConfigurationHelper.QuestionnaireName),
-                $"Questionnaire '{BlaiseConfigurationHelper.QuestionnaireName}' should be in the list of deployed questionnaires");
+                $"Questionnaire {BlaiseConfigurationHelper.QuestionnaireName} should be in the list of deployed questionnaires");
         }
 
         [Given(@"I have selected the questionnaire package I wish to deploy")]
@@ -87,7 +87,7 @@ namespace Blaise.Dqs.Tests.Behaviour.Steps
             Assert.That(
                 actualSummary,
                 Is.EqualTo(expectedSummary).IgnoreCase,
-                $"Deployment summary should confirm the TO start date as '{expectedSummary}', but got '{actualSummary}'");
+                $"Deployment summary should confirm the TO start date as {expectedSummary}, but got {actualSummary}");
         }
 
         [When(@"the deployment summary confirms no TO start date")]
@@ -99,7 +99,7 @@ namespace Blaise.Dqs.Tests.Behaviour.Steps
             Assert.That(
                 actualSummary,
                 Is.EqualTo(expectedSummary).IgnoreCase,
-                $"Deployment summary should confirm no TO start date with '{expectedSummary}', but got '{actualSummary}'");
+                $"Deployment summary should confirm no TO start date with {expectedSummary}, but got {actualSummary}");
         }
 
         [Then(@"I have the option to deploy a questionnaire")]
@@ -205,7 +205,7 @@ namespace Blaise.Dqs.Tests.Behaviour.Steps
             Assert.That(
                 questionnaireInstalled,
                 Is.True,
-                $"Questionnaire '{BlaiseConfigurationHelper.QuestionnaireName}' should be active in Blaise on server park '{BlaiseConfigurationHelper.ServerParkName}'");
+                $"Questionnaire {BlaiseConfigurationHelper.QuestionnaireName} should be active in Blaise on server park {BlaiseConfigurationHelper.ServerParkName}");
         }
     }
 }
