@@ -52,7 +52,6 @@ namespace Blaise.Dqs.Tests.Behaviour.Steps
         public static void AfterTestRun()
         {
             UserHelper.GetInstance().RemoveUser(_username);
-            BrowserHelper.ClearSessionData();
         }
 
         [BeforeScenario]
@@ -85,7 +84,7 @@ namespace Blaise.Dqs.Tests.Behaviour.Steps
             }
 
             DqsHelper.GetInstance().LogoutOfDqs();
-            BrowserHelper.ClosePreviousTab();
+            BrowserHelper.CloseBrowser();
         }
 
         [Given(@"I am a BDSS user")]
@@ -100,9 +99,8 @@ namespace Blaise.Dqs.Tests.Behaviour.Steps
         }
 
         [Given(@"a questionnaire has been deployed")]
-        [Given(@"there is a questionnaire installed in Blaise")]
         [Given(@"I have a questionnaire I want to delete")]
-        public void GivenAQuestionnaireIsInstalled()
+        public void GivenAQuestionnaireHasBeenDeployed()
         {
             QuestionnaireHelper.GetInstance().InstallQuestionnaire(
                 BlaiseConfigurationHelper.QuestionnaireName,

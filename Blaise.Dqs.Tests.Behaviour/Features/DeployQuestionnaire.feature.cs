@@ -187,7 +187,7 @@ await this.FeatureBackgroundAsync();
  await testRunner.GivenAsync("I have launched DQS", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
 #line hidden
 #line 16
- await testRunner.AndAsync("there is a questionnaire installed in Blaise", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+ await testRunner.AndAsync("a questionnaire has been deployed", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
 #line 17
  await testRunner.WhenAsync("I view the landing page", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");

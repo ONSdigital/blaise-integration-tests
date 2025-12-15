@@ -50,6 +50,11 @@ namespace Blaise.Tests.Helpers.Questionnaire
                 Console.WriteLine($"Questionnaire {questionnaireName} status: {status}");
             }
 
+            if (status == QuestionnaireStatusType.Installing)
+            {
+                HandleInstallingState(questionnaireName);
+            }
+
             if (status == QuestionnaireStatusType.Erroneous)
             {
                 HandleErroneousState(questionnaireName);
@@ -80,6 +85,11 @@ namespace Blaise.Tests.Helpers.Questionnaire
             {
                 status = GetQuestionnaireStatus(questionnaireName, serverParkName);
                 Console.WriteLine($"Questionnaire {questionnaireName} status: {status}");
+            }
+
+            if (status == QuestionnaireStatusType.Installing)
+            {
+                HandleInstallingState(questionnaireName);
             }
 
             if (status == QuestionnaireStatusType.Erroneous)
@@ -142,15 +152,15 @@ namespace Blaise.Tests.Helpers.Questionnaire
 
             if (status == QuestionnaireStatusType.Installing)
             {
-                throw new Exception($"Questionnaire '{questionnaireName}' is stuck in Installing state. Restart Blaise and uninstall the questionnaire via Blaise Server Manager before retrying.");
+                HandleInstallingState(questionnaireName);
             }
 
             if (status == QuestionnaireStatusType.Erroneous)
             {
-                throw new Exception($"Questionnaire '{questionnaireName}' is in Erroneous state. Restart Blaise and uninstall the questionnaire via Blaise Server Manager before retrying.");
+                HandleErroneousState(questionnaireName);
             }
 
-            Console.WriteLine($"Questionnaire '{questionnaireName}' is in {status} state. Uninstalling to get clean state...");
+            Console.WriteLine($"Questionnaire {questionnaireName} is in {status} status. Uninstalling to get clean state...");
             UninstallQuestionnaire(questionnaireName, serverParkName);
         }
 
@@ -181,13 +191,13 @@ namespace Blaise.Tests.Helpers.Questionnaire
 
             while (!_blaiseQuestionnaireApi.QuestionnaireExists(questionnaireName, serverParkName))
             {
-                Console.WriteLine($"Sleep {counter} for {timeoutInSeconds / MaxCount} seconds");
+                Console.WriteLine($"Sleep {counter} for {timeoutInSeconds / MaxCount} seconds...");
                 Thread.Sleep((timeoutInSeconds * 1000) / MaxCount);
 
                 counter++;
                 if (counter == MaxCount)
                 {
-                    Console.WriteLine("Timed out");
+                    Console.WriteLine($"Timed out checking if questionnaire {questionnaireName} exists");
                     return false;
                 }
             }
@@ -211,6 +221,13 @@ namespace Blaise.Tests.Helpers.Questionnaire
                 $"Questionnaire {questionnaireName} is erroneous!\n" +
                 "Restart Blaise and uninstall the erroneous questionnaire via Blaise Server Manager";
             throw new Exception(erroneousExceptionMessage);
+        }
+
+        private void HandleInstallingState(string questionnaireName)
+        {
+            string installingExceptionMessage = $"Questionnaire {questionnaireName} is stuck in Installing state\n" +
+                "Restart Blaise and uninstall the questionnaire via Blaise Server Manager";
+            throw new Exception(installingExceptionMessage);
         }
     }
 }
