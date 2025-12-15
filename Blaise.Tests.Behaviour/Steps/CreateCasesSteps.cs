@@ -15,7 +15,6 @@ namespace Blaise.Tests.Behaviour.Steps
         [When(@"I create cases for the questionnaire")]
         public void WhenICreateCasesForTheQuestionnaire(IEnumerable<CaseModel> caseModels)
         {
-            CaseHelper.GetInstance().DeleteCases();
             CaseHelper.GetInstance().CreateCases(caseModels);
         }
 
