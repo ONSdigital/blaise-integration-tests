@@ -14,10 +14,10 @@ namespace Blaise.Cati.Tests.Behaviour.Steps
         }
 
         [When(@"the time is within the daybatch parameters")]
-        public void WhenTheTimeIsWithinTheDayBatchParameters()
+        public void WhenTheTimeIsWithinTheDaybatchParameters()
         {
             CatiInterviewHelper.GetInstance().AddSurveyFilter();
-            CatiInterviewHelper.GetInstance().SetupDayBatchTimeParameters();
+            CatiInterviewHelper.GetInstance().SetupDaybatchTimeParameters();
         }
 
         [When(@"I open the CATI scheduler as an interviewer")]

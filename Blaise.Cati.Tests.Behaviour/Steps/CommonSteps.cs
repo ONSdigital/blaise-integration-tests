@@ -105,8 +105,8 @@ namespace Blaise.Cati.Tests.Behaviour.Steps
         [When(@"I create a daybatch for today")]
         public void GivenIHaveCreatedADaybatchForToday()
         {
-            CatiManagementHelper.GetInstance().ClearDayBatchEntries();
-            CatiManagementHelper.GetInstance().CreateDayBatch();
+            CatiManagementHelper.GetInstance().ClearDaybatchEntries();
+            CatiManagementHelper.GetInstance().CreateDaybatch();
         }
     }
 }

@@ -1,11 +1,15 @@
 namespace Blaise.Tobi.Tests.Behaviour.Steps
 {
     using System;
+    using System.Collections.Generic;
     using Blaise.Tests.Helpers.Browser;
+    using Blaise.Tests.Helpers.Case;
     using Blaise.Tests.Helpers.Configuration;
     using Blaise.Tests.Helpers.Framework.Extensions;
     using Blaise.Tests.Helpers.Health;
     using Blaise.Tests.Helpers.Questionnaire;
+    using Blaise.Tests.Helpers.Tobi;
+    using Blaise.Tests.Models.Case;
     using NUnit.Framework;
     using Reqnroll;
 
@@ -38,14 +42,14 @@ namespace Blaise.Tobi.Tests.Behaviour.Steps
 
             var primaryKeyValues = new Dictionary<string, string> { { "QID.Serial_Number", "9001" } };
             CaseHelper.GetInstance().CreateCase(new CaseModel(primaryKeyValues, "110", "07000000000"));
-            DayBatchHelper.GetInstance().SetSurveyDay(BlaiseConfigurationHelper.QuestionnaireName, DateTime.Today);
-            DayBatchHelper.GetInstance().CreateDayBatch(BlaiseConfigurationHelper.QuestionnaireName, DateTime.Today);
+            DaybatchHelper.GetInstance().SetSurveyDay(BlaiseConfigurationHelper.QuestionnaireName, DateTime.Today);
+            DaybatchHelper.GetInstance().CreateDaybatch(BlaiseConfigurationHelper.QuestionnaireName, DateTime.Today);
         }
 
         [AfterTestRun]
         public static void AfterTestRun()
         {
-            DayBatchHelper.GetInstance().RemoveSurveyDays(BlaiseConfigurationHelper.QuestionnaireName, DateTime.Today);
+            DaybatchHelper.GetInstance().RemoveSurveyDays(BlaiseConfigurationHelper.QuestionnaireName, DateTime.Today);
             QuestionnaireHelper.GetInstance().UninstallQuestionnaire(BlaiseConfigurationHelper.QuestionnaireName, BlaiseConfigurationHelper.ServerParkName);
         }
 

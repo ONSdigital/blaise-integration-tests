@@ -5,19 +5,19 @@ namespace Blaise.Tests.Helpers.Tobi
     using Blaise.Nuget.Api.Contracts.Interfaces;
     using Blaise.Tests.Helpers.Configuration;
 
-    public class DayBatchHelper
+    public class DaybatchHelper
     {
-        private static DayBatchHelper _currentInstance;
+        private static DaybatchHelper _currentInstance;
         private readonly IBlaiseCatiApi _blaiseCatiApi;
 
-        public DayBatchHelper()
+        public DaybatchHelper()
         {
             _blaiseCatiApi = new BlaiseCatiApi();
         }
 
-        public static DayBatchHelper GetInstance()
+        public static DaybatchHelper GetInstance()
         {
-            return _currentInstance ?? (_currentInstance = new DayBatchHelper());
+            return _currentInstance ?? (_currentInstance = new DaybatchHelper());
         }
 
         public void SetSurveyDay(string questionnaireName, DateTime surveyDay)
@@ -29,9 +29,9 @@ namespace Blaise.Tests.Helpers.Tobi
             }
         }
 
-        public void CreateDayBatch(string questionnaireName, DateTime dayBatchDate)
+        public void CreateDaybatch(string questionnaireName, DateTime dayBatchDate)
         {
-            _blaiseCatiApi.CreateDayBatch(questionnaireName, BlaiseConfigurationHelper.ServerParkName, dayBatchDate, true);
+            _blaiseCatiApi.CreateDaybatch(questionnaireName, BlaiseConfigurationHelper.ServerParkName, dayBatchDate, true);
         }
 
         public void RemoveSurveyDays(string questionnaireName, DateTime surveyDay)
