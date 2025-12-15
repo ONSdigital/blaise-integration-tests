@@ -1,16 +1,16 @@
 # Blaise Integration Tests
 
-This repository contains a subset of our integration tests for Blaise and some related wrapper services. Please note that this does not include all of our integration tests, as others are located in repositories alongside their corresponding services.
+This repository hosts a subset of our end-to-end integration tests for the Blaise platform and associated wrapper services. Please note that this does not include all of our integration tests, as others are located in repositories alongside their corresponding services.
 
 Some of these tests use Selenium to interact with various UIs and are written in C# to leverage the Blaise NuGet package for communication with Blaise.
 
-Both building and running the integration tests are managed through Concourse jobs. These jobs are automatically triggered on pushes to this repository as well as to the corresponding repositories that these integration tests cover. The Concourse jobs securely call Azure DevOps pipelines via HTTP requests, where the tests are executed using hosted Azure DevOps agents.
+Building and running the integration tests are managed through Concourse jobs. These jobs are automatically triggered on pushes to this repository as well as to the corresponding repositories that these integration tests cover. The Concourse jobs securely call Azure DevOps pipelines via HTTP requests, where the tests are executed using hosted Azure DevOps agents.
 
 ## Local setup
 
-Since Blaise currently only provides a .NET Framework NuGet API, these tests require a Windows environment.
+Due to the dependency on the Blaise .NET Framework NuGet API, these tests must be executed in a Windows environment.
 
-It's recommended to run the tests locally while connecting to your GCP sandbox environment.
+It's recommended to run the tests locally while connecting to a GCP sandbox environment.
 
 ### Install tools
 
@@ -19,7 +19,6 @@ You'll need the following tools installed:
 - Visual Studio
 - gcloud CLI
 - Chrome
-- ChromeDriver
 
 You may want to consider using the Windows package manager [Chocolatey](https://chocolatey.org/) to install these tools.
 
@@ -27,7 +26,7 @@ You may want to consider using the Windows package manager [Chocolatey](https://
 
 To run the tests, you must have a valid license for the local version of Blaise. The tests utilise the Blaise NuGet API, which checks the license status.
 
-License information can be found in the metadata of the `blaise-gusty-mgmt` VM.
+License information can be found in GCP Secrets Manageer.
 
 To register the license, you have two options:
 
@@ -49,19 +48,25 @@ Windows Registry Editor Version 5.00
 
 Most of the tests require a `.bpkg` file, which is a Blaise package containing a questionnaire instrument. The tests prepare the testing environment by deploying this test questionnaire.
 
-You can download the latest test questionnaire from [Confluence](https://confluence.ons.gov.uk/display/QSS/Blaise+5+Questionnaire+Instrument+Artefacts) or the [Blaise shared GCP storage bucket](https://console.cloud.google.com/storage/browser?project=ons-blaise-v2-shared).
+You can download the latest test questionnaire from the [Blaise shared GCP storage bucket](https://console.cloud.google.com/storage/browser?project=ons-blaise-v2-shared).
 
 ### Configure the solution
 
 [Add our Azure DevOps artifacts feed to Visual Studio.](https://confluence.ons.gov.uk/display/QSS/How-to+connect+to+our+private+NuGet+package+source)
 
-Git clone down this repository and open the solution file `BlaiseIntegrationTests.sln` in Visual Studio.
+Git clone down this repository and open the solution file `Blaise.Integration.Tests.sln` in Visual Studio.
 
-Depending on the tests your running, substitute the environment variable values in the `app.config` files with the following:
+Depending on the tests your running, substitute the environment variable values in the `App.config` files with the following:
+
+Depending on the tests your running, you must provide various environment variables. You can achieve this in two ways:
+
+- **Populate `App.config`:** Update the `App.config` file with the necessary values.
+- **Use Environment Variables:** Alternatively, you can use `setx` commands to set environment variables. For example: `setx ENV_BLAISE_SERVER_HOST_NAME=blah /m`.
+
+⚠️ **Important:** Never commit `App.config` files with populated secrets or credentials to source control. To safely commit your changes without including the `App.config` file, you can use the command: `git add . ':!App.config'`.
 
 ```xml
   <appSettings>
-	  <add key="UninstallSurveyTimeOutInSeconds" value="5" />
 	  <add key="QuestionnairePath" value="C:\<test-questionnaire-path>\" />
 	  <add key="ServerParkName" value="gusty" />
 	  <add key="QuestionnaireName" value="DST2304Z" />
@@ -81,12 +86,9 @@ Depending on the tests your running, substitute the environment variable values 
 Placeholder | Description
 --- | ---
 `<test-questionnaire-path>` | Local path to the test questionnaire package file.
-`<blaise-username>` | From the `blaise-gusty-mgmt` VM `ENV_BLAISE_ADMIN_USER` environment variable.
-`<blaise-password>` | From the `blaise-gusty-mgmt` VM `ENV_BLAISE_ADMIN_PASSWORD` environment variable.
+`<blaise-username>` | From GCP secret manager.
+`<blaise-password>` | From GCP secret manager.
 `<sandbox>` | The short name of your sandbox environment. e.g. `rr5`.
-`<chrome-driver-path>` | Local path to the Chrome driver executable file.
-
-:rotating_light: **IMPORTANT: DO NOT COMMIT APP.CONFIG FILES WITH ACTUAL VALUES!** :rotating_light:
 
 Build the solution via the Visual Studio `Build` menu.
 
@@ -129,8 +131,6 @@ Run all the tests or specific tests using the play buttons.
 If the `Test Explorer` window doesn't show any tests, clean and rebuild the solution via the Visual Studio `Build` menu.
 
 When using Chocolatey to install packages, ensure you are running your Command prompt or PowerShell instance as administrator.
-
-Trying to find the path to chromedriver.exe? Chocolatey should put it in `C:\tools\selenium\` by default.
 
 If you get a `.ps1 is not digitally signed` message when trying to use packages installed by Chocolatey in PowerShell, run the following:
 

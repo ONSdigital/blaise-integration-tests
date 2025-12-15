@@ -30,7 +30,7 @@ namespace Blaise.Tests.Behaviour.Steps
             Assert.That(
                 questionnaireHasInstalled,
                 Is.True,
-                $"Questionnaire '{BlaiseConfigurationHelper.QuestionnaireName}' should be installed and active on server park '{BlaiseConfigurationHelper.ServerParkName}'");
+                $"Questionnaire {BlaiseConfigurationHelper.QuestionnaireName} should be installed and active on server park {BlaiseConfigurationHelper.ServerParkName}");
         }
     }
 }
