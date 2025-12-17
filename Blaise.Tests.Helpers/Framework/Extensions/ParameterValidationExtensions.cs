@@ -1,7 +1,7 @@
-using System;
-
 namespace Blaise.Tests.Helpers.Framework.Extensions
 {
+    using System;
+
     public static class ParameterValidationExtensions
     {
         public static void ThrowExceptionIfNullOrEmpty(this string parameter, string parameterName)

@@ -1,8 +1,8 @@
-using System;
-using Blaise.Tests.Helpers.Framework.Extensions;
-
 namespace Blaise.Tests.Helpers.Configuration
 {
+    using System;
+    using Blaise.Tests.Helpers.Framework.Extensions;
+
     public static class CatiConfigurationHelper
     {
         private static readonly Guid _adminPassword;
@@ -42,7 +42,7 @@ namespace Blaise.Tests.Helpers.Configuration
 
         public static string LoginUrl => $"{CatiBaseUrl}/blaise/account/login";
 
-        public static string DayBatchUrl => $"{CatiBaseUrl}/blaise/daybatch";
+        public static string DaybatchUrl => $"{CatiBaseUrl}/blaise/daybatch";
 
         public static string SchedulerUrl => $"{CatiBaseUrl}/{BlaiseConfigurationHelper.QuestionnaireName}";
 

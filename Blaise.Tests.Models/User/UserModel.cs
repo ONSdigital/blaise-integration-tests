@@ -1,7 +1,7 @@
-﻿using System.Collections.Generic;
-
 namespace Blaise.Tests.Models.User
 {
+    using System.Collections.Generic;
+
     public class UserModel
     {
         public string Username { get; set; }
