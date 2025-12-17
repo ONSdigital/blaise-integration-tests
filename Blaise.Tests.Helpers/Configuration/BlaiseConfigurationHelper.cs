@@ -1,16 +1,14 @@
-using Blaise.Nuget.Api.Contracts.Enums;
-using Blaise.Nuget.Api.Contracts.Extensions;
-using Blaise.Nuget.Api.Contracts.Models;
-using Blaise.Tests.Helpers.Framework.Extensions;
-using Blaise.Tests.Helpers.Questionnaire;
-using StatNeth.Blaise.API.ServerManager;
-
 namespace Blaise.Tests.Helpers.Configuration
 {
+    using Blaise.Nuget.Api.Contracts.Enums;
+    using Blaise.Nuget.Api.Contracts.Extensions;
+    using Blaise.Nuget.Api.Contracts.Models;
+    using Blaise.Tests.Helpers.Framework.Extensions;
+    using Blaise.Tests.Helpers.Questionnaire;
+    using StatNeth.Blaise.API.ServerManager;
+
     public static class BlaiseConfigurationHelper
     {
-        public static string UninstallSurveyTimeOutInSeconds => ConfigurationExtensions.GetVariable("UninstallSurveyTimeOutInSeconds");
-
         public static string ServerParkName => ConfigurationExtensions.GetVariable("ServerParkName");
 
         public static string QuestionnairePath => ConfigurationExtensions.GetVariable("QuestionnairePath");

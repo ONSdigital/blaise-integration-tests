@@ -1,10 +1,10 @@
-using System.Collections.Generic;
-using System.Threading;
-using Blaise.Tests.Helpers.Configuration;
-using Blaise.Tests.Helpers.Dqs.Pages;
-
 namespace Blaise.Tests.Helpers.Dqs
 {
+    using System.Collections.Generic;
+    using System.Threading;
+    using Blaise.Tests.Helpers.Configuration;
+    using Blaise.Tests.Helpers.Dqs.Pages;
+
     public class DqsHelper
     {
         private static DqsHelper _currentInstance;

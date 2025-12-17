@@ -1,20 +1,21 @@
-using System;
-using System.Collections.Generic;
-using System.Globalization;
-using Blaise.Nuget.Api.Api;
-using Blaise.Nuget.Api.Contracts.Enums;
-using Blaise.Nuget.Api.Contracts.Interfaces;
-using Blaise.Tests.Helpers.Configuration;
-using Blaise.Tests.Models.Case;
-using StatNeth.Blaise.API.DataRecord;
-
 namespace Blaise.Tests.Helpers.Case
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Globalization;
+    using System.Threading;
+    using Blaise.Nuget.Api.Api;
+    using Blaise.Nuget.Api.Contracts.Enums;
+    using Blaise.Nuget.Api.Contracts.Interfaces;
+    using Blaise.Tests.Helpers.Configuration;
+    using Blaise.Tests.Models.Case;
+    using StatNeth.Blaise.API.DataLink;
+    using StatNeth.Blaise.API.DataRecord;
+
     public class CaseHelper
     {
-        private readonly IBlaiseCaseApi _blaiseCaseApi;
-
         private static CaseHelper _currentInstance;
+        private readonly IBlaiseCaseApi _blaiseCaseApi;
 
         public CaseHelper()
         {
@@ -36,24 +37,20 @@ namespace Blaise.Tests.Helpers.Case
 
         public void CreateCase(CaseModel caseModel)
         {
-            _blaiseCaseApi.CreateCase(caseModel.PrimaryKeyValues, caseModel.FieldData(), BlaiseConfigurationHelper.QuestionnaireName,
-                BlaiseConfigurationHelper.ServerParkName);
+            CreateCaseWithRetry(caseModel.PrimaryKeyValues, caseModel.FieldData());
         }
 
         public void CreateCase()
         {
             var caseModel = BuildDefaultCase();
-            _blaiseCaseApi.CreateCase(caseModel.PrimaryKeyValues, caseModel.FieldData(), BlaiseConfigurationHelper.QuestionnaireName,
-                BlaiseConfigurationHelper.ServerParkName);
+            CreateCaseWithRetry(caseModel.PrimaryKeyValues, caseModel.FieldData());
         }
 
         public void DeleteCases()
         {
             try
             {
-                var cases = _blaiseCaseApi.GetCases(
-                    BlaiseConfigurationHelper.QuestionnaireName,
-                    BlaiseConfigurationHelper.ServerParkName);
+                var cases = _blaiseCaseApi.GetCases(BlaiseConfigurationHelper.QuestionnaireName, BlaiseConfigurationHelper.ServerParkName);
 
                 while (!cases.EndOfSet)
                 {
@@ -61,20 +58,19 @@ namespace Blaise.Tests.Helpers.Case
                     {
                         var primaryKey = _blaiseCaseApi.GetPrimaryKeyValues(cases.ActiveRecord);
 
-                        _blaiseCaseApi.RemoveCase(primaryKey, BlaiseConfigurationHelper.QuestionnaireName,
-                            BlaiseConfigurationHelper.ServerParkName);
+                        _blaiseCaseApi.RemoveCase(primaryKey, BlaiseConfigurationHelper.QuestionnaireName, BlaiseConfigurationHelper.ServerParkName);
                     }
-                    catch (Exception)
+                    catch (Exception ex)
                     {
-                        /*Ignored - better to implement ILogger*/
+                        Console.WriteLine($"Warning: Failed to remove case. Error: {ex.Message}");
                     }
 
                     cases.MoveNext();
                 }
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                /*Ignored - better to implement ILogger*/
+                Console.WriteLine($"Warning: Could not retrieve cases to delete. Error: {ex.Message}");
             }
         }
 
@@ -82,13 +78,11 @@ namespace Blaise.Tests.Helpers.Case
         {
             try
             {
-                return _blaiseCaseApi.GetNumberOfCases(
-                    BlaiseConfigurationHelper.QuestionnaireName,
-                    BlaiseConfigurationHelper.ServerParkName);
+                return _blaiseCaseApi.GetNumberOfCases(BlaiseConfigurationHelper.QuestionnaireName, BlaiseConfigurationHelper.ServerParkName);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                // Could be improved by implementing ILogger
+                Console.WriteLine($"Warning: Failed to retrieve case count. Defaulting to 0. Error: {ex.Message}");
                 return 0;
             }
         }
@@ -96,9 +90,7 @@ namespace Blaise.Tests.Helpers.Case
         public IEnumerable<CaseModel> GetCasesInBlaise()
         {
             var caseModels = new List<CaseModel>();
-            var casesInDatabase = _blaiseCaseApi.GetCases(
-                BlaiseConfigurationHelper.QuestionnaireName,
-                BlaiseConfigurationHelper.ServerParkName);
+            var casesInDatabase = _blaiseCaseApi.GetCases(BlaiseConfigurationHelper.QuestionnaireName, BlaiseConfigurationHelper.ServerParkName);
 
             while (!casesInDatabase.EndOfSet)
             {
@@ -107,6 +99,39 @@ namespace Blaise.Tests.Helpers.Case
             }
 
             return caseModels;
+        }
+
+        private void CreateCaseWithRetry(Dictionary<string, string> primaryKeyValues, Dictionary<string, string> fieldData)
+        {
+            var retries = 3;
+            const int DelayInMs = 1000;
+
+            while (retries > 0)
+            {
+                try
+                {
+                    _blaiseCaseApi.CreateCase(primaryKeyValues, fieldData, BlaiseConfigurationHelper.QuestionnaireName, BlaiseConfigurationHelper.ServerParkName);
+                    return;
+                }
+                catch (DataLinkException ex)
+                {
+                    if (ex.Message.ToLower().Contains("already locked"))
+                    {
+                        retries--;
+                        if (retries == 0)
+                        {
+                            throw;
+                        }
+
+                        Console.WriteLine($"Case is locked, retrying in {DelayInMs}ms. ({retries} retries remaining...)");
+                        Thread.Sleep(DelayInMs);
+                    }
+                    else
+                    {
+                        throw;
+                    }
+                }
+            }
         }
 
         private CaseModel MapRecordToCaseModel(IDataRecord caseRecord)
@@ -120,7 +145,7 @@ namespace Blaise.Tests.Helpers.Case
 
         private CaseModel BuildDefaultCase()
         {
-            var primaryKeyValues = new Dictionary<string, string> { { "QID.Serial_Number", "9001" } };
+            var primaryKeyValues = new Dictionary<string, string> { { "QID.Serial_Number", "9091" } };
             return new CaseModel(primaryKeyValues, "110", "07000000000");
         }
     }

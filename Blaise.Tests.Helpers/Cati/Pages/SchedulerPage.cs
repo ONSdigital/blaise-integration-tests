@@ -1,8 +1,8 @@
-using Blaise.Tests.Helpers.Configuration;
-using Blaise.Tests.Helpers.Framework;
-
 namespace Blaise.Tests.Helpers.Cati.Pages
 {
+    using Blaise.Tests.Helpers.Configuration;
+    using Blaise.Tests.Helpers.Framework;
+
     public class SchedulerPage : BasePage
     {
         private readonly string _usernameTextBoxName = "name";

@@ -1,18 +1,18 @@
-using System;
-using System.Threading;
-using Blaise.Nuget.Api.Api;
-using Blaise.Nuget.Api.Contracts.Enums;
-using Blaise.Nuget.Api.Contracts.Interfaces;
-using Blaise.Nuget.Api.Contracts.Models;
-using StatNeth.Blaise.API.ServerManager;
-
 namespace Blaise.Tests.Helpers.Questionnaire
 {
+    using System;
+    using System.Threading;
+    using Blaise.Nuget.Api.Api;
+    using Blaise.Nuget.Api.Contracts.Enums;
+    using Blaise.Nuget.Api.Contracts.Interfaces;
+    using Blaise.Nuget.Api.Contracts.Models;
+    using StatNeth.Blaise.API.ServerManager;
+
     public class QuestionnaireHelper
     {
-        private readonly IBlaiseQuestionnaireApi _blaiseQuestionnaireApi;
-
         private static QuestionnaireHelper _currentInstance;
+
+        private readonly IBlaiseQuestionnaireApi _blaiseQuestionnaireApi;
 
         public QuestionnaireHelper()
         {
@@ -24,14 +24,14 @@ namespace Blaise.Tests.Helpers.Questionnaire
             return _currentInstance ?? (_currentInstance = new QuestionnaireHelper());
         }
 
-        public QuestionnaireStatusType GetQuestionnaireStatus(string questionnaireName, string serverParkName)
-        {
-            return _blaiseQuestionnaireApi.GetQuestionnaireStatus(questionnaireName, serverParkName);
-        }
-
         public static string QuestionnairePackagePath(string questionnairePath, string questionnaireName)
         {
             return $"{questionnairePath}//{questionnaireName}.bpkg";
+        }
+
+        public QuestionnaireStatusType GetQuestionnaireStatus(string questionnaireName, string serverParkName)
+        {
+            return _blaiseQuestionnaireApi.GetQuestionnaireStatus(questionnaireName, serverParkName);
         }
 
         public void InstallQuestionnaire(string questionnaireName, string serverParkName, string questionnairePath, InstallOptions installOptions)
@@ -50,6 +50,11 @@ namespace Blaise.Tests.Helpers.Questionnaire
                 Console.WriteLine($"Questionnaire {questionnaireName} status: {status}");
             }
 
+            if (status == QuestionnaireStatusType.Installing)
+            {
+                HandleInstallingState(questionnaireName);
+            }
+
             if (status == QuestionnaireStatusType.Erroneous)
             {
                 HandleErroneousState(questionnaireName);
@@ -60,16 +65,16 @@ namespace Blaise.Tests.Helpers.Questionnaire
             Console.WriteLine($"questionnairePackagePath: {questionnairePackagePath}");
             _blaiseQuestionnaireApi.InstallQuestionnaire(
                 questionnaireName,
-                                                        serverParkName,
-                                                        questionnairePackagePath,
-                                                        installOptions);
+                serverParkName,
+                questionnairePackagePath,
+                installOptions);
             Thread.Sleep(2000);
         }
 
         public bool CheckQuestionnaireInstalled(string questionnaireName, string serverParkName, int timeoutInSeconds)
         {
             return CheckQuestionnaireExists(questionnaireName, serverParkName, timeoutInSeconds) &&
-                   CheckQuestionnaireActive(questionnaireName, serverParkName, timeoutInSeconds);
+                    CheckQuestionnaireActive(questionnaireName, serverParkName, timeoutInSeconds);
         }
 
         public void UninstallQuestionnaire(string questionnaireName, string serverParkName)
@@ -80,6 +85,11 @@ namespace Blaise.Tests.Helpers.Questionnaire
             {
                 status = GetQuestionnaireStatus(questionnaireName, serverParkName);
                 Console.WriteLine($"Questionnaire {questionnaireName} status: {status}");
+            }
+
+            if (status == QuestionnaireStatusType.Installing)
+            {
+                HandleInstallingState(questionnaireName);
             }
 
             if (status == QuestionnaireStatusType.Erroneous)
@@ -119,17 +129,52 @@ namespace Blaise.Tests.Helpers.Questionnaire
             return _blaiseQuestionnaireApi.GetQuestionnaireStatus(questionnaireName, serverPark) == QuestionnaireStatusType.Active;
         }
 
+        public DateTime GetQuestionnaireInstallDate(string questionnaireName, string serverParkName)
+        {
+            var questionnaire = _blaiseQuestionnaireApi.GetQuestionnaire(questionnaireName, serverParkName);
+
+            return questionnaire.InstallDate;
+        }
+
+        public void EnsureQuestionnaireReadyForTest(string questionnaireName, string serverParkName)
+        {
+            if (!CheckQuestionnaireExists(questionnaireName, serverParkName))
+            {
+                return;
+            }
+
+            var status = GetQuestionnaireStatus(questionnaireName, serverParkName);
+
+            if (status == QuestionnaireStatusType.Active)
+            {
+                return;
+            }
+
+            if (status == QuestionnaireStatusType.Installing)
+            {
+                HandleInstallingState(questionnaireName);
+            }
+
+            if (status == QuestionnaireStatusType.Erroneous)
+            {
+                HandleErroneousState(questionnaireName);
+            }
+
+            Console.WriteLine($"Questionnaire {questionnaireName} is in {status} status. Uninstalling to get clean state...");
+            UninstallQuestionnaire(questionnaireName, serverParkName);
+        }
+
         private bool CheckQuestionnaireActive(string questionnaireName, string serverParkName, int timeoutInSeconds)
         {
             var counter = 0;
-            const int maxCount = 10;
+            const int MaxCount = 10;
 
             while (GetQuestionnaireStatus(questionnaireName, serverParkName) == QuestionnaireStatusType.Installing)
             {
-                Thread.Sleep((timeoutInSeconds * 1000) / maxCount);
+                Thread.Sleep((timeoutInSeconds * 1000) / MaxCount);
 
                 counter++;
-                if (counter == maxCount)
+                if (counter == MaxCount)
                 {
                     return false;
                 }
@@ -138,28 +183,21 @@ namespace Blaise.Tests.Helpers.Questionnaire
             return GetQuestionnaireStatus(questionnaireName, serverParkName) == QuestionnaireStatusType.Active;
         }
 
-        public DateTime GetQuestionnaireInstallDate(string questionnaireName, string serverParkName)
-        {
-            var questionnaire = _blaiseQuestionnaireApi.GetQuestionnaire(questionnaireName, serverParkName);
-
-            return questionnaire.InstallDate;
-        }
-
         private bool CheckQuestionnaireExists(string questionnaireName, string serverParkName, int timeoutInSeconds)
         {
             Console.WriteLine($"Checking questionnaire {questionnaireName} exists...");
             var counter = 0;
-            const int maxCount = 10;
+            const int MaxCount = 10;
 
             while (!_blaiseQuestionnaireApi.QuestionnaireExists(questionnaireName, serverParkName))
             {
-                Console.WriteLine($"Sleep {counter} for {timeoutInSeconds / maxCount} seconds");
-                Thread.Sleep((timeoutInSeconds * 1000) / maxCount);
+                Console.WriteLine($"Sleep {counter} for {timeoutInSeconds / MaxCount} seconds...");
+                Thread.Sleep((timeoutInSeconds * 1000) / MaxCount);
 
                 counter++;
-                if (counter == maxCount)
+                if (counter == MaxCount)
                 {
-                    Console.WriteLine("Timed out");
+                    Console.WriteLine($"Timed out checking if questionnaire {questionnaireName} exists");
                     return false;
                 }
             }
@@ -172,17 +210,24 @@ namespace Blaise.Tests.Helpers.Questionnaire
         private void HandleErroneousState(string questionnaireName)
         {
             string erroneousAsciiArt = @"
-                     ______ _____  _____   ____  _   _ ______ ____  _    _  _____  
-                    |  ____|  __ \|  __ \ / __ \| \ | |  ____/ __ \| |  | |/ ____| 
-                    | |__  | |__) | |__) | |  | |  \| | |__ | |  | | |  | | (___  
-                    |  __| |  _  /|  _  /| |  | | . ` |  __|| |  | | |  | |\___ \ 
-                    | |____| | \ \| | \ \| |__| | |\  | |___| |__| | |__| |____) |
-                    |______|_|  \_\_|  \_\\____/|_| \_|______\____/ \____/|_____/ 
-            ";
+                         ______ _____  _____   ____  _   _ ______ ____  _    _  _____
+                        |  ____|  __ \|  __ \ / __ \| \ | |  ____/ __ \| |  | |/ ____|
+                        | |__  | |__) | |__) | |  | |  \| | |__ | |  | | |  | | (___
+                        |  __| |  _  /|  _  /| |  | | . ` |  __|| |  | | |  | |\___ \
+                        | |____| | \ \| | \ \| |__| | |\  | |___| |__| | |__| |____) |
+                        |______|_|  \_\_|  \_\\____/|_| \_|______\____/ \____/|_____/
+                ";
             string erroneousExceptionMessage = $"{erroneousAsciiArt}\n" +
                 $"Questionnaire {questionnaireName} is erroneous!\n" +
                 "Restart Blaise and uninstall the erroneous questionnaire via Blaise Server Manager";
             throw new Exception(erroneousExceptionMessage);
+        }
+
+        private void HandleInstallingState(string questionnaireName)
+        {
+            string installingExceptionMessage = $"Questionnaire {questionnaireName} is stuck in Installing state\n" +
+                "Restart Blaise and uninstall the questionnaire via Blaise Server Manager";
+            throw new Exception(installingExceptionMessage);
         }
     }
 }

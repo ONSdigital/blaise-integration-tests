@@ -1,16 +1,15 @@
-using System;
-using System.Linq;
-using System.Threading;
-using Blaise.Tests.Helpers.Browser;
-using Blaise.Tests.Helpers.Case;
-using Blaise.Tests.Helpers.Configuration;
-using Blaise.Tests.Helpers.Dqs;
-using Blaise.Tests.Helpers.Questionnaire;
-using NUnit.Framework;
-using TechTalk.SpecFlow;
-
 namespace Blaise.Dqs.Tests.Behaviour.Steps
 {
+    using System;
+    using System.Threading;
+    using Blaise.Tests.Helpers.Browser;
+    using Blaise.Tests.Helpers.Case;
+    using Blaise.Tests.Helpers.Configuration;
+    using Blaise.Tests.Helpers.Dqs;
+    using Blaise.Tests.Helpers.Questionnaire;
+    using NUnit.Framework;
+    using Reqnroll;
+
     [Binding]
     public sealed class DeployQuestionnaireSteps
     {
@@ -23,18 +22,6 @@ namespace Blaise.Dqs.Tests.Behaviour.Steps
             _scenarioContext = scenarioContext;
         }
 
-        [Given(@"I have launched DQS")]
-        public void GivenIHaveLaunchedDqs()
-        {
-            DqsHelper.GetInstance().LoadDqsHomePage();
-        }
-
-        [Given(@"there is a questionnaire installed in Blaise")]
-        public void GivenThereIsAQuestionnaireInstalledInBlaise()
-        {
-            QuestionnaireHelper.GetInstance().InstallQuestionnaire(BlaiseConfigurationHelper.QuestionnaireName, BlaiseConfigurationHelper.ServerParkName, BlaiseConfigurationHelper.QuestionnairePath, BlaiseConfigurationHelper.QuestionnaireInstallOptions);
-        }
-
         [Then(@"I am presented with a list of deployed questionnaires")]
         public void ThenIAmPresentedWithAListOfDeployedQuestionnaires()
         {
@@ -43,7 +30,7 @@ namespace Blaise.Dqs.Tests.Behaviour.Steps
             Assert.That(
                 questionnairesInTable,
                 Has.Member(BlaiseConfigurationHelper.QuestionnaireName),
-                $"Questionnaire '{BlaiseConfigurationHelper.QuestionnaireName}' should be in the list of deployed questionnaires");
+                $"Questionnaire {BlaiseConfigurationHelper.QuestionnaireName} should be in the list of deployed questionnaires");
         }
 
         [Given(@"I have selected the questionnaire package I wish to deploy")]
@@ -53,6 +40,7 @@ namespace Blaise.Dqs.Tests.Behaviour.Steps
             DqsHelper.GetInstance().SelectQuestionnairePackage();
         }
 
+        [Given(@"I have launched DQS")]
         [When(@"I view the landing page")]
         [Then(@"I am returned to the landing page")]
         public void WhenIViewTheLandingPage()
@@ -99,7 +87,7 @@ namespace Blaise.Dqs.Tests.Behaviour.Steps
             Assert.That(
                 actualSummary,
                 Is.EqualTo(expectedSummary).IgnoreCase,
-                $"Deployment summary should confirm the TO start date as '{expectedSummary}', but got '{actualSummary}'");
+                $"Deployment summary should confirm the TO start date as {expectedSummary}, but got {actualSummary}");
         }
 
         [When(@"the deployment summary confirms no TO start date")]
@@ -111,7 +99,7 @@ namespace Blaise.Dqs.Tests.Behaviour.Steps
             Assert.That(
                 actualSummary,
                 Is.EqualTo(expectedSummary).IgnoreCase,
-                $"Deployment summary should confirm no TO start date with '{expectedSummary}', but got '{actualSummary}'");
+                $"Deployment summary should confirm no TO start date with {expectedSummary}, but got {actualSummary}");
         }
 
         [Then(@"I have the option to deploy a questionnaire")]
@@ -217,7 +205,7 @@ namespace Blaise.Dqs.Tests.Behaviour.Steps
             Assert.That(
                 questionnaireInstalled,
                 Is.True,
-                $"Questionnaire '{BlaiseConfigurationHelper.QuestionnaireName}' should be active in Blaise on server park '{BlaiseConfigurationHelper.ServerParkName}'");
+                $"Questionnaire {BlaiseConfigurationHelper.QuestionnaireName} should be active in Blaise on server park {BlaiseConfigurationHelper.ServerParkName}");
         }
     }
 }
