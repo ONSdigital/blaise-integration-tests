@@ -1,15 +1,15 @@
-using System;
-using System.Collections.Generic;
-using System.Threading;
-using Blaise.Tests.Helpers.Browser;
-using Blaise.Tests.Helpers.Cati.Pages;
-using Blaise.Tests.Helpers.Configuration;
-using Blaise.Tests.Helpers.Tobi;
-using Blaise.Tests.Helpers.User;
-using Blaise.Tests.Models.User;
-
 namespace Blaise.Tests.Helpers.Cati
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Threading;
+    using Blaise.Tests.Helpers.Browser;
+    using Blaise.Tests.Helpers.Cati.Pages;
+    using Blaise.Tests.Helpers.Configuration;
+    using Blaise.Tests.Helpers.Tobi;
+    using Blaise.Tests.Helpers.User;
+    using Blaise.Tests.Models.User;
+
     public class CatiManagementHelper
     {
         private static CatiManagementHelper _currentInstance;
@@ -32,7 +32,7 @@ namespace Blaise.Tests.Helpers.Cati
                 Password = CatiConfigurationHelper.CatiAdminPassword,
                 Role = CatiConfigurationHelper.AdminRole,
                 ServerParks = new List<string> { BlaiseConfigurationHelper.ServerParkName },
-                DefaultServerPark = BlaiseConfigurationHelper.ServerParkName
+                DefaultServerPark = BlaiseConfigurationHelper.ServerParkName,
             };
             UserHelper.GetInstance().CreateUser(adminUser);
         }
@@ -53,18 +53,18 @@ namespace Blaise.Tests.Helpers.Cati
             Thread.Sleep(2000);
         }
 
-        public void CreateDayBatch()
+        public void CreateDaybatch()
         {
             SetSurveyDays();
 
-            DayBatchHelper.GetInstance().CreateDayBatch(BlaiseConfigurationHelper.QuestionnaireName, DateTime.Today);
+            DaybatchHelper.GetInstance().CreateDaybatch(BlaiseConfigurationHelper.QuestionnaireName, DateTime.Today);
         }
 
         public string GetDaybatchEntriesText()
         {
             LogIntoCatiDashboardAsAdministrator();
 
-            var dayBatchPage = new DayBatchPage();
+            var dayBatchPage = new DaybatchPage();
             dayBatchPage.LoadPage();
             dayBatchPage.ApplyFilters();
             Thread.Sleep(2000);
@@ -73,7 +73,7 @@ namespace Blaise.Tests.Helpers.Cati
 
         public void SetSurveyDays()
         {
-            DayBatchHelper.GetInstance().SetSurveyDay(BlaiseConfigurationHelper.QuestionnaireName, DateTime.Today);
+            DaybatchHelper.GetInstance().SetSurveyDay(BlaiseConfigurationHelper.QuestionnaireName, DateTime.Today);
         }
 
         public void DeleteAdminUser()
@@ -81,13 +81,13 @@ namespace Blaise.Tests.Helpers.Cati
             UserHelper.GetInstance().RemoveUser(CatiConfigurationHelper.CatiAdminUsername);
         }
 
-        public void ClearDayBatchEntries()
+        public void ClearDaybatchEntries()
         {
             var surveyPage = new SurveyPage();
             surveyPage.LoadPage();
             surveyPage.ApplyFilter();
 
-            surveyPage.ClearDayBatchEntries();
+            surveyPage.ClearDaybatchEntries();
         }
     }
 }

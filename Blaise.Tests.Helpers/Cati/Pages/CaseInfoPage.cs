@@ -1,20 +1,20 @@
-using System;
-using System.Threading;
-using Blaise.Tests.Helpers.Browser;
-using Blaise.Tests.Helpers.Configuration;
-using Blaise.Tests.Helpers.Framework;
-using OpenQA.Selenium;
-
 namespace Blaise.Tests.Helpers.Cati.Pages
 {
+    using System;
+    using System.Threading;
+    using Blaise.Tests.Helpers.Browser;
+    using Blaise.Tests.Helpers.Configuration;
+    using Blaise.Tests.Helpers.Framework;
+    using OpenQA.Selenium;
+
     public class CaseInfoPage : BasePage
     {
-        private const string _questionnaireCell = "//*[@id='MVCGridTable_CaseInfoGrid']/tbody/tr[1]/td[1]";
-        private const string _caseIdCell = "//*[@id='MVCGridTable_CaseInfoGrid']/tbody/tr[1]/td[2]";
-        private const string _playButton = "//*[@id='MVCGridTable_CaseInfoGrid']/tbody/tr[1]/td[19]/a/span";
-        private const string _filterButton = "//*[contains(text(), 'Filters')]";
+        private const string QuestionnaireCell = "//*[@id='MVCGridTable_CaseInfoGrid']/tbody/tr[1]/td[1]";
+        private const string CaseIdCell = "//*[@id='MVCGridTable_CaseInfoGrid']/tbody/tr[1]/td[2]";
+        private const string PlayButton = "//*[@id='MVCGridTable_CaseInfoGrid']/tbody/tr[1]/td[19]/a/span";
+        private const string FilterButton = "//*[contains(text(), 'Filters')]";
+        private const string ApplyButton = "//*[contains(text(), 'Apply')]";
         private readonly string _surveyRadioButton = $"//*[normalize-space()='{BlaiseConfigurationHelper.QuestionnaireName}']";
-        private const string _applyButton = "//*[contains(text(), 'Apply')]";
 
         public CaseInfoPage()
             : base(CatiConfigurationHelper.CaseInfoUrl)
@@ -40,11 +40,6 @@ namespace Blaise.Tests.Helpers.Cati.Pages
             while (!FirstCaseIsPlayable());
         }
 
-        protected override Func<IWebDriver, bool> PageHasLoaded()
-        {
-            return BodyContainsText("Showing");
-        }
-
         public void ClickPlayButton()
         {
             var numberOfWindows = BrowserHelper.GetNumberOfWindows();
@@ -52,7 +47,7 @@ namespace Blaise.Tests.Helpers.Cati.Pages
             var attempts = 0;
             while (BrowserHelper.GetNumberOfWindows() == numberOfWindows)
             {
-                ClickButtonByXPath(_playButton);
+                ClickButtonByXPathWithJavaScript(PlayButton);
                 Thread.Sleep(250);
                 attempts++;
                 if (attempts > 5)
@@ -64,30 +59,35 @@ namespace Blaise.Tests.Helpers.Cati.Pages
 
         public void ApplyFilters()
         {
-            ClickButtonByXPath(_filterButton);
-            var filterButtonText = GetElementTextByPath(_filterButton);
+            ClickButtonByXPath(FilterButton);
+            var filterButtonText = GetElementTextByPath(FilterButton);
             if (filterButtonText != "Filters (active)")
             {
                 ClickButtonByXPath(_surveyRadioButton);
-                ClickButtonByXPath(_applyButton);
+                ClickButtonByXPath(ApplyButton);
             }
 
-            ClickButtonByXPath(_filterButton);
-        }
-
-        private void WaitUntilFirstCaseQuestionnaireIs(string questionnaire)
-        {
-            WaitUntilElementByXPathContainsText(_questionnaireCell, questionnaire);
-        }
-
-        private void WaitUntilFirstCaseIs(string caseId)
-        {
-            WaitUntilElementByXPathContainsText(_caseIdCell, caseId);
+            ClickButtonByXPath(FilterButton);
         }
 
         public bool FirstCaseIsPlayable()
         {
-            return ElementIsDisplayed(By.XPath(_playButton));
+            return ElementIsDisplayed(By.XPath(PlayButton));
+        }
+
+        protected override Func<IWebDriver, bool> PageHasLoaded()
+        {
+            return BodyContainsText("Showing");
+        }
+
+        private void WaitUntilFirstCaseQuestionnaireIs(string questionnaire)
+        {
+            WaitUntilElementByXPathContainsText(QuestionnaireCell, questionnaire);
+        }
+
+        private void WaitUntilFirstCaseIs(string caseId)
+        {
+            WaitUntilElementByXPathContainsText(CaseIdCell, caseId);
         }
     }
 }
