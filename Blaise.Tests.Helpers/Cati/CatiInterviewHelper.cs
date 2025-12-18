@@ -1,12 +1,12 @@
-using System.Collections.Generic;
-using System.Threading;
-using Blaise.Tests.Helpers.Cati.Pages;
-using Blaise.Tests.Helpers.Configuration;
-using Blaise.Tests.Helpers.User;
-using Blaise.Tests.Models.User;
-
 namespace Blaise.Tests.Helpers.Cati
 {
+    using System.Collections.Generic;
+    using System.Threading;
+    using Blaise.Tests.Helpers.Cati.Pages;
+    using Blaise.Tests.Helpers.Configuration;
+    using Blaise.Tests.Helpers.User;
+    using Blaise.Tests.Models.User;
+
     public class CatiInterviewHelper
     {
         private static CatiInterviewHelper _currentInstance;
@@ -38,31 +38,25 @@ namespace Blaise.Tests.Helpers.Cati
                 Password = CatiConfigurationHelper.CatiInterviewPassword,
                 Role = CatiConfigurationHelper.InterviewRole,
                 ServerParks = new List<string> { BlaiseConfigurationHelper.ServerParkName },
-                DefaultServerPark = BlaiseConfigurationHelper.ServerParkName
+                DefaultServerPark = BlaiseConfigurationHelper.ServerParkName,
             };
             UserHelper.GetInstance().CreateUser(interviewUser);
         }
 
         public void AddSurveyFilter()
         {
-            var dayBatchPage = new DayBatchPage();
+            var dayBatchPage = new DaybatchPage();
             dayBatchPage.LoadPage();
             dayBatchPage.ApplyFilters();
         }
 
-        public void SetupDayBatchTimeParameters()
+        public void SetupDaybatchTimeParameters()
         {
-            var daybatchPage = new DayBatchPage();
+            var daybatchPage = new DaybatchPage();
 
-            // makes me sad but Blaise refreshes the table dom object after the page has initialized
+            // Blaise refreshes the table dom object after the page has initialised
             Thread.Sleep(5000);
-            daybatchPage.ModifyDayBatchEntry();
-        }
-
-        public string GetCaseIdText()
-        {
-            var interviewPage = new InterviewPage();
-            return interviewPage.GetCaseIdText();
+            daybatchPage.ModifyDaybatchEntry();
         }
 
         public void WaitForFirstFocusObject()

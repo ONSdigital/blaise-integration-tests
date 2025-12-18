@@ -1,10 +1,10 @@
-using Blaise.Tests.Helpers.Configuration;
-using Blaise.Tests.Helpers.Questionnaire;
-using NUnit.Framework;
-using TechTalk.SpecFlow;
-
 namespace Blaise.Tests.Behaviour.Steps
 {
+    using Blaise.Tests.Helpers.Configuration;
+    using Blaise.Tests.Helpers.Questionnaire;
+    using NUnit.Framework;
+    using Reqnroll;
+
     [Binding]
     public sealed class InstallQuestionnaireSteps
     {
@@ -19,13 +19,6 @@ namespace Blaise.Tests.Behaviour.Steps
             }
         }
 
-        [Given(@"there is a questionnaire installed")]
-        [When(@"I install the questionnaire")]
-        public void GivenThereIsAQuestionnaireInstalled()
-        {
-            QuestionnaireHelper.GetInstance().InstallQuestionnaire(BlaiseConfigurationHelper.QuestionnaireName, BlaiseConfigurationHelper.ServerParkName, BlaiseConfigurationHelper.QuestionnairePath, BlaiseConfigurationHelper.QuestionnaireInstallOptions);
-        }
-
         [Then(@"the questionnaire is available")]
         public void ThenTheQuestionnaireIsAvailable()
         {
@@ -37,13 +30,7 @@ namespace Blaise.Tests.Behaviour.Steps
             Assert.That(
                 questionnaireHasInstalled,
                 Is.True,
-                $"Questionnaire '{BlaiseConfigurationHelper.QuestionnaireName}' should be installed and active on server park '{BlaiseConfigurationHelper.ServerParkName}'");
-        }
-
-        [AfterScenario("deploy-questionnaire")]
-        public void AfterScenario()
-        {
-            QuestionnaireHelper.GetInstance().UninstallQuestionnaire(BlaiseConfigurationHelper.QuestionnaireName, BlaiseConfigurationHelper.ServerParkName);
+                $"Questionnaire {BlaiseConfigurationHelper.QuestionnaireName} should be installed and active on server park {BlaiseConfigurationHelper.ServerParkName}");
         }
     }
 }
