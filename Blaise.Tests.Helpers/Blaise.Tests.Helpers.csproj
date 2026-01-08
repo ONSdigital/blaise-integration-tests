@@ -205,12 +205,12 @@
     <Compile Include="Browser\BrowserHelper.cs" />
     <Compile Include="Case\CaseHelper.cs" />
     <Compile Include="Cati\CatiManagementHelper.cs" />
-    <Compile Include="Cati\Interfaces\ILoginPage.cs" />
     <Compile Include="Cati\Interfaces\ISurveyPageSelectors.cs" />
     <Compile Include="Cati\Pages\CaseInfoPage.cs" />
-    <Compile Include="Cati\Pages\LoginPageV16.cs" />
     <Compile Include="Cati\Pages\NewSurveyPageSelectors.cs" />
     <Compile Include="Cati\Pages\SurveyPageSelectors.cs" />
+    <Compile Include="Configuration\CatiConfigurationHelper.cs" />
+    <Compile Include="Configuration\Interfaces\ICatiConfigurationHelper.cs" />
     <Compile Include="Dqs\Pages\CannotOverwritePage.cs" />
     <Compile Include="Dqs\Pages\DeleteConfirmationPage.cs" />
     <Compile Include="Dqs\Pages\LoginPage.cs" />
@@ -223,7 +223,6 @@
     <Compile Include="Cati\Pages\SpecificationPage.cs" />
     <Compile Include="Cati\Pages\SurveyPage.cs" />
     <Compile Include="Configuration\BrowserConfigurationHelper.cs" />
-    <Compile Include="Configuration\CatiConfigurationHelper.cs" />
     <Compile Include="Configuration\BlaiseConfigurationHelper.cs" />
     <Compile Include="Configuration\DqsConfigurationHelper.cs" />
     <Compile Include="Configuration\TobiConfigurationHelper.cs" />

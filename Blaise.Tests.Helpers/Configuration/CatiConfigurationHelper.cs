@@ -1,41 +1,83 @@
 using System;
-using Blaise.Tests.Helpers.Configuration.I;
-using Blaise.Tests.Helpers.Configuration.Interfaces;
+using System.Configuration;
 using Blaise.Tests.Helpers.Framework.Extensions;
 
 namespace Blaise.Tests.Helpers.Configuration
 {
-    public class CatiConfigurationHelper : ICatiConfigurationHelper
+    public static class CatiConfigurationHelper
     {
-        private readonly Guid _adminPassword = Guid.NewGuid();
-        private readonly Guid _interviewerPassword = Guid.NewGuid();
+        private static readonly Guid _adminPassword;
+        private static readonly Guid _interviewerPassword;
 
-        public string CatiAdminUsername => "DSTAdminUser";
-        public string CatiAdminPassword => _adminPassword.ToString();
-        public string AdminRole => "DST";
+        private static readonly string _blaiseVersion;
 
-        public string CatiInterviewUsername => "DSTTestUser";
-        public string CatiInterviewPassword => _interviewerPassword.ToString();
-        public string InterviewRole => "DST";
+        static CatiConfigurationHelper()
+        {
+            _adminPassword = Guid.NewGuid();
+            _interviewerPassword = Guid.NewGuid();
+            _blaiseVersion = ConfigurationManager.AppSettings["ENV_BLAISE_VERSION"];
+        }
 
-        public string CatiBaseUrl
+        public static string CatiAdminUsername => "DSTAdminUser";
+
+        public static string CatiAdminPassword => _adminPassword.ToString();
+
+        public static string AdminRole => "DST";
+
+        public static string CatiInterviewUsername => "DSTTestUser";
+
+        public static string CatiInterviewPassword => _interviewerPassword.ToString();
+
+        public static string InterviewRole => "DST";
+
+        public static string CatiBaseUrl
         {
             get
             {
                 var baseUrl = ConfigurationExtensions.GetVariable("ENV_BLAISE_CATI_URL");
                 return baseUrl.StartsWith("http", StringComparison.OrdinalIgnoreCase)
-                    ? baseUrl
-                    : "https://" + baseUrl;
+                    ? baseUrl.TrimEnd('/')
+                    : "https://" + baseUrl.TrimEnd('/');
             }
         }
 
-        public string LoginUrl => $"{CatiBaseUrl}/blaise/account/login";
-        public string DayBatchUrl => $"{CatiBaseUrl}/blaise/daybatch";
-        public string SchedulerUrl => $"{CatiBaseUrl}/{BlaiseConfigurationHelper.QuestionnaireName}";
-        public string SpecificationUrl => $"{CatiBaseUrl}/blaise/specification";
-        public string SurveyUrl => $"{CatiBaseUrl}/blaise";
-        public string CaseUrl => $"{CatiBaseUrl}//Blaise/CaseInfo/StartSurvey?url={CatiBaseUrl}/{BlaiseConfigurationHelper.QuestionnaireName}/&rp.KeyValue=";
-        public string CaseInfoUrl => $"{CatiBaseUrl}/blaise/CaseInfo";
-    }
+        /// <summary>
+        /// Resolves the correct Blaise path based on ENV_BLAISE_VERSION
+        /// v14 => blaise
+        /// v16 => BlaiseDashboard
+        /// </summary>
+        private static string BlaisePath
+        {
+            get
+            {
+                switch (_blaiseVersion?.ToLowerInvariant())
+                {
+                    case "v14":
+                        return "blaise";
 
+                    case "v16":
+                        return "BlaiseDashboard";
+
+                    default:
+                        throw new ConfigurationErrorsException(
+                            $"Unsupported ENV_BLAISE_VERSION value: '{_blaiseVersion}'. Expected 'v14' or 'v16'.");
+                }
+            }
+        }
+
+        public static string LoginUrl => $"{CatiBaseUrl}/{BlaisePath}/account/login";
+
+        public static string DayBatchUrl => $"{CatiBaseUrl}/{BlaisePath}/daybatch";
+
+        public static string SchedulerUrl => $"{CatiBaseUrl}/{BlaiseConfigurationHelper.QuestionnaireName}";
+
+        public static string SpecificationUrl => $"{CatiBaseUrl}/{BlaisePath}/specification";
+
+        public static string SurveyUrl => $"{CatiBaseUrl}/{BlaisePath}";
+
+        public static string CaseUrl =>
+            $"{CatiBaseUrl}/{BlaisePath}/CaseInfo/StartSurvey?url={CatiBaseUrl}/{BlaiseConfigurationHelper.QuestionnaireName}/&rp.KeyValue=";
+
+        public static string CaseInfoUrl => $"{CatiBaseUrl}/{BlaisePath}/CaseInfo";
+    }
 }
