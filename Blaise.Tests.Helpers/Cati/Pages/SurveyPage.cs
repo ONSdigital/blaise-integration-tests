@@ -12,8 +12,8 @@ namespace Blaise.Tests.Helpers.Cati.Pages
         private readonly string _blaiseVersion =
             ConfigurationManager.AppSettings["ENV_BLAISE_VERSION"];
 
-        private const string FilterButtonPath = "//*[contains(text(), 'Filters')]";
-        private const string ApplyButtonPath = "//*[contains(text(), 'Apply')]";
+        private const string _filterButtonPath = "//*[contains(text(), 'Filters')]";
+        private const string _applyButtonPath = "//*[contains(text(), 'Apply')]";
         private readonly string _surveyRadioButton =
             $"//*[normalize-space()='{BlaiseConfigurationHelper.QuestionnaireName}']";
 
@@ -21,8 +21,6 @@ namespace Blaise.Tests.Helpers.Cati.Pages
             : base(CatiConfigurationHelper.SurveyUrl)
         {
         }
-
-        #region Versioned selectors
 
         private string ClearCatiDataButtonPath
         {
@@ -100,17 +98,27 @@ namespace Blaise.Tests.Helpers.Cati.Pages
             }
         }
 
-        #endregion
 
         protected override Func<IWebDriver, bool> PageHasLoaded()
         {
-            return _blaiseVersion?.ToLowerInvariant() switch
+            if (_blaiseVersion == null)
             {
-                "v14" => BodyContainsText("Showing"),
-                "v16" => BodyContainsText("Surveys"),
-                _ => throw new ConfigurationErrorsException(
-                    $"Unsupported ENV_BLAISE_VERSION value: '{_blaiseVersion}'. Expected 'v14' or 'v16'.")
-            };
+                throw new ConfigurationErrorsException(
+                    "ENV_BLAISE_VERSION is null. Expected 'v14' or 'v16'.");
+            }
+
+            var version = _blaiseVersion.ToLowerInvariant();
+
+            switch (version)
+            {
+                case "v14":
+                    return BodyContainsText("Showing");
+                case "v16":
+                    return BodyContainsText("Surveys");
+                default:
+                    throw new ConfigurationErrorsException(
+                        $"Unsupported ENV_BLAISE_VERSION value: '{_blaiseVersion}'. Expected 'v14' or 'v16'.");
+            }
         }
 
         public void ClearDayBatchEntries()
@@ -137,13 +145,13 @@ namespace Blaise.Tests.Helpers.Cati.Pages
 
         public void ApplyFilter()
         {
-            ClickButtonByXPath(FilterButtonPath);
+            ClickButtonByXPath(_filterButtonPath);
 
-            var filterButtonText = GetElementTextByPath(FilterButtonPath);
+            var filterButtonText = GetElementTextByPath(_filterButtonPath);
             if (filterButtonText != "Filters (active)")
             {
                 ClickButtonByXPath(_surveyRadioButton);
-                ClickButtonByXPath(ApplyButtonPath);
+                ClickButtonByXPath(_applyButtonPath);
             }
         }
     }

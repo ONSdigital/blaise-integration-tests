@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Blaise.Nuget.Api.Contracts.Enums;
@@ -39,6 +39,7 @@ namespace Blaise.Tests.Models.Case
             TelephoneNo = telephoneNo;
         }
 
+        /// <inheritdoc/>
         public bool Equals(CaseModel other)
         {
             if (other is null)
@@ -58,8 +59,10 @@ namespace Blaise.Tests.Models.Case
             };
         }
 
+        /// <inheritdoc/>
         public override bool Equals(object obj) => Equals(obj as CaseModel);
 
+        /// <inheritdoc/>
         public override int GetHashCode() => (PrimaryKeyValues, OutcomeCode, TelephoneNo).GetHashCode();
     }
 }

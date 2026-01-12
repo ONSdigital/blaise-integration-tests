@@ -1,10 +1,10 @@
+using System;
+using System.Collections.Generic;
 using Blaise.Tests.Helpers.Browser;
 using Blaise.Tests.Helpers.Cati;
 using NUnit.Framework;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Support.UI;
-using System;
-using System.Collections.Generic;
 
 namespace Blaise.Tests.Helpers.Framework
 {
@@ -40,7 +40,7 @@ namespace Blaise.Tests.Helpers.Framework
 
             button.Click();
         }
-        
+
         protected string GetElementTextById(string elementId)
         {
             var element = BrowserHelper.FindElement(By.Id(elementId));

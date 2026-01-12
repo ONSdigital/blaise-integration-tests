@@ -207,8 +207,6 @@
     <Compile Include="Cati\CatiManagementHelper.cs" />
     <Compile Include="Cati\Interfaces\ISurveyPageSelectors.cs" />
     <Compile Include="Cati\Pages\CaseInfoPage.cs" />
-    <Compile Include="Cati\Pages\NewSurveyPageSelectors.cs" />
-    <Compile Include="Cati\Pages\SurveyPageSelectors.cs" />
     <Compile Include="Configuration\CatiConfigurationHelper.cs" />
     <Compile Include="Configuration\Interfaces\ICatiConfigurationHelper.cs" />
     <Compile Include="Dqs\Pages\CannotOverwritePage.cs" />

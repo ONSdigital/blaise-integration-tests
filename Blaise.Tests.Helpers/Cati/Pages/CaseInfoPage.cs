@@ -40,6 +40,7 @@ namespace Blaise.Tests.Helpers.Cati.Pages
             while (!FirstCaseIsPlayable());
         }
 
+        /// <inheritdoc/>
         protected override Func<IWebDriver, bool> PageHasLoaded()
         {
             return BodyContainsText("Case Info");

@@ -42,9 +42,9 @@ namespace Blaise.Tests.Helpers.Configuration
         }
 
         /// <summary>
-        /// Resolves the correct Blaise path based on ENV_BLAISE_VERSION
+        /// Gets resolves the correct Blaise path based on ENV_BLAISE_VERSION
         /// v14 => blaise
-        /// v16 => BlaiseDashboard
+        /// v16 => BlaiseDashboard.
         /// </summary>
         private static string BlaisePath
         {

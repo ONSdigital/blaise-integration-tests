@@ -46,8 +46,9 @@ namespace Blaise.Cati.Tests.Behaviour.Steps
                 BrowserHelper.TakeScreenShot("C:/Users/Khans8/Downloads", "last opened window");
                 var currentUrl = BrowserHelper.CurrentUrl;
                 var html = BrowserHelper.CurrentWindowHtml();
+
                 // TODO: make this better... this is for the access case via scheduler page and there isn't anything better on the page to verify against
-                if(caseId == "9002")
+                if (caseId == "9002")
                 {
                     BrowserHelper.PopulateInputByName("wa_1haa", caseId);
                     BrowserHelper.TakeScreenShot("C:/Users/Khans8/Downloads", "populated caseid");

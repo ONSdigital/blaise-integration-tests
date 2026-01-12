@@ -11,7 +11,7 @@ namespace Blaise.Tests.Helpers.Cati.Pages
         private readonly string _blaiseVersion =
             ConfigurationManager.AppSettings["ENV_BLAISE_VERSION"];
 
-        private const string LoginButtonPath = "//button[@type='submit']";
+        private const string _loginButtonPath = "//button[@type='submit']";
 
         public LoginPage()
           : base(CatiConfigurationHelper.LoginUrl)
@@ -56,11 +56,12 @@ namespace Blaise.Tests.Helpers.Cati.Pages
             }
         }
 
+        /// <inheritdoc/>
         protected override Func<IWebDriver, bool> PageHasLoaded()
         {
             // v14 didn't have a reliable page load hook, v16 does —
             // this works safely for both
-            return driver => driver.FindElement(By.XPath(LoginButtonPath)) != null;
+            return driver => driver.FindElement(By.XPath(_loginButtonPath)) != null;
         }
 
         /// <summary>
@@ -70,7 +71,7 @@ namespace Blaise.Tests.Helpers.Cati.Pages
         {
             PopulateInputById(UsernameBoxId, username);
             PopulateInputById(PasswordBoxId, password);
-            ClickButtonByXPath(LoginButtonPath);
+            ClickButtonByXPath(_loginButtonPath);
         }
     }
 }

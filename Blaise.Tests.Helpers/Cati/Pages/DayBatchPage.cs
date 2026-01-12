@@ -1,8 +1,8 @@
+using System.Threading;
 using Blaise.Tests.Helpers.Browser;
 using Blaise.Tests.Helpers.Configuration;
 using Blaise.Tests.Helpers.Framework;
 using OpenQA.Selenium;
-using System.Threading;
 
 // ReSharper disable InconsistentNaming
 namespace Blaise.Tests.Helpers.Cati.Pages
@@ -58,6 +58,7 @@ namespace Blaise.Tests.Helpers.Cati.Pages
             {
                 ClickButtonByXPath(_filterButton);
             }
+
             ClickButtonByXPath(_surveyRadioButton);
             ClickButtonByXPath(_applyButton);
         }
