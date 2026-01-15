@@ -205,7 +205,6 @@
     <Compile Include="Browser\BrowserHelper.cs" />
     <Compile Include="Case\CaseHelper.cs" />
     <Compile Include="Cati\CatiManagementHelper.cs" />
-    <Compile Include="Cati\Interfaces\ISurveyPageSelectors.cs" />
     <Compile Include="Cati\Pages\CaseInfoPage.cs" />
     <Compile Include="Configuration\CatiConfigurationHelper.cs" />
     <Compile Include="Configuration\Interfaces\ICatiConfigurationHelper.cs" />
