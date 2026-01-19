@@ -1,10 +1,8 @@
 using System;
-using Blaise.Tests.Helpers.Browser;
 using Blaise.Tests.Helpers.Configuration;
 using Blaise.Tests.Helpers.Dqs;
-using Blaise.Tests.Helpers.Questionnaire;
 using NUnit.Framework;
-using TechTalk.SpecFlow;
+using Reqnroll;
 
     [Binding]
     public class DeleteQuestionnaireSteps
@@ -48,4 +46,3 @@ using TechTalk.SpecFlow;
                 "The deletion summary should be available, indicating that the questionnaire has been removed from Blaise");
         }
     }
-}

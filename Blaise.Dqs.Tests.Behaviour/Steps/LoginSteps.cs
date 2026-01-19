@@ -5,7 +5,7 @@ using Blaise.Tests.Helpers.Configuration;
 using Blaise.Tests.Helpers.Dqs;
 using Blaise.Tests.Helpers.User;
 using Blaise.Tests.Models.User;
-using TechTalk.SpecFlow;
+using Reqnroll;
 
 namespace Blaise.Dqs.Tests.Behaviour.Steps
 {

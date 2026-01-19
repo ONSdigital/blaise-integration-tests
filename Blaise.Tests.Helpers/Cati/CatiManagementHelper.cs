@@ -64,7 +64,7 @@ namespace Blaise.Tests.Helpers.Cati
         {
             LogIntoCatiDashboardAsAdministrator();
 
-            var dayBatchPage = new DaybatchPage();
+            var dayBatchPage = new DayBatchPage();
             dayBatchPage.LoadPage();
             dayBatchPage.ApplyFilters();
             Thread.Sleep(2000);
@@ -87,7 +87,7 @@ namespace Blaise.Tests.Helpers.Cati
             surveyPage.LoadPage();
             surveyPage.ApplyFilter();
 
-            surveyPage.ClearDaybatchEntries();
+            surveyPage.ClearDayBatchEntries();
         }
     }
 }

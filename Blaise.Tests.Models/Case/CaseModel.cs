@@ -31,7 +31,14 @@ namespace Blaise.Tests.Models.Case
             TelephoneNo = telephoneNo;
         }
 
-        /// <inheritdoc/>
+        public Dictionary<string, string> PrimaryKeyValues { get; }
+
+        public string PrimaryKey { get; }
+
+        public string OutcomeCode { get; }
+
+        public string TelephoneNo { get; }
+
         public bool Equals(CaseModel other)
         {
             if (other is null)
@@ -51,10 +58,8 @@ namespace Blaise.Tests.Models.Case
             };
         }
 
-        /// <inheritdoc/>
         public override bool Equals(object obj) => Equals(obj as CaseModel);
 
-        /// <inheritdoc/>
         public override int GetHashCode() => (PrimaryKeyValues, OutcomeCode, TelephoneNo).GetHashCode();
     }
 }

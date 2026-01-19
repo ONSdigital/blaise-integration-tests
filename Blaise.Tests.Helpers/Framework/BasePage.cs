@@ -20,18 +20,18 @@ using OpenQA.Selenium.Support.UI;
             _pageUrl = $"{pageUrl}?{pageUrlParameter}";
         }
 
-        public void LoadPage()
-        {
-            BrowserHelper.BrowseTo(_pageUrl);
-            BrowserHelper
-                .Wait($"Timed out waiting for page {_pageUrl} to load")
-                .Until(PageHasLoaded());
-        }
+        //public void LoadPage()
+        //{
+        //    BrowserHelper.BrowseTo(_pageUrl);
+        //    BrowserHelper
+        //        .Wait($"Timed out waiting for page {_pageUrl} to load")
+        //        .Until(PageHasLoaded());
+        //}
 
-        public void LoadSpecificPage(string url)
-        {
-            BrowserHelper.BrowseTo(url);
-        }
+        //public void LoadSpecificPage(string url)
+        //{
+        //    BrowserHelper.BrowseTo(url);
+        //}
 
         public void ButtonIsAvailableById(string buttonId)
         {
@@ -161,25 +161,25 @@ using OpenQA.Selenium.Support.UI;
             }
         }
 
-        protected static bool ElementIsDisplayed(By by)
-        {
-            return BrowserHelper.ElementIsDisplayed(by);
-        }
+        //protected static bool ElementIsDisplayed(By by)
+        //{
+        //    return BrowserHelper.ElementIsDisplayed(by);
+        //}
 
-        protected static Func<IWebDriver, bool> BodyContainsText(string text)
-        {
-            return driver =>
-            {
-                var body = driver.FindElement(By.TagName("body"));
+        //protected static Func<IWebDriver, bool> BodyContainsText(string text)
+        //{
+        //    return driver =>
+        //    {
+        //        var body = driver.FindElement(By.TagName("body"));
 
-                return SeleniumExtras.WaitHelpers.ExpectedConditions.TextToBePresentInElement(body, text)(driver);
-            };
-        }
+        //        return SeleniumExtras.WaitHelpers.ExpectedConditions.TextToBePresentInElement(body, text)(driver);
+        //    };
+        //}
 
-        protected virtual Func<IWebDriver, bool> PageHasLoaded()
-        {
-            return driver => true;
-        }
+        //protected virtual Func<IWebDriver, bool> PageHasLoaded()
+        //{
+        //    return driver => true;
+        //}
 
         public void LoadPage()
         {
@@ -235,4 +235,3 @@ using OpenQA.Selenium.Support.UI;
             return questionnaires;
         }
     }
-}
