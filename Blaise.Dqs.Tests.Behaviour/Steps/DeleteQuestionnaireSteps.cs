@@ -6,28 +6,9 @@ using Blaise.Tests.Helpers.Questionnaire;
 using NUnit.Framework;
 using TechTalk.SpecFlow;
 
-namespace Blaise.Dqs.Tests.Behaviour.Steps
-{
     [Binding]
     public class DeleteQuestionnaireSteps
     {
-        [Given(@"I have a questionnaire I want to delete")]
-        public void GivenIHaveAQestionnaireIWantToDelete()
-        {
-            QuestionnaireHelper.GetInstance().InstallQuestionnaire(BlaiseConfigurationHelper.QuestionnaireName, BlaiseConfigurationHelper.ServerParkName, BlaiseConfigurationHelper.QuestionnairePath, BlaiseConfigurationHelper.QuestionnaireInstallOptions);
-        }
-
-        [Given(@"the questionnaire is active")]
-        public void GivenTheQuestionnaireIsActive()
-        {
-            Assert.That(
-                QuestionnaireHelper.GetInstance().CheckQuestionnaireActive(
-                    BlaiseConfigurationHelper.QuestionnaireName,
-                    BlaiseConfigurationHelper.ServerParkName),
-                Is.True,
-                "The questionnaire should be active");
-        }
-
         [Given(@"I select delete on the questionnaire details page")]
         public void GivenISelectDeleteOnTheQuestionnaireDetailsPage()
         {

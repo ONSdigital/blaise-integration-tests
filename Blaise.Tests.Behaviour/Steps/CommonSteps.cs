@@ -1,28 +1,49 @@
-using System;
-using Blaise.Tests.Helpers.Browser;
-using NUnit.Framework;
-using TechTalk.SpecFlow;
-
 namespace Blaise.Tests.Behaviour.Steps
 {
+    using System;
+    using Blaise.Tests.Helpers.Browser;
+    using Blaise.Tests.Helpers.Configuration;
+    using Blaise.Tests.Helpers.Framework.Extensions;
+    using Blaise.Tests.Helpers.Health;
+    using Blaise.Tests.Helpers.Questionnaire;
+    using NUnit.Framework;
+    using Reqnroll;
+
     [Binding]
     public sealed class CommonSteps
     {
         private readonly ScenarioContext _scenarioContext;
-
-        private static bool _hasFailureOccurred = false;
 
         public CommonSteps(ScenarioContext scenarioContext)
         {
             _scenarioContext = scenarioContext;
         }
 
+        [BeforeTestRun]
+        public static void BeforeTestRun()
+        {
+            HealthCheckHelper.CheckBlaiseConnection();
+        }
+
         [BeforeScenario]
         public void BeforeScenario()
         {
-            if (_hasFailureOccurred)
+            QuestionnaireHelper.GetInstance()
+                .EnsureQuestionnaireReadyForTest(
+                    BlaiseConfigurationHelper.QuestionnaireName,
+                    BlaiseConfigurationHelper.ServerParkName);
+        }
+
+        [AfterScenario]
+        public void AfterScenario()
+        {
+            if (QuestionnaireHelper.GetInstance().CheckQuestionnaireExists(
+                BlaiseConfigurationHelper.QuestionnaireName,
+                BlaiseConfigurationHelper.ServerParkName))
             {
-                Assert.Fail("A previous scenario has failed. Skipping test.");
+                QuestionnaireHelper.GetInstance().UninstallQuestionnaire(
+                    BlaiseConfigurationHelper.QuestionnaireName,
+                    BlaiseConfigurationHelper.ServerParkName);
             }
         }
 
@@ -31,10 +52,19 @@ namespace Blaise.Tests.Behaviour.Steps
         {
             if (_scenarioContext.TestError != null)
             {
-                _hasFailureOccurred = true;
                 BrowserHelper.OnError(TestContext.CurrentContext, _scenarioContext);
-                throw new Exception(_scenarioContext.TestError.Message);
             }
+        }
+
+        [Given(@"there is a questionnaire installed")]
+        [When(@"I install the questionnaire")]
+        public void GivenThereIsAQuestionnaireInstalled()
+        {
+            QuestionnaireHelper.GetInstance().InstallQuestionnaire(
+                BlaiseConfigurationHelper.QuestionnaireName,
+                BlaiseConfigurationHelper.ServerParkName,
+                BlaiseConfigurationHelper.QuestionnairePath,
+                BlaiseConfigurationHelper.QuestionnaireInstallOptions);
         }
     }
 }

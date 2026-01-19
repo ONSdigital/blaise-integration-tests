@@ -1,33 +1,18 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using Blaise.Tests.Helpers.Browser;
-using Blaise.Tests.Helpers.Case;
-using Blaise.Tests.Helpers.Cati;
-using Blaise.Tests.Helpers.Configuration;
-using Blaise.Tests.Helpers.Questionnaire;
-using Blaise.Tests.Helpers.Tobi;
-using Blaise.Tests.Models.Case;
-using NUnit.Framework;
-using TechTalk.SpecFlow;
-
 namespace Blaise.Tobi.Tests.Behaviour.Steps
 {
+    using System;
+    using System.Collections.Generic;
+    using Blaise.Tests.Helpers.Browser;
+    using Blaise.Tests.Helpers.Cati;
+    using Blaise.Tests.Helpers.Configuration;
+    using Blaise.Tests.Helpers.Tobi;
+    using NUnit.Framework;
+    using Reqnroll;
+
     [Binding]
     public class TobiSteps
     {
-        [BeforeFeature("tobi")]
-        public static void BeforeFeature()
-        {
-            QuestionnaireHelper.GetInstance().InstallQuestionnaire(BlaiseConfigurationHelper.QuestionnaireName, BlaiseConfigurationHelper.ServerParkName, BlaiseConfigurationHelper.QuestionnairePath, BlaiseConfigurationHelper.QuestionnaireInstallOptions);
-            var primaryKeyValues = new Dictionary<string, string> { { "QID.Serial_Number", "9001" } };
-            CaseHelper.GetInstance().CreateCase(new CaseModel(primaryKeyValues, "110", "07000000000"));
-            DayBatchHelper.GetInstance().SetSurveyDay(BlaiseConfigurationHelper.QuestionnaireName, DateTime.Today);
-            DayBatchHelper.GetInstance().CreateDayBatch(BlaiseConfigurationHelper.QuestionnaireName, DateTime.Today);
-        }
-
         [Given(@"there are live surveys")]
-        [Given(@"I can view a list of live surveys")]
         public void GivenThereAreLiveSurveys()
         {
         }
@@ -41,6 +26,7 @@ namespace Blaise.Tobi.Tests.Behaviour.Steps
         [Given(@"I can view a list of questionnaires for a live survey")]
         public void GivenICanViewAListOfQuestionnairesForALiveSurvey()
         {
+            GivenThereAreLiveSurveys();
             TobiHelper.GetInstance().LoadQuestionnairePage();
         }
 
@@ -70,7 +56,7 @@ namespace Blaise.Tobi.Tests.Behaviour.Steps
             Assert.That(
                 surveyTableContents,
                 Contains.Item("DST"),
-                "List of live surveys should contain 'DST'");
+                "List of live surveys should contain DST");
         }
 
         [Then(@"I am presented with a list of questionnaires for the survey")]
@@ -81,7 +67,7 @@ namespace Blaise.Tobi.Tests.Behaviour.Steps
             Assert.That(
                 activeQuestionnaires,
                 Has.Some.Contain(BlaiseConfigurationHelper.QuestionnaireName),
-                $"List of active questionnaires should contain '{BlaiseConfigurationHelper.QuestionnaireName}'");
+                $"List of active questionnaires should contain {BlaiseConfigurationHelper.QuestionnaireName}");
         }
 
         [Then(@"I am presented with the Blaise login")]
@@ -96,14 +82,6 @@ namespace Blaise.Tobi.Tests.Behaviour.Steps
                 currentUrlToLower,
                 Is.EqualTo(expectedUrlToLower),
                 $"Current URL should be the Blaise login page: expected {expectedUrlToLower} actual: {currentUrlToLower}");
-        }
-
-        [AfterFeature("tobi")]
-        public static void AfterFeature()
-        {
-            DayBatchHelper.GetInstance().RemoveSurveyDays(BlaiseConfigurationHelper.QuestionnaireName, DateTime.Today);
-            CaseHelper.GetInstance().DeleteCases();
-            QuestionnaireHelper.GetInstance().UninstallQuestionnaire(BlaiseConfigurationHelper.QuestionnaireName, BlaiseConfigurationHelper.ServerParkName);
         }
     }
 }

@@ -1,28 +1,20 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using Blaise.Nuget.Api.Contracts.Enums;
-using Blaise.Nuget.Api.Contracts.Extensions;
-
 namespace Blaise.Tests.Models.Case
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using Blaise.Nuget.Api.Contracts.Enums;
+    using Blaise.Nuget.Api.Contracts.Extensions;
+
     public class CaseModel : IEquatable<CaseModel>
     {
-        public Dictionary<string, string> PrimaryKeyValues { get; }
-
-        public string PrimaryKey { get; }
-
-        public string OutcomeCode { get; }
-
-        public string TelephoneNo { get; }
-
         public CaseModel(string primaryKey, string outcomeCode, string telephoneNo)
         {
             PrimaryKey = primaryKey;
 
             PrimaryKeyValues = new Dictionary<string, string>
             {
-                ["QID.Serial_Number"] = primaryKey
+                ["QID.Serial_Number"] = primaryKey,
             };
 
             OutcomeCode = outcomeCode;
@@ -55,7 +47,7 @@ namespace Blaise.Tests.Models.Case
             return new Dictionary<string, string>
             {
                 { FieldNameType.HOut.FullName(), OutcomeCode },
-                { FieldNameType.TelNo.FullName(), TelephoneNo }
+                { FieldNameType.TelNo.FullName(), TelephoneNo },
             };
         }
 
