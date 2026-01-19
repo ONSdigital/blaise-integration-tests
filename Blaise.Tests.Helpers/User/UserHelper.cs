@@ -1,16 +1,16 @@
-using System;
-using System.Net;
-using Blaise.Nuget.Api.Api;
-using Blaise.Nuget.Api.Contracts.Interfaces;
-using Blaise.Tests.Models.User;
-using StatNeth.Blaise.API.ServerManager;
-
 namespace Blaise.Tests.Helpers.User
 {
+    using System;
+    using System.Net;
+    using Blaise.Nuget.Api.Api;
+    using Blaise.Nuget.Api.Contracts.Interfaces;
+    using Blaise.Tests.Models.User;
+    using StatNeth.Blaise.API.ServerManager;
+
     public class UserHelper
     {
-        private readonly IBlaiseUserApi _blaiseUserApi;
         private static UserHelper _currentInstance;
+        private readonly IBlaiseUserApi _blaiseUserApi;
 
         public UserHelper()
         {
@@ -26,15 +26,13 @@ namespace Blaise.Tests.Helpers.User
         {
             if (GetUser(userModel.Username) == null)
             {
-                _blaiseUserApi.AddUser(userModel.Username, userModel.Password,
-                    userModel.Role, userModel.ServerParks, userModel.DefaultServerPark);
+                _blaiseUserApi.AddUser(userModel.Username, userModel.Password, userModel.Role, userModel.ServerParks, userModel.DefaultServerPark);
             }
             else
             {
                 RemoveUser(userModel.Username);
 
-                _blaiseUserApi.AddUser(userModel.Username, userModel.Password,
-                   userModel.Role, userModel.ServerParks, userModel.DefaultServerPark);
+                _blaiseUserApi.AddUser(userModel.Username, userModel.Password, userModel.Role, userModel.ServerParks, userModel.DefaultServerPark);
             }
         }
 
@@ -46,13 +44,11 @@ namespace Blaise.Tests.Helpers.User
             }
             catch (WebException ex) when (ex.Message.Contains("Bad Request"))
             {
-                // The remote server returned an unexpected response: (400) Bad Request.
-                // These are not thrown as if the user cannot be removed it will not affect the system
+                Console.WriteLine($"Warning: Failed to remove user {userName} (Bad Request). They may not exist. Error: {ex.Message}");
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                // Handle other exceptions.
-                // These are not thrown as if the user cannot be removed it will not affect the system
+                Console.WriteLine($"Warning: Failed to remove user {userName}. Error: {ex.Message}");
             }
         }
 

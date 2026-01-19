@@ -6,8 +6,6 @@ using NUnit.Framework;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Support.UI;
 
-namespace Blaise.Tests.Helpers.Framework
-{
     public class BasePage
     {
         private readonly string _pageUrl;
@@ -20,6 +18,57 @@ namespace Blaise.Tests.Helpers.Framework
         public BasePage(string pageUrl, string pageUrlParameter)
         {
             _pageUrl = $"{pageUrl}?{pageUrlParameter}";
+        }
+
+        public void LoadPage()
+        {
+            BrowserHelper.BrowseTo(_pageUrl);
+            BrowserHelper
+                .Wait($"Timed out waiting for page {_pageUrl} to load")
+                .Until(PageHasLoaded());
+        }
+
+        public void LoadSpecificPage(string url)
+        {
+            BrowserHelper.BrowseTo(url);
+        }
+
+        public void ButtonIsAvailableById(string buttonId)
+        {
+            BrowserHelper
+                .Wait($"Timed out in ButtonIsAvailableById(\"{buttonId}\")")
+                .Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementToBeClickable(By.Id(buttonId)));
+        }
+
+        public void ButtonIsAvailableByPath(string submitButtonPath)
+        {
+            BrowserHelper
+                .Wait($"Timed out in ButtonIsAvailableByPath(\"{submitButtonPath}\")")
+                .Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementToBeClickable(By.XPath(submitButtonPath)));
+        }
+
+        public void SelectDropDownValueById(string dropDownId, string value)
+        {
+            var selectList = new SelectElement(
+                BrowserHelper
+                .Wait($"Timed out in SelectDropDownValueById(\"{dropDownId}\", \"{value}\")")
+                .Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementExists(By.Id(dropDownId))));
+            selectList.SelectByText(value);
+        }
+
+        protected static bool ElementIsDisplayed(By by)
+        {
+            return BrowserHelper.ElementIsDisplayed(by);
+        }
+
+        protected static Func<IWebDriver, bool> BodyContainsText(string text)
+        {
+            return driver =>
+            {
+                var body = driver.FindElement(By.TagName("body"));
+
+                return SeleniumExtras.WaitHelpers.ExpectedConditions.TextToBePresentInElement(body, text)(driver);
+            };
         }
 
         protected void ClickButtonById(string buttonElementId)
@@ -41,10 +90,14 @@ namespace Blaise.Tests.Helpers.Framework
             button.Click();
         }
 
+        protected void ClickButtonByXPathWithJavaScript(string buttonElementPath)
+        {
+            BrowserHelper.ClickWithJavaScript(By.XPath(buttonElementPath));
+        }
+
         protected string GetElementTextById(string elementId)
         {
-            var element = BrowserHelper.FindElement(By.Id(elementId));
-            return element != null ? element.Text : string.Empty;
+            return BrowserHelper.FindElement(By.Id(elementId)).Text;
         }
 
         protected string GetElementTextByPath(string elementPath)
@@ -75,15 +128,11 @@ namespace Blaise.Tests.Helpers.Framework
 
         protected void PopulateInputById(string elementId, string value)
         {
-            BrowserHelper
+            var element = BrowserHelper
                 .Wait($"Timed out in PopulateInputById(\"{elementId}\", \"{value}\")")
-                .Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementIsVisible(By.Id(elementId)))
-                .Clear();
-
-            BrowserHelper
-                .Wait($"Timed out in PopulateInputById(\"{elementId}\", \"{value}\")")
-                .Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementIsVisible(By.Id(elementId)))
-                .SendKeys(value);
+                .Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementIsVisible(By.Id(elementId)));
+            element.Clear();
+            element.SendKeys(value);
         }
 
         protected void PopulateInputByName(string elementName, string value)
@@ -104,8 +153,7 @@ namespace Blaise.Tests.Helpers.Framework
 
         protected void WaitForPageToChange(string url)
         {
-            // Are we currently on the required page
-            if (!BrowserHelper.GetCurrentUrl().Equals(url, StringComparison.CurrentCultureIgnoreCase))
+            if (!BrowserHelper.GetCurrentUrl().Contains(url))
             {
                 string caseInsensitiveUrlPattern = $"(?i){url}";
                 BrowserHelper.Wait($"WaitForPageToChange expected (\"{url}\") actual (\"{BrowserHelper.CurrentUrl}\") ")
@@ -162,27 +210,9 @@ namespace Blaise.Tests.Helpers.Framework
             }
         }
 
-        public void ButtonIsAvailableById(string buttonId)
+        protected virtual Func<IWebDriver, bool> PageHasLoaded()
         {
-            BrowserHelper
-                .Wait($"Timed out in ButtonIsAvailableById(\"{buttonId}\")")
-                .Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementToBeClickable(By.Id(buttonId)));
-        }
-
-        public void ButtonIsAvailableByPath(string submitButtonPath)
-        {
-            BrowserHelper
-                .Wait($"Timed out in ButtonIsAvailableByPath(\"{submitButtonPath}\")")
-                .Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementToBeClickable(By.XPath(submitButtonPath)));
-        }
-
-        public void SelectDropDownValueById(string dropDownId, string value)
-        {
-            var selectList = new SelectElement(
-                BrowserHelper
-                .Wait($"Timed out in SelectDropDownValueById(\"{dropDownId}\", \"{value}\")")
-                .Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementExists(By.Id(dropDownId))));
-            selectList.SelectByText(value);
+            return driver => ((IJavaScriptExecutor)driver).ExecuteScript("return document.readyState").Equals("complete");
         }
 
         private static int NumberOfRowsInATable(string tablePath)

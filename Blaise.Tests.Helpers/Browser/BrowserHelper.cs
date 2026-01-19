@@ -1,34 +1,33 @@
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using Blaise.Tests.Helpers.Configuration;
-using NUnit.Framework;
-using OpenQA.Selenium;
-using OpenQA.Selenium.Chrome;
-using OpenQA.Selenium.Interactions;
-using OpenQA.Selenium.Support.Extensions;
-using OpenQA.Selenium.Support.UI;
-using SeleniumExtras.WaitHelpers;
-using TechTalk.SpecFlow;
-
 namespace Blaise.Tests.Helpers.Browser
 {
+    using System;
+    using System.Collections.Generic;
+    using System.IO;
+    using System.Linq;
+    using Blaise.Tests.Helpers.Configuration;
+    using NUnit.Framework;
+    using OpenQA.Selenium;
+    using OpenQA.Selenium.Chrome;
+    using OpenQA.Selenium.Support.Extensions;
+    using OpenQA.Selenium.Support.UI;
+    using Reqnroll;
+    using SeleniumExtras.WaitHelpers;
+
     public static class BrowserHelper
     {
         private static IWebDriver _browser;
-
-        private static IWebDriver Browser => _browser ?? (_browser = CreateChromeDriver());
 
         public static int TimeOutInSeconds => BrowserConfigurationHelper.TimeOutInSeconds;
 
         public static string CurrentUrl => Browser.Url;
 
+        private static IWebDriver Browser => _browser ?? (_browser = CreateChromeDriver());
+
         public static WebDriverWait Wait(string message)
         {
             return new WebDriverWait(Browser, TimeSpan.FromSeconds(TimeOutInSeconds))
             {
-                Message = message
+                Message = message,
             };
         }
 
@@ -36,7 +35,7 @@ namespace Blaise.Tests.Helpers.Browser
         {
             return new WebDriverWait(Browser, timeout ?? TimeSpan.FromSeconds(TimeOutInSeconds))
             {
-                Message = message
+                Message = message,
             };
         }
 
@@ -67,12 +66,11 @@ namespace Blaise.Tests.Helpers.Browser
             var element = wait.Until(ExpectedConditions.ElementIsVisible(By.Name(elementName)));
             try
             {
-                // Enter the value into the element
                 element.SendKeys(value);
             }
             catch (StaleElementReferenceException)
             {
-                // Element has become stale, re-find the element and retry sending keys
+                // element has become stale, re-find the element and retry sending keys
                 element = wait.Until(ExpectedConditions.ElementIsVisible(By.Name(elementName)));
                 element.SendKeys(value);
             }
@@ -92,6 +90,7 @@ namespace Blaise.Tests.Helpers.Browser
             jsExecutor.ExecuteScript("window.localStorage.clear();");
             jsExecutor.ExecuteScript("window.sessionStorage.clear();");
             _browser.Quit();
+            _browser = null;
         }
 
         public static bool ElementExistsById(string id, TimeSpan? timeout = null)
@@ -106,18 +105,6 @@ namespace Blaise.Tests.Helpers.Browser
             {
                 return false;
             }
-        }
-
-        public static bool ElementExistsByXPath(string xPath)
-        {
-            return Browser.FindElements(By.XPath(xPath)).Count > 0;
-        }
-
-        public static void ScrollHorizontalByOffset(int offset)
-        {
-            var actions = new Actions(Browser);
-            actions.MoveByOffset(offset, 0);
-            actions.Perform();
         }
 
         public static void ScrollIntoView(IWebElement element)
@@ -179,24 +166,24 @@ namespace Blaise.Tests.Helpers.Browser
             }
             catch (NullReferenceException ex)
             {
-                Console.WriteLine($"NullReferenceException in SaveAndAttachHtml: {ex.Message}");
-                Console.WriteLine($"Stack Trace: {ex.StackTrace}");
+                Console.WriteLine($"NullReferenceException in SaveAndAttachHtml. Error: {ex.Message}");
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"Failed to save or attach HTML: {ex.Message}");
-                Console.WriteLine($"Stack Trace: {ex.StackTrace}");
+                Console.WriteLine($"Failed to save or attach HTML. Error: {ex.Message}");
             }
         }
 
         public static void OnError(NUnit.Framework.TestContext testContext, ScenarioContext scenarioContext)
         {
-            if (scenarioContext.ContainsValue(scenarioContext.StepContext.StepInfo.Text))
+            if (scenarioContext.ContainsKey("ErrorHandled"))
             {
                 return;
             }
 
-            string baseFileName = scenarioContext.StepContext.StepInfo.Text;
+            string stepText = scenarioContext.StepContext.StepInfo.Text;
+            string baseFileName = new string(stepText.Where(character => !Path.GetInvalidFileNameChars().Contains(character)).ToArray());
+            baseFileName = baseFileName.Length > 100 ? baseFileName.Substring(0, 100) : baseFileName;
 
             if (_browser != null)
             {
@@ -208,19 +195,17 @@ namespace Blaise.Tests.Helpers.Browser
                 }
                 else
                 {
-                    Console.WriteLine("Unable to take screenshot for error reporting.");
+                    Console.WriteLine("Unable to take screenshot for error reporting");
                 }
 
                 SaveAndAttachHtml(testContext, baseFileName);
             }
             else
             {
-                Console.WriteLine("Browser was not initialised when error occurred.");
+                Console.WriteLine("Browser was not initialised when error occurred");
             }
 
-            scenarioContext.Remove("Error");
-            scenarioContext.Add("Error", scenarioContext.TestError.Message);
-            scenarioContext.ScenarioContainer.RegisterInstanceAs(scenarioContext.TestError);
+            scenarioContext.Add("ErrorHandled", true);
         }
 
         public static void CloseBrowser()
@@ -243,7 +228,7 @@ namespace Blaise.Tests.Helpers.Browser
 
                 if (string.IsNullOrEmpty(html))
                 {
-                    Console.WriteLine("Retrieved HTML is null or empty.");
+                    Console.WriteLine("Retrieved HTML is null or empty");
                     return null;
                 }
 
@@ -251,12 +236,12 @@ namespace Blaise.Tests.Helpers.Browser
             }
             catch (WebDriverException ex)
             {
-                Console.WriteLine($"WebDriverException in CurrentWindowHtml: {ex.Message}");
+                Console.WriteLine($"WebDriverException in CurrentWindowHtml. Error: {ex.Message}");
                 return null;
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"Exception in CurrentWindowHtml: {ex.Message}");
+                Console.WriteLine($"Exception in CurrentWindowHtml. Error: {ex.Message}");
                 return null;
             }
         }
@@ -276,17 +261,6 @@ namespace Blaise.Tests.Helpers.Browser
             Browser.SwitchTo().Window(Browser.WindowHandles.Last());
         }
 
-        private static ChromeDriver CreateChromeDriver()
-        {
-            var chromeOptions = new ChromeOptions
-            {
-                AcceptInsecureCertificates = true
-            };
-            chromeOptions.AddArguments("headless");
-            chromeOptions.AddArguments("start-maximized");
-            return new ChromeDriver(BrowserConfigurationHelper.ChromeDriver, chromeOptions);
-        }
-
         public static void WaitForTextInHtml(string text)
         {
             Wait($"Timed out in WaitForTextInHtml(\"{text}\")")
@@ -300,14 +274,25 @@ namespace Blaise.Tests.Helpers.Browser
 
         public static IWebElement FindElement(By by)
         {
-            return Wait($"Timed out in FindElement({by})'")
+            return Wait($"Timed out in FindElement({by})")
                 .Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementIsVisible(by));
+        }
+
+        public static void ClickWithJavaScript(By by)
+        {
+            var element = FindElement(by);
+            var js = (IJavaScriptExecutor)Browser;
+            js.ExecuteScript("arguments[0].click()", element);
         }
 
         public static IReadOnlyCollection<IWebElement> FindElements(By by)
         {
             return Wait($"Timed out in FindElements({by})")
-                .Until(driver => driver.FindElements(by));
+                .Until(driver =>
+                {
+                    var elements = driver.FindElements(by);
+                    return elements.Count > 0 ? elements : null;
+                });
         }
 
         public static bool ElementIsDisplayed(By by)
@@ -330,7 +315,7 @@ namespace Blaise.Tests.Helpers.Browser
             {
                 Timeout = timeout,
                 PollingInterval = pollingInterval,
-                Message = $"Timed out after {timeoutInSeconds} seconds while waiting for URL to match '{expectedUrl}'"
+                Message = $"Timed out after {timeoutInSeconds} seconds while waiting for URL to match '{expectedUrl}'",
             };
 
             try
@@ -339,12 +324,24 @@ namespace Blaise.Tests.Helpers.Browser
             }
             catch (WebDriverTimeoutException ex)
             {
-                throw new WebDriverTimeoutException($"Timed out after {timeoutInSeconds} seconds while waiting for URL to match '{expectedUrl}'", ex);
+                throw new WebDriverTimeoutException($"Timed out after {timeoutInSeconds} seconds while waiting for URL to match '{expectedUrl}'. Error: {ex.Message}");
             }
             catch (Exception ex)
             {
-                throw new Exception($"An error occurred while waiting for URL to match '{expectedUrl}'", ex);
+                throw new Exception($"An error occurred while waiting for URL to match '{expectedUrl}'. Error: {ex.Message}");
             }
+        }
+
+        private static ChromeDriver CreateChromeDriver()
+        {
+            var chromeOptions = new ChromeOptions
+            {
+                AcceptInsecureCertificates = true,
+            };
+            chromeOptions.AddArguments("headless");
+            chromeOptions.AddArguments("start-maximized");
+            chromeOptions.AddArguments("--ignore-certificate-errors");
+            return new ChromeDriver(chromeOptions);
         }
     }
 }

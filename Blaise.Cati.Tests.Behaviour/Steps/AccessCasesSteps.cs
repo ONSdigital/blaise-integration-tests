@@ -6,16 +6,9 @@ using Blaise.Tests.Helpers.Cati;
 using NUnit.Framework;
 using TechTalk.SpecFlow;
 
-namespace Blaise.Cati.Tests.Behaviour.Steps
-{
     [Binding]
     public sealed class AccessCasesSteps
     {
-        [Given(@"there is a CATI questionnaire installed")]
-        public void GivenThereIsACatiQuestionnaireInstalled()
-        {
-        }
-
         [When(@"I click the play button for case '(.*)'")]
         public void WhenIClickThePlayButtonForCase(string caseId)
         {
@@ -23,10 +16,10 @@ namespace Blaise.Cati.Tests.Behaviour.Steps
         }
 
         [When(@"the time is within the daybatch parameters")]
-        public void WhenTheTimeIsWithinTheDayBatchParameters()
+        public void WhenTheTimeIsWithinTheDaybatchParameters()
         {
             CatiInterviewHelper.GetInstance().AddSurveyFilter();
-            CatiInterviewHelper.GetInstance().SetupDayBatchTimeParameters();
+            CatiInterviewHelper.GetInstance().SetupDaybatchTimeParameters();
         }
 
         [When(@"I open the CATI scheduler as an interviewer")]
@@ -43,7 +36,6 @@ namespace Blaise.Cati.Tests.Behaviour.Steps
                 BrowserHelper.SwitchToLastOpenedWindow();
                 var instance = CatiInterviewHelper.GetInstance();
                 instance.WaitForFirstFocusObject();
-                BrowserHelper.TakeScreenShot("C:/Users/Khans8/Downloads", "last opened window");
                 var currentUrl = BrowserHelper.CurrentUrl;
                 var html = BrowserHelper.CurrentWindowHtml();
 
@@ -51,9 +43,7 @@ namespace Blaise.Cati.Tests.Behaviour.Steps
                 if (caseId == "9002")
                 {
                     BrowserHelper.PopulateInputByName("wa_1haa", caseId);
-                    BrowserHelper.TakeScreenShot("C:/Users/Khans8/Downloads", "populated caseid");
                     instance.ClickSubmitButton(caseId);
-                    BrowserHelper.TakeScreenShot("C:/Users/Khans8/Downloads", "submit button clicked");
                     BrowserHelper.WaitForTextInHtml("Welcome to the study");
                 }
                 else
