@@ -680,3 +680,6 @@ ASALocalRun/
 .mfractor/
 
 *.feature.cs
+/.gitattributes
+/Blaise.Integration.Tests.sln
+/Directory.Build.props
