@@ -1,7 +1,7 @@
-using System;
-
 namespace Blaise.Tests.Helpers.Configuration.Interfaces
 {
+    using System;
+
     public interface ICatiConfigurationHelper
     {
         string CatiAdminUsername { get; }

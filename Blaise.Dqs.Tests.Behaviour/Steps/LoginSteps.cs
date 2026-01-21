@@ -1,14 +1,14 @@
-using System;
-using System.Collections.Generic;
-using Blaise.Tests.Helpers.Browser;
-using Blaise.Tests.Helpers.Configuration;
-using Blaise.Tests.Helpers.Dqs;
-using Blaise.Tests.Helpers.User;
-using Blaise.Tests.Models.User;
-using Reqnroll;
-
 namespace Blaise.Dqs.Tests.Behaviour.Steps
 {
+    using System;
+    using System.Collections.Generic;
+    using Blaise.Tests.Helpers.Browser;
+    using Blaise.Tests.Helpers.Configuration;
+    using Blaise.Tests.Helpers.Dqs;
+    using Blaise.Tests.Helpers.User;
+    using Blaise.Tests.Models.User;
+    using Reqnroll;
+
     [Binding]
     public sealed class LoginSteps
     {
@@ -24,7 +24,7 @@ namespace Blaise.Dqs.Tests.Behaviour.Steps
                 Password = Password,
                 Role = "BDSS",
                 ServerParks = new List<string> { BlaiseConfigurationHelper.ServerParkName },
-                DefaultServerPark = BlaiseConfigurationHelper.ServerParkName
+                DefaultServerPark = BlaiseConfigurationHelper.ServerParkName,
             };
             UserHelper.GetInstance().CreateUser(userModel);
         }

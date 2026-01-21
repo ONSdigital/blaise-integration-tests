@@ -1,11 +1,11 @@
-using System;
-using System.Configuration;
-using Blaise.Tests.Helpers.Configuration;
-using Blaise.Tests.Helpers.Framework;
-using OpenQA.Selenium;
-
 namespace Blaise.Tests.Helpers.Cati.Pages
 {
+    using System;
+    using System.Configuration;
+    using Blaise.Tests.Helpers.Configuration;
+    using Blaise.Tests.Helpers.Framework;
+    using OpenQA.Selenium;
+
     public class LoginPage : BasePage
     {
         private readonly string _blaiseVersion =

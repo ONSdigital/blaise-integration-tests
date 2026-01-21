@@ -1,13 +1,13 @@
-using System;
-using System.Configuration;
-using System.Threading;
-using Blaise.Tests.Helpers.Browser;
-using Blaise.Tests.Helpers.Configuration;
-using Blaise.Tests.Helpers.Framework;
-using OpenQA.Selenium;
-
 namespace Blaise.Tests.Helpers.Cati.Pages
 {
+    using System;
+    using System.Configuration;
+    using System.Threading;
+    using Blaise.Tests.Helpers.Browser;
+    using Blaise.Tests.Helpers.Configuration;
+    using Blaise.Tests.Helpers.Framework;
+    using OpenQA.Selenium;
+
     public class CaseInfoPage : BasePage
     {
         private readonly string _blaiseVersion =
@@ -118,7 +118,6 @@ namespace Blaise.Tests.Helpers.Cati.Pages
                         $"Unsupported ENV_BLAISE_VERSION value: '{_blaiseVersion}'. Expected 'v14' or 'v16'.");
             }
         }
-
 
         public void ClickPlayButton()
         {

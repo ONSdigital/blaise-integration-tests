@@ -6,7 +6,7 @@ using Blaise.Tests.Helpers.Cati;
 using NUnit.Framework;
 using Reqnroll;
 
-    [Binding]
+[Binding]
 public sealed class AccessCasesSteps
 {
     [When(@"I click the play button for case '(.*)'")]
@@ -26,7 +26,6 @@ public sealed class AccessCasesSteps
     public void WhenIOpenTheCatiSchedulerAsAnInterviewer()
     {
         CatiInterviewHelper.GetInstance().AccessCatiSchedulerAsInterviewer();
-
     }
 
     [Then(@"I am able to capture the respondents data for case '(.*)'")]

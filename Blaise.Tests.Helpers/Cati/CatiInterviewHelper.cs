@@ -1,15 +1,15 @@
-using System.Collections.Generic;
-using System.Configuration;
-using System.Threading;
-using Blaise.Tests.Helpers.Browser;
-using Blaise.Tests.Helpers.Cati.Pages;
-using Blaise.Tests.Helpers.Configuration;
-using Blaise.Tests.Helpers.User;
-using Blaise.Tests.Models.User;
-using OpenQA.Selenium;
-
 namespace Blaise.Tests.Helpers.Cati
 {
+    using System.Collections.Generic;
+    using System.Configuration;
+    using System.Threading;
+    using Blaise.Tests.Helpers.Browser;
+    using Blaise.Tests.Helpers.Cati.Pages;
+    using Blaise.Tests.Helpers.Configuration;
+    using Blaise.Tests.Helpers.User;
+    using Blaise.Tests.Models.User;
+    using OpenQA.Selenium;
+
     public class CatiInterviewHelper
     {
         private static CatiInterviewHelper _currentInstance;
@@ -57,7 +57,7 @@ namespace Blaise.Tests.Helpers.Cati
                 Password = CatiConfigurationHelper.CatiInterviewPassword,
                 Role = CatiConfigurationHelper.InterviewRole,
                 ServerParks = new List<string> { BlaiseConfigurationHelper.ServerParkName },
-                DefaultServerPark = BlaiseConfigurationHelper.ServerParkName
+                DefaultServerPark = BlaiseConfigurationHelper.ServerParkName,
             };
             UserHelper.GetInstance().CreateUser(interviewUser);
         }

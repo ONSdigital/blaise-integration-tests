@@ -5,3 +5,14 @@ packages/
 *.user
 StyleCopReport.xml
 .instructions.md
+/Blaise.Tobi.Tests.Behaviour/App.config
+/Blaise.Tests.Models/App.config
+/Blaise.Tests.Helpers/App.config
+/Blaise.Tests.Behaviour/App.config
+/Blaise.Dqs.Tests.Behaviour/App.config
+/Blaise.Cati.Tests.Behaviour/App.config
+/Blaise.Tests.Behaviour/App.config
+/Blaise.Dqs.Tests.Behaviour/App.config
+/Blaise.Tests.Helpers/App.config
+/Blaise.Tests.Models/App.config
+/Blaise.Tobi.Tests.Behaviour/App.config

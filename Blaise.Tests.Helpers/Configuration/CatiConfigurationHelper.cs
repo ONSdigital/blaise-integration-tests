@@ -1,9 +1,9 @@
-using System;
-using System.Configuration;
-using Blaise.Tests.Helpers.Framework.Extensions;
-
 namespace Blaise.Tests.Helpers.Configuration
 {
+    using System;
+    using System.Configuration;
+    using Blaise.Tests.Helpers.Framework.Extensions;
+
     public static class CatiConfigurationHelper
     {
         private static readonly Guid _adminPassword;

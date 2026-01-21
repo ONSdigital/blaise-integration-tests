@@ -1,13 +1,13 @@
-using System;
-using System.Configuration;
-using System.Threading;
-using Blaise.Tests.Helpers.Configuration;
-using Blaise.Tests.Helpers.Framework;
-using OpenQA.Selenium;
-
 // ReSharper disable InconsistentNaming
 namespace Blaise.Tests.Helpers.Cati.Pages
 {
+    using System;
+    using System.Configuration;
+    using System.Threading;
+    using Blaise.Tests.Helpers.Configuration;
+    using Blaise.Tests.Helpers.Framework;
+    using OpenQA.Selenium;
+
     public class DayBatchPage : BasePage
     {
         private readonly string _blaiseVersion =
@@ -20,6 +20,7 @@ namespace Blaise.Tests.Helpers.Cati.Pages
         private const string _filterButton = "//*[contains(text(), 'Filters')]";
         private readonly string _surveyRadioButton =
             $"//*[normalize-space()='{BlaiseConfigurationHelper.QuestionnaireName}']";
+
         private const string _applyButton = "//*[contains(text(), 'Apply')]";
 
         private string DayBatchEntryPath

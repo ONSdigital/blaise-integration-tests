@@ -1,12 +1,12 @@
-using System;
-using System.Configuration;
-using System.Threading;
-using Blaise.Tests.Helpers.Configuration;
-using Blaise.Tests.Helpers.Framework;
-using OpenQA.Selenium;
-
 namespace Blaise.Tests.Helpers.Cati.Pages
 {
+    using System;
+    using System.Configuration;
+    using System.Threading;
+    using Blaise.Tests.Helpers.Configuration;
+    using Blaise.Tests.Helpers.Framework;
+    using OpenQA.Selenium;
+
     public class SurveyPage : BasePage
     {
         private readonly string _blaiseVersion =
@@ -97,7 +97,6 @@ namespace Blaise.Tests.Helpers.Cati.Pages
                 }
             }
         }
-
 
         protected override Func<IWebDriver, bool> PageHasLoaded()
         {

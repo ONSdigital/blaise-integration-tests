@@ -4,45 +4,45 @@ using Blaise.Tests.Helpers.Dqs;
 using NUnit.Framework;
 using Reqnroll;
 
-    [Binding]
-    public class DeleteQuestionnaireSteps
+[Binding]
+public class DeleteQuestionnaireSteps
+{
+    [Given(@"I select delete on the questionnaire details page")]
+    public void GivenISelectDeleteOnTheQuestionnaireDetailsPage()
     {
-        [Given(@"I select delete on the questionnaire details page")]
-        public void GivenISelectDeleteOnTheQuestionnaireDetailsPage()
+        try
         {
-            try
-            {
-                DqsHelper.GetInstance().DeleteQuestionnaire(BlaiseConfigurationHelper.QuestionnaireName);
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine("Selecting delete on the questionnaire details page failed");
-                Console.WriteLine($"{e}");
-                throw;
-            }
+            DqsHelper.GetInstance().DeleteQuestionnaire(BlaiseConfigurationHelper.QuestionnaireName);
         }
-
-        [Given(@"I am taken to the delete confirmation page")]
-        public void GivenIAmTakenToTheDeleteConfirmationPage()
+        catch (Exception e)
         {
-            DqsHelper.GetInstance().WaitForDeleteQuestionnaireConfirmationPage();
-        }
-
-        [When(@"I confirm that I want to proceed")]
-        public void WhenIConfirmThatIWantToProceed()
-        {
-            DqsHelper.GetInstance().ConfirmDeletionOfQuestionnaire();
-            DqsHelper.GetInstance().WaitForDeletionToComplete();
-        }
-
-        [Then(@"the questionnaire is removed from Blaise")]
-        public void ThenTheQuestionnaireIsRemovedFromBlaise()
-        {
-            var deletionSummary = DqsHelper.GetInstance().GetDeletionSummary();
-
-            Assert.That(
-                deletionSummary,
-                Is.Not.Null,
-                "The deletion summary should be available, indicating that the questionnaire has been removed from Blaise");
+            Console.WriteLine("Selecting delete on the questionnaire details page failed");
+            Console.WriteLine($"{e}");
+            throw;
         }
     }
+
+    [Given(@"I am taken to the delete confirmation page")]
+    public void GivenIAmTakenToTheDeleteConfirmationPage()
+    {
+        DqsHelper.GetInstance().WaitForDeleteQuestionnaireConfirmationPage();
+    }
+
+    [When(@"I confirm that I want to proceed")]
+    public void WhenIConfirmThatIWantToProceed()
+    {
+        DqsHelper.GetInstance().ConfirmDeletionOfQuestionnaire();
+        DqsHelper.GetInstance().WaitForDeletionToComplete();
+    }
+
+    [Then(@"the questionnaire is removed from Blaise")]
+    public void ThenTheQuestionnaireIsRemovedFromBlaise()
+    {
+        var deletionSummary = DqsHelper.GetInstance().GetDeletionSummary();
+
+        Assert.That(
+            deletionSummary,
+            Is.Not.Null,
+            "The deletion summary should be available, indicating that the questionnaire has been removed from Blaise");
+    }
+}
