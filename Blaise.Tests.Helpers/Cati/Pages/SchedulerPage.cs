@@ -1,5 +1,6 @@
 using System;
 using System.Configuration;
+using Blaise.Tests.Helpers.Browser;
 using Blaise.Tests.Helpers.Configuration;
 using Blaise.Tests.Helpers.Framework;
 
@@ -39,6 +40,19 @@ namespace Blaise.Tests.Helpers.Cati.Pages
             }
         }
 
+        public void LoadSchedulerPage()
+        {
+            BrowserHelper.BrowseTo(_pageUrl);
+
+            BrowserHelper.Wait("Timed out waiting for scheduler page")
+                .Until(driver =>
+                {
+                    var url = BrowserHelper.GetCurrentUrl().ToLowerInvariant();
+                    return url.Contains("dst2304z") && url.Contains("layoutset=cati-interviewer_large");
+                });
+
+            LoginButtonIsAvailable();
+        }
         public void LogIntoScheduler(string username, string password)
         {
             PopulateInputByName(_usernameTextBoxName, username);

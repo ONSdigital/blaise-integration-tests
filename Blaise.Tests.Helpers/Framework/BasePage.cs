@@ -1,14 +1,16 @@
 using System;
 using System.Collections.Generic;
+using System.Text.RegularExpressions;
 using Blaise.Tests.Helpers.Browser;
 using Blaise.Tests.Helpers.Cati;
 using NUnit.Framework;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Support.UI;
+using System.Text.RegularExpressions;
 
-    public class BasePage
+public class BasePage
     {
-        private readonly string _pageUrl;
+        protected readonly string _pageUrl;
 
         public BasePage(string pageUrl)
         {
@@ -151,6 +153,24 @@ using OpenQA.Selenium.Support.UI;
             return results;
         }
 
+
+        //protected void WaitForPageToChange(string url)
+        //{
+        //    var currentUrl = BrowserHelper.GetCurrentUrl();
+        
+        //    if (currentUrl.IndexOf(url, StringComparison.OrdinalIgnoreCase) < 0)
+        //    {
+        //        BrowserHelper.Wait($"WaitForPageToChange expected (\"{url}\") actual (\"{currentUrl}\") ")
+        //                 .Until(d =>
+        //                 {
+        //                     var current = BrowserHelper.GetCurrentUrl().ToLowerInvariant();
+
+        //                     return current.Contains("dst2304z")
+        //                         && current.Contains("layoutset=cati-interviewer_large");
+        //                 });
+        //    }
+        //}
+
         protected void WaitForPageToChange(string url)
         {
             if (!BrowserHelper.GetCurrentUrl().Contains(url))
@@ -161,27 +181,28 @@ using OpenQA.Selenium.Support.UI;
             }
         }
 
-        //protected static bool ElementIsDisplayed(By by)
-        //{
-        //    return BrowserHelper.ElementIsDisplayed(by);
-        //}
 
-        //protected static Func<IWebDriver, bool> BodyContainsText(string text)
-        //{
-        //    return driver =>
-        //    {
-        //        var body = driver.FindElement(By.TagName("body"));
+    //protected static bool ElementIsDisplayed(By by)
+    //{
+    //    return BrowserHelper.ElementIsDisplayed(by);
+    //}
 
-        //        return SeleniumExtras.WaitHelpers.ExpectedConditions.TextToBePresentInElement(body, text)(driver);
-        //    };
-        //}
+    //protected static Func<IWebDriver, bool> BodyContainsText(string text)
+    //{
+    //    return driver =>
+    //    {
+    //        var body = driver.FindElement(By.TagName("body"));
 
-        //protected virtual Func<IWebDriver, bool> PageHasLoaded()
-        //{
-        //    return driver => true;
-        //}
+    //        return SeleniumExtras.WaitHelpers.ExpectedConditions.TextToBePresentInElement(body, text)(driver);
+    //    };
+    //}
 
-        public void LoadPage()
+    //protected virtual Func<IWebDriver, bool> PageHasLoaded()
+    //{
+    //    return driver => true;
+    //}
+
+    public void LoadPage()
         {
             BrowserHelper.BrowseTo(_pageUrl);
             this.WaitForPageToChange(_pageUrl);

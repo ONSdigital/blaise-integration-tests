@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Configuration;
 using System.Threading;
 using Blaise.Tests.Helpers.Browser;
 using Blaise.Tests.Helpers.Cati.Pages;
@@ -24,6 +25,16 @@ namespace Blaise.Tests.Helpers.Cati
             schedulerPage.LoadPage();
         }
 
+        public void AccessCatiSchedulerAsInterviewer()
+        {
+            var schedulerPage = new SchedulerPage();
+            schedulerPage.LoadSchedulerPage();
+
+            var username = ConfigurationManager.AppSettings["ENV_BLAISE_ADMIN_USER"];
+            var password = ConfigurationManager.AppSettings["ENV_BLAISE_ADMIN_PASSWORD"];
+            schedulerPage.LogIntoScheduler(username, password);
+        }
+
         public void ClickPlayButtonToAccessCase(string caseId)
         {
             var caseInfoPage = new CaseInfoPage();
@@ -34,8 +45,8 @@ namespace Blaise.Tests.Helpers.Cati
         public void ClickSubmitButton(string caseId)
         {
             BrowserHelper
-          .Wait($"Timed out in ClickSubmitButton")
-          .Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementToBeClickable(By.Id("z"))).Click();
+                .Wait($"Timed out in ClickSubmitButton")
+                .Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementToBeClickable(By.Id("z"))).Click();
         }
 
         public void CreateInterviewUser()
@@ -61,8 +72,6 @@ namespace Blaise.Tests.Helpers.Cati
         public void SetupDayBatchTimeParameters()
         {
             var daybatchPage = new DayBatchPage();
-
-            // makes me sad but Blaise refreshes the table dom object after the page has initialized
             Thread.Sleep(5000);
             daybatchPage.ModifyDayBatchEntry();
         }

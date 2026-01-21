@@ -25,7 +25,8 @@ public sealed class AccessCasesSteps
     [When(@"I open the CATI scheduler as an interviewer")]
     public void WhenIOpenTheCatiSchedulerAsAnInterviewer()
     {
-        CatiInterviewHelper.GetInstance().AccessCatiScheduler();
+        CatiInterviewHelper.GetInstance().AccessCatiSchedulerAsInterviewer();
+
     }
 
     [Then(@"I am able to capture the respondents data for case '(.*)'")]
@@ -33,23 +34,8 @@ public sealed class AccessCasesSteps
     {
         try
         {
-            BrowserHelper.SwitchToLastOpenedWindow();
-            var instance = CatiInterviewHelper.GetInstance();
-            instance.WaitForFirstFocusObject();
-            var currentUrl = BrowserHelper.CurrentUrl;
             var html = BrowserHelper.CurrentWindowHtml();
-
-            // TODO: make this better... this is for the access case via scheduler page and there isn't anything better on the page to verify against
-            if (caseId == "9002")
-            {
-                BrowserHelper.PopulateInputByName("wa_1haa", caseId);
-                instance.ClickSubmitButton(caseId);
-                BrowserHelper.WaitForTextInHtml("Welcome to the study");
-            }
-            else
-            {
-                BrowserHelper.WaitForTextInHtml(caseId);
-            }
+            BrowserHelper.WaitForTextInHtml(caseId);
         }
         catch
         {
