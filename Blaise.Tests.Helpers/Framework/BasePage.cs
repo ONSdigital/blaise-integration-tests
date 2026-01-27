@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text.RegularExpressions;
 using System.Text.RegularExpressions;
 using Blaise.Tests.Helpers.Browser;
@@ -168,15 +169,27 @@ public class BasePage
     //                 });
     //    }
     // }
-    protected void WaitForPageToChange(string url)
+    protected void WaitForPageToChange(string url, int timeoutSeconds = 90)
     {
-        if (!BrowserHelper.GetCurrentUrl().Contains(url))
+        string normalize(string u) => u.Replace("//", "/").TrimEnd('/');
+
+        var expectedNormalized = normalize(url);
+        var currentNormalized = normalize(BrowserHelper.GetCurrentUrl());
+
+        if (currentNormalized.IndexOf(expectedNormalized, StringComparison.OrdinalIgnoreCase) >= 0)
+            return;
+
+        var wait = BrowserHelper.Wait(
+            $"WaitForPageToChange expected (\"{url}\") actual (\"{BrowserHelper.CurrentUrl}\")",
+            TimeSpan.FromSeconds(timeoutSeconds));
+
+        wait.Until(_ =>
         {
-            string caseInsensitiveUrlPattern = $"(?i){url}";
-            BrowserHelper.Wait($"WaitForPageToChange expected (\"{url}\") actual (\"{BrowserHelper.CurrentUrl}\") ")
-                .Until(SeleniumExtras.WaitHelpers.ExpectedConditions.UrlMatches(caseInsensitiveUrlPattern));
-        }
+            currentNormalized = normalize(BrowserHelper.GetCurrentUrl());
+            return currentNormalized.IndexOf(expectedNormalized, StringComparison.OrdinalIgnoreCase) >= 0;
+        });
     }
+
 
     // protected static bool ElementIsDisplayed(By by)
     // {

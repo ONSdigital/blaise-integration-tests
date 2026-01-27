@@ -87,17 +87,6 @@ namespace Blaise.Dqs.Tests.Behaviour.Steps
             BrowserHelper.CloseBrowser();
         }
 
-        [Given(@"I am a BDSS user")]
-        public void GivenIAmABdssUser()
-        {
-        }
-
-        [Given(@"I have logged into DQS")]
-        public void GivenIHaveLoggedIntoDqs()
-        {
-            DqsHelper.GetInstance().LogIntoDqs(_username, _password);
-        }
-
         [Given(@"a questionnaire has been deployed")]
         [Given(@"I have a questionnaire I want to delete")]
         public void GivenAQuestionnaireHasBeenDeployed()
