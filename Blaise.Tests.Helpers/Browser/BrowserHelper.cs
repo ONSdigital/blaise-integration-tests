@@ -340,7 +340,7 @@ namespace Blaise.Tests.Helpers.Browser
                 AcceptInsecureCertificates = true,
             };
 
-            // chromeOptions.AddArguments("headless");
+            chromeOptions.AddArguments("headless");
             chromeOptions.AddArguments("start-maximized");
             chromeOptions.AddArguments("--ignore-certificate-errors");
             return new ChromeDriver(chromeOptions);
