@@ -1,11 +1,12 @@
 namespace Blaise.Tests.Helpers.Cati.Pages
 {
+    using System;
     using System.Threading;
     using Blaise.Tests.Helpers.Browser;
     using Blaise.Tests.Helpers.Configuration;
     using Blaise.Tests.Helpers.Framework;
 
-    public class DaybatchPage : BasePage
+    public class DayBatchPage : BasePage
     {
         private const string DaybatchCreateButtonId = "btnCreateDaybatch";
         private const string QuestionnaireDropDownId = "InstrumentId";
@@ -13,8 +14,8 @@ namespace Blaise.Tests.Helpers.Cati.Pages
         private const string ApplyButton = "//*[contains(text(), 'Apply')]";
         private readonly string _surveyRadioButton = $"//*[normalize-space()='{BlaiseConfigurationHelper.QuestionnaireName}']";
 
-        public DaybatchPage()
-            : base(CatiConfigurationHelper.DaybatchUrl)
+        public DayBatchPage()
+            : base(CatiConfigurationHelper.DayBatchUrl)
         {
         }
 
@@ -24,7 +25,7 @@ namespace Blaise.Tests.Helpers.Cati.Pages
             {
                 try
                 {
-                    return BrowserHelper.ElementExistsByXPath("//i[contains(@class, 'bi-bell-fill')]");
+                    return BrowserHelper.ElementExistsByXPath("//i[contains(@class, 'bi-bell-fill')]", TimeSpan.FromSeconds(1));
                 }
                 catch
                 {
@@ -33,10 +34,9 @@ namespace Blaise.Tests.Helpers.Cati.Pages
             }
         }
 
-        // Dynamic Selectors
         private string CreateButtonSelector => UseNewSelectors
-            ? "qa_btn_submit" // V16 ID
-            : "//input[@value='Create']"; // V14 XPath
+            ? "qa_btn_submit"
+            : "//input[@value='Create']";
 
         private string StartTimeId => UseNewSelectors
             ? "qa_starttime"
@@ -47,18 +47,18 @@ namespace Blaise.Tests.Helpers.Cati.Pages
             : "NewEndTimeAmPm";
 
         private string UpdateButtonSelector => UseNewSelectors
-            ? "qa_btn_submit" // V16 ID
-            : "//input[@value='Update']"; // V14 XPath
+            ? "qa_btn_submit"
+            : "//input[@value='Update']";
 
         private string DayBatchEntryPath => UseNewSelectors
             ? $"//table[@id='Daybatch_content_table']//td[contains(., '{BlaiseConfigurationHelper.QuestionnaireName}')]"
             : $"//table[@id='MVCGridTable_DaybatchGrid']//td[preceding-sibling::td='{BlaiseConfigurationHelper.QuestionnaireName}']";
 
         private string ModifyEntrySelector => UseNewSelectors
-            ? "qa_editrecord_0" // V16 ID
+            ? "qa_editrecord_0"
             : $"//table[@id='MVCGridTable_DaybatchGrid']//td[preceding-sibling::td='{BlaiseConfigurationHelper.QuestionnaireName}']/a"; // V14 XPath
 
-        public void CreateDaybatch()
+        public void CreateDayBatch()
         {
             ClickButtonById(DaybatchCreateButtonId);
             Thread.Sleep(2000);
@@ -92,7 +92,7 @@ namespace Blaise.Tests.Helpers.Cati.Pages
             }
         }
 
-        internal void ModifyDaybatchEntry()
+        internal void ModifyDayBatchEntry()
         {
             if (UseNewSelectors)
             {

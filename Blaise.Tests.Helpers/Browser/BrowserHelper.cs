@@ -107,6 +107,20 @@ namespace Blaise.Tests.Helpers.Browser
             }
         }
 
+        public static bool ElementExistsByXPath(string xPath, TimeSpan? timeout = null)
+        {
+            try
+            {
+                Wait($"Timed out in ElementExistsByXPath(\"{xPath}\")", timeout)
+                    .Until(ExpectedConditions.ElementExists(By.XPath(xPath)));
+                return true;
+            }
+            catch (WebDriverTimeoutException)
+            {
+                return false;
+            }
+        }
+
         public static void ScrollIntoView(IWebElement element)
         {
             Browser.ExecuteJavaScript("arguments[0].scrollIntoView(true);", element);

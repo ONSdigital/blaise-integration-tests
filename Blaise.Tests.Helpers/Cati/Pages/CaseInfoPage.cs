@@ -24,7 +24,7 @@ namespace Blaise.Tests.Helpers.Cati.Pages
             {
                 try
                 {
-                    return BrowserHelper.ElementExistsByXPath("//i[contains(@class, 'bi-bell-fill')]");
+                    return BrowserHelper.ElementExistsByXPath("//i[contains(@class, 'bi-bell-fill')]", TimeSpan.FromSeconds(1));
                 }
                 catch
                 {
@@ -42,8 +42,8 @@ namespace Blaise.Tests.Helpers.Cati.Pages
             : "//*[@id='MVCGridTable_CaseInfoGrid']/tbody/tr[1]/td[2]";
 
         private string PlayButtonSelector => UseNewSelectors
-            ? "qa_startcase_0" // ID for new version
-            : "//*[@id='MVCGridTable_CaseInfoGrid']/tbody/tr[1]/td[19]/a/span"; // XPath for old version
+            ? "qa_startcase_0"
+            : "//*[@id='MVCGridTable_CaseInfoGrid']/tbody/tr[1]/td[19]/a/span";
 
         public void RefreshPageUntilCaseIsPlayable(string caseId)
         {

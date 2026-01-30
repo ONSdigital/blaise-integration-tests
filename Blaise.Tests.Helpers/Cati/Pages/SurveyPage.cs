@@ -24,7 +24,7 @@ namespace Blaise.Tests.Helpers.Cati.Pages
             {
                 try
                 {
-                    return BrowserHelper.ElementExistsByXPath("//i[contains(@class, 'bi-bell-fill')]");
+                    return BrowserHelper.ElementExistsByXPath("//i[contains(@class, 'bi-bell-fill')]", TimeSpan.FromSeconds(1));
                 }
                 catch
                 {
@@ -41,7 +41,6 @@ namespace Blaise.Tests.Helpers.Cati.Pages
             ? "qa_backupdata_0"
             : "chkBackupAll";
 
-        // V14 uses ID, V16 uses XPath (Label)
         private string ClearDataButtonSelector => UseNewSelectors
             ? "//label[@for='qa_clear_all']"
             : "chkClearAll";
@@ -56,10 +55,8 @@ namespace Blaise.Tests.Helpers.Cati.Pages
 
             ClickButtonByXPath(ClearCatiDataButtonPath);
 
-            // Backup button is ID in both versions
             ClickButtonById(BackupDataButtonId);
 
-            // Clear button selector type differs
             if (UseNewSelectors)
             {
                 ClickButtonByXPath(ClearDataButtonSelector);
