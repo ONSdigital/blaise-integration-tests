@@ -6,7 +6,7 @@ namespace Blaise.Tests.Helpers.Cati.Pages
     using Blaise.Tests.Helpers.Configuration;
     using Blaise.Tests.Helpers.Framework;
 
-    public class DayBatchPage : BasePage
+    public class DaybatchPage : BasePage
     {
         private const string DaybatchCreateButtonId = "btnCreateDaybatch";
         private const string QuestionnaireDropDownId = "InstrumentId";
@@ -44,7 +44,7 @@ namespace Blaise.Tests.Helpers.Cati.Pages
             ? "qa_btn_submit"
             : "//input[@value='Update']";
 
-        private string DayBatchEntryPath => UseNewSelectors
+        private string DaybatchEntryPath => UseNewSelectors
             ? $"//table[@id='Daybatch_content_table']//td[contains(., '{BlaiseConfigurationHelper.QuestionnaireName}')]"
             : $"//table[@id='MVCGridTable_DaybatchGrid']//td[preceding-sibling::td='{BlaiseConfigurationHelper.QuestionnaireName}']";
 
@@ -52,12 +52,12 @@ namespace Blaise.Tests.Helpers.Cati.Pages
             ? "qa_editrecord_0"
             : $"//table[@id='MVCGridTable_DaybatchGrid']//td[preceding-sibling::td='{BlaiseConfigurationHelper.QuestionnaireName}']/a"; // V14 XPath
 
-        public DayBatchPage()
-            : base(CatiConfigurationHelper.DayBatchUrl)
+        public DaybatchPage()
+            : base(CatiConfigurationHelper.DaybatchUrl)
         {
         }
 
-        public void CreateDayBatch()
+        public void CreateDaybatch()
         {
             ClickButtonById(DaybatchCreateButtonId);
             Thread.Sleep(2000);
@@ -76,7 +76,7 @@ namespace Blaise.Tests.Helpers.Cati.Pages
 
         public string GetDaybatchEntriesText()
         {
-            return GetElementTextByPath(DayBatchEntryPath);
+            return GetElementTextByPath(DaybatchEntryPath);
         }
 
         public void ApplyFilters()
@@ -91,7 +91,7 @@ namespace Blaise.Tests.Helpers.Cati.Pages
             }
         }
 
-        internal void ModifyDayBatchEntry()
+        internal void ModifyDaybatchEntry()
         {
             if (UseNewSelectors)
             {

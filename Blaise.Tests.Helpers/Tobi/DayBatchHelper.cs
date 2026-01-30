@@ -31,7 +31,7 @@ namespace Blaise.Tests.Helpers.Tobi
 
         public void CreateDaybatch(string questionnaireName, DateTime dayBatchDate)
         {
-            _blaiseCatiApi.CreateDayBatch(questionnaireName, BlaiseConfigurationHelper.ServerParkName, dayBatchDate, true);
+            _blaiseCatiApi.CreateDaybatch(questionnaireName, BlaiseConfigurationHelper.ServerParkName, dayBatchDate, true);
         }
 
         public void RemoveSurveyDays(string questionnaireName, DateTime surveyDay)
