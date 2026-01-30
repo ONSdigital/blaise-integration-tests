@@ -11,12 +11,6 @@ namespace Blaise.Tests.Helpers.Cati.Pages
     {
         private const string _filterButton = "//*[contains(text(), 'Filters')]";
         private const string _applyButton = "//*[contains(text(), 'Apply')]";
-        private readonly string _surveyRadioButton = $"//*[normalize-space()='{BlaiseConfigurationHelper.QuestionnaireName}']";
-
-        public CaseInfoPage()
-            : base(CatiConfigurationHelper.CaseInfoUrl)
-        {
-        }
 
         private bool UseNewSelectors
         {
@@ -45,6 +39,11 @@ namespace Blaise.Tests.Helpers.Cati.Pages
             ? "qa_startcase_0"
             : "//*[@id='MVCGridTable_CaseInfoGrid']/tbody/tr[1]/td[19]/a/span";
 
+        public CaseInfoPage()
+            : base(CatiConfigurationHelper.CaseInfoUrl)
+        {
+        }
+
         public void RefreshPageUntilCaseIsPlayable(string caseId)
         {
             var attempts = 0;
@@ -67,6 +66,7 @@ namespace Blaise.Tests.Helpers.Cati.Pages
         public void ClickPlayButton()
         {
             var numberOfWindows = BrowserHelper.GetNumberOfWindows();
+
             var attempts = 0;
 
             while (BrowserHelper.GetNumberOfWindows() == numberOfWindows)
