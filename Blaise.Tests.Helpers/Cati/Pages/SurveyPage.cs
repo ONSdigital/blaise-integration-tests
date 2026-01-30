@@ -2,18 +2,15 @@ namespace Blaise.Tests.Helpers.Cati.Pages
 {
     using System;
     using System.Threading;
+    using Blaise.Tests.Helpers.Browser;
     using Blaise.Tests.Helpers.Configuration;
     using Blaise.Tests.Helpers.Framework;
     using OpenQA.Selenium;
 
     public class SurveyPage : BasePage
     {
-        private const string ClearCatiDataButtonPath = @"//*[@id='MVCGridTable_SurveysGrid']/tbody/tr/td[9]/a";
-        private const string BackupDataButtonId = "chkBackupAll";
-        private const string ClearDataButtonId = "chkClearAll";
-        private const string ExecuteButtonPath = "//input[@value='Execute']";
-        private const string FilterButton = "//*[contains(text(), 'Filters')]";
-        private const string ApplyButton = "//*[contains(text(), 'Apply')]";
+        private const string _filterButton = "//*[contains(text(), 'Filters')]";
+        private const string _applyButton = "//*[contains(text(), 'Apply')]";
         private readonly string _surveyRadioButton = $"//*[normalize-space()='{BlaiseConfigurationHelper.QuestionnaireName}']";
 
         public SurveyPage()
@@ -21,29 +18,76 @@ namespace Blaise.Tests.Helpers.Cati.Pages
         {
         }
 
+        private bool UseNewSelectors
+        {
+            get
+            {
+                try
+                {
+                    return BrowserHelper.ElementExistsByXPath("//i[contains(@class, 'bi-bell-fill')]");
+                }
+                catch
+                {
+                    return false;
+                }
+            }
+        }
+
+        private string ClearCatiDataButtonPath => UseNewSelectors
+            ? "//*[contains(text(), 'Clear')]"
+            : "//*[@id='MVCGridTable_SurveysGrid']/tbody/tr/td[9]/a";
+
+        private string BackupDataButtonId => UseNewSelectors
+            ? "qa_backupdata_0"
+            : "chkBackupAll";
+
+        // V14 uses ID, V16 uses XPath (Label)
+        private string ClearDataButtonSelector => UseNewSelectors
+            ? "//label[@for='qa_clear_all']"
+            : "chkClearAll";
+
+        private string ExecuteButtonPath => UseNewSelectors
+            ? "//button[@id='qa_btn_submit']"
+            : "//input[@value='Execute']";
+
         public void ClearDaybatchEntries()
         {
             Thread.Sleep(2000);
+
             ClickButtonByXPath(ClearCatiDataButtonPath);
+
+            // Backup button is ID in both versions
             ClickButtonById(BackupDataButtonId);
-            ClickButtonById(ClearDataButtonId);
+
+            // Clear button selector type differs
+            if (UseNewSelectors)
+            {
+                ClickButtonByXPath(ClearDataButtonSelector);
+            }
+            else
+            {
+                ClickButtonById(ClearDataButtonSelector);
+            }
+
             ClickButtonByXPath(ExecuteButtonPath);
         }
 
         public void ApplyFilter()
         {
-            ClickButtonByXPath(FilterButton);
-            var filterButtonText = GetElementTextByPath(FilterButton);
+            ClickButtonByXPath(_filterButton);
+            var filterButtonText = GetElementTextByPath(_filterButton);
             if (filterButtonText != "Filters (active)")
             {
                 ClickButtonByXPath(_surveyRadioButton);
-                ClickButtonByXPath(ApplyButton);
+                ClickButtonByXPath(_applyButton);
             }
         }
 
         protected override Func<IWebDriver, bool> PageHasLoaded()
         {
-            return BodyContainsText("Showing");
+            return UseNewSelectors
+                ? BodyContainsText("Surveys")
+                : BodyContainsText("Showing");
         }
     }
 }

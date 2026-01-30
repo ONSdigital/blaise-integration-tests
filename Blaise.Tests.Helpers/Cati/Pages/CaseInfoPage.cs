@@ -9,17 +9,41 @@ namespace Blaise.Tests.Helpers.Cati.Pages
 
     public class CaseInfoPage : BasePage
     {
-        private const string QuestionnaireCell = "//*[@id='MVCGridTable_CaseInfoGrid']/tbody/tr[1]/td[1]";
-        private const string CaseIdCell = "//*[@id='MVCGridTable_CaseInfoGrid']/tbody/tr[1]/td[2]";
-        private const string PlayButton = "//*[@id='MVCGridTable_CaseInfoGrid']/tbody/tr[1]/td[19]/a/span";
-        private const string FilterButton = "//*[contains(text(), 'Filters')]";
-        private const string ApplyButton = "//*[contains(text(), 'Apply')]";
+        private const string _filterButton = "//*[contains(text(), 'Filters')]";
+        private const string _applyButton = "//*[contains(text(), 'Apply')]";
         private readonly string _surveyRadioButton = $"//*[normalize-space()='{BlaiseConfigurationHelper.QuestionnaireName}']";
 
         public CaseInfoPage()
             : base(CatiConfigurationHelper.CaseInfoUrl)
         {
         }
+
+        private bool UseNewSelectors
+        {
+            get
+            {
+                try
+                {
+                    return BrowserHelper.ElementExistsByXPath("//i[contains(@class, 'bi-bell-fill')]");
+                }
+                catch
+                {
+                    return false;
+                }
+            }
+        }
+
+        private string QuestionnaireCellPath => UseNewSelectors
+            ? "//*[@id='CaseInfo_content_table']/tbody/tr[1]/td[1]"
+            : "//*[@id='MVCGridTable_CaseInfoGrid']/tbody/tr[1]/td[1]";
+
+        private string CaseIdCellPath => UseNewSelectors
+            ? "//*[@id='CaseInfo_content_table']/tbody/tr[1]/td[2]"
+            : "//*[@id='MVCGridTable_CaseInfoGrid']/tbody/tr[1]/td[2]";
+
+        private string PlayButtonSelector => UseNewSelectors
+            ? "qa_startcase_0" // ID for new version
+            : "//*[@id='MVCGridTable_CaseInfoGrid']/tbody/tr[1]/td[19]/a/span"; // XPath for old version
 
         public void RefreshPageUntilCaseIsPlayable(string caseId)
         {
@@ -43,13 +67,22 @@ namespace Blaise.Tests.Helpers.Cati.Pages
         public void ClickPlayButton()
         {
             var numberOfWindows = BrowserHelper.GetNumberOfWindows();
-
             var attempts = 0;
+
             while (BrowserHelper.GetNumberOfWindows() == numberOfWindows)
             {
-                ClickButtonByXPathWithJavaScript(PlayButton);
+                if (UseNewSelectors)
+                {
+                    ClickButtonById(PlayButtonSelector);
+                }
+                else
+                {
+                    ClickButtonByXPathWithJavaScript(PlayButtonSelector);
+                }
+
                 Thread.Sleep(250);
                 attempts++;
+
                 if (attempts > 5)
                 {
                     throw new Exception("Timed out waiting for new window to open.");
@@ -59,35 +92,39 @@ namespace Blaise.Tests.Helpers.Cati.Pages
 
         public void ApplyFilters()
         {
-            ClickButtonByXPath(FilterButton);
-            var filterButtonText = GetElementTextByPath(FilterButton);
+            ClickButtonByXPath(_filterButton);
+            var filterButtonText = GetElementTextByPath(_filterButton);
             if (filterButtonText != "Filters (active)")
             {
                 ClickButtonByXPath(_surveyRadioButton);
-                ClickButtonByXPath(ApplyButton);
+                ClickButtonByXPath(_applyButton);
             }
 
-            ClickButtonByXPath(FilterButton);
+            ClickButtonByXPath(_filterButton);
         }
 
         public bool FirstCaseIsPlayable()
         {
-            return ElementIsDisplayed(By.XPath(PlayButton));
+            return UseNewSelectors
+                ? ElementIsDisplayed(By.Id(PlayButtonSelector))
+                : ElementIsDisplayed(By.XPath(PlayButtonSelector));
         }
 
         protected override Func<IWebDriver, bool> PageHasLoaded()
         {
-            return BodyContainsText("Showing");
+            return UseNewSelectors
+                ? BodyContainsText("Case Info")
+                : BodyContainsText("Showing");
         }
 
         private void WaitUntilFirstCaseQuestionnaireIs(string questionnaire)
         {
-            WaitUntilElementByXPathContainsText(QuestionnaireCell, questionnaire);
+            WaitUntilElementByXPathContainsText(QuestionnaireCellPath, questionnaire);
         }
 
         private void WaitUntilFirstCaseIs(string caseId)
         {
-            WaitUntilElementByXPathContainsText(CaseIdCell, caseId);
+            WaitUntilElementByXPathContainsText(CaseIdCellPath, caseId);
         }
     }
 }
