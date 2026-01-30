@@ -21,7 +21,7 @@ namespace Blaise.Tests.Helpers.Cati.Pages
             {
                 try
                 {
-                    return BrowserHelper.ElementExistsById("qa_username");
+                    return BrowserHelper.ElementExistsById("qa_username", TimeSpan.FromSeconds(1));
                 }
                 catch
                 {
@@ -31,6 +31,7 @@ namespace Blaise.Tests.Helpers.Cati.Pages
         }
 
         private string UsernameBoxId => UseNewSelectors ? "qa_username" : "Username";
+
         private string PasswordBoxId => UseNewSelectors ? "qa_password" : "Password";
 
         public void LoginToCati(string username, string password)
