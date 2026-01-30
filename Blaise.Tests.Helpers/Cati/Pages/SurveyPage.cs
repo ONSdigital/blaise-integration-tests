@@ -11,12 +11,6 @@ namespace Blaise.Tests.Helpers.Cati.Pages
     {
         private const string _filterButton = "//*[contains(text(), 'Filters')]";
         private const string _applyButton = "//*[contains(text(), 'Apply')]";
-        private readonly string _surveyRadioButton = $"//*[normalize-space()='{BlaiseConfigurationHelper.QuestionnaireName}']";
-
-        public SurveyPage()
-            : base(CatiConfigurationHelper.SurveyUrl)
-        {
-        }
 
         private bool UseNewSelectors
         {
@@ -48,6 +42,11 @@ namespace Blaise.Tests.Helpers.Cati.Pages
         private string ExecuteButtonPath => UseNewSelectors
             ? "//button[@id='qa_btn_submit']"
             : "//input[@value='Execute']";
+
+        public SurveyPage()
+            : base(CatiConfigurationHelper.SurveyUrl)
+        {
+        }
 
         public void ClearDaybatchEntries()
         {

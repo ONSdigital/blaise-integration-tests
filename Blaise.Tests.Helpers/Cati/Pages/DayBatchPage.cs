@@ -12,12 +12,6 @@ namespace Blaise.Tests.Helpers.Cati.Pages
         private const string QuestionnaireDropDownId = "InstrumentId";
         private const string FilterButton = "//*[contains(text(), 'Filters')]";
         private const string ApplyButton = "//*[contains(text(), 'Apply')]";
-        private readonly string _surveyRadioButton = $"//*[normalize-space()='{BlaiseConfigurationHelper.QuestionnaireName}']";
-
-        public DayBatchPage()
-            : base(CatiConfigurationHelper.DayBatchUrl)
-        {
-        }
 
         private bool UseNewSelectors
         {
@@ -57,6 +51,11 @@ namespace Blaise.Tests.Helpers.Cati.Pages
         private string ModifyEntrySelector => UseNewSelectors
             ? "qa_editrecord_0"
             : $"//table[@id='MVCGridTable_DaybatchGrid']//td[preceding-sibling::td='{BlaiseConfigurationHelper.QuestionnaireName}']/a"; // V14 XPath
+
+        public DayBatchPage()
+            : base(CatiConfigurationHelper.DayBatchUrl)
+        {
+        }
 
         public void CreateDayBatch()
         {
