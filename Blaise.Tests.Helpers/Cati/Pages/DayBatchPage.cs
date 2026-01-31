@@ -66,11 +66,11 @@ namespace Blaise.Tests.Helpers.Cati.Pages
 
             if (UseNewSelectors)
             {
-                ClickByIdWithRetry(CreateButtonSelector);
+                BrowserHelper.ClickByIdWithRetry(CreateButtonSelector);
             }
             else
             {
-                ClickByXPathWithRetry(CreateButtonSelector);
+                BrowserHelper.ClickByXPathWithRetry(CreateButtonSelector);
             }
         }
 
