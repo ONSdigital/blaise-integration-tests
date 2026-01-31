@@ -8,6 +8,7 @@ namespace Blaise.Tests.Helpers.Browser
     using NUnit.Framework;
     using OpenQA.Selenium;
     using OpenQA.Selenium.Chrome;
+    using OpenQA.Selenium.Interactions;
     using OpenQA.Selenium.Support.Extensions;
     using OpenQA.Selenium.Support.UI;
     using Reqnroll;
@@ -123,7 +124,7 @@ namespace Blaise.Tests.Helpers.Browser
 
         public static void ScrollIntoView(IWebElement element)
         {
-            Browser.ExecuteJavaScript("arguments[0].scrollIntoView(true);", element);
+            new Actions(Browser).MoveToElement(element).Perform();
         }
 
         public static string TakeScreenShot(string screenShotPath, string screenShotName)
