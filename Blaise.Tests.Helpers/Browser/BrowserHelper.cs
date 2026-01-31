@@ -299,11 +299,53 @@ namespace Blaise.Tests.Helpers.Browser
             ScrollIntoViewAndClick(By.Id(id));
         }
 
+        private static void ScrollIntoViewAndClickWithRetry(By by)
+        {
+            try
+            {
+                var element = FindElement(by);
+                ScrollIntoView(element);
+                element.Click();
+            }
+            catch (StaleElementReferenceException)
+            {
+                var element = FindElement(by);
+                ScrollIntoView(element);
+                element.Click();
+            }
+        }
+
+        public static void ScrollIntoViewAndClickByIdWithRetry(string id)
+        {
+            ScrollIntoViewAndClickWithRetry(By.Id(id));
+        }
+
         public static void ClickWithJavaScript(By by)
         {
             var element = FindElement(by);
             var js = (IJavaScriptExecutor)Browser;
             js.ExecuteScript("arguments[0].click()", element);
+        }
+
+        private static void ClickWithJavaScriptWithRetry(By by)
+        {
+            try
+            {
+                var element = FindElement(by);
+                var js = (IJavaScriptExecutor)Browser;
+                js.ExecuteScript("arguments[0].click()", element);
+            }
+            catch (StaleElementReferenceException)
+            {
+                var element = FindElement(by);
+                var js = (IJavaScriptExecutor)Browser;
+                js.ExecuteScript("arguments[0].click()", element);
+            }
+        }
+
+        public static void ClickByXPathWithJavaScriptWithRetry(string xpath)
+        {
+            ClickWithJavaScriptWithRetry(By.XPath(xpath));
         }
 
         private static void ClickWithRetry(By by)

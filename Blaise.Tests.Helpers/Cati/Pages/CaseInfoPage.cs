@@ -75,11 +75,11 @@ namespace Blaise.Tests.Helpers.Cati.Pages
             {
                 if (UseNewSelectors)
                 {
-                    ClickButtonById(PlayButtonSelector);
+                    BrowserHelper.ScrollIntoViewAndClickByIdWithRetry(PlayButtonSelector);
                 }
                 else
                 {
-                    ClickButtonByXPathWithJavaScript(PlayButtonSelector);
+                    BrowserHelper.ClickByXPathWithJavaScriptWithRetry(PlayButtonSelector);
                 }
 
                 Thread.Sleep(250);
