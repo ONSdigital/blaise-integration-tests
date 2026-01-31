@@ -43,6 +43,8 @@ namespace Blaise.Tests.Helpers.Cati.Pages
             ? "//button[@id='qa_btn_submit']"
             : "//input[@value='Execute']";
 
+        private readonly string _surveyRadioButton = $"//*[normalize-space()='{BlaiseConfigurationHelper.QuestionnaireName}']";
+
         public SurveyPage()
             : base(CatiConfigurationHelper.SurveyUrl)
         {
