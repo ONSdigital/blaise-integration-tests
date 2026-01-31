@@ -64,11 +64,11 @@ namespace Blaise.Tests.Helpers.Cati
         {
             LogIntoCatiDashboardAsAdministrator();
 
-            var dayBatchPage = new DaybatchPage();
-            dayBatchPage.LoadPage();
-            dayBatchPage.ApplyFilters();
+            var daybatchPage = new DaybatchPage();
+            daybatchPage.LoadPage();
+            daybatchPage.ApplyFilters();
             Thread.Sleep(2000);
-            return dayBatchPage.GetDaybatchEntriesText();
+            return daybatchPage.GetDaybatchEntriesText();
         }
 
         public void SetSurveyDays()

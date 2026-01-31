@@ -45,9 +45,9 @@ namespace Blaise.Tests.Helpers.Cati
 
         public void AddSurveyFilter()
         {
-            var dayBatchPage = new DaybatchPage();
-            dayBatchPage.LoadPage();
-            dayBatchPage.ApplyFilters();
+            var daybatchPage = new DaybatchPage();
+            daybatchPage.LoadPage();
+            daybatchPage.ApplyFilters();
         }
 
         public void SetupDaybatchTimeParameters()
