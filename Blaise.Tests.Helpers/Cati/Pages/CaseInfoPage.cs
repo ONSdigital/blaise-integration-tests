@@ -98,7 +98,15 @@ namespace Blaise.Tests.Helpers.Cati.Pages
             var filterButtonText = GetElementTextByPath(_filterButton);
             if (filterButtonText != "Filters (active)")
             {
-                ClickButtonByXPath(_surveyRadioButton);
+                if (UseNewSelectors)
+                {
+                    BrowserHelper.ClickByIdWithRetry("qa_filter_surveymultiple");
+                    BrowserHelper.ClickByXPathWithRetry(_surveyRadioButton);
+                }
+                else
+                {
+                    ClickButtonByXPath(_surveyRadioButton);
+                }
                 ClickButtonByXPath(_applyButton);
             }
 
