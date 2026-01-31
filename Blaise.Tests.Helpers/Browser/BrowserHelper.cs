@@ -293,6 +293,11 @@ namespace Blaise.Tests.Helpers.Browser
             element.Click();
         }
 
+        public static void ScrollIntoViewAndClickById(string id)
+        {
+            ScrollIntoViewAndClick(By.Id(id));
+        }
+
         public static void ClickWithJavaScript(By by)
         {
             var element = FindElement(by);
