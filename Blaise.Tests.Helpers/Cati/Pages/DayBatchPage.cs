@@ -5,6 +5,7 @@ namespace Blaise.Tests.Helpers.Cati.Pages
     using Blaise.Tests.Helpers.Browser;
     using Blaise.Tests.Helpers.Configuration;
     using Blaise.Tests.Helpers.Framework;
+    using OpenQA.Selenium;
 
     public class DaybatchPage : BasePage
     {
@@ -97,7 +98,7 @@ namespace Blaise.Tests.Helpers.Cati.Pages
         {
             if (UseNewSelectors)
             {
-                ScrollIntoViewAndClick(By.Id(ModifyEntrySelector));
+                ScrollIntoViewAndClick(ModifyEntrySelector);
             }
             else
             {
