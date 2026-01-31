@@ -62,17 +62,15 @@ namespace Blaise.Tests.Helpers.Cati.Pages
         public void CreateDaybatch()
         {
             ClickButtonById(DaybatchCreateButtonId);
-            Thread.Sleep(2000);
             SelectDropDownValueById(QuestionnaireDropDownId, BlaiseConfigurationHelper.QuestionnaireName);
-            Thread.Sleep(3000);
 
             if (UseNewSelectors)
             {
-                ClickButtonById(CreateButtonSelector);
+                ClickByIdWithRetry(CreateButtonSelector);
             }
             else
             {
-                ClickButtonByXPath(CreateButtonSelector);
+                ClickByXPathWithRetry(CreateButtonSelector);
             }
         }
 

@@ -305,6 +305,30 @@ namespace Blaise.Tests.Helpers.Browser
             js.ExecuteScript("arguments[0].click()", element);
         }
 
+        private static void ClickWithRetry(By by)
+        {
+            try
+            {
+                Wait($"Timed out in ClickWithRetry({by})")
+                    .Until(ExpectedConditions.ElementToBeClickable(by)).Click();
+            }
+            catch (StaleElementReferenceException)
+            {
+                Wait($"Timed out in ClickWithRetry({by}) after stale element")
+                    .Until(ExpectedConditions.ElementToBeClickable(by)).Click();
+            }
+        }
+
+        public static void ClickByIdWithRetry(string id)
+        {
+            ClickWithRetry(By.Id(id));
+        }
+
+        public static void ClickByXPathWithRetry(string xpath)
+        {
+            ClickWithRetry(By.XPath(xpath));
+        }
+
         public static IReadOnlyCollection<IWebElement> FindElements(By by)
         {
             return Wait($"Timed out in FindElements({by})")
