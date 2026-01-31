@@ -301,17 +301,24 @@ namespace Blaise.Tests.Helpers.Browser
 
         private static void ScrollIntoViewAndClickWithRetry(By by)
         {
-            try
+            var attempts = 0;
+            while (true)
             {
-                var element = FindElement(by);
-                ScrollIntoView(element);
-                element.Click();
-            }
-            catch (StaleElementReferenceException)
-            {
-                var element = FindElement(by);
-                ScrollIntoView(element);
-                element.Click();
+                try
+                {
+                    var element = FindElement(by);
+                    ScrollIntoView(element);
+                    element.Click();
+                    return;
+                }
+                catch (StaleElementReferenceException)
+                {
+                    attempts++;
+                    if (attempts >= 3)
+                    {
+                        throw;
+                    }
+                }
             }
         }
 
