@@ -50,7 +50,7 @@ namespace Blaise.Tests.Helpers.Cati.Pages
 
         private string ModifyEntrySelector => UseNewSelectors
             ? "qa_editrecord_0"
-            : $"//table[@id='MVCGridTable_DaybatchGrid']//td[preceding-sibling::td='{BlaiseConfigurationHelper.QuestionnaireName}']/a"; // V14 XPath
+            : $"//table[@id='MVCGridTable_DaybatchGrid']//td[preceding-sibling::td='{BlaiseConfigurationHelper.QuestionnaireName}']/a";
 
         private readonly string _surveyRadioButton = $"//*[normalize-space()='{BlaiseConfigurationHelper.QuestionnaireName}']";
 
@@ -97,6 +97,8 @@ namespace Blaise.Tests.Helpers.Cati.Pages
         {
             if (UseNewSelectors)
             {
+                var element = BrowserHelper.FindElement(By.Id(ModifyEntrySelector));
+                BrowserHelper.ScrollIntoView(element);
                 ClickButtonById(ModifyEntrySelector);
             }
             else
