@@ -52,6 +52,8 @@ namespace Blaise.Tests.Helpers.Cati.Pages
             ? "qa_editrecord_0"
             : $"//table[@id='MVCGridTable_DaybatchGrid']//td[preceding-sibling::td='{BlaiseConfigurationHelper.QuestionnaireName}']/a"; // V14 XPath
 
+        private readonly string _surveyRadioButton = $"//*[normalize-space()='{BlaiseConfigurationHelper.QuestionnaireName}']";
+
         public DaybatchPage()
             : base(CatiConfigurationHelper.DaybatchUrl)
         {
