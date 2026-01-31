@@ -97,9 +97,7 @@ namespace Blaise.Tests.Helpers.Cati.Pages
         {
             if (UseNewSelectors)
             {
-                var element = BrowserHelper.FindElement(By.Id(ModifyEntrySelector));
-                BrowserHelper.ScrollIntoView(element);
-                ClickButtonById(ModifyEntrySelector);
+                ScrollIntoViewAndClick(By.Id(ModifyEntrySelector));
             }
             else
             {

@@ -286,6 +286,13 @@ namespace Blaise.Tests.Helpers.Browser
                 .Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementIsVisible(by));
         }
 
+        public static void ScrollIntoViewAndClick(By by)
+        {
+            var element = FindElement(by);
+            ScrollIntoView(element);
+            element.Click();
+        }
+
         public static void ClickWithJavaScript(By by)
         {
             var element = FindElement(by);
