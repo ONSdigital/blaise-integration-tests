@@ -21,7 +21,7 @@ namespace Blaise.Tests.Helpers.Cati.Pages
             {
                 try
                 {
-                    return BrowserHelper.ElementExistsById("qa_username", TimeSpan.FromSeconds(1));
+                    return BrowserHelper.ElementExistsByXPath("//i[contains(@class, 'bi-bell-fill')]", TimeSpan.FromSeconds(1));
                 }
                 catch
                 {
