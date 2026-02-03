@@ -327,6 +327,12 @@ namespace Blaise.Tests.Helpers.Browser
             ScrollIntoViewAndClickWithRetry(By.Id(id));
         }
 
+        public static void WaitUntilElementIsClickableById(string id)
+        {
+            Wait($"Timed out waiting for element with ID '{id}' to be clickable")
+                .Until(ExpectedConditions.ElementToBeClickable(By.Id(id)));
+        }
+
         public static void ClickWithJavaScript(By by)
         {
             var element = FindElement(by);

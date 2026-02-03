@@ -30,7 +30,7 @@ namespace Blaise.Tests.Helpers.Cati.Pages
         }
 
         private string QuestionnaireCellPath => UseNewSelectors
-            ? "//*[@id='CaseInfo_content_table']/tbody/tr[1]/td[1]"
+            ? $"//*[@id='CaseInfo_content_table']//tbody//td[contains(text(), '{BlaiseConfigurationHelper.QuestionnaireName}')]"
             : "//*[@id='MVCGridTable_CaseInfoGrid']/tbody/tr[1]/td[1]";
 
         private string CaseIdCellPath => UseNewSelectors
@@ -75,6 +75,7 @@ namespace Blaise.Tests.Helpers.Cati.Pages
             {
                 if (UseNewSelectors)
                 {
+                    BrowserHelper.WaitUntilElementIsClickableById(PlayButtonSelector);
                     BrowserHelper.ScrollIntoViewAndClickByIdWithRetry(PlayButtonSelector);
                 }
                 else
