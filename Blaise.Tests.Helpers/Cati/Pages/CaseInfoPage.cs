@@ -53,6 +53,12 @@ namespace Blaise.Tests.Helpers.Cati.Pages
             {
                 LoadPage();
                 ApplyFilters();
+
+                if (UseNewSelectors)
+                {
+                    WaitUntilGridHasLoadedData();
+                }
+                
                 WaitUntilFirstCaseQuestionnaireIs(BlaiseConfigurationHelper.QuestionnaireName);
                 WaitUntilFirstCaseIs(caseId);
 
