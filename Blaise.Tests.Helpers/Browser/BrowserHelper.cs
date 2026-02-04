@@ -407,7 +407,7 @@ namespace Blaise.Tests.Helpers.Browser
             }
         }
 
-        public void WaitUntilGridHasLoadedData()
+        public static void WaitUntilGridHasLoadedData()
         {
             BrowserHelper.Wait("Waiting for grid spinner to hide")
                 .Until(d => d.FindElement(By.ClassName("e-spinner-pane")).GetAttribute("class").Contains("e-spin-hide"));

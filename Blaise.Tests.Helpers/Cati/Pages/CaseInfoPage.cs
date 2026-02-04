@@ -56,9 +56,9 @@ namespace Blaise.Tests.Helpers.Cati.Pages
 
                 if (UseNewSelectors)
                 {
-                    WaitUntilGridHasLoadedData();
+                    BrowserHelper.WaitUntilGridHasLoadedData();
                 }
-                
+
                 WaitUntilFirstCaseQuestionnaireIs(BlaiseConfigurationHelper.QuestionnaireName);
                 WaitUntilFirstCaseIs(caseId);
 
