@@ -407,6 +407,15 @@ namespace Blaise.Tests.Helpers.Browser
             }
         }
 
+        public void WaitUntilGridHasLoadedData()
+        {
+            BrowserHelper.Wait("Waiting for grid spinner to hide")
+                .Until(d => d.FindElement(By.ClassName("e-spinner-pane")).GetAttribute("class").Contains("e-spin-hide"));
+
+            BrowserHelper.Wait("Waiting for grid rows to render")
+                .Until(d => d.FindElements(By.ClassName("e-row")).Count > 0);
+        }
+
         public static void WaitForUrlToMatch(string expectedUrl, int timeoutInSeconds = 10, int pollingIntervalInMilliseconds = 500)
         {
             var timeout = TimeSpan.FromSeconds(timeoutInSeconds);
