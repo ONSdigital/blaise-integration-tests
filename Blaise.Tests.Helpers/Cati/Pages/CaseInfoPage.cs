@@ -30,11 +30,11 @@ namespace Blaise.Tests.Helpers.Cati.Pages
         }
 
         private string QuestionnaireCellPath => UseNewSelectors
-            ? $"//*[@id='CaseInfo_content_table']//tbody//td[contains(text(), '{BlaiseConfigurationHelper.QuestionnaireName}')]"
+            ? "//*[@id='CaseInfo_content_table']//tr//td[@aria-colindex='1']"
             : "//*[@id='MVCGridTable_CaseInfoGrid']/tbody/tr[1]/td[1]";
 
         private string CaseIdCellPath => UseNewSelectors
-            ? "//*[@id='CaseInfo_content_table']/tbody/tr[1]/td[2]"
+            ? "//*[@id='CaseInfo_content_table']//tr//td[@aria-colindex='2']"
             : "//*[@id='MVCGridTable_CaseInfoGrid']/tbody/tr[1]/td[2]";
 
         private string PlayButtonSelector => UseNewSelectors
@@ -130,18 +130,26 @@ namespace Blaise.Tests.Helpers.Cati.Pages
         protected override Func<IWebDriver, bool> PageHasLoaded()
         {
             return UseNewSelectors
-                ? BodyContainsText("Case Info")
+                ? BodyDoesNotContainText("No records to display")
                 : BodyContainsText("Showing");
         }
 
         private void WaitUntilFirstCaseQuestionnaireIs(string questionnaire)
         {
-            WaitUntilElementByXPathContainsText(QuestionnaireCellPath, questionnaire);
+            var path = UseNewSelectors
+                ? "//*[@id='CaseInfo_content_table']//tr[1]/td[@aria-colindex='1']//span"
+                : "//*[@id='MVCGridTable_CaseInfoGrid']/tbody/tr[1]/td[1]";
+
+            WaitUntilElementByXPathContainsText(path, questionnaire);
         }
 
         private void WaitUntilFirstCaseIs(string caseId)
         {
-            WaitUntilElementByXPathContainsText(CaseIdCellPath, caseId);
+            var path = UseNewSelectors
+                ? "//*[@id='CaseInfo_content_table']//tr[1]/td[@aria-colindex='2']"
+                : "//*[@id='MVCGridTable_CaseInfoGrid']/tbody/tr[1]/td[2]";
+
+            WaitUntilElementByXPathContainsText(path, caseId);
         }
     }
 }
