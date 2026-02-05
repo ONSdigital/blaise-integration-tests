@@ -72,8 +72,14 @@ namespace Blaise.Tests.Helpers.Cati.Pages
 
         public void ApplyFilter()
         {
+            if (UseNewSelectors)
+            {
+                BrowserHelper.WaitUntilGridHasLoadedData();
+            }
+
             ClickButtonByXPath(_filterButton);
             var filterButtonText = GetElementTextByPath(_filterButton);
+            
             if (filterButtonText != "Filters (active)")
             {
                 ClickButtonByXPath(_surveyRadioButton);
