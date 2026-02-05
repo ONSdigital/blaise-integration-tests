@@ -71,6 +71,22 @@ namespace Blaise.Tests.Helpers.Framework
             };
         }
 
+        protected static Func<IWebDriver, bool> BodyDoesNotContainText(string text)
+        {
+            return driver =>
+            {
+                try
+                {
+                    var body = driver.FindElement(By.TagName("body"));
+                    return !body.Text.Contains(text);
+                }
+                catch (NoSuchElementException)
+                {
+                    return false;
+                }
+            };
+        }
+
         protected void ClickButtonById(string buttonElementId)
         {
             BrowserHelper
