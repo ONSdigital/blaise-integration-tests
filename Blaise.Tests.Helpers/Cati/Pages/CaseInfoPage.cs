@@ -139,7 +139,7 @@ namespace Blaise.Tests.Helpers.Cati.Pages
         private void WaitUntilFirstCaseQuestionnaireIs(string questionnaire)
         {
             var path = UseNewSelectors
-                ? "//*[@id='CaseInfo_content_table']//tr[1]/td[@aria-colindex='1']//span"
+                ? "//*[@id='CaseInfo_content_table']//tr[1]/td[@aria-colindex='1']"
                 : "//*[@id='MVCGridTable_CaseInfoGrid']/tbody/tr[1]/td[1]";
 
             WaitUntilElementByXPathContainsText(path, questionnaire);
