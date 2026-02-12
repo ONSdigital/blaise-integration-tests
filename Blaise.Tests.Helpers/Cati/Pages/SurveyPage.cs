@@ -70,27 +70,34 @@ namespace Blaise.Tests.Helpers.Cati.Pages
             ClickButtonByXPath(ExecuteButtonPath);
         }
 
-        public void ApplyFilter()
+        public void ApplyFilters()
         {
             if (UseNewSelectors)
             {
                 BrowserHelper.WaitUntilGridHasLoadedData();
             }
-
             ClickButtonByXPath(_filterButton);
             var filterButtonText = GetElementTextByPath(_filterButton);
-            
             if (filterButtonText != "Filters (active)")
             {
-                ClickButtonByXPath(_surveyRadioButton);
+                if (UseNewSelectors)
+                {
+                    BrowserHelper.ClickByIdWithRetry("qa_filter_surveymultiple");
+                    BrowserHelper.ClickByXPathWithRetry(_surveyRadioButton);
+                }
+                else
+                {
+                    ClickButtonByXPath(_surveyRadioButton);
+                }
                 ClickButtonByXPath(_applyButton);
             }
+            ClickButtonByXPath(_filterButton);
         }
 
         protected override Func<IWebDriver, bool> PageHasLoaded()
         {
             return UseNewSelectors
-                ? BodyContainsText("Surveys")
+                ? BodyDoesNotContainText("No records to display")
                 : BodyContainsText("Showing");
         }
     }
