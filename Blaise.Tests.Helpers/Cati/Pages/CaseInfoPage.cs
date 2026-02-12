@@ -62,7 +62,7 @@ namespace Blaise.Tests.Helpers.Cati.Pages
             var attempts = 0;
             do
             {
-                NavigateToVersionSpecificPage()
+                NavigateToVersionSpecificPage();
                 ApplyFilter();
 
                 if (UseNewSelectors)
