@@ -66,7 +66,7 @@ namespace Blaise.Tests.Helpers.Cati
 
             var daybatchPage = new DaybatchPage();
             daybatchPage.LoadPage();
-            daybatchPage.ApplyFilters();
+            daybatchPage.ApplyFilter();
             Thread.Sleep(2000);
             return daybatchPage.GetDaybatchEntriesText();
         }
