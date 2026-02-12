@@ -28,6 +28,18 @@ namespace Blaise.Tests.Helpers.Cati.Pages
             }
         }
 
+        public void NavigateToVersionSpecificPage()
+        {
+            if (UseNewSelectors)
+            {
+                BrowserHelper.NavigateToPage(CatiConfigurationHelper.NewDashboardCaseInfoUrl);
+            }
+            else
+            {
+                BrowserHelper.NavigateToPage(CatiConfigurationHelper.CaseInfoUrl);
+            }
+        }
+
         private string QuestionnaireCellPath => UseNewSelectors
             ? "//*[@id='CaseInfo_content_table']//tr//td[@aria-colindex='1']"
             : "//*[@id='MVCGridTable_CaseInfoGrid']/tbody/tr[1]/td[1]";
@@ -50,7 +62,7 @@ namespace Blaise.Tests.Helpers.Cati.Pages
             var attempts = 0;
             do
             {
-                LoadPage();
+                NavigateToVersionSpecificPage()
                 ApplyFilter();
 
                 if (UseNewSelectors)
