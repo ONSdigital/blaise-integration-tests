@@ -59,13 +59,13 @@ namespace Blaise.Tests.Helpers.Cati.Pages
         {
             if (UseNewSelectors)
             {
-                BrowserHelper.WaitUntilGridHasLoadedData(); // needed? PageHasLoaded enough?
                 ClickButtonByXPath("//div[@e-mappinguid='qa_instrumentid' and contains(@class, 'e-filtermenudiv')]");
-                BrowserHelper.ClickByIdWithRetry("qa_instrumentnameidfilter");
+                var dropdownSelector = "//span[contains(@class, 'e-ddl') and .//input[@id='qa_instrumentnameidfilter']]";
+                ClickButtonByXPath(dropdownSelector);
                 var listOptionPath = $"//li[contains(@class, 'e-list-item') and text()='{BlaiseConfigurationHelper.QuestionnaireName}']";
                 ClickButtonByXPath(listOptionPath);
                 ClickButtonByXPath("//button[contains(@class, 'e-flmenu-okbtn') and text()='Filter']");
-                Thread.Sleep(2000);
+                Thread.Sleep(1000);
             }
             else
             {
