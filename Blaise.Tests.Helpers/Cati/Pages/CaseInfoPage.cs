@@ -9,9 +9,8 @@ namespace Blaise.Tests.Helpers.Cati.Pages
 
     public class CaseInfoPage : BasePage
     {
-        private const string _filterButton = "//*[contains(text(), 'Filters')]";
-        private const string _applyButton = "//*[contains(text(), 'Apply')]";
-
+        private const string FilterButton = "//*[contains(text(), 'Filters')]";
+        private const string ApplyButton = "//*[contains(text(), 'Apply')]";
         private readonly string _surveyRadioButton = $"//*[normalize-space()='{BlaiseConfigurationHelper.QuestionnaireName}']";
 
         private bool UseNewSelectors
