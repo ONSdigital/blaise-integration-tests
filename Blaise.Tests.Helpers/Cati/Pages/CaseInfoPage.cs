@@ -37,7 +37,7 @@ namespace Blaise.Tests.Helpers.Cati.Pages
             : "//*[@id='MVCGridTable_CaseInfoGrid']/tbody/tr[1]/td[2]";
 
         private string PlayButtonSelector => UseNewSelectors
-            ? "qa_startcase_0"
+            ? "//*[@id='CaseInfo_content_table']/tbody/tr[1]/td[19]/div/div/div"
             : "//*[@id='MVCGridTable_CaseInfoGrid']/tbody/tr[1]/td[19]/a/span";
 
         public CaseInfoPage()
@@ -80,8 +80,7 @@ namespace Blaise.Tests.Helpers.Cati.Pages
             {
                 if (UseNewSelectors)
                 {
-                    BrowserHelper.WaitUntilElementIsClickableById(PlayButtonSelector);
-                    BrowserHelper.ScrollIntoViewAndClickByIdWithRetry(PlayButtonSelector);
+                    BrowserHelper.ScrollIntoViewAndClick(By.XPath(PlayButtonSelector));
                 }
                 else
                 {
