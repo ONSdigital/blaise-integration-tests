@@ -116,7 +116,6 @@ namespace Blaise.Tests.Helpers.Cati.Pages
                 }
                 ClickButtonByXPath(_applyButton);
             }
-
             ClickButtonByXPath(_filterButton);
         }
 
