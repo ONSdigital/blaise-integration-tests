@@ -79,7 +79,7 @@ namespace Blaise.Tests.Helpers.Cati.Pages
             return GetElementTextByPath(DaybatchEntryPath);
         }
 
-        public void ApplyFilters()
+        public void ApplyFilter()
         {
             Thread.Sleep(5000);
             ClickButtonByXPath(FilterButton);

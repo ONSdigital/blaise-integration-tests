@@ -52,7 +52,7 @@ namespace Blaise.Tests.Helpers.Cati.Pages
             do
             {
                 LoadPage();
-                ApplyFilters();
+                ApplyFilter();
 
                 if (UseNewSelectors)
                 {

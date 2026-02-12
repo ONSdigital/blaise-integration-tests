@@ -70,7 +70,7 @@ namespace Blaise.Tests.Helpers.Cati.Pages
             ClickButtonByXPath(ExecuteButtonPath);
         }
 
-        public void ApplyFilters()
+        public void ApplyFilter()
         {
             if (UseNewSelectors)
             {
