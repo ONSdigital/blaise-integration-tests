@@ -444,6 +444,11 @@ namespace Blaise.Tests.Helpers.Browser
             }
         }
 
+        public static void NavigateToPage(string url)
+        {
+            Browser.Navigate().GoToUrl(url);
+        }
+
         private static ChromeDriver CreateChromeDriver()
         {
             var chromeOptions = new ChromeOptions
