@@ -99,7 +99,7 @@ namespace Blaise.Tests.Helpers.Cati.Pages
             }
         }
 
-        public void ApplyFilters()
+        public void ApplyFilter()
         {
             ClickButtonByXPath(_filterButton);
             var filterButtonText = GetElementTextByPath(_filterButton);
