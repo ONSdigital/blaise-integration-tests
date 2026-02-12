@@ -124,7 +124,9 @@ namespace Blaise.Tests.Helpers.Browser
 
         public static void ScrollIntoView(IWebElement element)
         {
-            ((IJavaScriptExecutor)Browser).ExecuteScript("arguments[0].scrollIntoView({block: 'center', inline: 'nearest'});", element);
+            ((IJavaScriptExecutor)Browser).ExecuteScript(
+                "arguments[0].scrollIntoView({block: 'center', inline: 'center'});", 
+                element);
         }
 
         public static string TakeScreenShot(string screenShotPath, string screenShotName)
