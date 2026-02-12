@@ -101,22 +101,27 @@ namespace Blaise.Tests.Helpers.Cati.Pages
 
         public void ApplyFilter()
         {
-            ClickButtonByXPath(_filterButton);
-            var filterButtonText = GetElementTextByPath(_filterButton);
-            if (filterButtonText != "Filters (active)")
+            if (UseNewSelectors)
             {
-                if (UseNewSelectors)
-                {
-                    BrowserHelper.ClickByIdWithRetry("qa_filter_surveymultiple");
-                    BrowserHelper.ClickByXPathWithRetry(_surveyRadioButton);
-                }
-                else
+                ClickButtonByXPath("//div[@e-mappinguid='qa_instrumentid' and contains(@class, 'e-filtermenudiv')]");
+                var dropdownSelector = "//span[contains(@class, 'e-ddl') and .//input[@id='qa_instrumentnameidfilter']]";
+                ClickButtonByXPath(dropdownSelector);
+                var listOptionPath = $"//li[contains(@class, 'e-list-item') and text()='{BlaiseConfigurationHelper.QuestionnaireName}']";
+                ClickButtonByXPath(listOptionPath);
+                ClickButtonByXPath("//button[contains(@class, 'e-flmenu-okbtn') and text()='Filter']");
+                Thread.Sleep(1000);
+            }
+            else
+            {
+                ClickButtonByXPath(FilterButton);
+                var filterButtonText = GetElementTextByPath(FilterButton);
+                if (filterButtonText != "Filters (active)")
                 {
                     ClickButtonByXPath(_surveyRadioButton);
+                    ClickButtonByXPath(ApplyButton);
                 }
-                ClickButtonByXPath(_applyButton);
+                ClickButtonByXPath(FilterButton);
             }
-            ClickButtonByXPath(_filterButton);
         }
 
         public bool FirstCaseIsPlayable()
