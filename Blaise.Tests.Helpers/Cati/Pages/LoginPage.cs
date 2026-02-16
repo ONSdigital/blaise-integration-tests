@@ -21,11 +21,11 @@ namespace Blaise.Tests.Helpers.Cati.Pages
             try
             {
                 Console.WriteLine("Navigating to default login page.");
-                BrowserHelper.NavigateToPage().GoToUrl(CatiConfigurationHelper.LoginUrl);
+                BrowserHelper.NavigateToPage(CatiConfigurationHelper.LoginUrl);
                 if (BrowserHelper.ElementExistsByXPath("//i[contains(@class, 'bi-bell-fill')]", TimeSpan.FromSeconds(1)))
                 {
                     Console.WriteLine("Bell icon detected. Redirecting to NewDashboardLoginUrl.");
-                    BrowserHelper.NavigateToPage().GoToUrl(CatiConfigurationHelper.NewDashboardLoginUrl);
+                    BrowserHelper.NavigateToPage(CatiConfigurationHelper.NewDashboardLoginUrl);
                 }
                 else
                 {
