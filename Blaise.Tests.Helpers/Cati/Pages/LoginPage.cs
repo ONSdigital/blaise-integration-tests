@@ -13,6 +13,30 @@ namespace Blaise.Tests.Helpers.Cati.Pages
         public LoginPage()
             : base(CatiConfigurationHelper.LoginUrl)
         {
+            EnsureCorrectLoginPage();
+        }
+
+        private void EnsureCorrectLoginPage()
+        {
+            try
+            {
+                Console.WriteLine("Navigating to default login page.");
+                Browser.Navigate().GoToUrl(CatiConfigurationHelper.LoginUrl);
+                if (BrowserHelper.ElementExistsByXPath("//i[contains(@class, 'bi-bell-fill')]", TimeSpan.FromSeconds(1)))
+                {
+                    Console.WriteLine("Bell icon detected. Redirecting to NewDashboardLoginUrl.");
+                    Browser.Navigate().GoToUrl(CatiConfigurationHelper.NewDashboardLoginUrl);
+                }
+                else
+                {
+                    Console.WriteLine("Bell icon not detected. Using default LoginUrl.");
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error while ensuring correct login page: {ex.Message}");
+                throw;
+            }
         }
 
         private bool UseNewSelectors
