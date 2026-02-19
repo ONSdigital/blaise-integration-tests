@@ -8,6 +8,11 @@ namespace Blaise.Tests.Helpers.Configuration
         private static readonly Guid _adminPassword;
         private static readonly Guid _interviewerPassword;
 
+        private static string NormaliseUrl(string url)
+        {
+            return System.Text.RegularExpressions.Regex.Replace(url, "(?<!:)//", "/");
+        }
+
         static CatiConfigurationHelper()
         {
             _adminPassword = Guid.NewGuid();
@@ -34,14 +39,14 @@ namespace Blaise.Tests.Helpers.Configuration
             }
         }
 
-        public static string LoginUrl => $"{CatiBaseUrl}/Blaise/Account/Login";
-        public static string NewDashboardLoginUrl => $"{CatiBaseUrl}/BlaiseDashboard/Account/Login";
-        public static string DaybatchUrl => $"{CatiBaseUrl}/Blaise/Daybatch";
-        public static string SchedulerUrl => $"{CatiBaseUrl}/{BlaiseConfigurationHelper.QuestionnaireName}";
-        public static string SpecificationUrl => $"{CatiBaseUrl}/Blaise/Specification";
-        public static string SurveyUrl => $"{CatiBaseUrl}/Blaise";
-        public static string CaseUrl => $"{CatiBaseUrl}/Blaise/CaseInfo/StartSurvey?url={CatiBaseUrl}/{BlaiseConfigurationHelper.QuestionnaireName}/&rp.KeyValue=";
-        public static string CaseInfoUrl => $"{CatiBaseUrl}/Blaise/CaseInfo";
-        public static string NewDashboardCaseInfoUrl => $"{CatiBaseUrl}/BlaiseDashboard/Cati/CaseInfo";
+        public static string LoginUrl => NormaliseUrl($"{CatiBaseUrl}/Blaise/Account/Login");
+        public static string NewDashboardLoginUrl => NormaliseUrl($"{CatiBaseUrl}/BlaiseDashboard/Account/Login");
+        public static string DaybatchUrl => NormaliseUrl($"{CatiBaseUrl}/Blaise/Daybatch");
+        public static string SchedulerUrl => NormaliseUrl($"{CatiBaseUrl}/{BlaiseConfigurationHelper.QuestionnaireName}");
+        public static string SpecificationUrl => NormaliseUrl($"{CatiBaseUrl}/Blaise/Specification");
+        public static string SurveyUrl => NormaliseUrl($"{CatiBaseUrl}/Blaise");
+        public static string CaseUrl => NormaliseUrl($"{CatiBaseUrl}/Blaise/CaseInfo/StartSurvey?url={CatiBaseUrl}/{BlaiseConfigurationHelper.QuestionnaireName}/&rp.KeyValue=");
+        public static string CaseInfoUrl => NormaliseUrl($"{CatiBaseUrl}/Blaise/CaseInfo");
+        public static string NewDashboardCaseInfoUrl => NormaliseUrl($"{CatiBaseUrl}/BlaiseDashboard/Cati/CaseInfo");
     }
 }
