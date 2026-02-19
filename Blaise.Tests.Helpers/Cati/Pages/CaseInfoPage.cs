@@ -73,6 +73,10 @@ namespace Blaise.Tests.Helpers.Cati.Pages
                 WaitUntilFirstCaseQuestionnaireIs(BlaiseConfigurationHelper.QuestionnaireName);
                 WaitUntilFirstCaseIs(caseId);
 
+                Console.WriteLine($"Attempt {attempts + 1}: Checking if play button is playable...");
+                Console.WriteLine($"UseNewSelectors: {UseNewSelectors}");
+                Console.WriteLine($"Play button visible: {ElementIsDisplayed(By.XPath(PlayButtonSelector))}");
+
                 attempts++;
                 if (attempts > 5)
                 {
@@ -85,23 +89,43 @@ namespace Blaise.Tests.Helpers.Cati.Pages
         public void ClickPlayButton()
         {
             var numberOfWindows = BrowserHelper.GetNumberOfWindows();
-
             var attempts = 0;
 
             while (BrowserHelper.GetNumberOfWindows() == numberOfWindows)
             {
-                if (UseNewSelectors)
+                try
                 {
-                    BrowserHelper.ScrollIntoViewAndClick(By.XPath(PlayButtonSelector));
+                    if (UseNewSelectors)
+                    {
+                        // Locate the table's scrollable container
+                        var tableScrollableContainer = BrowserHelper.FindElement(By.XPath("//*[@id='CaseInfo_content_table']/parent::div"));
+
+                        // Locate the Play button
+                        var playButton = BrowserHelper.FindElement(By.XPath(PlayButtonSelector));
+
+                        // Scroll the table horizontally to bring the Play button into view
+                        BrowserHelper.ExecuteJavaScript(
+                            "arguments[0].scrollLeft = arguments[1].offsetLeft;",
+                            tableScrollableContainer,
+                            playButton
+                        );
+
+                        // Click the Play button
+                        BrowserHelper.ScrollIntoViewAndClick(By.XPath(PlayButtonSelector));
+                    }
+                    else
+                    {
+                        BrowserHelper.ClickByXPathWithJavaScriptWithRetry(PlayButtonSelector);
+                    }
+
+                    Thread.Sleep(250);
                 }
-                else
+                catch (Exception ex)
                 {
-                    BrowserHelper.ClickByXPathWithJavaScriptWithRetry(PlayButtonSelector);
+                    Console.WriteLine($"Error while clicking Play button: {ex.Message}");
                 }
 
-                Thread.Sleep(250);
                 attempts++;
-
                 if (attempts > 5)
                 {
                     throw new Exception("Timed out waiting for new window to open.");
@@ -136,9 +160,25 @@ namespace Blaise.Tests.Helpers.Cati.Pages
 
         public bool FirstCaseIsPlayable()
         {
-            return UseNewSelectors
-                ? ElementIsDisplayed(By.Id(PlayButtonSelector))
-                : ElementIsDisplayed(By.XPath(PlayButtonSelector));
+            try
+            {
+                var isDisplayed = UseNewSelectors
+                    ? ElementIsDisplayed(By.XPath(PlayButtonSelector))
+                    : ElementIsDisplayed(By.XPath(PlayButtonSelector));
+
+                if (isDisplayed)
+                {
+                    var playButton = BrowserHelper.FindElement(By.XPath(PlayButtonSelector));
+                    return playButton.Enabled && playButton.Displayed;
+                }
+
+                return false;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error checking play button state: {ex.Message}");
+                return false;
+            }
         }
 
         protected override Func<IWebDriver, bool> PageHasLoaded()
