@@ -455,10 +455,24 @@ namespace Blaise.Tests.Helpers.Browser
             {
                 AcceptInsecureCertificates = true,
             };
-            chromeOptions.AddArguments("headless");
+            //chromeOptions.AddArguments("headless");
             chromeOptions.AddArguments("start-maximized");
             chromeOptions.AddArguments("--ignore-certificate-errors");
             return new ChromeDriver(chromeOptions);
+        }
+
+        public static object ExecuteJavaScript(string script, params object[] args)
+        {
+            try
+            {
+                var jsExecutor = (IJavaScriptExecutor)Browser;
+                return jsExecutor.ExecuteScript(script, args);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error executing JavaScript: {ex.Message}");
+                throw;
+            }
         }
     }
 }
