@@ -56,13 +56,25 @@ namespace Blaise.Tests.Helpers.Cati.Pages
 
         private string UsernameBoxId => UseNewSelectors ? "qa_username" : "Username";
 
+        private string LoginPageUrl => UseNewSelectors ? "BlaiseDashboard" : "Blaise";
+
+        private string LoginButtonId => UseNewSelectors ? "qa_submit" : "submit";
+
         private string PasswordBoxId => UseNewSelectors ? "qa_password" : "Password";
 
         public void LoginToCati(string username, string password)
         {
             PopulateInputById(UsernameBoxId, username);
             PopulateInputById(PasswordBoxId, password);
-            ClickButtonByXPath(LoginButtonPath);
+
+            string url = BrowserHelper.CurrentUrl;
+            if (UseNewSelectors)
+            {
+                ScrollAndClickButtonById("qa_submit");
+            } else
+            {
+                ClickButtonByXPath(LoginButtonPath);
+            }
         }
 
         protected override Func<IWebDriver, bool> PageHasLoaded()

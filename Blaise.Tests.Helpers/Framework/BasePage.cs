@@ -95,6 +95,55 @@ namespace Blaise.Tests.Helpers.Framework
                 .Click();
         }
 
+        protected void ScrollAndClickButtonById(string buttonElementID)
+        {
+            var attempts = 0;
+
+            while (attempts < 5)
+            {
+                try
+                {
+                    BrowserHelper.ScrollIntoViewAndClickById(buttonElementID);
+
+                    return;
+                }
+                catch (StaleElementReferenceException)
+                {
+                    attempts++;
+                    if (attempts >= 5)
+                        throw;
+                    System.Threading.Thread.Sleep(250);
+                }
+            }
+        }
+
+
+        protected void ClickButtonInsideTableByXPath(string buttonElementPath)
+        {
+            var attempts = 0;
+            while (attempts < 5)
+            {
+                try
+                {
+                    BrowserHelper
+                        .Wait($"Timed out in ClickButtonByXPath(\"{buttonElementPath}\")", TimeSpan.FromSeconds(20))
+                        .Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementToBeClickable(By.XPath(buttonElementPath)));
+
+                    // BENTODO: Need to put some logic here
+                    BrowserHelper.ScrollTableIntoViewAndClickById(By.XPath(buttonElementPath));
+                    // .ScrollIntoViewAndClick(By.XPath(buttonElementPath));
+                    return;
+                }
+                catch (StaleElementReferenceException)
+                {
+                    attempts++;
+                    if (attempts >= 5) throw;
+                    System.Threading.Thread.Sleep(250);
+                }
+            }
+        }
+
+
         protected void ClickButtonByXPath(string buttonElementPath)
         {
             var attempts = 0;
@@ -104,14 +153,17 @@ namespace Blaise.Tests.Helpers.Framework
                 {
                     BrowserHelper
                         .Wait($"Timed out in ClickButtonByXPath(\"{buttonElementPath}\")")
-                        .Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementToBeClickable(By.XPath(buttonElementPath)))
-                        .Click();
+                        .Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementToBeClickable(By.XPath(buttonElementPath)));
+
+                    BrowserHelper.ScrollIntoViewAndClick(By.XPath(buttonElementPath));
+
                     return;
                 }
                 catch (StaleElementReferenceException)
                 {
                     attempts++;
-                    if (attempts >= 5) throw;
+                    if (attempts >= 5)
+                        throw;
                     System.Threading.Thread.Sleep(250);
                 }
             }

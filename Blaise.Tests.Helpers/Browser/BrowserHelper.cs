@@ -125,8 +125,33 @@ namespace Blaise.Tests.Helpers.Browser
         public static void ScrollIntoView(IWebElement element)
         {
             ((IJavaScriptExecutor)Browser).ExecuteScript(
-                "arguments[0].scrollIntoView({block: 'center', inline: 'center'});", 
+                "arguments[0].scrollIntoView({block: 'center', inline: 'center'});",
                 element);
+        }
+
+        public static void ScrollTableToElement(IWebElement element)
+        {
+            ((IJavaScriptExecutor)Browser).ExecuteScript(
+            @"
+                var el = arguments[0];
+
+                function getScrollableParent(element) {
+                    while (element.parentElement) {
+                        element = element.parentElement;
+                        var style = getComputedStyle(element);
+                        if (style.overflowX === 'auto' || style.overflowX === 'scroll') {
+                            return element;
+                        }
+                    }
+                    return null;
+                }
+
+                var scrollParent = getScrollableParent(el);
+
+                if (scrollParent) {
+                    scrollParent.scrollLeft = el.offsetLeft - 100;
+                }
+            ", element);
         }
 
         public static string TakeScreenShot(string screenShotPath, string screenShotName)
@@ -300,6 +325,13 @@ namespace Blaise.Tests.Helpers.Browser
         public static void ScrollIntoViewAndClickById(string id)
         {
             ScrollIntoViewAndClick(By.Id(id));
+        }
+
+        public static void ScrollTableIntoViewAndClickById(By by)
+        {
+            var element = FindElement(by);
+            ScrollTableToElement(element);
+            ScrollIntoViewAndClick(by);
         }
 
         private static void ScrollIntoViewAndClickWithRetry(By by)
