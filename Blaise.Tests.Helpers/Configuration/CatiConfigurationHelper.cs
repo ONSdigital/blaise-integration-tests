@@ -42,6 +42,7 @@ namespace Blaise.Tests.Helpers.Configuration
         public static string LoginUrl => NormaliseUrl($"{CatiBaseUrl}/Blaise/Account/Login");
         public static string NewDashboardLoginUrl => NormaliseUrl($"{CatiBaseUrl}/BlaiseDashboard/Account/Login");
         public static string DaybatchUrl => NormaliseUrl($"{CatiBaseUrl}/Blaise/Daybatch");
+        public static string NewDashboardDaybatchUrl => NormaliseUrl($"{CatiBaseUrl}/BlaiseDashboard/Cati/Daybatch");
         public static string SchedulerUrl => NormaliseUrl($"{CatiBaseUrl}/{BlaiseConfigurationHelper.QuestionnaireName}");
         public static string SpecificationUrl => NormaliseUrl($"{CatiBaseUrl}/Blaise/Specification");
         public static string SurveyUrl => NormaliseUrl($"{CatiBaseUrl}/Blaise");
