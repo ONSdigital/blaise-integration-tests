@@ -156,29 +156,69 @@ namespace Blaise.Tests.Helpers.Cati.Pages
 
         public void NavigateToVersionSpecificPage()
         {
-            if (UseNewSelectors)
+            Console.WriteLine("Starting navigation to the Daybatch page...");
+
+            for (int attempt = 0; attempt < 3; attempt++)
             {
-                BrowserHelper.NavigateToPage(CatiConfigurationHelper.NewDashboardDaybatchUrl);
-            }
-            else
-            {
-                BrowserHelper.NavigateToPage(CatiConfigurationHelper.DaybatchUrl);
+                try
+                {
+                    if (UseNewSelectors)
+                    {
+                        Console.WriteLine("Using new selectors. Navigating to the new dashboard Daybatch URL.");
+                        BrowserHelper.NavigateToPage(CatiConfigurationHelper.NewDashboardDaybatchUrl);
+                    }
+                    else
+                    {
+                        Console.WriteLine("Using old selectors. Navigating to the old dashboard Daybatch URL.");
+                        BrowserHelper.NavigateToPage(CatiConfigurationHelper.DaybatchUrl);
+                    }
+
+                    // Log the current URL after navigation
+                    var currentUrl = BrowserHelper.GetCurrentUrl();
+                    Console.WriteLine($"Attempt {attempt + 1}: Navigated to URL: {currentUrl}");
+
+                    // Check if stuck on the Surveys page
+                    if (currentUrl.Contains("Survey"))
+                    {
+                        Console.WriteLine("Redirected to the survey page. Attempting to navigate back to the Daybatch page...");
+
+                        // Force navigation back to the Daybatch page
+                        BrowserHelper.NavigateToPage(UseNewSelectors
+                            ? CatiConfigurationHelper.NewDashboardDaybatchUrl
+                            : CatiConfigurationHelper.DaybatchUrl);
+
+                        Thread.Sleep(2000); // Wait before retrying
+                        continue;
+                    }
+
+                    // Validate the current URL explicitly
+                    if (currentUrl.Contains("Daybatch"))
+                    {
+                        Console.WriteLine("Successfully navigated to the Daybatch page.");
+
+                        // Wait for the Daybatch table to load
+                        if (BrowserHelper.ElementExistsByXPath("//*[@id='Daybatch_content_table']", TimeSpan.FromSeconds(30)))
+                        {
+                            Console.WriteLine("Daybatch table loaded successfully.");
+                            return; // Successfully navigated and table loaded
+                        }
+
+                        Console.WriteLine("Daybatch table did not load. Retrying...");
+                    }
+                    else
+                    {
+                        Console.WriteLine("Unexpected URL. Retrying navigation...");
+                    }
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine($"Error during navigation attempt {attempt + 1}: {ex.Message}");
+                }
+
+                Thread.Sleep(2000); // Wait before retrying
             }
 
-            // Log the current URL after navigation
-            Console.WriteLine($"Navigated to URL: {BrowserHelper.GetCurrentUrl()}");
-
-            // Wait for the Daybatch page to stabilize
-            if (!BrowserHelper.ElementExistsByXPath("//*[@id='Daybatch_content_table']", TimeSpan.FromSeconds(30)))
-            {
-                throw new Exception("Daybatch table did not load within the expected time.");
-            }
-
-            // Check if the page redirects to the survey page
-            if (BrowserHelper.GetCurrentUrl().Contains("Survey"))
-            {
-                throw new Exception("Unexpected redirection to the survey page.");
-            }
+            throw new Exception("Failed to navigate to the Daybatch page after multiple attempts. Ensure the URL and page structure are correct.");
         }
 
         // Added a public property to expose the UseNewSelectors logic
