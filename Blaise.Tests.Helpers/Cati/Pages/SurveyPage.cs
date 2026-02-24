@@ -74,14 +74,11 @@ namespace Blaise.Tests.Helpers.Cati.Pages
                 Console.WriteLine("Using new selectors to apply filter.");
                 ClickButtonByXPath("//div[@e-mappinguid='qa_instrumentid' and contains(@class, 'e-filtermenudiv')]");
                 Console.WriteLine("Opened filter menu.");
-                var dropdownSelector = "//span[contains(@class, 'e-ddl') and .//input[@id='qa_instrumentnameidfilter']]";
-                ClickButtonByXPath(dropdownSelector);
-                Console.WriteLine("Clicked dropdown selector.");
-                var listOptionPath = $"//li[contains(@class, 'e-list-item') and text()='{BlaiseConfigurationHelper.QuestionnaireName}']";
-                ClickButtonByXPath(listOptionPath);
+                PopulateInputById("Surveys_SearchBox", "DST2304Z");
+                ClickButtonByXPath("//*[@id=\"qa_instrumentid_excelDlg\"]/div[3]/button[1]");
+
                 Console.WriteLine("Selected questionnaire from dropdown.");
-                ClickButtonByXPath("//button[contains(@class, 'e-flmenu-okbtn') and text()='Filter']");
-                Console.WriteLine("Applied filter.");
+                Console.WriteLine("Filtered Questionnaire.");
                 Thread.Sleep(1000);
             }
             else

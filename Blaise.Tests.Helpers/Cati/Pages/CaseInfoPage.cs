@@ -5,6 +5,7 @@ namespace Blaise.Tests.Helpers.Cati.Pages
     using Blaise.Tests.Helpers.Browser;
     using Blaise.Tests.Helpers.Configuration;
     using Blaise.Tests.Helpers.Framework;
+    using NUnit.Framework.Interfaces;
     using OpenQA.Selenium;
 
     public class CaseInfoPage : BasePage
@@ -49,7 +50,7 @@ namespace Blaise.Tests.Helpers.Cati.Pages
             : "//*[@id='MVCGridTable_CaseInfoGrid']/tbody/tr[1]/td[2]";
 
         private string PlayButtonSelector => UseNewSelectors
-            ? "//*[@id='CaseInfo_content_table']/tbody/tr[1]/td[19]/div/div/div"
+            ? "//*[@id='CaseInfo_content_table']/tbody/tr[1]/td[19]/div/div/a"
             : "//*[@id='MVCGridTable_CaseInfoGrid']/tbody/tr[1]/td[19]/a/span";
 
         public CaseInfoPage()
@@ -138,11 +139,9 @@ namespace Blaise.Tests.Helpers.Cati.Pages
             if (UseNewSelectors)
             {
                 ClickButtonByXPath("//div[contains(@class, 'e-filtermenudiv')]");
-                var dropdownSelector = "//span[contains(@class, 'e-ddl') and .//input[@id='qa_instrumentnameidfilter']]";
-                ClickButtonByXPath(dropdownSelector);
-                var listOptionPath = $"//li[contains(@class, 'e-list-item') and text()='{BlaiseConfigurationHelper.QuestionnaireName}']";
-                ClickButtonByXPath(listOptionPath);
-                ClickButtonByXPath("//button[contains(@class, 'e-flmenu-okbtn') and text()='Filter']");
+                PopulateInputById("CaseInfo_SearchBox", "DST2304Z");
+                ClickButtonById("qa_instrument_excelDlg");
+
                 Thread.Sleep(1000);
             }
             else
