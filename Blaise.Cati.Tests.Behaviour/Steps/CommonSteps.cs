@@ -23,8 +23,8 @@ namespace Blaise.Cati.Tests.Behaviour.Steps
             _scenarioContext = scenarioContext;
         }
 
-        [BeforeTestRun]
-        public static void BeforeTestRun()
+        [BeforeScenario]
+        public void BeforeScenario()
         {
             HealthCheckHelper.CheckBlaiseConnection();
 
@@ -49,14 +49,17 @@ namespace Blaise.Cati.Tests.Behaviour.Steps
             CatiInterviewHelper.GetInstance().CreateInterviewUser();
         }
 
-        [AfterTestRun]
-        public static void AfterTestRun()
+        [AfterScenario]
+        public void AfterScenario()
         {
             CatiInterviewHelper.GetInstance().DeleteInterviewUser();
             CatiManagementHelper.GetInstance().DeleteAdminUser();
+
             QuestionnaireHelper.GetInstance().UninstallQuestionnaire(
                 BlaiseConfigurationHelper.QuestionnaireName,
                 BlaiseConfigurationHelper.ServerParkName);
+
+            BrowserHelper.CloseBrowser();
         }
 
         [AfterStep]
@@ -66,12 +69,6 @@ namespace Blaise.Cati.Tests.Behaviour.Steps
             {
                 BrowserHelper.OnError(TestContext.CurrentContext, _scenarioContext);
             }
-        }
-
-        [AfterScenario]
-        public void AfterScenario()
-        {
-            BrowserHelper.CloseBrowser();
         }
 
         [Given(@"there is a CATI questionnaire installed")]
