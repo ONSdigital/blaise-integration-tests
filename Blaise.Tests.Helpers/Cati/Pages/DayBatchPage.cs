@@ -84,12 +84,9 @@ namespace Blaise.Tests.Helpers.Cati.Pages
         {
             if (UseNewSelectors)
             {
-                ClickButtonByXPath("//div[@e-mappinguid='qa_instrumentid' and contains(@class, 'e-filtermenudiv')]");
-                var dropdownSelector = "//span[contains(@class, 'e-ddl') and .//input[@id='qa_instrumentnameidfilter']]";
-                ClickButtonByXPath(dropdownSelector);
-                var listOptionPath = $"//li[contains(@class, 'e-list-item') and text()='{BlaiseConfigurationHelper.QuestionnaireName}']";
-                ClickButtonByXPath(listOptionPath);
-                ClickButtonByXPath("//button[contains(@class, 'e-flmenu-okbtn') and text()='Filter']");
+                ClickButtonByXPath("//div[contains(@class, 'e-filtermenudiv')]");
+                PopulateInputById("Daybatch_SearchBox", "DST2304Z");
+                ClickButtonById("qa_instrumentid_excelDlg");
                 Thread.Sleep(1000);
             }
             else
