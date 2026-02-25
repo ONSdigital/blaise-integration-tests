@@ -1,3 +1,6 @@
+using System;
+using Blaise.Tests.Helpers.Browser;
+
 namespace Blaise.Tests.Helpers.Cati.Pages
 {
     using System;
@@ -52,6 +55,10 @@ namespace Blaise.Tests.Helpers.Cati.Pages
         private string ModifyEntrySelector => UseNewSelectors
             ? "qa_editrecord_0"
             : $"//table[@id='MVCGridTable_DaybatchGrid']//td[preceding-sibling::td='{BlaiseConfigurationHelper.QuestionnaireName}']/a";
+
+        private string DayBatchTableSelector => UseNewSelectors
+            ? "//*[@id='Daybatch_content_table']"
+            : "//*[@id='MVCGridTable_DaybatchGrid']";
 
         private readonly string _surveyRadioButton = $"//*[normalize-space()='{BlaiseConfigurationHelper.QuestionnaireName}']";
 
@@ -194,7 +201,7 @@ namespace Blaise.Tests.Helpers.Cati.Pages
                         Console.WriteLine("Successfully navigated to the Daybatch page.");
 
                         // Wait for the Daybatch table to load
-                        if (BrowserHelper.ElementExistsByXPath("//*[@id='Daybatch_content_table']", TimeSpan.FromSeconds(30)))
+                        if (BrowserHelper.ElementExistsByXPath(DayBatchTableSelector, TimeSpan.FromSeconds(30)))
                         {
                             Console.WriteLine("Daybatch table loaded successfully.");
                             return; // Successfully navigated and table loaded
