@@ -8,6 +8,7 @@ namespace Blaise.Tests.Helpers.Browser
     using NUnit.Framework;
     using OpenQA.Selenium;
     using OpenQA.Selenium.Chrome;
+    using OpenQA.Selenium.Interactions;
     using OpenQA.Selenium.Support.Extensions;
     using OpenQA.Selenium.Support.UI;
     using Reqnroll;
@@ -107,9 +108,25 @@ namespace Blaise.Tests.Helpers.Browser
             }
         }
 
+        public static bool ElementExistsByXPath(string xPath, TimeSpan? timeout = null)
+        {
+            try
+            {
+                Wait($"Timed out in ElementExistsByXPath(\"{xPath}\")", timeout)
+                    .Until(ExpectedConditions.ElementExists(By.XPath(xPath)));
+                return true;
+            }
+            catch (WebDriverTimeoutException)
+            {
+                return false;
+            }
+        }
+
         public static void ScrollIntoView(IWebElement element)
         {
-            Browser.ExecuteJavaScript("arguments[0].scrollIntoView(true);", element);
+            ((IJavaScriptExecutor)Browser).ExecuteScript(
+                "arguments[0].scrollIntoView({block: 'center', inline: 'center'});", 
+                element);
         }
 
         public static string TakeScreenShot(string screenShotPath, string screenShotName)
@@ -272,11 +289,103 @@ namespace Blaise.Tests.Helpers.Browser
                 .Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementIsVisible(by));
         }
 
+        public static void ScrollIntoViewAndClick(By by)
+        {
+            var element = FindElement(by);
+            ScrollIntoView(element);
+            System.Threading.Thread.Sleep(500);
+            element.Click();
+        }
+
+        public static void ScrollIntoViewAndClickById(string id)
+        {
+            ScrollIntoViewAndClick(By.Id(id));
+        }
+
+        private static void ScrollIntoViewAndClickWithRetry(By by)
+        {
+            var attempts = 0;
+            while (true)
+            {
+                try
+                {
+                    var element = FindElement(by);
+                    ScrollIntoView(element);
+                    element.Click();
+                    return;
+                }
+                catch (StaleElementReferenceException)
+                {
+                    attempts++;
+                    if (attempts >= 3)
+                    {
+                        throw;
+                    }
+                }
+            }
+        }
+
+        public static void ScrollIntoViewAndClickByIdWithRetry(string id)
+        {
+            ScrollIntoViewAndClickWithRetry(By.Id(id));
+        }
+
+        public static void WaitUntilElementIsClickableById(string id)
+        {
+            Wait($"Timed out waiting for element with ID '{id}' to be clickable")
+                .Until(ExpectedConditions.ElementToBeClickable(By.Id(id)));
+        }
+
         public static void ClickWithJavaScript(By by)
         {
             var element = FindElement(by);
             var js = (IJavaScriptExecutor)Browser;
             js.ExecuteScript("arguments[0].click()", element);
+        }
+
+        private static void ClickWithJavaScriptWithRetry(By by)
+        {
+            try
+            {
+                var element = FindElement(by);
+                var js = (IJavaScriptExecutor)Browser;
+                js.ExecuteScript("arguments[0].click()", element);
+            }
+            catch (StaleElementReferenceException)
+            {
+                var element = FindElement(by);
+                var js = (IJavaScriptExecutor)Browser;
+                js.ExecuteScript("arguments[0].click()", element);
+            }
+        }
+
+        public static void ClickByXPathWithJavaScriptWithRetry(string xpath)
+        {
+            ClickWithJavaScriptWithRetry(By.XPath(xpath));
+        }
+
+        private static void ClickWithRetry(By by)
+        {
+            try
+            {
+                Wait($"Timed out in ClickWithRetry({by})")
+                    .Until(ExpectedConditions.ElementToBeClickable(by)).Click();
+            }
+            catch (StaleElementReferenceException)
+            {
+                Wait($"Timed out in ClickWithRetry({by}) after stale element")
+                    .Until(ExpectedConditions.ElementToBeClickable(by)).Click();
+            }
+        }
+
+        public static void ClickByIdWithRetry(string id)
+        {
+            ClickWithRetry(By.Id(id));
+        }
+
+        public static void ClickByXPathWithRetry(string xpath)
+        {
+            ClickWithRetry(By.XPath(xpath));
         }
 
         public static IReadOnlyCollection<IWebElement> FindElements(By by)
@@ -299,6 +408,15 @@ namespace Blaise.Tests.Helpers.Browser
             {
                 return false;
             }
+        }
+
+        public static void WaitUntilGridHasLoadedData()
+        {
+            BrowserHelper.Wait("Waiting for grid spinner to hide")
+                .Until(d => d.FindElement(By.ClassName("e-spinner-pane")).GetAttribute("class").Contains("e-spin-hide"));
+
+            BrowserHelper.Wait("Waiting for grid rows to render")
+                .Until(d => d.FindElements(By.ClassName("e-row")).Count > 0);
         }
 
         public static void WaitForUrlToMatch(string expectedUrl, int timeoutInSeconds = 10, int pollingIntervalInMilliseconds = 500)
@@ -326,16 +444,35 @@ namespace Blaise.Tests.Helpers.Browser
             }
         }
 
+        public static void NavigateToPage(string url)
+        {
+            Browser.Navigate().GoToUrl(url);
+        }
+
         private static ChromeDriver CreateChromeDriver()
         {
             var chromeOptions = new ChromeOptions
             {
                 AcceptInsecureCertificates = true,
             };
-            chromeOptions.AddArguments("headless");
+            //chromeOptions.AddArguments("headless");
             chromeOptions.AddArguments("start-maximized");
             chromeOptions.AddArguments("--ignore-certificate-errors");
             return new ChromeDriver(chromeOptions);
+        }
+
+        public static object ExecuteJavaScript(string script, params object[] args)
+        {
+            try
+            {
+                var jsExecutor = (IJavaScriptExecutor)Browser;
+                return jsExecutor.ExecuteScript(script, args);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error executing JavaScript: {ex.Message}");
+                throw;
+            }
         }
     }
 }
