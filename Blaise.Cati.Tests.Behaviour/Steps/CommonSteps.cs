@@ -23,8 +23,8 @@ namespace Blaise.Cati.Tests.Behaviour.Steps
             _scenarioContext = scenarioContext;
         }
 
-        [BeforeTestRun]
-        public static void BeforeTestRun()
+        [BeforeScenario]
+        public void BeforeScenario()
         {
             HealthCheckHelper.CheckBlaiseConnection();
 
@@ -49,14 +49,17 @@ namespace Blaise.Cati.Tests.Behaviour.Steps
             CatiInterviewHelper.GetInstance().CreateInterviewUser();
         }
 
-        [AfterTestRun]
-        public static void AfterTestRun()
+        [AfterScenario]
+        public void AfterScenario()
         {
             CatiInterviewHelper.GetInstance().DeleteInterviewUser();
             CatiManagementHelper.GetInstance().DeleteAdminUser();
+
             QuestionnaireHelper.GetInstance().UninstallQuestionnaire(
                 BlaiseConfigurationHelper.QuestionnaireName,
                 BlaiseConfigurationHelper.ServerParkName);
+
+            BrowserHelper.CloseBrowser();
         }
 
         [AfterStep]
@@ -66,12 +69,6 @@ namespace Blaise.Cati.Tests.Behaviour.Steps
             {
                 BrowserHelper.OnError(TestContext.CurrentContext, _scenarioContext);
             }
-        }
-
-        [AfterScenario]
-        public void AfterScenario()
-        {
-            BrowserHelper.CloseBrowser();
         }
 
         [Given(@"there is a CATI questionnaire installed")]
@@ -92,8 +89,10 @@ namespace Blaise.Cati.Tests.Behaviour.Steps
         [Given(@"I log into the CATI dashboard as an administrator")]
         public void GivenILogIntoTheCatiDashboardAsAnAdministrator()
         {
+            Console.WriteLine("Starting: Log into the CATI dashboard as an administrator");
             CatiManagementHelper.GetInstance().LogIntoCatiDashboardAsAdministrator();
             var currentUrl = CatiManagementHelper.GetInstance().CurrentUrl();
+            Console.WriteLine($"Logged in successfully. Current URL: {currentUrl}");
 
             Assert.That(
                 currentUrl,
@@ -105,8 +104,11 @@ namespace Blaise.Cati.Tests.Behaviour.Steps
         [When(@"I create a daybatch for today")]
         public void GivenIHaveCreatedADaybatchForToday()
         {
+            Console.WriteLine("Starting: Create a daybatch for today");
             CatiManagementHelper.GetInstance().ClearDaybatchEntries();
+            Console.WriteLine("Cleared existing daybatch entries.");
             CatiManagementHelper.GetInstance().CreateDaybatch();
+            Console.WriteLine("Daybatch created successfully.");
         }
     }
 }
