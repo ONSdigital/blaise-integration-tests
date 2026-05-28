@@ -1,5 +1,6 @@
 namespace Blaise.Tests.Helpers.Dqs.Pages
 {
+    using System;
     using System.Linq;
     using Blaise.Tests.Helpers.Browser;
     using Blaise.Tests.Helpers.Configuration;
@@ -16,6 +17,7 @@ namespace Blaise.Tests.Helpers.Dqs.Pages
         private const string ConfirmOverwriteHeadingPath = "//h1[contains(normalize-space(),'overwrite questionnaire')]";
         private const string DeploymentOutcomeHeadingPath = "//h1[contains(normalize-space(),'Questionnaire') and (contains(normalize-space(),'deployed successfully') or contains(normalize-space(),'deploy failed'))]";
         private const string ToStartDateSummaryValuePath = "//div[contains(@class,'ons-summary__item')][.//div[normalize-space()='Telephone Operations start date']]//span[contains(@class,'ons-summary__text')]";
+        private const string TmReleaseDateHeadingPath = "//h1[contains(normalize-space(),'Totalmobile release date')]";
         private const string LiveDateTextBoxId = "set-date";
         private const string CancelButtonId = "cancel-deploy-button";
 
@@ -77,6 +79,22 @@ namespace Blaise.Tests.Helpers.Dqs.Pages
         {
             PopulateInputById(LiveDateTextBoxId, date);
             BrowserHelper.WaitForElementValue(By.Id(LiveDateTextBoxId), date, 10);
+        }
+
+        public void SkipTmReleaseDateIfPresent()
+        {
+            if (!IsTmReleaseDateStepVisible())
+            {
+                return;
+            }
+
+            ClickButtonById(NoRadioButtonId);
+            ClickButtonById(ContinueButtonId);
+        }
+
+        private bool IsTmReleaseDateStepVisible()
+        {
+            return BrowserHelper.ElementExistsByXPath(TmReleaseDateHeadingPath, TimeSpan.FromSeconds(2));
         }
 
         public void WaitForConfirmOverwritePage()

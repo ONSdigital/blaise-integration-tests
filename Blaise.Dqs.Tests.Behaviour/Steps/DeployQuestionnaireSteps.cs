@@ -64,6 +64,7 @@ namespace Blaise.Dqs.Tests.Behaviour.Steps
         {
             DqsHelper.GetInstance().SelectNoToStartDate();
             DqsHelper.GetInstance().ConfirmQuestionnaireUpload();
+            DqsHelper.GetInstance().SkipTmReleaseDateIfPresent();
         }
 
         [When(@"I set a TO start date for today")]
@@ -73,6 +74,7 @@ namespace Blaise.Dqs.Tests.Behaviour.Steps
             DqsHelper.GetInstance().SelectYesLiveDate();
             DqsHelper.GetInstance().SetLiveDate(today);
             DqsHelper.GetInstance().ConfirmQuestionnaireUpload();
+            DqsHelper.GetInstance().SkipTmReleaseDateIfPresent();
         }
 
         [When(@"the deployment summary confirms the TO start date for today")]

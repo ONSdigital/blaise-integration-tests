@@ -170,6 +170,12 @@ namespace Blaise.Tests.Helpers.Dqs
             uploadPage.SetLiveDate(date);
         }
 
+        public void SkipTmReleaseDateIfPresent()
+        {
+            var uploadPage = new UploadPage();
+            uploadPage.SkipTmReleaseDateIfPresent();
+        }
+
         public string GetToStartDate()
         {
             var questionnaireInfoPage = new QuestionnaireInfoPage();
