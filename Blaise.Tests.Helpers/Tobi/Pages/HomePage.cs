@@ -20,11 +20,14 @@ namespace Blaise.Tests.Helpers.Tobi.Pages
         public void ClickQuestionnaireButton()
         {
             var questionnaireName = BlaiseConfigurationHelper.QuestionnaireName;
+            var questionnairePrefix = questionnaireName.Length >= 3
+                ? questionnaireName.Substring(0, 3)
+                : questionnaireName;
             var surveyAcronyms = GetSurveyAcronyms();
-            var questionnaireIndex = surveyAcronyms.FindIndex(s => s.Contains(questionnaireName));
+            var questionnaireIndex = surveyAcronyms.FindIndex(s => s.Contains(questionnairePrefix));
             if (questionnaireIndex < 0)
             {
-                throw new Exception($"Questionnaire '{questionnaireName}' not found in survey list. " +
+                throw new Exception($"Survey grouping '{questionnairePrefix}' for questionnaire '{questionnaireName}' not found in survey list. " +
                     $"Available: {string.Join(", ", surveyAcronyms)}");
             }
 
