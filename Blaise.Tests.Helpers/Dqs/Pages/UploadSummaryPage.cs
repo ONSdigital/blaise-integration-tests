@@ -6,7 +6,7 @@ namespace Blaise.Tests.Helpers.Dqs.Pages
 
     public class UploadSummaryPage : BasePage
     {
-        private const string SummaryDivPath = "//div[contains(@class, 'success ons-panel')]";
+        private const string SummaryHeadingPath = "//div[contains(@class,'ons-panel')][.//h1[contains(normalize-space(),'deployed successfully') or contains(normalize-space(),'deploy failed')]]//h1";
 
         public UploadSummaryPage()
             : base(DqsConfigurationHelper.UploadSummaryUrl)
@@ -15,9 +15,9 @@ namespace Blaise.Tests.Helpers.Dqs.Pages
 
         public string GetUploadSummaryText()
         {
-            return GetElementTextByPath(SummaryDivPath);
+            return GetElementTextByPath(SummaryHeadingPath);
         }
 
-        protected override By PageIdentityBy => By.XPath(SummaryDivPath);
+        protected override By PageIdentityBy => By.XPath(SummaryHeadingPath);
     }
 }

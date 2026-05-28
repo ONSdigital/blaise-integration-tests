@@ -1,5 +1,7 @@
 namespace Blaise.Tests.Helpers.Dqs.Pages
 {
+    using System.Linq;
+    using Blaise.Tests.Helpers.Browser;
     using Blaise.Tests.Helpers.Configuration;
     using Blaise.Tests.Helpers.Framework;
     using OpenQA.Selenium;
@@ -7,6 +9,8 @@ namespace Blaise.Tests.Helpers.Dqs.Pages
     public class DeleteConfirmationPage : BasePage
     {
         private const string ContinueButtonId = "confirm-delete";
+        private const string QuestionnaireTableId = "questionnaire-table";
+        private const string DeletedSummaryHeadingPath = "//div[contains(@class,'ons-panel')][.//h1[contains(normalize-space(),'deleted successfully')]]//h1";
 
         public DeleteConfirmationPage()
             : base(DqsConfigurationHelper.ConfirmDeleteUrl)
@@ -20,12 +24,16 @@ namespace Blaise.Tests.Helpers.Dqs.Pages
 
         public void WaitForDeletionToComplete()
         {
-            WaitForPageToChange(DqsConfigurationHelper.DqsUrl);
+            BrowserHelper
+                .Wait("Timed out waiting for questionnaire list to reload after deletion")
+                .Until(driver =>
+                    driver.FindElements(By.Id(QuestionnaireTableId)).Any() ||
+                    driver.FindElements(By.XPath(DeletedSummaryHeadingPath)).Any());
         }
 
         public void WaitForPageToLoad()
         {
-            WaitForPageToChange(DqsConfigurationHelper.ConfirmDeleteUrl);
+            ButtonIsAvailableById(ContinueButtonId);
         }
 
         protected override By PageIdentityBy => By.Id(ContinueButtonId);

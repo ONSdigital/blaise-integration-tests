@@ -81,7 +81,6 @@ namespace Blaise.Tests.Helpers.Dqs.Pages
             element.SendKeys(value);
         }
 
-        // Fallback to older id selectors when running against legacy DQS UI.
         private IWebElement FindSignOutButton(IWebDriver driver)
         {
             var byId = driver.FindElements(By.Id(_signOutButtonId))

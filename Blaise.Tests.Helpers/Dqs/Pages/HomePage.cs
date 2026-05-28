@@ -10,7 +10,7 @@ namespace Blaise.Tests.Helpers.Dqs.Pages
         private const string DeployQuestionnaireButtonId = "deploy-questionnaire-link";
         private const string QuestionnaireTableId = "questionnaire-table";
         private const string QuestionnaireTableRowsPath = "//*[@id='questionnaire-table']/tbody/tr";
-        private const string SummaryDivPath = "//div[contains(@class, 'success ons-panel')]";
+        private const string SummaryHeadingPath = "//div[contains(@class,'ons-panel')][.//h1[contains(normalize-space(),'deleted successfully')]]//h1";
         private const string InfoButtonPlaceholderId = "info-";
         private const string FilterId = "filter-by-name";
 
@@ -32,7 +32,7 @@ namespace Blaise.Tests.Helpers.Dqs.Pages
 
         public string GetUploadSummaryText()
         {
-            return GetElementTextByPath(SummaryDivPath);
+            return GetElementTextByPath(SummaryHeadingPath);
         }
 
         public void ClickQuestionnaireInfoButton(string questionnaireName)

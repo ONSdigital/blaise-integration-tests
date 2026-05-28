@@ -6,8 +6,8 @@ namespace Blaise.Tests.Helpers.Dqs.Pages
 
     public class QuestionnaireInfoPage : BasePage
     {
-        private const string ToStartDatePath = "//*[@id=\"main-content\"]/div[2]/div/table/tbody/tr/td[2]";
-        private const string AddToStartDatePath = "//a[contains(@href,'/questionnaire/start-date')]";
+        private const string ToStartDatePath = "//div[contains(@class,'ons-summary__item')][.//div[normalize-space()='Telephone Operations start date']]//span[contains(@class,'ons-summary__text')]";
+        private const string AddToStartDatePath = "//a[contains(@href,'/to-start-date')]";
         private const string DeleteButtonId = "delete-questionnaire";
 
         public QuestionnaireInfoPage()

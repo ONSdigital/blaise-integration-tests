@@ -65,9 +65,9 @@ namespace Blaise.Tests.Helpers.Dqs
 
         public void OverwriteQuestionnaire()
         {
-            var surveyExistsPage = new UploadPage();
-            surveyExistsPage.SelectContinueOverwriteButton();
-            surveyExistsPage.SelectContinueButton();
+            var uploadPage = new UploadPage();
+            uploadPage.SelectContinueButton();
+            uploadPage.WaitForConfirmOverwritePage();
         }
 
         public void SelectQuestionnairePackage()
@@ -132,8 +132,8 @@ namespace Blaise.Tests.Helpers.Dqs
 
         public void ConfirmOverwriteOfQuestionnaire()
         {
-            var confirmOverwritePage = new UploadPage();
-            confirmOverwritePage.SelectYesLiveDateButton();
+            var uploadPage = new UploadPage();
+            uploadPage.SelectContinueButton();
         }
 
         public void DeleteQuestionnaire(string questionnaireName)

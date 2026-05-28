@@ -1,5 +1,6 @@
 namespace Blaise.Tests.Helpers.Dqs.Pages
 {
+    using System.Linq;
     using Blaise.Tests.Helpers.Browser;
     using Blaise.Tests.Helpers.Configuration;
     using Blaise.Tests.Helpers.Framework;
@@ -11,9 +12,11 @@ namespace Blaise.Tests.Helpers.Dqs.Pages
         private const string ContinueButtonId = "continue-deploy-button";
         private const string NoRadioButtonId = "no";
         private const string YesRadioButtonId = "yes";
-        private const string ContinueOverwriteRadioButtonId = "continue";
-        private const string LiveDateTextPath = "//*[@id=\"formID\"]/div[1]/div/table/tbody[5]/tr/td[2]";
-        private const string LiveDateTextBoxId = "set-live-date";
+        private const string QuestionnaireExistsHeadingPath = "//h1[contains(normalize-space(),'already exists')]";
+        private const string ConfirmOverwriteHeadingPath = "//h1[contains(normalize-space(),'overwrite questionnaire')]";
+        private const string DeploymentOutcomeHeadingPath = "//h1[contains(normalize-space(),'Questionnaire') and (contains(normalize-space(),'deployed successfully') or contains(normalize-space(),'deploy failed'))]";
+        private const string ToStartDateSummaryValuePath = "//div[contains(@class,'ons-summary__item')][.//div[normalize-space()='Telephone Operations start date']]//span[contains(@class,'ons-summary__text')]";
+        private const string LiveDateTextBoxId = "set-date";
         private const string CancelButtonId = "cancel-deploy-button";
 
         public UploadPage()
@@ -33,12 +36,16 @@ namespace Blaise.Tests.Helpers.Dqs.Pages
 
         public void WaitForUploadCompletion()
         {
-            WaitForPageToChange(DqsConfigurationHelper.UploadSummaryUrl);
+            BrowserHelper
+                .Wait("Timed out waiting for deployment outcome")
+                .Until(driver => driver.FindElements(By.XPath(DeploymentOutcomeHeadingPath)).Any());
         }
 
         public void WaitForQuestionnaireAlreadyExistsPage()
         {
-            WaitForPageToChange(DqsConfigurationHelper.QuestionnaireExistsUrl);
+            BrowserHelper
+                .Wait("Timed out waiting for questionnaire already exists step")
+                .Until(driver => driver.FindElements(By.XPath(QuestionnaireExistsHeadingPath)).Any());
         }
 
         public void SelectNoToStartDateButton()
@@ -53,12 +60,12 @@ namespace Blaise.Tests.Helpers.Dqs.Pages
 
         public string GetToStartDateSummaryText()
         {
-            return GetElementTextByPath(LiveDateTextPath);
+            return GetElementTextByPath(ToStartDateSummaryValuePath);
         }
 
         public void SelectContinueOverwriteButton()
         {
-            ClickButtonById(ContinueOverwriteRadioButtonId);
+            ClickButtonById(ContinueButtonId);
         }
 
         public void SelectCancelButton()
@@ -70,6 +77,13 @@ namespace Blaise.Tests.Helpers.Dqs.Pages
         {
             PopulateInputById(LiveDateTextBoxId, date);
             BrowserHelper.WaitForElementValue(By.Id(LiveDateTextBoxId), date, 10);
+        }
+
+        public void WaitForConfirmOverwritePage()
+        {
+            BrowserHelper
+                .Wait("Timed out waiting for overwrite confirmation step")
+                .Until(driver => driver.FindElements(By.XPath(ConfirmOverwriteHeadingPath)).Any());
         }
 
         protected override By PageIdentityBy => By.Id(FileSelectorId);
