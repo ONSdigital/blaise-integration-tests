@@ -1,8 +1,8 @@
 namespace Blaise.Tests.Helpers.Cati.Pages
 {
     using System;
-    using System.Threading;
     using Blaise.Tests.Helpers.Browser;
+    using Blaise.Tests.Helpers.Cati;
     using Blaise.Tests.Helpers.Configuration;
     using Blaise.Tests.Helpers.Framework;
     using OpenQA.Selenium;
@@ -26,18 +26,13 @@ namespace Blaise.Tests.Helpers.Cati.Pages
         {
             get
             {
-                try
-                {
-                    return BrowserHelper.ElementExistsByXPath("//i[contains(@class, 'bi-bell-fill')]", TimeSpan.FromSeconds(1));
-                }
-                catch { return false; }
+                return CatiUiVersionHelper.IsNewUi;
             }
         }
 
         public void ClearDaybatchEntries()
         {
             Console.WriteLine("Starting: Clear daybatch entries.");
-            Thread.Sleep(2000);
 
             if (UseNewSelectors)
             {
@@ -74,12 +69,12 @@ namespace Blaise.Tests.Helpers.Cati.Pages
                 Console.WriteLine("Using new selectors to apply filter.");
                 ClickButtonByXPath("//div[@e-mappinguid='qa_instrumentid' and contains(@class, 'e-filtermenudiv')]");
                 Console.WriteLine("Opened filter menu.");
-                PopulateInputById("Surveys_SearchBox", "DST2304Z");
+                PopulateInputById("Surveys_SearchBox", BlaiseConfigurationHelper.QuestionnaireName);
                 ClickButtonByXPath("//*[@id=\"qa_instrumentid_excelDlg\"]/div[3]/button[1]");
 
                 Console.WriteLine("Selected questionnaire from dropdown.");
                 Console.WriteLine("Filtered Questionnaire.");
-                Thread.Sleep(1000);
+                BrowserHelper.WaitUntilGridHasLoadedData();
             }
             else
             {
@@ -99,11 +94,29 @@ namespace Blaise.Tests.Helpers.Cati.Pages
             }
         }
 
+        public void WaitForSurveyTable()
+        {
+            if (UseNewSelectors)
+            {
+                BrowserHelper.WaitUntilGridHasLoadedData();
+            }
+            else
+            {
+                BrowserHelper.WaitForElementByXPath("//*[@id='MVCGridTable_SurveysGrid']");
+            }
+        }
+
         protected override Func<IWebDriver, bool> PageHasLoaded()
         {
-            return UseNewSelectors
-                ? BodyDoesNotContainText("No records to display")
-                : BodyContainsText("Showing");
+            var baseLoaded = base.PageHasLoaded();
+            return driver => baseLoaded(driver) &&
+                (UseNewSelectors
+                    ? BodyDoesNotContainText("No records to display")(driver)
+                    : BodyContainsText("Showing")(driver));
         }
+
+        protected override By PageIdentityBy => UseNewSelectors
+            ? By.XPath("//div[@e-mappinguid='qa_instrumentid' and contains(@class, 'e-filtermenudiv')]")
+            : By.XPath(FilterButton);
     }
 }

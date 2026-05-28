@@ -1,11 +1,10 @@
 namespace Blaise.Tests.Helpers.Cati.Pages
 {
     using System;
-    using System.Threading;
     using Blaise.Tests.Helpers.Browser;
+    using Blaise.Tests.Helpers.Cati;
     using Blaise.Tests.Helpers.Configuration;
     using Blaise.Tests.Helpers.Framework;
-    using NUnit.Framework.Interfaces;
     using OpenQA.Selenium;
 
     public class CaseInfoPage : BasePage
@@ -18,14 +17,7 @@ namespace Blaise.Tests.Helpers.Cati.Pages
         {
             get
             {
-                try
-                {
-                    return BrowserHelper.ElementExistsByXPath("//i[contains(@class, 'bi-bell-fill')]", TimeSpan.FromSeconds(1));
-                }
-                catch
-                {
-                    return false;
-                }
+                return CatiUiVersionHelper.IsNewUi;
             }
         }
 
@@ -118,8 +110,7 @@ namespace Blaise.Tests.Helpers.Cati.Pages
                     {
                         BrowserHelper.ClickByXPathWithJavaScriptWithRetry(PlayButtonSelector);
                     }
-
-                    Thread.Sleep(250);
+                    BrowserHelper.WaitForWindowCount(numberOfWindows + 1, 10);
                 }
                 catch (Exception ex)
                 {
@@ -139,10 +130,9 @@ namespace Blaise.Tests.Helpers.Cati.Pages
             if (UseNewSelectors)
             {
                 ClickButtonByXPath("//div[contains(@class, 'e-filtermenudiv')]");
-                PopulateInputById("CaseInfo_SearchBox", "DST2304Z");
+                PopulateInputById("CaseInfo_SearchBox", BlaiseConfigurationHelper.QuestionnaireName);
                 ClickButtonById("qa_instrument_excelDlg");
-
-                Thread.Sleep(1000);
+                BrowserHelper.WaitUntilGridHasLoadedData();
             }
             else
             {
@@ -182,10 +172,16 @@ namespace Blaise.Tests.Helpers.Cati.Pages
 
         protected override Func<IWebDriver, bool> PageHasLoaded()
         {
-            return UseNewSelectors
-                ? BodyDoesNotContainText("No records to display")
-                : BodyContainsText("Showing");
+            var baseLoaded = base.PageHasLoaded();
+            return driver => baseLoaded(driver) &&
+                (UseNewSelectors
+                    ? BodyDoesNotContainText("No records to display")(driver)
+                    : BodyContainsText("Showing")(driver));
         }
+
+        protected override By PageIdentityBy => UseNewSelectors
+            ? By.XPath("//*[@id='CaseInfo_content_table']")
+            : By.XPath("//*[@id='MVCGridTable_CaseInfoGrid']");
 
         private void WaitUntilFirstCaseQuestionnaireIs(string questionnaire)
         {

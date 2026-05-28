@@ -2,6 +2,7 @@ namespace Blaise.Tests.Helpers.Dqs.Pages
 {
     using Blaise.Tests.Helpers.Configuration;
     using Blaise.Tests.Helpers.Framework;
+    using OpenQA.Selenium;
 
     public class CannotOverwritePage : BasePage
     {
@@ -16,5 +17,7 @@ namespace Blaise.Tests.Helpers.Dqs.Pages
         {
             return GetElementTextByPath(CannotOverwriteDivPath);
         }
+
+        protected override By PageIdentityBy => By.XPath(CannotOverwriteDivPath);
     }
 }

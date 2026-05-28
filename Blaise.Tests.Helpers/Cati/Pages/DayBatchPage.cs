@@ -4,8 +4,8 @@ using Blaise.Tests.Helpers.Browser;
 namespace Blaise.Tests.Helpers.Cati.Pages
 {
     using System;
-    using System.Threading;
     using Blaise.Tests.Helpers.Browser;
+    using Blaise.Tests.Helpers.Cati;
     using Blaise.Tests.Helpers.Configuration;
     using Blaise.Tests.Helpers.Framework;
     using OpenQA.Selenium;
@@ -21,14 +21,7 @@ namespace Blaise.Tests.Helpers.Cati.Pages
         {
             get
             {
-                try
-                {
-                    return BrowserHelper.ElementExistsByXPath("//i[contains(@class, 'bi-bell-fill')]", TimeSpan.FromSeconds(1));
-                }
-                catch
-                {
-                    return false;
-                }
+                return CatiUiVersionHelper.IsNewUi;
             }
         }
 
@@ -92,9 +85,9 @@ namespace Blaise.Tests.Helpers.Cati.Pages
             if (UseNewSelectors)
             {
                 ClickButtonByXPath("//div[contains(@class, 'e-filtermenudiv')]");
-                PopulateInputById("Daybatch_SearchBox", "DST2304Z");
+                PopulateInputById("Daybatch_SearchBox", BlaiseConfigurationHelper.QuestionnaireName);
                 ClickButtonById("qa_instrumentid_excelDlg");
-                Thread.Sleep(1000);
+                BrowserHelper.WaitUntilGridHasLoadedData();
             }
             else
             {
@@ -106,6 +99,15 @@ namespace Blaise.Tests.Helpers.Cati.Pages
                     ClickButtonByXPath(ApplyButton);
                 }
                 ClickButtonByXPath(FilterButton);
+            }
+        }
+
+        public void WaitForDaybatchTable()
+        {
+            BrowserHelper.WaitForElementByXPath(DayBatchTableSelector);
+            if (UseNewSelectors)
+            {
+                BrowserHelper.WaitUntilGridHasLoadedData();
             }
         }
 
@@ -177,6 +179,10 @@ namespace Blaise.Tests.Helpers.Cati.Pages
                         BrowserHelper.NavigateToPage(CatiConfigurationHelper.DaybatchUrl);
                     }
 
+                    BrowserHelper.WaitForUrlToMatch(
+                        UseNewSelectors ? CatiConfigurationHelper.NewDashboardDaybatchUrl : CatiConfigurationHelper.DaybatchUrl,
+                        10);
+
                     // Log the current URL after navigation
                     var currentUrl = BrowserHelper.GetCurrentUrl();
                     Console.WriteLine($"Attempt {attempt + 1}: Navigated to URL: {currentUrl}");
@@ -190,8 +196,6 @@ namespace Blaise.Tests.Helpers.Cati.Pages
                         BrowserHelper.NavigateToPage(UseNewSelectors
                             ? CatiConfigurationHelper.NewDashboardDaybatchUrl
                             : CatiConfigurationHelper.DaybatchUrl);
-
-                        Thread.Sleep(2000); // Wait before retrying
                         continue;
                     }
 
@@ -218,8 +222,6 @@ namespace Blaise.Tests.Helpers.Cati.Pages
                 {
                     Console.WriteLine($"Error during navigation attempt {attempt + 1}: {ex.Message}");
                 }
-
-                Thread.Sleep(2000); // Wait before retrying
             }
 
             throw new Exception("Failed to navigate to the Daybatch page after multiple attempts. Ensure the URL and page structure are correct.");
@@ -227,5 +229,7 @@ namespace Blaise.Tests.Helpers.Cati.Pages
 
         // Added a public property to expose the UseNewSelectors logic
         public bool IsUsingNewSelectors => UseNewSelectors;
+
+        protected override By PageIdentityBy => By.XPath(DayBatchTableSelector);
     }
 }

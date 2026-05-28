@@ -1,7 +1,9 @@
 namespace Blaise.Tests.Helpers.Dqs.Pages
 {
+    using Blaise.Tests.Helpers.Browser;
     using Blaise.Tests.Helpers.Configuration;
     using Blaise.Tests.Helpers.Framework;
+    using OpenQA.Selenium;
 
     public class UploadPage : BasePage
     {
@@ -67,6 +69,9 @@ namespace Blaise.Tests.Helpers.Dqs.Pages
         internal void SetLiveDate(string date)
         {
             PopulateInputById(LiveDateTextBoxId, date);
+            BrowserHelper.WaitForElementValue(By.Id(LiveDateTextBoxId), date, 10);
         }
+
+        protected override By PageIdentityBy => By.Id(FileSelectorId);
     }
 }

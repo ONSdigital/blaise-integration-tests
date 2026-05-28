@@ -31,6 +31,9 @@ namespace Blaise.Tests.Helpers.Framework
         public void LoadSpecificPage(string url)
         {
             BrowserHelper.BrowseTo(url);
+            BrowserHelper
+                .Wait($"Timed out waiting for page {url} to load")
+                .Until(PageHasLoaded());
         }
 
         public void ButtonIsAvailableById(string buttonId)
@@ -163,8 +166,20 @@ namespace Blaise.Tests.Helpers.Framework
             }
             catch (WebDriverTimeoutException ex)
             {
-                var element = BrowserHelper.FindElement(By.XPath(elementPath));
-                throw new WebDriverTimeoutException($"{ex.Message} (element currently contains \"{element.Text}\")", ex);
+                var elementText = "(unavailable)";
+                try
+                {
+                    var element = BrowserHelper.FindElement(By.XPath(elementPath));
+                    elementText = element.Text;
+                }
+                catch
+                {
+                }
+
+                var currentUrl = BrowserHelper.CurrentUrl;
+                throw new WebDriverTimeoutException(
+                    $"{ex.Message} (element currently contains \"{elementText}\", url: {currentUrl})",
+                    ex);
             }
         }
 
@@ -219,8 +234,31 @@ namespace Blaise.Tests.Helpers.Framework
 
         protected virtual Func<IWebDriver, bool> PageHasLoaded()
         {
-            return driver => ((IJavaScriptExecutor)driver).ExecuteScript("return document.readyState").Equals("complete");
+            return driver =>
+            {
+                var ready = ((IJavaScriptExecutor)driver).ExecuteScript("return document.readyState").Equals("complete");
+                if (!ready)
+                {
+                    return false;
+                }
+
+                if (PageIdentityBy == null)
+                {
+                    return true;
+                }
+
+                try
+                {
+                    return driver.FindElement(PageIdentityBy).Displayed;
+                }
+                catch (NoSuchElementException)
+                {
+                    return false;
+                }
+            };
         }
+
+        protected virtual By PageIdentityBy => null;
 
         private static int NumberOfRowsInATable(string tablePath)
         {

@@ -1,7 +1,6 @@
 namespace Blaise.Tests.Helpers.Dqs
 {
     using System.Collections.Generic;
-    using System.Threading;
     using Blaise.Tests.Helpers.Configuration;
     using Blaise.Tests.Helpers.Dqs.Pages;
 
@@ -141,7 +140,8 @@ namespace Blaise.Tests.Helpers.Dqs
         {
             ClickQuestionnaireInfoButton(questionnaireName);
             var questionnaireInformationPage = new QuestionnaireInfoPage();
-            Thread.Sleep(5000);
+            questionnaireInformationPage.WaitForPageToLoad(questionnaireName);
+            questionnaireInformationPage.CanDeleteQuestionnaire();
             questionnaireInformationPage.ClickDeleteButton();
         }
 

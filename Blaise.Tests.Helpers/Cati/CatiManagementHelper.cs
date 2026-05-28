@@ -2,7 +2,6 @@ namespace Blaise.Tests.Helpers.Cati
 {
     using System;
     using System.Collections.Generic;
-    using System.Threading;
     using Blaise.Tests.Helpers.Browser;
     using Blaise.Tests.Helpers.Cati.Pages;
     using Blaise.Tests.Helpers.Configuration;
@@ -41,19 +40,21 @@ namespace Blaise.Tests.Helpers.Cati
         {
             Console.WriteLine("Navigating to login page.");
             var loginPage = new LoginPage();
-            loginPage.LoadPage();
+            loginPage.LoadLoginPage();
             Console.WriteLine("Logging in as administrator.");
+            var initialUrl = BrowserHelper.CurrentUrl;
             loginPage.LoginToCati(CatiConfigurationHelper.CatiAdminUsername, CatiConfigurationHelper.CatiAdminPassword);
-            Thread.Sleep(2000);
-            Console.WriteLine("Login process completed.");
+            BrowserHelper.WaitForUrlToChange(initialUrl, 30);
+            Console.WriteLine($"Login process completed. Current URL: {BrowserHelper.CurrentUrl}");
         }
 
         public void LogIntoCatiDashboardAsInterviewer()
         {
             var loginPage = new LoginPage();
-            loginPage.LoadPage();
+            loginPage.LoadLoginPage();
+            var initialUrl = BrowserHelper.CurrentUrl;
             loginPage.LoginToCati(CatiConfigurationHelper.CatiInterviewUsername, CatiConfigurationHelper.CatiInterviewPassword);
-            Thread.Sleep(2000);
+            BrowserHelper.WaitForUrlToChange(initialUrl, 30);
         }
 
         public void CreateDaybatch()
@@ -72,7 +73,7 @@ namespace Blaise.Tests.Helpers.Cati
             var daybatchPage = new DaybatchPage();
             daybatchPage.LoadPage();
             daybatchPage.ApplyFilter();
-            Thread.Sleep(2000);
+            daybatchPage.WaitForDaybatchTable();
             return daybatchPage.GetDaybatchEntriesText();
         }
 
@@ -93,6 +94,7 @@ namespace Blaise.Tests.Helpers.Cati
             surveyPage.LoadPage();
             Console.WriteLine("Applying filter on survey page.");
             surveyPage.ApplyFilter();
+            surveyPage.WaitForSurveyTable();
             Console.WriteLine("Clearing daybatch entries.");
             surveyPage.ClearDaybatchEntries();
             Console.WriteLine("Daybatch entries cleared successfully.");

@@ -3,6 +3,7 @@ namespace Blaise.Tests.Helpers.Dqs.Pages
     using Blaise.Tests.Helpers.Browser;
     using Blaise.Tests.Helpers.Configuration;
     using Blaise.Tests.Helpers.Framework;
+    using OpenQA.Selenium;
 
     public class LoginPage : BasePage
     {
@@ -38,5 +39,7 @@ namespace Blaise.Tests.Helpers.Dqs.Pages
         {
             ButtonIsAvailableById(_signOutId);
         }
+
+        protected override By PageIdentityBy => By.XPath(_submitButtonPath);
     }
 }

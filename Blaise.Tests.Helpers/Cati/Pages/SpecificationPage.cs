@@ -1,9 +1,9 @@
 namespace Blaise.Tests.Helpers.Cati.Pages
 {
     using System;
-    using System.Threading;
     using Blaise.Tests.Helpers.Configuration;
     using Blaise.Tests.Helpers.Framework;
+    using OpenQA.Selenium;
 
     public class SpecificationPage : BasePage
     {
@@ -21,11 +21,12 @@ namespace Blaise.Tests.Helpers.Cati.Pages
         public void SetSurveyDay()
         {
             SelectDropDownValueById(QuestionnaireDropDownId, BlaiseConfigurationHelper.QuestionnaireName);
-            Thread.Sleep(3000);
             ClickButtonByXPath(SurveyAccordionPath);
             ClickButtonById(EditButtonId);
             ClickButtonByXPath(_todaysDateInCalenderPickerPath);
             ClickButtonByXPath(SaveButtonPath);
         }
+
+        protected override By PageIdentityBy => By.XPath(SurveyAccordionPath);
     }
 }

@@ -28,7 +28,7 @@ namespace Blaise.Tests.Helpers.Browser
         {
             return new WebDriverWait(Browser, TimeSpan.FromSeconds(TimeOutInSeconds))
             {
-                Message = message,
+                Message = BuildWaitMessage(message),
             };
         }
 
@@ -36,7 +36,7 @@ namespace Blaise.Tests.Helpers.Browser
         {
             return new WebDriverWait(Browser, timeout ?? TimeSpan.FromSeconds(TimeOutInSeconds))
             {
-                Message = message,
+                Message = BuildWaitMessage(message),
             };
         }
 
@@ -193,6 +193,14 @@ namespace Blaise.Tests.Helpers.Browser
             }
 
             string stepText = scenarioContext.StepContext.StepInfo.Text;
+            Console.WriteLine($"Scenario failed at step: {stepText}");
+            if (scenarioContext.TestError != null)
+            {
+                Console.WriteLine($"Test error: {scenarioContext.TestError.GetType().Name}: {scenarioContext.TestError.Message}");
+            }
+            Console.WriteLine($"Current URL: {SafeGetCurrentUrl()}");
+            Console.WriteLine($"Page title: {SafeGetTitle()}");
+            Console.WriteLine($"Window handles: {SafeGetWindowCount()}");
             string baseFileName = new string(stepText.Where(character => !Path.GetInvalidFileNameChars().Contains(character)).ToArray());
             baseFileName = baseFileName.Length > 100 ? baseFileName.Substring(0, 100) : baseFileName;
 
@@ -203,6 +211,7 @@ namespace Blaise.Tests.Helpers.Browser
                 if (screenShotFile != null)
                 {
                     TestContext.AddTestAttachment(screenShotFile, baseFileName);
+                    Console.WriteLine($"Screenshot saved: {screenShotFile}");
                 }
                 else
                 {
@@ -275,7 +284,7 @@ namespace Blaise.Tests.Helpers.Browser
         public static void WaitForTextInHtml(string text)
         {
             Wait($"Timed out in WaitForTextInHtml(\"{text}\")")
-                .Until(driver => CurrentWindowHtml().Contains(text));
+                .Until(driver => CurrentWindowHtml()?.Contains(text) == true);
         }
 
         public static void WaitForElementByXPath(string xPath)
@@ -293,8 +302,9 @@ namespace Blaise.Tests.Helpers.Browser
         {
             var element = FindElement(by);
             ScrollIntoView(element);
-            System.Threading.Thread.Sleep(500);
-            element.Click();
+            Wait($"Timed out in ScrollIntoViewAndClick({by})")
+                .Until(ExpectedConditions.ElementToBeClickable(by))
+                .Click();
         }
 
         public static void ScrollIntoViewAndClickById(string id)
@@ -423,11 +433,11 @@ namespace Blaise.Tests.Helpers.Browser
         {
             var timeout = TimeSpan.FromSeconds(timeoutInSeconds);
             var pollingInterval = TimeSpan.FromMilliseconds(pollingIntervalInMilliseconds);
-            var wait = new DefaultWait<IWebDriver>(_browser)
+            var wait = new DefaultWait<IWebDriver>(Browser)
             {
                 Timeout = timeout,
                 PollingInterval = pollingInterval,
-                Message = $"Timed out after {timeoutInSeconds} seconds while waiting for URL to match '{expectedUrl}'",
+                Message = BuildWaitMessage($"Timed out after {timeoutInSeconds} seconds while waiting for URL to match '{expectedUrl}'"),
             };
 
             try
@@ -447,6 +457,29 @@ namespace Blaise.Tests.Helpers.Browser
         public static void NavigateToPage(string url)
         {
             Browser.Navigate().GoToUrl(url);
+        }
+
+        public static void WaitForUrlToChange(string previousUrl, int timeoutInSeconds = 30)
+        {
+            Wait($"Timed out waiting for URL to change from '{previousUrl}'", TimeSpan.FromSeconds(timeoutInSeconds))
+                .Until(driver => !driver.Url.Equals(previousUrl, StringComparison.OrdinalIgnoreCase));
+        }
+
+        public static void WaitForWindowCount(int expectedCount, int timeoutInSeconds = 30)
+        {
+            Wait($"Timed out waiting for {expectedCount} browser window(s)", TimeSpan.FromSeconds(timeoutInSeconds))
+                .Until(driver => driver.WindowHandles.Count >= expectedCount);
+        }
+
+        public static void WaitForElementValue(By by, string expectedValue, int timeoutInSeconds = 30)
+        {
+            Wait($"Timed out waiting for value '{expectedValue}' on element {by}", TimeSpan.FromSeconds(timeoutInSeconds))
+                .Until(driver =>
+                {
+                    var element = driver.FindElement(by);
+                    var value = element.GetAttribute("value") ?? element.Text;
+                    return value != null && value.Contains(expectedValue);
+                });
         }
 
         private static ChromeDriver CreateChromeDriver()
@@ -472,6 +505,49 @@ namespace Blaise.Tests.Helpers.Browser
             {
                 Console.WriteLine($"Error executing JavaScript: {ex.Message}");
                 throw;
+            }
+        }
+
+        private static string BuildWaitMessage(string message)
+        {
+            var url = SafeGetCurrentUrl();
+            var title = SafeGetTitle();
+            return $"{message} | url: {url} | title: {title}";
+        }
+
+        private static string SafeGetCurrentUrl()
+        {
+            try
+            {
+                return _browser?.Url ?? "(no browser)";
+            }
+            catch
+            {
+                return "(unavailable)";
+            }
+        }
+
+        private static string SafeGetTitle()
+        {
+            try
+            {
+                return _browser?.Title ?? "(no title)";
+            }
+            catch
+            {
+                return "(unavailable)";
+            }
+        }
+
+        private static int SafeGetWindowCount()
+        {
+            try
+            {
+                return _browser?.WindowHandles?.Count ?? 0;
+            }
+            catch
+            {
+                return 0;
             }
         }
     }

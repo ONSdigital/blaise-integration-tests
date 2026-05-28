@@ -1,7 +1,6 @@
 namespace Blaise.Dqs.Tests.Behaviour.Steps
 {
     using System;
-    using System.Threading;
     using Blaise.Tests.Helpers.Browser;
     using Blaise.Tests.Helpers.Case;
     using Blaise.Tests.Helpers.Configuration;
@@ -73,7 +72,6 @@ namespace Blaise.Dqs.Tests.Behaviour.Steps
             var today = DateTime.Now.ToString("dd/MM/yyyy");
             DqsHelper.GetInstance().SelectYesLiveDate();
             DqsHelper.GetInstance().SetLiveDate(today);
-            Thread.Sleep(5000);
             DqsHelper.GetInstance().ConfirmQuestionnaireUpload();
         }
 

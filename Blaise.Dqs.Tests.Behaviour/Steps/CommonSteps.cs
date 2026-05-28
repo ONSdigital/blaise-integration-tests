@@ -5,6 +5,7 @@ namespace Blaise.Dqs.Tests.Behaviour.Steps
     using Blaise.Tests.Helpers.Browser;
     using Blaise.Tests.Helpers.Configuration;
     using Blaise.Tests.Helpers.Dqs;
+    using Blaise.Tests.Helpers.Framework;
     using Blaise.Tests.Helpers.Framework.Extensions;
     using Blaise.Tests.Helpers.Health;
     using Blaise.Tests.Helpers.Questionnaire;
@@ -29,6 +30,7 @@ namespace Blaise.Dqs.Tests.Behaviour.Steps
         [BeforeTestRun]
         public static void BeforeTestRun()
         {
+            FailFastHelper.Reset();
             HealthCheckHelper.CheckBlaiseConnection();
 
             var dqsUrl = ConfigurationExtensions.TryGetVariable("ENV_DQS_URL");
@@ -57,6 +59,10 @@ namespace Blaise.Dqs.Tests.Behaviour.Steps
         [BeforeScenario]
         public void BeforeScenario()
         {
+            FailFastHelper.ThrowIfPreviousFailed(_scenarioContext.ScenarioInfo.Title);
+            TestDiagnosticsHelper.LogBlaisePreflight(
+                BlaiseConfigurationHelper.QuestionnaireName,
+                BlaiseConfigurationHelper.ServerParkName);
             QuestionnaireHelper.GetInstance().EnsureQuestionnaireReadyForTest(
                 BlaiseConfigurationHelper.QuestionnaireName,
                 BlaiseConfigurationHelper.ServerParkName);
@@ -67,6 +73,10 @@ namespace Blaise.Dqs.Tests.Behaviour.Steps
         {
             if (_scenarioContext.TestError != null)
             {
+                FailFastHelper.RecordFailure(
+                    _scenarioContext.ScenarioInfo.Title,
+                    _scenarioContext.StepContext.StepInfo.Text,
+                    _scenarioContext.TestError);
                 BrowserHelper.OnError(TestContext.CurrentContext, _scenarioContext);
             }
         }

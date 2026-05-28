@@ -2,6 +2,7 @@ namespace Blaise.Tests.Helpers.Cati.Pages
 {
     using Blaise.Tests.Helpers.Configuration;
     using Blaise.Tests.Helpers.Framework;
+    using OpenQA.Selenium;
 
     public class SchedulerPage : BasePage
     {
@@ -30,5 +31,7 @@ namespace Blaise.Tests.Helpers.Cati.Pages
         {
             ButtonIsAvailableByPath(_submitButtonPath);
         }
+
+        protected override By PageIdentityBy => By.XPath(_submitButtonPath);
     }
 }

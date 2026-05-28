@@ -6,6 +6,7 @@ namespace Blaise.Cati.Tests.Behaviour.Steps
     using Blaise.Tests.Helpers.Case;
     using Blaise.Tests.Helpers.Cati;
     using Blaise.Tests.Helpers.Configuration;
+    using Blaise.Tests.Helpers.Framework;
     using Blaise.Tests.Helpers.Framework.Extensions;
     using Blaise.Tests.Helpers.Health;
     using Blaise.Tests.Helpers.Questionnaire;
@@ -23,10 +24,24 @@ namespace Blaise.Cati.Tests.Behaviour.Steps
             _scenarioContext = scenarioContext;
         }
 
+        [BeforeTestRun]
+        public static void BeforeTestRun()
+        {
+            FailFastHelper.Reset();
+        }
+
         [BeforeScenario]
         public void BeforeScenario()
         {
+            FailFastHelper.ThrowIfPreviousFailed(_scenarioContext.ScenarioInfo.Title);
             HealthCheckHelper.CheckBlaiseConnection();
+
+            CatiUiVersionHelper.Reset();
+            CatiUiVersionHelper.DetectAndCache();
+
+            TestDiagnosticsHelper.LogBlaisePreflight(
+                BlaiseConfigurationHelper.QuestionnaireName,
+                BlaiseConfigurationHelper.ServerParkName);
 
             var catiUrl = ConfigurationExtensions.TryGetVariable("ENV_BLAISE_CATI_URL");
             if (!string.IsNullOrEmpty(catiUrl))
@@ -67,6 +82,10 @@ namespace Blaise.Cati.Tests.Behaviour.Steps
         {
             if (_scenarioContext.TestError != null)
             {
+                FailFastHelper.RecordFailure(
+                    _scenarioContext.ScenarioInfo.Title,
+                    _scenarioContext.StepContext.StepInfo.Text,
+                    _scenarioContext.TestError);
                 BrowserHelper.OnError(TestContext.CurrentContext, _scenarioContext);
             }
         }

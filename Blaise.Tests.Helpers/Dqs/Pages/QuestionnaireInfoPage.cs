@@ -2,6 +2,7 @@ namespace Blaise.Tests.Helpers.Dqs.Pages
 {
     using Blaise.Tests.Helpers.Configuration;
     using Blaise.Tests.Helpers.Framework;
+    using OpenQA.Selenium;
 
     public class QuestionnaireInfoPage : BasePage
     {
@@ -38,5 +39,7 @@ namespace Blaise.Tests.Helpers.Dqs.Pages
         {
             ClickButtonById(DeleteButtonId);
         }
+
+        protected override By PageIdentityBy => By.Id(DeleteButtonId);
     }
 }

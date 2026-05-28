@@ -1,6 +1,7 @@
 namespace Blaise.Tests.Helpers.Cati.Pages
 {
     using System;
+    using Blaise.Tests.Helpers.Cati;
     using Blaise.Tests.Helpers.Browser;
     using Blaise.Tests.Helpers.Configuration;
     using Blaise.Tests.Helpers.Framework;
@@ -9,6 +10,7 @@ namespace Blaise.Tests.Helpers.Cati.Pages
     public class LoginPage : BasePage
     {
         private const string LoginButtonPath = "//button[@type='submit']";
+        private string _loginUrl;
 
         public LoginPage()
             : base(CatiConfigurationHelper.LoginUrl)
@@ -20,17 +22,11 @@ namespace Blaise.Tests.Helpers.Cati.Pages
         {
             try
             {
-                Console.WriteLine("Navigating to default login page.");
-                BrowserHelper.NavigateToPage(CatiConfigurationHelper.LoginUrl);
-                if (BrowserHelper.ElementExistsByXPath("//i[contains(@class, 'bi-bell-fill')]", TimeSpan.FromSeconds(1)))
-                {
-                    Console.WriteLine("Bell icon detected. Redirecting to NewDashboardLoginUrl.");
-                    BrowserHelper.NavigateToPage(CatiConfigurationHelper.NewDashboardLoginUrl);
-                }
-                else
-                {
-                    Console.WriteLine("Bell icon not detected. Using default LoginUrl.");
-                }
+                CatiUiVersionHelper.DetectAndCache();
+                _loginUrl = CatiUiVersionHelper.IsNewUi
+                    ? CatiConfigurationHelper.NewDashboardLoginUrl
+                    : CatiConfigurationHelper.LoginUrl;
+                Console.WriteLine($"Using CATI login page: {_loginUrl}");
             }
             catch (Exception ex)
             {
@@ -39,20 +35,7 @@ namespace Blaise.Tests.Helpers.Cati.Pages
             }
         }
 
-        private bool UseNewSelectors
-        {
-            get
-            {
-                try
-                {
-                    return BrowserHelper.ElementExistsByXPath("//i[contains(@class, 'bi-bell-fill')]", TimeSpan.FromSeconds(1));
-                }
-                catch
-                {
-                    return false;
-                }
-            }
-        }
+        private bool UseNewSelectors => CatiUiVersionHelper.IsNewUi;
 
         private string UsernameBoxId => UseNewSelectors ? "qa_username" : "Username";
 
@@ -65,9 +48,18 @@ namespace Blaise.Tests.Helpers.Cati.Pages
             ClickButtonByXPath(LoginButtonPath);
         }
 
-        protected override Func<IWebDriver, bool> PageHasLoaded()
+        public void LoadLoginPage()
         {
-            return driver => driver.FindElement(By.XPath(LoginButtonPath)) != null;
+            if (string.IsNullOrWhiteSpace(_loginUrl))
+            {
+                EnsureCorrectLoginPage();
+            }
+
+            BrowserHelper.BrowseTo(_loginUrl);
+            BrowserHelper.Wait($"Timed out waiting for CATI login page {_loginUrl} to load")
+                .Until(PageHasLoaded());
         }
+
+        protected override By PageIdentityBy => By.XPath(LoginButtonPath);
     }
 }
