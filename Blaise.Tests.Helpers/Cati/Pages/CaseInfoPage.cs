@@ -62,7 +62,7 @@ namespace Blaise.Tests.Helpers.Cati.Pages
             : "//*[@id='MVCGridTable_CaseInfoGrid']/tbody/tr[1]/td[2]";
 
         private string PlayButtonSelector => UseNewSelectors
-            ? "//*[@id='CaseInfo_content_table']/tbody/tr[1]/td[19]/div/div/a"
+            ? "//*[@id='CaseInfo_content_table']//tr[1]//a[starts-with(@id,'qa_startcase_')]"
             : "//*[@id='MVCGridTable_CaseInfoGrid']/tbody/tr[1]/td[19]/a/span";
 
         public CaseInfoPage()
@@ -114,7 +114,12 @@ namespace Blaise.Tests.Helpers.Cati.Pages
                         var tableScrollableContainer = BrowserHelper.FindElement(By.XPath("//*[@id='CaseInfo_content_table']/parent::div"));
 
                         // Locate the Play button
-                        var playButton = BrowserHelper.FindElement(By.XPath(PlayButtonSelector));
+                        var playButton = BrowserHelper.FindElements(By.XPath(PlayButtonSelector))
+                            .FirstOrDefault();
+                        if (playButton == null)
+                        {
+                            throw new Exception("Play button not found in the first row.");
+                        }
 
                         // Scroll the table horizontally to bring the Play button into view
                         BrowserHelper.ExecuteJavaScript(
@@ -124,7 +129,14 @@ namespace Blaise.Tests.Helpers.Cati.Pages
                         );
 
                         // Click the Play button
-                        BrowserHelper.ScrollIntoViewAndClick(By.XPath(PlayButtonSelector));
+                        try
+                        {
+                            playButton.Click();
+                        }
+                        catch (Exception)
+                        {
+                            BrowserHelper.ExecuteJavaScript("arguments[0].click();", playButton);
+                        }
                     }
                     else
                     {
@@ -185,10 +197,19 @@ namespace Blaise.Tests.Helpers.Cati.Pages
         {
             try
             {
-                var isDisplayed = UseNewSelectors
-                    ? ElementIsDisplayed(By.XPath(PlayButtonSelector))
-                    : ElementIsDisplayed(By.XPath(PlayButtonSelector));
+                if (UseNewSelectors)
+                {
+                    if (!BrowserHelper.ElementExistsByXPath(PlayButtonSelector, TimeSpan.FromSeconds(2)))
+                    {
+                        return false;
+                    }
 
+                    var playButton = BrowserHelper.FindElements(By.XPath(PlayButtonSelector))
+                        .FirstOrDefault();
+                    return playButton != null && playButton.Enabled;
+                }
+
+                var isDisplayed = ElementIsDisplayed(By.XPath(PlayButtonSelector));
                 if (isDisplayed)
                 {
                     var playButton = BrowserHelper.FindElement(By.XPath(PlayButtonSelector));
