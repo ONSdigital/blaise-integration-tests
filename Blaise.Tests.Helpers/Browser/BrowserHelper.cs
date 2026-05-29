@@ -425,17 +425,34 @@ namespace Blaise.Tests.Helpers.Browser
             BrowserHelper.Wait("Waiting for grid spinner to hide")
                 .Until(d =>
                 {
-                    var spinners = d.FindElements(By.ClassName("e-spinner-pane"));
-                    if (spinners == null || spinners.Count == 0)
+                    try
                     {
-                        return true;
-                    }
+                        var spinners = d.FindElements(By.ClassName("e-spinner-pane"));
+                        if (spinners == null || spinners.Count == 0)
+                        {
+                            return true;
+                        }
 
-                    return spinners.All(spinner => spinner.GetAttribute("class").Contains("e-spin-hide"));
+                        return spinners.All(spinner => spinner.GetAttribute("class").Contains("e-spin-hide"));
+                    }
+                    catch (StaleElementReferenceException)
+                    {
+                        return false;
+                    }
                 });
 
             BrowserHelper.Wait("Waiting for grid rows to render")
-                .Until(d => d.FindElements(By.ClassName("e-row")).Count > 0);
+                .Until(d =>
+                {
+                    try
+                    {
+                        return d.FindElements(By.ClassName("e-row")).Count > 0;
+                    }
+                    catch (StaleElementReferenceException)
+                    {
+                        return false;
+                    }
+                });
         }
 
         public static void WaitForUrlToMatch(string expectedUrl, int timeoutInSeconds = 10, int pollingIntervalInMilliseconds = 500)

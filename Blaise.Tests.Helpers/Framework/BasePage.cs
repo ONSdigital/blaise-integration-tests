@@ -160,8 +160,15 @@ namespace Blaise.Tests.Helpers.Framework
                     $"Timed out in WaitUntilXPathContainsText(\"{elementPath}\", \"{text}\")");
                 wait.Until(driver =>
                 {
-                    var element = driver.FindElement(By.XPath(elementPath));
-                    return SeleniumExtras.WaitHelpers.ExpectedConditions.TextToBePresentInElement(element, text)(driver);
+                    try
+                    {
+                        var element = driver.FindElement(By.XPath(elementPath));
+                        return SeleniumExtras.WaitHelpers.ExpectedConditions.TextToBePresentInElement(element, text)(driver);
+                    }
+                    catch (StaleElementReferenceException)
+                    {
+                        return false;
+                    }
                 });
             }
             catch (WebDriverTimeoutException ex)

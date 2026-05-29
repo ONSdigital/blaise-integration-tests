@@ -149,51 +149,24 @@ namespace Blaise.Tests.Helpers.Cati.Pages
         {
             if (UseNewSelectors)
             {
-                BrowserHelper.WaitUntilGridHasLoadedData();
-                ResetCaseInfoGridHorizontalScroll();
-                ClickInstrumentFilterIcon();
-
-                BrowserHelper
-                    .Wait("Timed out waiting for filter popup to open")
-                    .Until(driver => FindInstrumentFilterPopup(driver) != null);
-
-                var alreadySelected = false;
-                try
+                var attempts = 0;
+                while (true)
                 {
-                    alreadySelected = BrowserHelper
-                        .Wait("Timed out waiting for existing case info filter selection", TimeSpan.FromSeconds(1))
-                        .Until(driver => CaseInfoFilterAlreadySelected(driver, BlaiseConfigurationHelper.QuestionnaireName));
+                    try
+                    {
+                        ApplyFilterForNewUi();
+                        return;
+                    }
+                    catch (StaleElementReferenceException ex)
+                    {
+                        attempts++;
+                        Console.WriteLine($"Stale element while applying case info filter (attempt {attempts}): {ex.Message}");
+                        if (attempts >= 3)
+                        {
+                            throw;
+                        }
+                    }
                 }
-                catch (WebDriverTimeoutException)
-                {
-                    alreadySelected = false;
-                }
-
-                if (alreadySelected)
-                {
-                    TabOffCaseInfoFilterInput();
-                    WaitForCaseInfoDropdownToClose();
-                    ConfirmCaseInfoFilterIfPossible();
-                    BrowserHelper.WaitUntilGridHasLoadedData();
-                    return;
-                }
-
-                var searchInput = BrowserHelper
-                    .Wait("Timed out waiting for case info filter search input")
-                    .Until(FindCaseInfoSearchInput);
-                searchInput.Clear();
-                searchInput.SendKeys(BlaiseConfigurationHelper.QuestionnaireName);
-
-                var optionSelected = SelectCaseInfoFilterOption(BlaiseConfigurationHelper.QuestionnaireName);
-                if (!optionSelected)
-                {
-                    searchInput.SendKeys(Keys.Escape);
-                }
-
-                TabOffCaseInfoFilterInput(searchInput);
-                WaitForCaseInfoDropdownToClose();
-                ConfirmCaseInfoFilterIfPossible();
-                BrowserHelper.WaitUntilGridHasLoadedData();
             }
             else
             {
@@ -336,29 +309,43 @@ namespace Blaise.Tests.Helpers.Cati.Pages
             var roleOptionXPath = $"//li[@role='option' and contains(normalize-space(),'{questionnaireName}') ]";
             var popupExactXPath = $"{FilterPopupXPath}//li[contains(@class,'e-list-item') and normalize-space()='{questionnaireName}']";
             var popupContainsXPath = $"{FilterPopupXPath}//li[contains(@class,'e-list-item') and contains(normalize-space(),'{questionnaireName}') ]";
+            for (var attempt = 0; attempt < 2; attempt++)
+            {
+                IWebElement option = null;
+                try
+                {
+                    option = BrowserHelper
+                        .Wait("Timed out waiting for questionnaire option in filter list", TimeSpan.FromSeconds(5))
+                        .Until(driver =>
+                            driver.FindElements(By.XPath(popupExactXPath)).FirstOrDefault(candidate => candidate.Displayed) ??
+                            driver.FindElements(By.XPath(popupContainsXPath)).FirstOrDefault(candidate => candidate.Displayed) ??
+                            driver.FindElements(By.XPath(FilterPopupListItemXPath)).FirstOrDefault(candidate => candidate.Displayed) ??
+                            driver.FindElements(By.XPath(exactMatchXPath)).FirstOrDefault(candidate => candidate.Displayed) ??
+                            driver.FindElements(By.XPath(containsXPath)).FirstOrDefault(candidate => candidate.Displayed) ??
+                            driver.FindElements(By.XPath(roleOptionXPath)).FirstOrDefault(candidate => candidate.Displayed));
+                }
+                catch (WebDriverTimeoutException)
+                {
+                    // Some Syncfusion filter popups apply the typed text without a visible list.
+                }
 
-            IWebElement option = null;
-            try
-            {
-                option = BrowserHelper
-                    .Wait("Timed out waiting for questionnaire option in filter list", TimeSpan.FromSeconds(5))
-                    .Until(driver =>
-                        driver.FindElements(By.XPath(popupExactXPath)).FirstOrDefault(candidate => candidate.Displayed) ??
-                        driver.FindElements(By.XPath(popupContainsXPath)).FirstOrDefault(candidate => candidate.Displayed) ??
-                        driver.FindElements(By.XPath(FilterPopupListItemXPath)).FirstOrDefault(candidate => candidate.Displayed) ??
-                        driver.FindElements(By.XPath(exactMatchXPath)).FirstOrDefault(candidate => candidate.Displayed) ??
-                        driver.FindElements(By.XPath(containsXPath)).FirstOrDefault(candidate => candidate.Displayed) ??
-                        driver.FindElements(By.XPath(roleOptionXPath)).FirstOrDefault(candidate => candidate.Displayed));
-            }
-            catch (WebDriverTimeoutException)
-            {
-                // Some Syncfusion filter popups apply the typed text without a visible list.
-            }
+                if (option == null)
+                {
+                    return false;
+                }
 
-            if (option != null)
-            {
-                option.Click();
-                return true;
+                try
+                {
+                    option.Click();
+                    return true;
+                }
+                catch (StaleElementReferenceException)
+                {
+                    if (attempt >= 1)
+                    {
+                        return false;
+                    }
+                }
             }
 
             return false;
@@ -397,11 +384,64 @@ namespace Blaise.Tests.Helpers.Cati.Pages
                     BrowserHelper.ScrollIntoView(button);
                     BrowserHelper.ClickByXPathWithJavaScriptWithRetry(FilterPopupButtonXPath);
                 }
+                catch (StaleElementReferenceException)
+                {
+                    BrowserHelper.ClickByXPathWithJavaScriptWithRetry(FilterPopupButtonXPath);
+                }
             }
             catch (WebDriverTimeoutException)
             {
                 // No confirmation button for this UI, filter applies on selection.
             }
+        }
+
+        private void ApplyFilterForNewUi()
+        {
+            BrowserHelper.WaitUntilGridHasLoadedData();
+            ResetCaseInfoGridHorizontalScroll();
+            ClickInstrumentFilterIcon();
+
+            BrowserHelper
+                .Wait("Timed out waiting for filter popup to open")
+                .Until(driver => FindInstrumentFilterPopup(driver) != null);
+
+            var alreadySelected = false;
+            try
+            {
+                alreadySelected = BrowserHelper
+                    .Wait("Timed out waiting for existing case info filter selection", TimeSpan.FromSeconds(1))
+                    .Until(driver => CaseInfoFilterAlreadySelected(driver, BlaiseConfigurationHelper.QuestionnaireName));
+            }
+            catch (WebDriverTimeoutException)
+            {
+                alreadySelected = false;
+            }
+
+            if (alreadySelected)
+            {
+                TabOffCaseInfoFilterInput();
+                WaitForCaseInfoDropdownToClose();
+                ConfirmCaseInfoFilterIfPossible();
+                BrowserHelper.WaitUntilGridHasLoadedData();
+                return;
+            }
+
+            var searchInput = BrowserHelper
+                .Wait("Timed out waiting for case info filter search input")
+                .Until(FindCaseInfoSearchInput);
+            searchInput.Clear();
+            searchInput.SendKeys(BlaiseConfigurationHelper.QuestionnaireName);
+
+            var optionSelected = SelectCaseInfoFilterOption(BlaiseConfigurationHelper.QuestionnaireName);
+            if (!optionSelected)
+            {
+                searchInput.SendKeys(Keys.Escape);
+            }
+
+            TabOffCaseInfoFilterInput(searchInput);
+            WaitForCaseInfoDropdownToClose();
+            ConfirmCaseInfoFilterIfPossible();
+            BrowserHelper.WaitUntilGridHasLoadedData();
         }
 
         private void WaitForCaseInfoDropdownToClose()
