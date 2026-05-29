@@ -84,7 +84,8 @@ namespace Blaise.Tests.Helpers.Dqs.Pages
                 .Wait("Timed out waiting for date input")
                 .Until(FindDateInput);
 
-            TrySetDateValue(input, date);
+            var parsed = TryParseDate(date, out var parsedDate, out var isoDate, out var displayDate);
+            TrySetDateValue(input, parsed ? (DateTime?)parsedDate : null, isoDate, displayDate);
 
             BrowserHelper
                 .Wait($"Timed out waiting for date value '{date}'")
@@ -92,7 +93,7 @@ namespace Blaise.Tests.Helpers.Dqs.Pages
                 {
                     var current = FindDateInput(driver);
                     var value = current?.GetAttribute("value") ?? string.Empty;
-                    return DateValueMatches(value, date);
+                    return DateValueMatches(value, isoDate) || DateValueMatches(value, displayDate);
                 });
         }
 
@@ -132,47 +133,45 @@ namespace Blaise.Tests.Helpers.Dqs.Pages
                 .FirstOrDefault(candidate => candidate.Displayed);
         }
 
-        private void TrySetDateValue(IWebElement element, string date)
+        private void TrySetDateValue(
+            IWebElement element,
+            DateTime? parsedDate,
+            string isoDate,
+            string displayDate)
         {
-            var parsed = TryParseDate(date, out var parsedDate, out var isoDate, out var displayDate);
-            var elementType = element.GetAttribute("type") ?? string.Empty;
-            var targetValue = elementType.Equals("date", StringComparison.OrdinalIgnoreCase)
-                ? isoDate
-                : displayDate;
+            var primaryValue = string.IsNullOrEmpty(isoDate) ? displayDate : isoDate;
 
-            try
+            if (!TrySendKeys(element, primaryValue))
             {
-                SetDateValueByScript(element, targetValue, parsed ? (DateTime?)parsedDate : null);
-            }
-            catch (ElementNotInteractableException)
-            {
-                SetDateValueByScript(element, targetValue, parsed ? (DateTime?)parsedDate : null);
-                return;
-            }
-            catch (InvalidElementStateException)
-            {
-                SetDateValueByScript(element, targetValue, parsed ? (DateTime?)parsedDate : null);
-                return;
+                SetDateValueByScript(element, primaryValue, parsedDate);
             }
 
             var value = element.GetAttribute("value") ?? string.Empty;
-            if (!DateValueMatches(value, isoDate) && !DateValueMatches(value, displayDate))
+            if (!DateValueMatches(value, primaryValue) && !DateValueMatches(value, displayDate))
             {
-                try
+                if (!TrySendKeys(element, displayDate))
                 {
-                    element.Clear();
-                    element.SendKeys(targetValue);
+                    SetDateValueByScript(element, displayDate, parsedDate);
                 }
-                catch (ElementNotInteractableException)
-                {
-                    SetDateValueByScript(element, targetValue, parsed ? (DateTime?)parsedDate : null);
-                    return;
-                }
-                catch (InvalidElementStateException)
-                {
-                    SetDateValueByScript(element, targetValue, parsed ? (DateTime?)parsedDate : null);
-                    return;
-                }
+            }
+        }
+
+        private static bool TrySendKeys(IWebElement element, string value)
+        {
+            try
+            {
+                element.Click();
+                element.Clear();
+                element.SendKeys(value);
+                return true;
+            }
+            catch (ElementNotInteractableException)
+            {
+                return false;
+            }
+            catch (InvalidElementStateException)
+            {
+                return false;
             }
         }
 
