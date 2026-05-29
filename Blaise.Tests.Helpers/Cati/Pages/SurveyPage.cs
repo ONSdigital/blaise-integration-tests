@@ -16,9 +16,9 @@ namespace Blaise.Tests.Helpers.Cati.Pages
         private const string ExecuteButtonPath = "//input[@value='Execute']";
         private const string FilterButton = "//*[contains(text(), 'Filters')]";
         private const string ApplyButton = "//*[contains(text(), 'Apply')]";
-        private const string InstrumentFilterIconXPath = "//div[contains(@class,'e-filtermenudiv') and @e-mappinguid='qa_instrumentid']";
+        private const string InstrumentFilterIconXPath = "//div[contains(@class,'e-filtermenudiv') and (@e-mappinguid='qa_instrumentid' or @e-mappinguid='qa_instrument')]";
         private const string FilterPopupXPath = "//div[contains(@class,'e-popup') and contains(@class,'e-popup-open')]";
-        private const string InstrumentFilterPopupId = "qa_instrumentid-flmdlg";
+        private static readonly string[] InstrumentFilterPopupIds = { "qa_instrumentid-flmdlg", "qa_instrument-flmdlg" };
         private const string FilterPopupButtonXPath = ".//button[contains(@class,'e-flmenu-okbtn') or normalize-space()='Filter' or normalize-space()='Apply']";
         private const string FilterPopupListItemXPath = "//div[contains(@class,'e-popup') and contains(@class,'e-popup-open')]//li[contains(@class,'e-list-item')]";
         private readonly string _surveyRadioButton = $"//*[normalize-space()='{BlaiseConfigurationHelper.QuestionnaireName}']";
@@ -77,16 +77,20 @@ namespace Blaise.Tests.Helpers.Cati.Pages
                 Console.WriteLine("Opened filter menu.");
                 BrowserHelper
                     .Wait("Timed out waiting for filter popup to open")
-                    .Until(driver =>
-                        driver.FindElements(By.Id(InstrumentFilterPopupId))
-                            .Any(candidate => candidate.Displayed));
+                    .Until(driver => FindInstrumentFilterPopup(driver) != null);
                 var searchInput = BrowserHelper
                     .Wait("Timed out waiting for survey filter search input")
                     .Until(FindSurveySearchInput);
                 searchInput.Clear();
                 searchInput.SendKeys(BlaiseConfigurationHelper.QuestionnaireName);
 
-                SelectSurveyFilterOption(BlaiseConfigurationHelper.QuestionnaireName);
+                var optionSelected = SelectSurveyFilterOption(BlaiseConfigurationHelper.QuestionnaireName);
+                if (!optionSelected)
+                {
+                    // Close the dropdown list so the Filter button can be clicked.
+                    searchInput.SendKeys(Keys.Escape);
+                }
+                WaitForSurveyDropdownToClose();
                 ConfirmSurveyFilterIfPossible();
 
                 Console.WriteLine("Selected questionnaire from dropdown.");
@@ -121,24 +125,11 @@ namespace Blaise.Tests.Helpers.Cati.Pages
                 return activeElement;
             }
 
-            var popupById = driver.FindElements(By.Id(InstrumentFilterPopupId))
-                .FirstOrDefault(candidate => candidate.Displayed);
-            if (popupById != null)
-            {
-                var popupInputById = popupById
-                    .FindElements(By.CssSelector("input[aria-label='multiselect'], input.e-multiselect, input[role='combobox']"))
-                    .FirstOrDefault(candidate => candidate.Displayed);
-                if (popupInputById != null)
-                {
-                    return popupInputById;
-                }
-            }
-
-            var popup = driver.FindElements(By.XPath(FilterPopupXPath))
-                .FirstOrDefault(candidate => candidate.Displayed);
+            var popup = FindInstrumentFilterPopup(driver);
             if (popup != null)
             {
-                var popupInput = popup.FindElements(By.CssSelector("input[aria-label='multiselect'], input.e-multiselect, input[role='combobox'], input[type='text']"))
+                var popupInput = popup
+                    .FindElements(By.CssSelector("input[aria-label='multiselect'], input.e-multiselect, input[role='combobox'], input[type='text']"))
                     .FirstOrDefault(candidate => candidate.Displayed);
                 if (popupInput != null)
                 {
@@ -157,7 +148,7 @@ namespace Blaise.Tests.Helpers.Cati.Pages
                 .FirstOrDefault(candidate => candidate.Displayed);
         }
 
-        private void SelectSurveyFilterOption(string questionnaireName)
+        private bool SelectSurveyFilterOption(string questionnaireName)
         {
             var exactMatchXPath = $"//li[contains(@class,'e-list-item') and normalize-space()='{questionnaireName}']";
             var containsXPath = $"//li[contains(@class,'e-list-item') and contains(normalize-space(),'{questionnaireName}') ]";
@@ -186,7 +177,10 @@ namespace Blaise.Tests.Helpers.Cati.Pages
             if (option != null)
             {
                 option.Click();
+                return true;
             }
+
+            return false;
         }
 
         private void ConfirmSurveyFilterIfPossible()
@@ -197,24 +191,89 @@ namespace Blaise.Tests.Helpers.Cati.Pages
                     .Wait("Timed out waiting for filter confirmation button", TimeSpan.FromSeconds(5))
                     .Until(driver =>
                     {
-                        var popup = driver.FindElements(By.Id(InstrumentFilterPopupId))
-                            .FirstOrDefault(candidate => candidate.Displayed);
-                        if (popup != null)
+                        var popup = FindInstrumentFilterPopup(driver);
+                        if (popup == null)
                         {
-                            return popup.FindElements(By.XPath(FilterPopupButtonXPath))
+                            return driver.FindElements(By.XPath(FilterPopupButtonXPath))
                                 .FirstOrDefault(candidate => candidate.Displayed);
                         }
 
-                        return driver.FindElements(By.XPath(FilterPopupButtonXPath))
+                        return popup.FindElements(By.XPath(FilterPopupButtonXPath))
                             .FirstOrDefault(candidate => candidate.Displayed);
                     });
 
-                button?.Click();
+                if (button == null)
+                {
+                    return;
+                }
+
+                try
+                {
+                    button.Click();
+                }
+                catch (ElementClickInterceptedException)
+                {
+                    BrowserHelper.ScrollIntoView(button);
+                    BrowserHelper.ClickByXPathWithJavaScriptWithRetry(FilterPopupButtonXPath);
+                }
             }
             catch (WebDriverTimeoutException)
             {
                 // No confirmation button for this UI, filter applies on selection.
             }
+        }
+
+        private void WaitForSurveyDropdownToClose()
+        {
+            try
+            {
+                BrowserHelper
+                    .Wait("Timed out waiting for survey dropdown to close", TimeSpan.FromSeconds(3))
+                    .Until(driver =>
+                    {
+                        var dropdownVisible = driver
+                            .FindElements(By.CssSelector("div.e-content.e-dropdownbase"))
+                            .Any(candidate => candidate.Displayed);
+                        if (dropdownVisible)
+                        {
+                            return false;
+                        }
+
+                        var input = FindSurveySearchInput(driver);
+                        if (input == null)
+                        {
+                            return true;
+                        }
+
+                        var expanded = input.GetAttribute("aria-expanded");
+                        return string.IsNullOrWhiteSpace(expanded) ||
+                               expanded.Equals("false", StringComparison.OrdinalIgnoreCase);
+                    });
+            }
+            catch (WebDriverTimeoutException)
+            {
+                // Continue and let the JS click fallback handle the filter action.
+            }
+            catch (StaleElementReferenceException)
+            {
+                // Treat a stale input as closed.
+            }
+        }
+
+        private IWebElement FindInstrumentFilterPopup(IWebDriver driver)
+        {
+            foreach (var popupId in InstrumentFilterPopupIds)
+            {
+                var popup = driver.FindElements(By.Id(popupId))
+                    .FirstOrDefault(candidate => candidate.Displayed);
+                if (popup != null)
+                {
+                    return popup;
+                }
+            }
+
+            return driver.FindElements(By.XPath(FilterPopupXPath))
+                .FirstOrDefault(candidate => candidate.Displayed);
         }
 
         public void WaitForSurveyTable()
@@ -239,7 +298,7 @@ namespace Blaise.Tests.Helpers.Cati.Pages
         }
 
         protected override By PageIdentityBy => UseNewSelectors
-            ? By.XPath("//div[@e-mappinguid='qa_instrumentid' and contains(@class, 'e-filtermenudiv')]")
+            ? By.XPath("//div[contains(@class,'e-filtermenudiv') and (@e-mappinguid='qa_instrumentid' or @e-mappinguid='qa_instrument')]")
             : By.XPath(FilterButton);
     }
 }
