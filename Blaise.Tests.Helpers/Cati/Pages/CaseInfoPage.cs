@@ -1,6 +1,7 @@
 namespace Blaise.Tests.Helpers.Cati.Pages
 {
     using System;
+    using System.Linq;
     using Blaise.Tests.Helpers.Browser;
     using Blaise.Tests.Helpers.Cati;
     using Blaise.Tests.Helpers.Configuration;
@@ -12,9 +13,10 @@ namespace Blaise.Tests.Helpers.Cati.Pages
         private const string FilterButton = "//*[contains(text(), 'Filters')]";
         private const string ApplyButton = "//*[contains(text(), 'Apply')]";
         private const string InstrumentFilterIconXPath = "//div[contains(@class,'e-filtermenudiv') and (@e-mappinguid='qa_instrumentid' or @e-mappinguid='qa_instrument')]";
-        private const string CaseInfoSearchBoxId = "CaseInfo_SearchBox";
-        private const string InstrumentFilterApplyButtonId = "qa_instrument_excelDlg";
-        private const string InstrumentFilterApplyButtonIdAlternate = "qa_instrumentid_excelDlg";
+        private const string FilterPopupXPath = "//div[contains(@class,'e-popup') and contains(@class,'e-popup-open')]";
+        private static readonly string[] InstrumentFilterPopupIds = { "qa_instrumentid-flmdlg", "qa_instrument-flmdlg" };
+        private const string FilterPopupButtonXPath = ".//button[contains(@class,'e-flmenu-okbtn') or normalize-space()='Filter' or normalize-space()='Apply']";
+        private const string FilterPopupListItemXPath = "//div[contains(@class,'e-popup') and contains(@class,'e-popup-open')]//li[contains(@class,'e-list-item')]";
         private readonly string _surveyRadioButton = $"//*[normalize-space()='{BlaiseConfigurationHelper.QuestionnaireName}']";
 
         private bool UseNewSelectors
@@ -150,8 +152,47 @@ namespace Blaise.Tests.Helpers.Cati.Pages
                 BrowserHelper.WaitUntilGridHasLoadedData();
                 ResetCaseInfoGridHorizontalScroll();
                 ClickInstrumentFilterIcon();
-                PopulateInputById(CaseInfoSearchBoxId, BlaiseConfigurationHelper.QuestionnaireName);
-                ClickInstrumentFilterApplyButton();
+
+                BrowserHelper
+                    .Wait("Timed out waiting for filter popup to open")
+                    .Until(driver => FindInstrumentFilterPopup(driver) != null);
+
+                var alreadySelected = false;
+                try
+                {
+                    alreadySelected = BrowserHelper
+                        .Wait("Timed out waiting for existing case info filter selection", TimeSpan.FromSeconds(1))
+                        .Until(driver => CaseInfoFilterAlreadySelected(driver, BlaiseConfigurationHelper.QuestionnaireName));
+                }
+                catch (WebDriverTimeoutException)
+                {
+                    alreadySelected = false;
+                }
+
+                if (alreadySelected)
+                {
+                    TabOffCaseInfoFilterInput();
+                    WaitForCaseInfoDropdownToClose();
+                    ConfirmCaseInfoFilterIfPossible();
+                    BrowserHelper.WaitUntilGridHasLoadedData();
+                    return;
+                }
+
+                var searchInput = BrowserHelper
+                    .Wait("Timed out waiting for case info filter search input")
+                    .Until(FindCaseInfoSearchInput);
+                searchInput.Clear();
+                searchInput.SendKeys(BlaiseConfigurationHelper.QuestionnaireName);
+
+                var optionSelected = SelectCaseInfoFilterOption(BlaiseConfigurationHelper.QuestionnaireName);
+                if (!optionSelected)
+                {
+                    searchInput.SendKeys(Keys.Escape);
+                }
+
+                TabOffCaseInfoFilterInput(searchInput);
+                WaitForCaseInfoDropdownToClose();
+                ConfirmCaseInfoFilterIfPossible();
                 BrowserHelper.WaitUntilGridHasLoadedData();
             }
             else
@@ -254,21 +295,232 @@ namespace Blaise.Tests.Helpers.Cati.Pages
             }
         }
 
-        private void ClickInstrumentFilterApplyButton()
+        private IWebElement FindCaseInfoSearchInput(IWebDriver driver)
         {
-            if (BrowserHelper.ElementExistsById(InstrumentFilterApplyButtonId, TimeSpan.FromSeconds(2)))
+            var activeElement = driver.SwitchTo().ActiveElement();
+            if (activeElement != null &&
+                activeElement.Displayed &&
+                activeElement.TagName.Equals("input", StringComparison.OrdinalIgnoreCase) &&
+                IsUsableFilterInput(activeElement))
             {
-                BrowserHelper.ClickByIdWithRetry(InstrumentFilterApplyButtonId);
-                return;
+                return activeElement;
             }
 
-            if (BrowserHelper.ElementExistsById(InstrumentFilterApplyButtonIdAlternate, TimeSpan.FromSeconds(2)))
+            var popup = FindInstrumentFilterPopup(driver);
+            if (popup != null)
             {
-                BrowserHelper.ClickByIdWithRetry(InstrumentFilterApplyButtonIdAlternate);
-                return;
+                var popupInput = popup
+                    .FindElements(By.CssSelector("input[aria-label='multiselect'], input.e-multiselect, input[role='combobox'], input[type='text']"))
+                    .FirstOrDefault(candidate => candidate.Displayed && IsUsableFilterInput(candidate));
+                if (popupInput != null)
+                {
+                    return popupInput;
+                }
             }
 
-            ClickButtonById(InstrumentFilterApplyButtonId);
+            var byAria = driver.FindElements(By.CssSelector("input[aria-label='multiselect']"))
+                .FirstOrDefault(candidate => candidate.Displayed && IsUsableFilterInput(candidate));
+            if (byAria != null)
+            {
+                return byAria;
+            }
+
+            return driver.FindElements(By.CssSelector("input[id^='multiselect-']"))
+                .FirstOrDefault(candidate => candidate.Displayed && IsUsableFilterInput(candidate));
+        }
+
+        private bool SelectCaseInfoFilterOption(string questionnaireName)
+        {
+            var exactMatchXPath = $"//li[contains(@class,'e-list-item') and normalize-space()='{questionnaireName}']";
+            var containsXPath = $"//li[contains(@class,'e-list-item') and contains(normalize-space(),'{questionnaireName}') ]";
+            var roleOptionXPath = $"//li[@role='option' and contains(normalize-space(),'{questionnaireName}') ]";
+            var popupExactXPath = $"{FilterPopupXPath}//li[contains(@class,'e-list-item') and normalize-space()='{questionnaireName}']";
+            var popupContainsXPath = $"{FilterPopupXPath}//li[contains(@class,'e-list-item') and contains(normalize-space(),'{questionnaireName}') ]";
+
+            IWebElement option = null;
+            try
+            {
+                option = BrowserHelper
+                    .Wait("Timed out waiting for questionnaire option in filter list", TimeSpan.FromSeconds(5))
+                    .Until(driver =>
+                        driver.FindElements(By.XPath(popupExactXPath)).FirstOrDefault(candidate => candidate.Displayed) ??
+                        driver.FindElements(By.XPath(popupContainsXPath)).FirstOrDefault(candidate => candidate.Displayed) ??
+                        driver.FindElements(By.XPath(FilterPopupListItemXPath)).FirstOrDefault(candidate => candidate.Displayed) ??
+                        driver.FindElements(By.XPath(exactMatchXPath)).FirstOrDefault(candidate => candidate.Displayed) ??
+                        driver.FindElements(By.XPath(containsXPath)).FirstOrDefault(candidate => candidate.Displayed) ??
+                        driver.FindElements(By.XPath(roleOptionXPath)).FirstOrDefault(candidate => candidate.Displayed));
+            }
+            catch (WebDriverTimeoutException)
+            {
+                // Some Syncfusion filter popups apply the typed text without a visible list.
+            }
+
+            if (option != null)
+            {
+                option.Click();
+                return true;
+            }
+
+            return false;
+        }
+
+        private void ConfirmCaseInfoFilterIfPossible()
+        {
+            try
+            {
+                var button = BrowserHelper
+                    .Wait("Timed out waiting for filter confirmation button", TimeSpan.FromSeconds(5))
+                    .Until(driver =>
+                    {
+                        var popup = FindInstrumentFilterPopup(driver);
+                        if (popup == null)
+                        {
+                            return driver.FindElements(By.XPath(FilterPopupButtonXPath))
+                                .FirstOrDefault(candidate => candidate.Displayed);
+                        }
+
+                        return popup.FindElements(By.XPath(FilterPopupButtonXPath))
+                            .FirstOrDefault(candidate => candidate.Displayed);
+                    });
+
+                if (button == null)
+                {
+                    return;
+                }
+
+                try
+                {
+                    button.Click();
+                }
+                catch (ElementClickInterceptedException)
+                {
+                    BrowserHelper.ScrollIntoView(button);
+                    BrowserHelper.ClickByXPathWithJavaScriptWithRetry(FilterPopupButtonXPath);
+                }
+            }
+            catch (WebDriverTimeoutException)
+            {
+                // No confirmation button for this UI, filter applies on selection.
+            }
+        }
+
+        private void WaitForCaseInfoDropdownToClose()
+        {
+            try
+            {
+                BrowserHelper
+                    .Wait("Timed out waiting for case info dropdown to close", TimeSpan.FromSeconds(3))
+                    .Until(driver =>
+                    {
+                        var dropdownVisible = driver
+                            .FindElements(By.CssSelector("div.e-content.e-dropdownbase"))
+                            .Any(candidate => candidate.Displayed);
+                        if (dropdownVisible)
+                        {
+                            return false;
+                        }
+
+                        var input = FindCaseInfoSearchInput(driver);
+                        if (input == null)
+                        {
+                            return true;
+                        }
+
+                        var expanded = input.GetAttribute("aria-expanded");
+                        return string.IsNullOrWhiteSpace(expanded) ||
+                               expanded.Equals("false", StringComparison.OrdinalIgnoreCase);
+                    });
+            }
+            catch (WebDriverTimeoutException)
+            {
+                // Continue and let the JS click fallback handle the filter action.
+            }
+            catch (StaleElementReferenceException)
+            {
+                // Treat a stale input as closed.
+            }
+        }
+
+        private bool CaseInfoFilterAlreadySelected(IWebDriver driver, string questionnaireName)
+        {
+            try
+            {
+                var popup = FindInstrumentFilterPopup(driver);
+                if (popup == null)
+                {
+                    return false;
+                }
+
+                var chips = popup.FindElements(By.CssSelector(".e-chips-collection, .e-delim-values"));
+                return chips.Any(chip =>
+                    chip.Displayed &&
+                    !string.IsNullOrWhiteSpace(chip.Text) &&
+                    chip.Text.IndexOf(questionnaireName, StringComparison.OrdinalIgnoreCase) >= 0);
+            }
+            catch (StaleElementReferenceException)
+            {
+                return false;
+            }
+        }
+
+        private bool IsUsableFilterInput(IWebElement input)
+        {
+            if (input == null || !input.Displayed || !input.Enabled)
+            {
+                return false;
+            }
+
+            var readOnly = input.GetAttribute("readonly");
+            if (!string.IsNullOrWhiteSpace(readOnly))
+            {
+                return false;
+            }
+
+            var ariaLabel = input.GetAttribute("aria-label") ?? string.Empty;
+            var id = input.GetAttribute("id") ?? string.Empty;
+            var name = input.GetAttribute("name") ?? string.Empty;
+
+            if (ariaLabel.Equals("multiselect", StringComparison.OrdinalIgnoreCase))
+            {
+                return true;
+            }
+
+            return id.StartsWith("multiselect-", StringComparison.OrdinalIgnoreCase) ||
+                   name.StartsWith("multiselect-", StringComparison.OrdinalIgnoreCase);
+        }
+
+        private IWebElement FindInstrumentFilterPopup(IWebDriver driver)
+        {
+            foreach (var popupId in InstrumentFilterPopupIds)
+            {
+                var popup = driver.FindElements(By.Id(popupId))
+                    .FirstOrDefault(candidate => candidate.Displayed);
+                if (popup != null)
+                {
+                    return popup;
+                }
+            }
+
+            return driver.FindElements(By.XPath(FilterPopupXPath))
+                .FirstOrDefault(candidate => candidate.Displayed);
+        }
+
+        private void TabOffCaseInfoFilterInput(IWebElement input = null)
+        {
+            try
+            {
+                if (input != null)
+                {
+                    input.SendKeys(Keys.Tab);
+                    return;
+                }
+
+                BrowserHelper.ExecuteJavaScript("if (document.activeElement) { document.activeElement.blur(); }");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Unable to tab off case info filter input: {ex.Message}");
+            }
         }
     }
 }

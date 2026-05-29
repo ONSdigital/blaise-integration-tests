@@ -423,7 +423,16 @@ namespace Blaise.Tests.Helpers.Browser
         public static void WaitUntilGridHasLoadedData()
         {
             BrowserHelper.Wait("Waiting for grid spinner to hide")
-                .Until(d => d.FindElement(By.ClassName("e-spinner-pane")).GetAttribute("class").Contains("e-spin-hide"));
+                .Until(d =>
+                {
+                    var spinners = d.FindElements(By.ClassName("e-spinner-pane"));
+                    if (spinners == null || spinners.Count == 0)
+                    {
+                        return true;
+                    }
+
+                    return spinners.All(spinner => spinner.GetAttribute("class").Contains("e-spin-hide"));
+                });
 
             BrowserHelper.Wait("Waiting for grid rows to render")
                 .Until(d => d.FindElements(By.ClassName("e-row")).Count > 0);
