@@ -27,13 +27,27 @@ namespace Blaise.Tests.Helpers.Cati.Pages
 
         public void NavigateToVersionSpecificPage()
         {
-            if (UseNewSelectors)
+            var newUrl = CatiConfigurationHelper.NewDashboardCaseInfoUrl;
+            var oldUrl = CatiConfigurationHelper.CaseInfoUrl;
+            var preferNew = UseNewSelectors;
+
+            BrowserHelper.NavigateToPage(preferNew ? newUrl : oldUrl);
+
+            if (preferNew)
             {
-                BrowserHelper.NavigateToPage(CatiConfigurationHelper.NewDashboardCaseInfoUrl);
+                if (!IsCaseInfoGridLoaded(true) && IsCaseInfoGridLoaded(false))
+                {
+                    Console.WriteLine("New Case Info grid not detected. Falling back to legacy URL.");
+                    BrowserHelper.NavigateToPage(oldUrl);
+                }
             }
             else
             {
-                BrowserHelper.NavigateToPage(CatiConfigurationHelper.CaseInfoUrl);
+                if (!IsCaseInfoGridLoaded(false) && IsCaseInfoGridLoaded(true))
+                {
+                    Console.WriteLine("Legacy Case Info grid not detected. Falling back to new dashboard URL.");
+                    BrowserHelper.NavigateToPage(newUrl);
+                }
             }
         }
 
@@ -205,6 +219,14 @@ namespace Blaise.Tests.Helpers.Cati.Pages
                 : "//*[@id='MVCGridTable_CaseInfoGrid']/tbody/tr[1]/td[2]";
 
             WaitUntilElementByXPathContainsText(path, caseId);
+        }
+
+        private bool IsCaseInfoGridLoaded(bool isNewUi)
+        {
+            var selector = isNewUi
+                ? "//*[@id='CaseInfo_content_table']"
+                : "//*[@id='MVCGridTable_CaseInfoGrid']";
+            return BrowserHelper.ElementExistsByXPath(selector, TimeSpan.FromSeconds(5));
         }
 
         private void ResetCaseInfoGridHorizontalScroll()
