@@ -78,6 +78,27 @@ namespace Blaise.Tests.Helpers.Cati.Pages
                 BrowserHelper
                     .Wait("Timed out waiting for filter popup to open")
                     .Until(driver => FindInstrumentFilterPopup(driver) != null);
+                var alreadySelected = false;
+                try
+                {
+                    alreadySelected = BrowserHelper
+                        .Wait("Timed out waiting for existing survey filter selection", TimeSpan.FromSeconds(1))
+                        .Until(driver => SurveyFilterAlreadySelected(driver, BlaiseConfigurationHelper.QuestionnaireName));
+                }
+                catch (WebDriverTimeoutException)
+                {
+                    alreadySelected = false;
+                }
+
+                if (alreadySelected)
+                {
+                    WaitForSurveyDropdownToClose();
+                    ConfirmSurveyFilterIfPossible();
+                    Console.WriteLine("Questionnaire already selected in filter.");
+                    Console.WriteLine("Filtered Questionnaire.");
+                    BrowserHelper.WaitUntilGridHasLoadedData();
+                    return;
+                }
                 var searchInput = BrowserHelper
                     .Wait("Timed out waiting for survey filter search input")
                     .Until(FindSurveySearchInput);
@@ -120,7 +141,8 @@ namespace Blaise.Tests.Helpers.Cati.Pages
             var activeElement = driver.SwitchTo().ActiveElement();
             if (activeElement != null &&
                 activeElement.Displayed &&
-                activeElement.TagName.Equals("input", StringComparison.OrdinalIgnoreCase))
+                activeElement.TagName.Equals("input", StringComparison.OrdinalIgnoreCase) &&
+                IsUsableSurveyInput(activeElement))
             {
                 return activeElement;
             }
@@ -130,7 +152,7 @@ namespace Blaise.Tests.Helpers.Cati.Pages
             {
                 var popupInput = popup
                     .FindElements(By.CssSelector("input[aria-label='multiselect'], input.e-multiselect, input[role='combobox'], input[type='text']"))
-                    .FirstOrDefault(candidate => candidate.Displayed);
+                    .FirstOrDefault(candidate => candidate.Displayed && IsUsableSurveyInput(candidate));
                 if (popupInput != null)
                 {
                     return popupInput;
@@ -138,14 +160,14 @@ namespace Blaise.Tests.Helpers.Cati.Pages
             }
 
             var byAria = driver.FindElements(By.CssSelector("input[aria-label='multiselect']"))
-                .FirstOrDefault(candidate => candidate.Displayed);
+                .FirstOrDefault(candidate => candidate.Displayed && IsUsableSurveyInput(candidate));
             if (byAria != null)
             {
                 return byAria;
             }
 
             return driver.FindElements(By.CssSelector("input[id^='multiselect-']"))
-                .FirstOrDefault(candidate => candidate.Displayed);
+                .FirstOrDefault(candidate => candidate.Displayed && IsUsableSurveyInput(candidate));
         }
 
         private bool SelectSurveyFilterOption(string questionnaireName)
@@ -258,6 +280,54 @@ namespace Blaise.Tests.Helpers.Cati.Pages
             {
                 // Treat a stale input as closed.
             }
+        }
+
+        private bool SurveyFilterAlreadySelected(IWebDriver driver, string questionnaireName)
+        {
+            try
+            {
+                var popup = FindInstrumentFilterPopup(driver);
+                if (popup == null)
+                {
+                    return false;
+                }
+
+                var chips = popup.FindElements(By.CssSelector(".e-chips-collection, .e-delim-values"));
+                return chips.Any(chip =>
+                    chip.Displayed &&
+                    !string.IsNullOrWhiteSpace(chip.Text) &&
+                    chip.Text.IndexOf(questionnaireName, StringComparison.OrdinalIgnoreCase) >= 0);
+            }
+            catch (StaleElementReferenceException)
+            {
+                return false;
+            }
+        }
+
+        private bool IsUsableSurveyInput(IWebElement input)
+        {
+            if (input == null || !input.Displayed || !input.Enabled)
+            {
+                return false;
+            }
+
+            var readOnly = input.GetAttribute("readonly");
+            if (!string.IsNullOrWhiteSpace(readOnly))
+            {
+                return false;
+            }
+
+            var ariaLabel = input.GetAttribute("aria-label") ?? string.Empty;
+            var id = input.GetAttribute("id") ?? string.Empty;
+            var name = input.GetAttribute("name") ?? string.Empty;
+
+            if (ariaLabel.Equals("multiselect", StringComparison.OrdinalIgnoreCase))
+            {
+                return true;
+            }
+
+            return id.StartsWith("multiselect-", StringComparison.OrdinalIgnoreCase) ||
+                   name.StartsWith("multiselect-", StringComparison.OrdinalIgnoreCase);
         }
 
         private IWebElement FindInstrumentFilterPopup(IWebDriver driver)
