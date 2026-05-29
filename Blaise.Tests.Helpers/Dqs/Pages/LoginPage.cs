@@ -17,8 +17,6 @@ namespace Blaise.Tests.Helpers.Dqs.Pages
         private readonly string _signOutButtonId = "signout-button";
         private readonly string _signOutButtonPath = "//header[contains(@class,'ons-header')]//button[.//span[normalize-space()='Sign out']]";
         private readonly string _signOutButtonCss = "header.ons-header button.ons-btn--link";
-        private readonly string _questionnaireTableId = "questionnaire-table";
-        private readonly string _deployQuestionnaireButtonId = "deploy-questionnaire-link";
 
         public LoginPage()
             : base(DqsConfigurationHelper.DqsUrl)
@@ -46,7 +44,7 @@ namespace Blaise.Tests.Helpers.Dqs.Pages
             try
             {
                 BrowserHelper
-                    .Wait("Timed out waiting for Sign out button", TimeSpan.FromSeconds(5))
+                    .Wait("Timed out waiting for Sign out button (login may not have completed)", TimeSpan.FromSeconds(5))
                     .Until(driver => IsLoggedIn(driver));
                 return true;
             }
@@ -59,7 +57,7 @@ namespace Blaise.Tests.Helpers.Dqs.Pages
         private void WaitUntilLoggedIn()
         {
             BrowserHelper
-                .Wait("Timed out waiting for DQS to finish logging in")
+                .Wait("Timed out waiting for DQS to finish logging in (Sign out button not found)")
                 .Until(driver => IsLoggedIn(driver));
         }
 
@@ -107,20 +105,7 @@ namespace Blaise.Tests.Helpers.Dqs.Pages
 
         private bool IsLoggedIn(IWebDriver driver)
         {
-            return FindSignOutButton(driver) != null || FindHomePageElement(driver) != null;
-        }
-
-        private IWebElement FindHomePageElement(IWebDriver driver)
-        {
-            var byTable = driver.FindElements(By.Id(_questionnaireTableId))
-                .FirstOrDefault(candidate => candidate.Displayed);
-            if (byTable != null)
-            {
-                return byTable;
-            }
-
-            return driver.FindElements(By.Id(_deployQuestionnaireButtonId))
-                .FirstOrDefault(candidate => candidate.Displayed);
+            return FindSignOutButton(driver) != null;
         }
 
         protected override By PageIdentityBy => By.XPath(_submitButtonPath);

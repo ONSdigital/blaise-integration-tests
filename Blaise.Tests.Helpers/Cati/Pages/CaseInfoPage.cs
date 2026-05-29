@@ -11,6 +11,10 @@ namespace Blaise.Tests.Helpers.Cati.Pages
     {
         private const string FilterButton = "//*[contains(text(), 'Filters')]";
         private const string ApplyButton = "//*[contains(text(), 'Apply')]";
+        private const string InstrumentFilterIconXPath = "//div[contains(@class,'e-filtermenudiv') and (@e-mappinguid='qa_instrumentid' or @e-mappinguid='qa_instrument')]";
+        private const string CaseInfoSearchBoxId = "CaseInfo_SearchBox";
+        private const string InstrumentFilterApplyButtonId = "qa_instrument_excelDlg";
+        private const string InstrumentFilterApplyButtonIdAlternate = "qa_instrumentid_excelDlg";
         private readonly string _surveyRadioButton = $"//*[normalize-space()='{BlaiseConfigurationHelper.QuestionnaireName}']";
 
         private bool UseNewSelectors
@@ -129,9 +133,11 @@ namespace Blaise.Tests.Helpers.Cati.Pages
         {
             if (UseNewSelectors)
             {
-                ClickButtonByXPath("//div[contains(@class, 'e-filtermenudiv')]");
-                PopulateInputById("CaseInfo_SearchBox", BlaiseConfigurationHelper.QuestionnaireName);
-                ClickButtonById("qa_instrument_excelDlg");
+                BrowserHelper.WaitUntilGridHasLoadedData();
+                ResetCaseInfoGridHorizontalScroll();
+                ClickInstrumentFilterIcon();
+                PopulateInputById(CaseInfoSearchBoxId, BlaiseConfigurationHelper.QuestionnaireName);
+                ClickInstrumentFilterApplyButton();
                 BrowserHelper.WaitUntilGridHasLoadedData();
             }
             else
@@ -199,6 +205,48 @@ namespace Blaise.Tests.Helpers.Cati.Pages
                 : "//*[@id='MVCGridTable_CaseInfoGrid']/tbody/tr[1]/td[2]";
 
             WaitUntilElementByXPathContainsText(path, caseId);
+        }
+
+        private void ResetCaseInfoGridHorizontalScroll()
+        {
+            try
+            {
+                var tableScrollableContainer = BrowserHelper.FindElement(By.XPath("//*[@id='CaseInfo_content_table']/parent::div"));
+                BrowserHelper.ExecuteJavaScript("arguments[0].scrollLeft = 0;", tableScrollableContainer);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Unable to reset CaseInfo grid horizontal scroll: {ex.Message}");
+            }
+        }
+
+        private void ClickInstrumentFilterIcon()
+        {
+            try
+            {
+                BrowserHelper.ScrollIntoViewAndClick(By.XPath(InstrumentFilterIconXPath));
+            }
+            catch (WebDriverTimeoutException)
+            {
+                BrowserHelper.ClickByXPathWithJavaScriptWithRetry(InstrumentFilterIconXPath);
+            }
+        }
+
+        private void ClickInstrumentFilterApplyButton()
+        {
+            if (BrowserHelper.ElementExistsById(InstrumentFilterApplyButtonId, TimeSpan.FromSeconds(2)))
+            {
+                BrowserHelper.ClickByIdWithRetry(InstrumentFilterApplyButtonId);
+                return;
+            }
+
+            if (BrowserHelper.ElementExistsById(InstrumentFilterApplyButtonIdAlternate, TimeSpan.FromSeconds(2)))
+            {
+                BrowserHelper.ClickByIdWithRetry(InstrumentFilterApplyButtonIdAlternate);
+                return;
+            }
+
+            ClickButtonById(InstrumentFilterApplyButtonId);
         }
     }
 }
