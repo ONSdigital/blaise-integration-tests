@@ -139,12 +139,12 @@ namespace Blaise.Tests.Helpers.Dqs.Pages
                 element.Clear();
                 element.SendKeys(date);
             }
-            catch (InvalidElementStateException)
+            catch (ElementNotInteractableException)
             {
                 SetDateValueByScript(element, date);
                 return;
             }
-            catch (ElementNotInteractableException)
+            catch (InvalidElementStateException)
             {
                 SetDateValueByScript(element, date);
                 return;
@@ -159,7 +159,7 @@ namespace Blaise.Tests.Helpers.Dqs.Pages
 
         private static bool DateValueMatches(string value, string expectedDate)
         {
-            if (value.Contains(expectedDate, StringComparison.OrdinalIgnoreCase))
+            if (value.IndexOf(expectedDate, StringComparison.OrdinalIgnoreCase) >= 0)
             {
                 return true;
             }
@@ -168,8 +168,8 @@ namespace Blaise.Tests.Helpers.Dqs.Pages
             {
                 var iso = date.ToString("yyyy-MM-dd", CultureInfo.InvariantCulture);
                 var display = date.ToString("dd/MM/yyyy", CultureInfo.InvariantCulture);
-                return value.Contains(iso, StringComparison.OrdinalIgnoreCase) ||
-                    value.Contains(display, StringComparison.OrdinalIgnoreCase);
+                return value.IndexOf(iso, StringComparison.OrdinalIgnoreCase) >= 0 ||
+                    value.IndexOf(display, StringComparison.OrdinalIgnoreCase) >= 0;
             }
 
             return false;
