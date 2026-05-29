@@ -1,6 +1,7 @@
 namespace Blaise.Tests.Helpers.Dqs.Pages
 {
     using System;
+    using System.Globalization;
     using System.Linq;
     using Blaise.Tests.Helpers.Browser;
     using Blaise.Tests.Helpers.Configuration;
@@ -19,6 +20,8 @@ namespace Blaise.Tests.Helpers.Dqs.Pages
         private const string ToStartDateSummaryValuePath = "//div[contains(@class,'ons-summary__item')][.//div[normalize-space()='Telephone Operations start date']]//span[contains(@class,'ons-summary__text')]";
         private const string TmReleaseDateHeadingPath = "//h1[contains(normalize-space(),'Totalmobile release date')]";
         private const string LiveDateTextBoxId = "set-date";
+        private const string ToStartDateFieldName = "toStartDate";
+        private const string TmReleaseDateFieldName = "tmReleaseDate";
         private const string CancelButtonId = "cancel-deploy-button";
 
         public UploadPage()
@@ -77,8 +80,20 @@ namespace Blaise.Tests.Helpers.Dqs.Pages
 
         internal void SetLiveDate(string date)
         {
-            PopulateInputById(LiveDateTextBoxId, date);
-            BrowserHelper.WaitForElementValue(By.Id(LiveDateTextBoxId), date, 10);
+            var input = BrowserHelper
+                .Wait("Timed out waiting for date input")
+                .Until(FindDateInput);
+
+            TrySetDateValue(input, date);
+
+            BrowserHelper
+                .Wait($"Timed out waiting for date value '{date}'")
+                .Until(driver =>
+                {
+                    var current = FindDateInput(driver);
+                    var value = current?.GetAttribute("value") ?? string.Empty;
+                    return DateValueMatches(value, date);
+                });
         }
 
         public void SkipTmReleaseDateIfPresent()
@@ -95,6 +110,77 @@ namespace Blaise.Tests.Helpers.Dqs.Pages
         private bool IsTmReleaseDateStepVisible()
         {
             return BrowserHelper.ElementExistsByXPath(TmReleaseDateHeadingPath, TimeSpan.FromSeconds(2));
+        }
+
+        private IWebElement FindDateInput(IWebDriver driver)
+        {
+            var byId = driver.FindElements(By.Id(LiveDateTextBoxId))
+                .FirstOrDefault(candidate => candidate.Displayed);
+            if (byId != null)
+            {
+                return byId;
+            }
+
+            var byToStartDateName = driver.FindElements(By.Name(ToStartDateFieldName))
+                .FirstOrDefault(candidate => candidate.Displayed);
+            if (byToStartDateName != null)
+            {
+                return byToStartDateName;
+            }
+
+            return driver.FindElements(By.Name(TmReleaseDateFieldName))
+                .FirstOrDefault(candidate => candidate.Displayed);
+        }
+
+        private void TrySetDateValue(IWebElement element, string date)
+        {
+            try
+            {
+                element.Clear();
+                element.SendKeys(date);
+            }
+            catch (InvalidElementStateException)
+            {
+                SetDateValueByScript(element, date);
+                return;
+            }
+            catch (ElementNotInteractableException)
+            {
+                SetDateValueByScript(element, date);
+                return;
+            }
+
+            var value = element.GetAttribute("value") ?? string.Empty;
+            if (!DateValueMatches(value, date))
+            {
+                SetDateValueByScript(element, date);
+            }
+        }
+
+        private static bool DateValueMatches(string value, string expectedDate)
+        {
+            if (value.Contains(expectedDate, StringComparison.OrdinalIgnoreCase))
+            {
+                return true;
+            }
+
+            if (DateTime.TryParse(expectedDate, CultureInfo.InvariantCulture, DateTimeStyles.None, out var date))
+            {
+                var iso = date.ToString("yyyy-MM-dd", CultureInfo.InvariantCulture);
+                var display = date.ToString("dd/MM/yyyy", CultureInfo.InvariantCulture);
+                return value.Contains(iso, StringComparison.OrdinalIgnoreCase) ||
+                    value.Contains(display, StringComparison.OrdinalIgnoreCase);
+            }
+
+            return false;
+        }
+
+        private static void SetDateValueByScript(IWebElement element, string date)
+        {
+            BrowserHelper.ExecuteJavaScript(
+                "arguments[0].value = arguments[1]; arguments[0].dispatchEvent(new Event('input', { bubbles: true })); arguments[0].dispatchEvent(new Event('change', { bubbles: true }));",
+                element,
+                date);
         }
 
         public void WaitForConfirmOverwritePage()
