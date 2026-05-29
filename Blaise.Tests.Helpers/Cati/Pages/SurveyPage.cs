@@ -1,6 +1,7 @@
 namespace Blaise.Tests.Helpers.Cati.Pages
 {
     using System;
+    using System.Linq;
     using Blaise.Tests.Helpers.Browser;
     using Blaise.Tests.Helpers.Cati;
     using Blaise.Tests.Helpers.Configuration;
@@ -15,6 +16,9 @@ namespace Blaise.Tests.Helpers.Cati.Pages
         private const string ExecuteButtonPath = "//input[@value='Execute']";
         private const string FilterButton = "//*[contains(text(), 'Filters')]";
         private const string ApplyButton = "//*[contains(text(), 'Apply')]";
+        private const string InstrumentFilterIconXPath = "//div[contains(@class,'e-filtermenudiv') and @e-mappinguid='qa_instrumentid']";
+        private const string FilterPopupXPath = "//div[contains(@class,'e-popup') and contains(@class,'e-popup-open')]";
+        private const string InstrumentFilterPopupId = "qa_instrumentid-flmdlg";
         private readonly string _surveyRadioButton = $"//*[normalize-space()='{BlaiseConfigurationHelper.QuestionnaireName}']";
 
         public SurveyPage()
@@ -67,10 +71,16 @@ namespace Blaise.Tests.Helpers.Cati.Pages
             if (UseNewSelectors)
             {
                 Console.WriteLine("Using new selectors to apply filter.");
-                ClickButtonByXPath("//div[@e-mappinguid='qa_instrumentid' and contains(@class, 'e-filtermenudiv')]");
+                ClickButtonByXPath(InstrumentFilterIconXPath);
                 Console.WriteLine("Opened filter menu.");
-                PopulateInputById("Surveys_SearchBox", BlaiseConfigurationHelper.QuestionnaireName);
-                ClickButtonByXPath("//*[@id=\"qa_instrumentid_excelDlg\"]/div[3]/button[1]");
+                var searchInput = BrowserHelper
+                    .Wait("Timed out waiting for survey filter search input")
+                    .Until(FindSurveySearchInput);
+                searchInput.Clear();
+                searchInput.SendKeys(BlaiseConfigurationHelper.QuestionnaireName);
+
+                SelectSurveyFilterOption(BlaiseConfigurationHelper.QuestionnaireName);
+                ConfirmSurveyFilterIfPossible();
 
                 Console.WriteLine("Selected questionnaire from dropdown.");
                 Console.WriteLine("Filtered Questionnaire.");
@@ -91,6 +101,97 @@ namespace Blaise.Tests.Helpers.Cati.Pages
                 }
                 ClickButtonByXPath(FilterButton);
                 Console.WriteLine("Closed filter menu.");
+            }
+        }
+
+        private IWebElement FindSurveySearchInput(IWebDriver driver)
+        {
+            var activeElement = driver.SwitchTo().ActiveElement();
+            if (activeElement != null &&
+                activeElement.Displayed &&
+                activeElement.TagName.Equals("input", StringComparison.OrdinalIgnoreCase))
+            {
+                return activeElement;
+            }
+
+            var popupById = driver.FindElements(By.Id(InstrumentFilterPopupId))
+                .FirstOrDefault(candidate => candidate.Displayed);
+            if (popupById != null)
+            {
+                var popupInputById = popupById
+                    .FindElements(By.CssSelector("input[aria-label='multiselect'], input.e-multiselect, input[role='combobox']"))
+                    .FirstOrDefault(candidate => candidate.Displayed);
+                if (popupInputById != null)
+                {
+                    return popupInputById;
+                }
+            }
+
+            var popup = driver.FindElements(By.XPath(FilterPopupXPath))
+                .FirstOrDefault(candidate => candidate.Displayed);
+            if (popup != null)
+            {
+                var popupInput = popup.FindElements(By.CssSelector("input[aria-label='multiselect'], input.e-multiselect, input[role='combobox'], input[type='text']"))
+                    .FirstOrDefault(candidate => candidate.Displayed);
+                if (popupInput != null)
+                {
+                    return popupInput;
+                }
+            }
+
+            var byAria = driver.FindElements(By.CssSelector("input[aria-label='multiselect']"))
+                .FirstOrDefault(candidate => candidate.Displayed);
+            if (byAria != null)
+            {
+                return byAria;
+            }
+
+            return driver.FindElements(By.CssSelector("input[id^='multiselect-']"))
+                .FirstOrDefault(candidate => candidate.Displayed);
+        }
+
+        private void SelectSurveyFilterOption(string questionnaireName)
+        {
+            var exactMatchXPath = $"//li[contains(@class,'e-list-item') and normalize-space()='{questionnaireName}']";
+            var containsXPath = $"//li[contains(@class,'e-list-item') and contains(normalize-space(),'{questionnaireName}') ]";
+            var roleOptionXPath = $"//li[@role='option' and contains(normalize-space(),'{questionnaireName}')]";
+
+            IWebElement option = null;
+            try
+            {
+                option = BrowserHelper
+                    .Wait("Timed out waiting for questionnaire option in filter list", TimeSpan.FromSeconds(5))
+                    .Until(driver =>
+                        driver.FindElements(By.XPath(exactMatchXPath)).FirstOrDefault(candidate => candidate.Displayed) ??
+                        driver.FindElements(By.XPath(containsXPath)).FirstOrDefault(candidate => candidate.Displayed) ??
+                        driver.FindElements(By.XPath(roleOptionXPath)).FirstOrDefault(candidate => candidate.Displayed));
+            }
+            catch (WebDriverTimeoutException)
+            {
+                // Some Syncfusion filter popups apply the typed text without a visible list.
+            }
+
+            if (option != null)
+            {
+                option.Click();
+            }
+        }
+
+        private void ConfirmSurveyFilterIfPossible()
+        {
+            try
+            {
+                var button = BrowserHelper
+                    .Wait("Timed out waiting for filter confirmation button", TimeSpan.FromSeconds(5))
+                    .Until(driver =>
+                        driver.FindElements(By.XPath("//button[normalize-space()='OK' or normalize-space()='Filter' or normalize-space()='Apply']"))
+                            .FirstOrDefault(candidate => candidate.Displayed));
+
+                button?.Click();
+            }
+            catch (WebDriverTimeoutException)
+            {
+                // No confirmation button for this UI, filter applies on selection.
             }
         }
 
