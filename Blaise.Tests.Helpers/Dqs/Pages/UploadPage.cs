@@ -134,40 +134,62 @@ namespace Blaise.Tests.Helpers.Dqs.Pages
 
         private void TrySetDateValue(IWebElement element, string date)
         {
+            var parsed = TryParseDate(date, out var parsedDate, out var isoDate, out var displayDate);
+            var elementType = element.GetAttribute("type") ?? string.Empty;
+            var targetValue = elementType.Equals("date", StringComparison.OrdinalIgnoreCase)
+                ? isoDate
+                : displayDate;
+
             try
             {
-                element.Clear();
-                element.SendKeys(date);
+                SetDateValueByScript(element, targetValue, parsed ? (DateTime?)parsedDate : null);
             }
             catch (ElementNotInteractableException)
             {
-                SetDateValueByScript(element, date);
+                SetDateValueByScript(element, targetValue, parsed ? (DateTime?)parsedDate : null);
                 return;
             }
             catch (InvalidElementStateException)
             {
-                SetDateValueByScript(element, date);
+                SetDateValueByScript(element, targetValue, parsed ? (DateTime?)parsedDate : null);
                 return;
             }
 
             var value = element.GetAttribute("value") ?? string.Empty;
-            if (!DateValueMatches(value, date))
+            if (!DateValueMatches(value, isoDate) && !DateValueMatches(value, displayDate))
             {
-                SetDateValueByScript(element, date);
+                try
+                {
+                    element.Clear();
+                    element.SendKeys(targetValue);
+                }
+                catch (ElementNotInteractableException)
+                {
+                    SetDateValueByScript(element, targetValue, parsed ? (DateTime?)parsedDate : null);
+                    return;
+                }
+                catch (InvalidElementStateException)
+                {
+                    SetDateValueByScript(element, targetValue, parsed ? (DateTime?)parsedDate : null);
+                    return;
+                }
             }
         }
 
         private static bool DateValueMatches(string value, string expectedDate)
         {
+            if (string.IsNullOrEmpty(expectedDate))
+            {
+                return false;
+            }
+
             if (value.IndexOf(expectedDate, StringComparison.OrdinalIgnoreCase) >= 0)
             {
                 return true;
             }
 
-            if (DateTime.TryParse(expectedDate, CultureInfo.InvariantCulture, DateTimeStyles.None, out var date))
+            if (TryParseDate(expectedDate, out var date, out var iso, out var display))
             {
-                var iso = date.ToString("yyyy-MM-dd", CultureInfo.InvariantCulture);
-                var display = date.ToString("dd/MM/yyyy", CultureInfo.InvariantCulture);
                 return value.IndexOf(iso, StringComparison.OrdinalIgnoreCase) >= 0 ||
                     value.IndexOf(display, StringComparison.OrdinalIgnoreCase) >= 0;
             }
@@ -175,8 +197,52 @@ namespace Blaise.Tests.Helpers.Dqs.Pages
             return false;
         }
 
-        private static void SetDateValueByScript(IWebElement element, string date)
+        private static bool TryParseDate(
+            string date,
+            out DateTime parsedDate,
+            out string isoDate,
+            out string displayDate)
         {
+            var formats = new[]
+            {
+                "yyyy-MM-dd",
+                "dd/MM/yyyy",
+                "d/M/yyyy",
+                "yyyy/M/d",
+            };
+
+            if (DateTime.TryParseExact(
+                date,
+                formats,
+                CultureInfo.InvariantCulture,
+                DateTimeStyles.None,
+                out parsedDate))
+            {
+                isoDate = parsedDate.ToString("yyyy-MM-dd", CultureInfo.InvariantCulture);
+                displayDate = parsedDate.ToString("dd/MM/yyyy", CultureInfo.InvariantCulture);
+                return true;
+            }
+
+            parsedDate = default;
+            isoDate = date;
+            displayDate = date;
+            return false;
+        }
+
+        private static void SetDateValueByScript(IWebElement element, string date, DateTime? parsedDate)
+        {
+            if (parsedDate.HasValue)
+            {
+                BrowserHelper.ExecuteJavaScript(
+                    "var el = arguments[0]; var value = arguments[1]; var year = arguments[2]; var month = arguments[3]; var day = arguments[4]; if (el.type === 'date') { el.valueAsDate = new Date(year, month - 1, day); } el.value = value; el.dispatchEvent(new Event('input', { bubbles: true })); el.dispatchEvent(new Event('change', { bubbles: true }));",
+                    element,
+                    date,
+                    parsedDate.Value.Year,
+                    parsedDate.Value.Month,
+                    parsedDate.Value.Day);
+                return;
+            }
+
             BrowserHelper.ExecuteJavaScript(
                 "arguments[0].value = arguments[1]; arguments[0].dispatchEvent(new Event('input', { bubbles: true })); arguments[0].dispatchEvent(new Event('change', { bubbles: true }));",
                 element,
