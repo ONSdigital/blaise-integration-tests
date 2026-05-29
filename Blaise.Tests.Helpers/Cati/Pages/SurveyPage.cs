@@ -19,6 +19,8 @@ namespace Blaise.Tests.Helpers.Cati.Pages
         private const string InstrumentFilterIconXPath = "//div[contains(@class,'e-filtermenudiv') and @e-mappinguid='qa_instrumentid']";
         private const string FilterPopupXPath = "//div[contains(@class,'e-popup') and contains(@class,'e-popup-open')]";
         private const string InstrumentFilterPopupId = "qa_instrumentid-flmdlg";
+        private const string FilterPopupButtonXPath = ".//button[contains(@class,'e-flmenu-okbtn') or normalize-space()='Filter' or normalize-space()='Apply']";
+        private const string FilterPopupListItemXPath = "//div[contains(@class,'e-popup') and contains(@class,'e-popup-open')]//li[contains(@class,'e-list-item')]";
         private readonly string _surveyRadioButton = $"//*[normalize-space()='{BlaiseConfigurationHelper.QuestionnaireName}']";
 
         public SurveyPage()
@@ -73,6 +75,11 @@ namespace Blaise.Tests.Helpers.Cati.Pages
                 Console.WriteLine("Using new selectors to apply filter.");
                 ClickButtonByXPath(InstrumentFilterIconXPath);
                 Console.WriteLine("Opened filter menu.");
+                BrowserHelper
+                    .Wait("Timed out waiting for filter popup to open")
+                    .Until(driver =>
+                        driver.FindElements(By.Id(InstrumentFilterPopupId))
+                            .Any(candidate => candidate.Displayed));
                 var searchInput = BrowserHelper
                     .Wait("Timed out waiting for survey filter search input")
                     .Until(FindSurveySearchInput);
@@ -155,6 +162,8 @@ namespace Blaise.Tests.Helpers.Cati.Pages
             var exactMatchXPath = $"//li[contains(@class,'e-list-item') and normalize-space()='{questionnaireName}']";
             var containsXPath = $"//li[contains(@class,'e-list-item') and contains(normalize-space(),'{questionnaireName}') ]";
             var roleOptionXPath = $"//li[@role='option' and contains(normalize-space(),'{questionnaireName}')]";
+            var popupExactXPath = $"{FilterPopupXPath}//li[contains(@class,'e-list-item') and normalize-space()='{questionnaireName}']";
+            var popupContainsXPath = $"{FilterPopupXPath}//li[contains(@class,'e-list-item') and contains(normalize-space(),'{questionnaireName}') ]";
 
             IWebElement option = null;
             try
@@ -162,6 +171,9 @@ namespace Blaise.Tests.Helpers.Cati.Pages
                 option = BrowserHelper
                     .Wait("Timed out waiting for questionnaire option in filter list", TimeSpan.FromSeconds(5))
                     .Until(driver =>
+                        driver.FindElements(By.XPath(popupExactXPath)).FirstOrDefault(candidate => candidate.Displayed) ??
+                        driver.FindElements(By.XPath(popupContainsXPath)).FirstOrDefault(candidate => candidate.Displayed) ??
+                        driver.FindElements(By.XPath(FilterPopupListItemXPath)).FirstOrDefault(candidate => candidate.Displayed) ??
                         driver.FindElements(By.XPath(exactMatchXPath)).FirstOrDefault(candidate => candidate.Displayed) ??
                         driver.FindElements(By.XPath(containsXPath)).FirstOrDefault(candidate => candidate.Displayed) ??
                         driver.FindElements(By.XPath(roleOptionXPath)).FirstOrDefault(candidate => candidate.Displayed));
@@ -184,8 +196,18 @@ namespace Blaise.Tests.Helpers.Cati.Pages
                 var button = BrowserHelper
                     .Wait("Timed out waiting for filter confirmation button", TimeSpan.FromSeconds(5))
                     .Until(driver =>
-                        driver.FindElements(By.XPath("//button[normalize-space()='OK' or normalize-space()='Filter' or normalize-space()='Apply']"))
-                            .FirstOrDefault(candidate => candidate.Displayed));
+                    {
+                        var popup = driver.FindElements(By.Id(InstrumentFilterPopupId))
+                            .FirstOrDefault(candidate => candidate.Displayed);
+                        if (popup != null)
+                        {
+                            return popup.FindElements(By.XPath(FilterPopupButtonXPath))
+                                .FirstOrDefault(candidate => candidate.Displayed);
+                        }
+
+                        return driver.FindElements(By.XPath(FilterPopupButtonXPath))
+                            .FirstOrDefault(candidate => candidate.Displayed);
+                    });
 
                 button?.Click();
             }
