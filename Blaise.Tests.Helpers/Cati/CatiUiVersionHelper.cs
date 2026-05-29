@@ -61,13 +61,27 @@ namespace Blaise.Tests.Helpers.Cati
             Console.WriteLine("Detecting CATI UI version...");
 
             BrowserHelper.NavigateToPage(CatiConfigurationHelper.LoginUrl);
-            BrowserHelper.WaitForUrlToMatch(CatiConfigurationHelper.LoginUrl, 10);
-            var isNewUi = BrowserHelper.ElementExistsByXPath(NewUiIconXPath, TimeSpan.FromSeconds(3));
+            BrowserHelper
+                .Wait("Timed out waiting for CATI login page to load")
+                .Until(driver =>
+                    driver.Url.IndexOf(CatiConfigurationHelper.LoginUrl, StringComparison.OrdinalIgnoreCase) >= 0 ||
+                    driver.Url.IndexOf(CatiConfigurationHelper.NewDashboardLoginUrl, StringComparison.OrdinalIgnoreCase) >= 0);
+
+            var currentUrl = BrowserHelper.CurrentUrl ?? string.Empty;
+            var isNewUi = currentUrl.IndexOf(
+                    CatiConfigurationHelper.NewDashboardLoginUrl,
+                    StringComparison.OrdinalIgnoreCase) >= 0 ||
+                BrowserHelper.ElementExistsByXPath(NewUiIconXPath, TimeSpan.FromSeconds(3));
 
             if (!isNewUi)
             {
                 BrowserHelper.NavigateToPage(CatiConfigurationHelper.NewDashboardLoginUrl);
-                BrowserHelper.WaitForUrlToMatch(CatiConfigurationHelper.NewDashboardLoginUrl, 10);
+                BrowserHelper
+                    .Wait("Timed out waiting for new CATI login page to load")
+                    .Until(driver =>
+                        driver.Url.IndexOf(
+                            CatiConfigurationHelper.NewDashboardLoginUrl,
+                            StringComparison.OrdinalIgnoreCase) >= 0);
                 isNewUi = BrowserHelper.ElementExistsByXPath(NewUiIconXPath, TimeSpan.FromSeconds(3));
             }
 
