@@ -17,6 +17,8 @@ namespace Blaise.Tests.Helpers.Dqs.Pages
         private readonly string _signOutButtonId = "signout-button";
         private readonly string _signOutButtonPath = "//header[contains(@class,'ons-header')]//button[.//span[normalize-space()='Sign out']]";
         private readonly string _signOutButtonCss = "header.ons-header button.ons-btn--link";
+        private readonly string _questionnaireTableId = "questionnaire-table";
+        private readonly string _deployQuestionnaireButtonId = "deploy-questionnaire-link";
 
         public LoginPage()
             : base(DqsConfigurationHelper.DqsUrl)
@@ -45,7 +47,7 @@ namespace Blaise.Tests.Helpers.Dqs.Pages
             {
                 BrowserHelper
                     .Wait("Timed out waiting for Sign out button", TimeSpan.FromSeconds(5))
-                    .Until(driver => FindSignOutButton(driver) != null);
+                    .Until(driver => IsLoggedIn(driver));
                 return true;
             }
             catch (WebDriverTimeoutException)
@@ -57,8 +59,8 @@ namespace Blaise.Tests.Helpers.Dqs.Pages
         private void WaitUntilLoggedIn()
         {
             BrowserHelper
-                .Wait("Timed out waiting for Sign out button")
-                .Until(driver => FindSignOutButton(driver) != null);
+                .Wait("Timed out waiting for DQS to finish logging in")
+                .Until(driver => IsLoggedIn(driver));
         }
 
         private void PopulateLoginInput(string elementId, string elementName, string value)
@@ -101,6 +103,24 @@ namespace Blaise.Tests.Helpers.Dqs.Pages
                 .FirstOrDefault(candidate =>
                     candidate.Displayed &&
                     candidate.Text.IndexOf("Sign out", StringComparison.OrdinalIgnoreCase) >= 0);
+        }
+
+        private bool IsLoggedIn(IWebDriver driver)
+        {
+            return FindSignOutButton(driver) != null || FindHomePageElement(driver) != null;
+        }
+
+        private IWebElement FindHomePageElement(IWebDriver driver)
+        {
+            var byTable = driver.FindElements(By.Id(_questionnaireTableId))
+                .FirstOrDefault(candidate => candidate.Displayed);
+            if (byTable != null)
+            {
+                return byTable;
+            }
+
+            return driver.FindElements(By.Id(_deployQuestionnaireButtonId))
+                .FirstOrDefault(candidate => candidate.Displayed);
         }
 
         protected override By PageIdentityBy => By.XPath(_submitButtonPath);
