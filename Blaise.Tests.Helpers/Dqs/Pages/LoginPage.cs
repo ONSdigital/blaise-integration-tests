@@ -15,7 +15,7 @@ namespace Blaise.Tests.Helpers.Dqs.Pages
         private readonly string _passwordTextBoxName = "Password";
         private readonly string _submitButtonPath = "//button[@type='submit']";
         private readonly string _signOutButtonId = "signout-button";
-        private readonly string _signOutButtonPath = "//header[contains(@class,'ons-header')]//button[.//span[normalize-space()='Sign out']]";
+        private readonly string _signOutButtonPath = "//header[contains(@class,'ons-header')]//button[.//span[normalize-space()='Sign out'] or normalize-space()='Sign out']";
         private readonly string _signOutButtonCss = "header.ons-header button.ons-btn--link";
 
         public LoginPage()
@@ -83,29 +83,41 @@ namespace Blaise.Tests.Helpers.Dqs.Pages
 
         private IWebElement FindSignOutButton(IWebDriver driver)
         {
+            return FindSignOutElement(driver, requireDisplayed: true);
+        }
+
+        private bool IsLoggedIn(IWebDriver driver)
+        {
+            return FindSignOutElement(driver, requireDisplayed: false) != null;
+        }
+
+        private IWebElement FindSignOutElement(IWebDriver driver, bool requireDisplayed)
+        {
             var byId = driver.FindElements(By.Id(_signOutButtonId))
-                .FirstOrDefault(candidate => candidate.Displayed);
+                .FirstOrDefault(candidate => !requireDisplayed || candidate.Displayed);
             if (byId != null)
             {
                 return byId;
             }
 
             var byXPath = driver.FindElements(By.XPath(_signOutButtonPath))
-                .FirstOrDefault(candidate => candidate.Displayed);
+                .FirstOrDefault(candidate => !requireDisplayed || candidate.Displayed);
             if (byXPath != null)
             {
                 return byXPath;
             }
 
+            var byText = driver.FindElements(By.XPath("//button[.//span[normalize-space()='Sign out'] or normalize-space()='Sign out'] | //a[.//span[normalize-space()='Sign out'] or normalize-space()='Sign out']"))
+                .FirstOrDefault(candidate => !requireDisplayed || candidate.Displayed);
+            if (byText != null)
+            {
+                return byText;
+            }
+
             return driver.FindElements(By.CssSelector(_signOutButtonCss))
                 .FirstOrDefault(candidate =>
-                    candidate.Displayed &&
+                    (!requireDisplayed || candidate.Displayed) &&
                     candidate.Text.IndexOf("Sign out", StringComparison.OrdinalIgnoreCase) >= 0);
-        }
-
-        private bool IsLoggedIn(IWebDriver driver)
-        {
-            return FindSignOutButton(driver) != null;
         }
 
         protected override By PageIdentityBy => By.XPath(_submitButtonPath);
