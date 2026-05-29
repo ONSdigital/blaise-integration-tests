@@ -36,7 +36,7 @@ namespace Blaise.Tests.Helpers.Dqs.Pages
 
         public void SelectContinueButton()
         {
-            ClickButtonById(ContinueButtonId);
+            TryClickContinueButton();
         }
 
         public void WaitForUploadCompletion()
@@ -131,6 +131,18 @@ namespace Blaise.Tests.Helpers.Dqs.Pages
 
             return driver.FindElements(By.Name(TmReleaseDateFieldName))
                 .FirstOrDefault(candidate => candidate.Displayed);
+        }
+
+        private void TryClickContinueButton()
+        {
+            try
+            {
+                BrowserHelper.ScrollIntoViewAndClickByIdWithRetry(ContinueButtonId);
+            }
+            catch (WebDriverException)
+            {
+                BrowserHelper.ClickWithJavaScript(By.Id(ContinueButtonId));
+            }
         }
 
         private void TrySetDateValue(
