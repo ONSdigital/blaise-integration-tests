@@ -1,8 +1,9 @@
 namespace Blaise.Tests.Helpers.Cati.Pages
 {
     using System;
+    using System.Collections.Generic;
     using System.Linq;
-    using System.Web;
+    using System.Net;
     using Blaise.Tests.Helpers.Browser;
     using Blaise.Tests.Helpers.Cati;
     using Blaise.Tests.Helpers.Configuration;
@@ -209,16 +210,46 @@ namespace Blaise.Tests.Helpers.Cati.Pages
                 }
             }
 
-            var query = HttpUtility.ParseQueryString(uri.Query);
-            var targetUrl = query["url"];
-            if (!string.IsNullOrWhiteSpace(targetUrl) && !targetUrl.EndsWith("/", StringComparison.Ordinal))
+            var query = uri.Query;
+            if (string.IsNullOrWhiteSpace(query))
             {
-                query["url"] = $"{targetUrl}/";
+                return uri.ToString();
+            }
+
+            var updatedPairs = new List<string>();
+            var updated = false;
+            foreach (var rawPair in query.TrimStart('?').Split('&'))
+            {
+                if (string.IsNullOrWhiteSpace(rawPair))
+                {
+                    continue;
+                }
+
+                var parts = rawPair.Split(new[] { '=' }, 2);
+                var key = WebUtility.UrlDecode(parts[0] ?? string.Empty);
+                var value = parts.Length > 1 ? WebUtility.UrlDecode(parts[1] ?? string.Empty) : string.Empty;
+
+                if (string.Equals(key, "url", StringComparison.OrdinalIgnoreCase) &&
+                    !string.IsNullOrWhiteSpace(value) &&
+                    !value.EndsWith("/", StringComparison.Ordinal))
+                {
+                    value = $"{value}/";
+                    updated = true;
+                }
+
+                var encodedKey = WebUtility.UrlEncode(key);
+                var encodedValue = WebUtility.UrlEncode(value);
+                updatedPairs.Add($"{encodedKey}={encodedValue}");
+            }
+
+            if (!updated)
+            {
+                return uri.ToString();
             }
 
             var builder = new UriBuilder(uri)
             {
-                Query = query.ToString() ?? string.Empty,
+                Query = string.Join("&", updatedPairs),
             };
 
             return builder.Uri.ToString();
