@@ -13,6 +13,7 @@ namespace Blaise.Tests.Helpers.Cati.Pages
         private const string QuestionnaireDropDownId = "InstrumentId";
         private const string FilterButton = "//*[contains(text(), 'Filters')]";
         private const string ApplyButton = "//*[contains(text(), 'Apply')]";
+        private readonly string _surveyRadioButton = $"//*[normalize-space()='{BlaiseConfigurationHelper.QuestionnaireName}']";
 
         private bool UseNewSelectors
         {
@@ -50,12 +51,14 @@ namespace Blaise.Tests.Helpers.Cati.Pages
             ? "//*[@id='Daybatch_content_table']"
             : "//*[@id='MVCGridTable_DaybatchGrid']";
 
-        private readonly string _surveyRadioButton = $"//*[normalize-space()='{BlaiseConfigurationHelper.QuestionnaireName}']";
-
         public DaybatchPage()
             : base(CatiConfigurationHelper.DaybatchUrl)
         {
         }
+
+        public bool IsUsingNewSelectors => UseNewSelectors;
+
+        protected override By PageIdentityBy => By.XPath(DaybatchTableSelector);
 
         public void CreateDaybatch()
         {
@@ -92,6 +95,7 @@ namespace Blaise.Tests.Helpers.Cati.Pages
                     ClickButtonByXPath(_surveyRadioButton);
                     ClickButtonByXPath(ApplyButton);
                 }
+
                 ClickButtonByXPath(FilterButton);
             }
         }
@@ -102,55 +106,6 @@ namespace Blaise.Tests.Helpers.Cati.Pages
             if (UseNewSelectors)
             {
                 BrowserHelper.WaitUntilGridHasLoadedData();
-            }
-        }
-
-        internal void ModifyDaybatchEntry()
-        {
-            if (UseNewSelectors)
-            {
-                // Locate the table's scrollable container
-                var tableScrollableContainer = BrowserHelper.FindElement(By.XPath("//*[@id='Daybatch_content_table']/parent::div"));
-
-                // Locate the Modify Entry button
-                var modifyEntryButton = BrowserHelper.FindElement(By.Id("qa_editrecord_0"));
-
-                // Scroll the table horizontally to bring the Modify Entry button into view
-                BrowserHelper.ExecuteJavaScript(
-                    "arguments[0].scrollLeft = arguments[1].offsetLeft;",
-                    tableScrollableContainer,
-                    modifyEntryButton
-                );
-
-                // Click the Modify Entry button
-                BrowserHelper.ScrollIntoViewAndClickById("qa_editrecord_0");
-
-                // Set start time in the modal
-                PopulateInputById("qa_starttime", ""); // Clear the input field first
-                PopulateInputById("qa_starttime", "12:00 AM");
-
-                // Set end time in the modal
-                PopulateInputById("qa_endtime", ""); // Clear the input field first
-                PopulateInputById("qa_endtime", "11:59 PM");
-
-                // Click the update button
-                ClickButtonById("qa_btn_submit");
-            }
-            else
-            {
-                ClickButtonByXPath(ModifyEntrySelector);
-
-                PopulateInputById(StartTimeId, "12:00 AM");
-                PopulateInputById(EndTimeId, "11:59 PM");
-
-                if (UseNewSelectors)
-                {
-                    ClickButtonById(UpdateButtonSelector);
-                }
-                else
-                {
-                    ClickButtonByXPath(UpdateButtonSelector);
-                }
             }
         }
 
@@ -221,9 +176,52 @@ namespace Blaise.Tests.Helpers.Cati.Pages
             throw new Exception("Failed to navigate to the Daybatch page after multiple attempts. Ensure the URL and page structure are correct.");
         }
 
-        // Added a public property to expose the UseNewSelectors logic
-        public bool IsUsingNewSelectors => UseNewSelectors;
+        internal void ModifyDaybatchEntry()
+        {
+            if (UseNewSelectors)
+            {
+                // Locate the table's scrollable container
+                var tableScrollableContainer = BrowserHelper.FindElement(By.XPath("//*[@id='Daybatch_content_table']/parent::div"));
 
-        protected override By PageIdentityBy => By.XPath(DaybatchTableSelector);
+                // Locate the Modify Entry button
+                var modifyEntryButton = BrowserHelper.FindElement(By.Id("qa_editrecord_0"));
+
+                // Scroll the table horizontally to bring the Modify Entry button into view
+                BrowserHelper.ExecuteJavaScript(
+                    "arguments[0].scrollLeft = arguments[1].offsetLeft;",
+                    tableScrollableContainer,
+                    modifyEntryButton);
+
+                // Click the Modify Entry button
+                BrowserHelper.ScrollIntoViewAndClickById("qa_editrecord_0");
+
+                // Set start time in the modal
+                PopulateInputById("qa_starttime", string.Empty); // Clear the input field first
+                PopulateInputById("qa_starttime", "12:00 AM");
+
+                // Set end time in the modal
+                PopulateInputById("qa_endtime", string.Empty); // Clear the input field first
+                PopulateInputById("qa_endtime", "11:59 PM");
+
+                // Click the update button
+                ClickButtonById("qa_btn_submit");
+            }
+            else
+            {
+                ClickButtonByXPath(ModifyEntrySelector);
+
+                PopulateInputById(StartTimeId, "12:00 AM");
+                PopulateInputById(EndTimeId, "11:59 PM");
+
+                if (UseNewSelectors)
+                {
+                    ClickButtonById(UpdateButtonSelector);
+                }
+                else
+                {
+                    ClickButtonByXPath(UpdateButtonSelector);
+                }
+            }
+        }
     }
 }

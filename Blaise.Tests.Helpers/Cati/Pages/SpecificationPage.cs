@@ -18,6 +18,8 @@ namespace Blaise.Tests.Helpers.Cati.Pages
         {
         }
 
+        protected override By PageIdentityBy => By.XPath(SurveyAccordionPath);
+
         public void SetSurveyDay()
         {
             SelectDropDownValueById(QuestionnaireDropDownId, BlaiseConfigurationHelper.QuestionnaireName);
@@ -26,7 +28,5 @@ namespace Blaise.Tests.Helpers.Cati.Pages
             ClickButtonByXPath(_todaysDateInCalenderPickerPath);
             ClickButtonByXPath(SaveButtonPath);
         }
-
-        protected override By PageIdentityBy => By.XPath(SurveyAccordionPath);
     }
 }

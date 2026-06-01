@@ -27,11 +27,11 @@ namespace Blaise.Tests.Helpers.Cati.Pages
             LoadSpecificPage(url);
         }
 
+        protected override By PageIdentityBy => By.XPath(_submitButtonPath);
+
         public void LoginButtonIsAvailable()
         {
             ButtonIsAvailableByPath(_submitButtonPath);
         }
-
-        protected override By PageIdentityBy => By.XPath(_submitButtonPath);
     }
 }

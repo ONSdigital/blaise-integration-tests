@@ -198,6 +198,7 @@ namespace Blaise.Tests.Helpers.Browser
             {
                 Console.WriteLine($"Test error: {scenarioContext.TestError.GetType().Name}: {scenarioContext.TestError.Message}");
             }
+
             Console.WriteLine($"Current URL: {SafeGetCurrentUrl()}");
             Console.WriteLine($"Page title: {SafeGetTitle()}");
             Console.WriteLine($"Window handles: {SafeGetWindowCount()}");
@@ -312,29 +313,6 @@ namespace Blaise.Tests.Helpers.Browser
             ScrollIntoViewAndClick(By.Id(id));
         }
 
-        private static void ScrollIntoViewAndClickWithRetry(By by)
-        {
-            var attempts = 0;
-            while (true)
-            {
-                try
-                {
-                    var element = FindElement(by);
-                    ScrollIntoView(element);
-                    element.Click();
-                    return;
-                }
-                catch (StaleElementReferenceException)
-                {
-                    attempts++;
-                    if (attempts >= 3)
-                    {
-                        throw;
-                    }
-                }
-            }
-        }
-
         public static void ScrollIntoViewAndClickByIdWithRetry(string id)
         {
             ScrollIntoViewAndClickWithRetry(By.Id(id));
@@ -353,39 +331,9 @@ namespace Blaise.Tests.Helpers.Browser
             js.ExecuteScript("arguments[0].click()", element);
         }
 
-        private static void ClickWithJavaScriptWithRetry(By by)
-        {
-            try
-            {
-                var element = FindElement(by);
-                var js = (IJavaScriptExecutor)Browser;
-                js.ExecuteScript("arguments[0].click()", element);
-            }
-            catch (StaleElementReferenceException)
-            {
-                var element = FindElement(by);
-                var js = (IJavaScriptExecutor)Browser;
-                js.ExecuteScript("arguments[0].click()", element);
-            }
-        }
-
         public static void ClickByXPathWithJavaScriptWithRetry(string xpath)
         {
             ClickWithJavaScriptWithRetry(By.XPath(xpath));
-        }
-
-        private static void ClickWithRetry(By by)
-        {
-            try
-            {
-                Wait($"Timed out in ClickWithRetry({by})")
-                    .Until(ExpectedConditions.ElementToBeClickable(by)).Click();
-            }
-            catch (StaleElementReferenceException)
-            {
-                Wait($"Timed out in ClickWithRetry({by}) after stale element")
-                    .Until(ExpectedConditions.ElementToBeClickable(by)).Click();
-            }
         }
 
         public static void ClickByIdWithRetry(string id)
@@ -508,18 +456,6 @@ namespace Blaise.Tests.Helpers.Browser
                 });
         }
 
-        private static ChromeDriver CreateChromeDriver()
-        {
-            var chromeOptions = new ChromeOptions
-            {
-                AcceptInsecureCertificates = true,
-            };
-            //chromeOptions.AddArguments("headless");
-            chromeOptions.AddArguments("start-maximized");
-            chromeOptions.AddArguments("--ignore-certificate-errors");
-            return new ChromeDriver(chromeOptions);
-        }
-
         public static object ExecuteJavaScript(string script, params object[] args)
         {
             try
@@ -531,6 +467,72 @@ namespace Blaise.Tests.Helpers.Browser
             {
                 Console.WriteLine($"Error executing JavaScript: {ex.Message}");
                 throw;
+            }
+        }
+
+        private static ChromeDriver CreateChromeDriver()
+        {
+            var chromeOptions = new ChromeOptions
+            {
+                AcceptInsecureCertificates = true,
+            };
+
+            // chromeOptions.AddArguments("headless");
+            chromeOptions.AddArguments("start-maximized");
+            chromeOptions.AddArguments("--ignore-certificate-errors");
+            return new ChromeDriver(chromeOptions);
+        }
+
+        private static void ScrollIntoViewAndClickWithRetry(By by)
+        {
+            var attempts = 0;
+            while (true)
+            {
+                try
+                {
+                    var element = FindElement(by);
+                    ScrollIntoView(element);
+                    element.Click();
+                    return;
+                }
+                catch (StaleElementReferenceException)
+                {
+                    attempts++;
+                    if (attempts >= 3)
+                    {
+                        throw;
+                    }
+                }
+            }
+        }
+
+        private static void ClickWithJavaScriptWithRetry(By by)
+        {
+            try
+            {
+                var element = FindElement(by);
+                var js = (IJavaScriptExecutor)Browser;
+                js.ExecuteScript("arguments[0].click()", element);
+            }
+            catch (StaleElementReferenceException)
+            {
+                var element = FindElement(by);
+                var js = (IJavaScriptExecutor)Browser;
+                js.ExecuteScript("arguments[0].click()", element);
+            }
+        }
+
+        private static void ClickWithRetry(By by)
+        {
+            try
+            {
+                Wait($"Timed out in ClickWithRetry({by})")
+                    .Until(ExpectedConditions.ElementToBeClickable(by)).Click();
+            }
+            catch (StaleElementReferenceException)
+            {
+                Wait($"Timed out in ClickWithRetry({by}) after stale element")
+                    .Until(ExpectedConditions.ElementToBeClickable(by)).Click();
             }
         }
 

@@ -15,6 +15,8 @@ namespace Blaise.Tests.Helpers.Dqs.Pages
         {
         }
 
+        protected override By PageIdentityBy => By.Id(DeleteButtonId);
+
         public string GetToStartDate()
         {
             return GetElementTextByPath(ToStartDatePath);
@@ -39,7 +41,5 @@ namespace Blaise.Tests.Helpers.Dqs.Pages
         {
             ClickButtonById(DeleteButtonId);
         }
-
-        protected override By PageIdentityBy => By.Id(DeleteButtonId);
     }
 }

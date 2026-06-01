@@ -17,11 +17,6 @@ namespace Blaise.Tests.Helpers.Cati
         private const string NewUiIconXPath = "//i[contains(@class, 'bi-bell-fill')]";
         private static CatiUiVersion _currentVersion = CatiUiVersion.Unknown;
 
-        public static void Reset()
-        {
-            _currentVersion = CatiUiVersion.Unknown;
-        }
-
         public static bool IsDetected => _currentVersion != CatiUiVersion.Unknown;
 
         public static CatiUiVersion CurrentVersion
@@ -40,6 +35,11 @@ namespace Blaise.Tests.Helpers.Cati
                 EnsureDetected();
                 return _currentVersion == CatiUiVersion.NewDashboard;
             }
+        }
+
+        public static void Reset()
+        {
+            _currentVersion = CatiUiVersion.Unknown;
         }
 
         public static void DetectAndCache()

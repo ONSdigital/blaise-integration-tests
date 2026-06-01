@@ -17,8 +17,8 @@ namespace Blaise.Dqs.Tests.Behaviour.Steps
     [Binding]
     public sealed class CommonSteps
     {
-        private static readonly string _username = $"BDSS-test-user-{Guid.NewGuid()}";
-        private static readonly string _password = $"{Guid.NewGuid()}";
+        private static readonly string _username = $"BDSS-test-user-{Guid.NewGuid().ToString("N").Substring(0, 8)}";
+        private static readonly string _password = Guid.NewGuid().ToString("N").Substring(0, 8);
 
         private readonly ScenarioContext _scenarioContext;
 

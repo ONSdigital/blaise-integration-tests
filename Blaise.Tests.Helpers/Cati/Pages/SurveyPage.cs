@@ -22,6 +22,10 @@ namespace Blaise.Tests.Helpers.Cati.Pages
         {
         }
 
+        protected override By PageIdentityBy => UseNewSelectors
+            ? By.XPath("//div[contains(@class,'e-filtermenudiv') and (@e-mappinguid='qa_instrumentid' or @e-mappinguid='qa_instrument')]")
+            : By.XPath(FilterButton);
+
         private bool UseNewSelectors
         {
             get
@@ -79,6 +83,7 @@ namespace Blaise.Tests.Helpers.Cati.Pages
                     ClickButtonByXPath(_surveyRadioButton);
                     ClickButtonByXPath(ApplyButton);
                 }
+
                 ClickButtonByXPath(FilterButton);
             }
         }
@@ -103,9 +108,5 @@ namespace Blaise.Tests.Helpers.Cati.Pages
                     ? BodyDoesNotContainText("No records to display")(driver)
                     : BodyContainsText("Showing")(driver));
         }
-
-        protected override By PageIdentityBy => UseNewSelectors
-            ? By.XPath("//div[contains(@class,'e-filtermenudiv') and (@e-mappinguid='qa_instrumentid' or @e-mappinguid='qa_instrument')]")
-            : By.XPath(FilterButton);
     }
 }

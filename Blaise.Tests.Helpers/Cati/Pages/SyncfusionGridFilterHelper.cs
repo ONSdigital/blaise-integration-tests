@@ -9,9 +9,9 @@ namespace Blaise.Tests.Helpers.Cati.Pages
     {
         private const string InstrumentFilterIconXPath = "//div[contains(@class,'e-filtermenudiv') and (@e-mappinguid='qa_instrumentid' or @e-mappinguid='qa_instrument')]";
         private const string FilterPopupXPath = "//div[contains(@class,'e-popup') and contains(@class,'e-popup-open')]";
-        private static readonly string[] InstrumentFilterPopupIds = { "qa_instrumentid-flmdlg", "qa_instrument-flmdlg" };
         private const string FilterPopupButtonXPath = ".//button[contains(@class,'e-flmenu-okbtn') or normalize-space()='Filter' or normalize-space()='Apply']";
         private const string FilterPopupListItemXPath = "//div[contains(@class,'e-popup') and contains(@class,'e-popup-open')]//li[contains(@class,'e-list-item')]";
+        private static readonly string[] InstrumentFilterPopupIds = { "qa_instrumentid-flmdlg", "qa_instrument-flmdlg" };
 
         public static void ApplyNewUiFilter(string questionnaireName)
         {

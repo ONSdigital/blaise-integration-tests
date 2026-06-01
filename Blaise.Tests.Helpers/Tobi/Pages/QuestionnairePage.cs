@@ -17,6 +17,8 @@ namespace Blaise.Tests.Helpers.Tobi.Pages
         {
         }
 
+        protected override By PageIdentityBy => By.Id(QuestionnaireTableId);
+
         public void ClickInterviewButton(string questionnaire)
         {
             var questionnaireIndex = GetTableContent().FindIndex(s => s.Contains(questionnaire)) + 1;
@@ -35,7 +37,5 @@ namespace Blaise.Tests.Helpers.Tobi.Pages
         {
             ClickButtonById(ReturnSurveyId);
         }
-
-        protected override By PageIdentityBy => By.Id(QuestionnaireTableId);
     }
 }

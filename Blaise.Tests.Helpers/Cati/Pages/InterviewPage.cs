@@ -14,6 +14,8 @@ namespace Blaise.Tests.Helpers.Cati.Pages
         {
         }
 
+        protected override By PageIdentityBy => By.Id(FirstFocusId);
+
         public string GetCaseIdText()
         {
             return GetElementTextByPath(CaseIdPath);
@@ -23,7 +25,5 @@ namespace Blaise.Tests.Helpers.Cati.Pages
         {
             GetElementTextById(FirstFocusId);
         }
-
-        protected override By PageIdentityBy => By.Id(FirstFocusId);
     }
 }

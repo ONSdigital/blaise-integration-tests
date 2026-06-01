@@ -19,6 +19,8 @@ namespace Blaise.Tests.Helpers.Dqs.Pages
         {
         }
 
+        protected override By PageIdentityBy => By.Id(QuestionnaireTableId);
+
         public void ClickDeployAQuestionnaire()
         {
             ClickButtonById(DeployQuestionnaireButtonId);
@@ -44,7 +46,5 @@ namespace Blaise.Tests.Helpers.Dqs.Pages
         {
             PopulateInputById(FilterId, questionnaireName);
         }
-
-        protected override By PageIdentityBy => By.Id(QuestionnaireTableId);
     }
 }

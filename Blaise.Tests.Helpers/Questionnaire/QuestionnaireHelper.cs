@@ -10,11 +10,12 @@ namespace Blaise.Tests.Helpers.Questionnaire
 
     public class QuestionnaireHelper
     {
+        private const int DefaultStatusTimeoutSeconds = 30;
+        private const int PollingIntervalMilliseconds = 1000;
+
         private static QuestionnaireHelper _currentInstance;
 
         private readonly IBlaiseQuestionnaireApi _blaiseQuestionnaireApi;
-        private const int DefaultStatusTimeoutSeconds = 120;
-        private const int PollingIntervalMilliseconds = 1000;
 
         public QuestionnaireHelper()
         {

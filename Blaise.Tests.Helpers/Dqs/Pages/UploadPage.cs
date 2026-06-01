@@ -29,6 +29,8 @@ namespace Blaise.Tests.Helpers.Dqs.Pages
         {
         }
 
+        protected override By PageIdentityBy => By.Id(FileSelectorId);
+
         public void SelectFileToUpload(string questionnairePath)
         {
             PopulateInputById(FileSelectorId, questionnairePath);
@@ -78,6 +80,24 @@ namespace Blaise.Tests.Helpers.Dqs.Pages
             ClickButtonById(CancelButtonId);
         }
 
+        public void SkipTmReleaseDateIfPresent()
+        {
+            if (!IsTmReleaseDateStepVisible())
+            {
+                return;
+            }
+
+            ClickButtonById(NoRadioButtonId);
+            ClickButtonById(ContinueButtonId);
+        }
+
+        public void WaitForConfirmOverwritePage()
+        {
+            BrowserHelper
+                .Wait("Timed out waiting for overwrite confirmation step")
+                .Until(driver => driver.FindElements(By.XPath(ConfirmOverwriteHeadingPath)).Any());
+        }
+
         internal void SetLiveDate(string date)
         {
             var input = BrowserHelper
@@ -95,77 +115,6 @@ namespace Blaise.Tests.Helpers.Dqs.Pages
                     var value = current?.GetAttribute("value") ?? string.Empty;
                     return DateValueMatches(value, isoDate) || DateValueMatches(value, displayDate);
                 });
-        }
-
-        public void SkipTmReleaseDateIfPresent()
-        {
-            if (!IsTmReleaseDateStepVisible())
-            {
-                return;
-            }
-
-            ClickButtonById(NoRadioButtonId);
-            ClickButtonById(ContinueButtonId);
-        }
-
-        private bool IsTmReleaseDateStepVisible()
-        {
-            return BrowserHelper.ElementExistsByXPath(TmReleaseDateHeadingPath, TimeSpan.FromSeconds(2));
-        }
-
-        private IWebElement FindDateInput(IWebDriver driver)
-        {
-            var byId = driver.FindElements(By.Id(LiveDateTextBoxId))
-                .FirstOrDefault(candidate => candidate.Displayed);
-            if (byId != null)
-            {
-                return byId;
-            }
-
-            var byToStartDateName = driver.FindElements(By.Name(ToStartDateFieldName))
-                .FirstOrDefault(candidate => candidate.Displayed);
-            if (byToStartDateName != null)
-            {
-                return byToStartDateName;
-            }
-
-            return driver.FindElements(By.Name(TmReleaseDateFieldName))
-                .FirstOrDefault(candidate => candidate.Displayed);
-        }
-
-        private void TryClickContinueButton()
-        {
-            try
-            {
-                BrowserHelper.ScrollIntoViewAndClickByIdWithRetry(ContinueButtonId);
-            }
-            catch (WebDriverException)
-            {
-                BrowserHelper.ClickWithJavaScript(By.Id(ContinueButtonId));
-            }
-        }
-
-        private void TrySetDateValue(
-            IWebElement element,
-            DateTime? parsedDate,
-            string isoDate,
-            string displayDate)
-        {
-            var primaryValue = string.IsNullOrEmpty(isoDate) ? displayDate : isoDate;
-
-            if (!TrySendKeys(element, primaryValue))
-            {
-                SetDateValueByScript(element, primaryValue, parsedDate);
-            }
-
-            var value = element.GetAttribute("value") ?? string.Empty;
-            if (!DateValueMatches(value, primaryValue) && !DateValueMatches(value, displayDate))
-            {
-                if (!TrySendKeys(element, displayDate))
-                {
-                    SetDateValueByScript(element, displayDate, parsedDate);
-                }
-            }
         }
 
         private static bool TrySendKeys(IWebElement element, string value)
@@ -260,13 +209,64 @@ namespace Blaise.Tests.Helpers.Dqs.Pages
                 date);
         }
 
-        public void WaitForConfirmOverwritePage()
+        private bool IsTmReleaseDateStepVisible()
         {
-            BrowserHelper
-                .Wait("Timed out waiting for overwrite confirmation step")
-                .Until(driver => driver.FindElements(By.XPath(ConfirmOverwriteHeadingPath)).Any());
+            return BrowserHelper.ElementExistsByXPath(TmReleaseDateHeadingPath, TimeSpan.FromSeconds(2));
         }
 
-        protected override By PageIdentityBy => By.Id(FileSelectorId);
+        private IWebElement FindDateInput(IWebDriver driver)
+        {
+            var byId = driver.FindElements(By.Id(LiveDateTextBoxId))
+                .FirstOrDefault(candidate => candidate.Displayed);
+            if (byId != null)
+            {
+                return byId;
+            }
+
+            var byToStartDateName = driver.FindElements(By.Name(ToStartDateFieldName))
+                .FirstOrDefault(candidate => candidate.Displayed);
+            if (byToStartDateName != null)
+            {
+                return byToStartDateName;
+            }
+
+            return driver.FindElements(By.Name(TmReleaseDateFieldName))
+                .FirstOrDefault(candidate => candidate.Displayed);
+        }
+
+        private void TryClickContinueButton()
+        {
+            try
+            {
+                BrowserHelper.ScrollIntoViewAndClickByIdWithRetry(ContinueButtonId);
+            }
+            catch (WebDriverException)
+            {
+                BrowserHelper.ClickWithJavaScript(By.Id(ContinueButtonId));
+            }
+        }
+
+        private void TrySetDateValue(
+            IWebElement element,
+            DateTime? parsedDate,
+            string isoDate,
+            string displayDate)
+        {
+            var primaryValue = string.IsNullOrEmpty(isoDate) ? displayDate : isoDate;
+
+            if (!TrySendKeys(element, primaryValue))
+            {
+                SetDateValueByScript(element, primaryValue, parsedDate);
+            }
+
+            var value = element.GetAttribute("value") ?? string.Empty;
+            if (!DateValueMatches(value, primaryValue) && !DateValueMatches(value, displayDate))
+            {
+                if (!TrySendKeys(element, displayDate))
+                {
+                    SetDateValueByScript(element, displayDate, parsedDate);
+                }
+            }
+        }
     }
 }

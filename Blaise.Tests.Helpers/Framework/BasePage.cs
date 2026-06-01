@@ -19,7 +19,7 @@ namespace Blaise.Tests.Helpers.Framework
         {
             _pageUrl = $"{pageUrl}?{pageUrlParameter}";
         }
-
+        protected virtual By PageIdentityBy => null;
         public void LoadPage()
         {
             BrowserHelper.BrowseTo(_pageUrl);
@@ -240,8 +240,6 @@ namespace Blaise.Tests.Helpers.Framework
                 }
             };
         }
-
-        protected virtual By PageIdentityBy => null;
 
         private static int NumberOfRowsInATable(string tablePath)
         {

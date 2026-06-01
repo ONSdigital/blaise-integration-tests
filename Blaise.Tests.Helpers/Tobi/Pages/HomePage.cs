@@ -17,6 +17,9 @@ namespace Blaise.Tests.Helpers.Tobi.Pages
         {
         }
 
+        protected override By PageIdentityBy =>
+            By.XPath($"//*[@id='{SurveyTableId}'] | {NoResultsPath}");
+
         public void ClickQuestionnaireButton()
         {
             var questionnaireName = BlaiseConfigurationHelper.QuestionnaireName;
@@ -45,8 +48,5 @@ namespace Blaise.Tests.Helpers.Tobi.Pages
         {
             return GetElementTextByPath(NoResultsPath);
         }
-
-        protected override By PageIdentityBy =>
-            By.XPath($"//*[@id='{SurveyTableId}'] | {NoResultsPath}");
     }
 }

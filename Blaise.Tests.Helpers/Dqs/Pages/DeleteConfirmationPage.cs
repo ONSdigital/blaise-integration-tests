@@ -17,6 +17,8 @@ namespace Blaise.Tests.Helpers.Dqs.Pages
         {
         }
 
+        protected override By PageIdentityBy => By.Id(ContinueButtonId);
+
         public void ClickContinueButton()
         {
             ClickButtonById(ContinueButtonId);
@@ -35,7 +37,5 @@ namespace Blaise.Tests.Helpers.Dqs.Pages
         {
             ButtonIsAvailableById(ContinueButtonId);
         }
-
-        protected override By PageIdentityBy => By.Id(ContinueButtonId);
     }
 }

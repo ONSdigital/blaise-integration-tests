@@ -13,11 +13,11 @@ namespace Blaise.Tests.Helpers.Dqs.Pages
         {
         }
 
+        protected override By PageIdentityBy => By.XPath(SummaryHeadingPath);
+
         public string GetUploadSummaryText()
         {
             return GetElementTextByPath(SummaryHeadingPath);
         }
-
-        protected override By PageIdentityBy => By.XPath(SummaryHeadingPath);
     }
 }
