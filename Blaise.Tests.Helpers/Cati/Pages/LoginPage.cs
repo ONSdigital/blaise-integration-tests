@@ -46,5 +46,20 @@ namespace Blaise.Tests.Helpers.Cati.Pages
         }
 
         private void EnsureCorrectLoginPage()
+        {
+            try
+            {
+                CatiUiVersionHelper.DetectAndCache();
+                _loginUrl = CatiUiVersionHelper.IsNewUi
+                    ? CatiConfigurationHelper.NewDashboardLoginUrl
+                    : CatiConfigurationHelper.LoginUrl;
+                Console.WriteLine($"Using CATI login page: {_loginUrl}");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error while ensuring correct login page: {ex.Message}");
+                throw;
+            }
+        }
     }
 }
