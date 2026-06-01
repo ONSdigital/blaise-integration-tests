@@ -1,11 +1,11 @@
 namespace Blaise.Cati.Tests.Behaviour.Steps
 {
+    using System;
     using Blaise.Tests.Helpers.Browser;
     using Blaise.Tests.Helpers.Cati;
     using Blaise.Tests.Helpers.Cati.Pages;
     using OpenQA.Selenium;
     using Reqnroll;
-    using System;
 
     [Binding]
     public sealed class AccessCasesSteps
