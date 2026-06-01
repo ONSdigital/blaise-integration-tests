@@ -12,7 +12,6 @@ namespace Blaise.Tests.Helpers.Browser
     using OpenQA.Selenium.Support.Extensions;
     using OpenQA.Selenium.Support.UI;
     using Reqnroll;
-    using SeleniumExtras.WaitHelpers;
 
     public static class BrowserHelper
     {
@@ -99,7 +98,7 @@ namespace Blaise.Tests.Helpers.Browser
             try
             {
                 Wait($"Timed out in ElementExistsById(\"{id}\")", timeout)
-                    .Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementExists(By.Id(id)));
+                    .Until(ExpectedConditions.ElementExists(By.Id(id)));
                 return true;
             }
             catch (WebDriverTimeoutException)
@@ -296,7 +295,7 @@ namespace Blaise.Tests.Helpers.Browser
         public static IWebElement FindElement(By by)
         {
             return Wait($"Timed out in FindElement({by})")
-                .Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementIsVisible(by));
+                .Until(ExpectedConditions.ElementIsVisible(by));
         }
 
         public static void ScrollIntoViewAndClick(By by)

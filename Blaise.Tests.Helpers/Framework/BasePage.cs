@@ -19,6 +19,7 @@ namespace Blaise.Tests.Helpers.Framework
         {
             _pageUrl = $"{pageUrl}?{pageUrlParameter}";
         }
+
         protected virtual By PageIdentityBy => null;
         public void LoadPage()
         {
@@ -40,14 +41,14 @@ namespace Blaise.Tests.Helpers.Framework
         {
             BrowserHelper
                 .Wait($"Timed out in ButtonIsAvailableById(\"{buttonId}\")")
-                .Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementToBeClickable(By.Id(buttonId)));
+                .Until(ExpectedConditions.ElementToBeClickable(By.Id(buttonId)));
         }
 
         public void ButtonIsAvailableByPath(string submitButtonPath)
         {
             BrowserHelper
                 .Wait($"Timed out in ButtonIsAvailableByPath(\"{submitButtonPath}\")")
-                .Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementToBeClickable(By.XPath(submitButtonPath)));
+                .Until(ExpectedConditions.ElementToBeClickable(By.XPath(submitButtonPath)));
         }
 
         public void SelectDropDownValueById(string dropDownId, string value)
@@ -55,7 +56,7 @@ namespace Blaise.Tests.Helpers.Framework
             var selectList = new SelectElement(
                 BrowserHelper
                 .Wait($"Timed out in SelectDropDownValueById(\"{dropDownId}\", \"{value}\")")
-                .Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementExists(By.Id(dropDownId))));
+                .Until(ExpectedConditions.ElementExists(By.Id(dropDownId))));
             selectList.SelectByText(value);
         }
 
@@ -70,7 +71,7 @@ namespace Blaise.Tests.Helpers.Framework
             {
                 var body = driver.FindElement(By.TagName("body"));
 
-                return SeleniumExtras.WaitHelpers.ExpectedConditions.TextToBePresentInElement(body, text)(driver);
+                return ExpectedConditions.TextToBePresentInElement(body, text)(driver);
             };
         }
 
@@ -94,7 +95,7 @@ namespace Blaise.Tests.Helpers.Framework
         {
             BrowserHelper
                 .Wait($"Timed out in ClickButtonById(\"{buttonElementId}\")")
-                .Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementToBeClickable(By.Id(buttonElementId)))
+                .Until(ExpectedConditions.ElementToBeClickable(By.Id(buttonElementId)))
                 .Click();
         }
 
@@ -104,7 +105,7 @@ namespace Blaise.Tests.Helpers.Framework
             {
                 BrowserHelper
                     .Wait($"Timed out in ClickButtonByXPath(\"{buttonElementPath}\")")
-                    .Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementToBeClickable(By.XPath(buttonElementPath)))
+                    .Until(ExpectedConditions.ElementToBeClickable(By.XPath(buttonElementPath)))
                     .Click();
             });
         }
@@ -124,7 +125,7 @@ namespace Blaise.Tests.Helpers.Framework
             return RetryHelper.RetryOnStale(() =>
                 BrowserHelper
                     .Wait($"Timed out in GetElementTextByPath(\"{elementPath}\")")
-                    .Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementIsVisible(By.XPath(elementPath)))
+                    .Until(ExpectedConditions.ElementIsVisible(By.XPath(elementPath)))
                     .Text);
         }
 
@@ -139,7 +140,7 @@ namespace Blaise.Tests.Helpers.Framework
                     try
                     {
                         var element = driver.FindElement(By.XPath(elementPath));
-                        return SeleniumExtras.WaitHelpers.ExpectedConditions.TextToBePresentInElement(element, text)(driver);
+                        return ExpectedConditions.TextToBePresentInElement(element, text)(driver);
                     }
                     catch (StaleElementReferenceException)
                     {
@@ -170,7 +171,7 @@ namespace Blaise.Tests.Helpers.Framework
         {
             var element = BrowserHelper
                 .Wait($"Timed out in PopulateInputById(\"{elementId}\", \"{value}\")")
-                .Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementIsVisible(By.Id(elementId)));
+                .Until(ExpectedConditions.ElementIsVisible(By.Id(elementId)));
             element.Clear();
             element.SendKeys(value);
         }
@@ -184,7 +185,7 @@ namespace Blaise.Tests.Helpers.Framework
         {
             BrowserHelper
                 .Wait($"Timed out in GetFirstColumnOfTableFromXPath(\"{tablePath}\", \"{tableId}\")")
-                .Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementIsVisible(By.Id(tableId)));
+                .Until(ExpectedConditions.ElementIsVisible(By.Id(tableId)));
             var numberOfRows = NumberOfRowsInATable(tablePath);
             var results = ReadFirstColumnInATable(tablePath, numberOfRows);
 
@@ -196,7 +197,7 @@ namespace Blaise.Tests.Helpers.Framework
             if (!BrowserHelper.GetCurrentUrl().Contains(url))
             {
                 BrowserHelper.Wait($"Timed out in WaitForPageToChange(\"{url}\")")
-                    .Until(SeleniumExtras.WaitHelpers.ExpectedConditions.UrlContains(url));
+                    .Until(ExpectedConditions.UrlContains(url));
             }
         }
 
@@ -206,7 +207,7 @@ namespace Blaise.Tests.Helpers.Framework
             {
                 BrowserHelper
                     .Wait($"Timed out in ElementExistsById(\"{elementId}\")", timeout)
-                    .Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementExists(By.Id(elementId)));
+                    .Until(ExpectedConditions.ElementExists(By.Id(elementId)));
                 return true;
             }
             catch (WebDriverTimeoutException)
@@ -245,7 +246,7 @@ namespace Blaise.Tests.Helpers.Framework
         {
             return BrowserHelper
                 .Wait($"Timed out in NumberOfRowsInATable(\"{tablePath}\")")
-                .Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementIsVisible(By.XPath(tablePath)))
+                .Until(ExpectedConditions.ElementIsVisible(By.XPath(tablePath)))
                 .FindElements(By.XPath(tablePath))
                 .Count;
         }
