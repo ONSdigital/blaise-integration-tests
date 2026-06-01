@@ -2,6 +2,7 @@ namespace Blaise.Tests.Helpers.Cati.Pages
 {
     using System;
     using System.Linq;
+    using System.Web;
     using Blaise.Tests.Helpers.Browser;
     using Blaise.Tests.Helpers.Cati;
     using Blaise.Tests.Helpers.Configuration;
@@ -121,6 +122,15 @@ namespace Blaise.Tests.Helpers.Cati.Pages
                             throw new Exception("Play button not found in the first row.");
                         }
 
+                        var startSurveyUrl = GetStartSurveyUrl(playButton);
+                        if (!string.IsNullOrWhiteSpace(startSurveyUrl))
+                        {
+                            Console.WriteLine($"Opening start survey URL: {startSurveyUrl}");
+                            BrowserHelper.ExecuteJavaScript("window.open(arguments[0], '_blank');", startSurveyUrl);
+                            BrowserHelper.WaitForWindowCount(numberOfWindows + 1, 10);
+                            return;
+                        }
+
                         // Scroll the table horizontally to bring the Play button into view
                         BrowserHelper.ExecuteJavaScript(
                             "arguments[0].scrollLeft = arguments[1].offsetLeft;",
@@ -155,6 +165,63 @@ namespace Blaise.Tests.Helpers.Cati.Pages
                     throw new Exception("Timed out waiting for new window to open.");
                 }
             }
+        }
+
+        private string GetStartSurveyUrl(IWebElement playButton)
+        {
+            var attributeCandidates = new[] { "href", "data-url", "data-start-url", "data-href" };
+            foreach (var attribute in attributeCandidates)
+            {
+                var value = playButton.GetAttribute(attribute);
+                if (string.IsNullOrWhiteSpace(value))
+                {
+                    continue;
+                }
+
+                if (!IsStartSurveyUrl(value))
+                {
+                    continue;
+                }
+
+                return NormalizeStartSurveyUrl(value);
+            }
+
+            return null;
+        }
+
+        private static bool IsStartSurveyUrl(string candidate)
+        {
+            return candidate.IndexOf("/CaseInfo/StartSurvey", StringComparison.OrdinalIgnoreCase) >= 0;
+        }
+
+        private static string NormalizeStartSurveyUrl(string startSurveyUrl)
+        {
+            if (string.IsNullOrWhiteSpace(startSurveyUrl))
+            {
+                return startSurveyUrl;
+            }
+
+            if (!Uri.TryCreate(startSurveyUrl, UriKind.Absolute, out var uri))
+            {
+                if (!Uri.TryCreate(new Uri(CatiConfigurationHelper.CatiBaseUrl), startSurveyUrl, out uri))
+                {
+                    return startSurveyUrl;
+                }
+            }
+
+            var query = HttpUtility.ParseQueryString(uri.Query);
+            var targetUrl = query["url"];
+            if (!string.IsNullOrWhiteSpace(targetUrl) && !targetUrl.EndsWith("/", StringComparison.Ordinal))
+            {
+                query["url"] = $"{targetUrl}/";
+            }
+
+            var builder = new UriBuilder(uri)
+            {
+                Query = query.ToString() ?? string.Empty,
+            };
+
+            return builder.Uri.ToString();
         }
 
         public void ApplyFilter()
