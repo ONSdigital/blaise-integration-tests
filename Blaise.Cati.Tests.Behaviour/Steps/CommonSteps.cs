@@ -28,20 +28,7 @@ namespace Blaise.Cati.Tests.Behaviour.Steps
         public static void BeforeTestRun()
         {
             FailFastHelper.Reset();
-        }
-
-        [BeforeScenario]
-        public void BeforeScenario()
-        {
-            FailFastHelper.ThrowIfPreviousFailed(_scenarioContext.ScenarioInfo.Title);
             HealthCheckHelper.CheckBlaiseConnection();
-
-            CatiUiVersionHelper.Reset();
-            CatiUiVersionHelper.DetectAndCache();
-
-            TestDiagnosticsHelper.LogBlaisePreflight(
-                BlaiseConfigurationHelper.QuestionnaireName,
-                BlaiseConfigurationHelper.ServerParkName);
 
             var catiUrl = ConfigurationExtensions.TryGetVariable("ENV_BLAISE_CATI_URL");
             if (!string.IsNullOrEmpty(catiUrl))
@@ -54,11 +41,30 @@ namespace Blaise.Cati.Tests.Behaviour.Steps
                 HealthCheckHelper.CheckUrl(catiUrl);
             }
 
+            CatiUiVersionHelper.DetectAndCache();
+
             QuestionnaireHelper.GetInstance().InstallQuestionnaire(
                 BlaiseConfigurationHelper.QuestionnaireName,
                 BlaiseConfigurationHelper.ServerParkName,
                 BlaiseConfigurationHelper.QuestionnairePath,
                 BlaiseConfigurationHelper.QuestionnaireInstallOptions);
+        }
+
+        [AfterTestRun]
+        public static void AfterTestRun()
+        {
+            QuestionnaireHelper.GetInstance().UninstallQuestionnaire(
+                BlaiseConfigurationHelper.QuestionnaireName,
+                BlaiseConfigurationHelper.ServerParkName);
+        }
+
+        [BeforeScenario]
+        public void BeforeScenario()
+        {
+            FailFastHelper.ThrowIfPreviousFailed(_scenarioContext.ScenarioInfo.Title);
+            TestDiagnosticsHelper.LogBlaisePreflight(
+                BlaiseConfigurationHelper.QuestionnaireName,
+                BlaiseConfigurationHelper.ServerParkName);
 
             CatiManagementHelper.GetInstance().CreateAdminUser();
             CatiInterviewHelper.GetInstance().CreateInterviewUser();
@@ -69,11 +75,6 @@ namespace Blaise.Cati.Tests.Behaviour.Steps
         {
             CatiInterviewHelper.GetInstance().DeleteInterviewUser();
             CatiManagementHelper.GetInstance().DeleteAdminUser();
-
-            QuestionnaireHelper.GetInstance().UninstallQuestionnaire(
-                BlaiseConfigurationHelper.QuestionnaireName,
-                BlaiseConfigurationHelper.ServerParkName);
-
             BrowserHelper.CloseBrowser();
         }
 

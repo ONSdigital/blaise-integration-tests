@@ -100,24 +100,13 @@ namespace Blaise.Tests.Helpers.Framework
 
         protected void ClickButtonByXPath(string buttonElementPath)
         {
-            var attempts = 0;
-            while (attempts < 5)
+            RetryHelper.RetryOnStale(() =>
             {
-                try
-                {
-                    BrowserHelper
-                        .Wait($"Timed out in ClickButtonByXPath(\"{buttonElementPath}\")")
-                        .Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementToBeClickable(By.XPath(buttonElementPath)))
-                        .Click();
-                    return;
-                }
-                catch (StaleElementReferenceException)
-                {
-                    attempts++;
-                    if (attempts >= 5) throw;
-                    System.Threading.Thread.Sleep(250);
-                }
-            }
+                BrowserHelper
+                    .Wait($"Timed out in ClickButtonByXPath(\"{buttonElementPath}\")")
+                    .Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementToBeClickable(By.XPath(buttonElementPath)))
+                    .Click();
+            });
         }
 
         protected void ClickButtonByXPathWithJavaScript(string buttonElementPath)
@@ -132,24 +121,11 @@ namespace Blaise.Tests.Helpers.Framework
 
         protected string GetElementTextByPath(string elementPath)
         {
-            var attempts = 0;
-            while (attempts < 5)
-            {
-                try
-                {
-                    return BrowserHelper
-                        .Wait($"Timed out in GetElementTextByPath(\"{elementPath}\")")
-                        .Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementIsVisible(By.XPath(elementPath)))
-                        .Text;
-                }
-                catch (StaleElementReferenceException)
-                {
-                    attempts++;
-                    if (attempts >= 5) throw;
-                    System.Threading.Thread.Sleep(250);
-                }
-            }
-            return string.Empty;
+            return RetryHelper.RetryOnStale(() =>
+                BrowserHelper
+                    .Wait($"Timed out in GetElementTextByPath(\"{elementPath}\")")
+                    .Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementIsVisible(By.XPath(elementPath)))
+                    .Text);
         }
 
         protected void WaitUntilElementByXPathContainsText(string elementPath, string text)
