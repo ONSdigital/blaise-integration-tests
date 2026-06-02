@@ -208,19 +208,12 @@ namespace Blaise.Tests.Helpers.Cati.Pages
             }
             else
             {
-                ClickButtonByXPath(ModifyEntrySelector);
+                BrowserHelper.ScrollIntoViewAndClick(By.XPath(ModifyEntrySelector));
 
                 PopulateInputById(StartTimeId, "12:00 AM");
                 PopulateInputById(EndTimeId, "11:59 PM");
 
-                if (UseNewSelectors)
-                {
-                    ClickButtonById(UpdateButtonSelector);
-                }
-                else
-                {
-                    ClickButtonByXPath(UpdateButtonSelector);
-                }
+                ClickButtonByXPath(UpdateButtonSelector);
             }
         }
     }
