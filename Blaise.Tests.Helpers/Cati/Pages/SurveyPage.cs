@@ -54,7 +54,7 @@ namespace Blaise.Tests.Helpers.Cati.Pages
             else
             {
                 Console.WriteLine("Using old selectors to clear daybatch entries.");
-                ClickButtonByXPath(ClearCatiDataButtonPath);
+                BrowserHelper.ClickWithJavaScript(By.XPath(ClearCatiDataButtonPath));
                 Console.WriteLine("Clicked clear CATI data button.");
                 ClickButtonById(BackupDataButtonId);
                 Console.WriteLine("Clicked backup data button.");
