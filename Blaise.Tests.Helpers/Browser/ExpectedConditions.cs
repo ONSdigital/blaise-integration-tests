@@ -10,8 +10,15 @@ namespace Blaise.Tests.Helpers.Browser
         {
             return driver =>
             {
-                var element = driver.FindElement(locator);
-                return element.Displayed ? element : null;
+                try
+                {
+                    var element = driver.FindElement(locator);
+                    return element.Displayed ? element : null;
+                }
+                catch (StaleElementReferenceException)
+                {
+                    return null;
+                }
             };
         }
 
@@ -24,8 +31,20 @@ namespace Blaise.Tests.Helpers.Browser
         {
             return driver =>
             {
-                var element = driver.FindElement(locator);
-                return element.Displayed && element.Enabled ? element : null;
+                try
+                {
+                    var element = ElementIsVisible(locator)(driver);
+                    if (element != null && element.Enabled)
+                    {
+                        return element;
+                    }
+
+                    return null;
+                }
+                catch (StaleElementReferenceException)
+                {
+                    return null;
+                }
             };
         }
 
@@ -33,8 +52,14 @@ namespace Blaise.Tests.Helpers.Browser
         {
             return driver =>
             {
-                var elementText = element.Text;
-                return elementText.Contains(text);
+                try
+                {
+                    return element.Text.Contains(text);
+                }
+                catch (StaleElementReferenceException)
+                {
+                    return false;
+                }
             };
         }
 
