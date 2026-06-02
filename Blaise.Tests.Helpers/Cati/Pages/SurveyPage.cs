@@ -93,10 +93,16 @@ namespace Blaise.Tests.Helpers.Cati.Pages
             if (UseNewSelectors)
             {
                 BrowserHelper.WaitUntilGridHasLoadedData();
+                BrowserHelper
+                    .Wait($"Timed out waiting for questionnaire row '{BlaiseConfigurationHelper.QuestionnaireName}' to appear in grid")
+                    .Until(d => d.FindElements(By.XPath($"//tr[contains(., '{BlaiseConfigurationHelper.QuestionnaireName}')]")).Count > 0);
             }
             else
             {
                 BrowserHelper.WaitForElementByXPath("//*[@id='MVCGridTable_SurveysGrid']");
+                BrowserHelper
+                    .Wait($"Timed out waiting for data rows in survey grid")
+                    .Until(d => d.FindElements(By.XPath("//*[@id='MVCGridTable_SurveysGrid']/tbody/tr/td[9]/a")).Count > 0);
             }
         }
 

@@ -2,12 +2,14 @@ namespace Blaise.Tests.Helpers.Cati
 {
     using System;
     using System.Collections.Generic;
+    using System.Threading;
     using Blaise.Tests.Helpers.Browser;
     using Blaise.Tests.Helpers.Cati.Pages;
     using Blaise.Tests.Helpers.Configuration;
     using Blaise.Tests.Helpers.Tobi;
     using Blaise.Tests.Helpers.User;
     using Blaise.Tests.Models.User;
+    using OpenQA.Selenium;
 
     public class CatiManagementHelper
     {
@@ -89,15 +91,29 @@ namespace Blaise.Tests.Helpers.Cati
 
         public void ClearDaybatchEntries()
         {
-            Console.WriteLine("Loading survey page to clear daybatch entries.");
-            var surveyPage = new SurveyPage();
-            surveyPage.LoadPage();
-            Console.WriteLine("Applying filter on survey page.");
-            surveyPage.ApplyFilter();
-            surveyPage.WaitForSurveyTable();
-            Console.WriteLine("Clearing daybatch entries.");
-            surveyPage.ClearDaybatchEntries();
-            Console.WriteLine("Daybatch entries cleared successfully.");
+            const int maxAttempts = 3;
+            for (var attempt = 1; attempt <= maxAttempts; attempt++)
+            {
+                try
+                {
+                    Console.WriteLine($"Loading survey page to clear daybatch entries (attempt {attempt}/{maxAttempts}).");
+                    var surveyPage = new SurveyPage();
+                    surveyPage.LoadPage();
+                    Console.WriteLine("Applying filter on survey page.");
+                    surveyPage.ApplyFilter();
+                    surveyPage.WaitForSurveyTable();
+                    Console.WriteLine("Clearing daybatch entries.");
+                    surveyPage.ClearDaybatchEntries();
+                    Console.WriteLine("Daybatch entries cleared successfully.");
+                    return;
+                }
+                catch (WebDriverTimeoutException ex) when (attempt < maxAttempts)
+                {
+                    Console.WriteLine($"Attempt {attempt} failed: {ex.Message}");
+                    Console.WriteLine("Retrying after page reload...");
+                    Thread.Sleep(5000);
+                }
+            }
         }
     }
 }
