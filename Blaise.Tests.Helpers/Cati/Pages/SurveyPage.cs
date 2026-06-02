@@ -42,6 +42,12 @@ namespace Blaise.Tests.Helpers.Cati.Pages
             {
                 Console.WriteLine("Using new selectors to clear daybatch entries.");
                 var downloadButtonPath = $"//tr[contains(., '{BlaiseConfigurationHelper.QuestionnaireName}')]//span[contains(@class, 'bi-download')]";
+                if (!BrowserHelper.ElementExistsByXPath(downloadButtonPath, TimeSpan.FromSeconds(10)))
+                {
+                    Console.WriteLine("No download/clear button found - no daybatch entries to clear.");
+                    return;
+                }
+
                 ClickButtonByXPath(downloadButtonPath);
                 Console.WriteLine("Clicked download button.");
                 ClickButtonByXPath("//label[@for='qa_backup_all']");
@@ -54,6 +60,12 @@ namespace Blaise.Tests.Helpers.Cati.Pages
             else
             {
                 Console.WriteLine("Using old selectors to clear daybatch entries.");
+                if (!BrowserHelper.ElementExistsByXPath(ClearCatiDataButtonPath, TimeSpan.FromSeconds(10)))
+                {
+                    Console.WriteLine("No clear CATI data button found - no daybatch entries to clear.");
+                    return;
+                }
+
                 BrowserHelper.ClickWithJavaScript(By.XPath(ClearCatiDataButtonPath));
                 Console.WriteLine("Clicked clear CATI data button.");
                 ClickButtonById(BackupDataButtonId);
@@ -102,7 +114,7 @@ namespace Blaise.Tests.Helpers.Cati.Pages
                 BrowserHelper.WaitForElementByXPath("//*[@id='MVCGridTable_SurveysGrid']");
                 BrowserHelper
                     .Wait($"Timed out waiting for data rows in survey grid")
-                    .Until(d => d.FindElements(By.XPath("//*[@id='MVCGridTable_SurveysGrid']/tbody/tr/td[9]/a")).Count > 0);
+                    .Until(d => d.FindElements(By.XPath("//*[@id='MVCGridTable_SurveysGrid']/tbody/tr")).Count > 0);
             }
         }
 
