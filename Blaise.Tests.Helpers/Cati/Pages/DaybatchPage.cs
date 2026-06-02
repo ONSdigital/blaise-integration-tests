@@ -232,19 +232,14 @@ namespace Blaise.Tests.Helpers.Cati.Pages
 
                 Console.WriteLine("Found case in 'Being treated' state. Revoking...");
 
-                // Scroll to and click the revoke button
-                var revokeButtonId = "qa_revokeuser_0";
-                var tableScrollableContainer = BrowserHelper.FindElement(By.XPath("//*[@id='Daybatch_content_table']/parent::div"));
-                var revokeButton = BrowserHelper.FindElement(By.Id(revokeButtonId));
-                BrowserHelper.ExecuteJavaScript(
-                    "arguments[0].scrollLeft = arguments[1].offsetLeft;",
-                    tableScrollableContainer,
-                    revokeButton);
-                BrowserHelper.ScrollIntoViewAndClickById(revokeButtonId);
+                // Click the revoke button (identified by title="Revoke this case")
+                var revokeButtonXPath = "//button[@title='Revoke this case']";
+                BrowserHelper.ScrollIntoViewAndClick(By.XPath(revokeButtonXPath));
 
                 // Confirm the revoke in the confirmation dialog
                 Console.WriteLine("Confirming revoke action...");
-                BrowserHelper.ClickByIdWithRetry("qa_btn_submit");
+                var confirmButtonXPath = "//button[contains(@class, 'e-confirm-dialog') and contains(., 'Yes')]";
+                BrowserHelper.ClickByXPathWithRetry(confirmButtonXPath);
                 Console.WriteLine("Revoke confirmed successfully.");
             }
             else
