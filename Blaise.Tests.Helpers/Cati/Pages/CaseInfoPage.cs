@@ -111,10 +111,8 @@ namespace Blaise.Tests.Helpers.Cati.Pages
                 {
                     if (UseNewSelectors)
                     {
-                        // Locate the table's scrollable container
                         var tableScrollableContainer = BrowserHelper.FindElement(By.XPath("//*[@id='CaseInfo_content_table']/parent::div"));
 
-                        // Locate the Play button
                         var playButton = BrowserHelper.FindElements(By.XPath(PlayButtonSelector))
                             .FirstOrDefault();
                         if (playButton == null)
@@ -131,13 +129,11 @@ namespace Blaise.Tests.Helpers.Cati.Pages
                             return;
                         }
 
-                        // Scroll the table horizontally to bring the Play button into view
                         BrowserHelper.ExecuteJavaScript(
                             "arguments[0].scrollLeft = arguments[1].offsetLeft;",
                             tableScrollableContainer,
                             playButton);
 
-                        // Click the Play button
                         try
                         {
                             playButton.Click();

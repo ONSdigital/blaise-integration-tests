@@ -46,10 +46,7 @@ namespace Blaise.Tests.Helpers.Cati
         {
             var daybatchPage = new DaybatchPage();
 
-            // Navigate to the Daybatch page
             daybatchPage.NavigateToVersionSpecificPage();
-
-            // Apply the survey filter
             daybatchPage.ApplyFilter();
         }
 

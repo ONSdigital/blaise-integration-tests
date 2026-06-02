@@ -132,32 +132,27 @@ namespace Blaise.Tests.Helpers.Cati.Pages
                         UseNewSelectors ? CatiConfigurationHelper.NewDashboardDaybatchUrl : CatiConfigurationHelper.DaybatchUrl,
                         10);
 
-                    // Log the current URL after navigation
                     var currentUrl = BrowserHelper.GetCurrentUrl();
                     Console.WriteLine($"Attempt {attempt + 1}: Navigated to URL: {currentUrl}");
 
-                    // Check if stuck on the Surveys page
                     if (currentUrl.Contains("Survey"))
                     {
                         Console.WriteLine("Redirected to the survey page. Attempting to navigate back to the Daybatch page...");
 
-                        // Force navigation back to the Daybatch page
                         BrowserHelper.NavigateToPage(UseNewSelectors
                             ? CatiConfigurationHelper.NewDashboardDaybatchUrl
                             : CatiConfigurationHelper.DaybatchUrl);
                         continue;
                     }
 
-                    // Validate the current URL explicitly
                     if (currentUrl.Contains("Daybatch"))
                     {
                         Console.WriteLine("Successfully navigated to the Daybatch page.");
 
-                        // Wait for the Daybatch table to load
                         if (BrowserHelper.ElementExistsByXPath(DaybatchTableSelector, TimeSpan.FromSeconds(30)))
                         {
                             Console.WriteLine("Daybatch table loaded successfully.");
-                            return; // Successfully navigated and table loaded
+                            return;
                         }
 
                         Console.WriteLine("Daybatch table did not load. Retrying...");
@@ -180,30 +175,22 @@ namespace Blaise.Tests.Helpers.Cati.Pages
         {
             if (UseNewSelectors)
             {
-                // Locate the table's scrollable container
                 var tableScrollableContainer = BrowserHelper.FindElement(By.XPath("//*[@id='Daybatch_content_table']/parent::div"));
-
-                // Locate the Modify Entry button
                 var modifyEntryButton = BrowserHelper.FindElement(By.Id("qa_editrecord_0"));
 
-                // Scroll the table horizontally to bring the Modify Entry button into view
                 BrowserHelper.ExecuteJavaScript(
                     "arguments[0].scrollLeft = arguments[1].offsetLeft;",
                     tableScrollableContainer,
                     modifyEntryButton);
 
-                // Click the Modify Entry button
                 BrowserHelper.ScrollIntoViewAndClickById("qa_editrecord_0");
 
-                // Set start time in the modal
-                PopulateInputById("qa_starttime", string.Empty); // Clear the input field first
+                PopulateInputById("qa_starttime", string.Empty);
                 PopulateInputById("qa_starttime", "12:00 AM");
 
-                // Set end time in the modal
-                PopulateInputById("qa_endtime", string.Empty); // Clear the input field first
+                PopulateInputById("qa_endtime", string.Empty);
                 PopulateInputById("qa_endtime", "11:59 PM");
 
-                // Click the update button
                 ClickButtonById("qa_btn_submit");
             }
             else
@@ -251,11 +238,9 @@ namespace Blaise.Tests.Helpers.Cati.Pages
 
                 Console.WriteLine("Found case in 'Being treated' state. Revoking...");
 
-                // Click the revoke link in the row
                 var revokeLinkXPath = $"//table[@id='MVCGridTable_DaybatchGrid']//tr[contains(., 'Being treated')]//a[contains(@data-original-title, 'Revoke') or contains(@title, 'Revoke')]";
                 BrowserHelper.ScrollIntoViewAndClick(By.XPath(revokeLinkXPath));
 
-                // Confirm the revoke in the modal dialog
                 Console.WriteLine("Confirming revoke action...");
                 var confirmButtonXPath = "//input[@value='Revoke case']";
                 BrowserHelper.ClickByXPathWithRetry(confirmButtonXPath);
