@@ -232,11 +232,9 @@ namespace Blaise.Tests.Helpers.Cati.Pages
 
                 Console.WriteLine("Found case in 'Being treated' state. Revoking...");
 
-                // Click the revoke button (identified by title="Revoke this case")
                 var revokeButtonXPath = "//button[@title='Revoke this case']";
                 BrowserHelper.ScrollIntoViewAndClick(By.XPath(revokeButtonXPath));
 
-                // Confirm the revoke in the confirmation dialog
                 Console.WriteLine("Confirming revoke action...");
                 var confirmButtonXPath = "//button[contains(@class, 'e-confirm-dialog') and contains(., 'Yes')]";
                 BrowserHelper.ClickByXPathWithRetry(confirmButtonXPath);
@@ -259,7 +257,7 @@ namespace Blaise.Tests.Helpers.Cati.Pages
 
                 // Confirm the revoke in the modal dialog
                 Console.WriteLine("Confirming revoke action...");
-                var confirmButtonXPath = "//div[contains(@class, 'modal')]//input[@value='Confirm' or @value='Yes' or @value='OK'] | //div[contains(@class, 'modal')]//button[contains(., 'Confirm') or contains(., 'Yes') or contains(., 'OK')]";
+                var confirmButtonXPath = "//input[@value='Revoke case']";
                 BrowserHelper.ClickByXPathWithRetry(confirmButtonXPath);
                 Console.WriteLine("Revoke confirmed successfully.");
             }
