@@ -14,17 +14,17 @@ namespace Blaise.Tests.Helpers.Configuration
             _interviewerPassword = Guid.NewGuid().ToString("N").Substring(0, 8);
         }
 
-        public static string CatiAdminUsername => "DSTAdminUser";
+        public static string CatiAdminUsername => "to-manager-integration-test";
 
         public static string CatiAdminPassword => _adminPassword;
 
-        public static string AdminRole => "DST";
+        public static string AdminRole => "TO Manager";
 
-        public static string CatiInterviewUsername => "DSTTestUser";
+        public static string CatiInterviewUsername => "to-interviewer-integration-test";
 
         public static string CatiInterviewPassword => _interviewerPassword;
 
-        public static string InterviewRole => "DST";
+        public static string InterviewRole => "TO Interviewer";
 
         public static string CatiBaseUrl
         {
