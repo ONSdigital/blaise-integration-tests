@@ -127,6 +127,8 @@ namespace Blaise.Cati.Tests.Behaviour.Steps
             Console.WriteLine("Starting: Create a daybatch for today");
             CatiManagementHelper.GetInstance().ClearDaybatchEntries();
             Console.WriteLine("Cleared existing daybatch entries.");
+            CatiManagementHelper.GetInstance().RevokeBeingTreatedCases();
+            Console.WriteLine("Revoked any being treated cases.");
             CatiManagementHelper.GetInstance().CreateDaybatch();
             Console.WriteLine("Daybatch created successfully.");
         }

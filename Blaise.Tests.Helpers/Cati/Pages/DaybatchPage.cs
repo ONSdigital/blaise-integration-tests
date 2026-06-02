@@ -216,5 +216,58 @@ namespace Blaise.Tests.Helpers.Cati.Pages
                 ClickButtonByXPath(UpdateButtonSelector);
             }
         }
+
+        internal void RevokeBeingTreatedCases()
+        {
+            Console.WriteLine("Checking for cases in 'Being treated' state...");
+
+            if (UseNewSelectors)
+            {
+                var beingTreatedRowXPath = "//table[@id='Daybatch_content_table']//tr[contains(., 'Being treated')]";
+                if (!BrowserHelper.ElementExistsByXPath(beingTreatedRowXPath, TimeSpan.FromSeconds(5)))
+                {
+                    Console.WriteLine("No cases in 'Being treated' state found.");
+                    return;
+                }
+
+                Console.WriteLine("Found case in 'Being treated' state. Revoking...");
+
+                // Scroll to and click the revoke button
+                var revokeButtonId = "qa_revokeuser_0";
+                var tableScrollableContainer = BrowserHelper.FindElement(By.XPath("//*[@id='Daybatch_content_table']/parent::div"));
+                var revokeButton = BrowserHelper.FindElement(By.Id(revokeButtonId));
+                BrowserHelper.ExecuteJavaScript(
+                    "arguments[0].scrollLeft = arguments[1].offsetLeft;",
+                    tableScrollableContainer,
+                    revokeButton);
+                BrowserHelper.ScrollIntoViewAndClickById(revokeButtonId);
+
+                // Confirm the revoke in the confirmation dialog
+                Console.WriteLine("Confirming revoke action...");
+                BrowserHelper.ClickByIdWithRetry("qa_btn_submit");
+                Console.WriteLine("Revoke confirmed successfully.");
+            }
+            else
+            {
+                var beingTreatedXPath = $"//table[@id='MVCGridTable_DaybatchGrid']//tr[contains(., 'Being treated')]";
+                if (!BrowserHelper.ElementExistsByXPath(beingTreatedXPath, TimeSpan.FromSeconds(5)))
+                {
+                    Console.WriteLine("No cases in 'Being treated' state found.");
+                    return;
+                }
+
+                Console.WriteLine("Found case in 'Being treated' state. Revoking...");
+
+                // Click the revoke link in the row
+                var revokeLinkXPath = $"//table[@id='MVCGridTable_DaybatchGrid']//tr[contains(., 'Being treated')]//a[contains(@data-original-title, 'Revoke') or contains(@title, 'Revoke')]";
+                BrowserHelper.ScrollIntoViewAndClick(By.XPath(revokeLinkXPath));
+
+                // Confirm the revoke in the modal dialog
+                Console.WriteLine("Confirming revoke action...");
+                var confirmButtonXPath = "//div[contains(@class, 'modal')]//input[@value='Confirm' or @value='Yes' or @value='OK'] | //div[contains(@class, 'modal')]//button[contains(., 'Confirm') or contains(., 'Yes') or contains(., 'OK')]";
+                BrowserHelper.ClickByXPathWithRetry(confirmButtonXPath);
+                Console.WriteLine("Revoke confirmed successfully.");
+            }
+        }
     }
 }

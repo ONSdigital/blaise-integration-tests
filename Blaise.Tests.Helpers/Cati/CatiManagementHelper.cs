@@ -115,5 +115,15 @@ namespace Blaise.Tests.Helpers.Cati
                 }
             }
         }
+
+        public void RevokeBeingTreatedCases()
+        {
+            Console.WriteLine("Navigating to daybatch page to check for 'Being treated' cases.");
+            var daybatchPage = new DaybatchPage();
+            daybatchPage.NavigateToVersionSpecificPage();
+            daybatchPage.ApplyFilter();
+            daybatchPage.WaitForDaybatchTable();
+            daybatchPage.RevokeBeingTreatedCases();
+        }
     }
 }
