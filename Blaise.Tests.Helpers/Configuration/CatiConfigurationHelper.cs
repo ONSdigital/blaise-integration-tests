@@ -10,8 +10,8 @@ namespace Blaise.Tests.Helpers.Configuration
 
         static CatiConfigurationHelper()
         {
-            _adminPassword = Guid.NewGuid().ToString("N").Substring(0, 8);
-            _interviewerPassword = Guid.NewGuid().ToString("N").Substring(0, 8);
+            _adminPassword = $"T!{Guid.NewGuid():N}".Substring(0, 12);
+            _interviewerPassword = $"T!{Guid.NewGuid():N}".Substring(0, 12);
         }
 
         public static string CatiAdminUsername => "DSTAdminUser";
