@@ -4,6 +4,7 @@ namespace Blaise.Tests.Helpers.Questionnaire
     using System.Threading;
     using Blaise.Nuget.Api.Api;
     using Blaise.Nuget.Api.Contracts.Enums;
+    using Blaise.Nuget.Api.Contracts.Exceptions;
     using Blaise.Nuget.Api.Contracts.Interfaces;
     using Blaise.Nuget.Api.Contracts.Models;
     using StatNeth.Blaise.API.ServerManager;
@@ -235,7 +236,16 @@ namespace Blaise.Tests.Helpers.Questionnaire
                 return;
             }
 
-            var status = GetQuestionnaireStatusSafe(questionnaireName, serverParkName);
+            QuestionnaireStatusType status;
+            try
+            {
+                status = GetQuestionnaireStatusSafe(questionnaireName, serverParkName);
+            }
+            catch (Exception ex) when (ex is DataNotFoundException || ex.InnerException is DataNotFoundException)
+            {
+                Console.WriteLine($"Questionnaire {questionnaireName} disappeared between exists check and status check ({context}). Nothing to do.");
+                return;
+            }
             Console.WriteLine($"Questionnaire {questionnaireName} status {status} ({context}).");
 
             if (status == QuestionnaireStatusType.Installing)
@@ -298,7 +308,15 @@ namespace Blaise.Tests.Helpers.Questionnaire
                     return;
                 }
 
-                lastStatus = GetQuestionnaireStatusSafe(questionnaireName, serverParkName);
+                try
+                {
+                    lastStatus = GetQuestionnaireStatusSafe(questionnaireName, serverParkName);
+                }
+                catch (Exception ex) when (ex is DataNotFoundException || ex.InnerException is DataNotFoundException)
+                {
+                    Console.WriteLine($"Questionnaire {questionnaireName} disappeared between exists check and status check. Treating as removed.");
+                    return;
+                }
                 Console.WriteLine($"Questionnaire {questionnaireName} still exists with status {lastStatus}.");
 
                 if (lastStatus == QuestionnaireStatusType.Erroneous)
