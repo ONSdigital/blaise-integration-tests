@@ -10,6 +10,9 @@ namespace Blaise.Tests.Helpers.Questionnaire
 
     public class QuestionnaireHelper
     {
+        private const int DefaultStatusTimeoutSeconds = 30;
+        private const int PollingIntervalMilliseconds = 1000;
+
         private static QuestionnaireHelper _currentInstance;
 
         private readonly IBlaiseQuestionnaireApi _blaiseQuestionnaireApi;
@@ -31,44 +34,34 @@ namespace Blaise.Tests.Helpers.Questionnaire
 
         public QuestionnaireStatusType GetQuestionnaireStatus(string questionnaireName, string serverParkName)
         {
-            return _blaiseQuestionnaireApi.GetQuestionnaireStatus(questionnaireName, serverParkName);
+            return GetQuestionnaireStatusSafe(questionnaireName, serverParkName);
         }
 
         public void InstallQuestionnaire(string questionnaireName, string serverParkName, string questionnairePath, InstallOptions installOptions)
         {
-            QuestionnaireStatusType status = QuestionnaireStatusType.Other;
+            EnsureQuestionnaireNotInBlockedState(questionnaireName, serverParkName, "before install");
 
             if (CheckQuestionnaireExists(questionnaireName, serverParkName))
             {
-                Console.WriteLine($"Attempting to uninstall questionnaire {questionnaireName} before re-installing...");
-                _blaiseQuestionnaireApi.UninstallQuestionnaire(questionnaireName, serverParkName);
+                Console.WriteLine($"Questionnaire {questionnaireName} already exists. Uninstalling before re-installing...");
+                UninstallQuestionnaire(questionnaireName, serverParkName);
+                WaitForQuestionnaireToDisappear(questionnaireName, serverParkName, DefaultStatusTimeoutSeconds);
             }
 
-            if (CheckQuestionnaireExists(questionnaireName, serverParkName))
-            {
-                status = GetQuestionnaireStatus(questionnaireName, serverParkName);
-                Console.WriteLine($"Questionnaire {questionnaireName} status: {status}");
-            }
-
-            if (status == QuestionnaireStatusType.Installing)
-            {
-                HandleInstallingState(questionnaireName);
-            }
-
-            if (status == QuestionnaireStatusType.Erroneous)
-            {
-                HandleErroneousState(questionnaireName);
-            }
-
-            Console.WriteLine($"Installing questionnaire {questionnaireName}...");
+            Console.WriteLine($"Installing questionnaire {questionnaireName} on server park {serverParkName}...");
             string questionnairePackagePath = QuestionnairePackagePath(questionnairePath, questionnaireName);
-            Console.WriteLine($"questionnairePackagePath: {questionnairePackagePath}");
+            Console.WriteLine($"Questionnaire package path: {questionnairePackagePath}");
             _blaiseQuestionnaireApi.InstallQuestionnaire(
                 questionnaireName,
                 serverParkName,
                 questionnairePackagePath,
                 installOptions);
-            Thread.Sleep(2000);
+
+            WaitForQuestionnaireStatus(
+                questionnaireName,
+                serverParkName,
+                QuestionnaireStatusType.Active,
+                DefaultStatusTimeoutSeconds);
         }
 
         public bool CheckQuestionnaireInstalled(string questionnaireName, string serverParkName, int timeoutInSeconds)
@@ -79,27 +72,17 @@ namespace Blaise.Tests.Helpers.Questionnaire
 
         public void UninstallQuestionnaire(string questionnaireName, string serverParkName)
         {
-            QuestionnaireStatusType status = QuestionnaireStatusType.Other;
-
-            if (CheckQuestionnaireExists(questionnaireName, serverParkName))
+            if (!CheckQuestionnaireExists(questionnaireName, serverParkName))
             {
-                status = GetQuestionnaireStatus(questionnaireName, serverParkName);
-                Console.WriteLine($"Questionnaire {questionnaireName} status: {status}");
+                Console.WriteLine($"Questionnaire {questionnaireName} does not exist on server park {serverParkName}. Nothing to uninstall.");
+                return;
             }
 
-            if (status == QuestionnaireStatusType.Installing)
-            {
-                HandleInstallingState(questionnaireName);
-            }
+            EnsureQuestionnaireNotInBlockedState(questionnaireName, serverParkName, "before uninstall");
 
-            if (status == QuestionnaireStatusType.Erroneous)
-            {
-                HandleErroneousState(questionnaireName);
-            }
-
-            Console.WriteLine($"Uninstalling questionnaire {questionnaireName}...");
+            Console.WriteLine($"Uninstalling questionnaire {questionnaireName} from server park {serverParkName}...");
             _blaiseQuestionnaireApi.UninstallQuestionnaire(questionnaireName, serverParkName);
-            Thread.Sleep(2000);
+            WaitForQuestionnaireToDisappear(questionnaireName, serverParkName, DefaultStatusTimeoutSeconds);
         }
 
         public QuestionnaireConfigurationModel GetQuestionnaireConfigurationModel(string questionnaireName, string serverParkName)
@@ -113,9 +96,11 @@ namespace Blaise.Tests.Helpers.Questionnaire
             {
                 return _blaiseQuestionnaireApi.QuestionnaireExists(questionnaireName, serverParkName);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                return false;
+                throw new Exception(
+                    $"Failed to check if questionnaire {questionnaireName} exists on server park {serverParkName}. Error: {ex.Message}",
+                    ex);
             }
         }
 
@@ -143,7 +128,7 @@ namespace Blaise.Tests.Helpers.Questionnaire
                 return;
             }
 
-            var status = GetQuestionnaireStatus(questionnaireName, serverParkName);
+            var status = GetQuestionnaireStatusSafe(questionnaireName, serverParkName);
 
             if (status == QuestionnaireStatusType.Active)
             {
@@ -152,12 +137,12 @@ namespace Blaise.Tests.Helpers.Questionnaire
 
             if (status == QuestionnaireStatusType.Installing)
             {
-                HandleInstallingState(questionnaireName);
+                HandleInstallingState(questionnaireName, serverParkName);
             }
 
             if (status == QuestionnaireStatusType.Erroneous)
             {
-                HandleErroneousState(questionnaireName);
+                HandleErroneousState(questionnaireName, serverParkName);
             }
 
             Console.WriteLine($"Questionnaire {questionnaireName} is in {status} status. Uninstalling to get clean state...");
@@ -169,7 +154,9 @@ namespace Blaise.Tests.Helpers.Questionnaire
             var counter = 0;
             const int MaxCount = 10;
 
-            while (GetQuestionnaireStatus(questionnaireName, serverParkName) == QuestionnaireStatusType.Installing)
+            var status = GetQuestionnaireStatusSafe(questionnaireName, serverParkName);
+
+            while (status == QuestionnaireStatusType.Installing)
             {
                 Thread.Sleep((timeoutInSeconds * 1000) / MaxCount);
 
@@ -178,9 +165,16 @@ namespace Blaise.Tests.Helpers.Questionnaire
                 {
                     return false;
                 }
+
+                status = GetQuestionnaireStatusSafe(questionnaireName, serverParkName);
             }
 
-            return GetQuestionnaireStatus(questionnaireName, serverParkName) == QuestionnaireStatusType.Active;
+            if (status == QuestionnaireStatusType.Erroneous)
+            {
+                HandleErroneousState(questionnaireName, serverParkName);
+            }
+
+            return status == QuestionnaireStatusType.Active;
         }
 
         private bool CheckQuestionnaireExists(string questionnaireName, string serverParkName, int timeoutInSeconds)
@@ -189,7 +183,7 @@ namespace Blaise.Tests.Helpers.Questionnaire
             var counter = 0;
             const int MaxCount = 10;
 
-            while (!_blaiseQuestionnaireApi.QuestionnaireExists(questionnaireName, serverParkName))
+            while (!QuestionnaireExistsSafe(questionnaireName, serverParkName))
             {
                 Console.WriteLine($"Sleep {counter} for {timeoutInSeconds / MaxCount} seconds...");
                 Thread.Sleep((timeoutInSeconds * 1000) / MaxCount);
@@ -207,8 +201,9 @@ namespace Blaise.Tests.Helpers.Questionnaire
             return true;
         }
 
-        private void HandleErroneousState(string questionnaireName)
+        private void HandleErroneousState(string questionnaireName, string serverParkName)
         {
+            var installDate = TryGetInstallDate(questionnaireName, serverParkName);
             string erroneousAsciiArt = @"
                          ______ _____  _____   ____  _   _ ______ ____  _    _  _____
                         |  ____|  __ \|  __ \ / __ \| \ | |  ____/ __ \| |  | |/ ____|
@@ -218,16 +213,150 @@ namespace Blaise.Tests.Helpers.Questionnaire
                         |______|_|  \_\_|  \_\\____/|_| \_|______\____/ \____/|_____/
                 ";
             string erroneousExceptionMessage = $"{erroneousAsciiArt}\n" +
-                $"Questionnaire {questionnaireName} is erroneous!\n" +
+                $"Questionnaire {questionnaireName} on server park {serverParkName} is erroneous!\n" +
+                $"Install date: {installDate}\n" +
                 "Restart Blaise and uninstall the erroneous questionnaire via Blaise Server Manager";
             throw new Exception(erroneousExceptionMessage);
         }
 
-        private void HandleInstallingState(string questionnaireName)
+        private void HandleInstallingState(string questionnaireName, string serverParkName)
         {
-            string installingExceptionMessage = $"Questionnaire {questionnaireName} is stuck in Installing state\n" +
+            var installDate = TryGetInstallDate(questionnaireName, serverParkName);
+            string installingExceptionMessage = $"Questionnaire {questionnaireName} on server park {serverParkName} is stuck in Installing state\n" +
+                $"Install date: {installDate}\n" +
                 "Restart Blaise and uninstall the questionnaire via Blaise Server Manager";
             throw new Exception(installingExceptionMessage);
+        }
+
+        private void EnsureQuestionnaireNotInBlockedState(string questionnaireName, string serverParkName, string context)
+        {
+            if (!CheckQuestionnaireExists(questionnaireName, serverParkName))
+            {
+                return;
+            }
+
+            var status = GetQuestionnaireStatusSafe(questionnaireName, serverParkName);
+            Console.WriteLine($"Questionnaire {questionnaireName} status {status} ({context}).");
+
+            if (status == QuestionnaireStatusType.Installing)
+            {
+                HandleInstallingState(questionnaireName, serverParkName);
+            }
+
+            if (status == QuestionnaireStatusType.Erroneous)
+            {
+                HandleErroneousState(questionnaireName, serverParkName);
+            }
+        }
+
+        private void WaitForQuestionnaireStatus(string questionnaireName, string serverParkName, QuestionnaireStatusType expectedStatus, int timeoutInSeconds)
+        {
+            var start = DateTime.UtcNow;
+            QuestionnaireStatusType lastStatus = QuestionnaireStatusType.Other;
+
+            while (DateTime.UtcNow - start < TimeSpan.FromSeconds(timeoutInSeconds))
+            {
+                if (!QuestionnaireExistsSafe(questionnaireName, serverParkName))
+                {
+                    lastStatus = QuestionnaireStatusType.Other;
+                }
+                else
+                {
+                    lastStatus = GetQuestionnaireStatusSafe(questionnaireName, serverParkName);
+                }
+
+                Console.WriteLine($"Questionnaire {questionnaireName} status: {lastStatus} (waiting for {expectedStatus})");
+
+                if (lastStatus == QuestionnaireStatusType.Erroneous)
+                {
+                    HandleErroneousState(questionnaireName, serverParkName);
+                }
+
+                if (lastStatus == expectedStatus)
+                {
+                    return;
+                }
+
+                Thread.Sleep(PollingIntervalMilliseconds);
+            }
+
+            throw new Exception(
+                $"Timed out after {timeoutInSeconds}s waiting for questionnaire {questionnaireName} " +
+                $"to reach status {expectedStatus}. Last status: {lastStatus}.");
+        }
+
+        private void WaitForQuestionnaireToDisappear(string questionnaireName, string serverParkName, int timeoutInSeconds)
+        {
+            var start = DateTime.UtcNow;
+            QuestionnaireStatusType lastStatus = QuestionnaireStatusType.Other;
+
+            while (DateTime.UtcNow - start < TimeSpan.FromSeconds(timeoutInSeconds))
+            {
+                if (!QuestionnaireExistsSafe(questionnaireName, serverParkName))
+                {
+                    Console.WriteLine($"Questionnaire {questionnaireName} has been removed from server park {serverParkName}.");
+                    return;
+                }
+
+                lastStatus = GetQuestionnaireStatusSafe(questionnaireName, serverParkName);
+                Console.WriteLine($"Questionnaire {questionnaireName} still exists with status {lastStatus}.");
+
+                if (lastStatus == QuestionnaireStatusType.Erroneous)
+                {
+                    HandleErroneousState(questionnaireName, serverParkName);
+                }
+
+                if (lastStatus == QuestionnaireStatusType.Installing)
+                {
+                    HandleInstallingState(questionnaireName, serverParkName);
+                }
+
+                Thread.Sleep(PollingIntervalMilliseconds);
+            }
+
+            throw new Exception(
+                $"Timed out after {timeoutInSeconds}s waiting for questionnaire {questionnaireName} " +
+                $"to be removed. Last status: {lastStatus}.");
+        }
+
+        private bool QuestionnaireExistsSafe(string questionnaireName, string serverParkName)
+        {
+            try
+            {
+                return _blaiseQuestionnaireApi.QuestionnaireExists(questionnaireName, serverParkName);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(
+                    $"Failed to check if questionnaire {questionnaireName} exists on server park {serverParkName}. Error: {ex.Message}",
+                    ex);
+            }
+        }
+
+        private QuestionnaireStatusType GetQuestionnaireStatusSafe(string questionnaireName, string serverParkName)
+        {
+            try
+            {
+                return _blaiseQuestionnaireApi.GetQuestionnaireStatus(questionnaireName, serverParkName);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(
+                    $"Failed to get status for questionnaire {questionnaireName} on server park {serverParkName}. Error: {ex.Message}",
+                    ex);
+            }
+        }
+
+        private string TryGetInstallDate(string questionnaireName, string serverParkName)
+        {
+            try
+            {
+                return GetQuestionnaireInstallDate(questionnaireName, serverParkName).ToString("O");
+            }
+            catch
+            {
+                return "(unavailable)";
+            }
         }
     }
 }

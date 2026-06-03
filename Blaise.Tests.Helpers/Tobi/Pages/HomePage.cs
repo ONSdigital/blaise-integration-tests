@@ -1,8 +1,10 @@
 namespace Blaise.Tests.Helpers.Tobi.Pages
 {
+    using System;
     using System.Collections.Generic;
     using Blaise.Tests.Helpers.Configuration;
     using Blaise.Tests.Helpers.Framework;
+    using OpenQA.Selenium;
 
     public class HomePage : BasePage
     {
@@ -15,10 +17,24 @@ namespace Blaise.Tests.Helpers.Tobi.Pages
         {
         }
 
+        protected override By PageIdentityBy =>
+            By.XPath($"//*[@id='{SurveyTableId}'] | {NoResultsPath}");
+
         public void ClickQuestionnaireButton()
         {
-            var dstIndex = GetSurveyAcronyms().FindIndex(s => s.Contains("DST")) + 1;
-            var launchQuestionnaireLinkPath = $"{SurveyTablePath}[{dstIndex}]/td[2]/a";
+            var questionnaireName = BlaiseConfigurationHelper.QuestionnaireName;
+            var questionnairePrefix = questionnaireName.Length >= 3
+                ? questionnaireName.Substring(0, 3)
+                : questionnaireName;
+            var surveyAcronyms = GetSurveyAcronyms();
+            var questionnaireIndex = surveyAcronyms.FindIndex(s => s.Contains(questionnairePrefix));
+            if (questionnaireIndex < 0)
+            {
+                throw new Exception($"Survey grouping '{questionnairePrefix}' for questionnaire '{questionnaireName}' not found in survey list. " +
+                    $"Available: {string.Join(", ", surveyAcronyms)}");
+            }
+
+            var launchQuestionnaireLinkPath = $"{SurveyTablePath}[{questionnaireIndex + 1}]/td[2]/a";
             ClickButtonByXPath(launchQuestionnaireLinkPath);
         }
 

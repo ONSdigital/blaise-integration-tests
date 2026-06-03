@@ -9,6 +9,7 @@ namespace Blaise.Tests.Helpers.Cati
     using Blaise.Tests.Helpers.Tobi;
     using Blaise.Tests.Helpers.User;
     using Blaise.Tests.Models.User;
+    using OpenQA.Selenium;
 
     public class CatiManagementHelper
     {
@@ -41,19 +42,21 @@ namespace Blaise.Tests.Helpers.Cati
         {
             Console.WriteLine("Navigating to login page.");
             var loginPage = new LoginPage();
-            loginPage.LoadPage();
+            loginPage.LoadLoginPage();
             Console.WriteLine("Logging in as administrator.");
+            var initialUrl = BrowserHelper.CurrentUrl;
             loginPage.LoginToCati(CatiConfigurationHelper.CatiAdminUsername, CatiConfigurationHelper.CatiAdminPassword);
-            Thread.Sleep(2000);
-            Console.WriteLine("Login process completed.");
+            BrowserHelper.WaitForUrlToChange(initialUrl, 30);
+            Console.WriteLine($"Login process completed. Current URL: {BrowserHelper.CurrentUrl}");
         }
 
         public void LogIntoCatiDashboardAsInterviewer()
         {
             var loginPage = new LoginPage();
-            loginPage.LoadPage();
+            loginPage.LoadLoginPage();
+            var initialUrl = BrowserHelper.CurrentUrl;
             loginPage.LoginToCati(CatiConfigurationHelper.CatiInterviewUsername, CatiConfigurationHelper.CatiInterviewPassword);
-            Thread.Sleep(2000);
+            BrowserHelper.WaitForUrlToChange(initialUrl, 30);
         }
 
         public void CreateDaybatch()
@@ -72,7 +75,7 @@ namespace Blaise.Tests.Helpers.Cati
             var daybatchPage = new DaybatchPage();
             daybatchPage.LoadPage();
             daybatchPage.ApplyFilter();
-            Thread.Sleep(2000);
+            daybatchPage.WaitForDaybatchTable();
             return daybatchPage.GetDaybatchEntriesText();
         }
 
@@ -88,14 +91,39 @@ namespace Blaise.Tests.Helpers.Cati
 
         public void ClearDaybatchEntries()
         {
-            Console.WriteLine("Loading survey page to clear daybatch entries.");
-            var surveyPage = new SurveyPage();
-            surveyPage.LoadPage();
-            Console.WriteLine("Applying filter on survey page.");
-            surveyPage.ApplyFilter();
-            Console.WriteLine("Clearing daybatch entries.");
-            surveyPage.ClearDaybatchEntries();
-            Console.WriteLine("Daybatch entries cleared successfully.");
+            const int maxAttempts = 3;
+            for (var attempt = 1; attempt <= maxAttempts; attempt++)
+            {
+                try
+                {
+                    Console.WriteLine($"Loading survey page to clear daybatch entries (attempt {attempt}/{maxAttempts}).");
+                    var surveyPage = new SurveyPage();
+                    surveyPage.LoadPage();
+                    Console.WriteLine("Applying filter on survey page.");
+                    surveyPage.ApplyFilter();
+                    surveyPage.WaitForSurveyTable();
+                    Console.WriteLine("Clearing daybatch entries.");
+                    surveyPage.ClearDaybatchEntries();
+                    Console.WriteLine("Daybatch entries cleared successfully.");
+                    return;
+                }
+                catch (WebDriverTimeoutException ex) when (attempt < maxAttempts)
+                {
+                    Console.WriteLine($"Attempt {attempt} failed: {ex.Message}");
+                    Console.WriteLine("Retrying after page reload...");
+                    Thread.Sleep(5000);
+                }
+            }
+        }
+
+        public void RevokeBeingTreatedCases()
+        {
+            Console.WriteLine("Navigating to daybatch page to check for 'Being treated' cases.");
+            var daybatchPage = new DaybatchPage();
+            daybatchPage.NavigateToVersionSpecificPage();
+            daybatchPage.ApplyFilter();
+            daybatchPage.WaitForDaybatchTable();
+            daybatchPage.RevokeBeingTreatedCases();
         }
     }
 }

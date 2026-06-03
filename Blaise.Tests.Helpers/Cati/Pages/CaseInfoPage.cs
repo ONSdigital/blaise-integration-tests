@@ -1,11 +1,13 @@
 namespace Blaise.Tests.Helpers.Cati.Pages
 {
     using System;
-    using System.Threading;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Net;
     using Blaise.Tests.Helpers.Browser;
+    using Blaise.Tests.Helpers.Cati;
     using Blaise.Tests.Helpers.Configuration;
     using Blaise.Tests.Helpers.Framework;
-    using NUnit.Framework.Interfaces;
     using OpenQA.Selenium;
 
     public class CaseInfoPage : BasePage
@@ -14,30 +16,20 @@ namespace Blaise.Tests.Helpers.Cati.Pages
         private const string ApplyButton = "//*[contains(text(), 'Apply')]";
         private readonly string _surveyRadioButton = $"//*[normalize-space()='{BlaiseConfigurationHelper.QuestionnaireName}']";
 
+        public CaseInfoPage()
+            : base(CatiConfigurationHelper.CaseInfoUrl)
+        {
+        }
+
+        protected override By PageIdentityBy => UseNewSelectors
+            ? By.XPath("//*[@id='CaseInfo_content_table']")
+            : By.XPath("//*[@id='MVCGridTable_CaseInfoGrid']");
+
         private bool UseNewSelectors
         {
             get
             {
-                try
-                {
-                    return BrowserHelper.ElementExistsByXPath("//i[contains(@class, 'bi-bell-fill')]", TimeSpan.FromSeconds(1));
-                }
-                catch
-                {
-                    return false;
-                }
-            }
-        }
-
-        public void NavigateToVersionSpecificPage()
-        {
-            if (UseNewSelectors)
-            {
-                BrowserHelper.NavigateToPage(CatiConfigurationHelper.NewDashboardCaseInfoUrl);
-            }
-            else
-            {
-                BrowserHelper.NavigateToPage(CatiConfigurationHelper.CaseInfoUrl);
+                return CatiUiVersionHelper.IsNewUi;
             }
         }
 
@@ -50,16 +42,50 @@ namespace Blaise.Tests.Helpers.Cati.Pages
             : "//*[@id='MVCGridTable_CaseInfoGrid']/tbody/tr[1]/td[2]";
 
         private string PlayButtonSelector => UseNewSelectors
-            ? "//*[@id='CaseInfo_content_table']/tbody/tr[1]/td[19]/div/div/a"
+            ? "//*[@id='CaseInfo_content_table']//tr[1]//a[starts-with(@id,'qa_startcase_')]"
             : "//*[@id='MVCGridTable_CaseInfoGrid']/tbody/tr[1]/td[19]/a/span";
 
-        public CaseInfoPage()
-            : base(CatiConfigurationHelper.CaseInfoUrl)
+        private string _targetCaseId;
+
+        private string PlayButtonSelectorForCase(string caseId)
         {
+            if (UseNewSelectors)
+            {
+                return $"//*[@id='CaseInfo_content_table']//tr[td[contains(., '{caseId}')]]//a[starts-with(@id,'qa_startcase_')]";
+            }
+
+            return $"//*[@id='MVCGridTable_CaseInfoGrid']/tbody/tr[td[contains(., '{caseId}')]]/td[19]/a/span";
+        }
+
+        public void NavigateToVersionSpecificPage()
+        {
+            var newUrl = CatiConfigurationHelper.NewDashboardCaseInfoUrl;
+            var oldUrl = CatiConfigurationHelper.CaseInfoUrl;
+            var preferNew = UseNewSelectors;
+
+            BrowserHelper.NavigateToPage(preferNew ? newUrl : oldUrl);
+
+            if (preferNew)
+            {
+                if (!IsCaseInfoGridLoaded(true) && IsCaseInfoGridLoaded(false))
+                {
+                    Console.WriteLine("New Case Info grid not detected. Falling back to legacy URL.");
+                    BrowserHelper.NavigateToPage(oldUrl);
+                }
+            }
+            else
+            {
+                if (!IsCaseInfoGridLoaded(false) && IsCaseInfoGridLoaded(true))
+                {
+                    Console.WriteLine("Legacy Case Info grid not detected. Falling back to new dashboard URL.");
+                    BrowserHelper.NavigateToPage(newUrl);
+                }
+            }
         }
 
         public void RefreshPageUntilCaseIsPlayable(string caseId)
         {
+            _targetCaseId = caseId;
             var attempts = 0;
             do
             {
@@ -71,26 +97,29 @@ namespace Blaise.Tests.Helpers.Cati.Pages
                     BrowserHelper.WaitUntilGridHasLoadedData();
                 }
 
-                WaitUntilFirstCaseQuestionnaireIs(BlaiseConfigurationHelper.QuestionnaireName);
-                WaitUntilFirstCaseIs(caseId);
+                WaitUntilCaseIsVisible(caseId);
 
-                Console.WriteLine($"Attempt {attempts + 1}: Checking if play button is playable...");
+                var casePlayButton = PlayButtonSelectorForCase(caseId);
+                Console.WriteLine($"Attempt {attempts + 1}: Checking if play button is playable for case '{caseId}'...");
                 Console.WriteLine($"UseNewSelectors: {UseNewSelectors}");
-                Console.WriteLine($"Play button visible: {ElementIsDisplayed(By.XPath(PlayButtonSelector))}");
+                Console.WriteLine($"Play button visible: {ElementIsDisplayed(By.XPath(casePlayButton))}");
 
                 attempts++;
                 if (attempts > 5)
                 {
-                    throw new Exception("Giving up after 5 attempts waiting for play button");
+                    throw new Exception($"Giving up after 5 attempts waiting for play button for case '{caseId}'");
                 }
             }
-            while (!FirstCaseIsPlayable());
+            while (!CaseIsPlayable(caseId));
         }
 
         public void ClickPlayButton()
         {
             var numberOfWindows = BrowserHelper.GetNumberOfWindows();
             var attempts = 0;
+            var playButtonXPath = string.IsNullOrEmpty(_targetCaseId)
+                ? PlayButtonSelector
+                : PlayButtonSelectorForCase(_targetCaseId);
 
             while (BrowserHelper.GetNumberOfWindows() == numberOfWindows)
             {
@@ -98,28 +127,44 @@ namespace Blaise.Tests.Helpers.Cati.Pages
                 {
                     if (UseNewSelectors)
                     {
-                        // Locate the table's scrollable container
                         var tableScrollableContainer = BrowserHelper.FindElement(By.XPath("//*[@id='CaseInfo_content_table']/parent::div"));
 
-                        // Locate the Play button
-                        var playButton = BrowserHelper.FindElement(By.XPath(PlayButtonSelector));
+                        var playButton = BrowserHelper.FindElements(By.XPath(playButtonXPath))
+                            .FirstOrDefault();
+                        if (playButton == null)
+                        {
+                            throw new Exception($"Play button not found for case '{_targetCaseId}'.");
+                        }
 
-                        // Scroll the table horizontally to bring the Play button into view
+                        var startSurveyUrl = GetStartSurveyUrl(playButton);
+                        if (!string.IsNullOrWhiteSpace(startSurveyUrl))
+                        {
+                            Console.WriteLine($"Opening start survey URL: {startSurveyUrl}");
+                            BrowserHelper.ExecuteJavaScript("window.open(arguments[0], '_blank');", startSurveyUrl);
+                            BrowserHelper.WaitForWindowCount(numberOfWindows + 1, 10);
+                            return;
+                        }
+
                         BrowserHelper.ExecuteJavaScript(
                             "arguments[0].scrollLeft = arguments[1].offsetLeft;",
                             tableScrollableContainer,
-                            playButton
-                        );
+                            playButton);
 
-                        // Click the Play button
-                        BrowserHelper.ScrollIntoViewAndClick(By.XPath(PlayButtonSelector));
+                        try
+                        {
+                            playButton.Click();
+                        }
+                        catch (Exception)
+                        {
+                            BrowserHelper.ExecuteJavaScript("arguments[0].click();", playButton);
+                        }
                     }
                     else
                     {
-                        BrowserHelper.ClickByXPathWithJavaScriptWithRetry(PlayButtonSelector);
+                        BrowserHelper.ClickByXPathWithJavaScriptWithRetry(playButtonXPath);
                     }
 
-                    Thread.Sleep(250);
+                    BrowserHelper.WaitForWindowCount(numberOfWindows + 1, 10);
                 }
                 catch (Exception ex)
                 {
@@ -138,11 +183,8 @@ namespace Blaise.Tests.Helpers.Cati.Pages
         {
             if (UseNewSelectors)
             {
-                ClickButtonByXPath("//div[contains(@class, 'e-filtermenudiv')]");
-                PopulateInputById("CaseInfo_SearchBox", "DST2304Z");
-                ClickButtonById("qa_instrument_excelDlg");
-
-                Thread.Sleep(1000);
+                ResetCaseInfoGridHorizontalScroll();
+                SyncfusionGridFilterHelper.ApplyNewUiFilterWithRetry(BlaiseConfigurationHelper.QuestionnaireName);
             }
             else
             {
@@ -153,21 +195,40 @@ namespace Blaise.Tests.Helpers.Cati.Pages
                     ClickButtonByXPath(_surveyRadioButton);
                     ClickButtonByXPath(ApplyButton);
                 }
+
                 ClickButtonByXPath(FilterButton);
             }
         }
 
         public bool FirstCaseIsPlayable()
         {
+            return CaseIsPlayable(null);
+        }
+
+        public bool CaseIsPlayable(string caseId)
+        {
             try
             {
-                var isDisplayed = UseNewSelectors
-                    ? ElementIsDisplayed(By.XPath(PlayButtonSelector))
-                    : ElementIsDisplayed(By.XPath(PlayButtonSelector));
+                var selector = string.IsNullOrEmpty(caseId)
+                    ? PlayButtonSelector
+                    : PlayButtonSelectorForCase(caseId);
 
+                if (UseNewSelectors)
+                {
+                    if (!BrowserHelper.ElementExistsByXPath(selector, TimeSpan.FromSeconds(2)))
+                    {
+                        return false;
+                    }
+
+                    var playButton = BrowserHelper.FindElements(By.XPath(selector))
+                        .FirstOrDefault();
+                    return playButton != null && playButton.Enabled;
+                }
+
+                var isDisplayed = ElementIsDisplayed(By.XPath(selector));
                 if (isDisplayed)
                 {
-                    var playButton = BrowserHelper.FindElement(By.XPath(PlayButtonSelector));
+                    var playButton = BrowserHelper.FindElement(By.XPath(selector));
                     return playButton.Enabled && playButton.Displayed;
                 }
 
@@ -182,9 +243,109 @@ namespace Blaise.Tests.Helpers.Cati.Pages
 
         protected override Func<IWebDriver, bool> PageHasLoaded()
         {
-            return UseNewSelectors
-                ? BodyDoesNotContainText("No records to display")
-                : BodyContainsText("Showing");
+            var baseLoaded = base.PageHasLoaded();
+            return driver => baseLoaded(driver) &&
+                (UseNewSelectors
+                    ? BodyDoesNotContainText("No records to display")(driver)
+                    : BodyContainsText("Showing")(driver));
+        }
+
+        private static bool IsStartSurveyUrl(string candidate)
+        {
+            return candidate.IndexOf("/CaseInfo/StartSurvey", StringComparison.OrdinalIgnoreCase) >= 0;
+        }
+
+        private static string NormalizeStartSurveyUrl(string startSurveyUrl)
+        {
+            if (string.IsNullOrWhiteSpace(startSurveyUrl))
+            {
+                return startSurveyUrl;
+            }
+
+            if (!Uri.TryCreate(startSurveyUrl, UriKind.Absolute, out var uri))
+            {
+                if (!Uri.TryCreate(new Uri(CatiConfigurationHelper.CatiBaseUrl), startSurveyUrl, out uri))
+                {
+                    return startSurveyUrl;
+                }
+            }
+
+            var query = uri.Query;
+            if (string.IsNullOrWhiteSpace(query))
+            {
+                return uri.ToString();
+            }
+
+            var updatedPairs = new List<string>();
+            var updated = false;
+            foreach (var rawPair in query.TrimStart('?').Split('&'))
+            {
+                if (string.IsNullOrWhiteSpace(rawPair))
+                {
+                    continue;
+                }
+
+                var parts = rawPair.Split(new[] { '=' }, 2);
+                var key = WebUtility.UrlDecode(parts[0] ?? string.Empty);
+                var value = parts.Length > 1 ? WebUtility.UrlDecode(parts[1] ?? string.Empty) : string.Empty;
+
+                if (string.Equals(key, "url", StringComparison.OrdinalIgnoreCase) &&
+                    !string.IsNullOrWhiteSpace(value) &&
+                    !value.EndsWith("/", StringComparison.Ordinal))
+                {
+                    value = $"{value}/";
+                    updated = true;
+                }
+
+                var encodedKey = WebUtility.UrlEncode(key);
+                var encodedValue = WebUtility.UrlEncode(value);
+                updatedPairs.Add($"{encodedKey}={encodedValue}");
+            }
+
+            if (!updated)
+            {
+                return uri.ToString();
+            }
+
+            var builder = new UriBuilder(uri)
+            {
+                Query = string.Join("&", updatedPairs),
+            };
+
+            return builder.Uri.ToString();
+        }
+
+        private string GetStartSurveyUrl(IWebElement playButton)
+        {
+            var attributeCandidates = new[] { "href", "data-url", "data-start-url", "data-href" };
+            foreach (var attribute in attributeCandidates)
+            {
+                var value = playButton.GetAttribute(attribute);
+                if (string.IsNullOrWhiteSpace(value))
+                {
+                    continue;
+                }
+
+                if (!IsStartSurveyUrl(value))
+                {
+                    continue;
+                }
+
+                return NormalizeStartSurveyUrl(value);
+            }
+
+            return null;
+        }
+
+        private void WaitUntilCaseIsVisible(string caseId)
+        {
+            var rowXPath = UseNewSelectors
+                ? $"//*[@id='CaseInfo_content_table']//tr[td[contains(., '{caseId}')]]"
+                : $"//*[@id='MVCGridTable_CaseInfoGrid']/tbody/tr[td[contains(., '{caseId}')]]";
+
+            BrowserHelper
+                .Wait($"Timed out waiting for case '{caseId}' to appear in grid")
+                .Until(d => d.FindElements(By.XPath(rowXPath)).Count > 0);
         }
 
         private void WaitUntilFirstCaseQuestionnaireIs(string questionnaire)
@@ -203,6 +364,27 @@ namespace Blaise.Tests.Helpers.Cati.Pages
                 : "//*[@id='MVCGridTable_CaseInfoGrid']/tbody/tr[1]/td[2]";
 
             WaitUntilElementByXPathContainsText(path, caseId);
+        }
+
+        private bool IsCaseInfoGridLoaded(bool isNewUi)
+        {
+            var selector = isNewUi
+                ? "//*[@id='CaseInfo_content_table']"
+                : "//*[@id='MVCGridTable_CaseInfoGrid']";
+            return BrowserHelper.ElementExistsByXPath(selector, TimeSpan.FromSeconds(5));
+        }
+
+        private void ResetCaseInfoGridHorizontalScroll()
+        {
+            try
+            {
+                var tableScrollableContainer = BrowserHelper.FindElement(By.XPath("//*[@id='CaseInfo_content_table']/parent::div"));
+                BrowserHelper.ExecuteJavaScript("arguments[0].scrollLeft = 0;", tableScrollableContainer);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Unable to reset CaseInfo grid horizontal scroll: {ex.Message}");
+            }
         }
     }
 }

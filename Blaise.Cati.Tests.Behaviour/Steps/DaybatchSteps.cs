@@ -3,10 +3,10 @@ namespace Blaise.Cati.Tests.Behaviour.Steps
     using System;
     using System.Collections.Generic;
     using Blaise.Tests.Helpers.Cati;
+    using Blaise.Tests.Helpers.Cati.Pages;
     using Blaise.Tests.Models.Case;
     using NUnit.Framework;
     using Reqnroll;
-    using Blaise.Tests.Helpers.Cati.Pages;
 
     [Binding]
     public sealed class DaybatchSteps

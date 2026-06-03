@@ -1,11 +1,8 @@
-using System;
-using Blaise.Tests.Helpers.Browser;
-
 namespace Blaise.Tests.Helpers.Cati.Pages
 {
     using System;
-    using System.Threading;
     using Blaise.Tests.Helpers.Browser;
+    using Blaise.Tests.Helpers.Cati;
     using Blaise.Tests.Helpers.Configuration;
     using Blaise.Tests.Helpers.Framework;
     using OpenQA.Selenium;
@@ -16,19 +13,13 @@ namespace Blaise.Tests.Helpers.Cati.Pages
         private const string QuestionnaireDropDownId = "InstrumentId";
         private const string FilterButton = "//*[contains(text(), 'Filters')]";
         private const string ApplyButton = "//*[contains(text(), 'Apply')]";
+        private readonly string _surveyRadioButton = $"//*[normalize-space()='{BlaiseConfigurationHelper.QuestionnaireName}']";
 
         private bool UseNewSelectors
         {
             get
             {
-                try
-                {
-                    return BrowserHelper.ElementExistsByXPath("//i[contains(@class, 'bi-bell-fill')]", TimeSpan.FromSeconds(1));
-                }
-                catch
-                {
-                    return false;
-                }
+                return CatiUiVersionHelper.IsNewUi;
             }
         }
 
@@ -56,16 +47,18 @@ namespace Blaise.Tests.Helpers.Cati.Pages
             ? "qa_editrecord_0"
             : $"//table[@id='MVCGridTable_DaybatchGrid']//td[preceding-sibling::td='{BlaiseConfigurationHelper.QuestionnaireName}']/a";
 
-        private string DayBatchTableSelector => UseNewSelectors
+        private string DaybatchTableSelector => UseNewSelectors
             ? "//*[@id='Daybatch_content_table']"
             : "//*[@id='MVCGridTable_DaybatchGrid']";
-
-        private readonly string _surveyRadioButton = $"//*[normalize-space()='{BlaiseConfigurationHelper.QuestionnaireName}']";
 
         public DaybatchPage()
             : base(CatiConfigurationHelper.DaybatchUrl)
         {
         }
+
+        public bool IsUsingNewSelectors => UseNewSelectors;
+
+        protected override By PageIdentityBy => By.XPath(DaybatchTableSelector);
 
         public void CreateDaybatch()
         {
@@ -91,10 +84,7 @@ namespace Blaise.Tests.Helpers.Cati.Pages
         {
             if (UseNewSelectors)
             {
-                ClickButtonByXPath("//div[contains(@class, 'e-filtermenudiv')]");
-                PopulateInputById("Daybatch_SearchBox", "DST2304Z");
-                ClickButtonById("qa_instrumentid_excelDlg");
-                Thread.Sleep(1000);
+                SyncfusionGridFilterHelper.ApplyNewUiFilterWithRetry(BlaiseConfigurationHelper.QuestionnaireName);
             }
             else
             {
@@ -105,56 +95,17 @@ namespace Blaise.Tests.Helpers.Cati.Pages
                     ClickButtonByXPath(_surveyRadioButton);
                     ClickButtonByXPath(ApplyButton);
                 }
+
                 ClickButtonByXPath(FilterButton);
             }
         }
 
-        internal void ModifyDaybatchEntry()
+        public void WaitForDaybatchTable()
         {
+            BrowserHelper.WaitForElementByXPath(DaybatchTableSelector);
             if (UseNewSelectors)
             {
-                // Locate the table's scrollable container
-                var tableScrollableContainer = BrowserHelper.FindElement(By.XPath("//*[@id='Daybatch_content_table']/parent::div"));
-
-                // Locate the Modify Entry button
-                var modifyEntryButton = BrowserHelper.FindElement(By.Id("qa_editrecord_0"));
-
-                // Scroll the table horizontally to bring the Modify Entry button into view
-                BrowserHelper.ExecuteJavaScript(
-                    "arguments[0].scrollLeft = arguments[1].offsetLeft;",
-                    tableScrollableContainer,
-                    modifyEntryButton
-                );
-
-                // Click the Modify Entry button
-                BrowserHelper.ScrollIntoViewAndClickById("qa_editrecord_0");
-
-                // Set start time in the modal
-                PopulateInputById("qa_starttime", ""); // Clear the input field first
-                PopulateInputById("qa_starttime", "12:00 AM");
-
-                // Set end time in the modal
-                PopulateInputById("qa_endtime", ""); // Clear the input field first
-                PopulateInputById("qa_endtime", "11:59 PM");
-
-                // Click the update button
-                ClickButtonById("qa_btn_submit");
-            }
-            else
-            {
-                ClickButtonByXPath(ModifyEntrySelector);
-
-                PopulateInputById(StartTimeId, "12:00 AM");
-                PopulateInputById(EndTimeId, "11:59 PM");
-
-                if (UseNewSelectors)
-                {
-                    ClickButtonById(UpdateButtonSelector);
-                }
-                else
-                {
-                    ClickButtonByXPath(UpdateButtonSelector);
-                }
+                BrowserHelper.WaitUntilGridHasLoadedData();
             }
         }
 
@@ -177,34 +128,31 @@ namespace Blaise.Tests.Helpers.Cati.Pages
                         BrowserHelper.NavigateToPage(CatiConfigurationHelper.DaybatchUrl);
                     }
 
-                    // Log the current URL after navigation
+                    BrowserHelper.WaitForUrlToMatch(
+                        UseNewSelectors ? CatiConfigurationHelper.NewDashboardDaybatchUrl : CatiConfigurationHelper.DaybatchUrl,
+                        10);
+
                     var currentUrl = BrowserHelper.GetCurrentUrl();
                     Console.WriteLine($"Attempt {attempt + 1}: Navigated to URL: {currentUrl}");
 
-                    // Check if stuck on the Surveys page
                     if (currentUrl.Contains("Survey"))
                     {
                         Console.WriteLine("Redirected to the survey page. Attempting to navigate back to the Daybatch page...");
 
-                        // Force navigation back to the Daybatch page
                         BrowserHelper.NavigateToPage(UseNewSelectors
                             ? CatiConfigurationHelper.NewDashboardDaybatchUrl
                             : CatiConfigurationHelper.DaybatchUrl);
-
-                        Thread.Sleep(2000); // Wait before retrying
                         continue;
                     }
 
-                    // Validate the current URL explicitly
                     if (currentUrl.Contains("Daybatch"))
                     {
                         Console.WriteLine("Successfully navigated to the Daybatch page.");
 
-                        // Wait for the Daybatch table to load
-                        if (BrowserHelper.ElementExistsByXPath(DayBatchTableSelector, TimeSpan.FromSeconds(30)))
+                        if (BrowserHelper.ElementExistsByXPath(DaybatchTableSelector, TimeSpan.FromSeconds(30)))
                         {
                             Console.WriteLine("Daybatch table loaded successfully.");
-                            return; // Successfully navigated and table loaded
+                            return;
                         }
 
                         Console.WriteLine("Daybatch table did not load. Retrying...");
@@ -218,14 +166,86 @@ namespace Blaise.Tests.Helpers.Cati.Pages
                 {
                     Console.WriteLine($"Error during navigation attempt {attempt + 1}: {ex.Message}");
                 }
-
-                Thread.Sleep(2000); // Wait before retrying
             }
 
             throw new Exception("Failed to navigate to the Daybatch page after multiple attempts. Ensure the URL and page structure are correct.");
         }
 
-        // Added a public property to expose the UseNewSelectors logic
-        public bool IsUsingNewSelectors => UseNewSelectors;
+        internal void ModifyDaybatchEntry()
+        {
+            if (UseNewSelectors)
+            {
+                var tableScrollableContainer = BrowserHelper.FindElement(By.XPath("//*[@id='Daybatch_content_table']/parent::div"));
+                var modifyEntryButton = BrowserHelper.FindElement(By.Id("qa_editrecord_0"));
+
+                BrowserHelper.ExecuteJavaScript(
+                    "arguments[0].scrollLeft = arguments[1].offsetLeft;",
+                    tableScrollableContainer,
+                    modifyEntryButton);
+
+                BrowserHelper.ScrollIntoViewAndClickById("qa_editrecord_0");
+
+                PopulateInputById("qa_starttime", string.Empty);
+                PopulateInputById("qa_starttime", "12:00 AM");
+
+                PopulateInputById("qa_endtime", string.Empty);
+                PopulateInputById("qa_endtime", "11:59 PM");
+
+                ClickButtonById("qa_btn_submit");
+            }
+            else
+            {
+                BrowserHelper.ScrollIntoViewAndClick(By.XPath(ModifyEntrySelector));
+
+                PopulateInputById(StartTimeId, "12:00 AM");
+                PopulateInputById(EndTimeId, "11:59 PM");
+
+                ClickButtonByXPath(UpdateButtonSelector);
+            }
+        }
+
+        internal void RevokeBeingTreatedCases()
+        {
+            Console.WriteLine("Checking for cases in 'Being treated' state...");
+
+            if (UseNewSelectors)
+            {
+                var beingTreatedRowXPath = "//table[@id='Daybatch_content_table']//tr[contains(., 'Being treated')]";
+                if (!BrowserHelper.ElementExistsByXPath(beingTreatedRowXPath, TimeSpan.FromSeconds(5)))
+                {
+                    Console.WriteLine("No cases in 'Being treated' state found.");
+                    return;
+                }
+
+                Console.WriteLine("Found case in 'Being treated' state. Revoking...");
+
+                var revokeButtonXPath = "//button[@title='Revoke this case']";
+                BrowserHelper.ScrollIntoViewAndClick(By.XPath(revokeButtonXPath));
+
+                Console.WriteLine("Confirming revoke action...");
+                var confirmButtonXPath = "//button[contains(@class, 'e-confirm-dialog') and contains(., 'Yes')]";
+                BrowserHelper.ClickByXPathWithRetry(confirmButtonXPath);
+                Console.WriteLine("Revoke confirmed successfully.");
+            }
+            else
+            {
+                var beingTreatedXPath = $"//table[@id='MVCGridTable_DaybatchGrid']//tr[contains(., 'Being treated')]";
+                if (!BrowserHelper.ElementExistsByXPath(beingTreatedXPath, TimeSpan.FromSeconds(5)))
+                {
+                    Console.WriteLine("No cases in 'Being treated' state found.");
+                    return;
+                }
+
+                Console.WriteLine("Found case in 'Being treated' state. Revoking...");
+
+                var revokeLinkXPath = $"//table[@id='MVCGridTable_DaybatchGrid']//tr[contains(., 'Being treated')]//a[contains(@data-original-title, 'Revoke') or contains(@title, 'Revoke')]";
+                BrowserHelper.ScrollIntoViewAndClick(By.XPath(revokeLinkXPath));
+
+                Console.WriteLine("Confirming revoke action...");
+                var confirmButtonXPath = "//input[@value='Revoke case']";
+                BrowserHelper.ClickByXPathWithRetry(confirmButtonXPath);
+                Console.WriteLine("Revoke confirmed successfully.");
+            }
+        }
     }
 }
