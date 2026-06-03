@@ -45,6 +45,18 @@ namespace Blaise.Tests.Helpers.Cati.Pages
             ? "//*[@id='CaseInfo_content_table']//tr[1]//a[starts-with(@id,'qa_startcase_')]"
             : "//*[@id='MVCGridTable_CaseInfoGrid']/tbody/tr[1]/td[19]/a/span";
 
+        private string _targetCaseId;
+
+        private string PlayButtonSelectorForCase(string caseId)
+        {
+            if (UseNewSelectors)
+            {
+                return $"//*[@id='CaseInfo_content_table']//tr[td[contains(., '{caseId}')]]//a[starts-with(@id,'qa_startcase_')]";
+            }
+
+            return $"//*[@id='MVCGridTable_CaseInfoGrid']/tbody/tr[td[contains(., '{caseId}')]]/td[19]/a/span";
+        }
+
         public void NavigateToVersionSpecificPage()
         {
             var newUrl = CatiConfigurationHelper.NewDashboardCaseInfoUrl;
@@ -73,6 +85,7 @@ namespace Blaise.Tests.Helpers.Cati.Pages
 
         public void RefreshPageUntilCaseIsPlayable(string caseId)
         {
+            _targetCaseId = caseId;
             var attempts = 0;
             do
             {
@@ -84,26 +97,29 @@ namespace Blaise.Tests.Helpers.Cati.Pages
                     BrowserHelper.WaitUntilGridHasLoadedData();
                 }
 
-                WaitUntilFirstCaseQuestionnaireIs(BlaiseConfigurationHelper.QuestionnaireName);
-                WaitUntilFirstCaseIs(caseId);
+                WaitUntilCaseIsVisible(caseId);
 
-                Console.WriteLine($"Attempt {attempts + 1}: Checking if play button is playable...");
+                var casePlayButton = PlayButtonSelectorForCase(caseId);
+                Console.WriteLine($"Attempt {attempts + 1}: Checking if play button is playable for case '{caseId}'...");
                 Console.WriteLine($"UseNewSelectors: {UseNewSelectors}");
-                Console.WriteLine($"Play button visible: {ElementIsDisplayed(By.XPath(PlayButtonSelector))}");
+                Console.WriteLine($"Play button visible: {ElementIsDisplayed(By.XPath(casePlayButton))}");
 
                 attempts++;
                 if (attempts > 5)
                 {
-                    throw new Exception("Giving up after 5 attempts waiting for play button");
+                    throw new Exception($"Giving up after 5 attempts waiting for play button for case '{caseId}'");
                 }
             }
-            while (!FirstCaseIsPlayable());
+            while (!CaseIsPlayable(caseId));
         }
 
         public void ClickPlayButton()
         {
             var numberOfWindows = BrowserHelper.GetNumberOfWindows();
             var attempts = 0;
+            var playButtonXPath = string.IsNullOrEmpty(_targetCaseId)
+                ? PlayButtonSelector
+                : PlayButtonSelectorForCase(_targetCaseId);
 
             while (BrowserHelper.GetNumberOfWindows() == numberOfWindows)
             {
@@ -113,11 +129,11 @@ namespace Blaise.Tests.Helpers.Cati.Pages
                     {
                         var tableScrollableContainer = BrowserHelper.FindElement(By.XPath("//*[@id='CaseInfo_content_table']/parent::div"));
 
-                        var playButton = BrowserHelper.FindElements(By.XPath(PlayButtonSelector))
+                        var playButton = BrowserHelper.FindElements(By.XPath(playButtonXPath))
                             .FirstOrDefault();
                         if (playButton == null)
                         {
-                            throw new Exception("Play button not found in the first row.");
+                            throw new Exception($"Play button not found for case '{_targetCaseId}'.");
                         }
 
                         var startSurveyUrl = GetStartSurveyUrl(playButton);
@@ -145,7 +161,7 @@ namespace Blaise.Tests.Helpers.Cati.Pages
                     }
                     else
                     {
-                        BrowserHelper.ClickByXPathWithJavaScriptWithRetry(PlayButtonSelector);
+                        BrowserHelper.ClickByXPathWithJavaScriptWithRetry(playButtonXPath);
                     }
 
                     BrowserHelper.WaitForWindowCount(numberOfWindows + 1, 10);
@@ -186,24 +202,33 @@ namespace Blaise.Tests.Helpers.Cati.Pages
 
         public bool FirstCaseIsPlayable()
         {
+            return CaseIsPlayable(null);
+        }
+
+        public bool CaseIsPlayable(string caseId)
+        {
             try
             {
+                var selector = string.IsNullOrEmpty(caseId)
+                    ? PlayButtonSelector
+                    : PlayButtonSelectorForCase(caseId);
+
                 if (UseNewSelectors)
                 {
-                    if (!BrowserHelper.ElementExistsByXPath(PlayButtonSelector, TimeSpan.FromSeconds(2)))
+                    if (!BrowserHelper.ElementExistsByXPath(selector, TimeSpan.FromSeconds(2)))
                     {
                         return false;
                     }
 
-                    var playButton = BrowserHelper.FindElements(By.XPath(PlayButtonSelector))
+                    var playButton = BrowserHelper.FindElements(By.XPath(selector))
                         .FirstOrDefault();
                     return playButton != null && playButton.Enabled;
                 }
 
-                var isDisplayed = ElementIsDisplayed(By.XPath(PlayButtonSelector));
+                var isDisplayed = ElementIsDisplayed(By.XPath(selector));
                 if (isDisplayed)
                 {
-                    var playButton = BrowserHelper.FindElement(By.XPath(PlayButtonSelector));
+                    var playButton = BrowserHelper.FindElement(By.XPath(selector));
                     return playButton.Enabled && playButton.Displayed;
                 }
 
@@ -310,6 +335,17 @@ namespace Blaise.Tests.Helpers.Cati.Pages
             }
 
             return null;
+        }
+
+        private void WaitUntilCaseIsVisible(string caseId)
+        {
+            var rowXPath = UseNewSelectors
+                ? $"//*[@id='CaseInfo_content_table']//tr[td[contains(., '{caseId}')]]"
+                : $"//*[@id='MVCGridTable_CaseInfoGrid']/tbody/tr[td[contains(., '{caseId}')]]";
+
+            BrowserHelper
+                .Wait($"Timed out waiting for case '{caseId}' to appear in grid")
+                .Until(d => d.FindElements(By.XPath(rowXPath)).Count > 0);
         }
 
         private void WaitUntilFirstCaseQuestionnaireIs(string questionnaire)
