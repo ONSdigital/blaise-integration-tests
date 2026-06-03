@@ -1,7 +1,6 @@
 namespace Blaise.Dqs.Tests.Behaviour.Steps
 {
     using System;
-    using System.Threading;
     using Blaise.Tests.Helpers.Browser;
     using Blaise.Tests.Helpers.Case;
     using Blaise.Tests.Helpers.Configuration;
@@ -65,23 +64,24 @@ namespace Blaise.Dqs.Tests.Behaviour.Steps
         {
             DqsHelper.GetInstance().SelectNoToStartDate();
             DqsHelper.GetInstance().ConfirmQuestionnaireUpload();
+            DqsHelper.GetInstance().SkipTmReleaseDateIfPresent();
         }
 
         [When(@"I set a TO start date for today")]
         public void WhenISetAToStartDateForToday()
         {
-            var today = DateTime.Now.ToString("dd/MM/yyyy");
+            var today = DateTime.Now.ToString("yyyy-MM-dd");
             DqsHelper.GetInstance().SelectYesLiveDate();
             DqsHelper.GetInstance().SetLiveDate(today);
-            Thread.Sleep(5000);
             DqsHelper.GetInstance().ConfirmQuestionnaireUpload();
+            DqsHelper.GetInstance().SkipTmReleaseDateIfPresent();
         }
 
         [When(@"the deployment summary confirms the TO start date for today")]
         public void WhenTheDeploymentSummaryConfirmsTheToStartDateForToday()
         {
             var today = DateTime.Now.ToString("dd/MM/yyyy");
-            var expectedSummary = $"Start date set to {today}";
+            var expectedSummary = today;
             var actualSummary = DqsHelper.GetInstance().GetToStartDateSummaryText();
 
             Assert.That(
@@ -93,7 +93,7 @@ namespace Blaise.Dqs.Tests.Behaviour.Steps
         [When(@"the deployment summary confirms no TO start date")]
         public void WhenTheDeploymentSummaryConfirmsNoToStartDate()
         {
-            var expectedSummary = "Start date not specified";
+            var expectedSummary = "Not specified";
             var actualSummary = DqsHelper.GetInstance().GetToStartDateSummaryText();
 
             Assert.That(

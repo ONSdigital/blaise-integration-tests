@@ -27,10 +27,10 @@ namespace Blaise.Dqs.Tests.Behaviour.Steps
         public void GivenTheQuestionnaireHasAStartDateOf(string date)
         {
             DqsHelper.GetInstance().ClickQuestionnaireInfoButton(BlaiseConfigurationHelper.QuestionnaireName);
-            var toStartDate = DateTime.Now.ToString("dd/MM/yyyy");
+            var toStartDate = DateTime.Now.ToString("yyyy-MM-dd");
             if (date == "tomorrow")
             {
-                toStartDate = DateTime.Now.AddDays(1).ToString("dd/MM/yyyy");
+                toStartDate = DateTime.Now.AddDays(1).ToString("yyyy-MM-dd");
             }
 
             DqsHelper.GetInstance().ClickAddStartDate();
@@ -42,10 +42,10 @@ namespace Blaise.Dqs.Tests.Behaviour.Steps
         [When(@"I add a TO start date of '(.*)'")]
         public void WhenIAddAToStartDateOf(string date)
         {
-            var toStartDate = DateTime.Now.ToString("dd/MM/yyyy");
+            var toStartDate = DateTime.Now.ToString("yyyy-MM-dd");
             if (date == "tomorrow")
             {
-                toStartDate = DateTime.Now.AddDays(1).ToString("dd/MM/yyyy");
+                toStartDate = DateTime.Now.AddDays(1).ToString("yyyy-MM-dd");
             }
 
             DqsHelper.GetInstance().ClickAddStartDate();

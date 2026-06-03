@@ -58,7 +58,7 @@ namespace Blaise.Tests.Helpers.User
             {
                 return _blaiseUserApi.GetUser(userName);
             }
-            catch (System.Exception)
+            catch (Exception ex) when (ex.Message.Contains("not found") || ex.Message.Contains("does not exist") || ex.Message.Contains("404"))
             {
                 return null;
             }

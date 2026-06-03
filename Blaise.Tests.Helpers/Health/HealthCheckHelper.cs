@@ -36,7 +36,11 @@ namespace Blaise.Tests.Helpers.Health
             }
             catch (Exception ex)
             {
-                throw new Exception($"Failed to connect to Blaise. Check Blaise and rproxy are running and connection details are corrct. Error: {ex.Message}");
+                throw new Exception(
+                    $"Failed to connect to Blaise. Check Blaise and rproxy are running and connection details are correct. " +
+                    $"ServerPark: {BlaiseConfigurationHelper.ServerParkName}, Questionnaire: {BlaiseConfigurationHelper.QuestionnaireName}. " +
+                    $"Error: {ex.Message}",
+                    ex);
             }
         }
     }

@@ -26,7 +26,7 @@ You may want to consider using the Windows package manager [Chocolatey](https://
 
 To run the tests, you must have a valid license for the local version of Blaise. The tests utilise the Blaise NuGet API, which checks the license status.
 
-License information can be found in GCP Secrets Manageer.
+License information can be found in GCP Secrets Manager.
 
 To register the license, you have two options:
 
@@ -48,15 +48,13 @@ Windows Registry Editor Version 5.00
 
 Most of the tests require a `.bpkg` file, which is a Blaise package containing a questionnaire instrument. The tests prepare the testing environment by deploying this test questionnaire.
 
-You can download the latest test questionnaire from the [Blaise shared GCP storage bucket](https://console.cloud.google.com/storage/browser?project=ons-blaise-v2-shared).
+You can download the latest test questionnaire from the [Blaise shared GCP storage bucket](https://console.cloud.google.com/storage/browser?project=ons-blaise-shared).
 
 ### Configure the solution
 
 [Add our Azure DevOps artifacts feed to Visual Studio.](https://confluence.ons.gov.uk/display/QSS/How-to+connect+to+our+private+NuGet+package+source)
 
 Git clone down this repository and open the solution file `Blaise.Integration.Tests.sln` in Visual Studio.
-
-Depending on the tests your running, substitute the environment variable values in the `App.config` files with the following:
 
 Depending on the tests your running, you must provide various environment variables. You can achieve this in two ways:
 
@@ -70,16 +68,16 @@ Depending on the tests your running, you must provide various environment variab
 	  <add key="QuestionnairePath" value="C:\<test-questionnaire-path>\" />
 	  <add key="ServerParkName" value="gusty" />
 	  <add key="QuestionnaireName" value="DST2304Z" />
-	  <add key="ENV_BLAISE_SERVER_HOST_NAME" value="localhost" />
-	  <add key="ENV_BLAISE_ADMIN_USER" value="<blaise-username>" />
-	  <add key="ENV_BLAISE_ADMIN_PASSWORD" value="<blaise-password>" />
+	  <add key="ENV_BLAISE_SERVER_HOST_NAME" value="" />
+	  <add key="ENV_BLAISE_ADMIN_USER" value="" />
+	  <add key="ENV_BLAISE_ADMIN_PASSWORD" value="" />
 	  <add key="ENV_BLAISE_SERVER_BINDING" value="http" />
 	  <add key="ENV_BLAISE_CONNECTION_PORT" value="8031" />
 	  <add key="ENV_BLAISE_REMOTE_CONNECTION_PORT" value="8033" />
 	  <add key="ENV_CONNECTION_EXPIRES_IN_MINUTES" value="60" />
 	  <add key="ENV_DQS_URL" value="https://dev-<sandbox>-dqs.social-surveys.gcp.onsdigital.uk" />
 	  <add key="ENV_TOBI_URL" value="https://dev-<sandbox>-tobi.social-surveys.gcp.onsdigital.uk" />
-	  <add key="ENV_BLAISE_CATI_URL" value="https://dev-<sandbox>-cati.social-surveys.gcp.onsdigital.uk" />
+	  <add key="ENV_BLAISE_CATI_URL" value="" />
   </appSettings>
 ```
 

@@ -20,6 +20,7 @@ namespace Blaise.Tests.Helpers.Framework
             _pageUrl = $"{pageUrl}?{pageUrlParameter}";
         }
 
+        protected virtual By PageIdentityBy => null;
         public void LoadPage()
         {
             BrowserHelper.BrowseTo(_pageUrl);
@@ -31,20 +32,23 @@ namespace Blaise.Tests.Helpers.Framework
         public void LoadSpecificPage(string url)
         {
             BrowserHelper.BrowseTo(url);
+            BrowserHelper
+                .Wait($"Timed out waiting for page {url} to load")
+                .Until(PageHasLoaded());
         }
 
         public void ButtonIsAvailableById(string buttonId)
         {
             BrowserHelper
                 .Wait($"Timed out in ButtonIsAvailableById(\"{buttonId}\")")
-                .Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementToBeClickable(By.Id(buttonId)));
+                .Until(ExpectedConditions.ElementToBeClickable(By.Id(buttonId)));
         }
 
         public void ButtonIsAvailableByPath(string submitButtonPath)
         {
             BrowserHelper
                 .Wait($"Timed out in ButtonIsAvailableByPath(\"{submitButtonPath}\")")
-                .Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementToBeClickable(By.XPath(submitButtonPath)));
+                .Until(ExpectedConditions.ElementToBeClickable(By.XPath(submitButtonPath)));
         }
 
         public void SelectDropDownValueById(string dropDownId, string value)
@@ -52,7 +56,7 @@ namespace Blaise.Tests.Helpers.Framework
             var selectList = new SelectElement(
                 BrowserHelper
                 .Wait($"Timed out in SelectDropDownValueById(\"{dropDownId}\", \"{value}\")")
-                .Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementExists(By.Id(dropDownId))));
+                .Until(ExpectedConditions.ElementExists(By.Id(dropDownId))));
             selectList.SelectByText(value);
         }
 
@@ -67,7 +71,7 @@ namespace Blaise.Tests.Helpers.Framework
             {
                 var body = driver.FindElement(By.TagName("body"));
 
-                return SeleniumExtras.WaitHelpers.ExpectedConditions.TextToBePresentInElement(body, text)(driver);
+                return ExpectedConditions.TextToBePresentInElement(body, text)(driver);
             };
         }
 
@@ -91,30 +95,19 @@ namespace Blaise.Tests.Helpers.Framework
         {
             BrowserHelper
                 .Wait($"Timed out in ClickButtonById(\"{buttonElementId}\")")
-                .Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementToBeClickable(By.Id(buttonElementId)))
+                .Until(ExpectedConditions.ElementToBeClickable(By.Id(buttonElementId)))
                 .Click();
         }
 
         protected void ClickButtonByXPath(string buttonElementPath)
         {
-            var attempts = 0;
-            while (attempts < 5)
+            RetryHelper.RetryOnStale(() =>
             {
-                try
-                {
-                    BrowserHelper
-                        .Wait($"Timed out in ClickButtonByXPath(\"{buttonElementPath}\")")
-                        .Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementToBeClickable(By.XPath(buttonElementPath)))
-                        .Click();
-                    return;
-                }
-                catch (StaleElementReferenceException)
-                {
-                    attempts++;
-                    if (attempts >= 5) throw;
-                    System.Threading.Thread.Sleep(250);
-                }
-            }
+                BrowserHelper
+                    .Wait($"Timed out in ClickButtonByXPath(\"{buttonElementPath}\")")
+                    .Until(ExpectedConditions.ElementToBeClickable(By.XPath(buttonElementPath)))
+                    .Click();
+            });
         }
 
         protected void ClickButtonByXPathWithJavaScript(string buttonElementPath)
@@ -129,24 +122,11 @@ namespace Blaise.Tests.Helpers.Framework
 
         protected string GetElementTextByPath(string elementPath)
         {
-            var attempts = 0;
-            while (attempts < 5)
-            {
-                try
-                {
-                    return BrowserHelper
-                        .Wait($"Timed out in GetElementTextByPath(\"{elementPath}\")")
-                        .Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementIsVisible(By.XPath(elementPath)))
-                        .Text;
-                }
-                catch (StaleElementReferenceException)
-                {
-                    attempts++;
-                    if (attempts >= 5) throw;
-                    System.Threading.Thread.Sleep(250);
-                }
-            }
-            return string.Empty;
+            return RetryHelper.RetryOnStale(() =>
+                BrowserHelper
+                    .Wait($"Timed out in GetElementTextByPath(\"{elementPath}\")")
+                    .Until(ExpectedConditions.ElementIsVisible(By.XPath(elementPath)))
+                    .Text);
         }
 
         protected void WaitUntilElementByXPathContainsText(string elementPath, string text)
@@ -157,14 +137,33 @@ namespace Blaise.Tests.Helpers.Framework
                     $"Timed out in WaitUntilXPathContainsText(\"{elementPath}\", \"{text}\")");
                 wait.Until(driver =>
                 {
-                    var element = driver.FindElement(By.XPath(elementPath));
-                    return SeleniumExtras.WaitHelpers.ExpectedConditions.TextToBePresentInElement(element, text)(driver);
+                    try
+                    {
+                        var element = driver.FindElement(By.XPath(elementPath));
+                        return ExpectedConditions.TextToBePresentInElement(element, text)(driver);
+                    }
+                    catch (StaleElementReferenceException)
+                    {
+                        return false;
+                    }
                 });
             }
             catch (WebDriverTimeoutException ex)
             {
-                var element = BrowserHelper.FindElement(By.XPath(elementPath));
-                throw new WebDriverTimeoutException($"{ex.Message} (element currently contains \"{element.Text}\")", ex);
+                var elementText = "(unavailable)";
+                try
+                {
+                    var element = BrowserHelper.FindElement(By.XPath(elementPath));
+                    elementText = element.Text;
+                }
+                catch
+                {
+                }
+
+                var currentUrl = BrowserHelper.CurrentUrl;
+                throw new WebDriverTimeoutException(
+                    $"{ex.Message} (element currently contains \"{elementText}\", url: {currentUrl})",
+                    ex);
             }
         }
 
@@ -172,7 +171,7 @@ namespace Blaise.Tests.Helpers.Framework
         {
             var element = BrowserHelper
                 .Wait($"Timed out in PopulateInputById(\"{elementId}\", \"{value}\")")
-                .Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementIsVisible(By.Id(elementId)));
+                .Until(ExpectedConditions.ElementIsVisible(By.Id(elementId)));
             element.Clear();
             element.SendKeys(value);
         }
@@ -186,7 +185,7 @@ namespace Blaise.Tests.Helpers.Framework
         {
             BrowserHelper
                 .Wait($"Timed out in GetFirstColumnOfTableFromXPath(\"{tablePath}\", \"{tableId}\")")
-                .Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementIsVisible(By.Id(tableId)));
+                .Until(ExpectedConditions.ElementIsVisible(By.Id(tableId)));
             var numberOfRows = NumberOfRowsInATable(tablePath);
             var results = ReadFirstColumnInATable(tablePath, numberOfRows);
 
@@ -198,7 +197,7 @@ namespace Blaise.Tests.Helpers.Framework
             if (!BrowserHelper.GetCurrentUrl().Contains(url))
             {
                 BrowserHelper.Wait($"Timed out in WaitForPageToChange(\"{url}\")")
-                    .Until(SeleniumExtras.WaitHelpers.ExpectedConditions.UrlContains(url));
+                    .Until(ExpectedConditions.UrlContains(url));
             }
         }
 
@@ -208,7 +207,7 @@ namespace Blaise.Tests.Helpers.Framework
             {
                 BrowserHelper
                     .Wait($"Timed out in ElementExistsById(\"{elementId}\")", timeout)
-                    .Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementExists(By.Id(elementId)));
+                    .Until(ExpectedConditions.ElementExists(By.Id(elementId)));
                 return true;
             }
             catch (WebDriverTimeoutException)
@@ -219,14 +218,35 @@ namespace Blaise.Tests.Helpers.Framework
 
         protected virtual Func<IWebDriver, bool> PageHasLoaded()
         {
-            return driver => ((IJavaScriptExecutor)driver).ExecuteScript("return document.readyState").Equals("complete");
+            return driver =>
+            {
+                var ready = ((IJavaScriptExecutor)driver).ExecuteScript("return document.readyState").Equals("complete");
+                if (!ready)
+                {
+                    return false;
+                }
+
+                if (PageIdentityBy == null)
+                {
+                    return true;
+                }
+
+                try
+                {
+                    return driver.FindElement(PageIdentityBy).Displayed;
+                }
+                catch (NoSuchElementException)
+                {
+                    return false;
+                }
+            };
         }
 
         private static int NumberOfRowsInATable(string tablePath)
         {
             return BrowserHelper
                 .Wait($"Timed out in NumberOfRowsInATable(\"{tablePath}\")")
-                .Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementIsVisible(By.XPath(tablePath)))
+                .Until(ExpectedConditions.ElementIsVisible(By.XPath(tablePath)))
                 .FindElements(By.XPath(tablePath))
                 .Count;
         }

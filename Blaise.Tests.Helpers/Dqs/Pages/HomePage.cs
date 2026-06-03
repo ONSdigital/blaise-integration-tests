@@ -3,13 +3,14 @@ namespace Blaise.Tests.Helpers.Dqs.Pages
     using System.Collections.Generic;
     using Blaise.Tests.Helpers.Configuration;
     using Blaise.Tests.Helpers.Framework;
+    using OpenQA.Selenium;
 
     public class HomePage : BasePage
     {
         private const string DeployQuestionnaireButtonId = "deploy-questionnaire-link";
         private const string QuestionnaireTableId = "questionnaire-table";
         private const string QuestionnaireTableRowsPath = "//*[@id='questionnaire-table']/tbody/tr";
-        private const string SummaryDivPath = "//div[contains(@class, 'success ons-panel')]";
+        private const string SummaryHeadingPath = "//div[contains(@class,'ons-panel')][.//h1[contains(normalize-space(),'deleted successfully')]]//h1";
         private const string InfoButtonPlaceholderId = "info-";
         private const string FilterId = "filter-by-name";
 
@@ -17,6 +18,8 @@ namespace Blaise.Tests.Helpers.Dqs.Pages
             : base(DqsConfigurationHelper.DqsUrl)
         {
         }
+
+        protected override By PageIdentityBy => By.Id(QuestionnaireTableId);
 
         public void ClickDeployAQuestionnaire()
         {
@@ -31,7 +34,7 @@ namespace Blaise.Tests.Helpers.Dqs.Pages
 
         public string GetUploadSummaryText()
         {
-            return GetElementTextByPath(SummaryDivPath);
+            return GetElementTextByPath(SummaryHeadingPath);
         }
 
         public void ClickQuestionnaireInfoButton(string questionnaireName)
