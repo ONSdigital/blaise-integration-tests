@@ -54,15 +54,27 @@ namespace Blaise.Tests.Helpers.Case
 
                 while (!cases.EndOfSet)
                 {
-                    try
-                    {
-                        var primaryKey = _blaiseCaseApi.GetPrimaryKeyValues(cases.ActiveRecord);
+                    var primaryKey = _blaiseCaseApi.GetPrimaryKeyValues(cases.ActiveRecord);
 
-                        _blaiseCaseApi.RemoveCase(primaryKey, BlaiseConfigurationHelper.QuestionnaireName, BlaiseConfigurationHelper.ServerParkName);
-                    }
-                    catch (Exception ex)
+                    for (int attempt = 0; attempt < 3; attempt++)
                     {
-                        Console.WriteLine($"Warning: Failed to remove case. Error: {ex.Message}");
+                        try
+                        {
+                            _blaiseCaseApi.RemoveCase(primaryKey, BlaiseConfigurationHelper.QuestionnaireName, BlaiseConfigurationHelper.ServerParkName);
+                            break;
+                        }
+                        catch (Exception ex)
+                        {
+                            if (attempt < 2)
+                            {
+                                Console.WriteLine($"Warning: Failed to remove case (attempt {attempt + 1}). Retrying in 2s... Error: {ex.Message}");
+                                System.Threading.Thread.Sleep(2000);
+                            }
+                            else
+                            {
+                                Console.WriteLine($"Warning: Failed to remove case after 3 attempts. Error: {ex.Message}");
+                            }
+                        }
                     }
 
                     cases.MoveNext();

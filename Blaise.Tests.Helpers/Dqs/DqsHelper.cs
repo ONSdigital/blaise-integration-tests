@@ -1,7 +1,6 @@
 namespace Blaise.Tests.Helpers.Dqs
 {
     using System.Collections.Generic;
-    using System.Threading;
     using Blaise.Tests.Helpers.Configuration;
     using Blaise.Tests.Helpers.Dqs.Pages;
 
@@ -66,9 +65,9 @@ namespace Blaise.Tests.Helpers.Dqs
 
         public void OverwriteQuestionnaire()
         {
-            var surveyExistsPage = new UploadPage();
-            surveyExistsPage.SelectContinueOverwriteButton();
-            surveyExistsPage.SelectContinueButton();
+            var uploadPage = new UploadPage();
+            uploadPage.SelectContinueButton();
+            uploadPage.WaitForConfirmOverwritePage();
         }
 
         public void SelectQuestionnairePackage()
@@ -133,15 +132,16 @@ namespace Blaise.Tests.Helpers.Dqs
 
         public void ConfirmOverwriteOfQuestionnaire()
         {
-            var confirmOverwritePage = new UploadPage();
-            confirmOverwritePage.SelectYesLiveDateButton();
+            var uploadPage = new UploadPage();
+            uploadPage.SelectContinueButton();
         }
 
         public void DeleteQuestionnaire(string questionnaireName)
         {
             ClickQuestionnaireInfoButton(questionnaireName);
             var questionnaireInformationPage = new QuestionnaireInfoPage();
-            Thread.Sleep(5000);
+            questionnaireInformationPage.WaitForPageToLoad(questionnaireName);
+            questionnaireInformationPage.CanDeleteQuestionnaire();
             questionnaireInformationPage.ClickDeleteButton();
         }
 
@@ -168,6 +168,12 @@ namespace Blaise.Tests.Helpers.Dqs
         {
             var uploadPage = new UploadPage();
             uploadPage.SetLiveDate(date);
+        }
+
+        public void SkipTmReleaseDateIfPresent()
+        {
+            var uploadPage = new UploadPage();
+            uploadPage.SkipTmReleaseDateIfPresent();
         }
 
         public string GetToStartDate()

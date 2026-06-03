@@ -1,8 +1,8 @@
 namespace Blaise.Tests.Helpers.Cati.Pages
 {
     using System;
-    using System.Threading;
     using Blaise.Tests.Helpers.Browser;
+    using Blaise.Tests.Helpers.Cati;
     using Blaise.Tests.Helpers.Configuration;
     using Blaise.Tests.Helpers.Framework;
     using OpenQA.Selenium;
@@ -22,27 +22,32 @@ namespace Blaise.Tests.Helpers.Cati.Pages
         {
         }
 
+        protected override By PageIdentityBy => UseNewSelectors
+            ? By.XPath("//div[contains(@class,'e-filtermenudiv') and (@e-mappinguid='qa_instrumentid' or @e-mappinguid='qa_instrument')]")
+            : By.XPath(FilterButton);
+
         private bool UseNewSelectors
         {
             get
             {
-                try
-                {
-                    return BrowserHelper.ElementExistsByXPath("//i[contains(@class, 'bi-bell-fill')]", TimeSpan.FromSeconds(1));
-                }
-                catch { return false; }
+                return CatiUiVersionHelper.IsNewUi;
             }
         }
 
         public void ClearDaybatchEntries()
         {
             Console.WriteLine("Starting: Clear daybatch entries.");
-            Thread.Sleep(2000);
 
             if (UseNewSelectors)
             {
                 Console.WriteLine("Using new selectors to clear daybatch entries.");
                 var downloadButtonPath = $"//tr[contains(., '{BlaiseConfigurationHelper.QuestionnaireName}')]//span[contains(@class, 'bi-download')]";
+                if (!BrowserHelper.ElementExistsByXPath(downloadButtonPath, TimeSpan.FromSeconds(10)))
+                {
+                    Console.WriteLine("No download/clear button found - no daybatch entries to clear.");
+                    return;
+                }
+
                 ClickButtonByXPath(downloadButtonPath);
                 Console.WriteLine("Clicked download button.");
                 ClickButtonByXPath("//label[@for='qa_backup_all']");
@@ -55,7 +60,13 @@ namespace Blaise.Tests.Helpers.Cati.Pages
             else
             {
                 Console.WriteLine("Using old selectors to clear daybatch entries.");
-                ClickButtonByXPath(ClearCatiDataButtonPath);
+                if (!BrowserHelper.ElementExistsByXPath(ClearCatiDataButtonPath, TimeSpan.FromSeconds(10)))
+                {
+                    Console.WriteLine("No clear CATI data button found - no daybatch entries to clear.");
+                    return;
+                }
+
+                BrowserHelper.ClickWithJavaScript(By.XPath(ClearCatiDataButtonPath));
                 Console.WriteLine("Clicked clear CATI data button.");
                 ClickButtonById(BackupDataButtonId);
                 Console.WriteLine("Clicked backup data button.");
@@ -71,39 +82,49 @@ namespace Blaise.Tests.Helpers.Cati.Pages
             Console.WriteLine("Starting: Apply filter.");
             if (UseNewSelectors)
             {
-                Console.WriteLine("Using new selectors to apply filter.");
-                ClickButtonByXPath("//div[@e-mappinguid='qa_instrumentid' and contains(@class, 'e-filtermenudiv')]");
-                Console.WriteLine("Opened filter menu.");
-                PopulateInputById("Surveys_SearchBox", "DST2304Z");
-                ClickButtonByXPath("//*[@id=\"qa_instrumentid_excelDlg\"]/div[3]/button[1]");
-
-                Console.WriteLine("Selected questionnaire from dropdown.");
+                SyncfusionGridFilterHelper.ApplyNewUiFilterWithRetry(BlaiseConfigurationHelper.QuestionnaireName);
                 Console.WriteLine("Filtered Questionnaire.");
-                Thread.Sleep(1000);
             }
             else
             {
                 Console.WriteLine("Using old selectors to apply filter.");
                 ClickButtonByXPath(FilterButton);
-                Console.WriteLine("Clicked filter button.");
                 var filterButtonText = GetElementTextByPath(FilterButton);
                 if (filterButtonText != "Filters (active)")
                 {
                     ClickButtonByXPath(_surveyRadioButton);
-                    Console.WriteLine("Selected survey radio button.");
                     ClickButtonByXPath(ApplyButton);
-                    Console.WriteLine("Clicked apply button.");
                 }
+
                 ClickButtonByXPath(FilterButton);
-                Console.WriteLine("Closed filter menu.");
+            }
+        }
+
+        public void WaitForSurveyTable()
+        {
+            if (UseNewSelectors)
+            {
+                BrowserHelper.WaitUntilGridHasLoadedData();
+                BrowserHelper
+                    .Wait($"Timed out waiting for questionnaire row '{BlaiseConfigurationHelper.QuestionnaireName}' to appear in grid")
+                    .Until(d => d.FindElements(By.XPath($"//tr[contains(., '{BlaiseConfigurationHelper.QuestionnaireName}')]")).Count > 0);
+            }
+            else
+            {
+                BrowserHelper.WaitForElementByXPath("//*[@id='MVCGridTable_SurveysGrid']");
+                BrowserHelper
+                    .Wait($"Timed out waiting for data rows in survey grid")
+                    .Until(d => d.FindElements(By.XPath("//*[@id='MVCGridTable_SurveysGrid']/tbody/tr")).Count > 0);
             }
         }
 
         protected override Func<IWebDriver, bool> PageHasLoaded()
         {
-            return UseNewSelectors
-                ? BodyDoesNotContainText("No records to display")
-                : BodyContainsText("Showing");
+            var baseLoaded = base.PageHasLoaded();
+            return driver => baseLoaded(driver) &&
+                (UseNewSelectors
+                    ? BodyDoesNotContainText("No records to display")(driver)
+                    : BodyContainsText("Showing")(driver));
         }
     }
 }

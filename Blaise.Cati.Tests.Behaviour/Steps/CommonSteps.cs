@@ -6,6 +6,7 @@ namespace Blaise.Cati.Tests.Behaviour.Steps
     using Blaise.Tests.Helpers.Case;
     using Blaise.Tests.Helpers.Cati;
     using Blaise.Tests.Helpers.Configuration;
+    using Blaise.Tests.Helpers.Framework;
     using Blaise.Tests.Helpers.Framework.Extensions;
     using Blaise.Tests.Helpers.Health;
     using Blaise.Tests.Helpers.Questionnaire;
@@ -23,9 +24,10 @@ namespace Blaise.Cati.Tests.Behaviour.Steps
             _scenarioContext = scenarioContext;
         }
 
-        [BeforeScenario]
-        public void BeforeScenario()
+        [BeforeTestRun]
+        public static void BeforeTestRun()
         {
+            FailFastHelper.Reset();
             HealthCheckHelper.CheckBlaiseConnection();
 
             var catiUrl = ConfigurationExtensions.TryGetVariable("ENV_BLAISE_CATI_URL");
@@ -39,11 +41,30 @@ namespace Blaise.Cati.Tests.Behaviour.Steps
                 HealthCheckHelper.CheckUrl(catiUrl);
             }
 
+            CatiUiVersionHelper.DetectAndCache();
+
             QuestionnaireHelper.GetInstance().InstallQuestionnaire(
                 BlaiseConfigurationHelper.QuestionnaireName,
                 BlaiseConfigurationHelper.ServerParkName,
                 BlaiseConfigurationHelper.QuestionnairePath,
                 BlaiseConfigurationHelper.QuestionnaireInstallOptions);
+        }
+
+        [AfterTestRun]
+        public static void AfterTestRun()
+        {
+            QuestionnaireHelper.GetInstance().UninstallQuestionnaire(
+                BlaiseConfigurationHelper.QuestionnaireName,
+                BlaiseConfigurationHelper.ServerParkName);
+        }
+
+        [BeforeScenario]
+        public void BeforeScenario()
+        {
+            FailFastHelper.ThrowIfPreviousFailed(_scenarioContext.ScenarioInfo.Title);
+            TestDiagnosticsHelper.LogBlaisePreflight(
+                BlaiseConfigurationHelper.QuestionnaireName,
+                BlaiseConfigurationHelper.ServerParkName);
 
             CatiManagementHelper.GetInstance().CreateAdminUser();
             CatiInterviewHelper.GetInstance().CreateInterviewUser();
@@ -54,11 +75,6 @@ namespace Blaise.Cati.Tests.Behaviour.Steps
         {
             CatiInterviewHelper.GetInstance().DeleteInterviewUser();
             CatiManagementHelper.GetInstance().DeleteAdminUser();
-
-            QuestionnaireHelper.GetInstance().UninstallQuestionnaire(
-                BlaiseConfigurationHelper.QuestionnaireName,
-                BlaiseConfigurationHelper.ServerParkName);
-
             BrowserHelper.CloseBrowser();
         }
 
@@ -67,6 +83,10 @@ namespace Blaise.Cati.Tests.Behaviour.Steps
         {
             if (_scenarioContext.TestError != null)
             {
+                FailFastHelper.RecordFailure(
+                    _scenarioContext.ScenarioInfo.Title,
+                    _scenarioContext.StepContext.StepInfo.Text,
+                    _scenarioContext.TestError);
                 BrowserHelper.OnError(TestContext.CurrentContext, _scenarioContext);
             }
         }
@@ -107,6 +127,8 @@ namespace Blaise.Cati.Tests.Behaviour.Steps
             Console.WriteLine("Starting: Create a daybatch for today");
             CatiManagementHelper.GetInstance().ClearDaybatchEntries();
             Console.WriteLine("Cleared existing daybatch entries.");
+            CatiManagementHelper.GetInstance().RevokeBeingTreatedCases();
+            Console.WriteLine("Revoked any being treated cases.");
             CatiManagementHelper.GetInstance().CreateDaybatch();
             Console.WriteLine("Daybatch created successfully.");
         }

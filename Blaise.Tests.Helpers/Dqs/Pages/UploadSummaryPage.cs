@@ -2,19 +2,22 @@ namespace Blaise.Tests.Helpers.Dqs.Pages
 {
     using Blaise.Tests.Helpers.Configuration;
     using Blaise.Tests.Helpers.Framework;
+    using OpenQA.Selenium;
 
     public class UploadSummaryPage : BasePage
     {
-        private const string SummaryDivPath = "//div[contains(@class, 'success ons-panel')]";
+        private const string SummaryHeadingPath = "//div[contains(@class,'ons-panel')][.//h1[contains(normalize-space(),'deployed successfully') or contains(normalize-space(),'deploy failed')]]//h1";
 
         public UploadSummaryPage()
             : base(DqsConfigurationHelper.UploadSummaryUrl)
         {
         }
 
+        protected override By PageIdentityBy => By.XPath(SummaryHeadingPath);
+
         public string GetUploadSummaryText()
         {
-            return GetElementTextByPath(SummaryDivPath);
+            return GetElementTextByPath(SummaryHeadingPath);
         }
     }
 }

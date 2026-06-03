@@ -2,17 +2,20 @@ namespace Blaise.Tests.Helpers.Dqs.Pages
 {
     using Blaise.Tests.Helpers.Configuration;
     using Blaise.Tests.Helpers.Framework;
+    using OpenQA.Selenium;
 
     public class QuestionnaireInfoPage : BasePage
     {
-        private const string ToStartDatePath = "//*[@id=\"main-content\"]/div[2]/div/table/tbody/tr/td[2]";
-        private const string AddToStartDatePath = "//a[contains(@href,'/questionnaire/start-date')]";
+        private const string ToStartDatePath = "//div[contains(@class,'ons-summary__item')][.//div[normalize-space()='Telephone Operations start date']]//span[contains(@class,'ons-summary__text')]";
+        private const string AddToStartDatePath = "//a[contains(@href,'/to-start-date')]";
         private const string DeleteButtonId = "delete-questionnaire";
 
         public QuestionnaireInfoPage()
             : base(DqsConfigurationHelper.DqsUrl)
         {
         }
+
+        protected override By PageIdentityBy => By.Id(DeleteButtonId);
 
         public string GetToStartDate()
         {

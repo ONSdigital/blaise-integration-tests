@@ -1,7 +1,6 @@
 namespace Blaise.Tests.Helpers.Cati
 {
     using System.Collections.Generic;
-    using System.Threading;
     using Blaise.Tests.Helpers.Cati.Pages;
     using Blaise.Tests.Helpers.Configuration;
     using Blaise.Tests.Helpers.User;
@@ -47,10 +46,7 @@ namespace Blaise.Tests.Helpers.Cati
         {
             var daybatchPage = new DaybatchPage();
 
-            // Navigate to the Daybatch page
             daybatchPage.NavigateToVersionSpecificPage();
-
-            // Apply the survey filter
             daybatchPage.ApplyFilter();
         }
 
@@ -58,8 +54,7 @@ namespace Blaise.Tests.Helpers.Cati
         {
             var daybatchPage = new DaybatchPage();
 
-            // Blaise refreshes the table dom object after the page has initialised
-            Thread.Sleep(5000);
+            daybatchPage.WaitForDaybatchTable();
             daybatchPage.ModifyDaybatchEntry();
         }
 

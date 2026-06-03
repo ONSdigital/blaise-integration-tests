@@ -12,7 +12,6 @@ namespace Blaise.Tests.Helpers.Browser
     using OpenQA.Selenium.Support.Extensions;
     using OpenQA.Selenium.Support.UI;
     using Reqnroll;
-    using SeleniumExtras.WaitHelpers;
 
     public static class BrowserHelper
     {
@@ -28,7 +27,7 @@ namespace Blaise.Tests.Helpers.Browser
         {
             return new WebDriverWait(Browser, TimeSpan.FromSeconds(TimeOutInSeconds))
             {
-                Message = message,
+                Message = BuildWaitMessage(message),
             };
         }
 
@@ -36,7 +35,7 @@ namespace Blaise.Tests.Helpers.Browser
         {
             return new WebDriverWait(Browser, timeout ?? TimeSpan.FromSeconds(TimeOutInSeconds))
             {
-                Message = message,
+                Message = BuildWaitMessage(message),
             };
         }
 
@@ -71,7 +70,6 @@ namespace Blaise.Tests.Helpers.Browser
             }
             catch (StaleElementReferenceException)
             {
-                // element has become stale, re-find the element and retry sending keys
                 element = wait.Until(ExpectedConditions.ElementIsVisible(By.Name(elementName)));
                 element.SendKeys(value);
             }
@@ -99,7 +97,7 @@ namespace Blaise.Tests.Helpers.Browser
             try
             {
                 Wait($"Timed out in ElementExistsById(\"{id}\")", timeout)
-                    .Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementExists(By.Id(id)));
+                    .Until(ExpectedConditions.ElementExists(By.Id(id)));
                 return true;
             }
             catch (WebDriverTimeoutException)
@@ -125,7 +123,7 @@ namespace Blaise.Tests.Helpers.Browser
         public static void ScrollIntoView(IWebElement element)
         {
             ((IJavaScriptExecutor)Browser).ExecuteScript(
-                "arguments[0].scrollIntoView({block: 'center', inline: 'center'});", 
+                "arguments[0].scrollIntoView({block: 'center', inline: 'center'});",
                 element);
         }
 
@@ -193,6 +191,15 @@ namespace Blaise.Tests.Helpers.Browser
             }
 
             string stepText = scenarioContext.StepContext.StepInfo.Text;
+            Console.WriteLine($"Scenario failed at step: {stepText}");
+            if (scenarioContext.TestError != null)
+            {
+                Console.WriteLine($"Test error: {scenarioContext.TestError.GetType().Name}: {scenarioContext.TestError.Message}");
+            }
+
+            Console.WriteLine($"Current URL: {SafeGetCurrentUrl()}");
+            Console.WriteLine($"Page title: {SafeGetTitle()}");
+            Console.WriteLine($"Window handles: {SafeGetWindowCount()}");
             string baseFileName = new string(stepText.Where(character => !Path.GetInvalidFileNameChars().Contains(character)).ToArray());
             baseFileName = baseFileName.Length > 100 ? baseFileName.Substring(0, 100) : baseFileName;
 
@@ -203,6 +210,7 @@ namespace Blaise.Tests.Helpers.Browser
                 if (screenShotFile != null)
                 {
                     TestContext.AddTestAttachment(screenShotFile, baseFileName);
+                    Console.WriteLine($"Screenshot saved: {screenShotFile}");
                 }
                 else
                 {
@@ -275,7 +283,7 @@ namespace Blaise.Tests.Helpers.Browser
         public static void WaitForTextInHtml(string text)
         {
             Wait($"Timed out in WaitForTextInHtml(\"{text}\")")
-                .Until(driver => CurrentWindowHtml().Contains(text));
+                .Until(driver => CurrentWindowHtml()?.Contains(text) == true);
         }
 
         public static void WaitForElementByXPath(string xPath)
@@ -286,43 +294,21 @@ namespace Blaise.Tests.Helpers.Browser
         public static IWebElement FindElement(By by)
         {
             return Wait($"Timed out in FindElement({by})")
-                .Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementIsVisible(by));
+                .Until(ExpectedConditions.ElementIsVisible(by));
         }
 
         public static void ScrollIntoViewAndClick(By by)
         {
             var element = FindElement(by);
             ScrollIntoView(element);
-            System.Threading.Thread.Sleep(500);
-            element.Click();
+            Wait($"Timed out in ScrollIntoViewAndClick({by})")
+                .Until(ExpectedConditions.ElementToBeClickable(by))
+                .Click();
         }
 
         public static void ScrollIntoViewAndClickById(string id)
         {
             ScrollIntoViewAndClick(By.Id(id));
-        }
-
-        private static void ScrollIntoViewAndClickWithRetry(By by)
-        {
-            var attempts = 0;
-            while (true)
-            {
-                try
-                {
-                    var element = FindElement(by);
-                    ScrollIntoView(element);
-                    element.Click();
-                    return;
-                }
-                catch (StaleElementReferenceException)
-                {
-                    attempts++;
-                    if (attempts >= 3)
-                    {
-                        throw;
-                    }
-                }
-            }
         }
 
         public static void ScrollIntoViewAndClickByIdWithRetry(string id)
@@ -343,39 +329,9 @@ namespace Blaise.Tests.Helpers.Browser
             js.ExecuteScript("arguments[0].click()", element);
         }
 
-        private static void ClickWithJavaScriptWithRetry(By by)
-        {
-            try
-            {
-                var element = FindElement(by);
-                var js = (IJavaScriptExecutor)Browser;
-                js.ExecuteScript("arguments[0].click()", element);
-            }
-            catch (StaleElementReferenceException)
-            {
-                var element = FindElement(by);
-                var js = (IJavaScriptExecutor)Browser;
-                js.ExecuteScript("arguments[0].click()", element);
-            }
-        }
-
         public static void ClickByXPathWithJavaScriptWithRetry(string xpath)
         {
             ClickWithJavaScriptWithRetry(By.XPath(xpath));
-        }
-
-        private static void ClickWithRetry(By by)
-        {
-            try
-            {
-                Wait($"Timed out in ClickWithRetry({by})")
-                    .Until(ExpectedConditions.ElementToBeClickable(by)).Click();
-            }
-            catch (StaleElementReferenceException)
-            {
-                Wait($"Timed out in ClickWithRetry({by}) after stale element")
-                    .Until(ExpectedConditions.ElementToBeClickable(by)).Click();
-            }
         }
 
         public static void ClickByIdWithRetry(string id)
@@ -413,21 +369,47 @@ namespace Blaise.Tests.Helpers.Browser
         public static void WaitUntilGridHasLoadedData()
         {
             BrowserHelper.Wait("Waiting for grid spinner to hide")
-                .Until(d => d.FindElement(By.ClassName("e-spinner-pane")).GetAttribute("class").Contains("e-spin-hide"));
+                .Until(d =>
+                {
+                    try
+                    {
+                        var spinners = d.FindElements(By.ClassName("e-spinner-pane"));
+                        if (spinners == null || spinners.Count == 0)
+                        {
+                            return true;
+                        }
+
+                        return spinners.All(spinner => spinner.GetAttribute("class").Contains("e-spin-hide"));
+                    }
+                    catch (StaleElementReferenceException)
+                    {
+                        return false;
+                    }
+                });
 
             BrowserHelper.Wait("Waiting for grid rows to render")
-                .Until(d => d.FindElements(By.ClassName("e-row")).Count > 0);
+                .Until(d =>
+                {
+                    try
+                    {
+                        return d.FindElements(By.ClassName("e-row")).Count > 0;
+                    }
+                    catch (StaleElementReferenceException)
+                    {
+                        return false;
+                    }
+                });
         }
 
         public static void WaitForUrlToMatch(string expectedUrl, int timeoutInSeconds = 10, int pollingIntervalInMilliseconds = 500)
         {
             var timeout = TimeSpan.FromSeconds(timeoutInSeconds);
             var pollingInterval = TimeSpan.FromMilliseconds(pollingIntervalInMilliseconds);
-            var wait = new DefaultWait<IWebDriver>(_browser)
+            var wait = new DefaultWait<IWebDriver>(Browser)
             {
                 Timeout = timeout,
                 PollingInterval = pollingInterval,
-                Message = $"Timed out after {timeoutInSeconds} seconds while waiting for URL to match '{expectedUrl}'",
+                Message = BuildWaitMessage($"Timed out after {timeoutInSeconds} seconds while waiting for URL to match '{expectedUrl}'"),
             };
 
             try
@@ -449,16 +431,27 @@ namespace Blaise.Tests.Helpers.Browser
             Browser.Navigate().GoToUrl(url);
         }
 
-        private static ChromeDriver CreateChromeDriver()
+        public static void WaitForUrlToChange(string previousUrl, int timeoutInSeconds = 30)
         {
-            var chromeOptions = new ChromeOptions
-            {
-                AcceptInsecureCertificates = true,
-            };
-            //chromeOptions.AddArguments("headless");
-            chromeOptions.AddArguments("start-maximized");
-            chromeOptions.AddArguments("--ignore-certificate-errors");
-            return new ChromeDriver(chromeOptions);
+            Wait($"Timed out waiting for URL to change from '{previousUrl}'", TimeSpan.FromSeconds(timeoutInSeconds))
+                .Until(driver => !driver.Url.Equals(previousUrl, StringComparison.OrdinalIgnoreCase));
+        }
+
+        public static void WaitForWindowCount(int expectedCount, int timeoutInSeconds = 30)
+        {
+            Wait($"Timed out waiting for {expectedCount} browser window(s)", TimeSpan.FromSeconds(timeoutInSeconds))
+                .Until(driver => driver.WindowHandles.Count >= expectedCount);
+        }
+
+        public static void WaitForElementValue(By by, string expectedValue, int timeoutInSeconds = 30)
+        {
+            Wait($"Timed out waiting for value '{expectedValue}' on element {by}", TimeSpan.FromSeconds(timeoutInSeconds))
+                .Until(driver =>
+                {
+                    var element = driver.FindElement(by);
+                    var value = element.GetAttribute("value") ?? element.Text;
+                    return value != null && value.Contains(expectedValue);
+                });
         }
 
         public static object ExecuteJavaScript(string script, params object[] args)
@@ -472,6 +465,115 @@ namespace Blaise.Tests.Helpers.Browser
             {
                 Console.WriteLine($"Error executing JavaScript: {ex.Message}");
                 throw;
+            }
+        }
+
+        private static ChromeDriver CreateChromeDriver()
+        {
+            var chromeOptions = new ChromeOptions
+            {
+                AcceptInsecureCertificates = true,
+            };
+
+            // chromeOptions.AddArguments("headless");
+            chromeOptions.AddArguments("start-maximized");
+            chromeOptions.AddArguments("--ignore-certificate-errors");
+            return new ChromeDriver(chromeOptions);
+        }
+
+        private static void ScrollIntoViewAndClickWithRetry(By by)
+        {
+            var attempts = 0;
+            while (true)
+            {
+                try
+                {
+                    var element = FindElement(by);
+                    ScrollIntoView(element);
+                    element.Click();
+                    return;
+                }
+                catch (StaleElementReferenceException)
+                {
+                    attempts++;
+                    if (attempts >= 3)
+                    {
+                        throw;
+                    }
+                }
+            }
+        }
+
+        private static void ClickWithJavaScriptWithRetry(By by)
+        {
+            try
+            {
+                var element = FindElement(by);
+                var js = (IJavaScriptExecutor)Browser;
+                js.ExecuteScript("arguments[0].click()", element);
+            }
+            catch (StaleElementReferenceException)
+            {
+                var element = FindElement(by);
+                var js = (IJavaScriptExecutor)Browser;
+                js.ExecuteScript("arguments[0].click()", element);
+            }
+        }
+
+        private static void ClickWithRetry(By by)
+        {
+            try
+            {
+                Wait($"Timed out in ClickWithRetry({by})")
+                    .Until(ExpectedConditions.ElementToBeClickable(by)).Click();
+            }
+            catch (StaleElementReferenceException)
+            {
+                Wait($"Timed out in ClickWithRetry({by}) after stale element")
+                    .Until(ExpectedConditions.ElementToBeClickable(by)).Click();
+            }
+        }
+
+        private static string BuildWaitMessage(string message)
+        {
+            var url = SafeGetCurrentUrl();
+            var title = SafeGetTitle();
+            return $"{message} | url: {url} | title: {title}";
+        }
+
+        private static string SafeGetCurrentUrl()
+        {
+            try
+            {
+                return _browser?.Url ?? "(no browser)";
+            }
+            catch
+            {
+                return "(unavailable)";
+            }
+        }
+
+        private static string SafeGetTitle()
+        {
+            try
+            {
+                return _browser?.Title ?? "(no title)";
+            }
+            catch
+            {
+                return "(unavailable)";
+            }
+        }
+
+        private static int SafeGetWindowCount()
+        {
+            try
+            {
+                return _browser?.WindowHandles?.Count ?? 0;
+            }
+            catch
+            {
+                return 0;
             }
         }
     }

@@ -2,6 +2,7 @@ namespace Blaise.Tests.Helpers.Cati.Pages
 {
     using Blaise.Tests.Helpers.Configuration;
     using Blaise.Tests.Helpers.Framework;
+    using OpenQA.Selenium;
 
     public class InterviewPage : BasePage
     {
@@ -12,6 +13,8 @@ namespace Blaise.Tests.Helpers.Cati.Pages
             : base(CatiConfigurationHelper.SchedulerUrl, "LayoutSet=CATI-Interviewer_Large")
         {
         }
+
+        protected override By PageIdentityBy => By.Id(FirstFocusId);
 
         public string GetCaseIdText()
         {
